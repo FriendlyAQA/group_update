@@ -25,8 +25,7 @@ public class FunctionalTests extends BaseTestCase {
                 .immediately()
                 .globalButtons(GlobalButtons.NEXT)
                 .addNewTask(1)
-                .addTaskButton()
-                .pause(2000);
+                .addTaskButton();
 
 //        System.out.println(groupUpdatePage().checkSorting(9));
 //        System.out.println(DataBase.getPendingTaskName("FT001SN000010016E3F0D47666"));
@@ -46,6 +45,14 @@ public class FunctionalTests extends BaseTestCase {
 //                .filterCreatedCheckBox()
 //                .deleteFilter()
 //                .okButtonPopUp();
+
+    }
+
+    @Test
+    public void secondTest() {
+        loginPage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        System.out.println(groupUpdatePage().checkSorting(9));
         loginPage().logOut();
     }
 }

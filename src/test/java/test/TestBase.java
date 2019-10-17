@@ -19,11 +19,11 @@ import java.util.logging.Level;
 import static org.apache.log4j.Logger.getLogger;
 
 public class TestBase {
-    protected WebDriver driver;
+    protected static WebDriver driver;
     protected static Properties props;
     protected final static Logger logger = getLogger(FunctionalTests.class);
 
-    protected void initDriver() {
+    protected static void initDriver() {
         String browser;
         browser = props.getProperty("browser");
         switch (browser) {
