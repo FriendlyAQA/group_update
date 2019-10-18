@@ -41,18 +41,12 @@ public abstract class BasePage {
     @FindBy(id = "menuCircularG")
     private WebElement spinningWheel;
 
-//    @FindBy(how = How.CSS, using = "td")
-//    protected List<WebElement> leftMenuItems;
-//
-//    @FindBy(id = "ddlManufacturer")
-//    protected WebElement manufacturerComboBox;
-
     public void logOut() {
         driver.switchTo().defaultContent();
         logOutButton.click();
     }
 
-    public void waitForUpdate() {
+    void waitForUpdate() {
         driver.switchTo().defaultContent();
         long start = System.currentTimeMillis();
         try {

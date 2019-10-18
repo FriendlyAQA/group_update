@@ -2,30 +2,46 @@ package testRunner;
 
 import com.friendly.aqa.pageobject.GlobalButtons;
 import com.friendly.aqa.pageobject.GroupUpdatePage;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 import test.BaseTestCase;
 import com.friendly.aqa.pageobject.TopMenu;
 
 public class FunctionalTests extends BaseTestCase {
     @Test
-    public void firstTest() {
-        logger.info("Test starting");
-//        Assert.assertEquals("Login", loginPage.getTitle());
-        loginPage()
-                .authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"))
+    public void test_1() {
+        systemPage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .getMainTable();
+    }
+
+    @Test
+    public void test_2() {
+        groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
                 .waitForRefresh()
-                .selectManufacturer("rotal")
-                .selectModel()
-                .fillName("autotest")
-                .selectSendTo()
-                .globalButtons(GlobalButtons.NEXT)
-                .immediately()
-                .globalButtons(GlobalButtons.NEXT)
-                .addNewTask(1)
-                .addTaskButton();
+                .selectManufacturer(0)
+                .globalButtons(GlobalButtons.CANCEL)
+                .waitForRefresh()
+                .selectManufacturer(2);
+        Assert.assertTrue(groupUpdatePage().noDataFoundLabelIsPresent());
+    }
+}
+
+//                .leftMenu(GroupUpdatePage.Left.NEW)
+//                .waitForRefresh()
+//                .selectManufacturer("rotal")
+//                .selectModel()
+//                .fillName("autotest")
+//                .selectSendTo()
+//                .globalButtons(GlobalButtons.NEXT)
+//                .immediately()
+//                .globalButtons(GlobalButtons.NEXT)
+//                .addNewTask(1)
+//                .addTaskButton();
 
 //        System.out.println(groupUpdatePage().checkSorting(9));
 //        System.out.println(DataBase.getPendingTaskName("FT001SN000010016E3F0D47666"));
@@ -45,14 +61,3 @@ public class FunctionalTests extends BaseTestCase {
 //                .filterCreatedCheckBox()
 //                .deleteFilter()
 //                .okButtonPopUp();
-
-    }
-
-    @Test
-    public void secondTest() {
-        loginPage()
-                .topMenu(TopMenu.GROUP_UPDATE);
-        System.out.println(groupUpdatePage().checkSorting(9));
-        loginPage().logOut();
-    }
-}

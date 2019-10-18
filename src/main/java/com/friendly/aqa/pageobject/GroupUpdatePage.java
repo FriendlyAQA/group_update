@@ -3,9 +3,11 @@ package com.friendly.aqa.pageobject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GroupUpdatePage extends BasePage {
@@ -114,6 +116,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "tblParameters")
     private WebElement mainTable;
+
+    @FindBy(how = How.ID, using = "lblDBError")
+    List<WebElement> noDataFound;
 
     public Table getMainTable() {
         mainTable.getText();
@@ -281,7 +286,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectManufacturer(String manufacturer) {
         new Select(manufacturerComboBox).selectByValue("tp-link");
-//        manufacturerComboBox = driver.findElement(By.id("ddlManufacturer"));
+        return this;
+    }
+
+    public GroupUpdatePage selectManufacturer(int index) {
+        new Select(manufacturerComboBox).selectByIndex(index);
         return this;
     }
 
@@ -345,6 +354,10 @@ public class GroupUpdatePage extends BasePage {
         String[] after = table.getColumn(column);
         System.out.println(Arrays.deepToString(after));
         return Arrays.equals(before, after);
+    }
+
+    public boolean noDataFoundLabelIsPresent() {
+        return noDataFound.size() != 0;
     }
 
     public enum Left {

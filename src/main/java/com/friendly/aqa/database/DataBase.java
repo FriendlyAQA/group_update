@@ -14,10 +14,9 @@ public class DataBase {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connObj = DriverManager.getConnection(url, user, password);
-            logger.info("\n=======Database Connection Open=======\n");
-
+            logger.info("Database Connection Open");
             stmtObj = connObj.createStatement();
-            logger.info("\n=======Statement Object Created=======\n");
+            logger.info("Statement Object Created");
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }
@@ -27,7 +26,7 @@ public class DataBase {
         try {
             stmtObj.close();
             connObj.close();
-            logger.info("\n======Database Connection Closed======\n");
+            logger.info("Database Connection Closed");
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }

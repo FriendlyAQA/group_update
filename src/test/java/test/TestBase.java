@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import testRunner.FunctionalTests;
 
 import java.io.FileInputStream;
@@ -14,16 +13,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import static org.apache.log4j.Logger.getLogger;
 
 public class TestBase {
-    protected static WebDriver driver;
+    static WebDriver driver;
     protected static Properties props;
-    protected final static Logger logger = getLogger(FunctionalTests.class);
+    protected final static Logger logger = getLogger(BaseTestCase.class);
 
-    protected static void initDriver() {
+    static void initDriver() {
         String browser;
         browser = props.getProperty("browser");
         switch (browser) {

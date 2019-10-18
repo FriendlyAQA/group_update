@@ -11,4 +11,9 @@ public class SystemPage extends BasePage {
     protected String getLeftMenuCssSelector() {
         return "topmenu=\"System\"";
     }
+
+    public SystemPage waitForRefresh() {
+        super.waitForUpdate();
+        return this;
+    }
 }
