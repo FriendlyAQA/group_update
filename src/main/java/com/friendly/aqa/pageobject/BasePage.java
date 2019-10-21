@@ -55,7 +55,7 @@ public abstract class BasePage {
                     .pollingEvery(Duration.ofMillis(10))
                     .ignoring(org.openqa.selenium.NoSuchElementException.class)
                     .until(ExpectedConditions.visibilityOf(spinningWheel));
-            System.out.println("wheel is visible" + (System.currentTimeMillis() - start));
+            System.out.println("wheel is visible " + (System.currentTimeMillis() - start));
         } catch (org.openqa.selenium.TimeoutException e) {
             System.out.println("wheel not found" + (System.currentTimeMillis() - start));
         }
@@ -63,7 +63,7 @@ public abstract class BasePage {
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.invisibilityOf(spinningWheel));
-        System.out.println("wheel is hidden" + (System.currentTimeMillis() - start));
+        System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));
         switchToFrameDesktop();
     }
 
@@ -104,7 +104,7 @@ public abstract class BasePage {
         driver.switchTo().defaultContent().switchTo().frame(frameDesktop);
     }
 
-    private void switchToFrameButtons() {
+    void switchToFrameButtons() {
         driver.switchTo().defaultContent().switchTo().frame(frameButtons);
     }
 }

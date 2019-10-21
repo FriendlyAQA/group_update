@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -117,8 +118,14 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "tblParameters")
     private WebElement mainTable;
 
+    @FindBy(how = How.ID, using = "tblParameters")
+    private List<WebElement> mainTableIsPresent;
+
     @FindBy(how = How.ID, using = "lblDBError")
-    List<WebElement> noDataFound;
+    private List<WebElement> noDataFound;
+
+    @FindBy(how = How.ID, using = "tblDevices")
+    private List<WebElement> serialNumberTable;
 
     public Table getMainTable() {
         mainTable.getText();
@@ -260,6 +267,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage showList() {
+        waitForRefresh();
         showListButton.click();
         return this;
     }
@@ -285,11 +293,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectManufacturer(String manufacturer) {
-        new Select(manufacturerComboBox).selectByValue("tp-link");
+        waitForRefresh();
+        new Select(manufacturerComboBox).selectByValue(manufacturer);
         return this;
     }
 
     public GroupUpdatePage selectManufacturer(int index) {
+        waitForRefresh();
         new Select(manufacturerComboBox).selectByIndex(index);
         return this;
     }
@@ -299,13 +309,19 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectModel(String modelName) {
-        switchToFrameDesktop();
+        waitForRefresh();
         new Select(modelComboBox).selectByValue(modelName);
         return this;
     }
 
+    public GroupUpdatePage selectModel(int index) {
+        waitForRefresh();
+        new Select(modelComboBox).selectByIndex(index);
+        return this;
+    }
+
     public GroupUpdatePage selectModel() {
-        switchToFrameDesktop();
+        waitForRefresh();
         Select modelName = new Select(modelComboBox);
         modelName.selectByIndex(modelName.getOptions().size() - 1);
         return this;
@@ -324,6 +340,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage createGroup() {
+        waitForRefresh();
         createGroupButton.click();
         return this;
     }
@@ -358,6 +375,25 @@ public class GroupUpdatePage extends BasePage {
 
     public boolean noDataFoundLabelIsPresent() {
         return noDataFound.size() != 0;
+    }
+
+    public boolean serialNumberTableIsPresent() {
+        return serialNumberTable.size() != 0;
+    }
+
+    public boolean buttonIsPresent(GlobalButtons button) {
+        switchToFrameButtons();
+        boolean out = driver.findElements(By.id(button.getId())).size() > 0;
+        switchToFrameDesktop();
+        return out;
+    }
+
+    public String getNameValue() {
+        return nameField.getAttribute("value");
+    }
+
+    public boolean mainTableIsPresent() {
+        return mainTableIsPresent.size() != 0;
     }
 
     public enum Left {

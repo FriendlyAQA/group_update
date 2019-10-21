@@ -17,7 +17,7 @@ public class BaseTestCase extends TestBase {
     public void init() {
         initProperties();
         initDriver();
-        logger.info("\n*************************STARTING TEST SUITE*************************");
+        logger.info("\n*************************STARTING TEST SUITE**************************");
         DataBase.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         Assert.assertEquals("Login", loginPage().getTitle());
         loginPage().authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
