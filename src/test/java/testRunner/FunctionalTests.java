@@ -64,15 +64,16 @@ public class FunctionalTests extends BaseTestCase {
                 .selectModel()
                 .fillName("1234")
                 .createGroup();
-        Assert.assertTrue(groupUpdatePage().buttonIsPresent(GlobalButtons.FINISH));
+        Assert.assertTrue(groupUpdatePage().isButtonPresent(GlobalButtons.FINISH));
         groupUpdatePage()
                 .globalButtons(GlobalButtons.CANCEL)
                 .waitForRefresh();
-        Assert.assertEquals(groupUpdatePage().getNameValue(), "1234");
+//        Assert.assertEquals(groupUpdatePage().getNameValue(), "1234");
+        Assert.assertEquals(groupUpdatePage().getAttributeById("txtName", "value"), "1234");
     }
 
-    @Test
-    //A Bug was found while pressing "Next" button after "Name group" is filled;
+     @Test
+    //A Bug was found while pressing "Next" button when "Name group" is filled;
     public void test_6() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
@@ -84,6 +85,81 @@ public class FunctionalTests extends BaseTestCase {
                 .selectSendTo()
                 .createGroup()
                 .fillName("test_group_name");
+        //Bug detected when press "Next" button
+    }
+
+    @Test
+    public void test_11() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName("auto_test")
+                .selectSendTo("Individual")
+                .getTable("tblDevices")
+                .clickOn(1,0);
+        groupUpdatePage().waitForRefresh();
+        Assert.assertTrue(groupUpdatePage().isButtonActive(GlobalButtons.NEXT));
+        groupUpdatePage().getTable("tblDevices")
+                .clickOn(1,0);
+        groupUpdatePage().waitForRefresh();
+        Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.NEXT));
+    }
+
+    @Test
+    //Doesn't work with Edge
+    public void test_12() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer()
+                .selectModel(1)
+                .fillName("auto_test")
+                .selectSendTo("Import")
+                .selectImportFile()
+                .showList();
+        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1,0), "34E8943DA030");
+    }
+
+    @Test
+    public void test_14() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName("auto_test")
+                .selectSendTo()
+                .globalButtons(GlobalButtons.NEXT)
+                .immediately()
+                .globalButtons(GlobalButtons.NEXT)
+                .addNewTask(1)
+                .addTaskButton();
+        Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
+    }
+
+
+
+    @Test
+    public void test_15() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName("auto_test")
+                .selectSendTo()
+                .globalButtons(GlobalButtons.NEXT)
+                .immediately()
+                .globalButtons(GlobalButtons.NEXT)
+                .addNewTask(1)
+                .addTaskButton();
+        //add code
     }
 }
 //        System.out.println(groupUpdatePage().checkSorting(9));
@@ -98,3 +174,4 @@ public class FunctionalTests extends BaseTestCase {
 //                .filterCreatedCheckBox()
 //                .deleteFilter()
 //                .okButtonPopUp();
+//                .insertImportFile();

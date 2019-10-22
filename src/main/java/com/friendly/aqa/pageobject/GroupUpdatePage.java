@@ -1,6 +1,7 @@
 package com.friendly.aqa.pageobject;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -79,6 +80,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(css = "input[name^='node']")
     private WebElement filterCreatedCheckBox;
 
+    @FindBy(id = "btnAlertOk_btn")
+    private WebElement okButtonAlertPopUp;
+
     @FindBy(id = "btnOk_btn")
     private WebElement okButtonPopUp;
 
@@ -125,12 +129,46 @@ public class GroupUpdatePage extends BasePage {
     private List<WebElement> noDataFound;
 
     @FindBy(how = How.ID, using = "tblDevices")
-    private List<WebElement> serialNumberTable;
+    private List<WebElement> serialNumberTableList;
+
+    @FindBy(id = "fuSerials")
+    private WebElement importDevicesHiddenField;
+
+    @FindBy(id = "fuImport")
+    private WebElement importField;
+
+    @FindBy(id = "frmImportFromFile")
+    private WebElement importFrame;
+
+    public void insertImportFile() {
+        waitForRefresh();
+        importField.sendKeys("C:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
+    }
+
+    public GroupUpdatePage selectImportFile() {
+//        waitForRefresh();
+        switchToFrameDesktop();
+        driver.switchTo().frame(importFrame);
+        String inputText = "C:\\Users\\asp4r\\Desktop\\Report(Inventory_Default_10-22-2019 1-47-37 PM).xml";
+        importDevicesHiddenField.sendKeys(inputText);
+        driver.switchTo().parentFrame();
+        return this;
+        // id=fuSerials  frame id=frmImportFromFile
+    }
 
     public Table getMainTable() {
         mainTable.getText();
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
         Table table = new Table(mainTable);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        return table;
+    }
+
+    public Table getTable(String id) {
+        waitForRefresh();
+        WebElement tableEl = driver.findElement(By.id(id));
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+        Table table = new Table(tableEl);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         return table;
     }
@@ -366,7 +404,7 @@ public class GroupUpdatePage extends BasePage {
         Arrays.sort(before);
         System.out.println(Arrays.deepToString(before));
         table.clickOn(0, column);
-        waitForUpdate(); //need to think about replace a pause by more correct thing...
+        waitForUpdate();
         table = getMainTable();
         String[] after = table.getColumn(column);
         System.out.println(Arrays.deepToString(after));
@@ -378,14 +416,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public boolean serialNumberTableIsPresent() {
-        return serialNumberTable.size() != 0;
+        return serialNumberTableList.size() != 0;
     }
 
-    public boolean buttonIsPresent(GlobalButtons button) {
-        switchToFrameButtons();
-        boolean out = driver.findElements(By.id(button.getId())).size() > 0;
-        switchToFrameDesktop();
-        return out;
+    public String getAttributeById(String id, String attr) {
+        return driver.findElement(By.id(id)).getAttribute(attr);
     }
 
     public String getNameValue() {

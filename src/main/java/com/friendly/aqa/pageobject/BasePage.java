@@ -96,6 +96,20 @@ public abstract class BasePage {
         switchToFrameDesktop();
     }
 
+    public boolean isButtonPresent(GlobalButtons button) {
+        switchToFrameButtons();
+        boolean out = driver.findElements(By.id(button.getId())).size() > 0;
+        switchToFrameDesktop();
+        return out;
+    }
+
+    public boolean isButtonActive(GlobalButtons button) {
+        switchToFrameButtons();
+        boolean out = driver.findElement(By.id(button.getId())).getAttribute("class").equals("button_default");
+        switchToFrameDesktop();
+        return out;
+    }
+
     public String getTitle() {
         return driver.getTitle();
     }

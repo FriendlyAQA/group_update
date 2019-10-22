@@ -10,6 +10,7 @@ import org.testng.annotations.*;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTestCase extends TestBase {
 
@@ -38,6 +39,8 @@ public class BaseTestCase extends TestBase {
         } else {
             logger.info(result.getName() + " - PASSED");
         }
+        driver.manage().timeouts().implicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")), TimeUnit.SECONDS);
+        driver.switchTo().defaultContent();
     }
 
     @AfterSuite
