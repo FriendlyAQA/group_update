@@ -59,6 +59,11 @@ public class Table {
         return this;
     }
 
+    public Table clickOn(String text, int column) {
+        clickOn(getRowNumberByText(column, text), column);
+        return this;
+    }
+
     public Table print() {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
@@ -91,42 +96,52 @@ public class Table {
         return textTable[row][column];
     }
 
+    public String getCellText(int searchColumn, String searchText, int resultColumn) {
+        return textTable[getRowNumberByText(searchColumn, searchText)][resultColumn];
+    }
+
     public WebElement getCellWebElement(int row, int column) {
         return elementTable[row][column];
     }
 
-    public Table setParameter(String paramName, Select option, String value) {
+    private int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
-        String[] column = getColumn(0);
+        String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
-            System.out.println(column[i] + ":" + i);
-            if (column[i].equals(paramName)) {
+            if (column[i].toLowerCase().contains(text.toLowerCase())) {
                 rowNum = i + 1;
                 break;
             }
         }
+        return rowNum;
+    }
+
+    public Table setParameter(String paramName, Select option, String value) {
+        int rowNum = getRowNumberByText(0, paramName);
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
-        System.out.println(rowNum);
         WebElement paramCell = getCellWebElement(rowNum, 1);
         new org.openqa.selenium.support.ui.Select(paramCell.findElement(By.tagName("select"))).selectByValue(option.option);
         if (value != null) {
-            paramCell.findElement(By.tagName("input")).sendKeys(value);
+            WebElement input = paramCell.findElement(By.tagName("input"));
+            input.clear();
+            input.sendKeys(value);
         }
         return this;
     }
 
     public enum Select {
-        EMPTY_VALUE("sendEmpty"), VALUE("sendValue"), FALSE("0"), TRUE("1"), DO_NOT_SEND("notSend"), NULL("");
+        EMPTY_VALUE("sendEmpty"),
+        VALUE("sendValue"),
+        FALSE("0"),
+        TRUE("1"),
+        DO_NOT_SEND("notSend"),
+        NULL("");
         private String option;
 
-        private Select(String option) {
+        Select(String option) {
             this.option = option;
-        }
-
-        public String getOption() {
-            return option;
         }
     }
 }

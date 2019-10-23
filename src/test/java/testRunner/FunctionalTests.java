@@ -73,7 +73,7 @@ public class FunctionalTests extends BaseTestCase {
         Assert.assertEquals(groupUpdatePage().getAttributeById("txtName", "value"), "1234");
     }
 
-     @Test
+    @Test
     //A Bug was found while pressing "Next" button when "Name group" is filled;
     public void test_6() {
         groupUpdatePage()
@@ -100,11 +100,11 @@ public class FunctionalTests extends BaseTestCase {
                 .fillName("auto_test")
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
-                .clickOn(1,0);
+                .clickOn(1, 0);
         groupUpdatePage().waitForRefresh();
         Assert.assertTrue(groupUpdatePage().isButtonActive(GlobalButtons.NEXT));
         groupUpdatePage().getTable("tblDevices")
-                .clickOn(1,0);
+                .clickOn(1, 0);
         groupUpdatePage().waitForRefresh();
         Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.NEXT));
     }
@@ -122,7 +122,7 @@ public class FunctionalTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportFile()
                 .showList();
-        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1,0), "34E8943DA030");
+        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1, 0), "34E8943DA030");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer(1)
+                .selectManufacturer(2)
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo()
@@ -160,14 +160,41 @@ public class FunctionalTests extends BaseTestCase {
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60")
-                .clickOn(0,0);
+                .clickOn(0, 0);
         groupUpdatePage()
                 .waitForRefresh()
                 .globalButtons(GlobalButtons.NEXT)
                 .globalButtons(GlobalButtons.SAVE)
                 .okButtonPopUp()
                 .waitForRefresh();
-        Assert.assertEquals(groupUpdatePage().getMainTable().getCellText(1,4), "auto_test");
+        Assert.assertEquals(groupUpdatePage().getMainTable().getCellText(1, 4), "auto_test");
+    }
+
+    @Test
+    public void test_16() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .getMainTable()
+                .clickOn("auto_test", 4);
+        groupUpdatePage()
+                .globalButtons(GlobalButtons.EDIT)
+                .globalButtons(GlobalButtons.NEXT)
+                .immediately()
+                .globalButtons(GlobalButtons.NEXT)
+                .getTable("tblTasks")
+                .clickOn("PeriodicInformInterval", 3);
+        groupUpdatePage()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "61");
+        groupUpdatePage()
+                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(GlobalButtons.SAVE)
+                .getMainTable()
+                .clickOn("auto_test", 4);
+        Assert.assertEquals(groupUpdatePage()
+                .getTable("tblTasks")
+                .getCellText(2, "PeriodicInformInterval", 3), "61");
     }
 }
 //        System.out.println(groupUpdatePage().checkSorting(9));

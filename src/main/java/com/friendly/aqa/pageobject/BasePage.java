@@ -93,6 +93,7 @@ public abstract class BasePage {
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.elementToBeClickable(btn))
                 .click();
+        waitForUpdate();
         switchToFrameDesktop();
     }
 
