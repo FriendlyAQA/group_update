@@ -2,6 +2,7 @@ package testRunner;
 
 import com.friendly.aqa.pageobject.GlobalButtons;
 import com.friendly.aqa.pageobject.GroupUpdatePage;
+import com.friendly.aqa.pageobject.Table;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import test.BaseTestCase;
@@ -142,15 +143,13 @@ public class FunctionalTests extends BaseTestCase {
         Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
     }
 
-
-
     @Test
     public void test_15() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer(1)
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo()
@@ -158,8 +157,17 @@ public class FunctionalTests extends BaseTestCase {
                 .immediately()
                 .globalButtons(GlobalButtons.NEXT)
                 .addNewTask(1)
-                .addTaskButton();
-        //add code
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60")
+                .clickOn(0,0);
+        groupUpdatePage()
+                .waitForRefresh()
+                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(GlobalButtons.SAVE)
+                .okButtonPopUp()
+                .waitForRefresh();
+        Assert.assertEquals(groupUpdatePage().getMainTable().getCellText(1,4), "auto_test");
     }
 }
 //        System.out.println(groupUpdatePage().checkSorting(9));

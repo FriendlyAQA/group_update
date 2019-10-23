@@ -60,7 +60,7 @@ public abstract class BasePage {
             System.out.println("wheel not found" + (System.currentTimeMillis() - start));
         }
         new FluentWait<>(driver).withMessage("Element was not found")
-                .withTimeout(Duration.ofSeconds(10))
+                .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.invisibilityOf(spinningWheel));
         System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));

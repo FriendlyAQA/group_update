@@ -7,15 +7,15 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Table {
-    private WebElement table;
+    //    private WebElement table;
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
     private long time;
 
-    public Table(WebElement table) {
+    Table(WebElement table) {
         time = System.currentTimeMillis();
-        this.table = table;
+//        this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
@@ -79,7 +79,7 @@ public class Table {
         return this;
     }
 
-    public String[] getColumn(int column) {
+    String[] getColumn(int column) {
         String[] out = new String[textTable.length - 1];
         for (int i = 0; i < textTable.length - 1; i++) {
             out[i] = textTable[i + 1][column];
@@ -89,5 +89,44 @@ public class Table {
 
     public String getCellText(int row, int column) {
         return textTable[row][column];
+    }
+
+    public WebElement getCellWebElement(int row, int column) {
+        return elementTable[row][column];
+    }
+
+    public Table setParameter(String paramName, Select option, String value) {
+        int rowNum = -1;
+        String[] column = getColumn(0);
+        for (int i = 0; i < column.length; i++) {
+            System.out.println(column[i] + ":" + i);
+            if (column[i].equals(paramName)) {
+                rowNum = i + 1;
+                break;
+            }
+        }
+        if (rowNum < 0) {
+            throw new AssertionError("Parameter name '" + paramName + "' not found");
+        }
+        System.out.println(rowNum);
+        WebElement paramCell = getCellWebElement(rowNum, 1);
+        new org.openqa.selenium.support.ui.Select(paramCell.findElement(By.tagName("select"))).selectByValue(option.option);
+        if (value != null) {
+            paramCell.findElement(By.tagName("input")).sendKeys(value);
+        }
+        return this;
+    }
+
+    public enum Select {
+        EMPTY_VALUE("sendEmpty"), VALUE("sendValue"), FALSE("0"), TRUE("1"), DO_NOT_SEND("notSend"), NULL("");
+        private String option;
+
+        private Select(String option) {
+            this.option = option;
+        }
+
+        public String getOption() {
+            return option;
+        }
     }
 }

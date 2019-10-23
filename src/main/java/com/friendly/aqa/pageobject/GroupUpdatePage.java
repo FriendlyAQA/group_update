@@ -140,6 +140,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
 
+//    @FindBy(id = "tblParamsValue")
+//    private WebElement paramTable;
+
     public void insertImportFile() {
         waitForRefresh();
         importField.sendKeys("C:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
