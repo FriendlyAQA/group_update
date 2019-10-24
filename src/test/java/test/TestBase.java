@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.asserts.SoftAssert;
 import testRunner.FunctionalTests;
 
 import java.io.FileInputStream;
@@ -48,13 +49,26 @@ public class TestBase {
         driver.get(props.getProperty("ui_url"));
     }
 
-    protected static void initProperties() {
+    static void initProperties() {
         props = new Properties();
         try (InputStream input = new FileInputStream("resources/config.properties")) {
             props.load(input);
         } catch (IOException ex) {
             System.out.println("File 'config.properties' is not found!");
             System.exit(1);
+        }
+    }
+
+    protected void softAssert(String result, String... options) {
+        boolean matched = false;
+        for (String option : options) {
+            if (result.equals(option)) {
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            throw new AssertionError("No option matches to :" + result);
         }
     }
 }

@@ -159,8 +159,7 @@ public class FunctionalTests extends BaseTestCase {
                 .addNewTask(1)
                 .addTaskButton()
                 .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60")
-                .clickOn(0, 0);
+                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60");
         groupUpdatePage()
                 .waitForRefresh()
                 .globalButtons(GlobalButtons.NEXT)
@@ -178,7 +177,9 @@ public class FunctionalTests extends BaseTestCase {
                 .getMainTable()
                 .clickOn("auto_test", 4);
         groupUpdatePage()
+                .pause(3000)
                 .globalButtons(GlobalButtons.EDIT)
+                .pause(3000)
                 .globalButtons(GlobalButtons.NEXT)
                 .immediately()
                 .globalButtons(GlobalButtons.NEXT)
@@ -190,11 +191,39 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage()
                 .globalButtons(GlobalButtons.NEXT)
                 .globalButtons(GlobalButtons.SAVE)
+                .okButtonPopUp()
                 .getMainTable()
                 .clickOn("auto_test", 4);
         Assert.assertEquals(groupUpdatePage()
                 .getTable("tblTasks")
                 .getCellText(2, "PeriodicInformInterval", 3), "61");
+    }
+
+    @Test
+    public void test_17() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer(2)
+                .selectModel()
+                .fillName("auto_test_2")
+                .selectSendTo()
+                .globalButtons(GlobalButtons.NEXT)
+                .immediately()
+                .globalButtons(GlobalButtons.NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60");
+        groupUpdatePage()
+                .waitForRefresh()
+                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(GlobalButtons.SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForRefresh();
+        softAssert(groupUpdatePage().getMainTable().getCellText(4, "auto_test_2", 1),
+                "Completed", "Running");
     }
 }
 //        System.out.println(groupUpdatePage().checkSorting(9));

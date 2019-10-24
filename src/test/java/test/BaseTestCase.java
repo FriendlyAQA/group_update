@@ -70,3 +70,4 @@ public class BaseTestCase extends TestBase {
         return new SystemPage(driver);
     }
 }
+

@@ -128,6 +128,7 @@ public class Table {
             input.clear();
             input.sendKeys(value);
         }
+        clickOn(0, 0);
         return this;
     }
 

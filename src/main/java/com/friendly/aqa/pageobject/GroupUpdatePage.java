@@ -160,6 +160,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table getMainTable() {
+        waitForRefresh();
         mainTable.getText();
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
         Table table = new Table(mainTable);
@@ -174,6 +175,14 @@ public class GroupUpdatePage extends BasePage {
         Table table = new Table(tableEl);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         return table;
+    }
+
+    public boolean isSelectDisabled(final String id) {
+        WebElement select = driver.findElement(By.id(id));
+        String attribute = select.getAttribute("disabled");
+        if (attribute.equals("disabled")) {
+            return true;
+        } else return false;
     }
 
     public GroupUpdatePage timeHoursSelect(int index) {

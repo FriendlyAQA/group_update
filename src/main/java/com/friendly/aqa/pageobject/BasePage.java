@@ -77,6 +77,7 @@ public abstract class BasePage {
     }
 
     public void topMenu(TopMenu value) {
+        waitForUpdate();
         driver.switchTo().defaultContent();
         for (WebElement btn : topMenuTable.findElements(By.tagName("td"))) {
             if (btn.getText().equals(value.getItem())) {
@@ -86,6 +87,7 @@ public abstract class BasePage {
     }
 
     void clickGlobalButtons(GlobalButtons button) {
+        waitForUpdate();
         switchToFrameButtons();
         WebElement btn = buttonTable.findElement(By.id(button.getId()));
         new FluentWait<>(driver).withMessage("Element was not found")
@@ -93,7 +95,6 @@ public abstract class BasePage {
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.elementToBeClickable(btn))
                 .click();
-        waitForUpdate();
         switchToFrameDesktop();
     }
 
