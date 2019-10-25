@@ -108,7 +108,7 @@ public class Table {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
-            if (column[i].toLowerCase().contains(text.toLowerCase())) {
+            if (column[i].toLowerCase().equals(text.toLowerCase())) {
                 rowNum = i + 1;
                 break;
             }

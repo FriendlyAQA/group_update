@@ -8,7 +8,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
+import javax.swing.*;
+import java.sql.Driver;
 import java.time.Duration;
+import java.util.List;
 
 public abstract class BasePage {
     WebDriver driver;
@@ -41,6 +44,12 @@ public abstract class BasePage {
     @FindBy(id = "menuCircularG")
     private WebElement spinningWheel;
 
+    @FindBy(id = "spnAlert")
+    protected WebElement alertWindow;
+
+    @FindBy(id = "btnAlertOk_btn")
+    protected WebElement okButtonAlertPopUp;
+
     public void logOut() {
         driver.switchTo().defaultContent();
         logOutButton.click();
@@ -55,15 +64,15 @@ public abstract class BasePage {
                     .pollingEvery(Duration.ofMillis(10))
                     .ignoring(org.openqa.selenium.NoSuchElementException.class)
                     .until(ExpectedConditions.visibilityOf(spinningWheel));
-            System.out.println("wheel is visible " + (System.currentTimeMillis() - start));
+//            System.out.println("wheel is visible " + (System.currentTimeMillis() - start));
         } catch (org.openqa.selenium.TimeoutException e) {
-            System.out.println("wheel not found" + (System.currentTimeMillis() - start));
+//            System.out.println("wheel not found" + (System.currentTimeMillis() - start));
         }
         new FluentWait<>(driver).withMessage("Element was not found")
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.invisibilityOf(spinningWheel));
-        System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));
+//        System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));
         switchToFrameDesktop();
     }
 
@@ -76,6 +85,14 @@ public abstract class BasePage {
         }
     }
 
+    public String getAlertTextAndClickOk(){
+        driver.switchTo().defaultContent();
+        String out = alertWindow.getText();
+        okButtonAlertPopUp.click();
+        switchToFrameDesktop();
+        return out;
+    }
+
     public void topMenu(TopMenu value) {
         waitForUpdate();
         driver.switchTo().defaultContent();
@@ -84,6 +101,11 @@ public abstract class BasePage {
                 btn.click();
             }
         }
+    }
+
+    public boolean isElementPresent(String id) {
+        List<WebElement> list = driver.findElements(By.id(id));
+        return list.size() == 1;
     }
 
     void clickGlobalButtons(GlobalButtons button) {
@@ -98,11 +120,27 @@ public abstract class BasePage {
         switchToFrameDesktop();
     }
 
+    public boolean isInputActive(String id){
+        String attr = getAttributeById(id, "disabled");
+        return attr == null || !attr.equals("true");
+    }
+
     public boolean isButtonPresent(GlobalButtons button) {
         switchToFrameButtons();
         boolean out = driver.findElements(By.id(button.getId())).size() > 0;
         switchToFrameDesktop();
         return out;
+    }
+
+    public boolean isPageContainsText(String text){
+//        driver.switchTo().defaultContent();
+        String s = driver.getPageSource();
+        System.out.println("Content:" + s);
+        return s.contains(text);
+    }
+
+    public String getAttributeById(String id, String attr) {
+        return driver.findElement(By.id(id)).getAttribute(attr);
     }
 
     public boolean isButtonActive(GlobalButtons button) {

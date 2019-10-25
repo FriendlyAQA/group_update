@@ -10,39 +10,38 @@ import com.friendly.aqa.pageobject.TopMenu;
 
 public class FunctionalTests extends BaseTestCase {
     @Test
-    public void test_1() {
+    public void test_001() {
         systemPage()
                 .topMenu(TopMenu.GROUP_UPDATE);
-        Assert.assertTrue(groupUpdatePage().mainTableIsPresent());
+        Assert.assertTrue(groupUpdatePage().noDataFoundLabelIsPresent());
     }
 
     @Test
-    public void test_2() {
+    public void test_002() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
                 .selectManufacturer(0)
-                .globalButtons(GlobalButtons.CANCEL)
-                .selectManufacturer(2);
+                .globalButtons(GlobalButtons.CANCEL);
         Assert.assertTrue(groupUpdatePage().noDataFoundLabelIsPresent());
     }
 
     @Test
-    public void test_3() {
+    public void test_003() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
                 .selectManufacturer()
                 .selectModel()
-                .globalButtons(GlobalButtons.CANCEL)
-                .selectManufacturer(2);
+                .fillName("auto_test")
+                .globalButtons(GlobalButtons.CANCEL);
         Assert.assertTrue(groupUpdatePage().noDataFoundLabelIsPresent());
     }
 
     @Test
-    public void test_4() {
+    public void test_004() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -56,7 +55,7 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_5() {
+    public void test_005() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -69,13 +68,12 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage()
                 .globalButtons(GlobalButtons.CANCEL)
                 .waitForRefresh();
-//        Assert.assertEquals(groupUpdatePage().getNameValue(), "1234");
         Assert.assertEquals(groupUpdatePage().getAttributeById("txtName", "value"), "1234");
     }
 
     @Test
     //A Bug was found while pressing "Next" button when "Name group" is filled;
-    public void test_6() {
+    public void test_006() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -86,11 +84,11 @@ public class FunctionalTests extends BaseTestCase {
                 .selectSendTo()
                 .createGroup()
                 .fillName("test_group_name");
-        //Bug detected when press "Next" button
+        //Bug is present when press "Next" button
     }
 
     @Test
-    public void test_11() {
+    public void test_011() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -111,22 +109,22 @@ public class FunctionalTests extends BaseTestCase {
 
     @Test
     //Doesn't work with Edge
-    public void test_12() {
+    public void test_012() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
                 .selectManufacturer()
-                .selectModel(1)
+                .selectModel()
                 .fillName("auto_test")
                 .selectSendTo("Import")
                 .selectImportFile()
                 .showList();
-        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1, 0), "34E8943DA030");
+        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1, 0), "FT001SN0000168FF7B63321C");
     }
 
     @Test
-    public void test_14() {
+    public void test_014() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -140,16 +138,17 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(GlobalButtons.NEXT)
                 .addNewTask(1)
                 .addTaskButton();
+        Assert.assertTrue(groupUpdatePage().isElementPresent("tblParamsValue"));
         Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
     }
 
     @Test
-    public void test_15() {
+    public void test_015() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer(2)
+                .selectManufacturer()
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo()
@@ -166,20 +165,22 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(GlobalButtons.SAVE)
                 .okButtonPopUp()
                 .waitForRefresh();
-        Assert.assertEquals(groupUpdatePage().getMainTable().getCellText(1, 4), "auto_test");
+        Assert.assertEquals(groupUpdatePage()
+                .getMainTable()
+                .getCellText(4, "auto_test", 1), "Not active");
     }
 
     @Test
-    public void test_16() {
+    public void test_016() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .getMainTable()
                 .clickOn("auto_test", 4);
         groupUpdatePage()
-                .pause(3000)
+//                .pause(3000)
                 .globalButtons(GlobalButtons.EDIT)
-                .pause(3000)
+//                .pause(3000)
                 .globalButtons(GlobalButtons.NEXT)
                 .immediately()
                 .globalButtons(GlobalButtons.NEXT)
@@ -200,12 +201,12 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_17() {
+    public void test_017() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer(2)
+                .selectManufacturer()
                 .selectModel()
                 .fillName("auto_test_2")
                 .selectSendTo()
@@ -224,6 +225,42 @@ public class FunctionalTests extends BaseTestCase {
                 .waitForRefresh();
         softAssert(groupUpdatePage().getMainTable().getCellText(4, "auto_test_2", 1),
                 "Completed", "Running");
+    }
+
+    @Test
+    public void test018() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .getMainTable()
+                .clickOn("auto_test_2", 4);
+        groupUpdatePage()
+                .globalButtons(GlobalButtons.EDIT);
+        Assert.assertFalse(groupUpdatePage().isInputActive("ddlSend"));
+        groupUpdatePage()
+                .globalButtons(GlobalButtons.NEXT);
+        Assert.assertFalse(groupUpdatePage().isInputActive("lrbImmediately"));
+        groupUpdatePage()
+                .globalButtons(GlobalButtons.NEXT);
+        Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
+//                .globalButtons(GlobalButtons.NEXT)
+    }
+
+    @Test
+    public void test_019() {
+        groupUpdatePage()
+                .topMenu(TopMenu.GROUP_UPDATE);
+        groupUpdatePage()
+                .leftMenu(GroupUpdatePage.Left.NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName("auto_test_3")
+                .selectSendTo()
+                .globalButtons(GlobalButtons.NEXT)
+                .scheduledToRadioButton()
+                .timeHoursSelect(0)
+                .globalButtons(GlobalButtons.NEXT);
+        Assert.assertEquals(groupUpdatePage().getAlertTextAndClickOk(), "Can't be scheduled to the past");
     }
 }
 //        System.out.println(groupUpdatePage().checkSorting(9));

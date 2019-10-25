@@ -80,9 +80,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(css = "input[name^='node']")
     private WebElement filterCreatedCheckBox;
 
-    @FindBy(id = "btnAlertOk_btn")
-    private WebElement okButtonAlertPopUp;
-
     @FindBy(id = "btnOk_btn")
     private WebElement okButtonPopUp;
 
@@ -145,14 +142,14 @@ public class GroupUpdatePage extends BasePage {
 
     public void insertImportFile() {
         waitForRefresh();
-        importField.sendKeys("C:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
+        importField.sendKeys("D:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
     }
 
     public GroupUpdatePage selectImportFile() {
 //        waitForRefresh();
         switchToFrameDesktop();
         driver.switchTo().frame(importFrame);
-        String inputText = "C:\\Users\\asp4r\\Desktop\\Report(Inventory_Default_10-22-2019 1-47-37 PM).xml";
+        String inputText = "D:\\Users\\asp4r\\Desktop\\Report(Inventory_Default_10-22-2019 1-47-37 PM).xml";
         importDevicesHiddenField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
@@ -175,14 +172,6 @@ public class GroupUpdatePage extends BasePage {
         Table table = new Table(tableEl);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         return table;
-    }
-
-    public boolean isSelectDisabled(final String id) {
-        WebElement select = driver.findElement(By.id(id));
-        String attribute = select.getAttribute("disabled");
-        if (attribute.equals("disabled")) {
-            return true;
-        } else return false;
     }
 
     public GroupUpdatePage timeHoursSelect(int index) {
@@ -429,14 +418,6 @@ public class GroupUpdatePage extends BasePage {
 
     public boolean serialNumberTableIsPresent() {
         return serialNumberTableList.size() != 0;
-    }
-
-    public String getAttributeById(String id, String attr) {
-        return driver.findElement(By.id(id)).getAttribute(attr);
-    }
-
-    public String getNameValue() {
-        return nameField.getAttribute("value");
     }
 
     public boolean mainTableIsPresent() {
