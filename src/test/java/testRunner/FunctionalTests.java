@@ -228,7 +228,7 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test018() {
+    public void test_018() {
         groupUpdatePage()
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
@@ -243,7 +243,6 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage()
                 .globalButtons(GlobalButtons.NEXT);
         Assert.assertFalse(groupUpdatePage().isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
-//                .globalButtons(GlobalButtons.NEXT)
     }
 
     @Test
@@ -261,18 +260,7 @@ public class FunctionalTests extends BaseTestCase {
                 .timeHoursSelect(0)
                 .globalButtons(GlobalButtons.NEXT);
         Assert.assertEquals(groupUpdatePage().getAlertTextAndClickOk(), "Can't be scheduled to the past");
+        groupUpdatePage()
+                .checkCalendarClickable();
     }
 }
-//        System.out.println(groupUpdatePage().checkSorting(9));
-//        System.out.println(DataBase.getPendingTaskName("FT001SN000010016E3F0D47666"));
-//        groupUpdatePage()
-//                .getMainTable()
-//                .print()
-//                .clickOn(0,8);
-//                .selectColumnFilter(1)
-//                .compareSelect(8)
-//                .globalButtons(GlobalButtons.NEXT)
-//                .filterCreatedCheckBox()
-//                .deleteFilter()
-//                .okButtonPopUp();
-//                .insertImportFile();

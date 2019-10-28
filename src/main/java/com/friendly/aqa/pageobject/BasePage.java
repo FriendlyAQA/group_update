@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,13 +9,13 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
-import javax.swing.*;
-import java.sql.Driver;
 import java.time.Duration;
 import java.util.List;
 
+
 public abstract class BasePage {
     WebDriver driver;
+    protected final static Logger logger = Logger.getLogger(BasePage.class);
 
     BasePage(WebDriver driver) {
         this.driver = driver;

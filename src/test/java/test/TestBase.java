@@ -6,8 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.testng.asserts.SoftAssert;
-import testRunner.FunctionalTests;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,12 +13,10 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import static org.apache.log4j.Logger.getLogger;
-
 public class TestBase {
     static WebDriver driver;
     protected static Properties props;
-    protected final static Logger logger = getLogger(BaseTestCase.class);
+    protected final static Logger logger = Logger.getLogger(BaseTestCase.class);
 
     static void initDriver() {
         String browser;
@@ -29,19 +25,23 @@ public class TestBase {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", props.getProperty("chrome_driver_path"));
                 driver = new ChromeDriver();
+                logger.info("Chrome driver is running");
                 break;
             case "ie":
                 System.setProperty("webdriver.ie.driver", props.getProperty("ie_driver_path"));
                 driver = new InternetExplorerDriver();
+                logger.info("IE driver is running");
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", props.getProperty("edge_driver_path"));
                 driver = new EdgeDriver();
+                logger.info("Edge driver is running");
                 break;
             default:
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", props.getProperty("firefox_driver_path"));
                 driver = new FirefoxDriver();
+                logger.info("Firefox driver is running");
         }
         long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         driver.manage().timeouts().implicitlyWait(implWait, TimeUnit.SECONDS);

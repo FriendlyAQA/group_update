@@ -11,10 +11,10 @@ public class Table {
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
-    private long time;
+//    private long time;
 
     Table(WebElement table) {
-        time = System.currentTimeMillis();
+//        time = System.currentTimeMillis();
 //        this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
@@ -54,6 +54,10 @@ public class Table {
         return response;
     }
 
+    public int[] getTableSize() {
+        return new int[]{textTable.length, textTable[1].length};
+    }
+
     public Table clickOn(int row, int column) {
         elementTable[row][column].click();
         return this;
@@ -65,13 +69,23 @@ public class Table {
     }
 
     public Table print() {
-        for (int i = 0; i < textTable.length; i++) {
-            for (int j = 0; j < textTable[i].length; j++) {
-                System.out.print(textTable[i][j] + " | ");
+        int[] size = new int[textTable[1].length];
+        for (String[] strings : textTable) {
+            for (int j = 0; j < strings.length; j++) {
+                int k = strings[j].length();
+                if (k > size[j]) {
+                    size[j] = k;
+                }
+            }
+        }
+        for (String[] strings : textTable) {
+            System.out.print("| ");
+            for (int j = 0; j < strings.length; j++) {
+                System.out.printf("%-" + size[j] + "s%s", strings[j], " | ");
             }
             System.out.println();
         }
-        System.out.println(System.currentTimeMillis() - time);
+//        System.out.println(System.currentTimeMillis() - time);
         return this;
     }
 
@@ -108,7 +122,7 @@ public class Table {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
-            if (column[i].toLowerCase().equals(text.toLowerCase())) {
+            if (column[i].toLowerCase().contains(text.toLowerCase())) {
                 rowNum = i + 1;
                 break;
             }

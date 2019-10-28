@@ -1,9 +1,6 @@
 package com.friendly.aqa.pageobject;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
@@ -137,6 +134,12 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
 
+    @FindBy(id = "calDate_image")
+    private WebElement calendarIcon;
+
+    @FindBy(id = "calDate_calendar")
+    WebElement divCalendar;
+
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
 
@@ -172,6 +175,43 @@ public class GroupUpdatePage extends BasePage {
         Table table = new Table(tableEl);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         return table;
+    }
+
+    public void checkCalendarClickable() {
+        boolean exception = false, repeat = false;
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+        calendarIcon.click();
+        Table calendar = new Table(divCalendar.findElement(By.tagName("table")));
+        for (int i = 2; i < calendar.getTableSize()[0]; i++) {
+            for (int j = 0; j < calendar.getTableSize()[1]; j++) {
+                WebElement cell = calendar.getCellWebElement(i, j);
+                String attr = cell.getAttribute("onclick");
+                if (attr != null) {
+                    int start = attr.indexOf(".SelectDate('") + 13;
+                    int end = attr.length() - 2;
+                    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                    if (!repeat){
+                        logger.info("First day of month in Sunday. Test case 19 is not effective");
+                    }
+                    if (exception){
+                        logger.info("An exception was caught while checking grayed-out dates");
+                    }
+                    try{
+                        cell.click();
+                    }catch (ElementNotInteractableException e){
+                        logger.info("An exception was caught when click on current date");
+                    }
+                    return;
+                }
+                try {
+                    cell.click();
+                } catch (ElementNotInteractableException e) {
+                    exception = true;
+                }
+                repeat = true;
+            }
+        }
+        throw new AssertionError("Current date isn't found");
     }
 
     public GroupUpdatePage timeHoursSelect(int index) {
