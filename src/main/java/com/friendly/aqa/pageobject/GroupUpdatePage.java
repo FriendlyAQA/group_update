@@ -152,7 +152,7 @@ public class GroupUpdatePage extends BasePage {
 //        waitForRefresh();
         switchToFrameDesktop();
         driver.switchTo().frame(importFrame);
-        String inputText = "D:\\Users\\asp4r\\Desktop\\Report(Inventory_Default_10-22-2019 1-47-37 PM).xml";
+        String inputText = "D:\\Users\\asp4r\\Desktop\\Report(Inventory_Sercomm_10-29-2019 11-21-37 AM).xml";
         importDevicesHiddenField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
@@ -389,7 +389,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectModel(String modelName) {
         waitForRefresh();
-        new Select(modelComboBox).selectByValue(modelName);
+        new Select(modelComboBox).selectByValue(modelName.toLowerCase());
         return this;
     }
 

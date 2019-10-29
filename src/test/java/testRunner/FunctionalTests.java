@@ -22,7 +22,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer(0)
+                .selectManufacturer("sercomm")
                 .globalButtons(GlobalButtons.CANCEL);
         Assert.assertTrue(groupUpdatePage().noDataFoundLabelIsPresent());
     }
@@ -33,7 +33,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test")
                 .globalButtons(GlobalButtons.CANCEL);
@@ -46,7 +46,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("autotest")
                 .selectSendTo()
@@ -60,7 +60,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("1234")
                 .createGroup();
@@ -78,7 +78,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("1234")
                 .selectSendTo()
@@ -93,7 +93,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo("Individual")
@@ -114,13 +114,13 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo("Import")
                 .selectImportFile()
                 .showList();
-        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1, 0), "FT001SN0000168FF7B63321C");
+        Assert.assertEquals(groupUpdatePage().getTable("tblDevices").getCellText(1, 0), "FT001SN00001SD18F7FFF521");
     }
 
     @Test
@@ -129,7 +129,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo()
@@ -148,7 +148,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test")
                 .selectSendTo()
@@ -192,6 +192,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage()
                 .globalButtons(GlobalButtons.NEXT)
                 .globalButtons(GlobalButtons.SAVE)
+
                 .okButtonPopUp()
                 .getMainTable()
                 .clickOn("auto_test", 4);
@@ -206,7 +207,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test_2")
                 .selectSendTo()
@@ -251,7 +252,7 @@ public class FunctionalTests extends BaseTestCase {
                 .topMenu(TopMenu.GROUP_UPDATE);
         groupUpdatePage()
                 .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer()
+                .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("auto_test_3")
                 .selectSendTo()
