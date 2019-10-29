@@ -1,4 +1,4 @@
-package com.friendly.aqa.database;
+package com.friendly.aqa.utils;
 
 import org.apache.log4j.Logger;
 

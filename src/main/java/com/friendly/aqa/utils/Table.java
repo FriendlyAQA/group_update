@@ -1,4 +1,4 @@
-package com.friendly.aqa.pageobject;
+package com.friendly.aqa.utils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,7 +13,7 @@ public class Table {
     private WebElement[][] elementTable;
 //    private long time;
 
-    Table(WebElement table) {
+    public Table(WebElement table) {
 //        time = System.currentTimeMillis();
 //        this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
@@ -98,7 +98,7 @@ public class Table {
         return this;
     }
 
-    String[] getColumn(int column) {
+    public String[] getColumn(int column) {
         String[] out = new String[textTable.length - 1];
         for (int i = 0; i < textTable.length - 1; i++) {
             out[i] = textTable[i + 1][column];

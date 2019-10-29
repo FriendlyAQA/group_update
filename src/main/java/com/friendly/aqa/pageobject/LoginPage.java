@@ -1,13 +1,9 @@
 package com.friendly.aqa.pageobject;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
-    public LoginPage(WebDriver driver) {
-        super(driver);
-    }
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -31,11 +27,11 @@ public class LoginPage extends BasePage {
         this.password.sendKeys(username);
     }
 
-    public SystemPage authenticate(String username, String password) {
+    public void authenticate(String username, String password) {
         fillPasswordFiled(password);
         fillUsernameFiled(username);
         loginButton.click();
-        return new SystemPage(driver);
+        new SystemPage();
     }
 }
 

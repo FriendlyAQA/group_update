@@ -1,4 +1,4 @@
-package com.friendly.aqa.pageobject;
+package com.friendly.aqa.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

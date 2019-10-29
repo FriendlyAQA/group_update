@@ -1,25 +1,101 @@
 package com.friendly.aqa.pageobject;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 
 public abstract class BasePage {
-    WebDriver driver;
-    protected final static Logger logger = Logger.getLogger(BasePage.class);
+    static WebDriver driver;
+    private static Properties props;
+    final static Logger logger;
 
-    BasePage(WebDriver driver) {
-        this.driver = driver;
+    static {
+        initProperties();
+        logger = Logger.getLogger(BasePage.class);
+        initDriver();
+    }
+
+    BasePage() {
         PageFactory.initElements(driver, this);
+    }
+
+    private static void initProperties() {
+        props = new Properties();
+        try (InputStream input = new FileInputStream("resources/config.properties")) {
+            props.load(input);
+        } catch (IOException ex) {
+            System.out.println("File 'config.properties' is not found!");
+            System.exit(1);
+        }
+    }
+
+    private static void initDriver() {
+        String browser;
+        browser = props.getProperty("browser");
+        switch (browser) {
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", props.getProperty("chrome_driver_path"));
+                driver = new ChromeDriver();
+                logger.info("Chrome driver is running");
+                break;
+            case "ie":
+                System.setProperty("webdriver.ie.driver", props.getProperty("ie_driver_path"));
+                driver = new InternetExplorerDriver();
+                logger.info("IE driver is running");
+                break;
+            case "edge":
+                System.setProperty("webdriver.edge.driver", props.getProperty("edge_driver_path"));
+                driver = new EdgeDriver();
+                logger.info("Edge driver is running");
+                break;
+            default:
+            case "firefox":
+                System.setProperty("webdriver.gecko.driver", props.getProperty("firefox_driver_path"));
+                driver = new FirefoxDriver();
+                logger.info("Firefox driver is running");
+        }
+        long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
+        driver.manage().timeouts().implicitlyWait(implWait, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+        driver.get(props.getProperty("ui_url"));
+    }
+
+    public static void setImplicitlyWait(long seconds) {
+        driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+    }
+
+    public static void setDefaultImplicitlyWait(int seconds) {
+        setImplicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")));
+    }
+
+    public static void switchToDefaultContent() {
+        driver.switchTo().defaultContent();
+    }
+
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
+    public static Properties getProps() {
+        return props;
     }
 
     abstract protected String getLeftMenuCssSelector();
@@ -86,7 +162,7 @@ public abstract class BasePage {
         }
     }
 
-    public String getAlertTextAndClickOk(){
+    public String getAlertTextAndClickOk() {
         driver.switchTo().defaultContent();
         String out = alertWindow.getText();
         okButtonAlertPopUp.click();
@@ -121,7 +197,7 @@ public abstract class BasePage {
         switchToFrameDesktop();
     }
 
-    public boolean isInputActive(String id){
+    public boolean isInputActive(String id) {
         String attr = getAttributeById(id, "disabled");
         return attr == null || !attr.equals("true");
     }
@@ -131,13 +207,6 @@ public abstract class BasePage {
         boolean out = driver.findElements(By.id(button.getId())).size() > 0;
         switchToFrameDesktop();
         return out;
-    }
-
-    public boolean isPageContainsText(String text){
-//        driver.switchTo().defaultContent();
-        String s = driver.getPageSource();
-        System.out.println("Content:" + s);
-        return s.contains(text);
     }
 
     public String getAttributeById(String id, String attr) {
@@ -161,6 +230,17 @@ public abstract class BasePage {
 
     void switchToFrameButtons() {
         driver.switchTo().defaultContent().switchTo().frame(frameButtons);
+    }
+
+    public static void takeScreenshot(String pathname) throws IOException {
+        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        File src = screenshot.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(src, new File(pathname));
+        System.out.println("Successfully captured a screenshot");
+    }
+
+    public static void closeDriver() {
+        driver.close();
     }
 }
 

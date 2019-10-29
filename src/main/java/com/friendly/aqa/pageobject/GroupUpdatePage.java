@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.utils.Table;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -10,8 +11,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class GroupUpdatePage extends BasePage {
-    public GroupUpdatePage(WebDriver driver) {
-        super(driver);
+    public GroupUpdatePage() {
+        super();
         switchToFrameDesktop();
     }
 
@@ -138,7 +139,7 @@ public class GroupUpdatePage extends BasePage {
     private WebElement calendarIcon;
 
     @FindBy(id = "calDate_calendar")
-    WebElement divCalendar;
+    private WebElement divCalendar;
 
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
@@ -190,15 +191,15 @@ public class GroupUpdatePage extends BasePage {
                     int start = attr.indexOf(".SelectDate('") + 13;
                     int end = attr.length() - 2;
                     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-                    if (!repeat){
+                    if (!repeat) {
                         logger.info("First day of month in Sunday. Test case 19 is not effective");
                     }
-                    if (exception){
+                    if (exception) {
                         logger.info("An exception was caught while checking grayed-out dates");
                     }
-                    try{
+                    try {
                         cell.click();
-                    }catch (ElementNotInteractableException e){
+                    } catch (ElementNotInteractableException e) {
                         logger.info("An exception was caught when click on current date");
                     }
                     return;
