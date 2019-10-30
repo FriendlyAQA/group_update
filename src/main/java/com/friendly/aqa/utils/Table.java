@@ -1,5 +1,6 @@
 package com.friendly.aqa.utils;
 
+import com.friendly.aqa.pageobject.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -68,6 +69,17 @@ public class Table {
         return this;
     }
 
+    public Table clickOn(String text) {
+        for (int i = 0; i < textTable.length; i++) {
+            for (int j = 0; j < textTable[i].length; j++) {
+                if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
+                    elementTable[i][j].click();
+                }
+            }
+        }
+        return this;
+    }
+
     public Table print() {
         int[] size = new int[textTable[1].length];
         for (String[] strings : textTable) {
@@ -106,6 +118,13 @@ public class Table {
         return out;
     }
 
+    public String getExportLink(String groupName) {
+        WebElement cell = getCellWebElement(getRowNumberByText(4, groupName), 11);
+        String attr = cell.getAttribute("onclick");
+        String id = attr.substring(10, attr.indexOf("event)") - 2);
+        return BasePage.getProps().getProperty("ui_url") + "/Update/Export.aspx?updateId=" + id;
+    }
+
     public String getCellText(int row, int column) {
         return textTable[row][column];
     }
@@ -128,6 +147,21 @@ public class Table {
             }
         }
         return rowNum;
+    }
+
+    public Table checkResults(String parameter, String value) {
+        boolean match = false;
+        for (String[] row : textTable) {
+            int length = row.length;
+            if (row[length - 2].contains(parameter) && row[length - 1].equals(value)) {
+                match = true;
+                break;
+            }
+        }
+        if (!match) {
+            throw new AssertionError("Pair " + parameter + "=" + value + " not found");
+        }
+        return this;
     }
 
     public Table setParameter(String paramName, Select option, String value) {

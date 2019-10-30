@@ -1,29 +1,28 @@
 package com.friendly.aqa.utils;
 
-import com.friendly.aqa.pageobject.BasePage;
-
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class HtmlGetter {
+public class HttpGetter {
     private static CookieManager cookieManager;
-    private static String currentSessionId;
+//    private static String currentSessionId;
 
     static {
         cookieManager = new CookieManager();
         CookieHandler.setDefault(cookieManager);
     }
 
-    public static String getUrlSource(String url, String sessionId) throws IOException{
-//        currentSessionId = BasePage.getDriver().manage().getCookieNamed("CpeAdminCookie".get);
+    public static String getUrlSource(String url) throws IOException {
+//        currentSessionId = BasePage.getDriver().manage().getCookieNamed("CpeAdminCookie").getValue();
 
-        Map<String,String> cookie = new HashMap<String, String>();
-        cookie.put("Cookie","CpeAdminCookie=" + currentSessionId);
-        cookie.put("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0");
-        cookie.put("Referer","http://95.217.85.220/CpeAdmin/Update/List.aspx");
+        Map<String, String> cookie = new HashMap<String, String>();
+//        cookie.put("Cookie","CpeAdminCookie=" + currentSessionId);
+//        System.out.println("CpeAdminCookie=" + currentSessionId);
+        cookie.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0");
+        cookie.put("Referer", "http://95.217.85.220/CpeAdmin/Update/List.aspx");
         return getUrlSource(url, "GET", cookie, null);
     }
 
@@ -74,8 +73,9 @@ public class HtmlGetter {
         Callable<String> task = () -> {
             String inputLine;
             StringBuilder stringBuilder = new StringBuilder();
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                 ; BufferedWriter writer = new BufferedWriter(new FileWriter(new File("d:\\import.xml")))
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+                 BufferedWriter writer = new BufferedWriter(
+                         new FileWriter(new File("./export/" + CalendarUtil.getFileName() + ".xml")))
             ) {
                 while ((inputLine = bufferedReader.readLine()) != null) {
                     stringBuilder.append(inputLine);

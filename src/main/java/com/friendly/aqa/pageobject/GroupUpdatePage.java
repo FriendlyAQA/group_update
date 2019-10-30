@@ -10,6 +10,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.friendly.aqa.pageobject.GlobalButtons.NEXT;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+
 public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage() {
         super();
@@ -140,6 +144,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "calDate_calendar")
     private WebElement divCalendar;
+
+    @FindBy(id = "tabsSettings_tblTabs")
+    private WebElement paramTabsTable;
 
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
@@ -463,6 +470,21 @@ public class GroupUpdatePage extends BasePage {
 
     public boolean mainTableIsPresent() {
         return mainTableIsPresent.size() != 0;
+    }
+
+    public Table goToSetParameters(String groupName) {
+        topMenu(GROUP_UPDATE);
+        return leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel()
+                .fillName(groupName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue");
     }
 
     public enum Left {

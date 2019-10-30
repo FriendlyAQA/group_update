@@ -1,53 +1,55 @@
 package testRunner;
 
-import com.friendly.aqa.pageobject.GlobalButtons;
-import com.friendly.aqa.pageobject.GroupUpdatePage;
-import com.friendly.aqa.utils.HtmlGetter;
-import com.friendly.aqa.utils.Table;
+import com.friendly.aqa.utils.HttpGetter;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 import test.BaseTestCase;
-import com.friendly.aqa.pageobject.TopMenu;
+
+import java.io.IOException;
+
+import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.utils.Table.Select.VALUE;
 
 public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_001() {
-        systemPage.topMenu(TopMenu.GROUP_UPDATE);
+        systemPage.topMenu(GROUP_UPDATE);
         groupUpdatePage.waitForRefresh();
-//        Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
-//        HtmlGetter.getUrlSource("http://95.217.85.220/CpeAdmin/Update/Export.aspx?updateId=25",)
+        Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
     }
 
     @Test
     public void test_002() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
-                .globalButtons(GlobalButtons.CANCEL);
+                .globalButtons(CANCEL);
         Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
     }
 
     @Test
     public void test_003() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
-                .fillName("auto_test")
-                .globalButtons(GlobalButtons.CANCEL);
+                .fillName("auto_test_1")
+                .globalButtons(CANCEL);
         Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
     }
 
     @Test
     public void test_004() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("autotest")
@@ -59,16 +61,16 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_005() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("1234")
                 .createGroup();
-        Assert.assertTrue(groupUpdatePage.isButtonPresent(GlobalButtons.FINISH));
+        Assert.assertTrue(groupUpdatePage.isButtonPresent(FINISH));
         groupUpdatePage
-                .globalButtons(GlobalButtons.CANCEL)
+                .globalButtons(CANCEL)
                 .waitForRefresh();
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), "1234");
     }
@@ -77,9 +79,9 @@ public class FunctionalTests extends BaseTestCase {
     //A Bug was found while pressing "Next" button when "Name group" is filled;
     public void test_006() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName("1234")
@@ -92,33 +94,33 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_011() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
-                .fillName("auto_test")
+                .fillName("auto_test_1")
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
                 .clickOn(1, 0);
         groupUpdatePage.waitForRefresh();
-        Assert.assertTrue(groupUpdatePage.isButtonActive(GlobalButtons.NEXT));
+        Assert.assertTrue(groupUpdatePage.isButtonActive(NEXT));
         groupUpdatePage.getTable("tblDevices")
                 .clickOn(1, 0);
         groupUpdatePage.waitForRefresh();
-        Assert.assertFalse(groupUpdatePage.isButtonActive(GlobalButtons.NEXT));
+        Assert.assertFalse(groupUpdatePage.isButtonActive(NEXT));
     }
 
     @Test
     //Doesn't work with Edge
     public void test_012() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
-                .fillName("auto_test")
+                .fillName("auto_test_1")
                 .selectSendTo("Import")
                 .selectImportFile()
                 .showList();
@@ -128,76 +130,62 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_014() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
-                .fillName("auto_test")
+                .fillName("auto_test_1")
                 .selectSendTo()
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(NEXT)
                 .immediately()
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton();
         Assert.assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
-        Assert.assertFalse(groupUpdatePage.isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
+        Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
     public void test_015() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
-        groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer("sercomm")
-                .selectModel()
-                .fillName("auto_test")
-                .selectSendTo()
-                .globalButtons(GlobalButtons.NEXT)
-                .immediately()
-                .globalButtons(GlobalButtons.NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60");
+                .goToSetParameters("auto_test_1")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         groupUpdatePage
                 .waitForRefresh()
-                .globalButtons(GlobalButtons.NEXT)
-                .globalButtons(GlobalButtons.SAVE)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForRefresh();
         Assert.assertEquals(groupUpdatePage
                 .getMainTable()
-                .getCellText(4, "auto_test", 1), "Not active");
+                .getCellText(4, "auto_test_1", 1), "Not active");
     }
 
     @Test
     public void test_016() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
                 .getMainTable()
-                .clickOn("auto_test", 4);
+                .clickOn("auto_test_1", 4);
         groupUpdatePage
-//                .pause(3000)
-                .globalButtons(GlobalButtons.EDIT)
-//                .pause(3000)
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(EDIT)
+                .globalButtons(NEXT)
                 .immediately()
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(NEXT)
                 .getTable("tblTasks")
                 .clickOn("PeriodicInformInterval", 3);
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "61");
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61");
         groupUpdatePage
-                .globalButtons(GlobalButtons.NEXT)
-                .globalButtons(GlobalButtons.SAVE)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
 
                 .okButtonPopUp()
                 .getMainTable()
-                .clickOn("auto_test", 4);
+                .clickOn("auto_test_1", 4);
         Assert.assertEquals(groupUpdatePage
                 .getTable("tblTasks")
                 .getCellText(2, "PeriodicInformInterval", 3), "61");
@@ -206,24 +194,12 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_017() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
-        groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
-                .selectManufacturer("sercomm")
-                .selectModel()
-                .fillName("auto_test_2")
-                .selectSendTo()
-                .globalButtons(GlobalButtons.NEXT)
-                .immediately()
-                .globalButtons(GlobalButtons.NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", Table.Select.VALUE, "60");
+                .goToSetParameters("auto_test_2")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         groupUpdatePage
                 .waitForRefresh()
-                .globalButtons(GlobalButtons.NEXT)
-                .globalButtons(GlobalButtons.SAVE_AND_ACTIVATE)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForRefresh();
         softAssert(groupUpdatePage.getMainTable().getCellText(4, "auto_test_2", 1),
@@ -233,38 +209,86 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_018() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
                 .getMainTable()
                 .clickOn("auto_test_2", 4);
         groupUpdatePage
-                .globalButtons(GlobalButtons.EDIT);
+                .globalButtons(EDIT);
         Assert.assertFalse(groupUpdatePage.isInputActive("ddlSend"));
         groupUpdatePage
-                .globalButtons(GlobalButtons.NEXT);
+                .globalButtons(NEXT);
         Assert.assertFalse(groupUpdatePage.isInputActive("lrbImmediately"));
         groupUpdatePage
-                .globalButtons(GlobalButtons.NEXT);
-        Assert.assertFalse(groupUpdatePage.isButtonActive(GlobalButtons.SAVE_AND_ACTIVATE));
+                .globalButtons(NEXT);
+        Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
     public void test_019() {
         groupUpdatePage
-                .topMenu(TopMenu.GROUP_UPDATE);
+                .topMenu(GROUP_UPDATE);
         groupUpdatePage
-                .leftMenu(GroupUpdatePage.Left.NEW)
+                .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
-                .fillName("auto_test_3")
+                .fillName("auto_test_2")
                 .selectSendTo()
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(NEXT)
                 .scheduledToRadioButton()
                 .timeHoursSelect(0)
-                .globalButtons(GlobalButtons.NEXT)
+                .globalButtons(NEXT)
                 .waitForRefresh();
         Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Can't be scheduled to the past");
         groupUpdatePage
                 .checkCalendarClickable();
+    }
+
+    @Test
+    public void test_021() throws IOException {
+        systemPage.topMenu(GROUP_UPDATE);
+        groupUpdatePage.waitForRefresh();
+        Assert.assertTrue(HttpGetter.getUrlSource(groupUpdatePage
+                .getMainTable()
+                .getExportLink("auto_test_2"))
+                .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
+    }
+
+    @Test
+    public void test_022() {
+        groupUpdatePage
+                .goToSetParameters("auto_test_3")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .setParameter("Username", VALUE, "ftacs")
+                .setParameter("Password", VALUE, "ftacs");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .getMainTable()
+                .clickOn("auto_test_3", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("PeriodicInformInterval", "60")
+                .checkResults("Username", "ftacs")
+                .checkResults("Password", "ftacs");
+    }
+
+    @Test
+    public void test_023() {
+        groupUpdatePage
+                .goToSetParameters("auto_test_4")
+                .setParameter("Username", VALUE, "ftacs");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .getMainTable()
+                .clickOn("auto_test_3", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Username", "ftacs");
     }
 }
