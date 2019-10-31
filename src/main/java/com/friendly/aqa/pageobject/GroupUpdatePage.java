@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.NEXT;
+import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
@@ -472,7 +473,20 @@ public class GroupUpdatePage extends BasePage {
         return mainTableIsPresent.size() != 0;
     }
 
-    public Table goToSetParameters(String groupName) {
+    public GroupUpdatePage waitForStatus(String status, String groupName, int timeout) {
+        long start = System.currentTimeMillis();
+        while (!getMainTable().getCellText(4, groupName, 1).toLowerCase().equals(status.toLowerCase())) {
+            switchToFrameButtons();
+            globalButtons(REFRESH);
+            switchToFrameDesktop();
+            if (System.currentTimeMillis() - start > timeout * 1000){
+                throw new AssertionError("Timed out while waiting for status " + status);
+            }
+        }
+        return this;
+    }
+
+    public Table goToSetParameters(String groupName, String tableId) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
                 .selectManufacturer("sercomm")
@@ -484,7 +498,11 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .getTable("tblParamsValue");
+                .getTable(tableId);
+    }
+
+    public Table goToSetParameters(String groupName) {
+        return goToSetParameters(groupName, "tblParamsValue");
     }
 
     public enum Left {

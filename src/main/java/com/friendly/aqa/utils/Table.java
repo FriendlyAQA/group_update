@@ -1,25 +1,27 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.pageobject.SystemPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 
 public class Table {
-    //    private WebElement table;
+    final static Logger logger = Logger.getLogger(BasePage.class);
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
-//    private long time;
+    private String prefix;
 
     public Table(WebElement table) {
-//        time = System.currentTimeMillis();
-//        this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
+        prefix = "";
         parseTable();
     }
 
@@ -73,7 +75,7 @@ public class Table {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
-                    elementTable[i][j].click();
+                    return clickOn(i, j);
                 }
             }
         }
@@ -97,7 +99,6 @@ public class Table {
             }
             System.out.println();
         }
-//        System.out.println(System.currentTimeMillis() - time);
         return this;
     }
 
@@ -137,6 +138,11 @@ public class Table {
         return elementTable[row][column];
     }
 
+    public Table setPrefix(String prefix) {
+        this.prefix = prefix;
+        return this;
+    }
+
     private int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
@@ -159,7 +165,9 @@ public class Table {
             }
         }
         if (!match) {
-            throw new AssertionError("Pair " + parameter + "=" + value + " not found");
+            String warning = "Pair " + parameter + "='" + value + "' not found";
+            logger.warn(warning);
+            throw new AssertionError(warning);
         }
         return this;
     }
@@ -170,8 +178,8 @@ public class Table {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
         WebElement paramCell = getCellWebElement(rowNum, 1);
-        new org.openqa.selenium.support.ui.Select(paramCell.findElement(By.tagName("select"))).selectByValue(option.option);
-        if (value != null) {
+        new org.openqa.selenium.support.ui.Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Select.CUSTOM ? option.option : value);
+        if (value != null && option == Select.VALUE) {
             WebElement input = paramCell.findElement(By.tagName("input"));
             input.clear();
             input.sendKeys(value);
@@ -186,7 +194,8 @@ public class Table {
         FALSE("0"),
         TRUE("1"),
         DO_NOT_SEND("notSend"),
-        NULL("");
+        NULL(""),
+        CUSTOM(null);
         private String option;
 
         Select(String option) {
