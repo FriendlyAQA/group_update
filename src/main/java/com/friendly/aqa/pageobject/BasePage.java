@@ -82,7 +82,7 @@ public abstract class BasePage {
         driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
     }
 
-    public static void setDefaultImplicitlyWait(int seconds) {
+    public static void setDefaultImplicitlyWait() {
         setImplicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")));
     }
 

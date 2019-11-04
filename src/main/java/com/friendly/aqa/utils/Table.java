@@ -1,17 +1,17 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.pageobject.SystemPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
-import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 
 public class Table {
-    final static Logger logger = Logger.getLogger(BasePage.class);
+    private final static Logger logger = Logger.getLogger(Table.class);
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
@@ -26,6 +26,7 @@ public class Table {
     }
 
     private void parseTable() {
+        BasePage.setImplicitlyWait(0);
         rowsList.parallelStream()
                 .forEach(webElement -> {
                     int i = rowsList.indexOf(webElement);
@@ -36,9 +37,15 @@ public class Table {
                     Iterator<WebElement> tdIterator = tdList.iterator();
                     for (int j = 0; j < tdList.size(); j++) {
                         elementTable[i][j] = tdIterator.next();
-                        textTable[i][j] = parseCell(elementTable[i][j]);
+                        String cell = parseCell(elementTable[i][j]);
+                        if (cell.isEmpty()) {
+                            ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", elementTable[i][j]);
+                            cell = parseCell(elementTable[i][j]);
+                        }
+                        textTable[i][j] = cell;
                     }
                 });
+        BasePage.setDefaultImplicitlyWait();
     }
 
     private String parseCell(WebElement td) {
@@ -172,14 +179,14 @@ public class Table {
         return this;
     }
 
-    public Table setParameter(String paramName, Select option, String value) {
+    public Table setParameter(String paramName, Parameter option, String value) {
         int rowNum = getRowNumberByText(0, paramName);
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
         WebElement paramCell = getCellWebElement(rowNum, 1);
-        new org.openqa.selenium.support.ui.Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Select.CUSTOM ? option.option : value);
-        if (value != null && option == Select.VALUE) {
+        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
+        if (value != null && option == Parameter.VALUE) {
             WebElement input = paramCell.findElement(By.tagName("input"));
             input.clear();
             input.sendKeys(value);
@@ -188,7 +195,20 @@ public class Table {
         return this;
     }
 
-    public enum Select {
+    public Table setPolicy(String policyName, Policy notification, Policy aList) {
+        int rowNum = getRowNumberByText(0, policyName);
+        if (rowNum < 0) {
+            throw new AssertionError("Parameter name '" + policyName + "' not found");
+        }
+        WebElement notificationCell = getCellWebElement(rowNum, 1);
+        WebElement aListCell = getCellWebElement(rowNum, 2);
+        new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
+        new Select(aListCell.findElement(By.tagName("select"))).selectByValue(aList.option);
+        clickOn(0, 0);
+        return this;
+    }
+
+    public enum Parameter {
         EMPTY_VALUE("sendEmpty"),
         VALUE("sendValue"),
         FALSE("0"),
@@ -196,9 +216,25 @@ public class Table {
         DO_NOT_SEND("notSend"),
         NULL(""),
         CUSTOM(null);
+
         private String option;
 
-        Select(String option) {
+        Parameter(String option) {
+            this.option = option;
+        }
+    }
+
+    public enum Policy {
+        DEFAULT("-1"),
+        OFF("0"),
+        PASSIVE("1"),
+        ACTIVE("2"),
+        ACS_ONLY("1"),
+        ALL("2");
+
+        private String option;
+
+        Policy(String option) {
             this.option = option;
         }
     }

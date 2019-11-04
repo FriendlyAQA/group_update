@@ -169,12 +169,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table getMainTable() {
-        waitForRefresh();
-        mainTable.getText();
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
-        Table table = new Table(mainTable);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        return table;
+        return getTable("tblParameters");
     }
 
     public Table getTable(String id) {
@@ -398,7 +393,14 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectModel(String modelName) {
         waitForRefresh();
-        new Select(modelComboBox).selectByValue(modelName.toLowerCase());
+        List<WebElement> options = modelComboBox.findElements(By.tagName("option"));
+        for (WebElement option : options) {
+            if (option.getText().toLowerCase().equals(modelName.toLowerCase())) {
+                new Select(modelComboBox).selectByValue(option.getAttribute("value"));
+                return this;
+            }
+        }
+        new Select(modelComboBox).selectByValue(modelName);
         return this;
     }
 
@@ -430,6 +432,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage createGroup() {
         waitForRefresh();
         createGroupButton.click();
+        waitForRefresh();
         return this;
     }
 
@@ -479,18 +482,33 @@ public class GroupUpdatePage extends BasePage {
             switchToFrameButtons();
             globalButtons(REFRESH);
             switchToFrameDesktop();
-            if (System.currentTimeMillis() - start > timeout * 1000){
+            if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
             }
         }
         return this;
     }
 
-    public Table goToSetParameters(String groupName, String tableId) {
+    public Table goToSetPolicy(String groupName, String tableId) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
                 .selectManufacturer("sercomm")
-                .selectModel()
+                .selectModel("Smart Box TURBO+")
+                .fillName(groupName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(4)
+                .addTaskButton()
+                .getTable(tableId);
+    }
+
+    public Table goToSetParameters(String manufacturer, String model, String groupName, String tableId) {
+        topMenu(GROUP_UPDATE);
+        return leftMenu(NEW)
+                .selectManufacturer(manufacturer)
+                .selectModel(model)
                 .fillName(groupName)
                 .selectSendTo()
                 .globalButtons(NEXT)
@@ -500,6 +518,11 @@ public class GroupUpdatePage extends BasePage {
                 .addTaskButton()
                 .getTable(tableId);
     }
+
+    public Table goToSetParameters(String groupName, String tableId) {
+        return goToSetParameters("sercomm", "Smart Box TURBO+", groupName, tableId);
+    }
+
 
     public Table goToSetParameters(String groupName) {
         return goToSetParameters(groupName, "tblParamsValue");

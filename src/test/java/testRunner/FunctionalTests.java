@@ -10,7 +10,7 @@ import java.io.IOException;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Select.*;
+import static com.friendly.aqa.utils.Table.Parameter.*;
 
 public class FunctionalTests extends BaseTestCase {
     @Test
@@ -266,7 +266,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_3", 10)
+                .waitForStatus("Completed", "auto_test_3", 30)
                 .getMainTable()
                 .clickOn("auto_test_3", 4);
         groupUpdatePage
@@ -286,7 +286,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_4", 10)
+                .waitForStatus("Completed", "auto_test_4", 30)
                 .getMainTable()
                 .clickOn("auto_test_4", 4);
         groupUpdatePage
@@ -313,7 +313,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_5", 10)
+                .waitForStatus("Completed", "auto_test_5", 30)
                 .getMainTable()
                 .clickOn("auto_test_5", 4);
         groupUpdatePage
@@ -340,7 +340,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_6", 10)
+                .waitForStatus("Completed", "auto_test_6", 30)
                 .getMainTable()
                 .clickOn("auto_test_6", 4);
         groupUpdatePage
@@ -362,7 +362,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_7", 10)
+                .waitForStatus("Completed", "auto_test_7", 30)
                 .getMainTable()
                 .clickOn("auto_test_7", 4);
         groupUpdatePage
@@ -399,7 +399,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_8", 10)
+                .waitForStatus("Completed", "auto_test_8", 30)
                 .getMainTable()
                 .clickOn("auto_test_8", 4);
         groupUpdatePage
@@ -435,7 +435,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_9", 10)
+                .waitForStatus("Completed", "auto_test_9", 30)
                 .getMainTable()
                 .clickOn("auto_test_9", 4);
         groupUpdatePage
@@ -458,7 +458,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_10", 10)
+                .waitForStatus("Completed", "auto_test_10", 30)
                 .getMainTable()
                 .clickOn("auto_test_10", 4);
         groupUpdatePage
@@ -491,7 +491,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_11", 10)
+                .waitForStatus("Completed", "auto_test_11", 30)
                 .getMainTable()
                 .clickOn("auto_test_11", 4);
         groupUpdatePage
@@ -522,7 +522,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_12", 10)
+                .waitForStatus("Completed", "auto_test_12", 30)
                 .getMainTable()
                 .clickOn("auto_test_12", 4);
         groupUpdatePage
@@ -544,7 +544,7 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Completed", "auto_test_13", 10)
+                .waitForStatus("Completed", "auto_test_13", 30)
                 .getMainTable()
                 .clickOn("auto_test_13", 4);
         groupUpdatePage
@@ -558,40 +558,197 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .goToSetParameters("auto_test_14", "tabsSettings_tblTabs")
                 .clickOn("Wireless");
-        System.out.println(groupUpdatePage
-                .getTable("tblParamsValue").getCellText(11,0));
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("Enable", TRUE, null)
+                .setParameter("Channel", VALUE, "6")
+                .setParameter("SSID", VALUE, "Home_WiFi")
+                .setParameter("BeaconType", CUSTOM, "WPA")
+                .setParameter("WEPKeyIndex", VALUE, "0")
+                .setParameter("BasicEncryptionModes", CUSTOM, "None")
+                .setParameter("BasicAuthenticationMode", CUSTOM, "EAPAuthentication")
+                .setParameter("WPAEncryptionModes", CUSTOM, "AESEncryption")
+                .setParameter("WPAAuthenticationMode", CUSTOM, "EAPAuthentication")
+                .setParameter("IEEE11iEncryptionModes", CUSTOM, "AESEncryption")
+                .setParameter("IEEE11iAuthenticationMode", CUSTOM, "EAPandPSKAuthentication");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_14", 30)
+                .getMainTable()
+                .clickOn("auto_test_14", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Enable", "1")
+                .checkResults("Channel", "6")
+                .checkResults("SSID", "Home_WiFi")
+                .checkResults("BeaconType", "WPA")
+                .checkResults("WEPKeyIndex", "0")
+                .checkResults("BasicEncryptionModes", "None")
+                .checkResults("BasicAuthenticationMode", "EAPAuthentication")
+                .checkResults("WPAEncryptionModes", "AESEncryption")
+                .checkResults("WPAAuthenticationMode", "EAPAuthentication")
+                .checkResults("IEEE11iEncryptionModes", "AESEncryption")
+                .checkResults("IEEE11iAuthenticationMode", "EAPandPSKAuthentication");
+    }
 
-//                .setParameter("Enable", TRUE, null)
-//                .setParameter("Channel", VALUE, "6")
-//                .setParameter("SSID", VALUE, "Home_WiFi")
-//                .setParameter("BeaconType", CUSTOM, "WPA")
-//                .setParameter("WEPKeyIndex", VALUE, "0")
-//                .setParameter("BasicEncryptionModes", CUSTOM, "None")
-//                .setParameter("BasicAuthenticationMode", CUSTOM, "EAPAuthentication")
-//                .setParameter("WPAEncryptionModes", CUSTOM, "AESEncryption")
-//                .setParameter("WPAAuthenticationMode", CUSTOM, "EAPAuthentication")
-//                .setParameter("IEEE11iEncryptionModes", CUSTOM, "AESEncryption")
-//                .setParameter("IEEE11iAuthenticationMode", CUSTOM, "EAPandPSKAuthentication");
-//        groupUpdatePage
-//                .waitForRefresh()
-//                .globalButtons(NEXT)
-//                .globalButtons(SAVE_AND_ACTIVATE)
-//                .okButtonPopUp()
-//                .waitForStatus("Completed", "auto_test_14", 10)
-//                .getMainTable()
-//                .clickOn("auto_test_14", 4);
-//        groupUpdatePage
-//                .getTable("tblTasks")
-//                .checkResults("Enable", "1")
-//                .checkResults("Channel", "6")
-//                .checkResults("SSID", "Home_WiFi")
-//                .checkResults("BeaconType", "WPA")
-//                .checkResults("WEPKeyIndex", "0")
-//                .checkResults("BasicEncryptionModes", "None")
-//                .checkResults("BasicAuthenticationMode", "EAPAuthentication")
-//                .checkResults("WPAEncryptionModes", "AESEncryption")
-//                .checkResults("WPAAuthenticationMode", "EAPAuthentication")
-//                .checkResults("IEEE11iEncryptionModes", "AESEncryption")
-//                .checkResults("IEEE11iAuthenticationMode", "EAPandPSKAuthentication");
+    @Test
+    public void test_034() {
+        groupUpdatePage
+                .goToSetParameters("auto_test_15", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("Channel", VALUE, "11");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_15", 30)
+                .getMainTable()
+                .clickOn("auto_test_15", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Channel", "6");
+    }
+
+    @Test
+    public void test_035() {
+        groupUpdatePage
+                .goToSetParameters("auto_test_16", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("Channel", VALUE, "1")
+                .setParameter("SSID", VALUE, "WiFi");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_16", 30)
+                .getMainTable()
+                .clickOn("auto_test_16", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Channel", "1")
+                .checkResults("SSID", "Home_WiFi");
+    }
+
+    @Test
+    public void test_036() {
+        groupUpdatePage
+                .goToSetParameters("audiocodes", "MP252", "auto_test_17", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("Enable", TRUE, null)
+                .setParameter("LinkType", CUSTOM, "PPPoE")
+                .setParameter("DestinationAddress", VALUE, "35.12.48.78")
+                .setParameter("ATMEncapsulation", CUSTOM, "LLC");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_17", 30)
+                .getMainTable()
+                .clickOn("auto_test_17", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Enable", "1")
+                .checkResults("LinkType", "PPPoE")
+                .checkResults("DestinationAddress", "35.12.48.78")
+                .checkResults("ATMEncapsulation", "LLC");
+    }
+
+    @Test
+    public void test_037() {
+        groupUpdatePage
+                .goToSetParameters("audiocodes", "MP252", "auto_test_18", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("DestinationAddress", VALUE, "95.217.85.220");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_18", 30)
+                .getMainTable()
+                .clickOn("auto_test_18", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("DestinationAddress", "95.217.85.220");
+    }
+
+    @Test
+    public void test_038() {
+        groupUpdatePage
+                .goToSetParameters("audiocodes", "MP252", "auto_test_19", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("LinkType", CUSTOM, "EoA")
+                .setParameter("ATMEncapsulation", CUSTOM, "VCMUX");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_19", 30)
+                .getMainTable()
+                .clickOn("auto_test_19", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("LinkType", "EoA")
+                .checkResults("ATMEncapsulation", "VCMUX");
+    }
+
+    @Test
+    public void test_039() {
+        groupUpdatePage
+                .goToSetParameters("audiocodes", "MP252", "auto_test_20", "tabsSettings_tblTabs")
+                .clickOn("VoIP settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("Name", VALUE, "VoIP")
+                .setParameter("Enable", CUSTOM, "Enabled")
+                .setParameter("Reset", FALSE, null)
+                .setParameter("SignalingProtocol", VALUE, "SIP")
+                .setParameter("DTMFMethod", CUSTOM, "SIPInfo")
+                .setParameter("Region", VALUE, "USA")
+                .setParameter("DigitMapEnable", TRUE, null)
+//                .setParameter("DigitMap", VALUE, "DigitMap")
+                .setParameter("STUNEnable", TRUE, null)
+                .setParameter("STUNServer", VALUE, "12.13.14.15")
+                .setParameter("FaxPassThrough", CUSTOM, "Auto")
+                .setParameter("ModemPassThrough", CUSTOM, "Auto");
+        groupUpdatePage
+                .waitForRefresh()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", "auto_test_20", 30)
+                .getMainTable()
+                .clickOn("auto_test_20", 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Name", "VoIP")
+                .checkResults("Enable", "Enabled")
+                .checkResults("Reset", "0")
+                .checkResults("SignalingProtocol", "SIP")
+                .checkResults("DTMFMethod", "SIPInfo")
+                .checkResults("Region", "USA")
+                .checkResults("DigitMapEnable", "1")
+//                .checkResults("DigitMap", "")
+                .checkResults("STUNEnable", "1")
+                .checkResults("STUNServer", "12.13.14.15")
+                .checkResults("FaxPassThrough", "Auto")
+                .checkResults("ModemPassThrough", "Auto");
     }
 }
