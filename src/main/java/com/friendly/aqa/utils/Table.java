@@ -154,7 +154,7 @@ public class Table {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
-            if (column[i].toLowerCase().contains(text.toLowerCase())) {
+            if (column[i].toLowerCase().equals(text.toLowerCase())) {
                 rowNum = i + 1;
                 break;
             }
@@ -166,7 +166,7 @@ public class Table {
         boolean match = false;
         for (String[] row : textTable) {
             int length = row.length;
-            if (row[length - 2].contains(parameter) && row[length - 1].equals(value)) {
+            if (row[length - 2].equals(prefix + parameter) && row[length - 1].equals(value)) {
                 match = true;
                 break;
             }
@@ -202,9 +202,27 @@ public class Table {
         }
         WebElement notificationCell = getCellWebElement(rowNum, 1);
         WebElement aListCell = getCellWebElement(rowNum, 2);
-        new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
-        new Select(aListCell.findElement(By.tagName("select"))).selectByValue(aList.option);
+        if (notification != null) {
+            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
+        }
+        if (aList != null) {
+            new Select(aListCell.findElement(By.tagName("select"))).selectByValue(aList.option);
+        }
         clickOn(0, 0);
+        return this;
+    }
+
+    public Table assertPresentValue(int column, String value) {
+        if (getRowNumberByText(column, value) < 0) {
+            throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
+        }
+        return this;
+    }
+
+    public Table assertAbsentValue(int column, String value) {
+        if (getRowNumberByText(column, value) >= 0) {
+            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but must NOT!");
+        }
         return this;
     }
 

@@ -10,8 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.friendly.aqa.pageobject.GlobalButtons.NEXT;
-import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
+import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
@@ -445,6 +444,15 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public void saveAndActivate(String groupName) {
+        globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", groupName, 30)
+                .getMainTable()
+                .clickOn(groupName, 4);
+    }
+
     public GroupUpdatePage waitForRefresh() {
         super.waitForUpdate();
         return this;
@@ -489,7 +497,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public Table goToSetPolicy(String groupName, String tableId) {
+    public Table goToSetPolicies(String groupName, String tableId) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
                 .selectManufacturer("sercomm")
