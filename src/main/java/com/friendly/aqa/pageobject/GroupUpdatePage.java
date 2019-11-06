@@ -174,15 +174,15 @@ public class GroupUpdatePage extends BasePage {
     public Table getTable(String id) {
         waitForRefresh();
         WebElement tableEl = driver.findElement(By.id(id));
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+        setImplicitlyWait(0);
         Table table = new Table(tableEl);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setDefaultImplicitlyWait();
         return table;
     }
 
-    public void checkCalendarClickable() {
+    public void checkIsCalendarClickable() {
         boolean exception = false, repeat = false;
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+        setImplicitlyWait(0);
         calendarIcon.click();
         Table calendar = new Table(divCalendar.findElement(By.tagName("table")));
         for (int i = 2; i < calendar.getTableSize()[0]; i++) {
@@ -190,9 +190,9 @@ public class GroupUpdatePage extends BasePage {
                 WebElement cell = calendar.getCellWebElement(i, j);
                 String attr = cell.getAttribute("onclick");
                 if (attr != null) {
-                    int start = attr.indexOf(".SelectDate('") + 13;
-                    int end = attr.length() - 2;
-                    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//                    int start = attr.indexOf(".SelectDate('") + 13;
+//                    int end = attr.length() - 2;
+                    setDefaultImplicitlyWait();
                     if (!repeat) {
                         logger.info("First day of month in Sunday. Test case 19 is not effective");
                     }
@@ -487,9 +487,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage waitForStatus(String status, String groupName, int timeout) {
         long start = System.currentTimeMillis();
         while (!getMainTable().getCellText(4, groupName, 1).toLowerCase().equals(status.toLowerCase())) {
-            switchToFrameButtons();
             globalButtons(REFRESH);
-            switchToFrameDesktop();
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
             }

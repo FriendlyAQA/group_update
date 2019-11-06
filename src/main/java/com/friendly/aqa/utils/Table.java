@@ -172,7 +172,7 @@ public class Table {
             }
         }
         if (!match) {
-            String warning = "Pair " + parameter + "='" + value + "' not found";
+            String warning = "Pair '" + parameter + "'='" + value + "' not found";
             logger.warn(warning);
             throw new AssertionError(warning);
         }
@@ -212,14 +212,36 @@ public class Table {
         return this;
     }
 
-    public Table assertPresentValue(int column, String value) {
+    public Table assertPresenceOfParameter(String value) {
+        for (String[] row : textTable) {
+            int length = row.length;
+            if (row[length - 2].equals(value) || row[length - 2].equals(prefix + value)) {
+                return this;
+            }
+        }
+        String warning = "Specified table does not contain value '" + value + "'";
+        throw new AssertionError(warning);
+    }
+
+    public Table assertAbsenceOfParameter(String value) {
+        for (String[] row : textTable) {
+            int length = row.length;
+            if (row[length - 2].equals(value) || row[length - 2].equals(prefix + value)) {
+                String warning = "Specified table contains value '" + value + "', but must NOT!";
+                throw new AssertionError(warning);
+            }
+        }
+        return this;
+    }
+
+    public Table assertPresenceOfValue(int column, String value) {
         if (getRowNumberByText(column, value) < 0) {
             throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
         }
         return this;
     }
 
-    public Table assertAbsentValue(int column, String value) {
+    public Table assertAbsenceOfValue(int column, String value) {
         if (getRowNumberByText(column, value) >= 0) {
             throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but must NOT!");
         }

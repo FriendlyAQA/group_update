@@ -1,7 +1,6 @@
 package testRunner;
 
 import com.friendly.aqa.utils.HttpGetter;
-import com.friendly.aqa.utils.Table;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.BaseTestCase;
@@ -244,7 +243,7 @@ public class FunctionalTests extends BaseTestCase {
                 .waitForRefresh();
         Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Can't be scheduled to the past");
         groupUpdatePage
-                .checkCalendarClickable();
+                .checkIsCalendarClickable();
     }
 
     @Test
@@ -783,8 +782,324 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("Username", "Notification=Active ")
                 .checkResults("Password", "Notification=Off ")
                 .checkResults("PeriodicInformInterval", "Access=AcsOnly")
-                .checkResults("PeriodicInformTime", "Access=All");
-//                .assertAbsentValue(0, "PeriodicInformEnable")
-//                .assertAbsentValue(0, "PeriodicInformTime");
+                .checkResults("PeriodicInformTime", "Access=All")
+                .assertAbsenceOfParameter("PeriodicInformEnable")
+                .assertAbsenceOfParameter("ParameterKey");
+    }
+
+    @Test
+    public void test_046() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_27", "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("NTPServer1", ACTIVE, ALL)
+                .setPolicy("NTPServer2", ACTIVE, ALL)
+                .setPolicy("CurrentLocalTime", ACTIVE, ALL)
+                .setPolicy("LocalTimeZone", ACTIVE, ALL)
+                .setPolicy("LocalTimeZoneName", ACTIVE, ALL)
+                .setPolicy("DaylightSavingsUsed", ACTIVE, ALL)
+                .setPolicy("DaylightSavingsStart", ACTIVE, ALL)
+                .setPolicy("DaylightSavingsEnd", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_27");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Time.")
+                .checkResults("NTPServer1", "Notification=Active Access=All")
+                .checkResults("NTPServer2", "Notification=Active Access=All")
+                .checkResults("CurrentLocalTime", "Notification=Active Access=All")
+                .checkResults("LocalTimeZone", "Notification=Active Access=All")
+                .checkResults("LocalTimeZoneName", "Notification=Active Access=All")
+                .checkResults("DaylightSavingsUsed", "Notification=Active Access=All")
+                .checkResults("DaylightSavingsStart", "Notification=Active Access=All")
+                .checkResults("DaylightSavingsEnd", "Notification=Active Access=All");
+    }
+
+    @Test
+    public void test_047() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_28", "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("NTPServer1", ACTIVE, ACS_ONLY)
+                .setPolicy("NTPServer1", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_28");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.Time.NTPServer1", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_048() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_29", "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("NTPServer1", OFF, ALL)
+                .setPolicy("NTPServer2", OFF, ALL)
+                .setPolicy("NTPServer1", null, DEFAULT)
+                .setPolicy("NTPServer2", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_29");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Time.")
+                .checkResults("NTPServer1", "Notification=Off ")
+                .checkResults("NTPServer2", "Notification=Off ");
+    }
+
+    @Test
+    public void test_049() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_30", "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("NTPServer1", PASSIVE, null)
+                .setPolicy("NTPServer2", ACTIVE, null)
+                .setPolicy("CurrentLocalTime", OFF, null)
+                .setPolicy("LocalTimeZone", ACTIVE, null)
+                .setPolicy("LocalTimeZone", DEFAULT, null)
+                .setPolicy("LocalTimeZoneName", null, ACS_ONLY)
+                .setPolicy("DaylightSavingsUsed", null, ALL)
+                .setPolicy("DaylightSavingsStart", null, ALL)
+                .setPolicy("DaylightSavingsStart", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_30");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Time.")
+                .checkResults("NTPServer1", "Notification=Passive ")
+                .checkResults("NTPServer2", "Notification=Active ")
+                .checkResults("CurrentLocalTime", "Notification=Off ")
+                .checkResults("LocalTimeZoneName", "Access=AcsOnly")
+                .checkResults("DaylightSavingsUsed", "Access=All")
+                .assertAbsenceOfParameter("LocalTimeZone")
+                .assertAbsenceOfParameter("DaylightSavingsStart");
+    }
+
+    @Test
+    public void test_050() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_31", "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ALL)
+                .setPolicy("ConnectionStatus", ACTIVE, ALL)
+                .setPolicy("PossibleConnectionTypes", ACTIVE, ALL)
+                .setPolicy("ConnectionType", ACTIVE, ALL)
+                .setPolicy("RouteProtocolRx", ACTIVE, ALL)
+                .setPolicy("Name", ACTIVE, ALL)
+                .setPolicy("Username", ACTIVE, ALL)
+                .setPolicy("Password", ACTIVE, ALL)
+                .setPolicy("PPPoEACName", ACTIVE, ALL)
+                .setPolicy("PPPoEServiceName", ACTIVE, ALL)
+                .setPolicy("DNSEnabled", ACTIVE, ALL)
+                .setPolicy("DNSOverrideAllowed", ACTIVE, ALL)
+                .setPolicy("DNSServers", ACTIVE, ALL)
+                .setPolicy("MaxMRUSize", ACTIVE, ALL)
+                .setPolicy("NATEnabled", ACTIVE, ALL)
+                .setPolicy("ConnectionTrigger", ACTIVE, ALL)
+                .setPolicy("AutoDisconnectTime, sec", ACTIVE, ALL)
+                .setPolicy("IdleDisconnectTime, sec", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_31");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "Notification=Active Access=All")
+                .checkResults("ConnectionStatus", "Notification=Active Access=All")
+                .checkResults("PossibleConnectionTypes", "Notification=Active Access=All")
+                .checkResults("ConnectionType", "Notification=Active Access=All")
+                .checkResults("RouteProtocolRx", "Notification=Active Access=All")
+                .checkResults("Name", "Notification=Active Access=All")
+                .checkResults("Username", "Notification=Active Access=All")
+                .checkResults("Password", "Notification=Active Access=All")
+                .checkResults("PPPoEACName", "Notification=Active Access=All")
+                .checkResults("PPPoEServiceName", "Notification=Active Access=All")
+                .checkResults("DNSEnabled", "Notification=Active Access=All")
+                .checkResults("DNSOverrideAllowed", "Notification=Active Access=All")
+                .checkResults("DNSServers", "Notification=Active Access=All")
+                .checkResults("MaxMRUSize", "Notification=Active Access=All")
+                .checkResults("NATEnabled", "Notification=Active Access=All")
+                .checkResults("ConnectionTrigger", "Notification=Active Access=All")
+                .checkResults("AutoDisconnectTime", "Notification=Active Access=All")
+                .checkResults("IdleDisconnectTime", "Notification=Active Access=All");
+    }
+
+    @Test
+    public void test_051() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_32", "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ACS_ONLY)
+                .setPolicy("Enable", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_32");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_052() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_33", "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Username", OFF, ALL)
+                .setPolicy("Password", OFF, ALL)
+                .setPolicy("Username", null, DEFAULT)
+                .setPolicy("Password", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_33");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Username", "Notification=Off ")
+                .checkResults("Password", "Notification=Off ");
+    }
+
+    @Test
+    public void test_053() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_34", "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", PASSIVE, null)
+                .setPolicy("ConnectionStatus", ACTIVE, null)
+                .setPolicy("PossibleConnectionTypes", OFF, null)
+                .setPolicy("ConnectionType", ACTIVE, null)
+                .setPolicy("ConnectionType", DEFAULT, null)
+                .setPolicy("RouteProtocolRx", null, ACS_ONLY)
+                .setPolicy("Name", null, ALL)
+                .setPolicy("Username", null, ALL)
+                .setPolicy("Username", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_34");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "Notification=Passive ")
+                .checkResults("ConnectionStatus", "Notification=Active ")
+                .checkResults("PossibleConnectionTypes", "Notification=Off ")
+                .checkResults("RouteProtocolRx", "Access=AcsOnly")
+                .checkResults("Name", "Access=All")
+                .assertAbsenceOfParameter("ConnectionType")
+                .assertAbsenceOfParameter("Username");
+    }
+
+    @Test
+    public void test_054() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_35", "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("DHCPServerConfigurable", ACTIVE, ALL)
+                .setPolicy("DHCPServerEnable", ACTIVE, ALL)
+                .setPolicy("DHCPRelay", ACTIVE, ALL)
+                .setPolicy("MinAddress", ACTIVE, ALL)
+                .setPolicy("MaxAddress", ACTIVE, ALL)
+                .setPolicy("ReservedAddresses", ACTIVE, ALL)
+                .setPolicy("SubnetMask", ACTIVE, ALL)
+                .setPolicy("DNSServers", ACTIVE, ALL)
+                .setPolicy("DomainName", ACTIVE, ALL)
+                .setPolicy("IPRouters", ACTIVE, ALL)
+                .setPolicy("DHCPLeaseTime, sec", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_35");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPServerConfigurable", "Notification=Active Access=All")
+                .checkResults("DHCPServerEnable", "Notification=Active Access=All")
+                .checkResults("DHCPRelay", "Notification=Active Access=All")
+                .checkResults("MinAddress", "Notification=Active Access=All")
+                .checkResults("MaxAddress", "Notification=Active Access=All")
+                .checkResults("ReservedAddresses", "Notification=Active Access=All")
+                .checkResults("SubnetMask", "Notification=Active Access=All")
+                .checkResults("DNSServers", "Notification=Active Access=All")
+                .checkResults("DomainName", "Notification=Active Access=All")
+                .checkResults("IPRouters", "Notification=Active Access=All")
+                .checkResults("DHCPLeaseTime", "Notification=Active Access=All");
+    }
+
+    @Test
+    public void test_055() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_36", "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("DHCPServerConfigurable", ACTIVE, ACS_ONLY)
+                .setPolicy("DHCPServerConfigurable", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_36");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPServerConfigurable", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_056() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_37", "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("MinAddress", OFF, ALL)
+                .setPolicy("MaxAddress", OFF, ALL)
+                .setPolicy("MinAddress", null, DEFAULT)
+                .setPolicy("MaxAddress", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_37");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("MinAddress", "Notification=Off ")
+                .checkResults("MaxAddress", "Notification=Off ");
+    }
+
+    @Test
+    public void test_057() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_38", "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("DHCPServerConfigurable", PASSIVE, null)
+                .setPolicy("DHCPServerEnable", ACTIVE, null)
+                .setPolicy("DHCPRelay", OFF, null)
+                .setPolicy("MinAddress", ACTIVE, null)
+                .setPolicy("MinAddress", DEFAULT, null)
+                .setPolicy("MaxAddress", null, ACS_ONLY)
+                .setPolicy("ReservedAddresses", null, ALL)
+                .setPolicy("SubnetMask", null, ALL)
+                .setPolicy("SubnetMask", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_38");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPServerConfigurable", "Notification=Passive ")
+                .checkResults("DHCPServerEnable", "Notification=Active ")
+                .checkResults("DHCPRelay", "Notification=Off ")
+                .checkResults("MaxAddress", "Access=AcsOnly")
+                .checkResults("ReservedAddresses", "Access=All")
+                .assertAbsenceOfParameter("MinAddress")
+                .assertAbsenceOfParameter("SubnetMask");
     }
 }
