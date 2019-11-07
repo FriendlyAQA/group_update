@@ -495,11 +495,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public Table goToSetPolicies(String groupName, String tableId) {
+    public Table goToSetPolicies(String manufacturer, String model, String groupName, String tableId) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
+                .selectManufacturer(manufacturer)
+                .selectModel(model)
                 .fillName(groupName)
                 .selectSendTo()
                 .globalButtons(NEXT)
@@ -508,6 +508,10 @@ public class GroupUpdatePage extends BasePage {
                 .addNewTask(4)
                 .addTaskButton()
                 .getTable(tableId);
+    }
+
+    public Table goToSetPolicies(String groupName, String tableId) {
+        return goToSetPolicies("sercomm", "Smart Box TURBO+", groupName, tableId);
     }
 
     public Table goToSetParameters(String manufacturer, String model, String groupName, String tableId) {

@@ -188,13 +188,22 @@ public abstract class BasePage {
     void clickGlobalButtons(GlobalButtons button) {
         waitForUpdate();
         switchToFrameButtons();
-        WebElement btn = buttonTable.findElement(By.id(button.getId()));
-        new FluentWait<>(driver).withMessage("Element was not found")
-                .withTimeout(Duration.ofSeconds(5))
-                .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.elementToBeClickable(btn))
-                .click();
-        switchToFrameDesktop();
+        int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
+//        WebElement btn = buttonTable.findElement(By.id(button.getId()));
+        for (int i = 0; i < 3; i++) {
+            try {
+                new FluentWait<>(driver).withMessage("Button was not found")
+                        .withTimeout(Duration.ofSeconds(timeout))
+                        .pollingEvery(Duration.ofMillis(100))
+                        .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
+                        .click();
+                switchToFrameDesktop();
+                return;
+            } catch (StaleElementReferenceException e) {
+                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+            }
+        }
+        throw new AssertionError("cannot click button!");
     }
 
     public boolean isInputActive(String id) {

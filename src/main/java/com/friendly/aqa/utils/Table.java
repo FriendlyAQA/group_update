@@ -23,6 +23,7 @@ public class Table {
         elementTable = new WebElement[rowsList.size()][];
         prefix = "";
         parseTable();
+        System.out.println(table.getAttribute("outerHTML"));
     }
 
     private void parseTable() {
@@ -158,6 +159,11 @@ public class Table {
                 rowNum = i + 1;
                 break;
             }
+        }
+        if (rowNum < 0) {
+            String warning = "Text '" + text + "' not found in current table";
+            logger.warn(warning);
+            throw new AssertionError(warning);
         }
         return rowNum;
     }

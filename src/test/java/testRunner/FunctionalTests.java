@@ -1102,4 +1102,233 @@ public class FunctionalTests extends BaseTestCase {
                 .assertAbsenceOfParameter("MinAddress")
                 .assertAbsenceOfParameter("SubnetMask");
     }
+
+    @Test
+    public void test_058() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_39", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ALL)
+                .setPolicy("BSSID", ACTIVE, ALL)
+                .setPolicy("Channel", ACTIVE, ALL)
+                .setPolicy("SSID", ACTIVE, ALL)
+                .setPolicy("BeaconType", ACTIVE, ALL)
+                .setPolicy("WEPKeyIndex", ACTIVE, ALL)
+                .setPolicy("WEPEncryptionLevel", ACTIVE, ALL)
+                .setPolicy("BasicEncryptionModes", ACTIVE, ALL)
+                .setPolicy("BasicAuthenticationMode", ACTIVE, ALL)
+                .setPolicy("WPAEncryptionModes", ACTIVE, ALL)
+                .setPolicy("WPAAuthenticationMode", ACTIVE, ALL)
+                .setPolicy("IEEE11iEncryptionModes", ACTIVE, ALL)
+                .setPolicy("IEEE11iAuthenticationMode", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_39");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("Enable", "Notification=Active Access=All")
+                .checkResults("BSSID", "Notification=Active Access=All")
+                .checkResults("Channel", "Notification=Active Access=All")
+                .checkResults("SSID", "Notification=Active Access=All")
+                .checkResults("BeaconType", "Notification=Active Access=All")
+                .checkResults("WEPKeyIndex", "Notification=Active Access=All")
+                .checkResults("WEPEncryptionLevel", "Notification=Active Access=All")
+                .checkResults("BasicEncryptionModes", "Notification=Active Access=All")
+                .checkResults("BasicAuthenticationMode", "Notification=Active Access=All")
+                .checkResults("WPAEncryptionModes", "Notification=Active Access=All")
+                .checkResults("WPAAuthenticationMode", "Notification=Active Access=All")
+                .checkResults("IEEE11iEncryptionModes", "Notification=Active Access=All")
+                .checkResults("IEEE11iAuthenticationMode", "Notification=Active Access=All");
+    }
+
+    @Test
+    public void test_059() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_40", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ACS_ONLY)
+                .setPolicy("Enable", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_40");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("Enable", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_060() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_41", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", OFF, ALL)
+                .setPolicy("BSSID", OFF, ALL)
+                .setPolicy("Enable", null, DEFAULT)
+                .setPolicy("BSSID", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_41");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("Enable", "Notification=Off ")
+                .checkResults("BSSID", "Notification=Off ");
+    }
+
+    @Test
+    public void test_061() {
+        groupUpdatePage
+                .goToSetPolicies("auto_test_42", "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", PASSIVE, null)
+                .setPolicy("BSSID", ACTIVE, null)
+                .setPolicy("Channel", OFF, null)
+                .setPolicy("SSID", ACTIVE, null)
+                .setPolicy("SSID", DEFAULT, null)
+                .setPolicy("BeaconType", null, ACS_ONLY)
+                .setPolicy("WEPKeyIndex", null, ALL)
+                .setPolicy("WEPEncryptionLevel", null, ALL)
+                .setPolicy("WEPEncryptionLevel", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_42");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("Enable", "Notification=Passive ")
+                .checkResults("BSSID", "Notification=Active ")
+                .checkResults("Channel", "Notification=Off ")
+                .checkResults("BeaconType", "Access=AcsOnly")
+                .checkResults("WEPKeyIndex", "Access=All")
+                .assertAbsenceOfParameter("SSID")
+                .assertAbsenceOfParameter("WEPEncryptionLevel");
+    }
+
+    @Test
+    public void test_062() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_43", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ALL)
+                .setPolicy("LinkStatus", ACTIVE, ALL)
+                .setPolicy("LinkType", ACTIVE, ALL)
+                .setPolicy("DestinationAddress", ACTIVE, ALL)
+                .setPolicy("ATMEncapsulation", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_43");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
+                .checkResults("Enable", "Notification=Active Access=All")
+                .checkResults("LinkStatus", "Notification=Active Access=All")
+                .checkResults("LinkType", "Notification=Active Access=All")
+                .checkResults("DestinationAddress", "Notification=Active Access=All")
+                .checkResults("ATMEncapsulation", "Notification=Active Access=All");
+    }
+
+    @Test
+    public void test_063() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_44", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ACS_ONLY)
+                .setPolicy("Enable", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_44");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
+                .checkResults("Enable", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_064() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_45", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", OFF, ALL)
+                .setPolicy("LinkStatus", OFF, ALL)
+                .setPolicy("Enable", null, DEFAULT)
+                .setPolicy("LinkStatus", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_45");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
+                .checkResults("Enable", "Notification=Off ")
+                .checkResults("LinkStatus", "Notification=Off ");
+    }
+
+    @Test
+    public void test_065() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_46", "tabsSettings_tblTabs")
+                .clickOn("DSL settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", PASSIVE, null)
+                .setPolicy("LinkStatus", ACTIVE, ACS_ONLY)
+                .setPolicy("LinkType", OFF, ALL)
+                .setPolicy("DestinationAddress", ACTIVE, ALL)
+                .setPolicy("DestinationAddress", DEFAULT, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_46");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
+                .checkResults("Enable", "Notification=Passive ")
+                .checkResults("LinkStatus", "Notification=Active Access=AcsOnly")
+                .checkResults("LinkType", "Notification=Off Access=All")
+                .assertAbsenceOfParameter("DestinationAddress");
+    }
+
+    @Test
+    public void test_066() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_47", "tabsSettings_tblTabs")
+                .clickOn("VoIP settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Name", ACTIVE, ALL)
+                .setPolicy("Enable", ACTIVE, ALL)
+                .setPolicy("Reset", ACTIVE, ALL)
+                .setPolicy("SignalingProtocol", ACTIVE, ALL)
+                .setPolicy("DTMFMethod", ACTIVE, ALL)
+                .setPolicy("Region", ACTIVE, ALL)
+                .setPolicy("DigitMapEnable", ACTIVE, ALL)
+                .setPolicy("DigitMap", ACTIVE, ALL)
+                .setPolicy("STUNEnable", ACTIVE, ALL)
+                .setPolicy("STUNServer", ACTIVE, ALL)
+                .setPolicy("FaxPassThrough", ACTIVE, ALL)
+                .setPolicy("ModemPassThrough", ACTIVE, ALL);
+        groupUpdatePage
+                .saveAndActivate("auto_test_47");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
+                .checkResults("Name", "Notification=Active Access=All")
+                .checkResults("Enable", "Notification=Active Access=All")
+                .checkResults("Reset", "Notification=Active Access=All")
+                .checkResults("SignalingProtocol", "Notification=Active Access=All")
+                .checkResults("DTMFMethod", "Notification=Active Access=All")
+                .checkResults("Region", "Notification=Active Access=All")
+                .checkResults("DigitMapEnable", "Notification=Active Access=All")
+                .checkResults("DigitMap", "Notification=Active Access=All")
+                .checkResults("STUNEnable", "Notification=Active Access=All")
+                .checkResults("STUNServer", "Notification=Active Access=All")
+                .checkResults("FaxPassThrough", "Notification=Active Access=All")
+                .checkResults("ModemPassThrough", "Notification=Active Access=All");
+    }
 }
