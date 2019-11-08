@@ -1331,4 +1331,71 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("FaxPassThrough", "Notification=Active Access=All")
                 .checkResults("ModemPassThrough", "Notification=Active Access=All");
     }
+
+    @Test
+    public void test_067() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_48", "tabsSettings_tblTabs")
+                .clickOn("VoIP settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", ACTIVE, ACS_ONLY)
+                .setPolicy("Enable", DEFAULT, null);
+        groupUpdatePage
+                .saveAndActivate("auto_test_48");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
+                .checkResults("Enable", "Access=AcsOnly");
+    }
+
+    @Test
+    public void test_068() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_49", "tabsSettings_tblTabs")
+                .clickOn("VoIP settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Enable", OFF, ALL)
+                .setPolicy("Reset", OFF, ALL)
+                .setPolicy("Enable", null, DEFAULT)
+                .setPolicy("Reset", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_49");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
+                .checkResults("Enable", "Notification=Off ")
+                .checkResults("Reset", "Notification=Off ");
+    }
+
+    @Test
+    public void test_069() {
+        groupUpdatePage
+                .goToSetPolicies("audiocodes", "MP252", "auto_test_50", "tabsSettings_tblTabs")
+                .clickOn("VoIP settings");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setPolicy("Name", PASSIVE, null)
+                .setPolicy("Enable", ACTIVE, null)
+                .setPolicy("Reset", OFF, null)
+                .setPolicy("SignalingProtocol", ACTIVE, null)
+                .setPolicy("SignalingProtocol", DEFAULT, null)
+                .setPolicy("DTMFMethod", null, ACS_ONLY)
+                .setPolicy("Region", null, ALL)
+                .setPolicy("DigitMapEnable", null, ALL)
+                .setPolicy("DigitMapEnable", null, DEFAULT);
+        groupUpdatePage
+                .saveAndActivate("auto_test_50");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
+                .checkResults("Name", "Notification=Passive ")
+                .checkResults("Enable", "Notification=Active ")
+                .checkResults("Reset", "Notification=Off ")
+                .checkResults("DTMFMethod", "Access=AcsOnly")
+                .checkResults("Region", "Access=All")
+                .assertAbsenceOfParameter("SignalingProtocol")
+                .assertAbsenceOfParameter("DigitMapEnable");
+    }
 }

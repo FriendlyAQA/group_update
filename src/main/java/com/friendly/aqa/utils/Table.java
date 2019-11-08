@@ -7,8 +7,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger logger = Logger.getLogger(Table.class);
@@ -16,8 +20,10 @@ public class Table {
     private String[][] textTable;
     private WebElement[][] elementTable;
     private String prefix;
+    private WebElement table;
 
     public Table(WebElement table) {
+        this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
@@ -32,36 +38,39 @@ public class Table {
                     int i = rowsList.indexOf(webElement);
                     String tagName = i == 0 ? "th" : "td";
                     List<WebElement> tdList = webElement.findElements(By.tagName(tagName));
-                    textTable[i] = new String[tdList.size()];
-                    elementTable[i] = new WebElement[tdList.size()];
-                    Iterator<WebElement> tdIterator = tdList.iterator();
-                    for (int j = 0; j < tdList.size(); j++) {
-                        elementTable[i][j] = tdIterator.next();
-                        String cell = parseCell(elementTable[i][j]);
-                        if (cell.isEmpty()) {
-                            ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", elementTable[i][j]);
-                            cell = parseCell(elementTable[i][j]);
-                        }
-                        textTable[i][j] = cell;
-                    }
+                    elementTable[i] = tdList.toArray(new WebElement[0]);
                 });
+        Pattern row = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
+        Pattern cell = Pattern.compile("<(t[dh]).*?>(.*?)</(\\1)>");
+        String tableHtml = table.getAttribute("outerHTML")
+                .replace("\t", "")
+                .replace("\n", "");
+        Matcher mRow = row.matcher(tableHtml);
+        int i = 0;
+        while (mRow.find()) {
+            List<String> cellList = new ArrayList<>();
+            Matcher mCell = cell.matcher(mRow.group(2));
+            while (mCell.find()) {
+                cellList.add(getCellContent(mCell.group(2).replace("&nbsp;"," ")));
+            }
+            textTable[i] = cellList.toArray(new String[0]);
+            i++;
+        }
         BasePage.setDefaultImplicitlyWait();
     }
 
-    private String parseCell(WebElement td) {
-        String response = "";
-        if (!td.getText().isEmpty()) {
-            response = td.getText();
-            return response;
+    private static String getCellContent(String input) {
+        String out = input;
+        Pattern p = Pattern.compile("<(div|span|a).*?>(.*?)</(\\1)>");
+        Matcher m = p.matcher(input);
+        while (m.find()) {
+            out = getCellContent(m.group(2));
         }
-        List<WebElement> els = td.findElements(By.xpath("child::input | child::div | child::a | child::span"));
-        if (els.size() == 0) {
-            return response;
+        if (out.startsWith("<input")) {
+            return "";
+        } else {
+            return out;
         }
-        for (WebElement el : els) {
-            parseCell(el);
-        }
-        return response;
     }
 
     public int[] getTableSize() {
