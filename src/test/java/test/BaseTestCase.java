@@ -1,15 +1,19 @@
 package test;
 
 //import com.friendly.aqa.database.DataBase;
+
 import com.friendly.aqa.pageobject.*;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.util.concurrent.TimeUnit;
+
 public class BaseTestCase extends TestBase {
     private LoginPage loginPage;
     protected SystemPage systemPage;
     protected GroupUpdatePage groupUpdatePage;
+    private long start = System.currentTimeMillis();
 
     @BeforeSuite
     public void init() {
@@ -46,6 +50,11 @@ public class BaseTestCase extends TestBase {
             e.printStackTrace();
         }
 //            DataBase.disconnectDb();
+        long millis = System.currentTimeMillis() - start;
+        logger.info("Total runnung time: " + String.format("%02d min, %02d sec",
+                TimeUnit.MILLISECONDS.toMinutes(millis),
+                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+        ));
         logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
         BasePage.closeDriver();
     }

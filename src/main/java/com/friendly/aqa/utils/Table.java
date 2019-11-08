@@ -23,7 +23,6 @@ public class Table {
         elementTable = new WebElement[rowsList.size()][];
         prefix = "";
         parseTable();
-        System.out.println(table.getAttribute("outerHTML"));
     }
 
     private void parseTable() {
