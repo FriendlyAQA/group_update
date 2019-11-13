@@ -1,5 +1,6 @@
 package com.friendly.aqa.utils;
 
+import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -8,15 +9,16 @@ import java.util.*;
 public class DataBase {
     private static Statement stmtObj;
     private static Connection connObj;
-    private final static Logger logger = Logger.getLogger(DataBase.class);
+    private final static Logger LOGGER = Logger.getLogger(DataBase.class);
+//    private final static Properties PROPS = BasePage.getProps();
 
     public static void connectDb(String url, String user, String password) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connObj = DriverManager.getConnection(url, user, password);
-            logger.info("Database Connection Open");
+            LOGGER.info("Database Connection Open");
             stmtObj = connObj.createStatement();
-            logger.info("Statement Object Created");
+            LOGGER.info("Statement Object Created");
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }
@@ -26,7 +28,7 @@ public class DataBase {
         try {
             stmtObj.close();
             connObj.close();
-            logger.info("Database Connection Closed");
+            LOGGER.info("Database Connection Closed");
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }
@@ -34,7 +36,31 @@ public class DataBase {
 
     public static void main(String[] args) {
 //        printPendingTasksForSerial("FT001SN000010016E3F0D47666");
-        System.out.println(getPendingTaskName("FT001SN000010016E3F0D47666"));
+//        System.out.println(getPendingTaskName("FT001SN000010016E3F0D47666"));
+        connectDb("jdbc:mysql://95.217.85.220", "ftacs", "ftacs");
+        for (String[] line : getTaskList("607")) {
+            System.out.println(Arrays.deepToString(line));
+        }
+        disconnectDb();
+    }
+
+    public static List<String[]> getTaskList(String ug_id) {
+        List<String[]> taskList = new ArrayList<>();
+        try {
+            stmtObj.execute("SELECT * FROM ftacs.ug_cpe_completed WHERE ug_id = '" + ug_id + "'");
+            ResultSet resultSet = stmtObj.getResultSet();
+            String cpe_id;
+            while (resultSet.next()) {
+                String[] row = new String[8];
+                for (int i = 0; i < 8; i++) {
+                    row[i] = resultSet.getString(i + 1);
+                }
+                taskList.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return taskList;
     }
 
     private static List<String[]> getPendingTasksForSerial(String serial) {
@@ -46,7 +72,7 @@ public class DataBase {
             if (resultSet.next()) {
                 cpe_id = resultSet.getString(1);
             } else {
-                logger.info("There's no pending task for specified serial");
+                LOGGER.info("There's no pending task for specified serial");
                 return pendingTaskList;
             }
             stmtObj.execute("SELECT * FROM ftacs.cpe_pending_task WHERE cpe_id = '" + cpe_id + "'");
@@ -76,7 +102,7 @@ public class DataBase {
     private static void printPendingTasksForSerial(String serial) {
         List<String[]> pendingTaskList = getPendingTasksForSerial(serial);
         for (String[] row : pendingTaskList) {
-            logger.info(Arrays.deepToString(row));
+            LOGGER.info(Arrays.deepToString(row));
         }
     }
 

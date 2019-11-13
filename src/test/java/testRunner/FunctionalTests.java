@@ -1,5 +1,6 @@
 package testRunner;
 
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpGetter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -1397,5 +1398,21 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("Region", "Access=All")
                 .assertAbsenceOfParameter("SignalingProtocol")
                 .assertAbsenceOfParameter("DigitMapEnable");
+    }
+
+    @Test
+    public void test_070() {
+        groupUpdatePage
+                .gotoFileDownload("auto_test_51")
+                .selectDownloadFileType(2)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_config_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .saveAndActivate("auto_test_51");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_url"));
+
     }
 }

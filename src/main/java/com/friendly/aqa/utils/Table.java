@@ -7,10 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,7 +48,7 @@ public class Table {
             List<String> cellList = new ArrayList<>();
             Matcher mCell = cell.matcher(mRow.group(2));
             while (mCell.find()) {
-                cellList.add(getCellContent(mCell.group(2).replace("&nbsp;"," ")));
+                cellList.add(getCellContent(mCell.group(2).replace("&nbsp;", " ")));
             }
             textTable[i] = cellList.toArray(new String[0]);
             i++;
@@ -135,11 +132,51 @@ public class Table {
         return out;
     }
 
+    public Table readTasksFromDB(String groupName) {
+        List<String[]> groupList;
+        int count = Integer.parseInt(BasePage.getProps().getProperty("pending_tasks_check_time"));
+        for (int i = 0; i < count; i++) {
+            long start = System.currentTimeMillis();
+            groupList = DataBase.getTaskList(getGroupId(groupName));
+            if (groupList.isEmpty()) {
+                String warn = "There are no tasks created by '" + groupName + "' Group Update";
+                logger.warn(warn);
+                throw new AssertionError(warn);
+            }
+            List<String> stateList = new ArrayList<>();
+            for (String[] line : groupList) {
+                stateList.add(line[2]);
+            }
+            if (!stateList.contains("1")) {
+                Set<String> set = new TreeSet<>(stateList);
+                if (set.size() == 1 && set.contains("2")) {
+                    return this;
+                } else {
+                    logger.info("All tasks created. One or more tasks failed or rejected");
+                    return this;
+                }
+            }
+            long timeout = 0;
+            if ((timeout = System.currentTimeMillis() - start) > 0) {
+                try {
+                    Thread.sleep(timeout);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        logger.info("All tasks created. One or more tasks remains in pending state");
+        return this;
+    }
+
     public String getExportLink(String groupName) {
+        return BasePage.getProps().getProperty("ui_url") + "/Update/Export.aspx?updateId=" + getGroupId(groupName);
+    }
+
+    private String getGroupId(String groupName) {
         WebElement cell = getCellWebElement(getRowNumberByText(4, groupName), 11);
         String attr = cell.getAttribute("onclick");
-        String id = attr.substring(10, attr.indexOf("event)") - 2);
-        return BasePage.getProps().getProperty("ui_url") + "/Update/Export.aspx?updateId=" + id;
+        return attr.substring(10, attr.indexOf("event)") - 2);
     }
 
     public String getCellText(int row, int column) {

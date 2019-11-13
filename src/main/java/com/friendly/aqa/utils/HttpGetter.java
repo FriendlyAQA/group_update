@@ -1,5 +1,7 @@
 package com.friendly.aqa.utils;
 
+import com.friendly.aqa.pageobject.BasePage;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -89,15 +91,12 @@ public class HttpGetter {
         };
         Future<String> future = executor.submit(task);
         String result = "Connection failed!";
+        int timeout = Integer.parseInt(BasePage.getProps().getProperty("driver_implicitly_wait"));
         try {
-            result = future.get(5, TimeUnit.SECONDS);
+            result = future.get(timeout, TimeUnit.SECONDS);
             System.out.println("request");
-        } catch (TimeoutException ex) {
-            System.out.print("TimeOut");
-        } catch (InterruptedException e) {
-            System.out.print("InterruptedException");
-        } catch (ExecutionException e) {
-            System.out.print("ExecutionException");
+        } catch (TimeoutException | InterruptedException | ExecutionException ex) {
+            System.out.print(ex.getClass().getSimpleName() + " caught while loading the HTML page");
         } finally {
             future.cancel(true);
         }

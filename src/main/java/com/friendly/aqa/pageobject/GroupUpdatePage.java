@@ -1,14 +1,16 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.utils.Table;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
@@ -148,6 +150,28 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "tabsSettings_tblTabs")
     private WebElement paramTabsTable;
 
+    @FindBy(id = "UcFirmware1_ddlFileType")
+    private WebElement selectFileTypeComboBox;
+
+    @FindBy(id = "UcFirmware1_rdUrl")
+    private WebElement manualRadioButton;
+
+    @FindBy(id = "UcFirmware1_tbUrl")
+    private WebElement urlField;
+
+    @FindBy(id = "UcFirmware1_tbLogin")
+    private WebElement userNameField;
+
+    @FindBy(id = "UcFirmware1_tbPass")
+    private WebElement passwordField;
+
+    @FindBy(id = "UcFirmware1_tbSize")
+    private WebElement fileSizeField;
+
+    @FindBy(id = "UcFirmware1_tbDelay")
+    private WebElement delayField;
+
+
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
 
@@ -157,14 +181,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectImportFile() {
-//        waitForRefresh();
         switchToFrameDesktop();
         driver.switchTo().frame(importFrame);
-        String inputText = "D:\\Users\\asp4r\\Desktop\\Report(Inventory_Sercomm_10-29-2019 11-21-37 AM).xml";
+        String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
         importDevicesHiddenField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
-        // id=fuSerials  frame id=frmImportFromFile
     }
 
     public Table getMainTable() {
@@ -254,6 +276,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage filterCreatedCheckBox() {
         filterCreatedCheckBox.click();
+        return this;
+    }
+
+    public GroupUpdatePage manualRadioButton() {
+        manualRadioButton.click();
         return this;
     }
 
@@ -374,6 +401,31 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage fillUrl(String url) {
+        urlField.sendKeys(url);
+        return this;
+    }
+
+    public GroupUpdatePage fillUserName(String userName) {
+        userNameField.sendKeys(userName);
+        return this;
+    }
+
+    public GroupUpdatePage fillpassword(String password) {
+        passwordField.sendKeys(password);
+        return this;
+    }
+
+    public GroupUpdatePage fillFileSize(String fileSize) {
+        fileSizeField.sendKeys(fileSize);
+        return this;
+    }
+
+    public GroupUpdatePage filldelay(String delay) {
+        fileSizeField.sendKeys(delay);
+        return this;
+    }
+
     public GroupUpdatePage selectManufacturer(String manufacturer) {
         waitForRefresh();
         new Select(manufacturerComboBox).selectByValue(manufacturer);
@@ -484,6 +536,11 @@ public class GroupUpdatePage extends BasePage {
         return mainTableIsPresent.size() != 0;
     }
 
+    public GroupUpdatePage selectDownloadFileType(int index) {
+        new Select(selectFileTypeComboBox).selectByIndex(index);
+        return this;
+    }
+
     public GroupUpdatePage waitForStatus(String status, String groupName, int timeout) {
         long start = System.currentTimeMillis();
         while (!getMainTable().getCellText(4, groupName, 1).toLowerCase().equals(status.toLowerCase())) {
@@ -536,6 +593,24 @@ public class GroupUpdatePage extends BasePage {
 
     public Table goToSetParameters(String groupName) {
         return goToSetParameters(groupName, "tblParamsValue");
+    }
+
+    public GroupUpdatePage gotoFileDownload(String manufacturer, String model, String groupName) {
+        topMenu(GROUP_UPDATE);
+        return leftMenu(NEW)
+                .selectManufacturer(manufacturer)
+                .selectModel(model)
+                .fillName(groupName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(2)
+                .addTaskButton();
+    }
+
+    public GroupUpdatePage gotoFileDownload(String groupName) {
+        return gotoFileDownload("sercomm", "Smart Box TURBO+", groupName);
     }
 
     public enum Left {
