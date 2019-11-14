@@ -143,21 +143,24 @@ public class Table {
                 logger.warn(warn);
                 throw new AssertionError(warn);
             }
-            List<String> stateList = new ArrayList<>();
+            Set<String> StateSet = new HashSet<>();
             for (String[] line : groupList) {
-                stateList.add(line[2]);
+                StateSet.add(line[2]);
+                System.out.print(line[2] + ", ");
             }
-            if (!stateList.contains("1")) {
-                Set<String> set = new TreeSet<>(stateList);
-                if (set.size() == 1 && set.contains("2")) {
+            if (!StateSet.contains("1")) {
+                if (StateSet.size() == 1 && StateSet.contains("2")) {
+                    System.out.println("all completed");
                     return this;
                 } else {
                     logger.info("All tasks created. One or more tasks failed or rejected");
+                    System.out.println("One or more tasks failed or rejected");
                     return this;
                 }
             }
-            long timeout = 0;
-            if ((timeout = System.currentTimeMillis() - start) > 0) {
+            System.out.println("contains pending");
+            long timeout;
+            if ((timeout = 1000 - System.currentTimeMillis() + start) > 0) {
                 try {
                     Thread.sleep(timeout);
                 } catch (InterruptedException e) {

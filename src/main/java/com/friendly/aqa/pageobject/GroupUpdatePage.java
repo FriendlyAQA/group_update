@@ -159,6 +159,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_tbUrl")
     private WebElement urlField;
 
+    @FindBy(id = "tbUrl")
+    private WebElement uploadUrlField;
+
     @FindBy(id = "UcFirmware1_tbLogin")
     private WebElement userNameField;
 
@@ -170,6 +173,15 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "UcFirmware1_tbDelay")
     private WebElement delayField;
+
+    @FindBy(id = "UcFirmware1_rdTarget")
+    private WebElement fromListRadioButton;
+
+    @FindBy(id = "UcFirmware1_ddlFileName")
+    private WebElement fileNameComboBox;
+
+    @FindBy(id = "rdUrlUpload")
+    private WebElement manuallyUrlRadioButton;
 
 
 //    @FindBy(id = "tblParamsValue")
@@ -249,6 +261,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage selectFileName(int index) {
+        new Select(fileNameComboBox).selectByIndex(index);
+        return this;
+    }
+
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
         return this;
@@ -264,7 +281,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage addTaskButton() {
+    public GroupUpdatePage clickAddTaskButton() {
+        waitForRefresh();
         addTaskButton.click();
         return this;
     }
@@ -280,7 +298,20 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage manualRadioButton() {
+        waitForRefresh();
         manualRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage manuallyUrlRadioButton() {
+        waitForRefresh();
+        manuallyUrlRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage fromListRadioButton() {
+        waitForRefresh();
+        fromListRadioButton.click();
         return this;
     }
 
@@ -406,6 +437,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage fillUploadUrl(String url) {
+        uploadUrlField.sendKeys(url);
+        return this;
+    }
+
     public GroupUpdatePage fillUserName(String userName) {
         userNameField.sendKeys(userName);
         return this;
@@ -502,6 +538,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Completed", groupName, 30)
                 .getMainTable()
+                .readTasksFromDB(groupName)//TEST
                 .clickOn(groupName, 4);
     }
 
@@ -563,7 +600,7 @@ public class GroupUpdatePage extends BasePage {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(4)
-                .addTaskButton()
+                .clickAddTaskButton()
                 .getTable(tableId);
     }
 
@@ -582,7 +619,7 @@ public class GroupUpdatePage extends BasePage {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(1)
-                .addTaskButton()
+                .clickAddTaskButton()
                 .getTable(tableId);
     }
 
@@ -606,7 +643,21 @@ public class GroupUpdatePage extends BasePage {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(2)
-                .addTaskButton();
+                .clickAddTaskButton();
+    }
+
+    public GroupUpdatePage gotoFileUpload(String manufacturer, String model, String groupName) {
+        topMenu(GROUP_UPDATE);
+        return leftMenu(NEW)
+                .selectManufacturer(manufacturer)
+                .selectModel(model)
+                .fillName(groupName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(5)
+                .clickAddTaskButton();
     }
 
     public GroupUpdatePage gotoFileDownload(String groupName) {

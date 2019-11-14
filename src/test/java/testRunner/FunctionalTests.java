@@ -143,7 +143,7 @@ public class FunctionalTests extends BaseTestCase {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(1)
-                .addTaskButton();
+                .clickAddTaskButton();
         Assert.assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
         Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
@@ -200,13 +200,7 @@ public class FunctionalTests extends BaseTestCase {
                 .goToSetParameters("auto_test_2")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         groupUpdatePage
-                .waitForRefresh()
-                .globalButtons(NEXT)
-                .globalButtons(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .waitForRefresh();
-        softAssert(groupUpdatePage.getMainTable().getCellText(4, "auto_test_2", 1),
-                "Completed", "Running");
+                .saveAndActivate("auto_test_2");
     }
 
     @Test
@@ -242,7 +236,7 @@ public class FunctionalTests extends BaseTestCase {
                 .timeHoursSelect(0)
                 .globalButtons(NEXT)
                 .waitForRefresh();
-        Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Can't be scheduled to the past");
+        Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
         groupUpdatePage
                 .checkIsCalendarClickable();
     }
@@ -1406,13 +1400,66 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoFileDownload("auto_test_51")
                 .selectDownloadFileType(2)
                 .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_url"))
+                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
                 .fillpassword(BasePage.getProps().getProperty("ftp_password"))
                 .saveAndActivate("auto_test_51");
         groupUpdatePage
                 .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_url"));
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+    }
 
+    @Test
+    public void test_071() {
+        groupUpdatePage
+                .gotoFileDownload("auto_test_52")
+                .selectDownloadFileType(1)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .saveAndActivate("auto_test_52");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+    }
+
+    @Test
+    public void test_072() {
+        groupUpdatePage
+                .gotoFileDownload("auto_test_53")
+                .selectDownloadFileType(2)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .saveAndActivate("auto_test_53");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
+    }
+
+    @Test
+    public void test_073() {
+        groupUpdatePage
+                .gotoFileDownload("auto_test_54")
+                .selectDownloadFileType(1)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .saveAndActivate("auto_test_54");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Firmware Image", "http://95.217.85.220:82/uploads/fake_image.img");
+    }
+
+    @Test
+    public void test_074() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", "auto_test_55")
+//                .selectDownloadFileType(1)
+                .manuallyUrlRadioButton()
+                .fillUploadUrl("95.217.85.220:82/uploads/")
+                .saveAndActivate("auto_test_55");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "95.217.85.220:82/uploads");
     }
 }

@@ -3,6 +3,7 @@ package test;
 //import com.friendly.aqa.database.DataBase;
 
 import com.friendly.aqa.pageobject.*;
+import com.friendly.aqa.utils.DataBase;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -20,7 +21,7 @@ public class BaseTestCase extends TestBase {
         logger.info("\n*************************STARTING TEST SUITE**************************");
         loginPage = new LoginPage();
         systemPage = new SystemPage();
-//        DataBase.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
+        DataBase.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         groupUpdatePage = new GroupUpdatePage();
@@ -49,9 +50,9 @@ public class BaseTestCase extends TestBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//            DataBase.disconnectDb();
+        DataBase.disconnectDb();
         long millis = System.currentTimeMillis() - start;
-        logger.info("Total runnung time: " + String.format("%02d min, %02d sec",
+        logger.info("Total running time: " + String.format("%02d min, %02d sec",
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         ));
