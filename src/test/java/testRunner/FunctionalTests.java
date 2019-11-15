@@ -1456,10 +1456,51 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoFileUpload("audiocodes", "MP262", "auto_test_55")
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
+                .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl("http://95.217.85.220:82/uploads")
                 .saveAndActivate("auto_test_55");
         groupUpdatePage
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_075() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", "auto_test_56")
+                .selectUploadFileType(2)
+                .manuallyUrlRadioButton()
+                .fillDescriptionUploadFile("test log file upload")
+                .fillUploadUrl("http://95.217.85.220:82/uploads")
+                .saveAndActivate("auto_test_56");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_076() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", "auto_test_57")
+                .selectUploadFileType(1)
+                .defaultUploadRadioButton()
+                .fillDescriptionUploadFile("test config file upload")
+                .saveAndActivate("auto_test_57");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_077() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", "auto_test_58")
+                .selectUploadFileType(2)
+                .defaultUploadRadioButton()
+                .fillDescriptionUploadFile("test log file upload")
+                .saveAndActivate("auto_test_58");
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
     }
 }

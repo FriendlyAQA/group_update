@@ -189,6 +189,12 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdUrlUpload")
     private WebElement manuallyUrlRadioButton;
 
+    @FindBy(id = "tbName")
+    private WebElement descriptionFileUploadField;
+
+    @FindBy(id = "rdDefaultUpload")
+    private WebElement defaultUploadRadioButton;
+
 
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
@@ -312,6 +318,12 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage manuallyUrlRadioButton() {
         waitForRefresh();
         manuallyUrlRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage defaultUploadRadioButton() {
+        waitForRefresh();
+        defaultUploadRadioButton.click();
         return this;
     }
 
@@ -440,6 +452,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage fillUrl(String url) {
         urlField.sendKeys(url);
+        return this;
+    }
+
+    public GroupUpdatePage fillDescriptionUploadFile(String desc) {
+        descriptionFileUploadField.sendKeys(desc);
         return this;
     }
 
