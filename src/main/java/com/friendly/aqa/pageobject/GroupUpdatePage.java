@@ -153,6 +153,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_ddlFileType")
     private WebElement selectFileTypeComboBox;
 
+    @FindBy(id = "ddlFileType")
+    private WebElement selectUploadFileTypeComboBox;
+
     @FindBy(id = "UcFirmware1_rdUrl")
     private WebElement manualRadioButton;
 
@@ -164,6 +167,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "UcFirmware1_tbLogin")
     private WebElement userNameField;
+
+    @FindBy(id = "tbLogin")
+    private WebElement userNameUploadField;
 
     @FindBy(id = "UcFirmware1_tbPass")
     private WebElement passwordField;
@@ -438,7 +444,9 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage fillUploadUrl(String url) {
+        uploadUrlField.clear();
         uploadUrlField.sendKeys(url);
+        userNameUploadField.click();
         return this;
     }
 
@@ -573,8 +581,13 @@ public class GroupUpdatePage extends BasePage {
         return mainTableIsPresent.size() != 0;
     }
 
-    public GroupUpdatePage selectDownloadFileType(int index) {
+    public GroupUpdatePage selectFileType(int index) {
         new Select(selectFileTypeComboBox).selectByIndex(index);
+        return this;
+    }
+
+    public GroupUpdatePage selectUploadFileType(int index) {
+        new Select(selectUploadFileTypeComboBox).selectByIndex(index);
         return this;
     }
 

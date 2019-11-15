@@ -1398,7 +1398,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_070() {
         groupUpdatePage
                 .gotoFileDownload("auto_test_51")
-                .selectDownloadFileType(2)
+                .selectFileType(2)
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1413,7 +1413,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_071() {
         groupUpdatePage
                 .gotoFileDownload("auto_test_52")
-                .selectDownloadFileType(1)
+                .selectFileType(1)
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1428,7 +1428,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_072() {
         groupUpdatePage
                 .gotoFileDownload("auto_test_53")
-                .selectDownloadFileType(2)
+                .selectFileType(2)
                 .fromListRadioButton()
                 .selectFileName(1)
                 .saveAndActivate("auto_test_53");
@@ -1441,7 +1441,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_073() {
         groupUpdatePage
                 .gotoFileDownload("auto_test_54")
-                .selectDownloadFileType(1)
+                .selectFileType(1)
                 .fromListRadioButton()
                 .selectFileName(1)
                 .saveAndActivate("auto_test_54");
@@ -1454,12 +1454,12 @@ public class FunctionalTests extends BaseTestCase {
     public void test_074() {
         groupUpdatePage
                 .gotoFileUpload("audiocodes", "MP262", "auto_test_55")
-//                .selectDownloadFileType(1)
+                .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl("95.217.85.220:82/uploads/")
+                .fillUploadUrl("http://95.217.85.220:82/uploads")
                 .saveAndActivate("auto_test_55");
         groupUpdatePage
                 .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", "95.217.85.220:82/uploads");
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
     }
 }
