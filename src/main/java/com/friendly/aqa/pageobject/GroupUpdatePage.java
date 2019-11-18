@@ -132,6 +132,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(how = How.ID, using = "tblDevices")
     private List<WebElement> serialNumberTableList;
 
+    @FindBy(how = How.ID, using = "tbl_tasks")
+    private List<WebElement> taskTableList;
+
     @FindBy(id = "fuSerials")
     private WebElement importDevicesHiddenField;
 
@@ -183,11 +186,29 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_rdTarget")
     private WebElement fromListRadioButton;
 
+    @FindBy(id = "btnDelete_btn")
+    private WebElement deleteButton;
+
     @FindBy(id = "UcFirmware1_ddlFileName")
     private WebElement fileNameComboBox;
 
+    @FindBy(id = "ddlMethods")
+    private WebElement selectMethodComboBox;
+
     @FindBy(id = "rdUrlUpload")
     private WebElement manuallyUrlRadioButton;
+
+    @FindBy(id = "rdReboot")
+    private WebElement rebootRadioButton;
+
+    @FindBy(id = "rdFactoryReset")
+    private WebElement factoryResetRadioButton;
+
+    @FindBy(id = "rdCPEReprovision")
+    private WebElement reprovisionRadioButton;
+
+    @FindBy(id = "rdCustomRPC")
+    private WebElement customRpcRadioButton;
 
     @FindBy(id = "tbName")
     private WebElement descriptionFileUploadField;
@@ -211,6 +232,13 @@ public class GroupUpdatePage extends BasePage {
         importDevicesHiddenField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
+    }
+
+    public void assertResultTableIsAbsent() {
+//        waitForRefresh();
+        if (!taskTableList.isEmpty()) {
+            throw new AssertionError("Task table was found on page");
+        }
     }
 
     public Table getMainTable() {
@@ -278,6 +306,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage selectMethod(int index) {
+        new Select(selectMethodComboBox).selectByIndex(index);
+        return this;
+    }
+
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
         return this;
@@ -321,6 +354,30 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage rebootRadioButton() {
+        waitForRefresh();
+        rebootRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage factoryResetRadioButton() {
+        waitForRefresh();
+        factoryResetRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage reprovisionRadioButton() {
+        waitForRefresh();
+        reprovisionRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage customRpcRadioButton() {
+        waitForRefresh();
+        customRpcRadioButton.click();
+        return this;
+    }
+
     public GroupUpdatePage defaultUploadRadioButton() {
         waitForRefresh();
         defaultUploadRadioButton.click();
@@ -330,6 +387,12 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage fromListRadioButton() {
         waitForRefresh();
         fromListRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage deleteButton() {
+        waitForRefresh();
+        deleteButton.click();
         return this;
     }
 
@@ -620,17 +683,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table goToSetPolicies(String manufacturer, String model, String groupName, String tableId) {
-        topMenu(GROUP_UPDATE);
-        return leftMenu(NEW)
-                .selectManufacturer(manufacturer)
-                .selectModel(model)
-                .fillName(groupName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(4)
-                .clickAddTaskButton()
+        return goto_(manufacturer, model, groupName, 4)
                 .getTable(tableId);
     }
 
@@ -639,17 +692,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table goToSetParameters(String manufacturer, String model, String groupName, String tableId) {
-        topMenu(GROUP_UPDATE);
-        return leftMenu(NEW)
-                .selectManufacturer(manufacturer)
-                .selectModel(model)
-                .fillName(groupName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .clickAddTaskButton()
+        return goto_(manufacturer, model, groupName, 1)
                 .getTable(tableId);
     }
 
@@ -663,35 +706,41 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage gotoFileDownload(String manufacturer, String model, String groupName) {
-        topMenu(GROUP_UPDATE);
-        return leftMenu(NEW)
-                .selectManufacturer(manufacturer)
-                .selectModel(model)
-                .fillName(groupName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .clickAddTaskButton();
+        return goto_(manufacturer, model, groupName, 2);
     }
 
     public GroupUpdatePage gotoFileUpload(String manufacturer, String model, String groupName) {
-        topMenu(GROUP_UPDATE);
-        return leftMenu(NEW)
-                .selectManufacturer(manufacturer)
-                .selectModel(model)
-                .fillName(groupName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(5)
-                .clickAddTaskButton();
+        return goto_(manufacturer, model, groupName, 5);
+    }
+
+    public GroupUpdatePage gotoFileUpload(String groupName) {
+        return gotoFileUpload("sercomm", "Smart Box TURBO+", groupName);
     }
 
     public GroupUpdatePage gotoFileDownload(String groupName) {
         return gotoFileDownload("sercomm", "Smart Box TURBO+", groupName);
+    }
+
+    private GroupUpdatePage goto_(String manufacturer, String model, String groupName, int index) {
+        topMenu(GROUP_UPDATE);
+        return leftMenu(NEW)
+                .selectManufacturer(manufacturer)
+                .selectModel(model)
+                .fillName(groupName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(index)
+                .clickAddTaskButton();
+    }
+
+    public GroupUpdatePage gotoAction(String manufacturer, String model, String groupName) {
+        return goto_(manufacturer, model, groupName, 3);
+    }
+
+    public GroupUpdatePage gotoAction(String groupName) {
+        return gotoAction("sercomm", "Smart Box TURBO+", groupName);
     }
 
     public enum Left {

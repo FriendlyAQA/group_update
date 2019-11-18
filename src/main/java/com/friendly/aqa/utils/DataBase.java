@@ -105,5 +105,4 @@ public class DataBase {
             LOGGER.info(Arrays.deepToString(row));
         }
     }
-
 }

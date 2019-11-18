@@ -8,6 +8,7 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTestCase extends TestBase {
@@ -15,6 +16,7 @@ public class BaseTestCase extends TestBase {
     protected SystemPage systemPage;
     protected GroupUpdatePage groupUpdatePage;
     private long start = System.currentTimeMillis();
+    protected String testName, targetTestName;
 
     @BeforeSuite
     public void init() {
@@ -25,6 +27,12 @@ public class BaseTestCase extends TestBase {
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         groupUpdatePage = new GroupUpdatePage();
+        testName = "";
+    }
+
+    @BeforeMethod
+    public void beforeMethod(Method method) {
+        testName = method.getName();
     }
 
     @AfterMethod
@@ -58,6 +66,10 @@ public class BaseTestCase extends TestBase {
         ));
         logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
         BasePage.closeDriver();
+    }
+
+    public void setTargetTestName() {
+        this.targetTestName = testName;
     }
 }
 
