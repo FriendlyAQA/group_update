@@ -9,6 +9,7 @@ import test.BaseTestCase;
 import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Parameter.*;
@@ -17,40 +18,38 @@ import static com.friendly.aqa.utils.Table.Policy.*;
 public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_001() {
-        systemPage.topMenu(GROUP_UPDATE);
-        groupUpdatePage.waitForRefresh();
-        Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
+        systemPage.topMenu(GROUP_UPDATE)
+                .waitForUpdate();
+        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
     }
 
     @Test
     public void test_002() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .globalButtons(CANCEL);
-        Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
+        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
     }
 
     @Test
     public void test_003() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName(testName)
-                .globalButtons(CANCEL);
-        Assert.assertTrue(groupUpdatePage.noDataFoundLabelIsPresent());
+                .globalButtons(CANCEL)
+                .waitForUpdate();
+        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
     }
 
     @Test
     public void test_004() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
@@ -63,17 +62,16 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_005() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName(testName)
-                .createGroup();
-        Assert.assertTrue(groupUpdatePage.isButtonPresent(FINISH));
+                .createGroup()
+                .assertElementIsPresent(FINISH);
         groupUpdatePage
                 .globalButtons(CANCEL)
-                .waitForRefresh();
+                .waitForUpdate();
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 
@@ -81,8 +79,7 @@ public class FunctionalTests extends BaseTestCase {
     //A Bug was found while pressing "Next" button when "Name group" is filled;
     public void test_006() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
@@ -96,8 +93,7 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_011() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
@@ -105,11 +101,11 @@ public class FunctionalTests extends BaseTestCase {
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
                 .clickOn(1, 0);
-        groupUpdatePage.waitForRefresh();
+        groupUpdatePage.waitForUpdate();
         Assert.assertTrue(groupUpdatePage.isButtonActive(NEXT));
         groupUpdatePage.getTable("tblDevices")
                 .clickOn(1, 0);
-        groupUpdatePage.waitForRefresh();
+        groupUpdatePage.waitForUpdate();
         Assert.assertFalse(groupUpdatePage.isButtonActive(NEXT));
     }
 
@@ -117,14 +113,13 @@ public class FunctionalTests extends BaseTestCase {
     //Doesn't work with Edge
     public void test_012() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName(testName)
                 .selectSendTo("Import")
-                .selectImportFile()
+                .selectImportDevicesFile()
                 .showList();
         Assert.assertEquals(groupUpdatePage.getTable("tblDevices").getCellText(1, 0), "FT001SN00001SD18F7FFF521");
     }
@@ -132,8 +127,7 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_014() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
@@ -143,7 +137,7 @@ public class FunctionalTests extends BaseTestCase {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(1)
-                .clickAddTaskButton();
+                .addTaskButton();
         Assert.assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
         Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
@@ -154,11 +148,10 @@ public class FunctionalTests extends BaseTestCase {
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         groupUpdatePage
-                .waitForRefresh()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .waitForRefresh();
+                .waitForUpdate();
         Assert.assertEquals(groupUpdatePage
                 .getMainTable()
                 .getCellText(4, testName, 1), "Not active");
@@ -168,8 +161,7 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_016() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .getMainTable()
                 .clickOn(targetTestName, 4);
         groupUpdatePage
@@ -208,8 +200,7 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_018() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .getMainTable()
                 .clickOn(targetTestName, 4);
         groupUpdatePage
@@ -226,8 +217,7 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_019() {
         groupUpdatePage
-                .topMenu(GROUP_UPDATE);
-        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .selectModel()
@@ -237,7 +227,7 @@ public class FunctionalTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .timeHoursSelect(0)
                 .globalButtons(NEXT)
-                .waitForRefresh();
+                .waitForUpdate();
         Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
         groupUpdatePage
                 .checkIsCalendarClickable();
@@ -246,7 +236,6 @@ public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_021() throws IOException {
         systemPage.topMenu(GROUP_UPDATE);
-        groupUpdatePage.waitForRefresh();
         Assert.assertTrue(HttpGetter.getUrlSource(groupUpdatePage
                 .getMainTable()
                 .getExportLink(targetTestName))
@@ -261,8 +250,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("Username", VALUE, "ftacs")
                 .setParameter("Password", VALUE, "ftacs");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
                 .checkResults("PeriodicInformInterval", "60")
@@ -276,8 +264,7 @@ public class FunctionalTests extends BaseTestCase {
                 .goToSetParameters(testName)
                 .setParameter("Username", VALUE, "ftacs");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }
@@ -297,8 +284,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("DaylightSavingsStart", VALUE, "29.03.2020 02:00")
                 .setParameter("DaylightSavingsEnd", VALUE, "25.10.2020 03:00");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("NTPServer1", "time.windows.com")
@@ -319,8 +305,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("LocalTimeZone", VALUE, "GMT+2");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("LocalTimeZone", "GMT+2");
@@ -336,8 +321,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("NTPServer1", VALUE, "time.windows.com")
                 .setParameter("NTPServer2", VALUE, "time.nist.gov");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("NTPServer1", "time.windows.com")
@@ -368,8 +352,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("AutoDisconnectTime, sec", VALUE, "86400")
                 .setParameter("IdleDisconnectTime, sec", VALUE, "0");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "1")
@@ -399,8 +382,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("Enable", FALSE, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "0");
@@ -417,8 +399,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("Name", VALUE, "PPPoE_Connection_2")
                 .setParameter("DNSServers", VALUE, "8.8.4.4");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "1")
@@ -445,8 +426,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("IPRouters", EMPTY_VALUE, null)
                 .setParameter("DHCPLeaseTime, sec", VALUE, "7200");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("DHCPServerConfigurable", "1")
@@ -471,8 +451,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("ReservedAddresses", VALUE, "192.168.100");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("ReservedAddresses", "192.168.100");
@@ -488,8 +467,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("MinAddress", VALUE, "192.168.1.50")
                 .setParameter("MaxAddress", VALUE, "192.168.1.200");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("MinAddress", "192.168.1.50")
@@ -515,8 +493,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("IEEE11iEncryptionModes", CUSTOM, "AESEncryption")
                 .setParameter("IEEE11iAuthenticationMode", CUSTOM, "EAPandPSKAuthentication");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Enable", "1")
@@ -541,8 +518,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("Channel", VALUE, "11");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Channel", "11");
@@ -558,8 +534,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("Channel", VALUE, "1")
                 .setParameter("SSID", VALUE, "WiFi");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Channel", "1")
@@ -578,8 +553,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("DestinationAddress", VALUE, "35.12.48.78")
                 .setParameter("ATMEncapsulation", CUSTOM, "LLC");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("Enable", "1")
@@ -597,8 +571,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("DestinationAddress", VALUE, "95.217.85.220");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("DestinationAddress", "95.217.85.220");
@@ -614,8 +587,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("LinkType", CUSTOM, "EoA")
                 .setParameter("ATMEncapsulation", CUSTOM, "VCMUX");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("LinkType", "EoA")
@@ -642,8 +614,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("FaxPassThrough", CUSTOM, "Auto")
                 .setParameter("ModemPassThrough", CUSTOM, "Auto");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Name", "VoIP")
@@ -669,8 +640,7 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter("Name", VALUE, "VoIP_new");
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Name", "VoIP_new");
@@ -686,8 +656,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setParameter("Region", VALUE, "EU")
                 .setParameter("DigitMapEnable", FALSE, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Region", "EU")
@@ -710,8 +679,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("ConnectionRequestPassword", ACTIVE, ALL)
                 .setPolicy("UpgradesManaged", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
                 .checkResults("URL", "Notification=Active Access=All")
@@ -734,8 +702,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("URL", ACTIVE, ACS_ONLY)
                 .setPolicy("URL", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.URL", "Access=AcsOnly");
     }
@@ -749,8 +716,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Username", null, DEFAULT)
                 .setPolicy("Password", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
                 .checkResults("Username", "Notification=Off ")
@@ -771,8 +737,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("ParameterKey", null, ALL)
                 .setPolicy("ParameterKey", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
                 .checkResults("URL", "Notification=Passive ")
@@ -800,8 +765,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DaylightSavingsStart", ACTIVE, ALL)
                 .setPolicy("DaylightSavingsEnd", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("NTPServer1", "Notification=Active Access=All")
@@ -824,8 +788,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("NTPServer1", ACTIVE, ACS_ONLY)
                 .setPolicy("NTPServer1", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.Time.NTPServer1", "Access=AcsOnly");
     }
@@ -842,8 +805,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("NTPServer1", null, DEFAULT)
                 .setPolicy("NTPServer2", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("NTPServer1", "Notification=Off ")
@@ -867,8 +829,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DaylightSavingsStart", null, ALL)
                 .setPolicy("DaylightSavingsStart", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Time.")
                 .checkResults("NTPServer1", "Notification=Passive ")
@@ -906,8 +867,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("AutoDisconnectTime, sec", ACTIVE, ALL)
                 .setPolicy("IdleDisconnectTime, sec", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "Notification=Active Access=All")
@@ -940,8 +900,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", ACTIVE, ACS_ONLY)
                 .setPolicy("Enable", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "Access=AcsOnly");
@@ -959,8 +918,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Username", null, DEFAULT)
                 .setPolicy("Password", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Username", "Notification=Off ")
@@ -984,8 +942,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Username", null, ALL)
                 .setPolicy("Username", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
                 .checkResults("Enable", "Notification=Passive ")
@@ -1016,8 +973,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("IPRouters", ACTIVE, ALL)
                 .setPolicy("DHCPLeaseTime, sec", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("DHCPServerConfigurable", "Notification=Active Access=All")
@@ -1043,8 +999,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DHCPServerConfigurable", ACTIVE, ACS_ONLY)
                 .setPolicy("DHCPServerConfigurable", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("DHCPServerConfigurable", "Access=AcsOnly");
@@ -1062,8 +1017,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("MinAddress", null, DEFAULT)
                 .setPolicy("MaxAddress", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("MinAddress", "Notification=Off ")
@@ -1087,8 +1041,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("SubnetMask", null, ALL)
                 .setPolicy("SubnetMask", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
                 .checkResults("DHCPServerConfigurable", "Notification=Passive ")
@@ -1121,8 +1074,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("IEEE11iEncryptionModes", ACTIVE, ALL)
                 .setPolicy("IEEE11iAuthenticationMode", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Enable", "Notification=Active Access=All")
@@ -1150,8 +1102,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", ACTIVE, ACS_ONLY)
                 .setPolicy("Enable", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Enable", "Access=AcsOnly");
@@ -1169,8 +1120,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", null, DEFAULT)
                 .setPolicy("BSSID", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Enable", "Notification=Off ")
@@ -1194,8 +1144,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("WEPEncryptionLevel", null, ALL)
                 .setPolicy("WEPEncryptionLevel", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("Enable", "Notification=Passive ")
@@ -1220,8 +1169,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DestinationAddress", ACTIVE, ALL)
                 .setPolicy("ATMEncapsulation", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("Enable", "Notification=Active Access=All")
@@ -1241,8 +1189,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", ACTIVE, ACS_ONLY)
                 .setPolicy("Enable", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("Enable", "Access=AcsOnly");
@@ -1260,8 +1207,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", null, DEFAULT)
                 .setPolicy("LinkStatus", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("Enable", "Notification=Off ")
@@ -1281,8 +1227,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DestinationAddress", ACTIVE, ALL)
                 .setPolicy("DestinationAddress", DEFAULT, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANDSLLinkConfig.")
                 .checkResults("Enable", "Notification=Passive ")
@@ -1311,8 +1256,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("FaxPassThrough", ACTIVE, ALL)
                 .setPolicy("ModemPassThrough", ACTIVE, ALL);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Name", "Notification=Active Access=All")
@@ -1339,8 +1283,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", ACTIVE, ACS_ONLY)
                 .setPolicy("Enable", DEFAULT, null);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Enable", "Access=AcsOnly");
@@ -1358,8 +1301,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("Enable", null, DEFAULT)
                 .setPolicy("Reset", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Enable", "Notification=Off ")
@@ -1383,8 +1325,7 @@ public class FunctionalTests extends BaseTestCase {
                 .setPolicy("DigitMapEnable", null, ALL)
                 .setPolicy("DigitMapEnable", null, DEFAULT);
         groupUpdatePage
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.")
                 .checkResults("Name", "Notification=Passive ")
@@ -1405,8 +1346,7 @@ public class FunctionalTests extends BaseTestCase {
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
                 .fillpassword(BasePage.getProps().getProperty("ftp_password"))
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
@@ -1420,8 +1360,7 @@ public class FunctionalTests extends BaseTestCase {
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
                 .fillpassword(BasePage.getProps().getProperty("ftp_password"))
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
@@ -1433,8 +1372,7 @@ public class FunctionalTests extends BaseTestCase {
                 .selectFileType(2)
                 .fromListRadioButton()
                 .selectFileName(1)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
     }
@@ -1446,8 +1384,7 @@ public class FunctionalTests extends BaseTestCase {
                 .selectFileType(1)
                 .fromListRadioButton()
                 .selectFileName(1)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Firmware Image", "http://95.217.85.220:82/uploads/fake_image.img");
     }
@@ -1460,8 +1397,7 @@ public class FunctionalTests extends BaseTestCase {
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl("http://95.217.85.220:82/uploads")
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
     }
@@ -1474,8 +1410,7 @@ public class FunctionalTests extends BaseTestCase {
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .fillUploadUrl("http://95.217.85.220:82/uploads")
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
     }
@@ -1487,8 +1422,7 @@ public class FunctionalTests extends BaseTestCase {
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
     }
@@ -1500,8 +1434,7 @@ public class FunctionalTests extends BaseTestCase {
                 .selectUploadFileType(2)
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
     }
@@ -1527,8 +1460,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction(testName)
                 .rebootRadioButton()
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .assertPresenceOfParameter("Reboot");
     }
@@ -1538,8 +1470,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction(testName)
                 .factoryResetRadioButton()
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .assertPresenceOfParameter("FactoryReset");
     }
@@ -1549,8 +1480,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction(testName)
                 .reprovisionRadioButton()
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CPEReprovision", "prov_attrib, custom_rpc, prov_object, profile, provision, file");
     }
@@ -1561,10 +1491,9 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(8)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
-                .checkResults("CustomRPC", "GetParameterNames");
+                .checkResults("CustomRPC", "GetRPCMethods");
     }
 
     @Test
@@ -1573,8 +1502,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(6)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "GetParameterNames");
     }
@@ -1585,8 +1513,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(5)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "GetParameterAttributes");
     }
@@ -1597,8 +1524,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(7)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "GetParameterValues");
     }
@@ -1609,8 +1535,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(11)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "SetParameterValues");
     }
@@ -1621,8 +1546,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(10)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "SetParameterAttributes");
     }
@@ -1633,8 +1557,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(9)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "Reboot");
     }
@@ -1645,8 +1568,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(3)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "Download");
     }
@@ -1657,8 +1579,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(1)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "AddObject");
     }
@@ -1669,8 +1590,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(2)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "DeleteObject");
     }
@@ -1681,8 +1601,7 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(12)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "Upload");
     }
@@ -1693,9 +1612,174 @@ public class FunctionalTests extends BaseTestCase {
                 .gotoAction(testName)
                 .customRpcRadioButton()
                 .selectMethod(4)
-                .saveAndActivate(testName);
-        groupUpdatePage
+                .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "FactoryReset");
     }
+
+    @Test
+    public void test_096() {
+        groupUpdatePage
+                .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
+                .setParameter("ConnectionRequestPassword", VALUE, "pass")
+                .setParameter("ConnectionRequestUsername", VALUE, "user")
+                .setParameter("EnableCWMP", VALUE, "true")
+                .setParameter("ManageableDeviceNotificationLimit", VALUE, "10")
+                .setParameter("Password", VALUE, "password")
+                .setParameter("PeriodicInformEnable", TRUE, null)
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .setParameter("PeriodicInformTime", VALUE, "60")
+                .setParameter("UpgradesManaged", TRUE, null)
+                .setParameter("URL", VALUE, "127.0.0.1")
+                .setParameter("Username", VALUE, "username")
+                .setParameter("X_SC_ACSCA", VALUE, "some_param_1")
+                .setParameter("X_SC_BindService", VALUE, "some_param_2")
+                .setParameter("X_SC_BootStrap", VALUE, "some_param_3")
+                .setParameter("X_SC_CONURLPrefix", VALUE, "some_param_4")
+                .setParameter("X_SC_ConnectionRequestPort", VALUE, "some_param_5")
+                .setParameter("X_SC_DLSCA", VALUE, "some_param_6")
+                .setParameter("X_SC_DownloadTool", VALUE, "some_param_7")
+                .setParameter("X_SC_EventStruct", VALUE, "some_param_8")
+                .setParameter("X_SC_Option43Override", VALUE, "some_param_9")
+                .setParameter("X_SC_ReservedPort", VALUE, "some_param_10")
+                .setParameter("X_SC_ReservedPortRange", VALUE, "some_param_11")
+                .setParameter("X_SC_RestoreDefault", VALUE, "some_param_12")
+                .setParameter("X_SC_ScheduleKey", VALUE, "some_param_13")
+                .setParameter("X_SC_ScheduleTime", VALUE, "some_param_14")
+                .setParameter("X_SC_WanIfaces", VALUE, "some_param_15")
+                .setParameter("X_SC_WanIpAddress", VALUE, "some_param_16");
+        groupUpdatePage
+                .getTable("tblTree")
+                .clickOn(0, "LANDevice")
+                .clickOn(0, "LANDevice.1")
+                .clickOn(0, "WLANConfiguration")
+                .clickOn(2, "WLANConfiguration.1");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("SSID", VALUE, "new_ssid_name");
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.ManagementServer.")
+                .checkResults("ConnectionRequestPassword", "pass")
+                .checkResults("ConnectionRequestUsername", "user")
+                .checkResults("EnableCWMP", "true")
+                .checkResults("ManageableDeviceNotificationLimit", "10")
+                .checkResults("Password", "password")
+                .checkResults("PeriodicInformEnable", "1")
+                .checkResults("PeriodicInformInterval", "60")
+                .checkResults("PeriodicInformTime", "60")
+                .checkResults("UpgradesManaged", "1")
+                .checkResults("URL", "127.0.0.1")
+                .checkResults("Username", "username")
+                .checkResults("X_SC_ACSCA", "some_param_1")
+                .checkResults("X_SC_BindService", "some_param_2")
+                .checkResults("X_SC_BootStrap", "some_param_3")
+                .checkResults("X_SC_CONURLPrefix", "some_param_4")
+                .checkResults("X_SC_ConnectionRequestPort", "some_param_5")
+                .checkResults("X_SC_DLSCA", "some_param_6")
+                .checkResults("X_SC_DownloadTool", "some_param_7")
+                .checkResults("X_SC_EventStruct", "some_param_8")
+                .checkResults("X_SC_Option43Override", "some_param_9")
+                .checkResults("X_SC_ReservedPort", "some_param_10")
+                .checkResults("X_SC_ReservedPortRange", "some_param_11")
+                .checkResults("X_SC_RestoreDefault", "some_param_12")
+                .checkResults("X_SC_ScheduleKey", "some_param_13")
+                .checkResults("X_SC_ScheduleTime", "some_param_14")
+                .checkResults("X_SC_WanIfaces", "some_param_15")
+                .checkResults("X_SC_WanIpAddress", "some_param_16")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("SSID", "new_ssid_name");
+    }
+
+    @Test
+    public void test_097() {
+        groupUpdatePage
+                .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.ManagementServer.")
+                .checkResults("PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_098() {
+        groupUpdatePage
+                .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblTree", true)
+                .clickOn(0, "WANDevice")
+                .clickOn(0, "WANDevice.1")
+                .clickOn(0, "WANCommonInterfaceConfig");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("EnabledForInternet", VALUE, "true");
+        groupUpdatePage
+                .getTable("tblTree")
+                .clickOn(0, "DeviceConfig")
+                .clickOn(0, "LEDConfig");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .setParameter("IPSegments", VALUE, "192.168.1.0/24");
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANCommonInterfaceConfig.")
+                .checkResults("EnabledForInternet", "true")
+                .setPrefix("InternetGatewayDevice.DeviceConfig.LEDConfig.")
+                .checkResults("IPSegments", "192.168.1.0/24");
+    }
+
+    @Test
+    public void test_099() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "59");
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "59");
+        groupUpdatePage
+                .getTable("tblPeriod")
+                .checkResults("Online devices", "True");
+    }
+
+    @Test
+    public void test_100() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(IMPORT)
+                .selectImportGuFile()
+                .assertElementIsPresent("lblTitle1");
+    }
+
+    @Test
+    public void test_101() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(IMPORT)
+                .globalButtons(CANCEL)
+                .assertElementIsPresent("tblParameters");
+    }
 }
+
+
+//    @Test
+//    public void test_10x() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .checkSorting("Manufacturer")
+//                .checkSorting("Model");
+//    }

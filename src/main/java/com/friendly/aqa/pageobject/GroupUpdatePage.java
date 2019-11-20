@@ -1,15 +1,14 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.utils.Table;
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementNotInteractableException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
@@ -136,10 +135,10 @@ public class GroupUpdatePage extends BasePage {
     private List<WebElement> taskTableList;
 
     @FindBy(id = "fuSerials")
-    private WebElement importDevicesHiddenField;
+    private WebElement importDevicesField;
 
     @FindBy(id = "fuImport")
-    private WebElement importField;
+    private WebElement importGuField;
 
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
@@ -216,29 +215,61 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
 
+    @FindBy(id = "lblSelect")
+    private WebElement importLabel;
+
 
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
 
     public void insertImportFile() {
-        waitForRefresh();
-        importField.sendKeys("D:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
+        waitForUpdate();
+        importGuField.sendKeys("D:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
     }
 
-    public GroupUpdatePage selectImportFile() {
+    public GroupUpdatePage topMenu(TopMenu value) {
+        super.topMenu(value);
+        return this;
+    }
+
+    public GroupUpdatePage selectImportDevicesFile() {
         switchToFrameDesktop();
         driver.switchTo().frame(importFrame);
         String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
-        importDevicesHiddenField.sendKeys(inputText);
+        importDevicesField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
     }
 
+    public GroupUpdatePage selectImportGuFile() {
+        switchToFrameDesktop();
+        String inputText = new File(props.getProperty("import_group_update_file_path")).getAbsolutePath();
+        System.out.println(inputText);
+        importGuField.sendKeys(inputText);
+        ((JavascriptExecutor) BasePage.getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
+        return this;
+    }
+
     public void assertResultTableIsAbsent() {
-//        waitForRefresh();
+//        waitForUpdate();
         if (!taskTableList.isEmpty()) {
             throw new AssertionError("Task table was found on page");
         }
+    }
+
+    public GroupUpdatePage assertElementIsPresent(String id) {
+        List<WebElement> list = driver.findElements(By.id(id));
+        if (list.size() == 0) {
+            String warn = "Element with id='" + id + "' not found on the Group Update page";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
+        return this;
+    }
+
+    public GroupUpdatePage assertElementIsPresent(GlobalButtons button) {
+        switchToFrameButtons();
+        return assertElementIsPresent(button.getId());
     }
 
     public Table getMainTable() {
@@ -246,7 +277,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table getTable(String id) {
-        waitForRefresh();
+        waitForUpdate();
         WebElement tableEl = driver.findElement(By.id(id));
         setImplicitlyWait(0);
         Table table = new Table(tableEl);
@@ -326,8 +357,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage clickAddTaskButton() {
-        waitForRefresh();
+    public GroupUpdatePage addTaskButton() {
+        waitForUpdate();
         addTaskButton.click();
         return this;
     }
@@ -343,55 +374,55 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage manualRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         manualRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage manuallyUrlRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         manuallyUrlRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage rebootRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         rebootRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage factoryResetRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         factoryResetRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage reprovisionRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         reprovisionRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage customRpcRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         customRpcRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage defaultUploadRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         defaultUploadRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage fromListRadioButton() {
-        waitForRefresh();
+        waitForUpdate();
         fromListRadioButton.click();
         return this;
     }
 
     public GroupUpdatePage deleteButton() {
-        waitForRefresh();
+        waitForUpdate();
         deleteButton.click();
         return this;
     }
@@ -451,6 +482,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage itemsOnPage(String number) {
+        switchToFrameDesktop();
         int index;
         switch (number) {
             case "7":
@@ -488,7 +520,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage showList() {
-        waitForRefresh();
+        waitForUpdate();
         showListButton.click();
         return this;
     }
@@ -551,13 +583,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectManufacturer(String manufacturer) {
-        waitForRefresh();
+        waitForUpdate();
         new Select(manufacturerComboBox).selectByValue(manufacturer);
         return this;
     }
 
     public GroupUpdatePage selectManufacturer(int index) {
-        waitForRefresh();
+        waitForUpdate();
         new Select(manufacturerComboBox).selectByIndex(index);
         return this;
     }
@@ -567,7 +599,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectModel(String modelName) {
-        waitForRefresh();
+        waitForUpdate();
         List<WebElement> options = modelComboBox.findElements(By.tagName("option"));
         for (WebElement option : options) {
             if (option.getText().toLowerCase().equals(modelName.toLowerCase())) {
@@ -580,13 +612,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectModel(int index) {
-        waitForRefresh();
+        waitForUpdate();
         new Select(modelComboBox).selectByIndex(index);
         return this;
     }
 
     public GroupUpdatePage selectModel() {
-        waitForRefresh();
+        waitForUpdate();
         Select modelName = new Select(modelComboBox);
         modelName.selectByIndex(modelName.getOptions().size() - 1);
         return this;
@@ -605,9 +637,9 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage createGroup() {
-        waitForRefresh();
+        waitForUpdate();
         createGroupButton.click();
-        waitForRefresh();
+        waitForUpdate();
         return this;
     }
 
@@ -620,7 +652,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void saveAndActivate(String groupName) {
+    public GroupUpdatePage saveAndActivate(String groupName) {
         globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -628,29 +660,43 @@ public class GroupUpdatePage extends BasePage {
                 .getMainTable()
                 .readTasksFromDB(groupName)//TEST
                 .clickOn(groupName, 4);
-    }
-
-    public GroupUpdatePage waitForRefresh() {
-        super.waitForUpdate();
         return this;
     }
 
-    public boolean checkSorting(int column) {
-        Table table = getMainTable();
-        String[] before = table.getColumn(column);
-        System.out.println(Arrays.deepToString(before));
-        Arrays.sort(before);
-        System.out.println(Arrays.deepToString(before));
-        table.clickOn(0, column);
-        waitForUpdate();
-        table = getMainTable();
-        String[] after = table.getColumn(column);
-        System.out.println(Arrays.deepToString(after));
-        return Arrays.equals(before, after);
+    public GroupUpdatePage checkFiltering(String dropBox, String option) {
+
+
+
+
+
+
+        return this;
     }
 
-    public boolean noDataFoundLabelIsPresent() {
-        return noDataFound.size() != 0;
+    public GroupUpdatePage checkSorting(String column) {
+        itemsOnPage("100");
+        waitForUpdate();
+        Table table = getMainTable();
+        int colNum = table.getColumnNumber(0, column);
+        table.clickOn(0, colNum);
+        waitForUpdate();
+        table = getMainTable();
+        String[] arr = table.getColumn(colNum);
+        String[] arr2 = Arrays.copyOf(arr, arr.length);
+        Arrays.sort(arr);
+        if (!Arrays.deepEquals(arr, arr2)) {
+            throw new AssertionError("Sorting check failed");
+        }
+        table.clickOn(0, colNum);
+        waitForUpdate();
+        table = getMainTable();
+        arr = table.getColumn(colNum);
+        arr2 = Arrays.copyOf(arr, arr.length);
+        Arrays.sort(arr, Comparator.reverseOrder());
+        if (!Arrays.deepEquals(arr, arr2)) {
+            throw new AssertionError("Reverse sorting check failed");
+        }
+        return this;
     }
 
     public boolean serialNumberTableIsPresent() {
@@ -658,7 +704,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public boolean mainTableIsPresent() {
-        return mainTableIsPresent.size() != 0;
+        System.out.println(mainTableIsPresent.size());
+        return mainTableIsPresent.size() == 1;
     }
 
     public GroupUpdatePage selectFileType(int index) {
@@ -691,9 +738,16 @@ public class GroupUpdatePage extends BasePage {
         return goToSetPolicies("sercomm", "Smart Box TURBO+", groupName, tableId);
     }
 
+    public Table goToSetParameters(String manufacturer, String model, String groupName, String tableId, boolean advancedView) {
+        GroupUpdatePage out = goto_(manufacturer, model, groupName, 1);
+        if (advancedView) {
+            globalButtons(ADVANCED_VIEW);
+        }
+        return out.getTable(tableId);
+    }
+
     public Table goToSetParameters(String manufacturer, String model, String groupName, String tableId) {
-        return goto_(manufacturer, model, groupName, 1)
-                .getTable(tableId);
+        return goToSetParameters(manufacturer, model, groupName, tableId, false);
     }
 
     public Table goToSetParameters(String groupName, String tableId) {
@@ -732,7 +786,7 @@ public class GroupUpdatePage extends BasePage {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(index)
-                .clickAddTaskButton();
+                .addTaskButton();
     }
 
     public GroupUpdatePage gotoAction(String manufacturer, String model, String groupName) {

@@ -132,7 +132,7 @@ public abstract class BasePage {
         logOutButton.click();
     }
 
-    void waitForUpdate() {
+    public void waitForUpdate() {
         driver.switchTo().defaultContent();
         long start = System.currentTimeMillis();
         try {
@@ -170,7 +170,7 @@ public abstract class BasePage {
         return out;
     }
 
-    public void topMenu(TopMenu value) {
+    public BasePage topMenu(TopMenu value) {
         waitForUpdate();
         driver.switchTo().defaultContent();
         for (WebElement btn : topMenuTable.findElements(By.tagName("td"))) {
@@ -178,6 +178,7 @@ public abstract class BasePage {
                 btn.click();
             }
         }
+        return this;
     }
 
     public boolean isElementPresent(String id) {

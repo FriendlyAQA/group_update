@@ -15,7 +15,8 @@ public enum GlobalButtons {
     SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
     STOP("btnStop_btn"),
     EDIT("btnEdit_btn"),
-    DUPLICATE("btnDuplicate_btn");
+    DUPLICATE("btnDuplicate_btn"),
+    ADVANCED_VIEW("btnAdvancedView_btn");
 
     private GlobalButtons(String id) {
         this.id = id;

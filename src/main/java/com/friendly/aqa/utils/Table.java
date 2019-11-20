@@ -18,9 +18,11 @@ public class Table {
     private WebElement[][] elementTable;
     private String prefix;
     private WebElement table;
+    private Properties props;
 
     public Table(WebElement table) {
         this.table = table;
+        props = BasePage.getProps();
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
@@ -74,9 +76,18 @@ public class Table {
         return new int[]{textTable.length, textTable[1].length};
     }
 
-    public Table clickOn(int row, int column) {
-        elementTable[row][column].click();
+    public Table clickOn(int row, int column, int tagNum) {
+        if (tagNum < 0) {
+            elementTable[row][column].click();
+        } else {
+            List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span"));
+            tagList.get(tagNum).click();
+        }
         return this;
+    }
+
+    public Table clickOn(int row, int column) {
+        return clickOn(row, column, -1);
     }
 
     public Table clickOn(String text, int column) {
@@ -85,10 +96,25 @@ public class Table {
     }
 
     public Table clickOn(String text) {
+        return clickOn(-1, text);
+    }
+
+    public int getColumnNumber(int row, String text) {
+        String[] strings = textTable[row];
+        for (int i = 0; i < strings.length; i++) {
+            String cell = strings[i];
+            if (cell.equals(text)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public Table clickOn(int tagNum, String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
-                    return clickOn(i, j);
+                    return clickOn(i, j, tagNum);
                 }
             }
         }
@@ -134,7 +160,7 @@ public class Table {
 
     public Table readTasksFromDB(String groupName) {
         List<String[]> groupList;
-        int count = Integer.parseInt(BasePage.getProps().getProperty("pending_tasks_check_time"));
+        int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));
         for (int i = 0; i < count; i++) {
             long start = System.currentTimeMillis();
             groupList = DataBase.getTaskList(getGroupId(groupName));
@@ -173,7 +199,7 @@ public class Table {
     }
 
     public String getExportLink(String groupName) {
-        return BasePage.getProps().getProperty("ui_url") + "/Update/Export.aspx?updateId=" + getGroupId(groupName);
+        return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + getGroupId(groupName);
     }
 
     private String getGroupId(String groupName) {
@@ -219,10 +245,14 @@ public class Table {
     public Table checkResults(String parameter, String value) {
         boolean match = false;
         for (String[] row : textTable) {
-            int length = row.length;
-            if (row[length - 2].equals(prefix + parameter) && row[length - 1].equals(value)) {
-                match = true;
-                break;
+            try {
+                int length = row.length;
+                if (row[length - 2].equals(prefix + parameter) && row[length - 1].equals(value)) {
+                    match = true;
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
             }
         }
         if (!match) {
@@ -239,6 +269,9 @@ public class Table {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
         WebElement paramCell = getCellWebElement(rowNum, 1);
+        if (props.getProperty("browser").equals("edge")) {
+            ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", paramCell);
+        }
         new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
         if (value != null && option == Parameter.VALUE) {
             WebElement input = paramCell.findElement(By.tagName("input"));
@@ -297,7 +330,7 @@ public class Table {
 
     public Table assertAbsenceOfValue(int column, String value) {
         if (getRowNumberByText(column, value) >= 0) {
-            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but must NOT!");
+            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but MUST NOT!");
         }
         return this;
     }
