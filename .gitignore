@@ -1,5 +1,5 @@
 /.idea/
 /logs/
-/resources/
+/resources/config.properties
 /target/
 /screenshots/

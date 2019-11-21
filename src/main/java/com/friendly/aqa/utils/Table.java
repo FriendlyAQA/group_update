@@ -158,6 +158,10 @@ public class Table {
         return out;
     }
 
+    public String[] getColumn(String column) {
+        return getColumn(getColumnNumber(0, column));
+    }
+
     public Table readTasksFromDB(String groupName) {
         List<String[]> groupList;
         int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));

@@ -1,21 +1,22 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.utils.Table;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
+    private final static Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
+
     public GroupUpdatePage() {
         super();
         switchToFrameDesktop();
@@ -56,8 +57,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
 
-    @FindBy(name = "btnDefaultView$btn")
-    private WebElement resetViewButton;
+//    @FindBy(name = "btnDefaultView$btn")
+//    private WebElement resetViewButton;
 
     @FindBy(id = "ddlPageSizes")
     private WebElement itemsOnPageComboBox;
@@ -218,6 +219,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "lblSelect")
     private WebElement importLabel;
 
+    @FindBy(id = "btnDefaultView_btn")
+    private WebElement resetViewButton;
+
 
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
@@ -261,7 +265,7 @@ public class GroupUpdatePage extends BasePage {
         List<WebElement> list = driver.findElements(By.id(id));
         if (list.size() == 0) {
             String warn = "Element with id='" + id + "' not found on the Group Update page";
-            logger.warn(warn);
+            LOGGER.warn(warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -299,15 +303,15 @@ public class GroupUpdatePage extends BasePage {
 //                    int end = attr.length() - 2;
                     setDefaultImplicitlyWait();
                     if (!repeat) {
-                        logger.info("First day of month in Sunday. Test case 19 is not effective");
+                        LOGGER.info("First day of month in Sunday. Test case 19 is not effective");
                     }
                     if (exception) {
-                        logger.info("An exception was caught while checking grayed-out dates");
+                        LOGGER.info("An exception was caught while checking grayed-out dates");
                     }
                     try {
                         cell.click();
                     } catch (ElementNotInteractableException e) {
-                        logger.info("An exception was caught when click on current date");
+                        LOGGER.info("An exception was caught when click on current date");
                     }
                     return;
                 }
@@ -482,7 +486,10 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage itemsOnPage(String number) {
-        switchToFrameDesktop();
+        waitForUpdate();
+        if (new Select(itemsOnPageComboBox).getFirstSelectedOption().getText().equals(number)) {
+            return this;
+        }
         int index;
         switch (number) {
             case "7":
@@ -509,6 +516,9 @@ public class GroupUpdatePage extends BasePage {
             default:
                 index = 2;
         }
+        if (props.getProperty("browser").equals("edge")) {
+            scrollTo(itemsOnPageComboBox);
+        }
         new Select(itemsOnPageComboBox).selectByIndex(index);
 
         return this;
@@ -516,6 +526,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage resetView() {
         resetViewButton.click();
+        waitForUpdate();
         return this;
     }
 
@@ -663,13 +674,48 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage checkFiltering(String dropBox, String option) {
-
-
-
-
-
-
+    public GroupUpdatePage checkFiltering(String dropdown, String option) {
+        switchToFrameDesktop();
+        WebElement comboBox;
+        switch (dropdown) {
+            case "Manufacturer":
+                comboBox = manufacturerComboBox;
+                break;
+            case "Model":
+                comboBox = modelComboBox;
+                break;
+            case "State":
+                comboBox = updStatusComboBox;
+                break;
+            default:
+                throw new AssertionError("Incorrect dropdown name '" + dropdown + "'");
+        }
+        List<WebElement> options = comboBox.findElements(By.tagName("option"));
+        for (WebElement opt : options) {
+            if (opt.getText().toLowerCase().equals(option.toLowerCase())) {
+                if (BROWSER.equals("edge")) {
+                    scrollTo(comboBox);
+                }
+                new Select(comboBox).selectByValue(opt.getAttribute("value"));
+                waitForUpdate();
+                break;
+            }
+        }
+        if (dropdown.equals("State") && option.equals("Error") && noDataFound.size() == 1) {
+            return this;
+        }
+        itemsOnPage("100");
+        Table table = getMainTable();
+        String[] arr = table.getColumn(dropdown);
+        Set<String> set = new HashSet<>(Arrays.asList(arr));
+        if (dropdown.equals("State") && option.equals("All") && set.size() == 2) {
+            return this;
+        }
+        if (!(set.size() == 1 && set.contains(option))) {
+            String warn = "Filtering failed on dropdown '" + dropdown + "'";
+            LOGGER.warn(warn);
+            throw new AssertionError(warn);
+        }
         return this;
     }
 
@@ -685,7 +731,9 @@ public class GroupUpdatePage extends BasePage {
         String[] arr2 = Arrays.copyOf(arr, arr.length);
         Arrays.sort(arr);
         if (!Arrays.deepEquals(arr, arr2)) {
-            throw new AssertionError("Sorting check failed");
+            String warn = "Sorting check failed";
+            LOGGER.warn(warn);
+            throw new AssertionError(warn);
         }
         table.clickOn(0, colNum);
         waitForUpdate();
@@ -694,9 +742,29 @@ public class GroupUpdatePage extends BasePage {
         arr2 = Arrays.copyOf(arr, arr.length);
         Arrays.sort(arr, Comparator.reverseOrder());
         if (!Arrays.deepEquals(arr, arr2)) {
-            throw new AssertionError("Reverse sorting check failed");
+            String warn = "Reverse sorting check failed";
+            LOGGER.warn(warn);
+            throw new AssertionError(warn);
         }
         return this;
+    }
+
+    public void checkResetView() {
+        waitForUpdate();
+        resetView();
+        boolean man = new Select(manufacturerComboBox).getFirstSelectedOption().getText().equals("All");
+        boolean model = new Select(modelComboBox).getFirstSelectedOption().getText().equals("All");
+        boolean status = new Select(updStatusComboBox).getFirstSelectedOption().getText().equals("All");
+        Table table = getMainTable();
+        String[] arr = table.getColumn("Created");
+        String[] arr2 = Arrays.copyOf(arr, arr.length);
+        Arrays.sort(arr, Comparator.reverseOrder());
+        boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
+        if (!(man && model && status && sortedByCreated)) {
+            String warn = "\"Reset View\" check failed";
+            LOGGER.warn(warn);
+            throw new AssertionError(warn);
+        }
     }
 
     public boolean serialNumberTableIsPresent() {
@@ -754,9 +822,32 @@ public class GroupUpdatePage extends BasePage {
         return goToSetParameters("sercomm", "Smart Box TURBO+", groupName, tableId);
     }
 
-
     public Table goToSetParameters(String groupName) {
         return goToSetParameters(groupName, "tblParamsValue");
+    }
+
+    public Table gotoGetParameter(String groupName) {
+        return gotoGetParameter(groupName, "tblParamsValue");
+    }
+
+    public Table gotoGetParameter(String groupName, String tableId) {
+        return gotoGetParameter("sercomm", "Smart Box TURBO+", groupName, tableId);
+    }
+
+    public Table gotoGetParameter(String manufacturer, String model, String groupName, String tableId) {
+        return gotoGetParameter(manufacturer, model, groupName, tableId, false);
+    }
+
+    public Table gotoGetParameter(String manufacturer, String model, String groupName, String tableId, boolean advancedView) {
+        GroupUpdatePage out = goto_(manufacturer, model, groupName, 6);
+        if (advancedView) {
+            globalButtons(ADVANCED_VIEW);
+        }
+        return out.getTable(tableId);
+    }
+
+    public GroupUpdatePage gotoGetParameter(String manufacturer, String model, String groupName) {
+        return goto_(manufacturer, model, groupName, 6);
     }
 
     public GroupUpdatePage gotoFileDownload(String manufacturer, String model, String groupName) {

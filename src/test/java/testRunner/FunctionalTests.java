@@ -1773,13 +1773,109 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(CANCEL)
                 .assertElementIsPresent("tblParameters");
     }
+
+    @Test
+    public void test_102() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkFiltering("Manufacturer", "Sercomm");
+    }
+
+    @Test
+    public void test_103() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkFiltering("Model", "MP262");
+    }
+
+    @Test
+    public void test_104() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkFiltering("State", "Completed")
+                .checkFiltering("State", "Not active")
+                .checkFiltering("State", "Error")
+                .checkFiltering("State", "All");
+    }
+
+    @Test
+    public void test_128() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Manufacturer");
+    }
+
+    @Test
+    public void test_129() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Model");
+    }
+
+    @Test
+    public void test_130() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Name");
+    }
+
+    @Test
+    public void test_131() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Name")
+                .checkSorting("Created");
+    }
+
+    @Test
+    public void test_132() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Creator");
+    }
+
+    @Test
+    public void test_133() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Updated");
+    }
+
+    @Test
+    public void test_134() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .checkSorting("Activated");
+    }
+
+    @Test
+    public void test_135() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .selectManufacturer("Sercomm")
+                .checkResetView();
+    }
+
+    @Test
+    public void test_136() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .getMainTable()
+                .clickOn("Manufacturer");
+        groupUpdatePage
+                .checkResetView();
+    }
+
+    @Test
+    public void test_139() {
+        groupUpdatePage
+                .gotoGetParameter(testName)
+                .print()
+                .clickOn(1,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.URL", "names");
+
+    }
 }
-
-
-//    @Test
-//    public void test_10x() {
-//        groupUpdatePage
-//                .topMenu(GROUP_UPDATE)
-//                .checkSorting("Manufacturer")
-//                .checkSorting("Model");
-//    }

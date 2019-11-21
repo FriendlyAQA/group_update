@@ -25,12 +25,14 @@ import java.util.concurrent.TimeUnit;
 public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
-    final static Logger logger;
+    final static Logger LOGGER;
+    static final String BROWSER;
 
     static {
         initProperties();
-        logger = Logger.getLogger(BasePage.class);
+        LOGGER = Logger.getLogger(BasePage.class);
         initDriver();
+        BROWSER = props.getProperty("browser");
     }
 
     BasePage() {
@@ -54,23 +56,23 @@ public abstract class BasePage {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", props.getProperty("chrome_driver_path"));
                 driver = new ChromeDriver();
-                logger.info("Chrome driver is running");
+                LOGGER.info("Chrome driver is running");
                 break;
             case "ie":
                 System.setProperty("webdriver.ie.driver", props.getProperty("ie_driver_path"));
                 driver = new InternetExplorerDriver();
-                logger.info("IE driver is running");
+                LOGGER.info("IE driver is running");
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", props.getProperty("edge_driver_path"));
                 driver = new EdgeDriver();
-                logger.info("Edge driver is running");
+                LOGGER.info("Edge driver is running");
                 break;
             default:
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", props.getProperty("firefox_driver_path"));
                 driver = new FirefoxDriver();
-                logger.info("Firefox driver is running");
+                LOGGER.info("Firefox driver is running");
         }
         long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         driver.manage().timeouts().implicitlyWait(implWait, TimeUnit.SECONDS);
@@ -130,6 +132,10 @@ public abstract class BasePage {
     public void logOut() {
         driver.switchTo().defaultContent();
         logOutButton.click();
+    }
+
+    public void scrollTo(WebElement element) {
+        ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
     public void waitForUpdate() {
@@ -201,7 +207,7 @@ public abstract class BasePage {
                 switchToFrameDesktop();
                 return;
             } catch (StaleElementReferenceException e) {
-                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+                LOGGER.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             }
         }
         throw new AssertionError("cannot click button!");

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Update>
+  <Name>test_100</Name>
+  <ProductGroupValue>
+    <ProductGroup>
+      <Manufacturer>Sercomm</Manufacturer>
+      <ModelName>Smart Box TURBO+</ModelName>
+      <ProtocolId>MQTT</ProtocolId>
+    </ProductGroup>
+  </ProductGroupValue>
+  <Tasks>
+    <TaskSetParam>
+      <Params>
+        <Param fullname="InternetGatewayDevice.ManagementServer.PeriodicInformInterval" value="60" />
+      </Params>
+    </TaskSetParam>
+  </Tasks>
+  <ScheduledDate />
+  <ActivateDate>11/18/2019 12:13:15</ActivateDate>
+  <Period1> - /0/0</Period1>
+  <Period2> - /0/0</Period2>
+  <Online>false</Online>
+  <AskToConnect>true</AskToConnect>
+  <Location>0</Location>
+  <Threshold>0</Threshold>
+  <StopFail>false</StopFail>
+  <Reactivation>
+    <Start>0001-01-01T00:00:00</Start>
+    <Time />
+    <Finish>0001-01-01T00:00:00</Finish>
+    <RepeatCount>0</RepeatCount>
+    <FailOnly>false</FailOnly>
+    <RepeatEvery>0</RepeatEvery>
+    <Expression />
+  </Reactivation>
+</Update>
