@@ -9,8 +9,7 @@ import test.BaseTestCase;
 import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
@@ -1864,18 +1863,377 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Manufacturer");
         groupUpdatePage
                 .checkResetView();
+        groupUpdatePage
+                .leftMenu(VIEW)
+                .itemsOnPage("10")
+                .pause(5000);
     }
 
     @Test
     public void test_139() {
         groupUpdatePage
                 .gotoGetParameter(testName)
-                .print()
                 .clickOn(1,1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.URL", "names");
+    }
 
+    @Test
+    public void test_140() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Information");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.DeviceInfo.Manufacturer", "names");
+    }
+
+    @Test
+    public void test_141() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.Time.NTPServer1", "names");
+    }
+
+    @Test
+    public void test_142() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "names");
+    }
+
+    @Test
+    public void test_143() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(3,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPRelay", "names");
+    }
+
+    @Test
+    public void test_144() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(4,1, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("SSID", "names");
+    }
+
+    @Test
+    public void test_145() {
+        groupUpdatePage
+                .gotoGetParameter(testName)
+                .clickOn(1,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.URL", "values");
+    }
+
+    @Test
+    public void test_146() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Information");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.DeviceInfo.Manufacturer", "values");
+    }
+
+    @Test
+    public void test_147() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.Time.NTPServer1", "values");
+    }
+
+    @Test
+    public void test_148() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "values");
+    }
+
+    @Test
+    public void test_149() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(3,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPRelay", "values");
+    }
+
+    @Test
+    public void test_150() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(4,2, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("SSID", "values");
+    }
+
+    @Test
+    public void test_151() {
+        groupUpdatePage
+                .gotoGetParameter(testName)
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.URL", "attributes");
+    }
+
+    @Test
+    public void test_152() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Information");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.DeviceInfo.Manufacturer", "attributes");
+    }
+
+    @Test
+    public void test_153() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.Time.NTPServer1", "attributes");
+    }
+
+    @Test
+    public void test_154() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "attributes");
+    }
+
+    @Test
+    public void test_155() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(3,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPRelay", "attributes");
+    }
+
+    @Test
+    public void test_156() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(4,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("SSID", "attributes");
+    }
+
+    @Test
+    public void test_157() {
+        groupUpdatePage
+                .gotoGetParameter(testName)
+                .clickOn(1,1, 0)
+                .clickOn(1,2, 0)
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.URL", "values,names,attributes");
+    }
+
+    @Test
+    public void test_158() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Information");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0)
+                .clickOn(1,2, 0)
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.DeviceInfo.Manufacturer", "values,names,attributes");
+    }
+
+    @Test
+    public void test_159() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Time");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0)
+                .clickOn(1,2, 0)
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.Time.NTPServer1", "values,names,attributes");
+    }
+
+    @Test
+    public void test_160() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("WAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(1,1, 0)
+                .clickOn(1,2, 0)
+                .clickOn(1,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.2.")
+                .checkResults("Enable", "values,names,attributes");
+    }
+
+    @Test
+    public void test_161() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("LAN");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(3,1, 0)
+                .clickOn(3,2, 0)
+                .clickOn(3,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.")
+                .checkResults("DHCPRelay", "values,names,attributes");
+    }
+
+    @Test
+    public void test_162() {
+        groupUpdatePage
+                .gotoGetParameter(testName, "tabsSettings_tblTabs")
+                .clickOn("Wireless");
+        groupUpdatePage
+                .getTable("tblParamsValue")
+                .print()
+                .clickOn(4,1, 0)
+                .clickOn(4,2, 0)
+                .clickOn(4,3, 0);
+        groupUpdatePage
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
+                .checkResults("SSID", "values,names,attributes");
     }
 }

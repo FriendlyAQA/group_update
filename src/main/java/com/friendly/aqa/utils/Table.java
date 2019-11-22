@@ -80,7 +80,7 @@ public class Table {
         if (tagNum < 0) {
             elementTable[row][column].click();
         } else {
-            List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span"));
+            List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input"));
             tagList.get(tagNum).click();
         }
         return this;
