@@ -704,7 +704,7 @@ public class GroupUpdatePage extends BasePage {
         if (dropdown.equals("State") && option.equals("Error") && noDataFound.size() == 1) {
             return this;
         }
-        itemsOnPage("100");
+        itemsOnPage("200");
         Table table = getMainTable();
         String[] arr = table.getColumn(dropdown);
         Set<String> set = new HashSet<>(Arrays.asList(arr));
@@ -770,10 +770,15 @@ public class GroupUpdatePage extends BasePage {
     public boolean serialNumberTableIsPresent() {
         return serialNumberTableList.size() != 0;
     }
+//
+//    public boolean mainTableIsPresent() {
+//        System.out.println(mainTableIsPresent.size());
+//        return mainTableIsPresent.size() == 1;
+//    }
 
-    public boolean mainTableIsPresent() {
+    public boolean mainTableIsAbsent() {
         System.out.println(mainTableIsPresent.size());
-        return mainTableIsPresent.size() == 1;
+        return noDataFound.size() == 1;
     }
 
     public GroupUpdatePage selectFileType(int index) {
@@ -886,6 +891,16 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage gotoAction(String groupName) {
         return gotoAction("sercomm", "Smart Box TURBO+", groupName);
+    }
+
+    public void deleteAll() {
+        topMenu(GROUP_UPDATE);
+        waitForUpdate();
+        while (noDataFound.size() == 0) {
+            getMainTable().clickOn(0, 0);
+            globalButtons(DELETE)
+                    .okButtonPopUp();
+        }
     }
 
     public enum Left {

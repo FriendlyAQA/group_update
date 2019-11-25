@@ -134,7 +134,7 @@ public class Table {
         for (String[] strings : textTable) {
             System.out.print("| ");
             for (int j = 0; j < strings.length; j++) {
-                System.out.printf("%-" + size[j] + "s%s", strings[j], " | ");
+                System.out.printf("%-" + (size[j] + 1) + "s%s", strings[j], "| ");
             }
             System.out.println();
         }

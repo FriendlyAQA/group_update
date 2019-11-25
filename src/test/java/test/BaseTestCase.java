@@ -28,6 +28,7 @@ public class BaseTestCase extends TestBase {
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         groupUpdatePage = new GroupUpdatePage();
         testName = "";
+//        groupUpdatePage.deleteAll();
     }
 
     @BeforeMethod

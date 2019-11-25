@@ -19,7 +19,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_001() {
         systemPage.topMenu(GROUP_UPDATE)
                 .waitForUpdate();
-        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
+        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
@@ -29,7 +29,7 @@ public class FunctionalTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .globalButtons(CANCEL);
-        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
+        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
@@ -42,7 +42,7 @@ public class FunctionalTests extends BaseTestCase {
                 .fillName(testName)
                 .globalButtons(CANCEL)
                 .waitForUpdate();
-        Assert.assertFalse(groupUpdatePage.mainTableIsPresent());
+        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
