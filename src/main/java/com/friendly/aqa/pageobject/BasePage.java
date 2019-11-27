@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
-    final static Logger LOGGER;
+    static final Logger LOGGER;
     static final String BROWSER;
 
     static {

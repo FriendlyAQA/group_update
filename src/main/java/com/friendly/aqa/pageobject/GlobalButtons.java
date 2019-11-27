@@ -18,7 +18,7 @@ public enum GlobalButtons {
     DUPLICATE("btnDuplicate_btn"),
     ADVANCED_VIEW("btnAdvancedView_btn");
 
-    private GlobalButtons(String id) {
+    GlobalButtons(String id) {
         this.id = id;
     }
 

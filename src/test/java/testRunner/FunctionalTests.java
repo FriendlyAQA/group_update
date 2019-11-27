@@ -11,6 +11,7 @@ import java.io.IOException;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.utils.Table.Conditions.*;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
 
@@ -1873,7 +1874,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_139() {
         groupUpdatePage
                 .gotoGetParameter(testName)
-                .clickOn(1,1, 0);
+                .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1888,7 +1889,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0);
+                .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1903,7 +1904,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0);
+                .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1918,7 +1919,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0);
+                .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1934,7 +1935,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(3,1, 0);
+                .clickOn(3, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1950,7 +1951,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(4,1, 0);
+                .clickOn(4, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1962,7 +1963,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_145() {
         groupUpdatePage
                 .gotoGetParameter(testName)
-                .clickOn(1,2, 0);
+                .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1977,7 +1978,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,2, 0);
+                .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -1992,7 +1993,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,2, 0);
+                .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2007,7 +2008,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,2, 0);
+                .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2023,7 +2024,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(3,2, 0);
+                .clickOn(3, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2039,7 +2040,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(4,2, 0);
+                .clickOn(4, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2051,7 +2052,7 @@ public class FunctionalTests extends BaseTestCase {
     public void test_151() {
         groupUpdatePage
                 .gotoGetParameter(testName)
-                .clickOn(1,3, 0);
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2066,7 +2067,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,3, 0);
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2081,7 +2082,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,3, 0);
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2096,7 +2097,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,3, 0);
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2112,7 +2113,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(3,3, 0);
+                .clickOn(3, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2128,7 +2129,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(4,3, 0);
+                .clickOn(4, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2140,9 +2141,9 @@ public class FunctionalTests extends BaseTestCase {
     public void test_157() {
         groupUpdatePage
                 .gotoGetParameter(testName)
-                .clickOn(1,1, 0)
-                .clickOn(1,2, 0)
-                .clickOn(1,3, 0);
+                .clickOn(1, 1, 0)
+                .clickOn(1, 2, 0)
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2157,9 +2158,9 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0)
-                .clickOn(1,2, 0)
-                .clickOn(1,3, 0);
+                .clickOn(1, 1, 0)
+                .clickOn(1, 2, 0)
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2174,9 +2175,9 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0)
-                .clickOn(1,2, 0)
-                .clickOn(1,3, 0);
+                .clickOn(1, 1, 0)
+                .clickOn(1, 2, 0)
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2191,9 +2192,9 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(1,1, 0)
-                .clickOn(1,2, 0)
-                .clickOn(1,3, 0);
+                .clickOn(1, 1, 0)
+                .clickOn(1, 2, 0)
+                .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2209,9 +2210,9 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(3,1, 0)
-                .clickOn(3,2, 0)
-                .clickOn(3,3, 0);
+                .clickOn(3, 1, 0)
+                .clickOn(3, 2, 0)
+                .clickOn(3, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
@@ -2227,13 +2228,24 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .getTable("tblParamsValue")
                 .print()
-                .clickOn(4,1, 0)
-                .clickOn(4,2, 0)
-                .clickOn(4,3, 0);
+                .clickOn(4, 1, 0)
+                .clickOn(4, 2, 0)
+                .clickOn(4, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("SSID", "values,names,attributes");
+    }
+
+    @Test
+    public void test() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .reprovisionRadioButton()
+                .globalButtons(NEXT);
+        groupUpdatePage
+                .addCondition(1, "Time", "LocalTimeZoneName", EQUAL, "Moscow, St. Petersburg, Volgograd");
+
     }
 }

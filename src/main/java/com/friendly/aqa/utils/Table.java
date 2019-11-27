@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Table {
-    private final static Logger logger = Logger.getLogger(Table.class);
+    private final static Logger LOGGER = Logger.getLogger(Table.class);
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
@@ -170,7 +170,7 @@ public class Table {
             groupList = DataBase.getTaskList(getGroupId(groupName));
             if (groupList.isEmpty()) {
                 String warn = "There are no tasks created by '" + groupName + "' Group Update";
-                logger.warn(warn);
+                LOGGER.warn(warn);
                 throw new AssertionError(warn);
             }
             Set<String> StateSet = new HashSet<>();
@@ -183,7 +183,7 @@ public class Table {
                     System.out.println("all completed");
                     return this;
                 } else {
-                    logger.info("All tasks created. One or more tasks failed or rejected");
+                    LOGGER.info("All tasks created. One or more tasks failed or rejected");
                     System.out.println("One or more tasks failed or rejected");
                     return this;
                 }
@@ -198,7 +198,7 @@ public class Table {
                 }
             }
         }
-        logger.info("All tasks created. One or more tasks remains in pending state");
+        LOGGER.info("All tasks created. One or more tasks remains in pending state");
         return this;
     }
 
@@ -240,7 +240,7 @@ public class Table {
         }
         if (rowNum < 0) {
             String warning = "Text '" + text + "' not found in current table";
-            logger.warn(warning);
+            LOGGER.warn(warning);
             throw new AssertionError(warning);
         }
         return rowNum;
@@ -261,7 +261,7 @@ public class Table {
         }
         if (!match) {
             String warning = "Pair '" + parameter + "'='" + value + "' not found";
-            logger.warn(warning);
+            LOGGER.warn(warning);
             throw new AssertionError(warning);
         }
         return this;
@@ -286,20 +286,42 @@ public class Table {
         return this;
     }
 
-    public Table setPolicy(String policyName, Policy notification, Policy aList) {
+    public Table setCondition(String conditionName, Conditions condition, String value) {
+        int rowNum = getRowNumberByText(0, conditionName);
+        if (rowNum < 0) {
+            throw new AssertionError("Condition name '" + conditionName + "' not found");
+        }
+        WebElement conditionCell = getCellWebElement(rowNum, 1);
+        WebElement valueCell = getCellWebElement(rowNum, 2);
+        if (props.getProperty("browser").equals("edge")) {
+            ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", conditionCell);
+        }
+        if (condition != null) {
+            new Select(conditionCell.findElement(By.tagName("select"))).selectByValue(condition.value);
+        }
+        if (value != null && condition != Conditions.VALUE_CHANGE) {
+            valueCell.findElement(By.tagName("input")).sendKeys(value);
+        }
+        clickOn(0, 0);
+        return this;
+    }
+
+    public Table setPolicy(String policyName, Policy notification, Policy accessList) {
         int rowNum = getRowNumberByText(0, policyName);
         if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + policyName + "' not found");
+            throw new AssertionError("Policy name '" + policyName + "' not found");
         }
         WebElement notificationCell = getCellWebElement(rowNum, 1);
-        WebElement aListCell = getCellWebElement(rowNum, 2);
+        WebElement accessListCell = getCellWebElement(rowNum, 2);
         if (notification != null) {
             new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
         }
-        if (aList != null) {
-            new Select(aListCell.findElement(By.tagName("select"))).selectByValue(aList.option);
+        pause(100);
+        if (accessList != null) {
+            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
         }
-        clickOn(0, 0);
+        pause(100);
+//        clickOn(0, 0);
         return this;
     }
 
@@ -367,6 +389,34 @@ public class Table {
 
         Policy(String option) {
             this.option = option;
+        }
+    }
+
+    public enum Conditions {
+        CONTAINS(1, "5"),
+        EQUAL(2, "2"),
+        GREATER(3, "1"),
+        GREATER_EQUAL(4, "8"),
+        LESS(5, "4"),
+        LESS_EQUAL(6, "3"),
+        NOT_EQUAL(7, "6"),
+        STARTS_WITH(8, "7"),
+        VALUE_CHANGE(9, "9");
+
+        Conditions(int index, String value) {
+            this.index = index;
+            this.value = value;
+        }
+
+        int index;
+        String value;
+
+        public int getIndex() {
+            return index;
+        }
+
+        public String getValue() {
+            return value;
         }
     }
 }

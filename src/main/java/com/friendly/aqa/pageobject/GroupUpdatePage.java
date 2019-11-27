@@ -5,9 +5,12 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
@@ -143,6 +146,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
+
+    @FindBy(id = "frmPopup2")
+    private WebElement conditionFrame;
 
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
@@ -281,7 +287,15 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table getTable(String id) {
+        return getTable(id, null);
+    }
+
+    public Table getTable(String id, WebElement frame) {
         waitForUpdate();
+        if (frame != null) {
+            driver.switchTo().defaultContent();
+            driver.switchTo().frame(frame);
+        }
         WebElement tableEl = driver.findElement(By.id(id));
         setImplicitlyWait(0);
         Table table = new Table(tableEl);
@@ -746,6 +760,24 @@ public class GroupUpdatePage extends BasePage {
             LOGGER.warn(warn);
             throw new AssertionError(warn);
         }
+        return this;
+    }
+
+    public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Table.Conditions condition, String value) {
+        WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
+        button.click();
+        driver.switchTo().defaultContent();
+        driver.switchTo().frame(conditionFrame);
+        Table treeTable = getTable("tblTree", conditionFrame);
+        treeTable.clickOn(branch);
+        Table paramTable = getTable("tblParamsValue", conditionFrame);
+        paramTable.setCondition(conditionName, condition, value);
+        WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
+        new FluentWait<>(driver).withMessage("Element was not found")
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.attributeToBe(saveButton, "class", "button_default"));
+        saveButton.click();
         return this;
     }
 
