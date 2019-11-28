@@ -8,6 +8,7 @@ import test.BaseTestCase;
 
 import java.io.IOException;
 
+import static com.friendly.aqa.pageobject.BasePage.waitForUpdate;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
@@ -18,8 +19,8 @@ import static com.friendly.aqa.utils.Table.Policy.*;
 public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_001() {
-        systemPage.topMenu(GROUP_UPDATE)
-                .waitForUpdate();
+        systemPage.topMenu(GROUP_UPDATE);
+        waitForUpdate();
         Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
@@ -41,8 +42,8 @@ public class FunctionalTests extends BaseTestCase {
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName(testName)
-                .globalButtons(CANCEL)
-                .waitForUpdate();
+                .globalButtons(CANCEL);
+        waitForUpdate();
         Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
@@ -68,10 +69,10 @@ public class FunctionalTests extends BaseTestCase {
                 .selectModel()
                 .fillName(testName)
                 .createGroup()
-                .assertElementIsPresent(FINISH);
+                .assertButtonIsPresent(FINISH);
         groupUpdatePage
-                .globalButtons(CANCEL)
-                .waitForUpdate();
+                .globalButtons(CANCEL);
+        waitForUpdate();
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 
@@ -101,11 +102,11 @@ public class FunctionalTests extends BaseTestCase {
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
                 .clickOn(1, 0);
-        groupUpdatePage.waitForUpdate();
+        waitForUpdate();
         Assert.assertTrue(groupUpdatePage.isButtonActive(NEXT));
         groupUpdatePage.getTable("tblDevices")
                 .clickOn(1, 0);
-        groupUpdatePage.waitForUpdate();
+        waitForUpdate();
         Assert.assertFalse(groupUpdatePage.isButtonActive(NEXT));
     }
 

@@ -21,18 +21,23 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+
 
 public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
-    static final Logger LOGGER;
-    static final String BROWSER;
+    public static final String BROWSER;
+    private static final Logger LOGGER;
+    private static FrameSwitch frame;
+    private static FrameSwitch previousFrame;
 
     static {
         initProperties();
         LOGGER = Logger.getLogger(BasePage.class);
         initDriver();
         BROWSER = props.getProperty("browser");
+        frame = ROOT;
     }
 
     BasePage() {
@@ -109,10 +114,13 @@ public abstract class BasePage {
     private WebElement leftMenuTable;
 
     @FindBy(id = "frmDesktop")
-    private WebElement frameDesktop;
+    private static WebElement frameDesktop;
 
     @FindBy(id = "frmButtons")
-    private WebElement frameButtons;
+    private static WebElement frameButtons;
+
+    @FindBy(id = "frmPopup2")
+    private static WebElement framePopup2;
 
     @FindBy(id = "imgLogout")
     private WebElement logOutButton;
@@ -121,7 +129,7 @@ public abstract class BasePage {
     private WebElement buttonTable;
 
     @FindBy(id = "menuCircularG")
-    private WebElement spinningWheel;
+    private static WebElement spinningWheel;
 
     @FindBy(id = "spnAlert")
     protected WebElement alertWindow;
@@ -138,8 +146,8 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void waitForUpdate() {
-        driver.switchTo().defaultContent();
+    public void waitForUpdate1() {
+        switchToFrame(ROOT);
         long start = System.currentTimeMillis();
         try {
             new FluentWait<>(driver).withMessage("Element was not found")
@@ -156,7 +164,23 @@ public abstract class BasePage {
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.invisibilityOf(spinningWheel));
 //        System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));
-        switchToFrameDesktop();
+        switchToPrevious();
+        //*[@id="menuCircularG"]
+    }
+
+    public static void waitForUpdate() {
+        long start = System.currentTimeMillis();
+        switchToFrame(ROOT);
+        String style;
+        do {
+            style = spinningWheel.getAttribute("style");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (!style.contains("display: none;"));
+        switchToPrevious();
     }
 
     void leftMenuClick(String value) {
@@ -169,10 +193,10 @@ public abstract class BasePage {
     }
 
     public String getAlertTextAndClickOk() {
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
         String out = alertWindow.getText();
         okButtonAlertPopUp.click();
-        switchToFrameDesktop();
+        switchToPrevious();
         return out;
     }
 
@@ -194,7 +218,7 @@ public abstract class BasePage {
 
     void clickGlobalButtons(GlobalButtons button) {
         waitForUpdate();
-        switchToFrameButtons();
+        switchToFrame(FrameSwitch.BUTTONS);
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
 //        WebElement btn = buttonTable.findElement(By.id(button.getId()));
         for (int i = 0; i < 3; i++) {
@@ -204,7 +228,7 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
                         .click();
-                switchToFrameDesktop();
+                switchToPrevious();
                 return;
             } catch (StaleElementReferenceException e) {
                 LOGGER.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
@@ -218,11 +242,10 @@ public abstract class BasePage {
         return attr == null || !attr.equals("true");
     }
 
-    public boolean isButtonPresent(GlobalButtons button) {
-        switchToFrameButtons();
+    public void assertButtonIsPresent(GlobalButtons button) {
+        switchToFrame(FrameSwitch.BUTTONS);
         boolean out = driver.findElements(By.id(button.getId())).size() > 0;
-        switchToFrameDesktop();
-        return out;
+        switchToPrevious();
     }
 
     public String getAttributeById(String id, String attr) {
@@ -230,9 +253,9 @@ public abstract class BasePage {
     }
 
     public boolean isButtonActive(GlobalButtons button) {
-        switchToFrameButtons();
+        switchToFrame(FrameSwitch.BUTTONS);
         boolean out = driver.findElement(By.id(button.getId())).getAttribute("class").equals("button_default");
-        switchToFrameDesktop();
+        switchToPrevious();
         return out;
     }
 
@@ -240,13 +263,13 @@ public abstract class BasePage {
         return driver.getTitle();
     }
 
-    void switchToFrameDesktop() {
-        driver.switchTo().defaultContent().switchTo().frame(frameDesktop);
-    }
-
-    void switchToFrameButtons() {
-        driver.switchTo().defaultContent().switchTo().frame(frameButtons);
-    }
+//    void switchToFrameDesktop() {
+//        driver.switchTo().defaultContent().switchTo().frame(frameDesktop);
+//    }
+//
+//    void switchToFrameButtons() {
+//        driver.switchTo().defaultContent().switchTo().frame(frameButtons);
+//    }
 
     public static void takeScreenshot(String pathname) throws IOException {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
@@ -257,6 +280,38 @@ public abstract class BasePage {
 
     public static void closeDriver() {
         driver.close();
+    }
+
+    public static void switchToFrame(FrameSwitch frame) {
+        BasePage.previousFrame = BasePage.frame;
+        if (BasePage.frame == frame) {
+            return;
+        }
+        driver.switchTo().defaultContent();
+        BasePage.frame = frame;
+        if (frame == ROOT) {
+            return;
+        }
+        WebElement frameEl = driver.findElement(By.id(frame.frameId));
+        driver.switchTo().frame(frameEl);
+    }
+
+    public static void switchToPrevious() {
+        switchToFrame(previousFrame);
+    }
+
+    public enum FrameSwitch {
+        ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"), CONDITIONS("frmPopup2");
+
+        FrameSwitch(String frameId) {
+            this.frameId = frameId;
+        }
+
+        String frameId;
+
+        private String getFrameId() {
+            return frameId;
+        }
     }
 }
 

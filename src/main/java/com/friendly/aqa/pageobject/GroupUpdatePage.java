@@ -13,6 +13,7 @@ import java.io.File;
 import java.time.Duration;
 import java.util.*;
 
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
@@ -22,7 +23,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage() {
         super();
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
     }
 
     @Override
@@ -243,7 +244,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectImportDevicesFile() {
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
         String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
         importDevicesField.sendKeys(inputText);
@@ -252,7 +253,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectImportGuFile() {
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         String inputText = new File(props.getProperty("import_group_update_file_path")).getAbsolutePath();
         System.out.println(inputText);
         importGuField.sendKeys(inputText);
@@ -277,11 +278,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage assertElementIsPresent(GlobalButtons button) {
-        switchToFrameButtons();
-        return assertElementIsPresent(button.getId());
-    }
-
     public Table getMainTable() {
         return getTable("tblParameters");
     }
@@ -290,11 +286,10 @@ public class GroupUpdatePage extends BasePage {
         return getTable(id, null);
     }
 
-    public Table getTable(String id, WebElement frame) {
+    public Table getTable(String id, FrameSwitch frame) {
         waitForUpdate();
         if (frame != null) {
-            driver.switchTo().defaultContent();
-            driver.switchTo().frame(frame);
+            switchToFrame(frame);
         }
         WebElement tableEl = driver.findElement(By.id(id));
         setImplicitlyWait(0);
@@ -446,16 +441,16 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage okButtonPopUp() {
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
         okButtonPopUp.click();
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         return this;
     }
 
     public GroupUpdatePage cancelButtonPopUp() {
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
         cancelButtonPopUp.click();
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -655,9 +650,9 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage leftMenu(GroupUpdatePage.Left item) {
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
         leftMenuClick(item.getValue());
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -689,7 +684,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage checkFiltering(String dropdown, String option) {
-        switchToFrameDesktop();
+        switchToFrame(DESKTOP);
         WebElement comboBox;
         switch (dropdown) {
             case "Manufacturer":
@@ -766,11 +761,11 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Table.Conditions condition, String value) {
         WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
         button.click();
-        driver.switchTo().defaultContent();
-        driver.switchTo().frame(conditionFrame);
-        Table treeTable = getTable("tblTree", conditionFrame);
+//        driver.switchTo().defaultContent();
+//        driver.switchTo().frame(conditionFrame);
+        Table treeTable = getTable("tblTree", CONDITIONS);
         treeTable.clickOn(branch);
-        Table paramTable = getTable("tblParamsValue", conditionFrame);
+        Table paramTable = getTable("tblParamsValue", CONDITIONS);
         paramTable.setCondition(conditionName, condition, value);
         WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
         new FluentWait<>(driver).withMessage("Element was not found")
@@ -825,7 +820,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage waitForStatus(String status, String groupName, int timeout) {
         long start = System.currentTimeMillis();
-        while (!getMainTable().getCellText(4, groupName, 1).toLowerCase().equals(status.toLowerCase())) {
+        while (!getMainTable().getCellText(4, groupName, 1).equals(status)) {
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);

@@ -31,7 +31,6 @@ public class LoginPage extends BasePage {
         fillPasswordFiled(password);
         fillUsernameFiled(username);
         loginButton.click();
-        new SystemPage();
     }
 }
 

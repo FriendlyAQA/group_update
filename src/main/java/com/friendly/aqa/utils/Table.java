@@ -80,7 +80,7 @@ public class Table {
         if (tagNum < 0) {
             elementTable[row][column].click();
         } else {
-            List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input"));
+            List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input | child::select"));
             tagList.get(tagNum).click();
         }
         return this;
@@ -188,7 +188,7 @@ public class Table {
                     return this;
                 }
             }
-            System.out.println("contains pending");
+//            System.out.println("contains pending");
             long timeout;
             if ((timeout = 1000 - System.currentTimeMillis() + start) > 0) {
                 try {
@@ -276,13 +276,17 @@ public class Table {
         if (props.getProperty("browser").equals("edge")) {
             ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", paramCell);
         }
+//        BasePage.waitForUpdate();
         new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
         if (value != null && option == Parameter.VALUE) {
             WebElement input = paramCell.findElement(By.tagName("input"));
+//            BasePage.waitForUpdate();
             input.clear();
             input.sendKeys(value);
         }
-        clickOn(0, 0);
+        if (BasePage.BROWSER.equals("firefox") || BasePage.BROWSER.equals("chrome") || BasePage.BROWSER.equals("ie")) {
+            clickOn(rowNum, 1, 0);
+        }
         return this;
     }
 
@@ -293,7 +297,7 @@ public class Table {
         }
         WebElement conditionCell = getCellWebElement(rowNum, 1);
         WebElement valueCell = getCellWebElement(rowNum, 2);
-        if (props.getProperty("browser").equals("edge")) {
+        if (BasePage.BROWSER.equals("edge")) {
             ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", conditionCell);
         }
         if (condition != null) {
@@ -313,14 +317,17 @@ public class Table {
         }
         WebElement notificationCell = getCellWebElement(rowNum, 1);
         WebElement accessListCell = getCellWebElement(rowNum, 2);
+        if (BasePage.BROWSER.equals("edge")) {
+            ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", notificationCell);
+        }
         if (notification != null) {
             new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
         }
-        pause(100);
+        BasePage.waitForUpdate();
         if (accessList != null) {
             new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
         }
-        pause(100);
+        BasePage.waitForUpdate();
 //        clickOn(0, 0);
         return this;
     }
