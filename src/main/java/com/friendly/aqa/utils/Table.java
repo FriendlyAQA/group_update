@@ -176,15 +176,15 @@ public class Table {
             Set<String> StateSet = new HashSet<>();
             for (String[] line : groupList) {
                 StateSet.add(line[2]);
-                System.out.print(line[2] + ", ");
+//                System.out.print(line[2] + ", ");
             }
             if (!StateSet.contains("1")) {
                 if (StateSet.size() == 1 && StateSet.contains("2")) {
-                    System.out.println("all completed");
+//                    System.out.println("all completed");
                     return this;
                 } else {
                     LOGGER.info("All tasks created. One or more tasks failed or rejected");
-                    System.out.println("One or more tasks failed or rejected");
+//                    System.out.println("One or more tasks failed or rejected");
                     return this;
                 }
             }

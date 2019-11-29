@@ -240,6 +240,8 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage topMenu(TopMenu value) {
         super.topMenu(value);
+        switchToFrame(DESKTOP);
+        waitForUpdate();
         return this;
     }
 
@@ -533,12 +535,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage resetView() {
-        resetViewButton.click();
-        waitForUpdate();
-        return this;
-    }
-
     public GroupUpdatePage showList() {
         waitForUpdate();
         showListButton.click();
@@ -729,7 +725,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage checkSorting(String column) {
-        itemsOnPage("100");
+        itemsOnPage("200");
         waitForUpdate();
         Table table = getMainTable();
         int colNum = table.getColumnNumber(0, column);
@@ -764,7 +760,7 @@ public class GroupUpdatePage extends BasePage {
 //        driver.switchTo().defaultContent();
 //        driver.switchTo().frame(conditionFrame);
         Table treeTable = getTable("tblTree", CONDITIONS);
-        treeTable.clickOn(branch);
+        treeTable.print().clickOn(0, branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
         paramTable.setCondition(conditionName, condition, value);
         WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
@@ -776,13 +772,22 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage resetView() {
+        resetViewButton.click();
+        waitForUpdate();
+        return this;
+    }
+
     public void checkResetView() {
         waitForUpdate();
         resetView();
+        if (BROWSER.equals("chrome")){
+            pause(500);
+        }
+        Table table = getMainTable();
         boolean man = new Select(manufacturerComboBox).getFirstSelectedOption().getText().equals("All");
         boolean model = new Select(modelComboBox).getFirstSelectedOption().getText().equals("All");
         boolean status = new Select(updStatusComboBox).getFirstSelectedOption().getText().equals("All");
-        Table table = getMainTable();
         String[] arr = table.getColumn("Created");
         String[] arr2 = Arrays.copyOf(arr, arr.length);
         Arrays.sort(arr, Comparator.reverseOrder());
@@ -804,7 +809,7 @@ public class GroupUpdatePage extends BasePage {
 //    }
 
     public boolean mainTableIsAbsent() {
-        System.out.println(mainTableIsPresent.size());
+        System.out.println(noDataFound.size());
         return noDataFound.size() == 1;
     }
 
@@ -901,7 +906,7 @@ public class GroupUpdatePage extends BasePage {
     private GroupUpdatePage goto_(String manufacturer, String model, String groupName, int index) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
-                .selectManufacturer(manufacturer)
+                .selectManufacturer(manufacturer.toLowerCase())
                 .selectModel(model)
                 .fillName(groupName)
                 .selectSendTo()
@@ -922,8 +927,8 @@ public class GroupUpdatePage extends BasePage {
 
     public void deleteAll() {
         topMenu(GROUP_UPDATE);
-        waitForUpdate();
         while (noDataFound.size() == 0) {
+            switchToFrame(DESKTOP);
             getMainTable().clickOn(0, 0);
             globalButtons(DELETE)
                     .okButtonPopUp();

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.BUTTONS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
 
@@ -29,7 +30,7 @@ public abstract class BasePage {
     static Properties props;
     public static final String BROWSER;
     private static final Logger LOGGER;
-    private static FrameSwitch frame;
+    static FrameSwitch frame;
     private static FrameSwitch previousFrame;
 
     static {
@@ -93,9 +94,9 @@ public abstract class BasePage {
         setImplicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")));
     }
 
-    public static void switchToDefaultContent() {
-        driver.switchTo().defaultContent();
-    }
+//    public static void switchToDefaultContent() {
+//        driver.switchTo().defaultContent();
+//    }
 
     public static WebDriver getDriver() {
         return driver;
@@ -138,7 +139,8 @@ public abstract class BasePage {
     protected WebElement okButtonAlertPopUp;
 
     public void logOut() {
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
+        waitForUpdate();
         logOutButton.click();
     }
 
@@ -202,7 +204,7 @@ public abstract class BasePage {
 
     public BasePage topMenu(TopMenu value) {
         waitForUpdate();
-        driver.switchTo().defaultContent();
+        switchToFrame(ROOT);
         for (WebElement btn : topMenuTable.findElements(By.tagName("td"))) {
             if (btn.getText().equals(value.getItem())) {
                 btn.click();
@@ -218,7 +220,7 @@ public abstract class BasePage {
 
     void clickGlobalButtons(GlobalButtons button) {
         waitForUpdate();
-        switchToFrame(FrameSwitch.BUTTONS);
+        switchToFrame(BUTTONS);
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
 //        WebElement btn = buttonTable.findElement(By.id(button.getId()));
         for (int i = 0; i < 3; i++) {
@@ -243,7 +245,7 @@ public abstract class BasePage {
     }
 
     public void assertButtonIsPresent(GlobalButtons button) {
-        switchToFrame(FrameSwitch.BUTTONS);
+        switchToFrame(BUTTONS);
         boolean out = driver.findElements(By.id(button.getId())).size() > 0;
         switchToPrevious();
     }
@@ -253,7 +255,7 @@ public abstract class BasePage {
     }
 
     public boolean isButtonActive(GlobalButtons button) {
-        switchToFrame(FrameSwitch.BUTTONS);
+        switchToFrame(BUTTONS);
         boolean out = driver.findElement(By.id(button.getId())).getAttribute("class").equals("button_default");
         switchToPrevious();
         return out;

@@ -11,6 +11,8 @@ import org.testng.annotations.*;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+
 public class BaseTestCase extends TestBase {
     private LoginPage loginPage;
     protected SystemPage systemPage;
@@ -48,7 +50,7 @@ public class BaseTestCase extends TestBase {
         } else {
             logger.info(result.getName() + " - PASSED");
         }
-        BasePage.switchToDefaultContent();
+        BasePage.switchToFrame(ROOT);
     }
 
     @AfterSuite
@@ -69,7 +71,7 @@ public class BaseTestCase extends TestBase {
         BasePage.closeDriver();
     }
 
-    public void setTargetTestName() {
+    protected void setTargetTestName() {
         this.targetTestName = testName;
     }
 }

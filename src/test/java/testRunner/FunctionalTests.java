@@ -19,7 +19,8 @@ import static com.friendly.aqa.utils.Table.Policy.*;
 public class FunctionalTests extends BaseTestCase {
     @Test
     public void test_001() {
-        systemPage.topMenu(GROUP_UPDATE);
+        groupUpdatePage.deleteAll();
+        groupUpdatePage.topMenu(GROUP_UPDATE);
         waitForUpdate();
         Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
@@ -73,6 +74,7 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .globalButtons(CANCEL);
         waitForUpdate();
+//        groupUpdatePage.pause(500);
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 
@@ -151,8 +153,8 @@ public class FunctionalTests extends BaseTestCase {
         groupUpdatePage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForUpdate();
+                .okButtonPopUp();
+        waitForUpdate();
         Assert.assertEquals(groupUpdatePage
                 .getMainTable()
                 .getCellText(4, testName, 1), "Not active");
@@ -227,8 +229,8 @@ public class FunctionalTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
                 .timeHoursSelect(0)
-                .globalButtons(NEXT)
-                .waitForUpdate();
+                .globalButtons(NEXT);
+        waitForUpdate();
         Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
         groupUpdatePage
                 .checkIsCalendarClickable();
@@ -236,7 +238,8 @@ public class FunctionalTests extends BaseTestCase {
 
     @Test
     public void test_021() throws IOException {
-        systemPage.topMenu(GROUP_UPDATE);
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE);
         Assert.assertTrue(HttpGetter.getUrlSource(groupUpdatePage
                 .getMainTable()
                 .getExportLink(targetTestName))
@@ -1338,8 +1341,8 @@ public class FunctionalTests extends BaseTestCase {
                 .assertAbsenceOfParameter("DigitMapEnable");
     }
 
-    @Test
-    public void test_070() {
+    @Test //Moved to end
+    public void test_250() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(2)
@@ -1352,8 +1355,8 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
 
-    @Test
-    public void test_071() {
+    @Test //Moved to end
+    public void test_251() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(1)
@@ -1366,8 +1369,8 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
 
-    @Test
-    public void test_072() {
+    @Test //Moved to end
+    public void test_252() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(2)
@@ -1378,8 +1381,8 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
     }
 
-    @Test
-    public void test_073() {
+    @Test //Moved to end
+    public void test_253() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(1)
@@ -1456,8 +1459,8 @@ public class FunctionalTests extends BaseTestCase {
                 .assertResultTableIsAbsent();
     }
 
-    @Test
-    public void test_081() {
+    @Test //Moved to end
+    public void test_254() {
         groupUpdatePage
                 .gotoAction(testName)
                 .rebootRadioButton()
@@ -1466,8 +1469,8 @@ public class FunctionalTests extends BaseTestCase {
                 .assertPresenceOfParameter("Reboot");
     }
 
-    @Test
-    public void test_082() {
+    @Test //Moved to end
+    public void test_255() {
         groupUpdatePage
                 .gotoAction(testName)
                 .factoryResetRadioButton()
@@ -1553,7 +1556,7 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_090() {
+    public void test_256() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1564,7 +1567,7 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_091() {
+    public void test_257() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1597,9 +1600,9 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_094() {
+    public void test_258() {
         groupUpdatePage
-                .gotoAction(testName)
+                .gotoAction(/*"Greenpacket", "Lte WiMAX Gateway",*/testName)
                 .customRpcRadioButton()
                 .selectMethod(12)
                 .saveAndActivate(testName)
@@ -1608,7 +1611,7 @@ public class FunctionalTests extends BaseTestCase {
     }
 
     @Test
-    public void test_095() {
+    public void test_259() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1889,7 +1892,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Information");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1904,7 +1906,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Time");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1919,7 +1920,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("WAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1935,7 +1935,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("LAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(3, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1951,7 +1950,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Wireless");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(4, 1, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1978,7 +1976,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Information");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -1993,7 +1990,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Time");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2008,7 +2004,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("WAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2024,7 +2019,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("LAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(3, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2040,7 +2034,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Wireless");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(4, 2, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2067,7 +2060,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Information");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2082,7 +2074,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Time");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2097,7 +2088,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("WAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2113,7 +2103,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("LAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(3, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2129,7 +2118,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Wireless");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(4, 3, 0);
         groupUpdatePage
                 .saveAndActivate(testName)
@@ -2158,7 +2146,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Information");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0)
                 .clickOn(1, 2, 0)
                 .clickOn(1, 3, 0);
@@ -2175,7 +2162,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Time");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0)
                 .clickOn(1, 2, 0)
                 .clickOn(1, 3, 0);
@@ -2192,7 +2178,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("WAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(1, 1, 0)
                 .clickOn(1, 2, 0)
                 .clickOn(1, 3, 0);
@@ -2210,7 +2195,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("LAN");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(3, 1, 0)
                 .clickOn(3, 2, 0)
                 .clickOn(3, 3, 0);
@@ -2228,7 +2212,6 @@ public class FunctionalTests extends BaseTestCase {
                 .clickOn("Wireless");
         groupUpdatePage
                 .getTable("tblParamsValue")
-                .print()
                 .clickOn(4, 1, 0)
                 .clickOn(4, 2, 0)
                 .clickOn(4, 3, 0);
@@ -2239,7 +2222,7 @@ public class FunctionalTests extends BaseTestCase {
                 .checkResults("SSID", "values,names,attributes");
     }
 
-    @Test
+    //    @Test
     public void test() {
         groupUpdatePage
                 .gotoAction(testName)
