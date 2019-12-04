@@ -6,9 +6,13 @@ import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBase;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
@@ -69,6 +73,15 @@ public class BaseTestCase extends TestBase {
         ));
         logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
         BasePage.closeDriver();
+    }
+
+    public static void main(String[] args) {
+        TestListenerAdapter tla = new TestListenerAdapter();
+        TestNG testng = new TestNG();
+        List<String> suites = new ArrayList<>();
+        suites.add("testng.xml");//path to xml..
+        testng.setTestSuites(suites);
+        testng.run();
     }
 
     protected void setTargetTestName() {

@@ -809,7 +809,6 @@ public class GroupUpdatePage extends BasePage {
 //    }
 
     public boolean mainTableIsAbsent() {
-        System.out.println(noDataFound.size());
         return noDataFound.size() == 1;
     }
 

@@ -94,7 +94,6 @@ public class HttpGetter {
         int timeout = Integer.parseInt(BasePage.getProps().getProperty("driver_implicitly_wait"));
         try {
             result = future.get(timeout, TimeUnit.SECONDS);
-            System.out.println("request");
         } catch (TimeoutException | InterruptedException | ExecutionException ex) {
             System.out.print(ex.getClass().getSimpleName() + " caught while loading the HTML page");
         } finally {
