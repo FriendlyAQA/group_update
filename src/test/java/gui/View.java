@@ -1,12 +1,13 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputMethodEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
 
 public class View extends JFrame {
 
@@ -16,7 +17,7 @@ public class View extends JFrame {
         initArrays();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        System.out.println("view thread name:"+Thread.currentThread().getName());
+        System.out.println("view thread name:" + Thread.currentThread().getName());
     }
 
     private void initComponents() {
@@ -130,6 +131,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton0.setSelected(true);
         runSpecifiedRadioButton0.setText("Run specified");
+        runSpecifiedRadioButton0.setEnabled(false);
         runSpecifiedRadioButton0.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton0.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton0.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -142,6 +144,7 @@ public class View extends JFrame {
         buttonGroup0.add(excludeSpecificRadioButton0);
         excludeSpecificRadioButton0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton0.setText("Exclude specific");
+        excludeSpecificRadioButton0.setEnabled(false);
         excludeSpecificRadioButton0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -149,12 +152,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField0.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField0.setEnabled(false);
+        runSpecifiedField0.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -168,12 +169,9 @@ public class View extends JFrame {
 
         excludeSpecificField0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField0.setEnabled(false);
-        excludeSpecificField0.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField0.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -237,6 +235,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton1.setSelected(true);
         runSpecifiedRadioButton1.setText("Run specified");
+        runSpecifiedRadioButton1.setEnabled(false);
         runSpecifiedRadioButton1.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton1.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton1.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -249,6 +248,7 @@ public class View extends JFrame {
         buttonGroup1.add(excludeSpecificRadioButton1);
         excludeSpecificRadioButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton1.setText("Exclude specific");
+        excludeSpecificRadioButton1.setEnabled(false);
         excludeSpecificRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -256,12 +256,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField1.setEnabled(false);
+        runSpecifiedField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -275,12 +273,9 @@ public class View extends JFrame {
 
         excludeSpecificField1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField1.setEnabled(false);
-        excludeSpecificField1.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -364,12 +359,9 @@ public class View extends JFrame {
         });
 
         runSpecifiedField2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -383,12 +375,9 @@ public class View extends JFrame {
 
         excludeSpecificField2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField2.setEnabled(false);
-        excludeSpecificField2.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -452,6 +441,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton3.setSelected(true);
         runSpecifiedRadioButton3.setText("Run specified");
+        runSpecifiedRadioButton3.setEnabled(false);
         runSpecifiedRadioButton3.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton3.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton3.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -464,6 +454,7 @@ public class View extends JFrame {
         buttonGroup3.add(excludeSpecificRadioButton3);
         excludeSpecificRadioButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton3.setText("Exclude specific");
+        excludeSpecificRadioButton3.setEnabled(false);
         excludeSpecificRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -471,12 +462,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField3.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField3.setEnabled(false);
+        runSpecifiedField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -490,12 +479,9 @@ public class View extends JFrame {
 
         excludeSpecificField3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField3.setEnabled(false);
-        excludeSpecificField3.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -559,6 +545,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton4.setSelected(true);
         runSpecifiedRadioButton4.setText("Run specified");
+        runSpecifiedRadioButton4.setEnabled(false);
         runSpecifiedRadioButton4.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton4.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton4.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -571,6 +558,7 @@ public class View extends JFrame {
         buttonGroup4.add(excludeSpecificRadioButton4);
         excludeSpecificRadioButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton4.setText("Exclude specific");
+        excludeSpecificRadioButton4.setEnabled(false);
         excludeSpecificRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -578,12 +566,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField4.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField4.setEnabled(false);
+        runSpecifiedField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -597,12 +583,9 @@ public class View extends JFrame {
 
         excludeSpecificField4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField4.setEnabled(false);
-        excludeSpecificField4.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -666,6 +649,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton5.setSelected(true);
         runSpecifiedRadioButton5.setText("Run specified");
+        runSpecifiedRadioButton5.setEnabled(false);
         runSpecifiedRadioButton5.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton5.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton5.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -678,6 +662,7 @@ public class View extends JFrame {
         buttonGroup5.add(excludeSpecificRadioButton5);
         excludeSpecificRadioButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton5.setText("Exclude specific");
+        excludeSpecificRadioButton5.setEnabled(false);
         excludeSpecificRadioButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -685,12 +670,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField5.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField5.setEnabled(false);
+        runSpecifiedField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -704,12 +687,9 @@ public class View extends JFrame {
 
         excludeSpecificField5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField5.setEnabled(false);
-        excludeSpecificField5.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -773,6 +753,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton6.setSelected(true);
         runSpecifiedRadioButton6.setText("Run specified");
+        runSpecifiedRadioButton6.setEnabled(false);
         runSpecifiedRadioButton6.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton6.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton6.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -785,6 +766,7 @@ public class View extends JFrame {
         buttonGroup6.add(excludeSpecificRadioButton6);
         excludeSpecificRadioButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton6.setText("Exclude specific");
+        excludeSpecificRadioButton6.setEnabled(false);
         excludeSpecificRadioButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -792,12 +774,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField6.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField6.setEnabled(false);
+        runSpecifiedField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -811,12 +791,9 @@ public class View extends JFrame {
 
         excludeSpecificField6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField6.setEnabled(false);
-        excludeSpecificField6.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -880,6 +857,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton7.setSelected(true);
         runSpecifiedRadioButton7.setText("Run specified");
+        runSpecifiedRadioButton7.setEnabled(false);
         runSpecifiedRadioButton7.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton7.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton7.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -892,6 +870,7 @@ public class View extends JFrame {
         buttonGroup7.add(excludeSpecificRadioButton7);
         excludeSpecificRadioButton7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton7.setText("Exclude specific");
+        excludeSpecificRadioButton7.setEnabled(false);
         excludeSpecificRadioButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -899,12 +878,10 @@ public class View extends JFrame {
         });
 
         runSpecifiedField7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        runSpecifiedField7.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        runSpecifiedField7.setEnabled(false);
+        runSpecifiedField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -918,12 +895,9 @@ public class View extends JFrame {
 
         excludeSpecificField7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificField7.setEnabled(false);
-        excludeSpecificField7.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                textFieldCaretPositionChanged(evt);
+        excludeSpecificField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textChanged(evt);
             }
         });
 
@@ -979,7 +953,7 @@ public class View extends JFrame {
         jTabbedPane1.setSelectedIndex(2);
 
         runButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        runButton.setLabel("RUN");
+        runButton.setText("RUN");
         runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runButtonActionPerformed(evt);
@@ -1108,39 +1082,46 @@ public class View extends JFrame {
     }
 
     private void runButtonActionPerformed(ActionEvent evt) {
+        controller.runPressed(runButton.getText().equals("RUN"));
         appendToPane(jTextPane1, "test_256 passed\n", Color.GREEN.darker());
     }
 
-    private void textFieldCaretPositionChanged(InputMethodEvent evt) {
-        // TODO add your handling code here:
+    public void setRunButtonText(String text) {
+        runButton.setText(text);
+    }
+
+    private void textChanged(KeyEvent evt) {
+        JTextField textField = (JTextField) evt.getSource();
+        controller.textChanged(textField);
     }
 
     private void runEntireActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
+        boolean isSelected = ((JCheckBox) evt.getSource()).isSelected();
+        controller.enableAllTabs(isSelected);
     }
 
     private void enableTabCheckBoxPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
+        JCheckBox checkBox = (JCheckBox) evt.getSource();
+        controller.tabStateChanged(checkBox);
     }
 
     private void testSelectActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
+        JRadioButton radioButton = (JRadioButton) evt.getSource();
+        int num = -1;
+        for (int i = 0; i < runSpecifiedRadioButtonArray.length; i++) {
+            if (radioButton == runSpecifiedRadioButtonArray[i]) {
+                num = i;
+                break;
+            }
+        }
+        for (int i = 0; i < excludeSpecificRadioButtonArray.length; i++) {
+            if (radioButton == excludeSpecificRadioButtonArray[i]) {
+                num = i;
+                break;
+            }
+        }
+        controller.testSelected(num);
     }
-
-//    public static void main(String[] args) {
-//        try {
-//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-//            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        EventQueue.invokeLater(() -> new View().setVisible(true));
-//    }
 
     public void appendToPane(JTextPane tp, String msg, Color c) {
         StyleContext sc = StyleContext.getDefaultStyleContext();
@@ -1157,16 +1138,61 @@ public class View extends JFrame {
         tp.setEditable(false);
     }
 
+    public void setEnabled(boolean enable, JComponent... components) {
+        for (JComponent component : components) {
+            component.setEnabled(enable);
+        }
+    }
+
+    public void setPassedFieldText(String text) {
+        passedField.setText(text);
+    }
+
+    public void setFailedFieldText(String text) {
+        failedField.setText(text);
+    }
+
     private void initArrays() {
         runSpecifiedRadioButtonArray = new JRadioButton[]{runSpecifiedRadioButton0, runSpecifiedRadioButton1, runSpecifiedRadioButton2, runSpecifiedRadioButton3, runSpecifiedRadioButton4, runSpecifiedRadioButton5, runSpecifiedRadioButton6, runSpecifiedRadioButton7};
         excludeSpecificRadioButtonArray = new JRadioButton[]{excludeSpecificRadioButton0, excludeSpecificRadioButton1, excludeSpecificRadioButton2, excludeSpecificRadioButton3, excludeSpecificRadioButton4, excludeSpecificRadioButton5, excludeSpecificRadioButton6, excludeSpecificRadioButton7};
         enableTabCheckBoxArray = new JCheckBox[]{enableTabCheckBox0, enableTabCheckBox1, enableTabCheckBox2, enableTabCheckBox3, enableTabCheckBox4, enableTabCheckBox5, enableTabCheckBox6, enableTabCheckBox7};
-
+        runSpecifiedFieldArray = new JTextField[]{runSpecifiedField0, runSpecifiedField1, runSpecifiedField2, runSpecifiedField3, runSpecifiedField4, runSpecifiedField5, runSpecifiedField6, runSpecifiedField7};
+        excludeSpecificFieldArray = new JTextField[]{excludeSpecificField0, excludeSpecificField1, excludeSpecificField2, excludeSpecificField3, excludeSpecificField4, excludeSpecificField5, excludeSpecificField6, excludeSpecificField7};
         addWindowListener(controller);
     }
 
+    public JButton getRunButton() {
+        return runButton;
+    }
 
-    // Variables declaration - do not modify
+    public JRadioButton[] getRunSpecifiedRadioButtonArray() {
+        return runSpecifiedRadioButtonArray;
+    }
+
+    public JRadioButton[] getExcludeSpecificRadioButtonArray() {
+        return excludeSpecificRadioButtonArray;
+    }
+
+    public JCheckBox[] getEnableTabCheckBoxArray() {
+        return enableTabCheckBoxArray;
+    }
+
+    public JTextField[] getRunSpecifiedFieldArray() {
+        return runSpecifiedFieldArray;
+    }
+
+    public JTextField[] getExcludeSpecificFieldArray() {
+        return excludeSpecificFieldArray;
+    }
+
+    public JCheckBox getReRunCheckBox() {
+        return reRunCheckBox;
+    }
+
+    public String getFailedFieldText() {
+        return failedField.getText();
+    }
+
     private ButtonGroup buttonGroup0;
     private ButtonGroup buttonGroup1;
     private ButtonGroup buttonGroup2;
@@ -1260,5 +1286,7 @@ public class View extends JFrame {
     private JRadioButton[] runSpecifiedRadioButtonArray;
     private JRadioButton[] excludeSpecificRadioButtonArray;
     private JCheckBox[] enableTabCheckBoxArray;
+    private JTextField[] runSpecifiedFieldArray;
+    private JTextField[] excludeSpecificFieldArray;
 }
 
