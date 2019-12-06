@@ -1,21 +1,27 @@
-package test;
+package com.friendly.aqa.test;
 
 //import com.friendly.aqa.database.DataBase;
 
-import com.friendly.aqa.pageobject.*;
+import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.pageobject.GroupUpdatePage;
+import com.friendly.aqa.pageobject.LoginPage;
+import com.friendly.aqa.pageobject.SystemPage;
 import com.friendly.aqa.utils.DataBase;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.TestNG;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
 public class BaseTestCase extends TestBase {
     private LoginPage loginPage;

@@ -1,10 +1,10 @@
-package testRunner;
+package com.friendly.aqa.testRunner;
 
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpGetter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import test.BaseTestCase;
+import com.friendly.aqa.test.BaseTestCase;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import static com.friendly.aqa.pageobject.BasePage.waitForUpdate;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Conditions.*;
+import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
 

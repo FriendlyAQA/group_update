@@ -1,10 +1,7 @@
-package gui;
+package com.friendly.aqa.gui;
 
 import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -113,7 +110,7 @@ public class View extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Automation UI");
-        setIconImage(new ImageIcon("c:\\friendly1.png").getImage());
+        setIconImage(new ImageIcon("friendly.png").getImage());
         setPreferredSize(new java.awt.Dimension(745, 527));
         setResizable(false);
 
@@ -130,7 +127,7 @@ public class View extends JFrame {
         buttonGroup0.add(runSpecifiedRadioButton0);
         runSpecifiedRadioButton0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton0.setSelected(true);
-        runSpecifiedRadioButton0.setText("Run specified");
+        runSpecifiedRadioButton0.setText("Run specific");
         runSpecifiedRadioButton0.setEnabled(false);
         runSpecifiedRadioButton0.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton0.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -234,7 +231,7 @@ public class View extends JFrame {
         buttonGroup1.add(runSpecifiedRadioButton1);
         runSpecifiedRadioButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton1.setSelected(true);
-        runSpecifiedRadioButton1.setText("Run specified");
+        runSpecifiedRadioButton1.setText("Run specific");
         runSpecifiedRadioButton1.setEnabled(false);
         runSpecifiedRadioButton1.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton1.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -339,7 +336,7 @@ public class View extends JFrame {
         buttonGroup2.add(runSpecifiedRadioButton2);
         runSpecifiedRadioButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton2.setSelected(true);
-        runSpecifiedRadioButton2.setText("Run specified");
+        runSpecifiedRadioButton2.setText("Run specific");
         runSpecifiedRadioButton2.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton2.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton2.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -440,7 +437,7 @@ public class View extends JFrame {
         buttonGroup3.add(runSpecifiedRadioButton3);
         runSpecifiedRadioButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton3.setSelected(true);
-        runSpecifiedRadioButton3.setText("Run specified");
+        runSpecifiedRadioButton3.setText("Run specific");
         runSpecifiedRadioButton3.setEnabled(false);
         runSpecifiedRadioButton3.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton3.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -544,7 +541,7 @@ public class View extends JFrame {
         buttonGroup4.add(runSpecifiedRadioButton4);
         runSpecifiedRadioButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton4.setSelected(true);
-        runSpecifiedRadioButton4.setText("Run specified");
+        runSpecifiedRadioButton4.setText("Run specific");
         runSpecifiedRadioButton4.setEnabled(false);
         runSpecifiedRadioButton4.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton4.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -648,7 +645,7 @@ public class View extends JFrame {
         buttonGroup5.add(runSpecifiedRadioButton5);
         runSpecifiedRadioButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton5.setSelected(true);
-        runSpecifiedRadioButton5.setText("Run specified");
+        runSpecifiedRadioButton5.setText("Run specific");
         runSpecifiedRadioButton5.setEnabled(false);
         runSpecifiedRadioButton5.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton5.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -752,7 +749,7 @@ public class View extends JFrame {
         buttonGroup6.add(runSpecifiedRadioButton6);
         runSpecifiedRadioButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton6.setSelected(true);
-        runSpecifiedRadioButton6.setText("Run specified");
+        runSpecifiedRadioButton6.setText("Run specific");
         runSpecifiedRadioButton6.setEnabled(false);
         runSpecifiedRadioButton6.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton6.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -856,7 +853,7 @@ public class View extends JFrame {
         buttonGroup7.add(runSpecifiedRadioButton7);
         runSpecifiedRadioButton7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton7.setSelected(true);
-        runSpecifiedRadioButton7.setText("Run specified");
+        runSpecifiedRadioButton7.setText("Run specific");
         runSpecifiedRadioButton7.setEnabled(false);
         runSpecifiedRadioButton7.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton7.setMinimumSize(new java.awt.Dimension(121, 25));
@@ -1142,6 +1139,10 @@ public class View extends JFrame {
         for (JComponent component : components) {
             component.setEnabled(enable);
         }
+    }
+
+    public void addLogString(String text) {
+        textArea.append(text);
     }
 
     public void setPassedFieldText(String text) {
