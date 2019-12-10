@@ -1,4 +1,4 @@
-package com.friendly.aqa.testRunner;
+package com.friendly.aqa.test;
 
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpGetter;
@@ -16,7 +16,7 @@ import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
 
-public class FunctionalTests extends BaseTestCase {
+public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void test_001() {
         groupUpdatePage.deleteAll();
@@ -2220,16 +2220,5 @@ public class FunctionalTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("SSID", "values,names,attributes");
-    }
-
-    //    @Test
-    public void test() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .reprovisionRadioButton()
-                .globalButtons(NEXT);
-        groupUpdatePage
-                .addCondition(1, "Time", "LocalTimeZoneName", EQUAL, "Moscow, St. Petersburg, Volgograd");
-
     }
 }

@@ -26,7 +26,6 @@
             <version>7.0.0</version>
             <scope>test</scope>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>

@@ -1,46 +1,40 @@
 package com.friendly.aqa.test;
 
-//import com.friendly.aqa.database.DataBase;
-
-import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.pageobject.GroupUpdatePage;
-import com.friendly.aqa.pageobject.LoginPage;
-import com.friendly.aqa.pageobject.SystemPage;
+import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBase;
-import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
-import org.testng.TestNG;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.apache.log4j.Logger;
+import org.testng.*;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
-public class BaseTestCase extends TestBase {
+public class BaseTestCase {
     private LoginPage loginPage;
-    protected SystemPage systemPage;
     protected GroupUpdatePage groupUpdatePage;
     private long start = System.currentTimeMillis();
     protected String testName, targetTestName;
+    static Properties props;
+    static Logger logger;
+    private static boolean isInterrupted;
+
+    static {
+        props = BasePage.getProps();
+        logger = Logger.getLogger(BaseTestCase.class);
+    }
 
     @BeforeSuite
     public void init() {
         logger.info("\n*************************STARTING TEST SUITE**************************");
         loginPage = new LoginPage();
-        systemPage = new SystemPage();
         DataBase.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         groupUpdatePage = new GroupUpdatePage();
         testName = "";
-//        groupUpdatePage.deleteAll();
     }
 
     @BeforeMethod
@@ -61,6 +55,9 @@ public class BaseTestCase extends TestBase {
             logger.info(result.getName() + " - PASSED");
         }
         BasePage.switchToFrame(ROOT);
+        if (isInterrupted) {
+            throw new SkipException("Test execution interrupted manually");
+        }
     }
 
     @AfterSuite
@@ -82,12 +79,15 @@ public class BaseTestCase extends TestBase {
     }
 
     public static void main(String[] args) {
-        TestListenerAdapter tla = new TestListenerAdapter();
         TestNG testng = new TestNG();
         List<String> suites = new ArrayList<>();
-        suites.add("testng.xml");//path to xml..
+        suites.add("testng.xml");
         testng.setTestSuites(suites);
         testng.run();
+    }
+
+    public static void interruptTestRunning(boolean interrupt) {
+        isInterrupted = interrupt;
     }
 
     protected void setTargetTestName() {

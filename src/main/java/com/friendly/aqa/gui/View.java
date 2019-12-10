@@ -107,6 +107,8 @@ public class View extends JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         testResultsLabel = new javax.swing.JLabel();
         logLabel = new javax.swing.JLabel();
+        toExecutionLabel = new javax.swing.JLabel();
+        toExecValue = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Automation UI");
@@ -1000,6 +1002,10 @@ public class View extends JFrame {
         logLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         logLabel.setText("Log");
 
+        toExecutionLabel.setText("To execution:");
+
+        toExecValue.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -1026,9 +1032,12 @@ public class View extends JFrame {
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addGroup(layout.createSequentialGroup()
                                                                                 .addComponent(runEntireCheckBox)
-                                                                                .addGap(8, 8, 8)
+                                                                                .addGap(18, 18, 18)
                                                                                 .addComponent(reRunCheckBox)
-                                                                                .addGap(0, 0, Short.MAX_VALUE))
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                .addComponent(toExecutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                .addComponent(toExecValue))
                                                                         .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1052,27 +1061,25 @@ public class View extends JFrame {
                                         .addComponent(testResultsLabel)
                                         .addComponent(logLabel))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(scrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                                        .addComponent(scrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                                         .addComponent(jScrollPane1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(failedLabel)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(failedField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(runButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(layout.createSequentialGroup()
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                .addComponent(runEntireCheckBox)
-                                                                .addComponent(reRunCheckBox))
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(passedlabel)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(passedlabel)
+                                                        .addComponent(toExecValue)
+                                                        .addComponent(toExecutionLabel)
+                                                        .addComponent(reRunCheckBox)
+                                                        .addComponent(runEntireCheckBox)
+                                                        .addComponent(failedLabel))
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(passedField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap())
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(passedField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(failedField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1141,7 +1148,7 @@ public class View extends JFrame {
         }
     }
 
-    public void addLogString(String text) {
+    public void addLogEntry(String text) {
         textArea.append(text);
     }
 
@@ -1151,6 +1158,10 @@ public class View extends JFrame {
 
     public void setFailedFieldText(String text) {
         failedField.setText(text);
+    }
+
+    public void setToExecValue(int text) {
+        toExecValue.setText(String.valueOf(text));
     }
 
     private void initArrays() {
@@ -1282,6 +1293,8 @@ public class View extends JFrame {
     private JLabel skippedlabel7;
     private JLabel testResultsLabel;
     private TextArea textArea;
+    private javax.swing.JLabel toExecValue;
+    private javax.swing.JLabel toExecutionLabel;
     // End
     private Controller controller;
     private JRadioButton[] runSpecifiedRadioButtonArray;
