@@ -74,7 +74,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .globalButtons(CANCEL);
         waitForUpdate();
-//        groupUpdatePage.pause(500);
+        groupUpdatePage.pause(500);
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 

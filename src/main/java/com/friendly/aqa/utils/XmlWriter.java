@@ -12,7 +12,7 @@ public class XmlWriter {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!DOCTYPE suite SYSTEM \"http://testng.org/testng-1.0.dtd\">\n" +
                 "<suite name=\"All Test Suite\">\n" +
-                "\t<test verbose=\"2\" name=\"Automation UI\">\n" +
+                "\t<test verbose=\"2\" name=\"CPE Admin Automation UI\">\n" +
                 "\t\t<classes>\n";
         String footer = "\t\t</classes>\n" +
                 "\t</test>\n" +

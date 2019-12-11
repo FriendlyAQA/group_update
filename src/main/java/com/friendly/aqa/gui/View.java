@@ -644,7 +644,7 @@ public class View extends JFrame {
             }
         });
 
-        buttonGroup5.add(runSpecifiedRadioButton5);
+        buttonGroup6.add(runSpecifiedRadioButton5);
         runSpecifiedRadioButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton5.setSelected(true);
         runSpecifiedRadioButton5.setText("Run specific");
@@ -658,7 +658,7 @@ public class View extends JFrame {
             }
         });
 
-        buttonGroup5.add(excludeSpecificRadioButton5);
+        buttonGroup6.add(excludeSpecificRadioButton5);
         excludeSpecificRadioButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton5.setText("Exclude specific");
         excludeSpecificRadioButton5.setEnabled(false);
@@ -739,7 +739,7 @@ public class View extends JFrame {
                                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("File Management", jPanel5);
+        jTabbedPane1.addTab("Reports", jPanel5);
 
         enableTabCheckBox6.setText("Enable tests on current tab");
         enableTabCheckBox6.addActionListener(new java.awt.event.ActionListener() {
@@ -748,7 +748,7 @@ public class View extends JFrame {
             }
         });
 
-        buttonGroup6.add(runSpecifiedRadioButton6);
+        buttonGroup5.add(runSpecifiedRadioButton6);
         runSpecifiedRadioButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton6.setSelected(true);
         runSpecifiedRadioButton6.setText("Run specific");
@@ -762,7 +762,7 @@ public class View extends JFrame {
             }
         });
 
-        buttonGroup6.add(excludeSpecificRadioButton6);
+        buttonGroup5.add(excludeSpecificRadioButton6);
         excludeSpecificRadioButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton6.setText("Exclude specific");
         excludeSpecificRadioButton6.setEnabled(false);
@@ -843,7 +843,7 @@ public class View extends JFrame {
                                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Reports", jPanel6);
+        jTabbedPane1.addTab("File Management", jPanel6);
 
         enableTabCheckBox7.setText("Enable tests on current tab");
         enableTabCheckBox7.addActionListener(new java.awt.event.ActionListener() {
@@ -1087,11 +1087,10 @@ public class View extends JFrame {
 
     private void runButtonActionPerformed(ActionEvent evt) {
         controller.runPressed(runButton.getText().equals("RUN"));
-        appendToPane(jTextPane1, "test_256 passed\n", Color.GREEN.darker());
     }
 
-    public void setRunButtonText(String text) {
-        runButton.setText(text);
+    public void addTestResult(boolean pass, String testName) {
+        appendToPane(jTextPane1, testName + (pass ? " passed\n" : " failed\n"), pass ? Color.GREEN.darker() : Color.RED);
     }
 
     private void textChanged(KeyEvent evt) {
@@ -1152,12 +1151,20 @@ public class View extends JFrame {
         textArea.append(text);
     }
 
-    public void setPassedFieldText(String text) {
-        passedField.setText(text);
+    public void setPassedFieldText(int count) {
+        passedField.setText(String.valueOf(count));
     }
 
-    public void setFailedFieldText(String text) {
-        failedField.setText(text);
+    public void setFailedFieldText(int count) {
+        failedField.setText(String.valueOf(count));
+    }
+
+    public void clearAll() {
+        jTextPane1.setText("");
+        textArea.setText("");
+        passedField.setText("");
+        failedField.setText("");
+
     }
 
     public void setToExecValue(int text) {
@@ -1203,6 +1210,10 @@ public class View extends JFrame {
 
     public String getFailedFieldText() {
         return failedField.getText();
+    }
+
+    public JProgressBar getProgressBar() {
+        return jProgressBar1;
     }
 
     private ButtonGroup buttonGroup0;

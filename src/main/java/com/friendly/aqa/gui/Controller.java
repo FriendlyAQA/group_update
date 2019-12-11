@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.logging.*;
 import java.util.regex.*;
 
-public class Controller implements WindowListener {
+public class Controller implements WindowListener, Runnable {
 
     View view;
     private JRadioButton[] runSpecifiedButtons, excludeSpecificButtons;
@@ -23,13 +23,21 @@ public class Controller implements WindowListener {
     private Set<String>[] tabTestAmount;
     private JCheckBox reRunFailedCheckbox;
     private JButton runButton;
+    private JProgressBar progressBar;
     private Set<String>[] writtenTestSet;
+    private Set<String> failedTestSet;
     private int[] lastTestNumber;
     private int testSum;
     private final List<Character> allowedChars = new ArrayList<>(Arrays.asList(new Character[]{44, 45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57}));
+    private final String[] classNames = {"DeviceProfileTests", "DeviceUpdateTests", "GroupUpdateTests", "MonitoringTests", "EventsTests", "FileManagementTests", "ReportsTests", "SettingsTests"};
+    public static Controller controller;
+    private int passedTestCount;
+    private int failedTestCount;
+
 
     @SuppressWarnings("unchecked")
     public Controller() {
+        controller = this;
         tabTestAmount = new Set[8];
         writtenTestSet = new Set[8];
         for (int i = 0; i < 8; i++) {
@@ -71,16 +79,39 @@ public class Controller implements WindowListener {
     }
 
     public void runPressed(boolean start) {
+        runButton.setEnabled(false);
         if (start) {
-//            XmlWriter.createXml();
-            TestNG testng = new TestNG();
-            List<String> suites = new ArrayList<>();
-            suites.add("testng.xml");
-            testng.setTestSuites(suites);
-            testng.run();
+            new Thread(this).start();
+            progressBar.setMaximum(testSum);
+            progressBar.setValue(0);
         } else {
             BaseTestCase.interruptTestRunning(true);
         }
+    }
+
+    public void run() {
+        XmlWriter.createXml(createTaskMap());
+        failedTestSet = new HashSet<>();
+        TestNG testng = new TestNG();
+        List<String> suites = new ArrayList<>();
+        suites.add("testng.xml");
+        testng.setTestSuites(suites);
+        testng.run();
+    }
+
+    private Map<String, Set<String>> createTaskMap() {
+        Map<String, Set<String>> taskMap = new LinkedHashMap<>(8);
+        for (int i = 0; i < tabTestAmount.length; i++) {
+            Set<String> tabTestSet = tabTestAmount[i];
+            if (!tabTestSet.isEmpty()) {
+                taskMap.put(classNames[i], tabTestSet);
+            }
+        }
+        return taskMap;
+    }
+
+    private void runFailed(){
+//        for ()
     }
 
     private int getTabNumber(JTextField field) {
@@ -168,6 +199,7 @@ public class Controller implements WindowListener {
         createExecutableTestSet(field);
         calculateTestSum();
         view.setToExecValue(testSum);
+        checkRunButton();
     }
 
     public void tabStateChanged(JCheckBox checkBox) {
@@ -196,8 +228,11 @@ public class Controller implements WindowListener {
     }
 
     public void testsuiteStarted() {
+        view.clearAll();
+        passedTestCount = 0;
+        failedTestCount = 0;
         runButton.setText("STOP");
-        checkRunButton();
+        runButton.setEnabled(true);
     }
 
     public void testsuiteStopped() {
@@ -207,14 +242,28 @@ public class Controller implements WindowListener {
 
     private void checkRunButton() {
         boolean enable = false;
-        for (JCheckBox box : enableTabCheckboxes) {
-            if (box.isSelected()) {
-                enable = true;
-                break;
+        if (testSum != 0) {
+            for (JCheckBox box : enableTabCheckboxes) {
+                if (box.isSelected()) {
+                    enable = true;
+                    break;
+                }
             }
         }
         runButton.setEnabled(enable);
         reRunFailedCheckbox.setEnabled(enable && !view.getFailedFieldText().isEmpty());
+    }
+
+    public void testPassed(String testName) {
+        view.setPassedFieldText(++passedTestCount);
+        view.addTestResult(true, testName);
+        progressBar.setValue(passedTestCount + failedTestCount);
+    }
+
+    public void testFailed(String testName) {
+        view.setFailedFieldText(++failedTestCount);
+        view.addTestResult(false, testName);
+        progressBar.setValue(passedTestCount + failedTestCount);
     }
 
     @Override
@@ -227,6 +276,7 @@ public class Controller implements WindowListener {
         enableTabCheckboxes = view.getEnableTabCheckBoxArray();
         runButton = view.getRunButton();
         reRunFailedCheckbox = view.getReRunCheckBox();
+        progressBar = view.getProgressBar();
     }
 
     @Override

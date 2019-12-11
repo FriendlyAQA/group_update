@@ -1,16 +1,14 @@
 package com.friendly.aqa.utils;
 
-import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
 
-public class DataBase {
+public class DataBaseConnector {
     private static Statement stmtObj;
     private static Connection connObj;
-    private final static Logger LOGGER = Logger.getLogger(DataBase.class);
-//    private final static Properties PROPS = BasePage.getProps();
+    private final static Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
 
     public static void connectDb(String url, String user, String password) {
         try {
@@ -35,8 +33,6 @@ public class DataBase {
     }
 
     public static void main(String[] args) {
-//        printPendingTasksForSerial("FT001SN000010016E3F0D47666");
-//        System.out.println(getPendingTaskName("FT001SN000010016E3F0D47666"));
         connectDb("jdbc:mysql://95.217.85.220", "ftacs", "ftacs");
         for (String[] line : getTaskList("607")) {
             System.out.println(Arrays.deepToString(line));

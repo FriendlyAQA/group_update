@@ -167,7 +167,7 @@ public class Table {
         int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));
         for (int i = 0; i < count; i++) {
             long start = System.currentTimeMillis();
-            groupList = DataBase.getTaskList(getGroupId(groupName));
+            groupList = DataBaseConnector.getTaskList(getGroupId(groupName));
             if (groupList.isEmpty()) {
                 String warn = "There are no tasks created by '" + groupName + "' Group Update";
                 LOGGER.warn(warn);

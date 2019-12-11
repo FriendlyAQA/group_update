@@ -29,14 +29,14 @@ public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
     public static final String BROWSER;
-    private static final Logger LOGGER;
+    private static Logger logger;
     static FrameSwitch frame;
     private static FrameSwitch previousFrame;
 
     static {
         initProperties();
-        LOGGER = Logger.getLogger(BasePage.class);
-        initDriver();
+        logger = Logger.getLogger(BasePage.class);
+//        initDriver();
         BROWSER = props.getProperty("browser");
         frame = ROOT;
     }
@@ -55,30 +55,30 @@ public abstract class BasePage {
         }
     }
 
-    private static void initDriver() {
+    public static void initDriver() {
         String browser;
         browser = props.getProperty("browser");
         switch (browser) {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", props.getProperty("chrome_driver_path"));
                 driver = new ChromeDriver();
-                LOGGER.info("Chrome driver is running");
+                logger.info("Chrome driver is running");
                 break;
             case "ie":
                 System.setProperty("webdriver.ie.driver", props.getProperty("ie_driver_path"));
                 driver = new InternetExplorerDriver();
-                LOGGER.info("IE driver is running");
+                logger.info("IE driver is running");
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", props.getProperty("edge_driver_path"));
                 driver = new EdgeDriver();
-                LOGGER.info("Edge driver is running");
+                logger.info("Edge driver is running");
                 break;
             default:
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", props.getProperty("firefox_driver_path"));
                 driver = new FirefoxDriver();
-                LOGGER.info("Firefox driver is running");
+                logger.info("Firefox driver is running");
         }
         long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         driver.manage().timeouts().implicitlyWait(implWait, TimeUnit.SECONDS);
@@ -233,7 +233,7 @@ public abstract class BasePage {
                 switchToPrevious();
                 return;
             } catch (StaleElementReferenceException e) {
-                LOGGER.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             }
         }
         throw new AssertionError("cannot click button!");

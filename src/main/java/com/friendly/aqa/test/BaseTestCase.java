@@ -1,7 +1,8 @@
 package com.friendly.aqa.test;
 
+import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
-import com.friendly.aqa.utils.DataBase;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.log4j.Logger;
 import org.testng.*;
 import org.testng.annotations.*;
@@ -20,6 +21,7 @@ public class BaseTestCase {
     static Properties props;
     static Logger logger;
     private static boolean isInterrupted;
+    private Controller controller;
 
     static {
         props = BasePage.getProps();
@@ -28,9 +30,13 @@ public class BaseTestCase {
 
     @BeforeSuite
     public void init() {
+        controller = Controller.controller;
         logger.info("\n*************************STARTING TEST SUITE**************************");
+        DataBaseConnector.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
+        BasePage.initDriver();
+        System.out.println("TestNG thread:" + Thread.currentThread().getName());
+        controller.testsuiteStarted();
         loginPage = new LoginPage();
-        DataBase.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         groupUpdatePage = new GroupUpdatePage();
@@ -48,11 +54,13 @@ public class BaseTestCase {
             try {
                 BasePage.takeScreenshot("screenshots/" + result.getName() + ".png");
                 logger.error(result.getName() + " - FAILED");
+                controller.testFailed(testName);
             } catch (Exception e) {
                 logger.info("Exception while taking screenshot " + e.getMessage());
             }
         } else {
             logger.info(result.getName() + " - PASSED");
+            controller.testPassed(testName);
         }
         BasePage.switchToFrame(ROOT);
         if (isInterrupted) {
@@ -62,7 +70,7 @@ public class BaseTestCase {
 
     @AfterSuite
     public void tearDownMethod() {
-        DataBase.disconnectDb();
+        DataBaseConnector.disconnectDb();
         loginPage.logOut();
         try {
             Thread.sleep(500);
@@ -76,6 +84,8 @@ public class BaseTestCase {
         ));
         logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
         BasePage.closeDriver();
+        interruptTestRunning(false);
+        controller.testsuiteStopped();
     }
 
     public static void main(String[] args) {
