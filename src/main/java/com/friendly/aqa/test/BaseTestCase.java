@@ -35,7 +35,7 @@ public class BaseTestCase {
         DataBaseConnector.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         BasePage.initDriver();
         System.out.println("TestNG thread:" + Thread.currentThread().getName());
-        controller.testsuiteStarted();
+        controller.testSuiteStarted();
         loginPage = new LoginPage();
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
@@ -85,7 +85,7 @@ public class BaseTestCase {
         logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
         BasePage.closeDriver();
         interruptTestRunning(false);
-        controller.testsuiteStopped();
+        controller.testSuiteStopped();
     }
 
     public static void main(String[] args) {

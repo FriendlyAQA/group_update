@@ -989,6 +989,11 @@ public class View extends JFrame {
 
         reRunCheckBox.setText("Re-run failed tests");
         reRunCheckBox.setEnabled(false);
+        reRunCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reRunCheckBoxActionPerformed(evt);
+            }
+        });
 
         jTextPane1.setEditable(false);
         jTextPane1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -1099,8 +1104,7 @@ public class View extends JFrame {
     }
 
     private void runEntireActionPerformed(ActionEvent evt) {
-        boolean isSelected = ((JCheckBox) evt.getSource()).isSelected();
-        controller.enableAllTabs(isSelected);
+        controller.enableAllTabs(runEntireCheckBox.isSelected());
     }
 
     private void enableTabCheckBoxPerformed(ActionEvent evt) {
@@ -1123,7 +1127,11 @@ public class View extends JFrame {
                 break;
             }
         }
-        controller.testSelected(num);
+        controller.radioButtonSelected(num);
+    }
+
+    private void reRunCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        controller.reRunClicked(reRunCheckBox.isSelected());
     }
 
     public void appendToPane(JTextPane tp, String msg, Color c) {
@@ -1167,8 +1175,12 @@ public class View extends JFrame {
 
     }
 
+    public void setToExecValue(String text) {
+        toExecValue.setText(text);
+    }
+
     public void setToExecValue(int text) {
-        toExecValue.setText(String.valueOf(text));
+        setToExecValue(String.valueOf(text));
     }
 
     private void initArrays() {
@@ -1208,8 +1220,20 @@ public class View extends JFrame {
         return reRunCheckBox;
     }
 
+    public JCheckBox getRunEntireCheckBox() {
+        return runEntireCheckBox;
+    }
+
+    public TextArea getTextArea() {
+        return textArea;
+    }
+
     public String getFailedFieldText() {
         return failedField.getText();
+    }
+
+    public String getToExecText() {
+        return toExecValue.getText();
     }
 
     public JProgressBar getProgressBar() {

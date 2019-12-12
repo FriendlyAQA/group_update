@@ -8,6 +8,9 @@ import org.testng.TestNG;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.*;
@@ -33,6 +36,7 @@ public class Controller implements WindowListener, Runnable {
     public static Controller controller;
     private int passedTestCount;
     private int failedTestCount;
+    private String reRunBuffer;
 
 
     @SuppressWarnings("unchecked")
@@ -82,8 +86,6 @@ public class Controller implements WindowListener, Runnable {
         runButton.setEnabled(false);
         if (start) {
             new Thread(this).start();
-            progressBar.setMaximum(testSum);
-            progressBar.setValue(0);
         } else {
             BaseTestCase.interruptTestRunning(true);
         }
@@ -91,6 +93,10 @@ public class Controller implements WindowListener, Runnable {
 
     public void run() {
         XmlWriter.createXml(createTaskMap());
+        calculateTestSum();
+        view.setToExecValue(testSum);
+        progressBar.setMaximum(testSum);
+        progressBar.setValue(0);
         failedTestSet = new HashSet<>();
         TestNG testng = new TestNG();
         List<String> suites = new ArrayList<>();
@@ -100,48 +106,19 @@ public class Controller implements WindowListener, Runnable {
     }
 
     private Map<String, Set<String>> createTaskMap() {
+        if (reRunFailedCheckbox.isSelected() && reRunFailedCheckbox.isEnabled()) {
+            for (Set<String> tabSet : tabTestAmount) {
+                tabSet.retainAll(failedTestSet);
+            }
+        }
         Map<String, Set<String>> taskMap = new LinkedHashMap<>(8);
         for (int i = 0; i < tabTestAmount.length; i++) {
-            Set<String> tabTestSet = tabTestAmount[i];
+            Set<String> tabTestSet = new TreeSet<>(tabTestAmount[i]);
             if (!tabTestSet.isEmpty()) {
                 taskMap.put(classNames[i], tabTestSet);
             }
         }
         return taskMap;
-    }
-
-    private void runFailed(){
-//        for ()
-    }
-
-    private int getTabNumber(JTextField field) {
-        for (int i = 0; i < 8; i++) {
-            if (field == runSpecifiedFields[i]) {
-                return i;
-            }
-        }
-        for (int i = 0; i < 8; i++) {
-            if (field == excludeSpecificFields[i]) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void createExecutableTestSet(JTextField field) {
-        int tabNum = getTabNumber(field);
-        Set<String> out = new TreeSet<>(writtenTestSet[tabNum]);
-        Pattern p = Pattern.compile("-?\\d+\\S*");
-        String input = field.getText();
-        Matcher m = p.matcher(input);
-        if (m.find()) {
-            if (runSpecifiedButtons[tabNum].isSelected()) {
-                out.retainAll(getTestSet(input, tabNum));
-            } else {
-                out.removeAll(getTestSet(input, tabNum));
-            }
-        }
-        tabTestAmount[tabNum] = out;
     }
 
     private Set<String> getTestSet(String input, int tabNum) {
@@ -197,26 +174,56 @@ public class Controller implements WindowListener, Runnable {
             field.setCaretPosition(position);
         }
         createExecutableTestSet(field);
+    }
+
+    private void createExecutableTestSet(JTextField field) {
+        createExecutableTestSet(field, getTabNumber(field));
         calculateTestSum();
         view.setToExecValue(testSum);
         checkRunButton();
     }
 
-    public void tabStateChanged(JCheckBox checkBox) {
-        for (int i = 0; i < enableTabCheckboxes.length; i++) {
-            if (enableTabCheckboxes[i] == checkBox) {
-                view.setEnabled(checkBox.isSelected(), runSpecifiedButtons[i], excludeSpecificButtons[i]);
-                testSelected(i);
+    private void createExecutableTestSet(JTextField field, int tabNum) {
+        Set<String> out = new TreeSet<>(writtenTestSet[tabNum]);
+        Pattern p = Pattern.compile("-?\\d+\\S*");
+        String input = field.getText();
+        Matcher m = p.matcher(input);
+        if (m.find()) {
+            if (runSpecifiedButtons[tabNum].isSelected()) {
+                out.retainAll(getTestSet(input, tabNum));
+            } else {
+                out.removeAll(getTestSet(input, tabNum));
             }
         }
-        checkRunButton();
+        tabTestAmount[tabNum] = out;
     }
 
-    public void testSelected(int tabNum) {
-        runSpecifiedFields[tabNum].setEnabled(runSpecifiedButtons[tabNum].isSelected() && runSpecifiedButtons[tabNum].isEnabled());
-        excludeSpecificFields[tabNum].setEnabled(excludeSpecificButtons[tabNum].isSelected() && excludeSpecificButtons[tabNum].isEnabled());
-        tabTestAmount[tabNum] = writtenTestSet[tabNum];//writtenTestSet[tabNum]
-        textChanged(runSpecifiedButtons[tabNum].isSelected() ? runSpecifiedFields[tabNum] : excludeSpecificFields[tabNum]);
+    private void createAllExecutableTestSet() {
+        for (int i = 0; i < 8; i++) {
+            if (enableTabCheckboxes[i].isSelected()) {
+                if (runSpecifiedButtons[i].isSelected()) {
+                    createExecutableTestSet(runSpecifiedFields[i], i);
+                } else {
+                    createExecutableTestSet(excludeSpecificFields[i], i);
+                }
+            } else {
+                tabTestAmount[i] = new HashSet<>();
+            }
+        }
+    }
+
+    private int getTabNumber(JTextField field) {
+        for (int i = 0; i < 8; i++) {
+            if (field == runSpecifiedFields[i]) {
+                return i;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            if (field == excludeSpecificFields[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void enableAllTabs(boolean enable) {
@@ -227,7 +234,27 @@ public class Controller implements WindowListener, Runnable {
         runButton.setEnabled(enable);
     }
 
-    public void testsuiteStarted() {
+    public void tabStateChanged(JCheckBox checkBox) {
+        if (!checkBox.isSelected()) {
+            view.getRunEntireCheckBox().setSelected(false);
+        }
+        for (int i = 0; i < enableTabCheckboxes.length; i++) {
+            if (enableTabCheckboxes[i] == checkBox) {
+                view.setEnabled(checkBox.isSelected(), runSpecifiedButtons[i], excludeSpecificButtons[i]);
+                radioButtonSelected(i);
+            }
+        }
+        checkRunButton();
+    }
+
+    public void radioButtonSelected(int tabNum) {
+        runSpecifiedFields[tabNum].setEnabled(runSpecifiedButtons[tabNum].isSelected() && runSpecifiedButtons[tabNum].isEnabled());
+        excludeSpecificFields[tabNum].setEnabled(excludeSpecificButtons[tabNum].isSelected() && excludeSpecificButtons[tabNum].isEnabled());
+        tabTestAmount[tabNum] = new TreeSet<>(writtenTestSet[tabNum]);//writtenTestSet[tabNum]
+        textChanged(runSpecifiedButtons[tabNum].isSelected() ? runSpecifiedFields[tabNum] : excludeSpecificFields[tabNum]);
+    }
+
+    public void testSuiteStarted() {
         view.clearAll();
         passedTestCount = 0;
         failedTestCount = 0;
@@ -235,7 +262,7 @@ public class Controller implements WindowListener, Runnable {
         runButton.setEnabled(true);
     }
 
-    public void testsuiteStopped() {
+    public void testSuiteStopped() {
         runButton.setText("RUN");
         checkRunButton();
     }
@@ -261,9 +288,30 @@ public class Controller implements WindowListener, Runnable {
     }
 
     public void testFailed(String testName) {
+        failedTestSet.add(testName);
         view.setFailedFieldText(++failedTestCount);
         view.addTestResult(false, testName);
         progressBar.setValue(passedTestCount + failedTestCount);
+    }
+
+    public void reRunClicked(boolean isSelected) {
+        view.getRunEntireCheckBox().setEnabled(!isSelected);
+        for (int i = 0; i < 8; i++) {
+            if (isSelected) {
+                view.setEnabled(false, enableTabCheckboxes[i], runSpecifiedFields[i], excludeSpecificFields[i], runSpecifiedButtons[i], excludeSpecificButtons[i]);
+            } else {
+                if (enableTabCheckboxes[i].isSelected()) {
+                    view.setEnabled(true, enableTabCheckboxes[i], runSpecifiedButtons[i].isSelected() ? runSpecifiedFields[i] : excludeSpecificFields[i], runSpecifiedButtons[i], excludeSpecificButtons[i]);
+                }
+            }
+        }
+        if (isSelected) {
+            reRunBuffer = view.getToExecText();
+            view.setToExecValue(view.getFailedFieldText());
+        } else {
+            view.setToExecValue(reRunBuffer);
+            createAllExecutableTestSet();
+        }
     }
 
     @Override
@@ -277,6 +325,9 @@ public class Controller implements WindowListener, Runnable {
         runButton = view.getRunButton();
         reRunFailedCheckbox = view.getReRunCheckBox();
         progressBar = view.getProgressBar();
+        PrintStream out = new PrintStream(new TextAreaOutputStream(view.getTextArea()));
+        System.setOut(out);
+        System.setErr(out);
     }
 
     @Override
@@ -311,5 +362,17 @@ public class Controller implements WindowListener, Runnable {
 
     public static void main(String[] args) {
         new Controller();
+    }
+
+    static class TextAreaOutputStream extends OutputStream {
+        private TextArea textControl;
+
+        public TextAreaOutputStream(TextArea control) {
+            textControl = control;
+        }
+
+        public void write(int b) throws IOException {
+            textControl.append(String.valueOf((char) b));
+        }
     }
 }
