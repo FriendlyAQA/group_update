@@ -7,15 +7,17 @@ import org.testng.TestNG;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.*;
-import java.util.logging.*;
-import java.util.regex.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements WindowListener, Runnable {
 
@@ -85,6 +87,7 @@ public class Controller implements WindowListener, Runnable {
     public void runPressed(boolean start) {
         runButton.setEnabled(false);
         if (start) {
+            view.clearAll();
             new Thread(this).start();
         } else {
             BaseTestCase.interruptTestRunning(true);
@@ -255,7 +258,6 @@ public class Controller implements WindowListener, Runnable {
     }
 
     public void testSuiteStarted() {
-        view.clearAll();
         passedTestCount = 0;
         failedTestCount = 0;
         runButton.setText("STOP");
@@ -265,6 +267,11 @@ public class Controller implements WindowListener, Runnable {
     public void testSuiteStopped() {
         runButton.setText("RUN");
         checkRunButton();
+//        try {
+//            Desktop.getDesktop().open(new File("test-output/index.html"));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void checkRunButton() {
@@ -327,7 +334,7 @@ public class Controller implements WindowListener, Runnable {
         progressBar = view.getProgressBar();
         PrintStream out = new PrintStream(new TextAreaOutputStream(view.getTextArea()));
         System.setOut(out);
-        System.setErr(out);
+//        System.setErr(out);
     }
 
     @Override
@@ -364,15 +371,21 @@ public class Controller implements WindowListener, Runnable {
         new Controller();
     }
 
-    static class TextAreaOutputStream extends OutputStream {
-        private TextArea textControl;
+    private static class TextAreaOutputStream extends OutputStream {
+        private TextArea textArea;
+        private StringBuilder buffer = new StringBuilder();
 
-        public TextAreaOutputStream(TextArea control) {
-            textControl = control;
+        public TextAreaOutputStream(TextArea textArea) {
+            this.textArea = textArea;
         }
 
-        public void write(int b) throws IOException {
-            textControl.append(String.valueOf((char) b));
+        @Override
+        public void write(int b) {
+            buffer.append((char) b);
+            if (b == 10) {
+                textArea.append(buffer.toString());
+                buffer = new StringBuilder();
+            }
         }
     }
 }

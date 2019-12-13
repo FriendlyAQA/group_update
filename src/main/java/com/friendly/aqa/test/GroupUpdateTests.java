@@ -4,7 +4,6 @@ import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpGetter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.friendly.aqa.test.BaseTestCase;
 
 import java.io.IOException;
 
@@ -12,7 +11,6 @@ import static com.friendly.aqa.pageobject.BasePage.waitForUpdate;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
 
@@ -74,7 +72,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .globalButtons(CANCEL);
         waitForUpdate();
-//        groupUpdatePage.pause(500);
+        groupUpdatePage.pause(500);
         Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 
