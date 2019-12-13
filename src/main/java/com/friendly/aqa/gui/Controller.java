@@ -334,12 +334,12 @@ public class Controller implements WindowListener, Runnable {
         progressBar = view.getProgressBar();
         PrintStream out = new PrintStream(new TextAreaOutputStream(view.getTextArea()));
         System.setOut(out);
-//        System.setErr(out);
+        System.setErr(out);
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        System.out.println("closing");
+        System.exit(0);
     }
 
     @Override
