@@ -281,7 +281,7 @@ public abstract class BasePage {
     }
 
     public static void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 
     public static void switchToFrame(FrameSwitch frame) {
