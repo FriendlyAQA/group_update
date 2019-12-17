@@ -1,7 +1,7 @@
 package com.friendly.aqa.test;
 
 import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.utils.HttpGetter;
+import com.friendly.aqa.utils.HttpConnector;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -67,8 +67,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectManufacturer("sercomm")
                 .selectModel()
                 .fillName(testName)
-                .createGroup()
-                .assertButtonIsPresent(FINISH);
+                .createGroup();
+        Assert.assertTrue(groupUpdatePage.isButtonPresent(FINISH));
         groupUpdatePage
                 .globalButtons(CANCEL);
         waitForUpdate();
@@ -88,7 +88,6 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectSendTo()
                 .createGroup()
                 .fillName("test_group_name");
-        //Bug is present when press "Next" button
     }
 
     @Test
@@ -238,7 +237,7 @@ public class GroupUpdateTests extends BaseTestCase {
     public void test_021() throws IOException {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE);
-        Assert.assertTrue(HttpGetter.getUrlSource(groupUpdatePage
+        Assert.assertTrue(HttpConnector.getUrlSource(groupUpdatePage
                 .getMainTable()
                 .getExportLink(targetTestName))
                 .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
@@ -1623,17 +1622,17 @@ public class GroupUpdateTests extends BaseTestCase {
     public void test_096() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
-                .setParameter("ConnectionRequestPassword", VALUE, "pass")
-                .setParameter("ConnectionRequestUsername", VALUE, "user")
+                .setParameter("ConnectionRequestPassword", VALUE, "ftacs")
+                .setParameter("ConnectionRequestUsername", VALUE, "ftacs")
                 .setParameter("EnableCWMP", VALUE, "true")
                 .setParameter("ManageableDeviceNotificationLimit", VALUE, "10")
-                .setParameter("Password", VALUE, "password")
+                .setParameter("Password", VALUE, "ftacs")
                 .setParameter("PeriodicInformEnable", TRUE, null)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .setParameter("PeriodicInformTime", VALUE, "60")
                 .setParameter("UpgradesManaged", TRUE, null)
-                .setParameter("URL", VALUE, "127.0.0.1")
-                .setParameter("Username", VALUE, "username")
+                .setParameter("URL", VALUE, "http://127.0.0.1:8080/ftacs/ACS")
+                .setParameter("Username", VALUE, "ftacs")
                 .setParameter("X_SC_ACSCA", VALUE, "some_param_1")
                 .setParameter("X_SC_BindService", VALUE, "some_param_2")
                 .setParameter("X_SC_BootStrap", VALUE, "some_param_3")
@@ -1663,17 +1662,17 @@ public class GroupUpdateTests extends BaseTestCase {
                 .saveAndActivate(testName)
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
-                .checkResults("ConnectionRequestPassword", "pass")
-                .checkResults("ConnectionRequestUsername", "user")
+                .checkResults("ConnectionRequestPassword", "ftacs")
+                .checkResults("ConnectionRequestUsername", "ftacs")
                 .checkResults("EnableCWMP", "true")
                 .checkResults("ManageableDeviceNotificationLimit", "10")
-                .checkResults("Password", "password")
+                .checkResults("Password", "ftacs")
                 .checkResults("PeriodicInformEnable", "1")
                 .checkResults("PeriodicInformInterval", "60")
                 .checkResults("PeriodicInformTime", "60")
                 .checkResults("UpgradesManaged", "1")
-                .checkResults("URL", "127.0.0.1")
-                .checkResults("Username", "username")
+                .checkResults("URL", "http://127.0.0.1:8080/ftacs/ACS")
+                .checkResults("Username", "ftacs")
                 .checkResults("X_SC_ACSCA", "some_param_1")
                 .checkResults("X_SC_BindService", "some_param_2")
                 .checkResults("X_SC_BootStrap", "some_param_3")

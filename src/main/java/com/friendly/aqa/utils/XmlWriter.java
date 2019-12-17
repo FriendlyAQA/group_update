@@ -17,7 +17,7 @@ public class XmlWriter {
         String footer = "\t\t</classes>\n" +
                 "\t</test>\n" +
                 "</suite>";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("testng.xml")))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("resources/testng.xml")))) {
             writer.write(header);
             Set<String> keySet = testSuite.keySet();
             for (String className : keySet) {
@@ -34,16 +34,5 @@ public class XmlWriter {
             logger.warn(e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        String className = "GroupUpdateTests";
-        Set<String> methods = new TreeSet<>();
-        methods.add("test_001");
-        methods.add("test_002");
-//        methods.add("test_003");
-        Map<String, Set<String>> map = new HashMap<>();
-        map.put(className, methods);
-        createXml(map);
     }
 }

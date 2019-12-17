@@ -1,6 +1,8 @@
 package com.friendly.aqa.utils;
 
+import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.BasePage;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.*;
@@ -8,23 +10,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class HttpGetter {
-    private static CookieManager cookieManager;
-//    private static String currentSessionId;
+public class HttpConnector {
 
-    static {
-        cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
-    }
+    private static Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
 
     public static String getUrlSource(String url) throws IOException {
-//        currentSessionId = BasePage.getDriver().manage().getCookieNamed("CpeAdminCookie").getValue();
-
-        Map<String, String> cookie = new HashMap<String, String>();
-//        cookie.put("Cookie","CpeAdminCookie=" + currentSessionId);
-//        System.out.println("CpeAdminCookie=" + currentSessionId);
+        Map<String, String> cookie = new HashMap<>();
         cookie.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0");
-        cookie.put("Referer", "http://95.217.85.220/CpeAdmin/Update/List.aspx");
+        cookie.put("Referer", BasePage.getProps().getProperty("ui_url"));
         return getUrlSource(url, "GET", cookie, null);
     }
 
@@ -63,7 +56,7 @@ public class HttpGetter {
             try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
                 wr.write(postData);
             } catch (IOException e) {
-                System.out.println("IOException happens during POST parameters sending: " + e.getMessage());
+                logger.warn("IOException happens during POST parameters sending: \" + e.getMessage()");
             }
         }
         InputStream inputStream = urlConnection.getInputStream();
@@ -77,7 +70,7 @@ public class HttpGetter {
             StringBuilder stringBuilder = new StringBuilder();
             try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                  BufferedWriter writer = new BufferedWriter(
-                         new FileWriter(new File("./export/" + CalendarUtil.getFileName() + ".xml")))
+                         new FileWriter(new File("export/" + CalendarUtil.getFileName() + ".xml")))
             ) {
                 while ((inputLine = bufferedReader.readLine()) != null) {
                     stringBuilder.append(inputLine);
@@ -85,7 +78,7 @@ public class HttpGetter {
                     writer.newLine();
                 }
             } catch (IOException e) {
-                System.out.print(e.getMessage());
+                logger.warn(e.getMessage());
             }
             return stringBuilder.toString();
         };
@@ -95,21 +88,10 @@ public class HttpGetter {
         try {
             result = future.get(timeout, TimeUnit.SECONDS);
         } catch (TimeoutException | InterruptedException | ExecutionException ex) {
-            System.out.print(ex.getClass().getSimpleName() + " caught while loading the HTML page");
+            logger.warn(ex.getClass().getSimpleName() + " caught while loading the HTML page");
         } finally {
             future.cancel(true);
         }
         return result;
-    }
-
-    static String getSessionId() {
-        List<HttpCookie> cookies = cookieManager.getCookieStore().getCookies();
-        String sessionId = "Empty";
-        for (HttpCookie cookie : cookies) {
-            if (cookie.getName().contains("sessid")) {
-                sessionId = cookie.getName() + ": " + cookie.getValue();
-            }
-        }
-        return sessionId;
     }
 }

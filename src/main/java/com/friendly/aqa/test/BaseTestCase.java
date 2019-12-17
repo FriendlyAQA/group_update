@@ -4,6 +4,8 @@ import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.*;
 import org.testng.annotations.*;
 
@@ -30,12 +32,13 @@ public class BaseTestCase {
 
     @BeforeSuite
     public void init() {
-        controller = Controller.controller;
-        logger.info("\n*************************STARTING TEST SUITE**************************");
+        controller = Controller.getController();
+        logger.info("\n****************************************STARTING TEST SUITE*****************************************");
         DataBaseConnector.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
         BasePage.initDriver();
-        System.out.println("TestNG thread:" + Thread.currentThread().getName());
-        controller.testSuiteStarted();
+        if (controller != null) {
+            controller.testSuiteStarted();
+        }
         loginPage = new LoginPage();
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
@@ -54,15 +57,24 @@ public class BaseTestCase {
             try {
                 BasePage.takeScreenshot("screenshots/" + result.getName() + ".png");
                 logger.error(result.getName() + " - FAILED");
-                controller.testFailed(testName);
+                if (controller != null) {
+                    controller.testFailed(testName);
+                }
             } catch (Exception e) {
                 logger.info("Exception while taking screenshot " + e.getMessage());
             }
         } else {
             logger.info(result.getName() + " - PASSED");
-            controller.testPassed(testName);
+            if (controller != null) {
+                controller.testPassed(testName);
+            }
         }
         BasePage.switchToFrame(ROOT);
+        List<WebElement> list = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
+        if (list.size() > 0 && list.get(0).isDisplayed()) {
+            list.get(0).click();
+            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+        }
         if (isInterrupted) {
             throw new SkipException("Test execution interrupted manually");
         }
@@ -82,18 +94,12 @@ public class BaseTestCase {
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         ));
-        logger.info("\n*************************TEST SUITE COMPLETED*************************\n\n\n");
+        logger.info("\n****************************************TEST SUITE COMPLETED****************************************\n");
         BasePage.closeDriver();
         interruptTestRunning(false);
-        controller.testSuiteStopped();
-    }
-
-    public static void main(String[] args) {
-        TestNG testng = new TestNG();
-        List<String> suites = new ArrayList<>();
-        suites.add("testng.xml");
-        testng.setTestSuites(suites);
-        testng.run();
+        if (controller != null) {
+            controller.testSuiteStopped();
+        }
     }
 
     public static void interruptTestRunning(boolean interrupt) {

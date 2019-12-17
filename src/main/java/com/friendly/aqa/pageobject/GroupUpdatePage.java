@@ -19,7 +19,7 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
-    private final static Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
+    private static Logger logger = Logger.getLogger(GroupUpdatePage.class);
 
     public GroupUpdatePage() {
         super();
@@ -274,7 +274,7 @@ public class GroupUpdatePage extends BasePage {
         List<WebElement> list = driver.findElements(By.id(id));
         if (list.size() == 0) {
             String warn = "Element with id='" + id + "' not found on the Group Update page";
-            LOGGER.warn(warn);
+            logger.warn(warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -314,15 +314,15 @@ public class GroupUpdatePage extends BasePage {
 //                    int end = attr.length() - 2;
                     setDefaultImplicitlyWait();
                     if (!repeat) {
-                        LOGGER.info("First day of month in Sunday. Test case 19 is not effective");
+                        logger.info("First day of month in Sunday. Test case 19 is not effective");
                     }
                     if (exception) {
-                        LOGGER.info("An exception was caught while checking grayed-out dates");
+                        logger.info("An exception was caught while checking grayed-out dates");
                     }
                     try {
                         cell.click();
                     } catch (ElementNotInteractableException e) {
-                        LOGGER.info("An exception was caught when click on current date");
+                        logger.info("An exception was caught when click on current date");
                     }
                     return;
                 }
@@ -713,12 +713,12 @@ public class GroupUpdatePage extends BasePage {
         Table table = getMainTable();
         String[] arr = table.getColumn(dropdown);
         Set<String> set = new HashSet<>(Arrays.asList(arr));
-        if (dropdown.equals("State") && option.equals("All") && set.size() == 2) {
+        if (dropdown.equals("State") && option.equals("All") && set.size() > 1) {
             return this;
         }
-        if (!(set.size() == 1 && set.contains(option))) {
+        if (set.size() != 1 && !set.contains(option)) {
             String warn = "Filtering failed on dropdown '" + dropdown + "'";
-            LOGGER.warn(warn);
+            logger.warn(warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -737,7 +737,7 @@ public class GroupUpdatePage extends BasePage {
         Arrays.sort(arr);
         if (!Arrays.deepEquals(arr, arr2)) {
             String warn = "Sorting check failed";
-            LOGGER.warn(warn);
+            logger.warn(warn);
             throw new AssertionError(warn);
         }
         table.clickOn(0, colNum);
@@ -748,7 +748,7 @@ public class GroupUpdatePage extends BasePage {
         Arrays.sort(arr, Comparator.reverseOrder());
         if (!Arrays.deepEquals(arr, arr2)) {
             String warn = "Reverse sorting check failed";
-            LOGGER.warn(warn);
+            logger.warn(warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -794,7 +794,7 @@ public class GroupUpdatePage extends BasePage {
         boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
         if (!(man && model && status && sortedByCreated)) {
             String warn = "\"Reset View\" check failed";
-            LOGGER.warn(warn);
+            logger.warn(warn);
             throw new AssertionError(warn);
         }
     }

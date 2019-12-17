@@ -36,7 +36,6 @@ public abstract class BasePage {
     static {
         initProperties();
         logger = Logger.getLogger(BasePage.class);
-//        initDriver();
         BROWSER = props.getProperty("browser");
         frame = ROOT;
     }
@@ -94,10 +93,6 @@ public abstract class BasePage {
         setImplicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")));
     }
 
-//    public static void switchToDefaultContent() {
-//        driver.switchTo().defaultContent();
-//    }
-
     public static WebDriver getDriver() {
         return driver;
     }
@@ -148,30 +143,7 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public void waitForUpdate1() {
-        switchToFrame(ROOT);
-        long start = System.currentTimeMillis();
-        try {
-            new FluentWait<>(driver).withMessage("Element was not found")
-                    .withTimeout(Duration.ofSeconds(1))
-                    .pollingEvery(Duration.ofMillis(10))
-                    .ignoring(org.openqa.selenium.NoSuchElementException.class)
-                    .until(ExpectedConditions.visibilityOf(spinningWheel));
-//            System.out.println("wheel is visible " + (System.currentTimeMillis() - start));
-        } catch (org.openqa.selenium.TimeoutException e) {
-//            System.out.println("wheel not found" + (System.currentTimeMillis() - start));
-        }
-        new FluentWait<>(driver).withMessage("Element was not found")
-                .withTimeout(Duration.ofSeconds(30))
-                .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.invisibilityOf(spinningWheel));
-//        System.out.println("wheel is hidden " + (System.currentTimeMillis() - start));
-        switchToPrevious();
-        //*[@id="menuCircularG"]
-    }
-
     public static void waitForUpdate() {
-        long start = System.currentTimeMillis();
         switchToFrame(ROOT);
         String style;
         do {
@@ -222,7 +194,6 @@ public abstract class BasePage {
         waitForUpdate();
         switchToFrame(BUTTONS);
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
-//        WebElement btn = buttonTable.findElement(By.id(button.getId()));
         for (int i = 0; i < 3; i++) {
             try {
                 new FluentWait<>(driver).withMessage("Button was not found")
@@ -244,10 +215,11 @@ public abstract class BasePage {
         return attr == null || !attr.equals("true");
     }
 
-    public void assertButtonIsPresent(GlobalButtons button) {
+    public boolean isButtonPresent(GlobalButtons button) {
         switchToFrame(BUTTONS);
-        boolean out = driver.findElements(By.id(button.getId())).size() > 0;
+        boolean out = driver.findElements(By.id(button.getId())).size() == 1;
         switchToPrevious();
+        return out;
     }
 
     public String getAttributeById(String id, String attr) {
@@ -264,14 +236,6 @@ public abstract class BasePage {
     public String getTitle() {
         return driver.getTitle();
     }
-
-//    void switchToFrameDesktop() {
-//        driver.switchTo().defaultContent().switchTo().frame(frameDesktop);
-//    }
-//
-//    void switchToFrameButtons() {
-//        driver.switchTo().defaultContent().switchTo().frame(frameButtons);
-//    }
 
     public static void takeScreenshot(String pathname) throws IOException {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
@@ -310,10 +274,6 @@ public abstract class BasePage {
         }
 
         String frameId;
-
-        private String getFrameId() {
-            return frameId;
-        }
     }
 }
 

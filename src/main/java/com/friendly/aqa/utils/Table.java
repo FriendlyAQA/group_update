@@ -176,17 +176,12 @@ public class Table {
             Set<String> StateSet = new HashSet<>();
             for (String[] line : groupList) {
                 StateSet.add(line[2]);
-//                System.out.print(line[2] + ", ");
             }
             if (!StateSet.contains("1")) {
-                if (StateSet.size() == 1 && StateSet.contains("2")) {
-//                    System.out.println("all completed");
-                    return this;
-                } else {
+                if (StateSet.size() != 1 || !StateSet.contains("2")) {
                     LOGGER.info("All tasks created. One or more tasks failed or rejected");
-//                    System.out.println("One or more tasks failed or rejected");
-                    return this;
                 }
+                return this;
             }
 //            System.out.println("contains pending");
             long timeout;
@@ -276,16 +271,15 @@ public class Table {
         if (props.getProperty("browser").equals("edge")) {
             ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", paramCell);
         }
-//        BasePage.waitForUpdate();
         new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
         if (value != null && option == Parameter.VALUE) {
             WebElement input = paramCell.findElement(By.tagName("input"));
-//            BasePage.waitForUpdate();
             input.clear();
             input.sendKeys(value);
         }
         if (BasePage.BROWSER.equals("firefox") || BasePage.BROWSER.equals("chrome") || BasePage.BROWSER.equals("ie")) {
-            clickOn(rowNum, 1, 0);
+//            clickOn(rowNum, 1, 0);
+            clickOn(0,0);
         }
         return this;
     }
@@ -417,10 +411,6 @@ public class Table {
 
         int index;
         String value;
-
-        public int getIndex() {
-            return index;
-        }
 
         public String getValue() {
             return value;

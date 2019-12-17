@@ -1,14 +1,17 @@
 package com.friendly.aqa.gui;
 
+import com.friendly.aqa.pageobject.GroupUpdatePage;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.test.GroupUpdateTests;
 import com.friendly.aqa.utils.XmlWriter;
+import org.apache.log4j.PropertyConfigurator;
 import org.testng.TestNG;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
@@ -35,7 +38,8 @@ public class Controller implements WindowListener, Runnable {
     private int testSum;
     private final List<Character> allowedChars = new ArrayList<>(Arrays.asList(new Character[]{44, 45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57}));
     private final String[] classNames = {"DeviceProfileTests", "DeviceUpdateTests", "GroupUpdateTests", "MonitoringTests", "EventsTests", "FileManagementTests", "ReportsTests", "SettingsTests"};
-    public static Controller controller;
+    private static Controller controller;
+    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Controller.class);
     private int passedTestCount;
     private int failedTestCount;
     private String reRunBuffer;
@@ -103,7 +107,7 @@ public class Controller implements WindowListener, Runnable {
         failedTestSet = new HashSet<>();
         TestNG testng = new TestNG();
         List<String> suites = new ArrayList<>();
-        suites.add("testng.xml");
+        suites.add("resources/testng.xml");
         testng.setTestSuites(suites);
         testng.run();
     }
@@ -267,11 +271,6 @@ public class Controller implements WindowListener, Runnable {
     public void testSuiteStopped() {
         runButton.setText("RUN");
         checkRunButton();
-//        try {
-//            Desktop.getDesktop().open(new File("test-output/index.html"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void checkRunButton() {
@@ -286,6 +285,7 @@ public class Controller implements WindowListener, Runnable {
         }
         runButton.setEnabled(enable);
         reRunFailedCheckbox.setEnabled(enable && !view.getFailedFieldText().isEmpty());
+        view.getShowReportButton().setEnabled(true);
     }
 
     public void testPassed(String testName) {
@@ -321,6 +321,11 @@ public class Controller implements WindowListener, Runnable {
         }
     }
 
+    public static Controller getController() {
+        return controller;
+    }
+
+
     @Override
     public void windowOpened(WindowEvent e) {
         view.setToExecValue(testSum);
@@ -333,12 +338,16 @@ public class Controller implements WindowListener, Runnable {
         reRunFailedCheckbox = view.getReRunCheckBox();
         progressBar = view.getProgressBar();
         PrintStream out = new PrintStream(new TextAreaOutputStream(view.getTextArea()));
+        System.out.println("System output is redirecting to application frame");
         System.setOut(out);
         System.setErr(out);
+        PropertyConfigurator.configure("resources/log4j.properties");
+        logger.info("Application started\n");
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
+        logger.info("Application closed\n\n\n");
         System.exit(0);
     }
 
@@ -369,6 +378,14 @@ public class Controller implements WindowListener, Runnable {
 
     public static void main(String[] args) {
         new Controller();
+    }
+
+    public void showReport() {
+        try {
+            Desktop.getDesktop().open(new File("test-output/index.html"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static class TextAreaOutputStream extends OutputStream {
