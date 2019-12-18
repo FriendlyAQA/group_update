@@ -109,15 +109,6 @@ public abstract class BasePage {
     @FindBy(id = "tblLeftMenu")
     private WebElement leftMenuTable;
 
-    @FindBy(id = "frmDesktop")
-    private static WebElement frameDesktop;
-
-    @FindBy(id = "frmButtons")
-    private static WebElement frameButtons;
-
-    @FindBy(id = "frmPopup2")
-    private static WebElement framePopup2;
-
     @FindBy(id = "imgLogout")
     private WebElement logOutButton;
 

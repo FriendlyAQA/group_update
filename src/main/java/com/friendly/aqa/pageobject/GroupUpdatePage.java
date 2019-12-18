@@ -46,17 +46,14 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "ddlSend")
     private WebElement sendToField;
 
-    @FindBy(name = "btnEditView$btn")
-    private WebElement editGroupButton;
+//    @FindBy(name = "btnEditView$btn")
+//    private WebElement editGroupButton;
 
     @FindBy(name = "btnNewView$btn")
     private WebElement createGroupButton;
 
-    @FindBy(name = "btnShowDevices$btn")
-    private WebElement showList;
-
-    @FindBy(name = "btnBrowse$btn")
-    private WebElement browseButton;
+//    @FindBy(name = "btnBrowse$btn")
+//    private WebElement browseButton;
 
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
@@ -124,12 +121,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "tmScheduled_ddlMinute")
     private WebElement timeMinutesSelect;
 
-    @FindBy(id = "tblParameters")
-    private WebElement mainTable;
-
-    @FindBy(how = How.ID, using = "tblParameters")
-    private List<WebElement> mainTableIsPresent;
-
     @FindBy(how = How.ID, using = "lblDBError")
     private List<WebElement> noDataFound;
 
@@ -148,8 +139,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
 
-    @FindBy(id = "frmPopup2")
-    private WebElement conditionFrame;
+    @FindBy(how = How.ID, using = "lblChartNoData")
+    private List<WebElement> chartNoData;
 
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
@@ -157,8 +148,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "calDate_calendar")
     private WebElement divCalendar;
 
-    @FindBy(id = "tabsSettings_tblTabs")
-    private WebElement paramTabsTable;
+//    @FindBy(id = "tabsSettings_tblTabs")
+//    private WebElement paramTabsTable;
 
     @FindBy(id = "UcFirmware1_ddlFileType")
     private WebElement selectFileTypeComboBox;
@@ -187,8 +178,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_tbSize")
     private WebElement fileSizeField;
 
-    @FindBy(id = "UcFirmware1_tbDelay")
-    private WebElement delayField;
+//    @FindBy(id = "UcFirmware1_tbDelay")
+//    private WebElement delayField;
 
     @FindBy(id = "UcFirmware1_rdTarget")
     private WebElement fromListRadioButton;
@@ -223,20 +214,14 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
 
-    @FindBy(id = "lblSelect")
-    private WebElement importLabel;
+//    @FindBy(id = "lblSelect")
+//    private WebElement importLabel;
 
     @FindBy(id = "btnDefaultView_btn")
     private WebElement resetViewButton;
 
-
 //    @FindBy(id = "tblParamsValue")
 //    private WebElement paramTable;
-
-    public void insertImportFile() {
-        waitForUpdate();
-        importGuField.sendKeys("D:\\Users\\asp4r\\Desktop\\UpdateGroup(5461_22.10.2019 14-40-05).xml");
-    }
 
     public GroupUpdatePage topMenu(TopMenu value) {
         super.topMenu(value);
@@ -310,8 +295,6 @@ public class GroupUpdatePage extends BasePage {
                 WebElement cell = calendar.getCellWebElement(i, j);
                 String attr = cell.getAttribute("onclick");
                 if (attr != null) {
-//                    int start = attr.indexOf(".SelectDate('") + 13;
-//                    int end = attr.length() - 2;
                     setDefaultImplicitlyWait();
                     if (!repeat) {
                         logger.info("First day of month in Sunday. Test case 19 is not effective");
@@ -593,7 +576,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage filldelay(String delay) {
+    public GroupUpdatePage fillDelay(String delay) {
         fileSizeField.sendKeys(delay);
         return this;
     }
@@ -760,7 +743,7 @@ public class GroupUpdatePage extends BasePage {
 //        driver.switchTo().defaultContent();
 //        driver.switchTo().frame(conditionFrame);
         Table treeTable = getTable("tblTree", CONDITIONS);
-        treeTable.print().clickOn(0, branch);
+        treeTable.clickOn(0, branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
         paramTable.setCondition(conditionName, condition, value);
         WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
@@ -781,7 +764,7 @@ public class GroupUpdatePage extends BasePage {
     public void checkResetView() {
         waitForUpdate();
         resetView();
-        if (BROWSER.equals("chrome")){
+        if (BROWSER.equals("chrome")) {
             pause(500);
         }
         Table table = getMainTable();
@@ -802,11 +785,6 @@ public class GroupUpdatePage extends BasePage {
     public boolean serialNumberTableIsPresent() {
         return serialNumberTableList.size() != 0;
     }
-//
-//    public boolean mainTableIsPresent() {
-//        System.out.println(mainTableIsPresent.size());
-//        return mainTableIsPresent.size() == 1;
-//    }
 
     public boolean mainTableIsAbsent() {
         return noDataFound.size() == 1;
@@ -828,6 +806,21 @@ public class GroupUpdatePage extends BasePage {
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
+            }
+        }
+        return this;
+    }
+
+    public GroupUpdatePage waitForChart(int timeout) {
+        long start = System.currentTimeMillis();
+        while (true) {
+            List<WebElement> set = driver.findElements(By.id("lblChartNoData"));
+            if (set.size() > 0 && !set.get(0).isDisplayed()){
+                break;
+            }
+            globalButtons(REFRESH);
+            if (System.currentTimeMillis() - start > timeout * 1000) {
+                throw new AssertionError("Timed out while waiting for group started ");
             }
         }
         return this;
@@ -902,7 +895,11 @@ public class GroupUpdatePage extends BasePage {
         return gotoFileDownload("sercomm", "Smart Box TURBO+", groupName);
     }
 
-    private GroupUpdatePage goto_(String manufacturer, String model, String groupName, int index) {
+    public GroupUpdatePage gotoBackup(String groupName) {
+        return goto_("audiocodes", "MP262", groupName, 7);
+    }
+
+    private GroupUpdatePage goto_(String manufacturer, String model, String groupName, int taskIndex) {
         topMenu(GROUP_UPDATE);
         return leftMenu(NEW)
                 .selectManufacturer(manufacturer.toLowerCase())
@@ -912,7 +909,7 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(index)
+                .addNewTask(taskIndex)
                 .addTaskButton();
     }
 

@@ -1,5 +1,8 @@
 package com.friendly.aqa.test;
 
+import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.utils.Table;
+import org.testng.annotations.Listeners;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpConnector;
 import org.testng.Assert;
@@ -14,6 +17,7 @@ import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
 
+@Listeners(UniversalVideoListener.class)
 public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void test_001() {
@@ -2217,5 +2221,36 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .setPrefix("InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.")
                 .checkResults("SSID", "values,names,attributes");
+    }
+
+    @Test
+    public void test_163() {
+        groupUpdatePage
+                .gotoBackup(testName)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", testName, 30)
+                .getMainTable()
+                .readTasksFromDB(testName)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Backup");
+    }
+
+    @Test
+    public void test_165() {
+        groupUpdatePage
+                .gotoBackup(testName)
+                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .getMainTable()
+                .readTasksFromDB(testName)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .waitForChart(30)
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Backup");
     }
 }
