@@ -1,11 +1,10 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.utils.Table;
-import org.testng.annotations.Listeners;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpConnector;
-import org.testng.Assert;
+import com.friendly.aqa.utils.Table;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -16,6 +15,7 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Parameter.*;
 import static com.friendly.aqa.utils.Table.Policy.*;
+import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTests extends BaseTestCase {
@@ -24,7 +24,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage.deleteAll();
         groupUpdatePage.topMenu(GROUP_UPDATE);
         waitForUpdate();
-        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer("sercomm")
                 .globalButtons(CANCEL);
-        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
@@ -47,7 +47,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .fillName(testName)
                 .globalButtons(CANCEL);
         waitForUpdate();
-        Assert.assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(groupUpdatePage.mainTableIsAbsent());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .fillName(testName)
                 .selectSendTo()
                 .showList();
-        Assert.assertTrue(groupUpdatePage.serialNumberTableIsPresent());
+        assertTrue(groupUpdatePage.serialNumberTableIsPresent());
     }
 
     @Test
@@ -72,12 +72,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectModel()
                 .fillName(testName)
                 .createGroup();
-        Assert.assertTrue(groupUpdatePage.isButtonPresent(FINISH));
+        assertTrue(groupUpdatePage.isButtonPresent(FINISH));
         groupUpdatePage
                 .globalButtons(CANCEL);
         waitForUpdate();
         groupUpdatePage.pause(500);
-        Assert.assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
+        assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
     }
 
     @Test
@@ -106,11 +106,11 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblDevices")
                 .clickOn(1, 0);
         waitForUpdate();
-        Assert.assertTrue(groupUpdatePage.isButtonActive(NEXT));
+        assertTrue(groupUpdatePage.isButtonActive(NEXT));
         groupUpdatePage.getTable("tblDevices")
                 .clickOn(1, 0);
         waitForUpdate();
-        Assert.assertFalse(groupUpdatePage.isButtonActive(NEXT));
+        assertFalse(groupUpdatePage.isButtonActive(NEXT));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList();
-        Assert.assertEquals(groupUpdatePage.getTable("tblDevices").getCellText(1, 0), "FT001SN00001SD18F7FFF521");
+        assertEquals(groupUpdatePage.getTable("tblDevices").getCellText(1, 0), "FT001SN00001SD18F7FFF521");
     }
 
     @Test
@@ -142,8 +142,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton();
-        Assert.assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
-        Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
+        assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
+        assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
@@ -156,7 +156,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp();
         waitForUpdate();
-        Assert.assertEquals(groupUpdatePage
+        assertEquals(groupUpdatePage
                 .getMainTable()
                 .getCellText(4, testName, 1), "Not active");
         setTargetTestName();
@@ -209,13 +209,13 @@ public class GroupUpdateTests extends BaseTestCase {
                 .clickOn(targetTestName, 4);
         groupUpdatePage
                 .globalButtons(EDIT);
-        Assert.assertFalse(groupUpdatePage.isInputActive("ddlSend"));
+        assertFalse(groupUpdatePage.isInputActive("ddlSend"));
         groupUpdatePage
                 .globalButtons(NEXT);
-        Assert.assertFalse(groupUpdatePage.isInputActive("lrbImmediately"));
+        assertFalse(groupUpdatePage.isInputActive("lrbImmediately"));
         groupUpdatePage
                 .globalButtons(NEXT);
-        Assert.assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
+        assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
@@ -229,10 +229,10 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
-                .timeHoursSelect(0)
+                .timeHoursSelect("0")
                 .globalButtons(NEXT);
         waitForUpdate();
-        Assert.assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
+        assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
         groupUpdatePage
                 .checkIsCalendarClickable();
     }
@@ -241,7 +241,7 @@ public class GroupUpdateTests extends BaseTestCase {
     public void test_021() throws IOException {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE);
-        Assert.assertTrue(HttpConnector.getUrlSource(groupUpdatePage
+        assertTrue(HttpConnector.getUrlSource(groupUpdatePage
                 .getMainTable()
                 .getExportLink(targetTestName))
                 .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
@@ -2230,7 +2230,6 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Completed", testName, 30)
-                .getMainTable()
                 .readTasksFromDB(testName)
                 .clickOn(testName, 4);
         groupUpdatePage
@@ -2251,6 +2250,121 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .waitForChart(30)
                 .getTable("tblTasks")
-                .assertPresenceOfValue(0, "Backup");
+                .assertPresenceOfValue(0, "Backup")
+                .assertPresenceOfValue(1, "Present");
+    }
+
+    @Test
+    public void test_166() {
+        groupUpdatePage
+                .gotoBackup(testName)
+                .getTable("tblTasks")
+                .clickOn(1, 0);
+        groupUpdatePage
+                .deleteButton();
+        waitForUpdate();
+        assertFalse(groupUpdatePage.isElementPresent("tblTasks"));
+    }
+
+    @Test
+    public void test_167() {
+        groupUpdatePage
+                .gotoRestore(testName)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Completed", testName, 30)
+                .readTasksFromDB(testName)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Restore");
+    }
+
+    @Test
+    public void test_168() {
+        groupUpdatePage
+                .gotoRestore(testName)
+                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .getMainTable()
+                .readTasksFromDB(testName)
+                .clickOn(testName, 4);
+        groupUpdatePage
+//                .waitForChart(30)
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Restore")
+                .assertPresenceOfValue(1, "Present");
+    }
+
+    @Test
+    public void test_169() {
+        groupUpdatePage
+                .gotoRestore(testName)
+                .getTable("tblTasks")
+                .clickOn(1, 0);
+        groupUpdatePage
+                .deleteButton();
+        waitForUpdate();
+        assertFalse(groupUpdatePage.isElementPresent("tblTasks"));
+    }
+
+    @Test
+    public void test_179() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_180() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .waitUntilConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 }

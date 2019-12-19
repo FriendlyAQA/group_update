@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
@@ -20,9 +21,11 @@ import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
     private static Logger logger = Logger.getLogger(GroupUpdatePage.class);
+    private Map<String, Date> scheduledMap;
 
     public GroupUpdatePage() {
         super();
+        scheduledMap = new LinkedHashMap<>();
         switchToFrame(DESKTOP);
     }
 
@@ -320,14 +323,13 @@ public class GroupUpdatePage extends BasePage {
         throw new AssertionError("Current date isn't found");
     }
 
-    public GroupUpdatePage timeHoursSelect(int index) {
-        new Select(timeHoursSelect).selectByIndex(index);
+    public GroupUpdatePage timeHoursSelect(String value) {
+        new Select(timeHoursSelect).selectByValue(value);
         return this;
     }
 
-    public GroupUpdatePage timeMinutesSelect(int index) {
-        new Select(timeMinutesSelect).selectByIndex(index);
-        return this;
+    public void timeMinutesSelect(String value) {
+        new Select(timeMinutesSelect).selectByValue(value);
     }
 
     public GroupUpdatePage selectFileName(int index) {
@@ -477,6 +479,11 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage immediately() {
         immediatelyRadioButton.click();
         return this;
+    }
+
+    public boolean isElementDisplayed(String id) {
+        waitForUpdate();
+        return driver.findElement(By.id(id)).isDisplayed();
     }
 
     public GroupUpdatePage itemsOnPage(String number) {
@@ -651,12 +658,16 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage addToScheduled(String testName) {
+        scheduledMap.put(testName, new Date());
+        return this;
+    }
+
     public GroupUpdatePage saveAndActivate(String groupName) {
         globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Completed", groupName, 30)
-                .getMainTable()
                 .readTasksFromDB(groupName)//TEST
                 .clickOn(groupName, 4);
         return this;
@@ -743,7 +754,7 @@ public class GroupUpdatePage extends BasePage {
 //        driver.switchTo().defaultContent();
 //        driver.switchTo().frame(conditionFrame);
         Table treeTable = getTable("tblTree", CONDITIONS);
-        treeTable.clickOn(0, branch);
+        treeTable.clickOn(branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
         paramTable.setCondition(conditionName, condition, value);
         WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
@@ -800,27 +811,36 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage waitForStatus(String status, String groupName, int timeout) {
+    public GroupUpdatePage setDelay(int minutes) {
+        String[] time = CalendarUtil.getDelay(10);
+        timeHoursSelect(time[0].replaceAll("^0", ""));
+        timeMinutesSelect(time[1].replaceAll("^0", ""));
+        return this;
+    }
+
+    //
+    public Table waitForStatus(String status, String groupName, int timeout) {
         long start = System.currentTimeMillis();
-        while (!getMainTable().getCellText(4, groupName, 1).equals(status)) {
+        Table table;
+        while (!(table = getMainTable()).getCellText(4, groupName, 1).equals(status)) {
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
             }
         }
-        return this;
+        return table;
     }
 
     public GroupUpdatePage waitForChart(int timeout) {
         long start = System.currentTimeMillis();
         while (true) {
             List<WebElement> set = driver.findElements(By.id("lblChartNoData"));
-            if (set.size() > 0 && !set.get(0).isDisplayed()){
+            if (set.size() > 0 && !set.get(0).isDisplayed()) {
                 break;
             }
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
-                throw new AssertionError("Timed out while waiting for group started ");
+                throw new AssertionError("Timed out while waiting for group is started ");
             }
         }
         return this;
@@ -929,6 +949,10 @@ public class GroupUpdatePage extends BasePage {
             globalButtons(DELETE)
                     .okButtonPopUp();
         }
+    }
+
+    public GroupUpdatePage gotoRestore(String groupName) {
+        return goto_("sercomm", "Smart Box TURBO+", groupName, 8);
     }
 
     public enum Left {

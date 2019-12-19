@@ -257,6 +257,8 @@ public abstract class BasePage {
         switchToFrame(previousFrame);
     }
 
+
+
     public enum FrameSwitch {
         ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"), CONDITIONS("frmPopup2");
 
