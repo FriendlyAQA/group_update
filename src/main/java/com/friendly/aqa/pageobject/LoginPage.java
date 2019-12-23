@@ -19,17 +19,9 @@ public class LoginPage extends BasePage {
     @FindBy(className = "button_default")
     private WebElement loginButton;
 
-    private void fillUsernameFiled(String username) {
-        this.username.sendKeys(username);
-    }
-
-    private void fillPasswordFiled(String username) {
-        this.password.sendKeys(username);
-    }
-
     public void authenticate(String username, String password) {
-        fillPasswordFiled(password);
-        fillUsernameFiled(username);
+        this.username.sendKeys(username);
+        this.password.sendKeys(password);
         loginButton.click();
     }
 }

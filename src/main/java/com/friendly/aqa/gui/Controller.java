@@ -256,7 +256,7 @@ public class Controller implements WindowListener, Runnable {
     public void radioButtonSelected(int tabNum) {
         runSpecifiedFields[tabNum].setEnabled(runSpecifiedButtons[tabNum].isSelected() && runSpecifiedButtons[tabNum].isEnabled());
         excludeSpecificFields[tabNum].setEnabled(excludeSpecificButtons[tabNum].isSelected() && excludeSpecificButtons[tabNum].isEnabled());
-        tabTestAmount[tabNum] = new TreeSet<>(writtenTestSet[tabNum]);//writtenTestSet[tabNum]
+        tabTestAmount[tabNum] = new TreeSet<>(writtenTestSet[tabNum]);
         textChanged(runSpecifiedButtons[tabNum].isSelected() ? runSpecifiedFields[tabNum] : excludeSpecificFields[tabNum]);
     }
 

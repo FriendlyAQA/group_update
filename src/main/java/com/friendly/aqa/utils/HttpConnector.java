@@ -1,13 +1,15 @@
 package com.friendly.aqa.utils;
 
-import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 
 public class HttpConnector {

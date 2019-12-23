@@ -45,7 +45,6 @@ public class DataBaseConnector {
         try {
             stmtObj.execute("SELECT * FROM ftacs.ug_cpe_completed WHERE ug_id = '" + ug_id + "'");
             ResultSet resultSet = stmtObj.getResultSet();
-            String cpe_id;
             while (resultSet.next()) {
                 String[] row = new String[8];
                 for (int i = 0; i < 8; i++) {
