@@ -1,6 +1,5 @@
 package com.friendly.aqa.gui;
 
-import com.friendly.aqa.pageobject.GroupUpdatePage;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.test.GroupUpdateTests;
 import com.friendly.aqa.utils.XmlWriter;

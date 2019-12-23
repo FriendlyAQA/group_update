@@ -2248,7 +2248,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .readTasksFromDB(testName)
                 .clickOn(testName, 4);
         groupUpdatePage
-                .waitForChart(30)
+//                .waitForChart(30)
                 .getTable("tblTasks")
                 .assertPresenceOfValue(0, "Backup")
                 .assertPresenceOfValue(1, "Present");
@@ -2550,7 +2550,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .clickOn(testName, 4);
         groupUpdatePage
                 .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "61");
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
