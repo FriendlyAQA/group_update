@@ -266,11 +266,13 @@ public class Controller implements WindowListener, Runnable {
         failedTestCount = 0;
         runButton.setText("STOP");
         runButton.setEnabled(true);
+        view.getShowReportButton().setEnabled(false);
     }
 
     public void testSuiteStopped() {
         runButton.setText("RUN");
         checkRunButton();
+        view.getShowReportButton().setEnabled(true);
     }
 
     private void checkRunButton() {
@@ -285,7 +287,6 @@ public class Controller implements WindowListener, Runnable {
         }
         runButton.setEnabled(enable);
         reRunFailedCheckbox.setEnabled(enable && !view.getFailedFieldText().isEmpty());
-        view.getShowReportButton().setEnabled(true);
     }
 
     public void testPassed(String testName) {

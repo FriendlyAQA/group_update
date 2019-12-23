@@ -113,7 +113,7 @@ public class View extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Automation UI");
-        setIconImage(new ImageIcon("friendly.png").getImage());
+        setIconImage(new ImageIcon("resources/friendly.png").getImage());
         setPreferredSize(new java.awt.Dimension(745, 527));
         setResizable(false);
 

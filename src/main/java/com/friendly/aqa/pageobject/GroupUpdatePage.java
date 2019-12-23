@@ -352,6 +352,19 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage setPeriod(int num) {
+        driver.findElement(By.id("cbPeriod" + num)).click();
+        String[] timeStart = CalendarUtil.getDelay(num * 10);
+        String[] timeFinish = CalendarUtil.getDelay(num * 10 + 10);
+        new Select(driver.findElement(By.id("tmPeriod" + num + "Start_ddlHour"))).selectByValue(timeStart[0].replaceAll("^0", ""));
+        new Select(driver.findElement(By.id("tmPeriod" + num + "Start_ddlMinute"))).selectByValue(timeStart[1].replaceAll("^0", ""));
+        new Select(driver.findElement(By.id("tmPeriod" + num + "Finish_ddlHour"))).selectByValue(timeFinish[0].replaceAll("^0", ""));
+        new Select(driver.findElement(By.id("tmPeriod" + num + "Finish_ddlMinute"))).selectByValue(timeFinish[1].replaceAll("^0", ""));
+        driver.findElement(By.id("txtPeriod" + num + "GroupSize")).sendKeys("3");
+        driver.findElement(By.id("txtPeriod" + num + "Timeout")).sendKeys("5");
+        return this;
+    }
+
     public GroupUpdatePage waitUntilConnectRadioButton() {
         waitUntilConnectRadioButton.click();
         return this;

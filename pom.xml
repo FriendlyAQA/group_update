@@ -157,7 +157,7 @@
                             <outfile>target/${exeFileName}.exe</outfile>
                             <jar>target/Automation-jar-with-dependencies.jar</jar>
                             <errTitle>${product.title}</errTitle>
-                            <!--                            <icon>TB.ico</icon>-->
+                            <icon>resources/friendly.ico</icon>
                             <classPath>
                                 <mainClass>com.friendly.aqa.gui.Controller</mainClass>
                                 <addDependencies>true</addDependencies>

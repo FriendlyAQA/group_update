@@ -2367,4 +2367,254 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
+
+    @Test
+    public void test_181() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_182() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .waitUntilConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_183() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .setPeriod(2)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_184() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .setPeriod(2)
+                .waitUntilConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_185() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_186() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "61");
+    }
+
+    @Test
+    public void test_187() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void test_188() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .addToScheduled(testName)
+                .waitForStatus("Scheduled", testName, 5)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+
 }
