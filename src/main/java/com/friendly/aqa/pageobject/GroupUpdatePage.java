@@ -844,6 +844,24 @@ public class GroupUpdatePage extends BasePage {
         return table;
     }
 
+    public Table waitForStatusWithoutRefresh(String status, String groupName, int timeout) {
+        long start = System.currentTimeMillis();
+        Table table = null;
+        for (int i = 0; i < 2; i++) {
+            try {
+                while (!(table = getMainTable()).getCellText(4, groupName, 1).equals(status)) {
+                    if (System.currentTimeMillis() - start > timeout * 1000) {
+                        throw new AssertionError("Timed out while waiting for status " + status);
+                    }
+                }
+                return table;
+            } catch (StaleElementReferenceException e) {
+                continue;
+            }
+        }
+        return table;
+    }
+
     public GroupUpdatePage waitForChart(int timeout) {
         long start = System.currentTimeMillis();
         while (true) {

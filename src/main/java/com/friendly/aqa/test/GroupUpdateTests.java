@@ -2616,5 +2616,31 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
-
+    @Test
+    public void test_189() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer("sercomm")
+                .selectModel("Smart Box TURBO+")
+                .fillName(testName)
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .requestToConnectRadioButton()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        groupUpdatePage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatusWithoutRefresh("Completed", testName, 65)
+                .clickOn(testName, 4);
+        groupUpdatePage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
 }
