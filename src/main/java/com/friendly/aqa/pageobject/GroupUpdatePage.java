@@ -856,7 +856,7 @@ public class GroupUpdatePage extends BasePage {
                 }
                 return table;
             } catch (StaleElementReferenceException e) {
-                continue;
+                System.out.println(e.getMessage());
             }
         }
         return table;
