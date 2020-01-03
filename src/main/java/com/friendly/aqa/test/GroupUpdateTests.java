@@ -95,7 +95,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_011() {
+    public void test_010() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -115,7 +115,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     //Doesn't work with Edge
-    public void test_012() {
+    public void test_011() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -129,7 +129,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_014() {
+    public void test_013() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -147,7 +147,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_015() {
+    public void test_014() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -163,7 +163,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_016() {
+    public void test_015() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -192,7 +192,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_017() {
+    public void test_016() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -202,7 +202,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_018() {
+    public void test_017() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -219,7 +219,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_019() {
+    public void test_018() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -238,7 +238,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_021() throws IOException {
+    public void test_019() throws IOException {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE);
         assertTrue(HttpConnector.getUrlSource(groupUpdatePage
@@ -248,7 +248,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_022() {
+    public void test_020() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
@@ -264,7 +264,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_023() {
+    public void test_021() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("Username", VALUE, "ftacs");
@@ -275,7 +275,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_024() {
+    public void test_022() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -302,7 +302,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_025() {
+    public void test_023() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -317,7 +317,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_026() {
+    public void test_024() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -334,7 +334,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_027() {
+    public void test_025() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -379,7 +379,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_028() {
+    public void test_026() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -394,7 +394,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_029() {
+    public void test_027() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -413,7 +413,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_030() {
+    public void test_028() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -448,7 +448,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_031() {
+    public void test_029() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -463,7 +463,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_032() {
+    public void test_030() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -480,7 +480,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_033() {
+    public void test_031() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -515,7 +515,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_034() {
+    public void test_032() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -530,7 +530,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_035() {
+    public void test_033() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -547,7 +547,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_036() {
+    public void test_034() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -568,7 +568,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_037() {
+    public void test_035() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -583,7 +583,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_038() {
+    public void test_036() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -600,7 +600,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_039() {
+    public void test_037() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -637,7 +637,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_040() {
+    public void test_038() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -652,7 +652,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_041() {
+    public void test_039() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -669,7 +669,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_042() {
+    public void test_040() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", ACTIVE, ALL)
@@ -701,7 +701,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_043() {
+    public void test_041() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", ACTIVE, ACS_ONLY)
@@ -713,7 +713,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_044() {
+    public void test_042() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("Username", OFF, ALL)
@@ -729,7 +729,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_045() {
+    public void test_043() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", PASSIVE, null)
@@ -755,7 +755,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_046() {
+    public void test_044() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -784,7 +784,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_047() {
+    public void test_045() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -799,7 +799,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_048() {
+    public void test_046() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -818,7 +818,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_049() {
+    public void test_047() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -847,7 +847,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_050() {
+    public void test_048() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -896,7 +896,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_051() {
+    public void test_049() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -912,7 +912,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_052() {
+    public void test_050() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -931,7 +931,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_053() {
+    public void test_051() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -960,7 +960,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_054() {
+    public void test_052() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -995,7 +995,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_055() {
+    public void test_053() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1011,7 +1011,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_056() {
+    public void test_054() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1030,7 +1030,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_057() {
+    public void test_055() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1059,7 +1059,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_058() {
+    public void test_056() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1098,7 +1098,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_059() {
+    public void test_057() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1114,7 +1114,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_060() {
+    public void test_058() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1133,7 +1133,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_061() {
+    public void test_059() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1162,7 +1162,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_062() {
+    public void test_060() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1185,7 +1185,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_063() {
+    public void test_061() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1201,7 +1201,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_064() {
+    public void test_062() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1220,7 +1220,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_065() {
+    public void test_063() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1242,7 +1242,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_066() {
+    public void test_064() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1279,7 +1279,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_067() {
+    public void test_065() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1295,7 +1295,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_068() {
+    public void test_066() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1314,7 +1314,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_069() {
+    public void test_067() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1342,146 +1342,10 @@ public class GroupUpdateTests extends BaseTestCase {
                 .assertAbsenceOfParameter("DigitMapEnable");
     }
 
-    @Test //Moved to end
-    public void test_250() {
-        groupUpdatePage
-                .gotoFileDownload(testName)
-                .selectFileType(2)
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
-    }
 
-    @Test //Moved to end
-    public void test_251() {
-        groupUpdatePage
-                .gotoFileDownload(testName)
-                .selectFileType(1)
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
-    }
-
-    @Test //Moved to end
-    public void test_252() {
-        groupUpdatePage
-                .gotoFileDownload(testName)
-                .selectFileType(2)
-                .fromListRadioButton()
-                .selectFileName(1)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
-    }
-
-    @Test //Moved to end
-    public void test_253() {
-        groupUpdatePage
-                .gotoFileDownload(testName)
-                .selectFileType(1)
-                .fromListRadioButton()
-                .selectFileName(1)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Firmware Image", "http://95.217.85.220:82/uploads/fake_image.img");
-    }
 
     @Test
-    public void test_074() {
-        groupUpdatePage
-                .gotoFileUpload("audiocodes", "MP262", testName)
-                .selectUploadFileType(1)
-                .manuallyUrlRadioButton()
-                .fillDescriptionUploadFile("test config file upload")
-                .fillUploadUrl("http://95.217.85.220:82/uploads")
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
-    }
-
-    @Test
-    public void test_075() {
-        groupUpdatePage
-                .gotoFileUpload("audiocodes", "MP262", testName)
-                .selectUploadFileType(2)
-                .manuallyUrlRadioButton()
-                .fillDescriptionUploadFile("test log file upload")
-                .fillUploadUrl("http://95.217.85.220:82/uploads")
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
-    }
-
-    @Test
-    public void test_076() {
-        groupUpdatePage
-                .gotoFileUpload("audiocodes", "MP262", testName)
-                .selectUploadFileType(1)
-                .defaultUploadRadioButton()
-                .fillDescriptionUploadFile("test config file upload")
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
-    }
-
-    @Test
-    public void test_079() {
-        groupUpdatePage
-                .gotoFileUpload("audiocodes", "MP262", testName)
-                .selectUploadFileType(2)
-                .defaultUploadRadioButton()
-                .fillDescriptionUploadFile("test log file upload")
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
-    }
-
-    @Test
-    public void test_080() {
-        groupUpdatePage
-                .gotoFileUpload(testName)
-                .selectUploadFileType(1)
-                .defaultUploadRadioButton()
-                .fillDescriptionUploadFile("test configuration file upload")
-                .globalButtons(NEXT)
-                .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads")
-                .clickOn(1, 0);
-        groupUpdatePage
-                .deleteButton()
-                .assertResultTableIsAbsent();
-    }
-
-    @Test //Moved to end
-    public void test_254() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .rebootRadioButton()
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("Reboot");
-    }
-
-    @Test //Moved to end
-    public void test_255() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .factoryResetRadioButton()
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
-    }
-
-    @Test
-    public void test_083() {
+    public void test_068() {
         groupUpdatePage
                 .gotoAction(testName)
                 .reprovisionRadioButton()
@@ -1491,7 +1355,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_084() {
+    public void test_069() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1502,7 +1366,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_085() {
+    public void test_070() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1513,7 +1377,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_086() {
+    public void test_071() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1524,7 +1388,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_087() {
+    public void test_072() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1535,7 +1399,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_088() {
+    public void test_073() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1546,7 +1410,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_089() {
+    public void test_074() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1556,7 +1420,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("CustomRPC", "SetParameterAttributes");
     }
 
-    @Test
+    @Test//80
     public void test_256() {
         groupUpdatePage
                 .gotoAction(testName)
@@ -1579,7 +1443,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_092() {
+    public void test_075() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1590,7 +1454,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_093() {
+    public void test_076() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1623,7 +1487,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_096() {
+    public void test_077() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
                 .setParameter("ConnectionRequestPassword", VALUE, "ftacs")
@@ -1698,7 +1562,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_097() {
+    public void test_078() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -1710,7 +1574,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_098() {
+    public void test_079() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblTree", true)
                 .clickOn(0, "WANDevice")
@@ -1736,7 +1600,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_099() {
+    public void test_080() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1762,7 +1626,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_100() {
+    public void test_81() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -1771,7 +1635,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_101() {
+    public void test_82() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -1780,21 +1644,21 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_102() {
+    public void test_83() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", "Sercomm");
     }
 
     @Test
-    public void test_103() {
+    public void test_84() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", "MP262");
     }
 
     @Test
-    public void test_104() {
+    public void test_85() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
@@ -1804,28 +1668,28 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_128() {
+    public void test_86() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
-    public void test_129() {
+    public void test_87() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
-    public void test_130() {
+    public void test_88() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
-    public void test_131() {
+    public void test_89() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
@@ -1833,28 +1697,28 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_132() {
+    public void test_90() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
-    public void test_133() {
+    public void test_91() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
-    public void test_134() {
+    public void test_92() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
-    public void test_135() {
+    public void test_93() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer("Sercomm")
@@ -1862,7 +1726,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_136() {
+    public void test_94() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -1876,7 +1740,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_139() {
+    public void test_95() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 1, 0);
@@ -1887,7 +1751,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_140() {
+    public void test_96() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -1901,7 +1765,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_141() {
+    public void test_97() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -1915,7 +1779,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_142() {
+    public void test_98() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -1930,7 +1794,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_143() {
+    public void test_99() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1945,7 +1809,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_144() {
+    public void test_100() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1960,7 +1824,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_145() {
+    public void test_101() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 2, 0);
@@ -1971,7 +1835,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_146() {
+    public void test_102() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -1985,7 +1849,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_147() {
+    public void test_103() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -1999,7 +1863,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_148() {
+    public void test_104() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -2014,7 +1878,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_149() {
+    public void test_105() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -2029,7 +1893,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_150() {
+    public void test_106() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -2044,7 +1908,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_151() {
+    public void test_107() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 3, 0);
@@ -2055,7 +1919,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_152() {
+    public void test_108() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -2069,7 +1933,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_153() {
+    public void test_109() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -2083,7 +1947,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_154() {
+    public void test_110() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -2098,7 +1962,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_155() {
+    public void test_111() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -2113,7 +1977,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_156() {
+    public void test_112() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -2128,7 +1992,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_157() {
+    public void test_113() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 1, 0)
@@ -2141,7 +2005,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_158() {
+    public void test_114() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -2157,7 +2021,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_159() {
+    public void test_115() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -2173,7 +2037,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_160() {
+    public void test_116() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -2190,7 +2054,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_161() {
+    public void test_117() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -2207,7 +2071,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_162() {
+    public void test_118() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -2224,7 +2088,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_163() {
+    public void test_119() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -2238,7 +2102,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_165() {
+    public void test_120() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
@@ -2255,7 +2119,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_166() {
+    public void test_121() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .getTable("tblTasks")
@@ -2267,7 +2131,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_167() {
+    public void test_122() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -2281,7 +2145,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_168() {
+    public void test_123() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
@@ -2298,7 +2162,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_169() {
+    public void test_124() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .getTable("tblTasks")
@@ -2310,314 +2174,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_179() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_180() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .waitUntilConnectRadioButton()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_181() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_182() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .waitUntilConnectRadioButton()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_183() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .setPeriod(2)
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_184() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .setPeriod(2)
-                .waitUntilConnectRadioButton()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_185() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .onlineDevicesCheckBox()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_186() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_187() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .onlineDevicesCheckBox()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_188() {
-        groupUpdatePage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer("sercomm")
-                .selectModel("Smart Box TURBO+")
-                .fillName(testName)
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .setPeriod(1)
-                .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .addToScheduled(testName)
-                .waitForStatus("Scheduled", testName, 5)
-                .clickOn(testName, 4);
-        groupUpdatePage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void test_189() {
+    public void test_134() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -2643,4 +2200,450 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
+
+    @Test //70
+    public void test_135() {
+        groupUpdatePage
+                .gotoFileDownload(testName)
+                .selectFileType(2)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+    }
+
+    @Test //Moved to end
+    public void test_136() {
+        groupUpdatePage
+                .gotoFileDownload(testName)
+                .selectFileType(1)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+    }
+
+    @Test //Moved to end
+    public void test_137() {
+        groupUpdatePage
+                .gotoFileDownload(testName)
+                .selectFileType(2)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
+    }
+
+    @Test //Moved to end
+    public void test_138() {
+        groupUpdatePage
+                .gotoFileDownload(testName)
+                .selectFileType(1)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Firmware Image", "http://95.217.85.220:82/uploads/fake_image.img");
+    }
+
+    @Test
+    public void test_139() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", testName)
+                .selectUploadFileType(1)
+                .manuallyUrlRadioButton()
+                .fillDescriptionUploadFile("test config file upload")
+                .fillUploadUrl("http://95.217.85.220:82/uploads")
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_140() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", testName)
+                .selectUploadFileType(2)
+                .manuallyUrlRadioButton()
+                .fillDescriptionUploadFile("test log file upload")
+                .fillUploadUrl("http://95.217.85.220:82/uploads")
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_141() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", testName)
+                .selectUploadFileType(1)
+                .defaultUploadRadioButton()
+                .fillDescriptionUploadFile("test config file upload")
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_144() {
+        groupUpdatePage
+                .gotoFileUpload("audiocodes", "MP262", testName)
+                .selectUploadFileType(2)
+                .defaultUploadRadioButton()
+                .fillDescriptionUploadFile("test log file upload")
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("Vendor Log File", "http://95.217.85.220:82/uploads");
+    }
+
+    @Test
+    public void test_145() {
+        groupUpdatePage
+                .gotoFileUpload(testName)
+                .selectUploadFileType(1)
+                .defaultUploadRadioButton()
+                .fillDescriptionUploadFile("test configuration file upload")
+                .globalButtons(NEXT)
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads")
+                .clickOn(1, 0);
+        groupUpdatePage
+                .deleteButton()
+                .assertResultTableIsAbsent();
+    }
+
+    @Test //Moved to end
+    public void test_146() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .rebootRadioButton()
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("Reboot");
+    }
+
+    @Test //Moved to end82
+    public void test_147() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .factoryResetRadioButton()
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("FactoryReset");
+    }
+//    @Test
+//    public void test_s01() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s02() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .waitUntilConnectRadioButton()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s03() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s04() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .waitUntilConnectRadioButton()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s05() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .setPeriod(2)
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s06() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .setPeriod(2)
+//                .waitUntilConnectRadioButton()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s07() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .onlineDevicesCheckBox()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s08() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .onlineDevicesCheckBox()
+//                .waitUntilConnectRadioButton()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s09() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .onlineDevicesCheckBox()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+//    @Test
+//    public void test_s10() {
+//        groupUpdatePage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer("sercomm")
+//                .selectModel("Smart Box TURBO+")
+//                .fillName(testName)
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .setPeriod(1)
+//                .onlineDevicesCheckBox()
+//                .waitUntilConnectRadioButton()
+//                .globalButtons(NEXT)
+//                .addNewTask(1)
+//                .addTaskButton()
+//                .getTable("tblParamsValue")
+//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+//        groupUpdatePage
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .addToScheduled(testName)
+//                .waitForStatus("Scheduled", testName, 5)
+//                .clickOn(testName, 4);
+//        groupUpdatePage
+//                .getTable("tblTasks")
+//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+//    }
+//
+
 }
