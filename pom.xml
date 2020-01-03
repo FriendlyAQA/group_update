@@ -167,12 +167,12 @@
                                 <minVersion>1.8.0</minVersion>
                             </jre>
                             <versionInfo>
-                                <fileVersion>1.0.1.0</fileVersion>
+                                <fileVersion>1.0.1.1</fileVersion>
                                 <txtFileVersion>1.0.1</txtFileVersion>
                                 <fileDescription>Friendly One IoT Management Console Automated Test Tool
                                 </fileDescription>
                                 <copyright>Copyright © 2019 Friendly Tech</copyright>
-                                <productVersion>1.0.0.0</productVersion>
+                                <productVersion>1.0.1.1</productVersion>
                                 <txtProductVersion>1.0.1</txtProductVersion>
                                 <companyName>Friendly Tech</companyName>
                                 <productName>${product.title}</productName>

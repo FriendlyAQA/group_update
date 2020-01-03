@@ -74,7 +74,8 @@ public class Controller implements WindowListener, Runnable {
             writtenTestSet[2].add(name);
         }
         tabTestAmount[2] = writtenTestSet[2];
-        lastTestNumber[2] = Integer.parseInt(((TreeSet<String>) writtenTestSet[2]).last().split("\\D+")[1]);
+        String testName = ((TreeSet<String>) writtenTestSet[2]).last();
+        lastTestNumber[2] = Integer.parseInt(testName.substring(testName.length() - 3));
         testSum = tabTestAmount[2].size();
     }
 
@@ -155,7 +156,7 @@ public class Controller implements WindowListener, Runnable {
         }
         Set<String> stringSet = new TreeSet<>();
         for (int i : integerSet) {
-            stringSet.add(String.format("%s%03d", "test_", i));
+            stringSet.add(String.format("%s%03d", "tr069_gu_", i));
         }
         return stringSet;
     }

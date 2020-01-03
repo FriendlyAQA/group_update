@@ -20,7 +20,7 @@ import static org.testng.Assert.*;
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTests extends BaseTestCase {
     @Test
-    public void test_001() {
+    public void tr069_gu_001() {
         groupUpdatePage.deleteAll();
         groupUpdatePage.topMenu(GROUP_UPDATE);
         waitForUpdate();
@@ -28,7 +28,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_002() {
+    public void tr069_gu_002() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -38,7 +38,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_003() {
+    public void tr069_gu_003() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -51,7 +51,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_004() {
+    public void tr069_gu_004() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -64,7 +64,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_005() {
+    public void tr069_gu_005() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -81,8 +81,8 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    //A Bug was found while pressing "Next" button when "Name group" is filled;
-    public void test_006() {
+    //A Bug was found while pressing "Next"
+    public void tr069_gu_006() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -91,11 +91,11 @@ public class GroupUpdateTests extends BaseTestCase {
                 .fillName(testName)
                 .selectSendTo()
                 .createGroup()
-                .fillName("test_group_name");
+                .fillName("tr069_gu_group_name");
     }
 
     @Test
-    public void test_010() {
+    public void tr069_gu_010() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -115,7 +115,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     //Doesn't work with Edge
-    public void test_011() {
+    public void tr069_gu_011() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -129,7 +129,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_013() {
+    public void tr069_gu_013() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -147,7 +147,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_014() {
+    public void tr069_gu_014() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -163,7 +163,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_015() {
+    public void tr069_gu_015() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -192,7 +192,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_016() {
+    public void tr069_gu_016() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -202,7 +202,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_017() {
+    public void tr069_gu_017() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -219,7 +219,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_018() {
+    public void tr069_gu_018() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -238,7 +238,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_019() throws IOException {
+    public void tr069_gu_019() throws IOException {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE);
         assertTrue(HttpConnector.getUrlSource(groupUpdatePage
@@ -248,7 +248,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_020() {
+    public void tr069_gu_020() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
@@ -264,7 +264,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_021() {
+    public void tr069_gu_021() {
         groupUpdatePage
                 .goToSetParameters(testName)
                 .setParameter("Username", VALUE, "ftacs");
@@ -275,7 +275,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_022() {
+    public void tr069_gu_022() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -302,7 +302,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_023() {
+    public void tr069_gu_023() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -317,7 +317,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_024() {
+    public void tr069_gu_024() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -334,7 +334,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_025() {
+    public void tr069_gu_025() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -379,7 +379,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_026() {
+    public void tr069_gu_026() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -394,7 +394,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_027() {
+    public void tr069_gu_027() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -413,7 +413,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_028() {
+    public void tr069_gu_028() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -448,7 +448,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_029() {
+    public void tr069_gu_029() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -463,7 +463,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_030() {
+    public void tr069_gu_030() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -480,7 +480,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_031() {
+    public void tr069_gu_031() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -515,7 +515,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_032() {
+    public void tr069_gu_032() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -530,7 +530,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_033() {
+    public void tr069_gu_033() {
         groupUpdatePage
                 .goToSetParameters(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -547,7 +547,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_034() {
+    public void tr069_gu_034() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -568,7 +568,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_035() {
+    public void tr069_gu_035() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -583,7 +583,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_036() {
+    public void tr069_gu_036() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -600,7 +600,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_037() {
+    public void tr069_gu_037() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -637,7 +637,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_038() {
+    public void tr069_gu_038() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -652,7 +652,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_039() {
+    public void tr069_gu_039() {
         groupUpdatePage
                 .goToSetParameters("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -669,7 +669,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_040() {
+    public void tr069_gu_040() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", ACTIVE, ALL)
@@ -701,7 +701,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_041() {
+    public void tr069_gu_041() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", ACTIVE, ACS_ONLY)
@@ -713,7 +713,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_042() {
+    public void tr069_gu_042() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("Username", OFF, ALL)
@@ -729,7 +729,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_043() {
+    public void tr069_gu_043() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tblParamsValue")
                 .setPolicy("URL", PASSIVE, null)
@@ -755,7 +755,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_044() {
+    public void tr069_gu_044() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -784,7 +784,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_045() {
+    public void tr069_gu_045() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -799,7 +799,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_046() {
+    public void tr069_gu_046() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -818,7 +818,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_047() {
+    public void tr069_gu_047() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -847,7 +847,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_048() {
+    public void tr069_gu_048() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -896,7 +896,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_049() {
+    public void tr069_gu_049() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -912,7 +912,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_050() {
+    public void tr069_gu_050() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -931,7 +931,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_051() {
+    public void tr069_gu_051() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -960,7 +960,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_052() {
+    public void tr069_gu_052() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -995,7 +995,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_053() {
+    public void tr069_gu_053() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1011,7 +1011,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_054() {
+    public void tr069_gu_054() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1030,7 +1030,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_055() {
+    public void tr069_gu_055() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1059,7 +1059,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_056() {
+    public void tr069_gu_056() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1098,7 +1098,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_057() {
+    public void tr069_gu_057() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1114,7 +1114,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_058() {
+    public void tr069_gu_058() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1133,7 +1133,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_059() {
+    public void tr069_gu_059() {
         groupUpdatePage
                 .goToSetPolicies(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1162,7 +1162,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_060() {
+    public void tr069_gu_060() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1185,7 +1185,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_061() {
+    public void tr069_gu_061() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1201,7 +1201,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_062() {
+    public void tr069_gu_062() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1220,7 +1220,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_063() {
+    public void tr069_gu_063() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("DSL settings");
@@ -1242,7 +1242,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_064() {
+    public void tr069_gu_064() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1279,7 +1279,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_065() {
+    public void tr069_gu_065() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1295,7 +1295,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_066() {
+    public void tr069_gu_066() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1314,7 +1314,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_067() {
+    public void tr069_gu_067() {
         groupUpdatePage
                 .goToSetPolicies("audiocodes", "MP252", testName, "tabsSettings_tblTabs")
                 .clickOn("VoIP settings");
@@ -1343,9 +1343,8 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
 
-
     @Test
-    public void test_068() {
+    public void tr069_gu_068() {
         groupUpdatePage
                 .gotoAction(testName)
                 .reprovisionRadioButton()
@@ -1355,7 +1354,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_069() {
+    public void tr069_gu_069() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1366,7 +1365,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_070() {
+    public void tr069_gu_070() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1377,7 +1376,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_071() {
+    public void tr069_gu_071() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1388,7 +1387,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_072() {
+    public void tr069_gu_072() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1399,7 +1398,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_073() {
+    public void tr069_gu_073() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1410,7 +1409,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_074() {
+    public void tr069_gu_074() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1420,30 +1419,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("CustomRPC", "SetParameterAttributes");
     }
 
-    @Test//80
-    public void test_256() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .customRpcRadioButton()
-                .selectMethod(9)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("CustomRPC", "Reboot");
-    }
-
     @Test
-    public void test_257() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .customRpcRadioButton()
-                .selectMethod(3)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("CustomRPC", "Download");
-    }
-
-    @Test
-    public void test_075() {
+    public void tr069_gu_075() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1454,7 +1431,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_076() {
+    public void tr069_gu_076() {
         groupUpdatePage
                 .gotoAction(testName)
                 .customRpcRadioButton()
@@ -1465,29 +1442,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_258() {
-        groupUpdatePage
-                .gotoAction(/*"Greenpacket", "Lte WiMAX Gateway",*/testName)
-                .customRpcRadioButton()
-                .selectMethod(12)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("CustomRPC", "Upload");
-    }
-
-    @Test
-    public void test_259() {
-        groupUpdatePage
-                .gotoAction(testName)
-                .customRpcRadioButton()
-                .selectMethod(4)
-                .saveAndActivate(testName)
-                .getTable("tblTasks")
-                .checkResults("CustomRPC", "FactoryReset");
-    }
-
-    @Test
-    public void test_077() {
+    public void tr069_gu_077() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
                 .setParameter("ConnectionRequestPassword", VALUE, "ftacs")
@@ -1562,7 +1517,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_078() {
+    public void tr069_gu_078() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblParamsValue", true)
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -1574,7 +1529,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_079() {
+    public void tr069_gu_079() {
         groupUpdatePage
                 .goToSetParameters("sercomm", "Smart Box TURBO+", testName, "tblTree", true)
                 .clickOn(0, "WANDevice")
@@ -1600,7 +1555,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_080() {
+    public void tr069_gu_080() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1626,7 +1581,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_81() {
+    public void tr069_gu_081() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -1635,7 +1590,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_82() {
+    public void tr069_gu_082() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -1644,21 +1599,21 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_83() {
+    public void tr069_gu_083() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", "Sercomm");
     }
 
     @Test
-    public void test_84() {
+    public void tr069_gu_084() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", "MP262");
     }
 
     @Test
-    public void test_85() {
+    public void tr069_gu_085() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
@@ -1668,28 +1623,28 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_86() {
+    public void tr069_gu_086() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
-    public void test_87() {
+    public void tr069_gu_087() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
-    public void test_88() {
+    public void tr069_gu_088() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
-    public void test_89() {
+    public void tr069_gu_089() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
@@ -1697,28 +1652,28 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_90() {
+    public void tr069_gu_090() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
-    public void test_91() {
+    public void tr069_gu_091() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
-    public void test_92() {
+    public void tr069_gu_092() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
-    public void test_93() {
+    public void tr069_gu_093() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer("Sercomm")
@@ -1726,7 +1681,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_94() {
+    public void tr069_gu_094() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -1740,7 +1695,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_95() {
+    public void tr069_gu_095() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 1, 0);
@@ -1751,7 +1706,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_96() {
+    public void tr069_gu_096() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -1765,7 +1720,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_97() {
+    public void tr069_gu_097() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -1779,7 +1734,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_98() {
+    public void tr069_gu_098() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -1794,7 +1749,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_99() {
+    public void tr069_gu_099() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1809,7 +1764,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_100() {
+    public void tr069_gu_100() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1824,7 +1779,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_101() {
+    public void tr069_gu_101() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 2, 0);
@@ -1835,7 +1790,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_102() {
+    public void tr069_gu_102() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -1849,7 +1804,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_103() {
+    public void tr069_gu_103() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -1863,7 +1818,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_104() {
+    public void tr069_gu_104() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -1878,7 +1833,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_105() {
+    public void tr069_gu_105() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1893,7 +1848,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_106() {
+    public void tr069_gu_106() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1908,7 +1863,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_107() {
+    public void tr069_gu_107() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 3, 0);
@@ -1919,7 +1874,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_108() {
+    public void tr069_gu_108() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -1933,7 +1888,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_109() {
+    public void tr069_gu_109() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -1947,7 +1902,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_110() {
+    public void tr069_gu_110() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -1962,7 +1917,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_111() {
+    public void tr069_gu_111() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -1977,7 +1932,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_112() {
+    public void tr069_gu_112() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -1992,7 +1947,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_113() {
+    public void tr069_gu_113() {
         groupUpdatePage
                 .gotoGetParameter(testName)
                 .clickOn(1, 1, 0)
@@ -2005,7 +1960,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_114() {
+    public void tr069_gu_114() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Information");
@@ -2021,7 +1976,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_115() {
+    public void tr069_gu_115() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -2037,7 +1992,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_116() {
+    public void tr069_gu_116() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("WAN");
@@ -2054,7 +2009,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_117() {
+    public void tr069_gu_117() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("LAN");
@@ -2071,7 +2026,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_118() {
+    public void tr069_gu_118() {
         groupUpdatePage
                 .gotoGetParameter(testName, "tabsSettings_tblTabs")
                 .clickOn("Wireless");
@@ -2088,7 +2043,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_119() {
+    public void tr069_gu_119() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -2102,7 +2057,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_120() {
+    public void tr069_gu_120() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
@@ -2119,7 +2074,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_121() {
+    public void tr069_gu_121() {
         groupUpdatePage
                 .gotoBackup(testName)
                 .getTable("tblTasks")
@@ -2131,7 +2086,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_122() {
+    public void tr069_gu_122() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -2145,7 +2100,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_123() {
+    public void tr069_gu_123() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
@@ -2155,14 +2110,13 @@ public class GroupUpdateTests extends BaseTestCase {
                 .readTasksFromDB(testName)
                 .clickOn(testName, 4);
         groupUpdatePage
-//                .waitForChart(30)
                 .getTable("tblTasks")
                 .assertPresenceOfValue(0, "Restore")
                 .assertPresenceOfValue(1, "Present");
     }
 
     @Test
-    public void test_124() {
+    public void tr069_gu_124() {
         groupUpdatePage
                 .gotoRestore(testName)
                 .getTable("tblTasks")
@@ -2174,7 +2128,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_134() {
+    public void tr069_gu_134() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -2201,8 +2155,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
-    @Test //70
-    public void test_135() {
+    @Test
+    public void tr069_gu_135() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(2)
@@ -2215,8 +2169,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
 
-    @Test //Moved to end
-    public void test_136() {
+    @Test
+    public void tr069_gu_136() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(1)
@@ -2229,8 +2183,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
 
-    @Test //Moved to end
-    public void test_137() {
+    @Test
+    public void tr069_gu_137() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(2)
@@ -2241,8 +2195,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("Vendor Configuration File", "http://95.217.85.220:82/uploads/fake_config.cfg");
     }
 
-    @Test //Moved to end
-    public void test_138() {
+    @Test
+    public void tr069_gu_138() {
         groupUpdatePage
                 .gotoFileDownload(testName)
                 .selectFileType(1)
@@ -2254,7 +2208,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_139() {
+    public void tr069_gu_139() {
         groupUpdatePage
                 .gotoFileUpload("audiocodes", "MP262", testName)
                 .selectUploadFileType(1)
@@ -2267,7 +2221,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_140() {
+    public void tr069_gu_140() {
         groupUpdatePage
                 .gotoFileUpload("audiocodes", "MP262", testName)
                 .selectUploadFileType(2)
@@ -2280,7 +2234,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_141() {
+    public void tr069_gu_141() {
         groupUpdatePage
                 .gotoFileUpload("audiocodes", "MP262", testName)
                 .selectUploadFileType(1)
@@ -2292,7 +2246,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_144() {
+    public void tr069_gu_144() {
         groupUpdatePage
                 .gotoFileUpload("audiocodes", "MP262", testName)
                 .selectUploadFileType(2)
@@ -2304,7 +2258,7 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    public void test_145() {
+    public void tr069_gu_145() {
         groupUpdatePage
                 .gotoFileUpload(testName)
                 .selectUploadFileType(1)
@@ -2319,8 +2273,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .assertResultTableIsAbsent();
     }
 
-    @Test //Moved to end
-    public void test_146() {
+    @Test
+    public void tr069_gu_146() {
         groupUpdatePage
                 .gotoAction(testName)
                 .rebootRadioButton()
@@ -2329,8 +2283,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .assertPresenceOfParameter("Reboot");
     }
 
-    @Test //Moved to end82
-    public void test_147() {
+    @Test
+    public void tr069_gu_147() {
         groupUpdatePage
                 .gotoAction(testName)
                 .factoryResetRadioButton()
@@ -2338,8 +2292,53 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .assertPresenceOfParameter("FactoryReset");
     }
+
+    @Test//80
+    public void tr069_gu_150() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .customRpcRadioButton()
+                .selectMethod(9)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Reboot");
+    }
+
+    @Test
+    public void tr069_gu_151() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .customRpcRadioButton()
+                .selectMethod(3)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Download");
+    }
+
+    @Test
+    public void tr069_gu_152() {
+        groupUpdatePage
+                .gotoAction(/*"Greenpacket", "Lte WiMAX Gateway",*/testName)
+                .customRpcRadioButton()
+                .selectMethod(12)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Upload");
+    }
+
+    @Test
+    public void tr069_gu_153() {
+        groupUpdatePage
+                .gotoAction(testName)
+                .customRpcRadioButton()
+                .selectMethod(4)
+                .saveAndActivate(testName)
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "FactoryReset");
+    }
+
 //    @Test
-//    public void test_s01() {
+//    public void tr069_gu_s01() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2368,7 +2367,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s02() {
+//    public void tr069_gu_s02() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2398,7 +2397,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s03() {
+//    public void tr069_gu_s03() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2428,7 +2427,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s04() {
+//    public void tr069_gu_s04() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2459,7 +2458,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s05() {
+//    public void tr069_gu_s05() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2490,7 +2489,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s06() {
+//    public void tr069_gu_s06() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2522,7 +2521,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s07() {
+//    public void tr069_gu_s07() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2552,7 +2551,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s08() {
+//    public void tr069_gu_s08() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2583,7 +2582,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s09() {
+//    public void tr069_gu_s09() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
@@ -2614,7 +2613,7 @@ public class GroupUpdateTests extends BaseTestCase {
 //    }
 //
 //    @Test
-//    public void test_s10() {
+//    public void tr069_gu_s10() {
 //        groupUpdatePage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)

@@ -1,7 +1,9 @@
 /.idea/
 /logs/
-/resources/config.properties
 /target/
 /screenshots/
 /video/
 /test-output/
+/resources/config.properties
+/resources/testng.xml
+/group_update.iml
