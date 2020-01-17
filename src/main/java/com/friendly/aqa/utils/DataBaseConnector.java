@@ -1,19 +1,22 @@
 package com.friendly.aqa.utils;
 
+import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
 
 public class DataBaseConnector {
+    private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
+    private static final Properties PROPS = BasePage.getProps();
+    private static final String SERIAL = PROPS.getProperty("cpe_serial");
     private static Statement stmtObj;
     private static Connection connObj;
-    private final static Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
 
-    public static void connectDb(String url, String user, String password) {
+    public static void connectDb() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connObj = DriverManager.getConnection(url, user, password);
+            connObj = DriverManager.getConnection(PROPS.getProperty("db_url"), PROPS.getProperty("db_user"), PROPS.getProperty("db_password"));
             LOGGER.info("Database Connection Open");
             stmtObj = connObj.createStatement();
             LOGGER.info("Statement Object Created");
@@ -30,14 +33,6 @@ public class DataBaseConnector {
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        connectDb("jdbc:mysql://95.217.85.220", "ftacs", "ftacs");
-        for (String[] line : getTaskList("607")) {
-            System.out.println(Arrays.deepToString(line));
-        }
-        disconnectDb();
     }
 
     public static List<String[]> getTaskList(String ug_id) {
@@ -58,46 +53,44 @@ public class DataBaseConnector {
         return taskList;
     }
 
-    private static List<String[]> getPendingTasksForSerial(String serial) {
-        List<String[]> pendingTaskList = new ArrayList<>();
+    public static String getValueType(String value) {
+        String type = "";
         try {
-            stmtObj.execute("SELECT * FROM ftacs.cpe WHERE serial = '" + serial + "'");
+            stmtObj.execute("SELECT type FROM ftacs.cpe_parameter_name WHERE name='" + value + "' AND id IN (" +
+                    "SELECT name_id FROM ftacs.cpe_parameter WHERE cpe_id IN (" +
+                    "SELECT cpe_id FROM ftacs.cpe_serial WHERE serial='" + SERIAL + "'))");
             ResultSet resultSet = stmtObj.getResultSet();
-            String cpe_id;
             if (resultSet.next()) {
-                cpe_id = resultSet.getString(1);
-            } else {
-                LOGGER.info("There's no pending task for specified serial");
-                return pendingTaskList;
-            }
-            stmtObj.execute("SELECT * FROM ftacs.cpe_pending_task WHERE cpe_id = '" + cpe_id + "'");
-            resultSet = stmtObj.getResultSet();
-            while (resultSet.next()) {
-                String[] row = new String[10];
-                for (int i = 0; i < 10; i++) {
-                    row[i] = resultSet.getString(i + 1);
-                }
-                pendingTaskList.add(row);
+                type = resultSet.getString(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return pendingTaskList;
+        return type;
     }
 
-    public static String getPendingTaskName(String serial) {
-        String response = "";
-        List<String[]> pendingTaskList = getPendingTasksForSerial(serial);
-        if (pendingTaskList.size() > 0) {
-            response = pendingTaskList.get(0)[7];
+    public static String[] getDevice() {
+        String[] device = new String[2];
+        try {
+            stmtObj.execute("SELECT * FROM ftacs.product_class_group WHERE id IN (SELECT group_id FROM ftacs.cpe_serial WHERE serial='" + PROPS.getProperty("cpe_serial") + "')");
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                for (int i = 0; i < 2; i++) {
+                    device[i] = resultSet.getString(i + 2);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return response;
+        if (device[0] == null) {
+            LOGGER.error("Serial not found on server. Check config.properties 'cpe_serial' field!");
+        }
+        return device;
     }
 
-    private static void printPendingTasksForSerial(String serial) {
-        List<String[]> pendingTaskList = getPendingTasksForSerial(serial);
-        for (String[] row : pendingTaskList) {
-            LOGGER.info(Arrays.deepToString(row));
-        }
+    public static void main(String[] args) {
+        connectDb();
+        System.out.println(Arrays.deepToString(getDevice()));
+        disconnectDb();
     }
 }

@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Controller implements WindowListener, Runnable {
 
-    View view;
+    private View view;
     private JRadioButton[] runSpecifiedButtons, excludeSpecificButtons;
     private JTextField[] runSpecifiedFields, excludeSpecificFields;
     private JCheckBox[] enableTabCheckboxes;

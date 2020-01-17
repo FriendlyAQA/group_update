@@ -3,6 +3,7 @@ package com.friendly.aqa.test;
 import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -19,7 +20,7 @@ public class BaseTestCase {
     private LoginPage loginPage;
     protected GroupUpdatePage groupUpdatePage;
     private long start = System.currentTimeMillis();
-    protected String testName, targetTestName;
+    protected static String testName, targetTestName;
     static Properties props;
     static Logger logger;
     private static boolean isInterrupted;
@@ -36,8 +37,9 @@ public class BaseTestCase {
     public void init() {
         controller = Controller.getController();
         logger.info("\n****************************************STARTING TEST SUITE*****************************************");
-        DataBaseConnector.connectDb(props.getProperty("db_url"), props.getProperty("db_user"), props.getProperty("db_password"));
+        DataBaseConnector.connectDb();
         BasePage.initDriver();
+        BasePage.initDevice();
         if (controller != null) {
             controller.testSuiteStarted();
         }
@@ -72,6 +74,7 @@ public class BaseTestCase {
             }
         }
         BasePage.switchToFrame(ROOT);
+        Table.flushResult();
         List<WebElement> list = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         if (list.size() > 0 && list.get(0).isDisplayed()) {
             list.get(0).click();
@@ -110,6 +113,10 @@ public class BaseTestCase {
 
     protected void setTargetTestName() {
         this.targetTestName = testName;
+    }
+
+    public static String getTestName() {
+        return testName;
     }
 }
 

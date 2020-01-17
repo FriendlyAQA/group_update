@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Update>
-  <Name>test_100</Name>
+  <Name>tr069_gu_081</Name>
   <ProductGroupValue>
     <ProductGroup>
-      <Manufacturer>Sercomm</Manufacturer>
-      <ModelName>Smart Box TURBO+</ModelName>
+      <Manufacturer>AudioCodes</Manufacturer>
+      <ModelName>MP252</ModelName>
       <ProtocolId>MQTT</ProtocolId>
     </ProductGroup>
   </ProductGroupValue>

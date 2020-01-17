@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
@@ -32,12 +33,17 @@ public abstract class BasePage {
     private static Logger logger;
     static FrameSwitch frame;
     private static FrameSwitch previousFrame;
+    static String[] device;
 
     static {
         initProperties();
         logger = Logger.getLogger(BasePage.class);
         BROWSER = props.getProperty("browser");
         frame = ROOT;
+    }
+
+    public static void initDevice() {
+        device = DataBaseConnector.getDevice();
     }
 
     BasePage() {
@@ -217,11 +223,27 @@ public abstract class BasePage {
         return driver.findElement(By.id(id)).getAttribute(attr);
     }
 
+    public static String getElementText(String id) {
+        return driver.findElement(By.id(id)).getText();
+    }
+
+    public static void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
     public boolean isButtonActive(GlobalButtons button) {
         switchToFrame(BUTTONS);
         boolean out = driver.findElement(By.id(button.getId())).getAttribute("class").equals("button_default");
         switchToPrevious();
         return out;
+    }
+
+    public static String getManufacturer() {
+        return device[0];
+    }
+
+    public static String getModelName() {
+        return device[1];
     }
 
     public String getTitle() {
@@ -256,7 +278,6 @@ public abstract class BasePage {
     public static void switchToPrevious() {
         switchToFrame(previousFrame);
     }
-
 
 
     public enum FrameSwitch {
