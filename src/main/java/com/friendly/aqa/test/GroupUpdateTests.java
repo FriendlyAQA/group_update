@@ -2,7 +2,9 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.pageobject.GroupUpdatePage;
 import com.friendly.aqa.utils.HttpConnector;
+import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -80,7 +82,6 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
-    //A Bug was found while pressing "Next"
     public void tr069_gu_006() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
@@ -88,9 +89,72 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectManufacturer(BasePage.getManufacturer())
                 .selectModel(BasePage.getModelName())
                 .fillName()
-                .selectSendTo()
                 .createGroup()
-                .fillName("tr069_gu_group_name");
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("device_created")
+                .compareSelect("IsNull")
+                .globalButtons(NEXT);
+        Assert.assertFalse(groupUpdatePage.isButtonActive("btnDelFilter_btn"));
+        groupUpdatePage.filterRecordsCheckbox();
+        Assert.assertTrue(groupUpdatePage.isButtonActive("btnDelFilter_btn"));
+        groupUpdatePage
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        setTargetTestName();
+        assertEquals(testName, groupUpdatePage.getSelectedValue("ddlSend"));
+    }
+
+    @Test
+    public void tr069_gu_007() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .createGroup()
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("cust2")
+                .compareSelect("Equal")
+                .inputTextField("111")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertEquals(testName, groupUpdatePage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
+        assertTrue(groupUpdatePage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+    }
+
+    @Test
+    public void tr069_gu_008() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .createGroup()
+                .fillName(targetTestName)
+                .globalButtons(NEXT);
+        assertTrue(groupUpdatePage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+    }
+
+    @Test
+    public void tr069_gu_009() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .selectSendTo(targetTestName)
+                .editGroupButton()
+                .globalButtons(DELETE_GROUP)
+                .okButtonPopUp();
+        assertFalse(groupUpdatePage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -125,6 +189,28 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectImportDevicesFile()
                 .showList();
         assertEquals(groupUpdatePage.getTable("tblDevices").getCellText(1, 0), props.getProperty("cpe_serial"));
+    }
+
+    @Test
+    public void tr069_gu_012() {
+        groupUpdatePage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .createGroup()
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("device_created")
+                .compareSelect("Is not null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectSendTo(testName)
+                .showList();
+        groupUpdatePage.getTable("tblDevices").assertPresenceOfValue(0, props.getProperty("cpe_serial"));
     }
 
     @Test

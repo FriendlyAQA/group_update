@@ -6,6 +6,7 @@ public enum GlobalButtons {
     CANCEL("btnCancel_btn"),
     DEACTIVATE("btnStop_btn"),
     DELETE("btnDelete_btn"),
+    DELETE_GROUP("btnDeleteView_btn"),
     FINISH("btnFinish_btn"),
     NEXT("btnNext_btn"),
     PAUSE("btnPause_btn"),

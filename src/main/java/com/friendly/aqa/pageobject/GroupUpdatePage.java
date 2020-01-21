@@ -49,8 +49,11 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "ddlSend")
     private WebElement sendToField;
 
-//    @FindBy(name = "btnEditView$btn")
-//    private WebElement editGroupButton;
+    @FindBy(id = "txtText")
+    private WebElement inputTextField;
+
+    @FindBy(name = "btnEditView$btn")
+    private WebElement editGroupButton;
 
     @FindBy(name = "btnNewView$btn")
     private WebElement createGroupButton;
@@ -84,9 +87,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "ddlCondition")
     private WebElement compareSelect;
-
-    @FindBy(css = "input[name^='node']")
-    private WebElement filterCreatedCheckBox;
 
     @FindBy(id = "btnOk_btn")
     private WebElement okButtonPopUp;
@@ -383,11 +383,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage filterCreatedCheckBox() {
-        filterCreatedCheckBox.click();
-        return this;
-    }
-
     public GroupUpdatePage manualRadioButton() {
         waitForUpdate();
         manualRadioButton.click();
@@ -417,6 +412,13 @@ public class GroupUpdatePage extends BasePage {
         reprovisionRadioButton.click();
         return this;
     }
+
+    public GroupUpdatePage editGroupButton() {
+        waitForUpdate();
+        editGroupButton.click();
+        return this;
+    }
+
 
     public GroupUpdatePage customRpcRadioButton() {
         waitForUpdate();
@@ -466,23 +468,13 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage compareSelect(String sendTo) {
-        new Select(compareSelect).selectByValue(sendTo);
+    public GroupUpdatePage compareSelect(String option) {
+        selectComboBox(compareSelect, option);
         return this;
     }
 
-    public GroupUpdatePage compareSelect(int index) {
-        new Select(compareSelect).selectByIndex(index);
-        return this;
-    }
-
-    public GroupUpdatePage selectColumnFilter(String sendTo) {
-        new Select(selectColumnFilter).selectByValue(sendTo);
-        return this;
-    }
-
-    public GroupUpdatePage selectColumnFilter(int index) {
-        new Select(selectColumnFilter).selectByIndex(index);
+    public GroupUpdatePage selectColumnFilter(String option) {
+        selectComboBox(selectColumnFilter, option);
         return this;
     }
 
@@ -557,12 +549,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectSendTo(String sendTo) {
-        new Select(sendToField).selectByValue(sendTo);
-        return this;
-    }
-
-    public GroupUpdatePage selectSendTo(int index) {
-        new Select(sendToField).selectByIndex(index);
+        selectComboBox(sendToField, sendTo);
         return this;
     }
 
@@ -613,6 +600,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage inputTextField(String text) {
+        inputTextField.sendKeys(text);
+        return this;
+    }
+
     public GroupUpdatePage selectManufacturer() {
         return selectManufacturer(getManufacturer());
     }
@@ -642,6 +634,18 @@ public class GroupUpdatePage extends BasePage {
             }
         }
         new Select(combobox).selectByValue(value);
+    }
+
+    public boolean isOptionPresent(String comboBoxId, String text) {
+        waitForUpdate();
+        WebElement combobox = driver.findElement(By.id(comboBoxId));
+        List<WebElement> options = combobox.findElements(By.tagName("option"));
+        for (WebElement option : options) {
+            if (option.getText().toLowerCase().equals(text.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public GroupUpdatePage globalButtons(GlobalButtons button) {
@@ -962,8 +966,27 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
+    public String getSelectedValue(String inputId) {
+        List<WebElement> optList = driver.findElement(By.id(inputId)).findElements(By.tagName("option"));
+        for (WebElement el : optList) {
+            if (el.getAttribute("selected") != null) {
+                return el.getText();
+            }
+        }
+        return null;
+    }
+
     public GroupUpdatePage gotoRestore() {
         return goto_(8);
+    }
+
+    public boolean isButtonActive(String id) {
+        return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
+    }
+
+    public GroupUpdatePage filterRecordsCheckbox() {
+        driver.findElement(By.id("tblTree")).findElement(By.tagName("input")).click();
+        return this;
     }
 
     public enum Left {
