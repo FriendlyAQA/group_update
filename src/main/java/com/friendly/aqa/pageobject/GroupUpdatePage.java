@@ -5,6 +5,7 @@ import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -338,6 +339,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage selectMethod(String value) {
+        selectComboBox(selectMethodComboBox, value);
+        return this;
+    }
+
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
         return this;
@@ -497,7 +503,12 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage itemsOnPage(String number) {
         waitForUpdate();
-        if (new Select(itemsOnPageComboBox).getFirstSelectedOption().getText().equals(number)) {
+        try {
+            if (new Select(itemsOnPageComboBox).getFirstSelectedOption().getText().equals(number)) {
+                return this;
+            }
+        } catch (NoSuchElementException e) {
+            logger.info("Select 'Items/page' not found");
             return this;
         }
         int index;
@@ -602,32 +613,35 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectManufacturer(String manufacturer) {
-        waitForUpdate();
-        new Select(manufacturerComboBox).selectByValue(manufacturer.toLowerCase());
-        return this;
-    }
-
     public GroupUpdatePage selectManufacturer() {
         return selectManufacturer(getManufacturer());
     }
 
-    public GroupUpdatePage selectModel(String modelName) {
-        waitForUpdate();
-        List<WebElement> options = modelComboBox.findElements(By.tagName("option"));
-        for (WebElement option : options) {
-            if (option.getText().toLowerCase().equals(modelName.toLowerCase())) {
-                new Select(modelComboBox).selectByValue(option.getAttribute("value"));
-                return this;
-            }
-        }
-        new Select(modelComboBox).selectByValue(modelName);
+    public GroupUpdatePage selectManufacturer(String manufacturer) {
+        selectComboBox(manufacturerComboBox, manufacturer);
         return this;
     }
 
     public GroupUpdatePage selectModel() {
         selectModel(getModelName());
         return this;
+    }
+
+    public GroupUpdatePage selectModel(String modelName) {
+        selectComboBox(modelComboBox, modelName);
+        return this;
+    }
+
+    private void selectComboBox(WebElement combobox, String value) {
+        waitForUpdate();
+        List<WebElement> options = combobox.findElements(By.tagName("option"));
+        for (WebElement option : options) {
+            if (option.getText().toLowerCase().equals(value.toLowerCase())) {
+                new Select(combobox).selectByValue(option.getAttribute("value"));
+                return;
+            }
+        }
+        new Select(combobox).selectByValue(value);
     }
 
     public GroupUpdatePage globalButtons(GlobalButtons button) {
@@ -664,11 +678,20 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table saveAndActivate() {
+        return saveAndActivate(true);
+    }
+
+    public Table saveAndActivate(boolean waitForCompleted) {
         String groupName = BaseTestCase.getTestName();
-        globalButtons(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .waitForStatus("Completed", groupName, 30)
-                .readTasksFromDB(groupName)
+        globalButtons(SAVE_AND_ACTIVATE);
+        okButtonPopUp();
+        Table table;
+        if (waitForCompleted) {
+            table = waitForStatus("Completed", groupName, 30);
+        } else {
+            table = getMainTable();
+        }
+        table.readTasksFromDB()
                 .clickOn(groupName, 4);
         return new Table("tblTasks");
     }
@@ -704,7 +727,13 @@ public class GroupUpdatePage extends BasePage {
             return this;
         }
         itemsOnPage("200");
-        Table table = getMainTable();
+        Table table;
+        try {
+            table = getMainTable();
+        } catch (NoSuchElementException e) {
+            logger.info("List '" + option + "' is empty. Nothing to filter");
+            return this;
+        }
         String[] arr = table.getColumn(dropdown);
         Set<String> set = new HashSet<>(Arrays.asList(arr));
         if (dropdown.equals("State") && option.equals("All") && set.size() > 1) {
@@ -719,7 +748,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage checkSorting(String column) {
-        itemsOnPage("200");
+//        itemsOnPage("200");
         waitForUpdate();
         Table table = getMainTable();
         int colNum = table.getColumnNumber(0, column);
@@ -828,7 +857,8 @@ public class GroupUpdatePage extends BasePage {
         return table;
     }
 
-    public Table waitForStatusWithoutRefresh(String status, String groupName, int timeout) {
+    public Table waitForStatusWithoutRefresh(String status, int timeout) {
+        String groupName = BaseTestCase.getTestName();
         long start = System.currentTimeMillis();
         Table table = null;
         for (int i = 0; i < 2; i++) {
@@ -892,15 +922,15 @@ public class GroupUpdatePage extends BasePage {
         return getTable("tblParamsValue");
     }
 
-    public GroupUpdatePage gotoFileDownload(String groupName) {
+    public GroupUpdatePage gotoFileDownload() {
         return goto_(2);
     }
 
-    public GroupUpdatePage gotoFileUpload(String groupName) {
+    public GroupUpdatePage gotoFileUpload() {
         return goto_(5);
     }
 
-    public GroupUpdatePage gotoBackup(String groupName) {
+    public GroupUpdatePage gotoBackup() {
         return goto_(7);
     }
 
@@ -932,7 +962,7 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
-    public GroupUpdatePage gotoRestore(String groupName) {
+    public GroupUpdatePage gotoRestore() {
         return goto_(8);
     }
 

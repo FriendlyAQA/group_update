@@ -3,17 +3,17 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.HttpConnector;
-import com.friendly.aqa.utils.Table;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.friendly.aqa.pageobject.BasePage.waitForUpdate;
+import static com.friendly.aqa.pageobject.BasePage.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Parameter.*;
+import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
+import static com.friendly.aqa.utils.Table.Parameter.VALUE;
 import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
@@ -174,6 +174,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .getTable("tblTasks")
                 .clickOn("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", 3)
+                .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "61");
         groupUpdatePage
                 .globalButtons(NEXT)
@@ -732,7 +733,8 @@ public class GroupUpdateTests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .checkResults("CPEReprovision", "prov_attrib, custom_rpc, prov_object, profile, provision, file");
+                .assertPresenceOfValue(2, "CPEReprovision");
+//                .checkResults("CPEReprovision", "prov_attrib, custom_rpc, prov_object, profile, provision, file");
     }
 
     @Test
@@ -740,7 +742,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(8)
+                .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "GetRPCMethods");
     }
@@ -750,7 +752,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(6)
+                .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "GetParameterNames");
     }
@@ -760,7 +762,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(5)
+                .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "GetParameterAttributes");
     }
@@ -770,7 +772,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(7)
+                .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "GetParameterValues");
     }
@@ -780,7 +782,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(11)
+                .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "SetParameterValues");
     }
@@ -790,7 +792,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(10)
+                .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "SetParameterAttributes");
     }
@@ -800,7 +802,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(1)
+                .selectMethod("AddObject")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "AddObject");
     }
@@ -810,7 +812,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(2)
+                .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "DeleteObject");
     }
@@ -894,14 +896,14 @@ public class GroupUpdateTests extends BaseTestCase {
     public void tr069_gu_083() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("Manufacturer", "Sercomm");
+                .checkFiltering("Manufacturer", getManufacturer());
     }
 
     @Test
     public void tr069_gu_084() {
         groupUpdatePage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("Model", "MP262");
+                .checkFiltering("Model", getModelName());
     }
 
     @Test
@@ -1229,7 +1231,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_119() {
         groupUpdatePage
-                .gotoBackup(testName)
+                .gotoBackup()
                 .saveAndActivate()
                 .assertPresenceOfValue(0, "Backup");
     }
@@ -1237,9 +1239,9 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_120() {
         groupUpdatePage
-                .gotoBackup(testName)
-                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
-                .saveAndActivate()
+                .gotoBackup()
+                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
+                .saveAndActivate(false)
                 .assertPresenceOfValue(0, "Backup")
                 .assertPresenceOfValue(1, "Present");
     }
@@ -1247,7 +1249,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_121() {
         groupUpdatePage
-                .gotoBackup(testName)
+                .gotoBackup()
                 .getTable("tblTasks")
                 .clickOn(1, 0);
         groupUpdatePage
@@ -1259,7 +1261,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_122() {
         groupUpdatePage
-                .gotoRestore(testName)
+                .gotoRestore()
                 .saveAndActivate()
                 .assertPresenceOfValue(0, "Restore");
     }
@@ -1267,12 +1269,12 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_123() {
         groupUpdatePage
-                .gotoRestore(testName)
-                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", Table.Conditions.EQUAL, "60")
+                .gotoRestore()
+                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .getMainTable()
-                .readTasksFromDB(testName)  //No waiting for "Completed" status
+                .readTasksFromDB()  //No waiting for "Completed" status
                 .clickOn(testName, 4)
                 .getTable("tblTasks")
                 .assertPresenceOfValue(0, "Restore")
@@ -1282,7 +1284,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_124() {
         groupUpdatePage
-                .gotoRestore(testName)
+                .gotoRestore()
                 .getTable("tblTasks")
                 .clickOn(1, 0);
         groupUpdatePage
@@ -1300,7 +1302,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatusWithoutRefresh("Completed", testName, 65)
+                .waitForStatusWithoutRefresh("Completed", 65)
                 .clickOn(testName, 4)
                 .getTable("tblTasks")
                 .checkResults();
@@ -1309,7 +1311,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_135() {
         groupUpdatePage
-                .gotoFileDownload(testName)
+                .gotoFileDownload()
                 .selectFileType(2)
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
@@ -1322,7 +1324,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_136() {
         groupUpdatePage
-                .gotoFileDownload(testName)
+                .gotoFileDownload()
                 .selectFileType(1)
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
@@ -1335,7 +1337,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_137() {
         groupUpdatePage
-                .gotoFileDownload(testName)
+                .gotoFileDownload()
                 .selectFileType(2)
                 .fromListRadioButton()
                 .selectFileName(1)
@@ -1346,18 +1348,19 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_138() {
         groupUpdatePage
-                .gotoFileDownload(testName)
+                .gotoFileDownload()
                 .selectFileType(1)
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
-                .checkResults("Firmware Image", BasePage.getProps().getProperty("http_image_file"));
+                .assertPresenceOfValue(2, "Firmware Image");
+//                .checkResults("Firmware Image", BasePage.getProps().getProperty("http_image_file"));
     }
 
     @Test
     public void tr069_gu_139() {
         groupUpdatePage
-                .gotoFileUpload(testName)
+                .gotoFileUpload()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
@@ -1369,7 +1372,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_140() {
         groupUpdatePage
-                .gotoFileUpload(testName)
+                .gotoFileUpload()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
@@ -1381,7 +1384,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_141() {
         groupUpdatePage
-                .gotoFileUpload(testName)
+                .gotoFileUpload()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
@@ -1392,7 +1395,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_144() {
         groupUpdatePage
-                .gotoFileUpload(testName)
+                .gotoFileUpload()
                 .selectUploadFileType(2)
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
@@ -1403,7 +1406,7 @@ public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_145() {
         groupUpdatePage
-                .gotoFileUpload(testName)
+                .gotoFileUpload()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
@@ -1439,7 +1442,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(9)
+                .selectMethod("Reboot")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "Reboot");
     }
@@ -1449,7 +1452,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(3)
+                .selectMethod("Download")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "Download");
     }
@@ -1459,7 +1462,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(12)
+                .selectMethod("Upload")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "Upload");
     }
@@ -1469,7 +1472,7 @@ public class GroupUpdateTests extends BaseTestCase {
         groupUpdatePage
                 .gotoAction()
                 .customRpcRadioButton()
-                .selectMethod(4)
+                .selectMethod("FactoryReset")
                 .nextSaveAndActivate()
                 .checkResults("CustomRPC", "FactoryReset");
     }

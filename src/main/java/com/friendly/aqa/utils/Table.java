@@ -1,6 +1,7 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -170,7 +171,8 @@ public class Table {
         return getColumn(getColumnNumber(0, column));
     }
 
-    public Table readTasksFromDB(String groupName) {
+    public Table readTasksFromDB() {
+        String groupName = BaseTestCase.getTestName();
         List<String[]> groupList;
         int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));
         for (int i = 0; i < count; i++) {
