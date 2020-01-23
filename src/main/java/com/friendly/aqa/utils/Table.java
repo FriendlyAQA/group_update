@@ -509,10 +509,13 @@ public class Table {
     }
 
     public Table assertPresenceOfValue(int column, String value) {
-        if (getRowNumberByText(column, value) < 0) {
-            throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
+        for (String[] row : textTable) {
+            int cellNum = column < 0 ? row.length + column : column;
+            if (row[cellNum].toLowerCase().equals((value).toLowerCase())){
+                return this;
+            }
         }
-        return this;
+        throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
     }
 
     public Table assertAbsenceOfValue(int column, String value) {

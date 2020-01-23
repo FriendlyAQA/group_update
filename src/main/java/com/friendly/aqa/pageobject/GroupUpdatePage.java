@@ -134,16 +134,16 @@ public class GroupUpdatePage extends BasePage {
     private List<WebElement> taskTableList;
 
     @FindBy(id = "fuSerials")
-    private WebElement importDevicesField;
+    private WebElement importField;
 
-    @FindBy(id = "fuImport")
-    private WebElement importGuField;
+    @FindBy(id = "txtHost")
+    private WebElement inputHostField;
+
+    @FindBy(id = "txtNumberRepetitions")
+    private WebElement numOfRepetitionsField;
 
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
-
-    @FindBy(how = How.ID, using = "lblChartNoData")
-    private List<WebElement> chartNoData;
 
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
@@ -156,6 +156,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "ddlFileType")
     private WebElement selectUploadFileTypeComboBox;
+
+    @FindBy(id = "ddlDiagnostics")
+    private WebElement diagnosticTypeComboBox;
 
     @FindBy(id = "UcFirmware1_rdUrl")
     private WebElement manualRadioButton;
@@ -234,7 +237,7 @@ public class GroupUpdatePage extends BasePage {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
         String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
-        importDevicesField.sendKeys(inputText);
+        importField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
     }
@@ -243,7 +246,7 @@ public class GroupUpdatePage extends BasePage {
         switchToFrame(DESKTOP);
         String inputText = new File(props.getProperty("import_group_update_file_path")).getAbsolutePath();
         System.out.println(inputText);
-        importGuField.sendKeys(inputText);
+        importField.sendKeys(inputText);
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
     }
@@ -283,6 +286,20 @@ public class GroupUpdatePage extends BasePage {
         Table table = new Table(tableEl);
         setDefaultImplicitlyWait();
         return table;
+    }
+
+    public GroupUpdatePage clickOn(String id) {
+        driver.findElement(By.id(id)).click();
+        return this;
+    }
+
+    public void executeScript(String script) {
+        ((JavascriptExecutor) BasePage.getDriver()).executeScript(script);
+    }
+
+    public GroupUpdatePage selectTodayDate() {
+        executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + CalendarUtil.getTodayDateString() + "')");
+        return this;
     }
 
     public void checkIsCalendarClickable() {
@@ -605,6 +622,27 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage inputHostField(String text) {
+        inputHostField.sendKeys(text);
+        return this;
+    }
+
+    public GroupUpdatePage numOfRepetitionsField(String text) {
+        numOfRepetitionsField.sendKeys(text);
+        return this;
+    }
+
+    public GroupUpdatePage selectDiagnostic(String value) {
+        try {
+            selectComboBox(diagnosticTypeComboBox, value);
+        } catch (NoSuchElementException e) {
+            String warn = value + " type is not supported by current device!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
+        return this;
+    }
+
     public GroupUpdatePage selectManufacturer() {
         return selectManufacturer(getManufacturer());
     }
@@ -656,6 +694,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage leftMenu(GroupUpdatePage.Left item) {
         switchToFrame(ROOT);
         leftMenuClick(item.getValue());
+        waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
     }
@@ -686,17 +725,16 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table saveAndActivate(boolean waitForCompleted) {
-        String groupName = BaseTestCase.getTestName();
         globalButtons(SAVE_AND_ACTIVATE);
         okButtonPopUp();
         Table table;
         if (waitForCompleted) {
-            table = waitForStatus("Completed", groupName, 30);
+            table = waitForStatus("Completed", 30);
         } else {
             table = getMainTable();
         }
         table.readTasksFromDB()
-                .clickOn(groupName, 4);
+                .clickOn(BaseTestCase.getTestName(), 4);
         return new Table("tblTasks");
     }
 
@@ -849,10 +887,10 @@ public class GroupUpdatePage extends BasePage {
     }
 
     //
-    public Table waitForStatus(String status, String groupName, int timeout) {
+    public Table waitForStatus(String status, int timeout) {
         long start = System.currentTimeMillis();
         Table table;
-        while (!(table = getMainTable()).getCellText(4, groupName, 1).equals(status)) {
+        while (!(table = getMainTable()).getCellText(4, BaseTestCase.getTestName(), 1).equals(status)) {
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
@@ -880,6 +918,24 @@ public class GroupUpdatePage extends BasePage {
         return table;
     }
 
+    public GroupUpdatePage gotoAddFilter() {
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .createGroup()
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter();
+        return this;
+    }
+
+    public GroupUpdatePage inputText(String id, String text) {
+        driver.findElement(By.id(id)).sendKeys(text);
+        return this;
+    }
+
     public Table goToSetPolicies(String tab) {
         goto_(4);
         if (tab != null) {
@@ -888,7 +944,7 @@ public class GroupUpdatePage extends BasePage {
         return getTable("tblParamsValue");
     }
 
-    public Table goToSetParameters(String tab, boolean advancedView) {
+    public Table gotoSetParameters(String tab, boolean advancedView) {
         goto_(1);
         if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
@@ -899,12 +955,12 @@ public class GroupUpdatePage extends BasePage {
         return getTable("tblParamsValue");
     }
 
-    public Table goToSetParameters(String tab) {
-        return goToSetParameters(tab, false);
+    public Table gotoSetParameters(String tab) {
+        return gotoSetParameters(tab, false);
     }
 
-    public Table goToSetParameters() {
-        return goToSetParameters(null);
+    public Table gotoSetParameters() {
+        return gotoSetParameters(null);
     }
 
     public Table gotoGetParameter() {
@@ -939,8 +995,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     private GroupUpdatePage goto_(int taskIndex) {
-        topMenu(GROUP_UPDATE);
-        return leftMenu(NEW)
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
                 .selectManufacturer(getManufacturer())
                 .selectModel(getModelName())
                 .fillName(BaseTestCase.getTestName())
@@ -950,10 +1006,15 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask(taskIndex)
                 .addTaskButton();
+        return this;
     }
 
     public GroupUpdatePage gotoAction() {
         return goto_(3);
+    }
+
+    public GroupUpdatePage gotoDiagnostic() {
+        return goto_(9);
     }
 
     public void deleteAll() {
@@ -967,7 +1028,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public String getSelectedValue(String inputId) {
-        List<WebElement> optList = driver.findElement(By.id(inputId)).findElements(By.tagName("option"));
+        return getSelectedValue(driver.findElement(By.id(inputId)));
+    }
+
+    private String getSelectedValue(WebElement comboBox) {
+        List<WebElement> optList = comboBox.findElements(By.tagName("option"));
         for (WebElement el : optList) {
             if (el.getAttribute("selected") != null) {
                 return el.getText();

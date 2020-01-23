@@ -6,10 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarUtil {
-    private static DateFormat dateFormat = new SimpleDateFormat("MM/d/yyyy");
+    private static DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
     private static DateFormat fullDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private static DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
     private static DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
+    private static DateFormat hours = new SimpleDateFormat("HH");
+    private static DateFormat minutes = new SimpleDateFormat("mm");
 
     private static Date yesterday() {
         final Calendar cal = Calendar.getInstance();
@@ -27,8 +29,16 @@ public class CalendarUtil {
         return dateFormat.format(yesterday());
     }
 
-    static String getTodayDateString() {
+    public static String getTodayDateString() {
         return dateFormat.format(new Date());
+    }
+
+    public static String getHours() {
+        return hours.format(new Date());
+    }
+
+    public static String getMinutes() {
+        return minutes.format(new Date());
     }
 
     static String getFileName() {
