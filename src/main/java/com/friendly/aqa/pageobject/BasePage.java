@@ -281,7 +281,8 @@ public abstract class BasePage {
 
 
     public enum FrameSwitch {
-        ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"), CONDITIONS("frmPopup2");
+        ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"),
+        CONDITIONS("frmPopup2"), USER_INFO("frmPopup");
 
         FrameSwitch(String frameId) {
             this.frameId = frameId;

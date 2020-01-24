@@ -57,7 +57,14 @@ public class Table {
             while (mCell.find()) {
                 cellList.add(getCellContent(mCell.group(2).replace("&nbsp;", " ")));
             }
-            textTable[i] = cellList.toArray(new String[0]);
+            try {
+                textTable[i] = cellList.toArray(new String[0]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(tableHtml);
+                System.out.println("textTable.length:" + textTable.length);
+                System.out.println("i:" + i);
+                throw new ArrayIndexOutOfBoundsException(e.getMessage());
+            }
             i++;
         }
         BasePage.setDefaultImplicitlyWait();
@@ -382,6 +389,21 @@ public class Table {
         System.out.println("marker after");
     }
 
+    public Table setUserInfo(String paramName, String value) {
+        int rowNum = getRowNumberByText(0, paramName);
+        if (rowNum < 0) {
+            throw new AssertionError("Parameter name '" + paramName + "' not found");
+        }
+        WebElement paramCell = getCellWebElement(rowNum, 1);
+        if (props.getProperty("browser").equals("edge")) {
+            BasePage.scrollToElement(paramCell);
+        }
+        WebElement input = paramCell.findElement(By.tagName("input"));
+        input.clear();
+        input.sendKeys(value);
+        return this;
+    }
+
     public Table setParameter(String paramName, Parameter option, String value) {
         int rowNum = getRowNumberByText(0, paramName);
         if (rowNum < 0) {
@@ -511,7 +533,7 @@ public class Table {
     public Table assertPresenceOfValue(int column, String value) {
         for (String[] row : textTable) {
             int cellNum = column < 0 ? row.length + column : column;
-            if (row[cellNum].toLowerCase().equals((value).toLowerCase())){
+            if (row[cellNum].toLowerCase().equals((value).toLowerCase())) {
                 return this;
             }
         }

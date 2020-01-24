@@ -13,9 +13,9 @@ public class CalendarUtil {
     private static DateFormat hours = new SimpleDateFormat("HH");
     private static DateFormat minutes = new SimpleDateFormat("mm");
 
-    private static Date yesterday() {
+    private static Date getday(int day) {
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
+        cal.add(Calendar.DATE, day);
         return cal.getTime();
     }
 
@@ -25,8 +25,12 @@ public class CalendarUtil {
         return hourAndMinutes.format(calendar.getTime()).split("-");
     }
 
+    public static String getMonthBeforeDate() {
+        return dateFormat.format(getday(-30));
+    }
+
     static String getYesterdayDateString() {
-        return dateFormat.format(yesterday());
+        return dateFormat.format(getday(-1));
     }
 
     public static String getTodayDateString() {

@@ -19,6 +19,7 @@ import java.util.*;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
@@ -181,6 +182,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_tbSize")
     private WebElement fileSizeField;
 
+//    @FindBy(id = "txtInt")
+//    private WebElement integerField;
+
 //    @FindBy(id = "UcFirmware1_tbDelay")
 //    private WebElement delayField;
 
@@ -268,6 +272,30 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage presetFilter(String parameter, String value) {
+        topMenu(DEVICE_UPDATE)
+                .getTable("tbl")
+                .clickOn(props.getProperty("cpe_serial"), 3);
+        waitForUpdate();
+        clickOn("btnEditUserInfo_lnk");
+        switchToFrame(USER_INFO);
+        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
+//        pause(2000);
+        while (!saveButton.isDisplayed()) {
+            System.out.println("not displayed");
+            pause(100);
+        }
+        getTable("tblMain")
+                .setUserInfo(parameter, value);
+        while (!saveButton.isEnabled()) {
+            pause(100);
+        }
+        saveButton.click();
+        okButtonPopUp();
+
+        return this;
+    }
+
     public Table getMainTable() {
         return getTable("tblParameters");
     }
@@ -297,8 +325,8 @@ public class GroupUpdatePage extends BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript(script);
     }
 
-    public GroupUpdatePage selectTodayDate() {
-        executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + CalendarUtil.getTodayDateString() + "')");
+    public GroupUpdatePage selectTodayDate(String date) {
+        executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + date + "')");
         return this;
     }
 

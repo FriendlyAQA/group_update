@@ -4,7 +4,6 @@ import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.HttpConnector;
-import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -22,25 +21,25 @@ import static org.testng.Assert.*;
 public class GroupUpdateTests extends BaseTestCase {
     @Test
     public void tr069_gu_001() {
-        groupUpdatePage.deleteAll();
-        groupUpdatePage.topMenu(GROUP_UPDATE);
+        guPage.deleteAll();
+        guPage.topMenu(GROUP_UPDATE);
         waitForUpdate();
-        assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
     public void tr069_gu_002() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
                 .globalButtons(CANCEL);
-        assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
     public void tr069_gu_003() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -48,12 +47,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .fillName()
                 .globalButtons(CANCEL);
         waitForUpdate();
-        assertTrue(groupUpdatePage.mainTableIsAbsent());
+        assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
     public void tr069_gu_004() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -61,46 +60,46 @@ public class GroupUpdateTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo()
                 .showList();
-        assertTrue(groupUpdatePage.serialNumberTableIsPresent());
+        assertTrue(guPage.serialNumberTableIsPresent());
     }
 
     @Test
     public void tr069_gu_005() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
                 .selectModel(BasePage.getModelName())
                 .fillName()
                 .createGroup();
-        assertTrue(groupUpdatePage.isButtonPresent(FINISH));
-        groupUpdatePage
+        assertTrue(guPage.isButtonPresent(FINISH));
+        guPage
                 .globalButtons(CANCEL);
         waitForUpdate();
-        groupUpdatePage.pause(500);
-        assertEquals(groupUpdatePage.getAttributeById("txtName", "value"), testName);
+        guPage.pause(500);
+        assertEquals(guPage.getAttributeById("txtName", "value"), testName);
     }
 
     @Test
     public void tr069_gu_006() {
-        groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("IsNull")
                 .globalButtons(NEXT);
-        Assert.assertFalse(groupUpdatePage.isButtonActive("btnDelFilter_btn"));
-        groupUpdatePage.filterRecordsCheckbox();
-        Assert.assertTrue(groupUpdatePage.isButtonActive("btnDelFilter_btn"));
-        groupUpdatePage
+        assertFalse(guPage.isButtonActive("btnDelFilter_btn"));
+        guPage.filterRecordsCheckbox();
+        assertTrue(guPage.isButtonActive("btnDelFilter_btn"));
+        guPage
                 .globalButtons(FINISH)
                 .okButtonPopUp();
         setTargetTestName();
-        assertEquals(testName, groupUpdatePage.getSelectedValue("ddlSend"));
+        assertEquals(testName, guPage.getSelectedValue("ddlSend"));
     }
 
     @Test
     public void tr069_gu_007() {
-        groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("cust2")
                 .compareSelect("Equal")
@@ -108,13 +107,13 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        assertEquals(testName, groupUpdatePage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
-        assertTrue(groupUpdatePage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+        assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
+        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
     }
 
     @Test
     public void tr069_gu_008() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -123,12 +122,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .createGroup()
                 .fillName(targetTestName)
                 .globalButtons(NEXT);
-        assertTrue(groupUpdatePage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+        assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
 
     @Test
     public void tr069_gu_009() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -138,12 +137,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
                 .okButtonPopUp();
-        assertFalse(groupUpdatePage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+        assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
     }
 
     @Test
     public void tr069_gu_010() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -153,17 +152,17 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblDevices")
                 .clickOn(1, 0);
         waitForUpdate();
-        assertTrue(groupUpdatePage.isButtonActive(NEXT));
-        groupUpdatePage.getTable("tblDevices")
+        assertTrue(guPage.isButtonActive(NEXT));
+        guPage.getTable("tblDevices")
                 .clickOn(1, 0);
         waitForUpdate();
-        assertFalse(groupUpdatePage.isButtonActive(NEXT));
+        assertFalse(guPage.isButtonActive(NEXT));
     }
 
     @Test
     //Doesn't work with Edge
     public void tr069_gu_011() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -172,12 +171,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList();
-        assertEquals(groupUpdatePage.getTable("tblDevices").getCellText(1, 0), props.getProperty("cpe_serial"));
+        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), props.getProperty("cpe_serial"));
     }
 
     @Test
     public void tr069_gu_012() {
-        groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("Is not null")
@@ -186,12 +185,12 @@ public class GroupUpdateTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        groupUpdatePage.getTable("tblDevices").assertPresenceOfValue(0, props.getProperty("cpe_serial"));
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, props.getProperty("cpe_serial"));
     }
 
     @Test
     public void tr069_gu_013() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(BasePage.getManufacturer())
@@ -203,21 +202,21 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton();
-        assertTrue(groupUpdatePage.isElementPresent("tblParamsValue"));
-        assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
+        assertTrue(guPage.isElementPresent("tblParamsValue"));
+        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
     public void tr069_gu_014() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
+        guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp();
         waitForUpdate();
-        assertEquals(groupUpdatePage
+        assertEquals(guPage
                 .getMainTable()
                 .getCellText(4, testName, 1), "Not active");
         setTargetTestName();
@@ -225,11 +224,11 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_015() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
                 .clickOn(targetTestName, 4);
-        groupUpdatePage
+        guPage
                 .globalButtons(EDIT)
                 .globalButtons(NEXT)
                 .immediately()
@@ -238,47 +237,47 @@ public class GroupUpdateTests extends BaseTestCase {
                 .clickOn("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", 3)
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "61");
-        groupUpdatePage
+        guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .getMainTable()
                 .clickOn(targetTestName, 4);
-        groupUpdatePage
+        guPage
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "61");
     }
 
     @Test
     public void tr069_gu_016() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate();
         setTargetTestName();
     }
 
     @Test
     public void tr069_gu_017() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
                 .clickOn(targetTestName, 4);
-        groupUpdatePage
+        guPage
                 .globalButtons(EDIT);
-        assertFalse(groupUpdatePage.isInputActive("ddlSend"));
-        groupUpdatePage
+        assertFalse(guPage.isInputActive("ddlSend"));
+        guPage
                 .globalButtons(NEXT);
-        assertFalse(groupUpdatePage.isInputActive("lrbImmediately"));
-        groupUpdatePage
+        assertFalse(guPage.isInputActive("lrbImmediately"));
+        guPage
                 .globalButtons(NEXT);
-        assertFalse(groupUpdatePage.isButtonActive(SAVE_AND_ACTIVATE));
+        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
     @Test
     public void tr069_gu_018() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
@@ -290,16 +289,16 @@ public class GroupUpdateTests extends BaseTestCase {
                 .timeHoursSelect("0")
                 .globalButtons(NEXT);
         waitForUpdate();
-        assertEquals(groupUpdatePage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
-        groupUpdatePage
+        assertEquals(guPage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
+        guPage
                 .checkIsCalendarClickable();
     }
 
     @Test
     public void tr069_gu_019() throws IOException {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE);
-        assertTrue(HttpConnector.getUrlSource(groupUpdatePage
+        assertTrue(HttpConnector.getUrlSource(guPage
                 .getMainTable()
                 .getExportLink(targetTestName))
                 .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
@@ -307,11 +306,11 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_020() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs")
                 .setParameter("Password", VALUE, "ftacs");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .setPrefix("InternetGatewayDevice.ManagementServer.")
                 .checkResults("Username", "ftacs")
@@ -320,470 +319,470 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_021() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }
 
     @Test
     public void tr069_gu_022() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Time")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_023() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Time")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_024() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Time")
                 .setParameter(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_025() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("WAN")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_026() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("WAN")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_027() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("WAN")
                 .setParameter(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_028() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("LAN")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_029() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("LAN")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_030() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("LAN")
                 .setParameter(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_031() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Wireless")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_032() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Wireless")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_033() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Wireless")
                 .setParameter(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_034() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("DSL settings")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_035() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("DSL settings")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_036() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("DSL settings")
                 .setParameter(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_037() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("VoIP settings")
                 .setAllParameters();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_038() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("VoIP settings")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_039() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("VoIP settings")
                 .setParameter(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_040() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies(null)
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_041() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies(null)
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_042() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies(null)
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_043() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies(null)
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_044() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Time")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_045() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Time")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_046() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Time")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_047() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Time")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_048() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("WAN")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_049() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_050() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_051() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_052() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("LAN")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_053() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_054() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_055() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_056() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Wireless")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_057() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_058() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_059() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_060() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("DSL settings")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_061() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_062() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_063() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_064() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("VoIP settings")
                 .setAllPolicies();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_065() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_066() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_067() {
-        groupUpdatePage
+        guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -791,7 +790,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_068() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
@@ -801,7 +800,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_069() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("GetRPCMethods")
@@ -811,7 +810,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_070() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("GetParameterNames")
@@ -821,7 +820,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_071() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("GetParameterAttributes")
@@ -831,7 +830,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_072() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("GetParameterValues")
@@ -841,7 +840,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_073() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("SetParameterValues")
@@ -851,7 +850,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_074() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("SetParameterAttributes")
@@ -861,7 +860,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_075() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("AddObject")
@@ -871,7 +870,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_076() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("DeleteObject")
@@ -881,38 +880,38 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_077() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("time", true)
                 .setAllParameters()
                 .setAnyAdvancedParameter();
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_078() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("time", true)
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_079() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("time", true)
                 .setParameter(2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_080() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
@@ -929,7 +928,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .clickOn("Time")
                 .getTable("tblParamsValue")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults()
                 .getTable("tblPeriod")
@@ -938,7 +937,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_081() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
@@ -947,7 +946,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_082() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .globalButtons(CANCEL)
@@ -956,21 +955,21 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_083() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", getManufacturer());
     }
 
     @Test
     public void tr069_gu_084() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", getModelName());
     }
 
     @Test
     public void tr069_gu_085() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
                 .checkFiltering("State", "Not active")
@@ -980,28 +979,28 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_086() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
     public void tr069_gu_087() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
     public void tr069_gu_088() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
     public void tr069_gu_089() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
                 .checkSorting("Created");
@@ -1009,28 +1008,28 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_090() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
     public void tr069_gu_091() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
     public void tr069_gu_092() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
     public void tr069_gu_093() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer()
                 .checkResetView();
@@ -1038,13 +1037,13 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_094() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
                 .clickOn("Manufacturer");
-        groupUpdatePage
+        guPage
                 .checkResetView();
-        groupUpdatePage
+        guPage
                 .leftMenu(VIEW)
                 .itemsOnPage("10")
                 .pause(5000);
@@ -1052,247 +1051,247 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_095() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter()
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_096() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_097() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_098() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_099() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_100() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 1);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_101() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter()
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_102() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_103() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_104() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_105() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_106() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 2);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_107() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter()
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_108() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_109() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_110() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_111() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_112() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 3);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_113() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter()
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_114() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_115() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_116() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_117() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_118() {
-        groupUpdatePage
+        guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 0);
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
     @Test
     public void tr069_gu_119() {
-        groupUpdatePage
+        guPage
                 .gotoBackup()
                 .saveAndActivate()
                 .assertPresenceOfValue(0, "Backup");
@@ -1300,7 +1299,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_120() {
-        groupUpdatePage
+        guPage
                 .gotoBackup()
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
@@ -1310,19 +1309,19 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_121() {
-        groupUpdatePage
+        guPage
                 .gotoBackup()
                 .getTable("tblTasks")
                 .clickOn(1, 0);
-        groupUpdatePage
+        guPage
                 .deleteButton();
         waitForUpdate();
-        assertFalse(groupUpdatePage.isElementPresent("tblTasks"));
+        assertFalse(guPage.isElementPresent("tblTasks"));
     }
 
     @Test
     public void tr069_gu_122() {
-        groupUpdatePage
+        guPage
                 .gotoRestore()
                 .saveAndActivate()
                 .assertPresenceOfValue(0, "Restore");
@@ -1330,7 +1329,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_123() {
-        groupUpdatePage
+        guPage
                 .gotoRestore()
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -1345,19 +1344,19 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_124() {
-        groupUpdatePage
+        guPage
                 .gotoRestore()
                 .getTable("tblTasks")
                 .clickOn(1, 0);
-        groupUpdatePage
+        guPage
                 .deleteButton();
         waitForUpdate();
-        assertFalse(groupUpdatePage.isElementPresent("tblTasks"));
+        assertFalse(guPage.isElementPresent("tblTasks"));
     }
 
     @Test
     public void tr069_gu_125() {
-        groupUpdatePage
+        guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("IPPing Diagnostic")
                 .inputHostField("8.8.8.8")
@@ -1367,7 +1366,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_126() {
-        groupUpdatePage
+        guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Trace Diagnostic")
                 .inputHostField("8.8.8.8")
@@ -1378,7 +1377,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_127() {
-        groupUpdatePage
+        guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download Diagnostic")
                 .nextSaveAndActivate()
@@ -1387,7 +1386,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_128() {
-        groupUpdatePage
+        guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload Diagnostic")
                 .nextSaveAndActivate()
@@ -1396,7 +1395,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_129() {
-        groupUpdatePage
+        guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Wi-Fi Neighboring Diagnostic")
                 .nextSaveAndActivate()
@@ -1405,10 +1404,10 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_134() {
-        groupUpdatePage
+        guPage
                 .gotoSetParameters("Time")
                 .setParameter(1);
-        groupUpdatePage
+        guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -1420,7 +1419,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_135() {
-        groupUpdatePage
+        guPage
                 .gotoFileDownload()
                 .selectFileType(2)
                 .manualRadioButton()
@@ -1433,7 +1432,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_136() {
-        groupUpdatePage
+        guPage
                 .gotoFileDownload()
                 .selectFileType(1)
                 .manualRadioButton()
@@ -1446,7 +1445,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_137() {
-        groupUpdatePage
+        guPage
                 .gotoFileDownload()
                 .selectFileType(2)
                 .fromListRadioButton()
@@ -1457,7 +1456,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_138() {
-        groupUpdatePage
+        guPage
                 .gotoFileDownload()
                 .selectFileType(1)
                 .fromListRadioButton()
@@ -1469,7 +1468,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_139() {
-        groupUpdatePage
+        guPage
                 .gotoFileUpload()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
@@ -1481,7 +1480,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_140() {
-        groupUpdatePage
+        guPage
                 .gotoFileUpload()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
@@ -1493,7 +1492,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_141() {
-        groupUpdatePage
+        guPage
                 .gotoFileUpload()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
@@ -1504,7 +1503,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_142() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(getManufacturer())
@@ -1526,7 +1525,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_143() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(getManufacturer())
@@ -1548,7 +1547,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_144() {
-        groupUpdatePage
+        guPage
                 .gotoFileUpload()
                 .selectUploadFileType(2)
                 .defaultUploadRadioButton()
@@ -1559,7 +1558,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_145() {
-        groupUpdatePage
+        guPage
                 .gotoFileUpload()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
@@ -1568,14 +1567,14 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"))
                 .clickOn(1, 0);
-        groupUpdatePage
+        guPage
                 .deleteButton()
                 .assertResultTableIsAbsent();
     }
 
     @Test
     public void tr069_gu_146() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
@@ -1584,7 +1583,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_147() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
@@ -1593,7 +1592,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test//80
     public void tr069_gu_148() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
@@ -1603,7 +1602,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_149() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("Download")
@@ -1613,7 +1612,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_150() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("Upload")
@@ -1622,7 +1621,7 @@ public class GroupUpdateTests extends BaseTestCase {
                 .okButtonPopUp()
                 .getMainTable()
                 .clickOn(1, 0);
-        groupUpdatePage
+        guPage
                 .globalButtons(PAUSE)
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
@@ -1634,7 +1633,7 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_151() {
-        groupUpdatePage
+        guPage
                 .gotoAction()
                 .customRpcRadioButton()
                 .selectMethod("FactoryReset")
@@ -1644,29 +1643,29 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test
     public void tr069_gu_154() {
-        groupUpdatePage
+        guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Paused");
     }
 
     @Test
     public void tr069_gu_157() {
-        groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        Assert.assertFalse(groupUpdatePage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        groupUpdatePage.globalButtons(NEXT)
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
+        guPage.globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
@@ -1674,17 +1673,17 @@ public class GroupUpdateTests extends BaseTestCase {
 
     @Test //doesn't work correctly (filter 'Created - on day')
     public void tr069_gu_158() {
-                groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate()
+                .selectTodayDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        Assert.assertFalse(groupUpdatePage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        groupUpdatePage
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
+        guPage
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -1692,27 +1691,26 @@ public class GroupUpdateTests extends BaseTestCase {
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
-
     @Test
     public void tr069_gu_159() {
-        groupUpdatePage
+        guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate()
+                .selectTodayDate(CalendarUtil.getTodayDateString())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        Assert.assertFalse(groupUpdatePage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        groupUpdatePage
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
+        guPage
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -1720,42 +1718,362 @@ public class GroupUpdateTests extends BaseTestCase {
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        groupUpdatePage
+        guPage
                 .nextSaveAndActivate()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
-//    @Test
-//    public void tr069_gu_s01() {
-//        groupUpdatePage
-//                .topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer()
-//                .selectModel()
-//                .fillName()
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .scheduledToRadioButton()
-//                .setDelay(10)
-//                .globalButtons(NEXT)
-//                .addNewTask(1)
-//                .addTaskButton()
-//                .getTable("tblParamsValue")
-//                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
-//                .globalButtons(NEXT)
-//                .globalButtons(SAVE)
-//                .okButtonPopUp()
-//                .addToScheduled(testName)
-//                .waitForStatus("Scheduled", testName, 5)
-//                .clickOn(testName, 4);
-//        groupUpdatePage
-//                .getTable("tblTasks")
-//                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-//    }
+
+    @Test
+    public void tr069_gu_160() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Later than")
+                .clickOn("calFilterDate_image")
+                .selectTodayDate(CalendarUtil.getMonthBeforeDate())
+                .inputText("txtTimeHour", CalendarUtil.getHours())
+                .inputText("txtTimeMinute", CalendarUtil.getMinutes())
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selectedby filter 'Created - Later than'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_161() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Today")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_162() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Before Today")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_163() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Yesterday")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_164() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Prev 7 days")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_165() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Prev X days")
+                .inputText("txtInt", "4")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_166() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("=")
+                .inputText("txtText", testName)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_167() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("!=")
+                .inputText("txtText", testName)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_169() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Like")
+                .inputText("txtText", testName.substring(1, 5))
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_170() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("No like")
+                .inputText("txtText", testName.substring(1, 5))
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_171() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_172() {
+        guPage
+                .presetFilter("mycust03", testName)
+                .gotoAddFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is not null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n");
+        guPage
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .nextSaveAndActivate()
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_173() {
+        guPage
+                .gotoAddFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Is not null")
+                .globalButtons(CANCEL);
+        waitForUpdate();
+        assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+    }
+
+    @Test
+    public void tr069_gu_174() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer(BasePage.getManufacturer())
+                .selectModel(BasePage.getModelName())
+                .fillName()
+                .createGroup()
+                .fillName()
+                .globalButtons(NEXT)
+                .globalButtons(PREVIOUS)
+                .globalButtons(CANCEL);
+        waitForUpdate();
+        assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+    }
+
+
+    @Test
+    public void tr069_gu_175() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
 //
 //    @Test
 //    public void tr069_gu_s02() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1771,21 +2089,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s03() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1801,21 +2119,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s04() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1832,21 +2150,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s05() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1863,21 +2181,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s06() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1895,21 +2213,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s07() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1925,21 +2243,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s08() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1956,21 +2274,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s09() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -1987,21 +2305,21 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }
 //
 //    @Test
 //    public void tr069_gu_s10() {
-//        groupUpdatePage
+//        guPage
 //                .topMenu(GROUP_UPDATE)
 //                .leftMenu(NEW)
 //                .selectManufacturer()
@@ -2019,14 +2337,14 @@ public class GroupUpdateTests extends BaseTestCase {
 //                .addTaskButton()
 //                .getTable("tblParamsValue")
 //                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-//        groupUpdatePage
+//        guPage
 //                .globalButtons(NEXT)
 //                .globalButtons(SAVE)
 //                .okButtonPopUp()
 //                .addToScheduled(testName)
 //                .waitForStatus("Scheduled", testName, 5)
 //                .clickOn(testName, 4);
-//        groupUpdatePage
+//        guPage
 //                .getTable("tblTasks")
 //                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
 //    }

@@ -18,7 +18,7 @@ import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
 public class BaseTestCase {
     private LoginPage loginPage;
-    protected GroupUpdatePage groupUpdatePage;
+    protected GroupUpdatePage guPage;
     private long start = System.currentTimeMillis();
     protected static String testName, targetTestName;
     static Properties props;
@@ -46,7 +46,7 @@ public class BaseTestCase {
         loginPage = new LoginPage();
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
-        groupUpdatePage = new GroupUpdatePage();
+        guPage = new GroupUpdatePage();
         testName = "";
     }
 
