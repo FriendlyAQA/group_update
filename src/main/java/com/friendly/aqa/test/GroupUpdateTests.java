@@ -2523,7 +2523,6 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
-
     @Test
     public void tr069_gu_191() {
         guPage
@@ -2535,7 +2534,193 @@ public class GroupUpdateTests extends BaseTestCase {
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
-                .selectTomorrowDate()
+                .selectShiftedDate("calDate", 1)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_192() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("1")
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_193() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("1")
+                .selectShiftedDate("calReactivationStartsOnDay", 2)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_194() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("2")
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_195() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("1")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "1")
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_196() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("1")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 8)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
+    public void tr069_gu_197() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryDropDown("1")
+                .runOnFailed()
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()

@@ -13,7 +13,7 @@ public class CalendarUtil {
     private static DateFormat hours = new SimpleDateFormat("HH");
     private static DateFormat minutes = new SimpleDateFormat("mm");
 
-    private static Date getday(int day) {
+    private static Date getDay(int day) {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, day);
         return cal.getTime();
@@ -25,12 +25,16 @@ public class CalendarUtil {
         return hourAndMinutes.format(calendar.getTime()).split("-");
     }
 
+    public static String getShiftedDate(int countDays) {
+        return dateFormat.format(getDay(countDays));
+    }
+
     public static String getMonthBeforeDate() {
-        return dateFormat.format(getday(-30));
+        return dateFormat.format(getDay(-30));
     }
 
     public static String getTomorrowDateString() {
-        return dateFormat.format(getday(1));
+        return dateFormat.format(getDay(1));
     }
 
     public static String getTodayDateString() {

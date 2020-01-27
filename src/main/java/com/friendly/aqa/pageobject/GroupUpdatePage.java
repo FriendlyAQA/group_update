@@ -59,6 +59,24 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "btnNewView$btn")
     private WebElement createGroupButton;
 
+    @FindBy(id = "ddlRepeatType")
+    private WebElement reactivationRepeatsDropDown;
+
+    @FindBy(id = "ddlRepeatHour")
+    private WebElement reactivationRepeatEveryDropDown;
+
+    @FindBy(id = "rbReactivationEndsOccurrences")
+    private WebElement reactivationEndsAfterRadiobutton;
+
+    @FindBy(id = "txtReactivationEndsOccurrences")
+    private WebElement reactivationEndsAfterField;
+
+    @FindBy(id = "rbReactivationEndsDay")
+    private WebElement reactivationEndsOn;
+
+    @FindBy(id = "chbxFailedCPEOnly")
+    private WebElement reactivationReRunFailedCheckbox;
+
 //    @FindBy(name = "btnBrowse$btn")
 //    private WebElement browseButton;
 
@@ -330,8 +348,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectTomorrowDate() {
-        executeScript("CalendarPopup_FindCalendar('calDate').SelectDate('" + CalendarUtil.getTomorrowDateString() + "')");
+    public GroupUpdatePage selectShiftedDate(String id, int value) {
+        executeScript("CalendarPopup_FindCalendar('" + id + "').SelectDate('" + CalendarUtil.getShiftedDate(value) + "')");
         return this;
     }
 
@@ -662,6 +680,31 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage numOfRepetitionsField(String text) {
         numOfRepetitionsField.sendKeys(text);
+        return this;
+    }
+
+    public GroupUpdatePage selectRepeatsDropDown(String value) {
+        selectComboBox(reactivationRepeatsDropDown, value);
+        return this;
+    }
+
+    public GroupUpdatePage selectRepeatEveryDropDown(String value) {
+        selectComboBox(reactivationRepeatEveryDropDown, value);
+        return this;
+    }
+
+    public GroupUpdatePage endAfterRadiobutton() {
+        reactivationEndsAfterRadiobutton.click();
+        return this;
+    }
+
+    public GroupUpdatePage endAOnRadiobutton() {
+        reactivationEndsOn.click();
+        return this;
+    }
+
+    public GroupUpdatePage runOnFailed() {
+        reactivationReRunFailedCheckbox.click();
         return this;
     }
 
