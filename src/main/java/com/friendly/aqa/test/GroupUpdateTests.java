@@ -2737,4 +2737,166 @@ public class GroupUpdateTests extends BaseTestCase {
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
+    @Test
+    public void tr069_gu_221() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .setParameter("Username", VALUE, "ftacs");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
+                .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
+    }
+
+    @Test
+    public void tr069_gu_222() {
+        guPage.setScheduledParameters("Time");
+    }
+
+    @Test
+    public void tr069_gu_223() {
+        guPage.setScheduledParameters("WAN");
+    }
+
+    @Test
+    public void tr069_gu_224() {
+        guPage.setScheduledParameters("LAN");
+    }
+
+    @Test
+    public void tr069_gu_225() {
+        guPage.setScheduledParameters("Wireless");
+    }
+
+    @Test
+    public void tr069_gu_226() {
+        guPage.setScheduledParameters("DSL settings");
+    }
+
+    @Test
+    public void tr069_gu_227() {
+        guPage.setScheduledParameters("VoIP settings");
+    }
+
+    @Test
+    public void tr069_gu_228() {
+        guPage.setScheduledPolicy("Management");
+    }
+
+    @Test
+    public void tr069_gu_229() {
+        guPage.setScheduledPolicy("Time");
+    }
+
+    @Test
+    public void tr069_gu_230() {
+        guPage.setScheduledPolicy("WAN");
+    }
+
+    @Test
+    public void tr069_gu_231() {
+        guPage.setScheduledPolicy("LAN");
+    }
+
+    @Test
+    public void tr069_gu_232() {
+        guPage.setScheduledPolicy("Wireless");
+    }
+
+    @Test
+    public void tr069_gu_233() {
+        guPage.setScheduledPolicy("DSL settings");
+    }
+
+    @Test
+    public void tr069_gu_234() {
+        guPage.setScheduledPolicy("VoIP settings");
+    }
+
+    @Test
+    public void tr069_gu_235() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .reprovisionRadioButton()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(2, "CPEReprovision");
+    }
+
+    @Test
+    public void tr069_gu_236() {
+        guPage.scheduledCallCustomRPC("GetRPCMethods");
+    }
+
+    @Test
+    public void tr069_gu_237() {
+        guPage.scheduledCallCustomRPC("GetParameterNames");
+    }
+
+    @Test
+    public void tr069_gu_238() {
+        guPage.scheduledCallCustomRPC("GetParameterAttributes");
+    }
+
+    @Test
+    public void tr069_gu_239() {
+        guPage.scheduledCallCustomRPC("GetParameterValues");
+    }
+
+    @Test
+    public void tr069_gu_240() {
+        guPage.scheduledCallCustomRPC("SetParameterValues");
+    }
+
+    @Test
+    public void tr069_gu_241() {
+        guPage.scheduledCallCustomRPC("SetParameterAttributes");
+    }
+
+    @Test
+    public void tr069_gu_242() {
+        guPage.scheduledCallCustomRPC("AddObject");
+    }
+
+    @Test
+    public void tr069_gu_243() {
+        guPage.scheduledCallCustomRPC("DeleteObject");
+    }
+
+
 }
