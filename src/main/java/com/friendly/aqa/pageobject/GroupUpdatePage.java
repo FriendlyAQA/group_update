@@ -959,6 +959,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage setThreshold(int value) {
+        thresholdField.sendKeys(String.valueOf(value));
+        return this;
+    }
+
     public GroupUpdatePage inputText(String id, String text) {
         driver.findElement(By.id(id)).sendKeys(text);
         return this;
