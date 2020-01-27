@@ -330,6 +330,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage selectTomorrowDate() {
+        executeScript("CalendarPopup_FindCalendar('calDate').SelectDate('" + CalendarUtil.getTomorrowDateString() + "')");
+        return this;
+    }
+
     public void checkIsCalendarClickable() {
         boolean exception = false, repeat = false;
         setImplicitlyWait(0);

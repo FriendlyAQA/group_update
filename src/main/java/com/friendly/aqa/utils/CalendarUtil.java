@@ -29,8 +29,8 @@ public class CalendarUtil {
         return dateFormat.format(getday(-30));
     }
 
-    static String getYesterdayDateString() {
-        return dateFormat.format(getday(-1));
+    public static String getTomorrowDateString() {
+        return dateFormat.format(getday(1));
     }
 
     public static String getTodayDateString() {
