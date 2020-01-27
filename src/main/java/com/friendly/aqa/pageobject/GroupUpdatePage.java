@@ -1036,6 +1036,84 @@ public class GroupUpdatePage extends BasePage {
         return getTable("tblParamsValue");
     }
 
+    public void setScheduledParameters(String tab) {
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tabsSettings_tblTabs")
+                .clickOn(tab)
+                .getTable("tblParamsValue")
+                .setParameter(2);
+        globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(BaseTestCase.getTestName(), 4);
+        getTable("tblTasks")
+                .checkResults();
+    }
+
+    public void setScheduledPolicy(String tab) {
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(4)
+                .addTaskButton();
+        if (tab != null && !tab.toLowerCase().equals("management")) {
+            getTable("tabsSettings_tblTabs")
+                    .clickOn(tab);
+        }
+        getTable("tblParamsValue")
+                .setPolicy(3);
+        globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(BaseTestCase.getTestName(), 4);
+        getTable("tblTasks")
+                .checkResults();
+    }
+
+    public void scheduledCallCustomRPC(String method) {
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .customRpcRadioButton()
+                .selectMethod(method)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(BaseTestCase.getTestName(), 4);
+        getTable("tblTasks")
+                .checkResults("CustomRPC", method);
+    }
+
     public Table gotoSetParameters(String tab) {
         return gotoSetParameters(tab, false);
     }

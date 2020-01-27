@@ -2897,6 +2897,4 @@ public class GroupUpdateTests extends BaseTestCase {
     public void tr069_gu_243() {
         guPage.scheduledCallCustomRPC("DeleteObject");
     }
-
-
 }
