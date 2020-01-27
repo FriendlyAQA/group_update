@@ -63,7 +63,13 @@ public class GroupUpdatePage extends BasePage {
     private WebElement reactivationRepeatsDropDown;
 
     @FindBy(id = "ddlRepeatHour")
-    private WebElement reactivationRepeatEveryDropDown;
+    private WebElement reactivationRepeatEveryHourDropDown;
+
+    @FindBy(id = "ddlRepeatDay")
+    private WebElement reactivationRepeatEveryDayDropDown;
+
+    @FindBy(id = "ddlRepeatMonth")
+    private WebElement reactivationRepeatEveryMonthDropDown;
 
     @FindBy(id = "rbReactivationEndsOccurrences")
     private WebElement reactivationEndsAfterRadiobutton;
@@ -688,8 +694,18 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectRepeatEveryDropDown(String value) {
-        selectComboBox(reactivationRepeatEveryDropDown, value);
+    public GroupUpdatePage selectRepeatEveryHourDropDown(String value) {
+        selectComboBox(reactivationRepeatEveryHourDropDown, value);
+        return this;
+    }
+
+    public GroupUpdatePage selectRepeatEveryDayDropDown(String value) {
+        selectComboBox(reactivationRepeatEveryDayDropDown, value);
+        return this;
+    }
+
+    public GroupUpdatePage selectRepeatEveryMonthDropDown(String value) {
+        selectComboBox(reactivationRepeatEveryMonthDropDown, value);
         return this;
     }
 
