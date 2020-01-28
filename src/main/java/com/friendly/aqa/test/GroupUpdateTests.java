@@ -3598,4 +3598,392 @@ public class GroupUpdateTests extends BaseTestCase {
     public void tr069_gu_243() {
         guPage.scheduledCallCustomRPC("DeleteObject");
     }
+
+    @Test
+    public void tr069_gu_271() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(9)
+                .addTaskButton()
+                .selectDiagnostic("IPPing Diagnostic")
+                .inputHostField("8.8.8.8")
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(-2, "IPPing Diagnostic");
+
+    }
+
+    @Test
+    public void tr069_gu_272() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(2)
+                .addTaskButton()
+                .selectFileType(2)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+    }
+
+    @Test
+    public void tr069_gu_273() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(2)
+                .addTaskButton()
+                .selectFileType(1)
+                .manualRadioButton()
+                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
+                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+    }
+
+    @Test
+    public void tr069_gu_274() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(2)
+                .addTaskButton()
+                .selectFileType(2)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
+    }
+
+    @Test
+    public void tr069_gu_275() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(2)
+                .addTaskButton()
+                .selectFileType(1)
+                .fromListRadioButton()
+                .selectFileName(1)
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(-2, "Firmware Image");
+    }
+
+    @Test
+    public void tr069_gu_276() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(5)
+                .addTaskButton()
+                .selectUploadFileType(1)
+                .manuallyUrlRadioButton()
+                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr069_gu_277() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(5)
+                .addTaskButton()
+                .selectUploadFileType(2)
+                .manuallyUrlRadioButton()
+                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr069_gu_278() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(5)
+                .addTaskButton()
+                .selectUploadFileType(1)
+                .defaultUploadRadioButton()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr069_gu_279() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .rebootRadioButton()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("Reboot");
+    }
+
+    @Test
+    public void tr069_gu_280() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .factoryResetRadioButton()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("FactoryReset");
+    }
+
+    @Test
+    public void tr069_gu_281() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .customRpcRadioButton()
+                .selectMethod("Reboot")
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Reboot");
+    }
+
+    @Test
+    public void tr069_gu_282() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .customRpcRadioButton()
+                .selectMethod("Download")
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Download");
+    }
+
+    @Test
+    public void tr069_gu_283() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .customRpcRadioButton()
+                .selectMethod("Upload")
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "Upload");
+    }
+
+    @Test
+    public void tr069_gu_284() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(3)
+                .addTaskButton()
+                .customRpcRadioButton()
+                .selectMethod("FactoryReset")
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("CustomRPC", "FactoryReset");
+    }
+
 }
