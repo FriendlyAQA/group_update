@@ -1106,6 +1106,34 @@ public class GroupUpdatePage extends BasePage {
                 .checkResults();
     }
 
+    public void getScheduledParameter(String tab, int column) {
+        topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(6)
+                .addTaskButton();
+        if (tab != null && !tab.toLowerCase().equals("management")) {
+            getTable("tabsSettings_tblTabs")
+                    .clickOn(tab);
+        }
+        getTable("tblParamsValue")
+                .getParameter(1,column);
+        globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(BaseTestCase.getTestName(), 4);
+        getTable("tblTasks")
+                .checkResults();
+    }
+
     public void scheduledCallCustomRPC(String method) {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)

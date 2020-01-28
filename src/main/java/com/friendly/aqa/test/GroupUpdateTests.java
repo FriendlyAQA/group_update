@@ -3598,4 +3598,204 @@ public class GroupUpdateTests extends BaseTestCase {
     public void tr069_gu_243() {
         guPage.scheduledCallCustomRPC("DeleteObject");
     }
+
+    @Test
+    public void tr069_gu_244() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tabsSettings_tblTabs")
+                .clickOn("Time");
+        guPage
+                .globalButtons(ADVANCED_VIEW)
+                .getTable("tblParamsValue")
+                .setParameter(2);
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_gu_245() {
+        guPage.getScheduledParameter("Management", 1);
+    }
+
+    @Test
+    public void tr069_gu_246() {
+        guPage.getScheduledParameter("Information", 1);
+    }
+
+    @Test
+    public void tr069_gu_247() {
+        guPage.getScheduledParameter("Time", 1);
+    }
+
+    @Test
+    public void tr069_gu_248() {
+        guPage.getScheduledParameter("WAN", 1);
+    }
+
+    @Test
+    public void tr069_gu_249() {
+        guPage.getScheduledParameter("LAN", 1);
+    }
+
+    @Test
+    public void tr069_gu_250() {
+        guPage.getScheduledParameter("Wireless", 1);
+    }
+
+    @Test
+    public void tr069_gu_251() {
+        guPage.getScheduledParameter("Management", 2);
+    }
+
+    @Test
+    public void tr069_gu_252() {
+        guPage.getScheduledParameter("Information", 2);
+    }
+
+    @Test
+    public void tr069_gu_253() {
+        guPage.getScheduledParameter("Time", 2);
+    }
+
+    @Test
+    public void tr069_gu_254() {
+        guPage.getScheduledParameter("WAN", 2);
+    }
+
+    @Test
+    public void tr069_gu_255() {
+        guPage.getScheduledParameter("LAN", 2);
+    }
+
+    @Test
+    public void tr069_gu_256() {
+        guPage.getScheduledParameter("Wireless", 2);
+    }
+
+    @Test
+    public void tr069_gu_257() {
+        guPage.getScheduledParameter("Management", 3);
+    }
+
+    @Test
+    public void tr069_gu_258() {
+        guPage.getScheduledParameter("Information", 3);
+    }
+
+    @Test
+    public void tr069_gu_259() {
+        guPage.getScheduledParameter("Time", 3);
+    }
+
+    @Test
+    public void tr069_gu_260() {
+        guPage.getScheduledParameter("WAN", 3);
+    }
+
+    @Test
+    public void tr069_gu_261() {
+        guPage.getScheduledParameter("LAN", 3);
+    }
+
+    @Test
+    public void tr069_gu_262() {
+        guPage.getScheduledParameter("Wireless", 3);
+    }
+
+    @Test
+    public void tr069_gu_263() {
+        guPage.getScheduledParameter("Management", 0);
+    }
+
+    @Test
+    public void tr069_gu_264() {
+        guPage.getScheduledParameter("Information", 0);
+    }
+
+    @Test
+    public void tr069_gu_265() {
+        guPage.getScheduledParameter("Time", 0);
+    }
+
+    @Test
+    public void tr069_gu_266() {
+        guPage.getScheduledParameter("WAN", 0);
+    }
+
+    @Test
+    public void tr069_gu_267() {
+        guPage.getScheduledParameter("LAN", 0);
+    }
+
+    @Test
+    public void tr069_gu_268() {
+        guPage.getScheduledParameter("Wireless", 0);
+    }
+
+    @Test
+    public void tr069_gu_269() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(7)
+                .addTaskButton()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Backup");
+    }
+
+    @Test
+    public void tr069_gu_270() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask(8)
+                .addTaskButton()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfValue(0, "Restore");
+    }
 }
