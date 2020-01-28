@@ -18,7 +18,7 @@ import static com.friendly.aqa.utils.Table.Parameter.VALUE;
 import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
-public class GroupUpdateTests extends BaseTestCase {
+public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_001() {
         guPage.deleteAll();

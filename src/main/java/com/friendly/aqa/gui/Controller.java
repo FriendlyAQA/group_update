@@ -1,7 +1,7 @@
 package com.friendly.aqa.gui;
 
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.test.GroupUpdateTests;
+import com.friendly.aqa.test.GroupUpdateTR069Tests;
 import com.friendly.aqa.utils.XmlWriter;
 import org.apache.log4j.PropertyConfigurator;
 import org.testng.TestNG;
@@ -69,7 +69,7 @@ public class Controller implements WindowListener, Runnable {
 
     private void handleWrittenTests() {
         lastTestNumber = new int[8];
-        for (Method method : GroupUpdateTests.class.getDeclaredMethods()) {
+        for (Method method : GroupUpdateTR069Tests.class.getDeclaredMethods()) {
             String name = method.getName();
             writtenTestSet[2].add(name);
         }
