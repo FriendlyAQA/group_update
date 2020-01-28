@@ -1403,6 +1403,40 @@ public class GroupUpdateTests extends BaseTestCase {
     }
 
     @Test
+    public void tr069_gu_132() {
+        guPage.setScheduledParameters("Time");
+    }
+
+    @Test
+    public void tr069_gu_133() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+    }
+
+    @Test
     public void tr069_gu_134() {
         guPage
                 .gotoSetParameters("Time")
@@ -2336,35 +2370,6 @@ public class GroupUpdateTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
-    }
-
-    @Test
-    public void tr069_gu_185() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .setPeriod(1)
-                .onlineDevicesCheckBox()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Not active", 5)
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
@@ -3466,11 +3471,6 @@ public class GroupUpdateTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
                 .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
-    }
-
-    @Test
-    public void tr069_gu_222() {
-        guPage.setScheduledParameters("Time");
     }
 
     @Test
