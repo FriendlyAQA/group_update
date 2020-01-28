@@ -1,6 +1,7 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.pageobject.GlobalButtons;
 import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -286,6 +287,11 @@ public class Table {
             throw new AssertionError(warning);
         }
         return this;
+    }
+
+    public void selectGroup(){
+        int rowNum = getRowNumberByText(4, BaseTestCase.getTestName());
+        clickOn(rowNum, 0);
     }
 
     public Table getTable(String id) {
