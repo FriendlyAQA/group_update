@@ -929,7 +929,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .getTable("tblParamsValue")
                 .setParameter(1);
         guPage
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running", 5)
+                .readTasksFromDB()
+                .clickOn(testName)
+                .getTable("tblTasks")
                 .checkResults()
                 .getTable("tblPeriod")
                 .checkResults("Online devices", "True");
@@ -1667,7 +1673,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkResults("CustomRPC", "Download");
     }
 
-    @Test
+    @Test   //needs running device
     public void tr069_gu_150() {
         guPage
                 .gotoAction()
@@ -1720,28 +1726,32 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_152() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled");
+                .checkFiltering("State", "Scheduled")
+                .resetView();
     }
 
     @Test
     public void tr069_gu_153() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running");
+                .checkFiltering("State", "Running")
+                .resetView();
     }
 
     @Test
     public void tr069_gu_154() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused");
+                .checkFiltering("State", "Paused")
+                .resetView();
     }
 
     @Test
     public void tr069_gu_155() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation");
+                .checkFiltering("State", "Reactivation")
+                .resetView();
     }
 
     @Test

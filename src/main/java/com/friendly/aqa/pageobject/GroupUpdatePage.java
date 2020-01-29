@@ -89,9 +89,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
 
-//    @FindBy(name = "btnDefaultView$btn")
-//    private WebElement resetViewButton;
-
     @FindBy(id = "ddlPageSizes")
     private WebElement itemsOnPageComboBox;
 
@@ -158,8 +155,11 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(how = How.ID, using = "tbl_tasks")
     private List<WebElement> taskTableList;
 
+    @FindBy(id = "fuImport")
+    private WebElement importGuField;
+
     @FindBy(id = "fuSerials")
-    private WebElement importField;
+    private WebElement importDeviceField;
 
     @FindBy(id = "txtHost")
     private WebElement inputHostField;
@@ -265,7 +265,7 @@ public class GroupUpdatePage extends BasePage {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
         String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
-        importField.sendKeys(inputText);
+        importDeviceField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
     }
@@ -274,7 +274,7 @@ public class GroupUpdatePage extends BasePage {
         switchToFrame(DESKTOP);
         String inputText = new File(props.getProperty("import_group_update_file_path")).getAbsolutePath();
         System.out.println(inputText);
-        importField.sendKeys(inputText);
+        importGuField.sendKeys(inputText);
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
     }
@@ -860,10 +860,10 @@ public class GroupUpdatePage extends BasePage {
         if (dropdown.equals("State") && option.equals("Error") && noDataFound.size() == 1) {
             return this;
         }
-        itemsOnPage("200");
         Table table;
         try {
             table = getMainTable();
+            itemsOnPage("200");
         } catch (NoSuchElementException e) {
             logger.info("List '" + option + "' is empty. Nothing to filter");
             return this;
@@ -871,13 +871,16 @@ public class GroupUpdatePage extends BasePage {
         String[] arr = table.getColumn(dropdown);
         Set<String> set = new HashSet<>(Arrays.asList(arr));
         if (dropdown.equals("State") && option.equals("All") && set.size() > 1) {
+            itemsOnPage("10");
             return this;
         }
         if (set.size() != 1 && !set.contains(option)) {
             String warn = "Filtering failed on dropdown '" + dropdown + "'";
             logger.warn(warn);
+            itemsOnPage("10");
             throw new AssertionError(warn);
         }
+        itemsOnPage("10");
         return this;
     }
 
@@ -1035,7 +1038,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table goToSetPolicies(String tab) {
         goto_(4);
-        if (tab != null) {
+        if (tab != null && tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         return getTable("tblParamsValue");
@@ -1124,7 +1127,7 @@ public class GroupUpdatePage extends BasePage {
                     .clickOn(tab);
         }
         getTable("tblParamsValue")
-                .getParameter(1,column);
+                .getParameter(1, column);
         globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -1176,7 +1179,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table gotoGetParameter(String tab, boolean advancedView) {
         goto_(6);
-        if (tab != null) {
+        if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         if (advancedView) {
