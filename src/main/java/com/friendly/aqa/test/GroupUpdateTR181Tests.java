@@ -21,7 +21,7 @@ import static org.testng.Assert.*;
 public class GroupUpdateTR181Tests extends BaseTestCase {
 
     @Test
-    public void tr069_gu_001() {
+    public void tr181_gu_001() {
         guPage.deleteAll();
         guPage.topMenu(GROUP_UPDATE);
         waitForUpdate();
