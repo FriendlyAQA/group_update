@@ -36,7 +36,7 @@ public class Controller implements WindowListener, Runnable {
     private int[] lastTestNumber;
     private int testSum;
     private final List<Character> allowedChars = new ArrayList<>(Arrays.asList(new Character[]{44, 45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57}));
-    private final String[] classNames = {"DeviceProfileTests", "DeviceUpdateTests", "GroupUpdateTests", "MonitoringTests", "EventsTests", "FileManagementTests", "ReportsTests", "SettingsTests"};
+    private final String[] classNames = {"DeviceProfileTests", "DeviceUpdateTests", "GroupUpdateTR069Tests", "MonitoringTests", "EventsTests", "FileManagementTests", "ReportsTests", "SettingsTests"};
     private static Controller controller;
     private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Controller.class);
     private int passedTestCount;

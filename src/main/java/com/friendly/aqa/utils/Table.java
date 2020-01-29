@@ -289,7 +289,7 @@ public class Table {
         return this;
     }
 
-    public void selectGroup(){
+    public void selectGroup() {
         int rowNum = getRowNumberByText(4, BaseTestCase.getTestName());
         clickOn(rowNum, 0);
     }
@@ -352,6 +352,9 @@ public class Table {
                     case "int":
                     case "unsignedInt":
                         value = "" + i;
+                        break;
+                    case "dateTime":
+                        value = "2019-10-27T02:00:0";
                         break;
                     case "boolean":
                         break;
