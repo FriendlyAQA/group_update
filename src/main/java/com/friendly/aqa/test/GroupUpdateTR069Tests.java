@@ -787,7 +787,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkResults();
     }
 
-
     @Test
     public void tr069_gu_068() {
         guPage
@@ -2174,7 +2173,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
     }
 
-
     @Test
     public void tr069_gu_175() {
         guPage
@@ -2202,7 +2200,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
-
 
     @Test
     public void tr069_gu_176() {
@@ -2232,7 +2229,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
-
 
     @Test
     public void tr069_gu_177() {

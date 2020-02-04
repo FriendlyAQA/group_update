@@ -167,6 +167,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "txtNumberRepetitions")
     private WebElement numOfRepetitionsField;
 
+    @FindBy(id = "txtDnsServer")
+    private WebElement inputDnsField;
+
     @FindBy(id = "frmImportFromFile")
     private WebElement importFrame;
 
@@ -232,6 +235,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "rdFactoryReset")
     private WebElement factoryResetRadioButton;
+
+    @FindBy(id = "cbqoe_task")
+    private WebElement addToQoeCheckBox;
 
     @FindBy(id = "rdCPEReprovision")
     private WebElement reprovisionRadioButton;
@@ -420,6 +426,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
+        return this;
+    }
+
+    public GroupUpdatePage addToQoeCheckBox() {
+        addToQoeCheckBox.click();
         return this;
     }
 
@@ -681,6 +692,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage inputHostField(String text) {
         inputHostField.sendKeys(text);
+        return this;
+    }
+
+    public GroupUpdatePage inputDnsField(String text) {
+        inputDnsField.sendKeys(text);
         return this;
     }
 
@@ -1038,7 +1054,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table goToSetPolicies(String tab) {
         goto_(4);
-        if (tab != null && tab.toLowerCase().equals("management")) {
+        if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         return getTable("tblParamsValue");
