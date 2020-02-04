@@ -14,7 +14,6 @@ public class View extends JFrame {
         initArrays();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        System.out.println("view thread name:" + Thread.currentThread().getName());
     }
 
     private void initComponents() {
@@ -36,6 +35,12 @@ public class View extends JFrame {
         defaultLabel0 = new javax.swing.JLabel();
         excludeSpecificField0 = new javax.swing.JTextField();
         skippedlabel0 = new javax.swing.JLabel();
+        tr069Box0 = new javax.swing.JCheckBox();
+        tr181Box0 = new javax.swing.JCheckBox();
+        lwm2mBox0 = new javax.swing.JCheckBox();
+        mqttBox0 = new javax.swing.JCheckBox();
+        uspBox0 = new javax.swing.JCheckBox();
+        allProtocolBox0 = new javax.swing.JCheckBox();
         jPanel1 = new javax.swing.JPanel();
         enableTabCheckBox1 = new javax.swing.JCheckBox();
         runSpecifiedRadioButton1 = new javax.swing.JRadioButton();
@@ -44,6 +49,12 @@ public class View extends JFrame {
         defaultLabel1 = new javax.swing.JLabel();
         excludeSpecificField1 = new javax.swing.JTextField();
         skippedlabel1 = new javax.swing.JLabel();
+        tr069Box1 = new javax.swing.JCheckBox();
+        tr181Box1 = new javax.swing.JCheckBox();
+        lwm2mBox1 = new javax.swing.JCheckBox();
+        mqttBox1 = new javax.swing.JCheckBox();
+        uspBox1 = new javax.swing.JCheckBox();
+        allProtocolBox1 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         enableTabCheckBox2 = new javax.swing.JCheckBox();
         runSpecifiedRadioButton2 = new javax.swing.JRadioButton();
@@ -52,6 +63,12 @@ public class View extends JFrame {
         defaultLabel2 = new javax.swing.JLabel();
         excludeSpecificField2 = new javax.swing.JTextField();
         skippedlabel2 = new javax.swing.JLabel();
+        tr069Box2 = new javax.swing.JCheckBox();
+        tr181Box2 = new javax.swing.JCheckBox();
+        lwm2mBox2 = new javax.swing.JCheckBox();
+        mqttBox2 = new javax.swing.JCheckBox();
+        uspBox2 = new javax.swing.JCheckBox();
+        allProtocolBox2 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         enableTabCheckBox3 = new javax.swing.JCheckBox();
         runSpecifiedRadioButton3 = new javax.swing.JRadioButton();
@@ -60,6 +77,12 @@ public class View extends JFrame {
         defaultLabel3 = new javax.swing.JLabel();
         excludeSpecificField3 = new javax.swing.JTextField();
         skippedlabel3 = new javax.swing.JLabel();
+        tr069Box3 = new javax.swing.JCheckBox();
+        tr181Box3 = new javax.swing.JCheckBox();
+        lwm2mBox3 = new javax.swing.JCheckBox();
+        mqttBox3 = new javax.swing.JCheckBox();
+        uspBox3 = new javax.swing.JCheckBox();
+        allProtocolBox3 = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         enableTabCheckBox4 = new javax.swing.JCheckBox();
         runSpecifiedRadioButton4 = new javax.swing.JRadioButton();
@@ -68,6 +91,12 @@ public class View extends JFrame {
         defaultLabel4 = new javax.swing.JLabel();
         excludeSpecificField4 = new javax.swing.JTextField();
         skippedlabel4 = new javax.swing.JLabel();
+        tr069Box4 = new javax.swing.JCheckBox();
+        tr181Box4 = new javax.swing.JCheckBox();
+        lwm2mBox4 = new javax.swing.JCheckBox();
+        mqttBox4 = new javax.swing.JCheckBox();
+        uspBox4 = new javax.swing.JCheckBox();
+        allProtocolBox4 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         enableTabCheckBox5 = new javax.swing.JCheckBox();
         runSpecifiedRadioButton5 = new javax.swing.JRadioButton();
@@ -150,7 +179,7 @@ public class View extends JFrame {
             }
         });
 
-        runSpecifiedField0.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        runSpecifiedField0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedField0.setEnabled(false);
         runSpecifiedField0.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -179,6 +208,69 @@ public class View extends JFrame {
         skippedlabel0.setText("(tests that will be skipped)");
         skippedlabel0.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        tr069Box0.setText("TR-069");
+        tr069Box0.setEnabled(false);
+        tr069Box0.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr069Box0.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr069Box0.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr069Box0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        tr181Box0.setText("TR-181");
+        tr181Box0.setEnabled(false);
+        tr181Box0.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr181Box0.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr181Box0.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr181Box0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        lwm2mBox0.setText("LWM2M");
+        lwm2mBox0.setEnabled(false);
+        lwm2mBox0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        mqttBox0.setText("MQTT");
+        mqttBox0.setEnabled(false);
+        mqttBox0.setMaximumSize(new java.awt.Dimension(63, 23));
+        mqttBox0.setMinimumSize(new java.awt.Dimension(63, 23));
+        mqttBox0.setPreferredSize(new java.awt.Dimension(63, 23));
+        mqttBox0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        uspBox0.setText("USP");
+        uspBox0.setEnabled(false);
+        uspBox0.setMaximumSize(new java.awt.Dimension(63, 23));
+        uspBox0.setMinimumSize(new java.awt.Dimension(63, 23));
+        uspBox0.setPreferredSize(new java.awt.Dimension(63, 23));
+        uspBox0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        allProtocolBox0.setText("All");
+        allProtocolBox0.setEnabled(false);
+        allProtocolBox0.setMaximumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox0.setMinimumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox0.setPreferredSize(new java.awt.Dimension(63, 23));
+        allProtocolBox0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel0Layout = new javax.swing.GroupLayout(jPanel0);
         jPanel0.setLayout(jPanel0Layout);
         jPanel0Layout.setHorizontalGroup(
@@ -196,7 +288,23 @@ public class View extends JFrame {
                                         .addComponent(skippedlabel0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificRadioButton0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificField0, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tr181Box0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tr069Box0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lwm2mBox0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel0Layout.createSequentialGroup()
+                                                .addComponent(mqttBox0, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel0Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(uspBox0, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(allProtocolBox0, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19))
         );
         jPanel0Layout.setVerticalGroup(
                 jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,18 +315,30 @@ public class View extends JFrame {
                                                 .addComponent(enableTabCheckBox0))
                                         .addGroup(jPanel0Layout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificRadioButton0)
-                                                        .addComponent(runSpecifiedRadioButton0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificField0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(runSpecifiedField0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(defaultLabel0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(skippedlabel0))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(jPanel0Layout.createSequentialGroup()
+                                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr069Box0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lwm2mBox0)
+                                                                        .addComponent(uspBox0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr181Box0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(mqttBox0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(allProtocolBox0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel0Layout.createSequentialGroup()
+                                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificRadioButton0)
+                                                                        .addComponent(runSpecifiedRadioButton0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificField0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(runSpecifiedField0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(defaultLabel0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(skippedlabel0))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Device Profile", jPanel0);
@@ -283,6 +403,69 @@ public class View extends JFrame {
         skippedlabel1.setText("(tests that will be skipped)");
         skippedlabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        tr069Box1.setText("TR-069");
+        tr069Box1.setEnabled(false);
+        tr069Box1.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr069Box1.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr069Box1.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr069Box1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        tr181Box1.setText("TR-181");
+        tr181Box1.setEnabled(false);
+        tr181Box1.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr181Box1.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr181Box1.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr181Box1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        lwm2mBox1.setText("LWM2M");
+        lwm2mBox1.setEnabled(false);
+        lwm2mBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        mqttBox1.setText("MQTT");
+        mqttBox1.setEnabled(false);
+        mqttBox1.setMaximumSize(new java.awt.Dimension(63, 23));
+        mqttBox1.setMinimumSize(new java.awt.Dimension(63, 23));
+        mqttBox1.setPreferredSize(new java.awt.Dimension(63, 23));
+        mqttBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        uspBox1.setText("USP");
+        uspBox1.setEnabled(false);
+        uspBox1.setMaximumSize(new java.awt.Dimension(63, 23));
+        uspBox1.setMinimumSize(new java.awt.Dimension(63, 23));
+        uspBox1.setPreferredSize(new java.awt.Dimension(63, 23));
+        uspBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        allProtocolBox1.setText("All");
+        allProtocolBox1.setEnabled(false);
+        allProtocolBox1.setMaximumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox1.setMinimumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox1.setPreferredSize(new java.awt.Dimension(63, 23));
+        allProtocolBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -300,7 +483,23 @@ public class View extends JFrame {
                                         .addComponent(skippedlabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificField1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tr181Box1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tr069Box1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lwm2mBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(mqttBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(uspBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(allProtocolBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,18 +510,30 @@ public class View extends JFrame {
                                                 .addComponent(enableTabCheckBox1))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificRadioButton1)
-                                                        .addComponent(runSpecifiedRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(runSpecifiedField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(defaultLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(skippedlabel1))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr069Box1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lwm2mBox1)
+                                                                        .addComponent(uspBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr181Box1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(mqttBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(allProtocolBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificRadioButton1)
+                                                                        .addComponent(runSpecifiedRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(runSpecifiedField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(defaultLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(skippedlabel1))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Device Update", jPanel1);
@@ -339,6 +550,7 @@ public class View extends JFrame {
         runSpecifiedRadioButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedRadioButton2.setSelected(true);
         runSpecifiedRadioButton2.setText("Run specific");
+        runSpecifiedRadioButton2.setEnabled(false);
         runSpecifiedRadioButton2.setMaximumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton2.setMinimumSize(new java.awt.Dimension(121, 25));
         runSpecifiedRadioButton2.setPreferredSize(new java.awt.Dimension(121, 25));
@@ -351,6 +563,7 @@ public class View extends JFrame {
         buttonGroup2.add(excludeSpecificRadioButton2);
         excludeSpecificRadioButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         excludeSpecificRadioButton2.setText("Exclude specific");
+        excludeSpecificRadioButton2.setEnabled(false);
         excludeSpecificRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testSelectActionPerformed(evt);
@@ -359,6 +572,7 @@ public class View extends JFrame {
 
         runSpecifiedField2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         runSpecifiedField2.setToolTipText("Example: 1-15,23");
+        runSpecifiedField2.setEnabled(false);
         runSpecifiedField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 textChanged(evt);
@@ -387,6 +601,63 @@ public class View extends JFrame {
         skippedlabel2.setText("(tests that will be skipped)");
         skippedlabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        tr069Box2.setText("TR-069");
+        tr069Box2.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr069Box2.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr069Box2.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr069Box2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        tr181Box2.setText("TR-181");
+        tr181Box2.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr181Box2.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr181Box2.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr181Box2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        lwm2mBox2.setText("LWM2M");
+        lwm2mBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        mqttBox2.setText("MQTT");
+        mqttBox2.setMaximumSize(new java.awt.Dimension(63, 23));
+        mqttBox2.setMinimumSize(new java.awt.Dimension(63, 23));
+        mqttBox2.setPreferredSize(new java.awt.Dimension(63, 23));
+        mqttBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        uspBox2.setText("USP");
+        uspBox2.setMaximumSize(new java.awt.Dimension(63, 23));
+        uspBox2.setMinimumSize(new java.awt.Dimension(63, 23));
+        uspBox2.setPreferredSize(new java.awt.Dimension(63, 23));
+        uspBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        allProtocolBox2.setText("All");
+        allProtocolBox2.setMaximumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox2.setMinimumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox2.setPreferredSize(new java.awt.Dimension(63, 23));
+        allProtocolBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -404,7 +675,23 @@ public class View extends JFrame {
                                         .addComponent(skippedlabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificField2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tr181Box2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tr069Box2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lwm2mBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(mqttBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(uspBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(allProtocolBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,18 +702,30 @@ public class View extends JFrame {
                                                 .addComponent(enableTabCheckBox2))
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificRadioButton2)
-                                                        .addComponent(runSpecifiedRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(runSpecifiedField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(defaultLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(skippedlabel2))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr069Box2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lwm2mBox2)
+                                                                        .addComponent(uspBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr181Box2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(mqttBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(allProtocolBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificRadioButton2)
+                                                                        .addComponent(runSpecifiedRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(runSpecifiedField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(defaultLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(skippedlabel2))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Group Update", jPanel2);
@@ -491,6 +790,69 @@ public class View extends JFrame {
         skippedlabel3.setText("(tests that will be skipped)");
         skippedlabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        tr069Box3.setText("TR-069");
+        tr069Box3.setEnabled(false);
+        tr069Box3.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr069Box3.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr069Box3.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr069Box3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        tr181Box3.setText("TR-181");
+        tr181Box3.setEnabled(false);
+        tr181Box3.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr181Box3.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr181Box3.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr181Box3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        lwm2mBox3.setText("LWM2M");
+        lwm2mBox3.setEnabled(false);
+        lwm2mBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        mqttBox3.setText("MQTT");
+        mqttBox3.setEnabled(false);
+        mqttBox3.setMaximumSize(new java.awt.Dimension(63, 23));
+        mqttBox3.setMinimumSize(new java.awt.Dimension(63, 23));
+        mqttBox3.setPreferredSize(new java.awt.Dimension(63, 23));
+        mqttBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        uspBox3.setText("USP");
+        uspBox3.setEnabled(false);
+        uspBox3.setMaximumSize(new java.awt.Dimension(63, 23));
+        uspBox3.setMinimumSize(new java.awt.Dimension(63, 23));
+        uspBox3.setPreferredSize(new java.awt.Dimension(63, 23));
+        uspBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        allProtocolBox3.setText("All");
+        allProtocolBox3.setEnabled(false);
+        allProtocolBox3.setMaximumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox3.setMinimumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox3.setPreferredSize(new java.awt.Dimension(63, 23));
+        allProtocolBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -508,7 +870,23 @@ public class View extends JFrame {
                                         .addComponent(skippedlabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificRadioButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificField3, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tr181Box3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tr069Box3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lwm2mBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(mqttBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(uspBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(allProtocolBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19))
         );
         jPanel3Layout.setVerticalGroup(
                 jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -519,18 +897,30 @@ public class View extends JFrame {
                                                 .addComponent(enableTabCheckBox3))
                                         .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificRadioButton3)
-                                                        .addComponent(runSpecifiedRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(runSpecifiedField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(defaultLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(skippedlabel3))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr069Box3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lwm2mBox3)
+                                                                        .addComponent(uspBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr181Box3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(mqttBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(allProtocolBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificRadioButton3)
+                                                                        .addComponent(runSpecifiedRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(runSpecifiedField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(defaultLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(skippedlabel3))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Monitoring", jPanel3);
@@ -595,6 +985,69 @@ public class View extends JFrame {
         skippedlabel4.setText("(tests that will be skipped)");
         skippedlabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        tr069Box4.setText("TR-069");
+        tr069Box4.setEnabled(false);
+        tr069Box4.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr069Box4.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr069Box4.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr069Box4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        tr181Box4.setText("TR-181");
+        tr181Box4.setEnabled(false);
+        tr181Box4.setMaximumSize(new java.awt.Dimension(63, 23));
+        tr181Box4.setMinimumSize(new java.awt.Dimension(63, 23));
+        tr181Box4.setPreferredSize(new java.awt.Dimension(63, 23));
+        tr181Box4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        lwm2mBox4.setText("LWM2M");
+        lwm2mBox4.setEnabled(false);
+        lwm2mBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        mqttBox4.setText("MQTT");
+        mqttBox4.setEnabled(false);
+        mqttBox4.setMaximumSize(new java.awt.Dimension(63, 23));
+        mqttBox4.setMinimumSize(new java.awt.Dimension(63, 23));
+        mqttBox4.setPreferredSize(new java.awt.Dimension(63, 23));
+        mqttBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        uspBox4.setText("USP");
+        uspBox4.setEnabled(false);
+        uspBox4.setMaximumSize(new java.awt.Dimension(63, 23));
+        uspBox4.setMinimumSize(new java.awt.Dimension(63, 23));
+        uspBox4.setPreferredSize(new java.awt.Dimension(63, 23));
+        uspBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
+        allProtocolBox4.setText("All");
+        allProtocolBox4.setEnabled(false);
+        allProtocolBox4.setMaximumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox4.setMinimumSize(new java.awt.Dimension(63, 23));
+        allProtocolBox4.setPreferredSize(new java.awt.Dimension(63, 23));
+        allProtocolBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                protocolSelectionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -612,7 +1065,23 @@ public class View extends JFrame {
                                         .addComponent(skippedlabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificRadioButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(excludeSpecificField4, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tr181Box4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tr069Box4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(lwm2mBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(mqttBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(uspBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(allProtocolBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(19, 19, 19))
         );
         jPanel4Layout.setVerticalGroup(
                 jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -623,18 +1092,30 @@ public class View extends JFrame {
                                                 .addComponent(enableTabCheckBox4))
                                         .addGroup(jPanel4Layout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificRadioButton4)
-                                                        .addComponent(runSpecifiedRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(excludeSpecificField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(runSpecifiedField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(defaultLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(skippedlabel4))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr069Box4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(lwm2mBox4)
+                                                                        .addComponent(uspBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addGap(18, 18, 18)
+                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(tr181Box4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(mqttBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(allProtocolBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificRadioButton4)
+                                                                        .addComponent(runSpecifiedRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                        .addComponent(excludeSpecificField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(runSpecifiedField4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                        .addComponent(defaultLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                        .addComponent(skippedlabel4))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Events", jPanel4);
@@ -738,7 +1219,7 @@ public class View extends JFrame {
                                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(defaultLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(skippedlabel5))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Reports", jPanel5);
@@ -842,7 +1323,7 @@ public class View extends JFrame {
                                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(defaultLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(skippedlabel6))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("File Management", jPanel6);
@@ -946,7 +1427,7 @@ public class View extends JFrame {
                                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                         .addComponent(defaultLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(skippedlabel7))))
-                                .addContainerGap(12, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Settings", jPanel7);
@@ -955,6 +1436,7 @@ public class View extends JFrame {
 
         runButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         runButton.setText("RUN");
+        runButton.setEnabled(false);
         runButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runButtonActionPerformed(evt);
@@ -995,7 +1477,8 @@ public class View extends JFrame {
         });
 
         jTextPane1.setEditable(false);
-        jTextPane1.setFont(new java.awt.Font("SansSerif", 0, 11));
+        jTextPane1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        jTextPane1.setToolTipText("");
         jTextPane1.setMinimumSize(new java.awt.Dimension(6, 23));
         jScrollPane1.setViewportView(jTextPane1);
 
@@ -1031,61 +1514,62 @@ public class View extends JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(testResultsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(87, 87, 87)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(logLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addGap(0, 0, Short.MAX_VALUE)
-                                                                .addComponent(passedlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGap(34, 34, 34)
-                                                                .addComponent(toExecutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(toExecValue, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(runButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(10, 10, 10)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addGroup(layout.createSequentialGroup()
-                                                                                .addComponent(runEntireCheckBox)
-                                                                                .addGap(18, 18, 18)
-                                                                                .addComponent(reRunCheckBox)
-                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                .addComponent(showReportButton))
-                                                                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(passedField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(failedField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGroup(layout.createSequentialGroup()
                                                 .addGap(20, 20, 20)
                                                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 18, Short.MAX_VALUE)))
+                                                .addGap(0, 18, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(toExecutionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(toExecValue, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(testResultsLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                                                        .addComponent(runButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(10, 10, 10)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(runEntireCheckBox)
+                                                                                                .addGap(18, 18, 18)
+                                                                                                .addComponent(reRunCheckBox)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(showReportButton))
+                                                                                        .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(passedField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                                                .addComponent(failedField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                        .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(passedlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                .addComponent(failedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                        .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(logLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
-                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(testResultsLabel)
                                         .addComponent(logLabel))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1))
-                                .addGap(5, 5, 5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane1)
+                                        .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1094,12 +1578,13 @@ public class View extends JFrame {
                                                                         .addComponent(showReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                         .addComponent(reRunCheckBox)
                                                                         .addComponent(runEntireCheckBox))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                                                                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGroup(layout.createSequentialGroup()
+                                                                .addGap(0, 0, Short.MAX_VALUE)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                        .addComponent(toExecValue)
-                                                                        .addComponent(toExecutionLabel))
+                                                                        .addComponent(toExecutionLabel)
+                                                                        .addComponent(toExecValue))
                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                 .addComponent(runButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addGap(6, 6, 6))
@@ -1125,6 +1610,10 @@ public class View extends JFrame {
         controller.runPressed(runButton.getText().equals("RUN"));
     }
 
+    private void protocolSelectionPerformed(java.awt.event.ActionEvent evt) {
+        controller.protocolChanged((JCheckBox) evt.getSource());
+    }
+
     public void addTestResult(boolean pass, String testName) {
         appendToPane(jTextPane1, testName + (pass ? " passed\n" : " failed\n"), pass ? Color.GREEN.darker() : Color.RED);
     }
@@ -1140,25 +1629,36 @@ public class View extends JFrame {
 
     private void enableTabCheckBoxPerformed(ActionEvent evt) {
         JCheckBox checkBox = (JCheckBox) evt.getSource();
-        controller.tabStateChanged(checkBox);
+        for (int i = 0; i < enableTabCheckBoxArray.length; i++) {
+            if (enableTabCheckBoxArray[i] == checkBox) {
+                controller.tabStateChanged(i);
+            }
+        }
+    }
+
+    private int getTabNum(JComponent component) {
+        for (int i = 0; i < 8; i++) {
+            if (runSpecifiedRadioButtonArray[i] == component ||
+                    excludeSpecificRadioButtonArray[i] == component ||
+                    runSpecifiedFieldArray[i] == component ||
+                    excludeSpecificFieldArray[i] == component) {
+                return i;
+            }
+            if (i < 5) {
+                for (JCheckBox protocol : protocolCheckBoxArray[i]) {
+                    if (protocol == component) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
     private void testSelectActionPerformed(ActionEvent evt) {
         JRadioButton radioButton = (JRadioButton) evt.getSource();
-        int num = -1;
-        for (int i = 0; i < runSpecifiedRadioButtonArray.length; i++) {
-            if (radioButton == runSpecifiedRadioButtonArray[i]) {
-                num = i;
-                break;
-            }
-        }
-        for (int i = 0; i < excludeSpecificRadioButtonArray.length; i++) {
-            if (radioButton == excludeSpecificRadioButtonArray[i]) {
-                num = i;
-                break;
-            }
-        }
-        controller.radioButtonSelected(num);
+        int num = getTabNum(radioButton);
+        controller.tabStateChanged(num);
     }
 
     private void reRunCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1221,6 +1721,15 @@ public class View extends JFrame {
         runSpecifiedFieldArray = new JTextField[]{runSpecifiedField0, runSpecifiedField1, runSpecifiedField2, runSpecifiedField3, runSpecifiedField4, runSpecifiedField5, runSpecifiedField6, runSpecifiedField7};
         excludeSpecificFieldArray = new JTextField[]{excludeSpecificField0, excludeSpecificField1, excludeSpecificField2, excludeSpecificField3, excludeSpecificField4, excludeSpecificField5, excludeSpecificField6, excludeSpecificField7};
         addWindowListener(controller);
+        protocolCheckBoxArray = new JCheckBox[][]{
+                {tr069Box0, tr181Box0, lwm2mBox0, mqttBox0, uspBox0, allProtocolBox0},
+                {tr069Box1, tr181Box1, lwm2mBox1, mqttBox1, uspBox1, allProtocolBox1},
+                {tr069Box2, tr181Box2, lwm2mBox2, mqttBox2, uspBox2, allProtocolBox2},
+                {tr069Box3, tr181Box3, lwm2mBox3, mqttBox3, uspBox3, allProtocolBox3},
+                {tr069Box4, tr181Box4, lwm2mBox4, mqttBox4, uspBox4, allProtocolBox4},
+                null,
+                null,
+                null};
     }
 
     public JButton getRunButton() {
@@ -1273,6 +1782,10 @@ public class View extends JFrame {
 
     public JButton getShowReportButton() {
         return showReportButton;
+    }
+
+    public JCheckBox[][] getProtocolCheckBoxArray() {
+        return protocolCheckBoxArray;
     }
 
     private ButtonGroup buttonGroup0;
@@ -1373,5 +1886,36 @@ public class View extends JFrame {
     private JCheckBox[] enableTabCheckBoxArray;
     private JTextField[] runSpecifiedFieldArray;
     private JTextField[] excludeSpecificFieldArray;
+    private JCheckBox[][] protocolCheckBoxArray;
+    private javax.swing.JCheckBox lwm2mBox0;
+    private javax.swing.JCheckBox lwm2mBox1;
+    private javax.swing.JCheckBox lwm2mBox2;
+    private javax.swing.JCheckBox lwm2mBox3;
+    private javax.swing.JCheckBox lwm2mBox4;
+    private javax.swing.JCheckBox mqttBox0;
+    private javax.swing.JCheckBox mqttBox1;
+    private javax.swing.JCheckBox mqttBox2;
+    private javax.swing.JCheckBox mqttBox3;
+    private javax.swing.JCheckBox mqttBox4;
+    private javax.swing.JCheckBox allProtocolBox0;
+    private javax.swing.JCheckBox allProtocolBox1;
+    private javax.swing.JCheckBox allProtocolBox2;
+    private javax.swing.JCheckBox allProtocolBox3;
+    private javax.swing.JCheckBox allProtocolBox4;
+    private javax.swing.JCheckBox tr069Box0;
+    private javax.swing.JCheckBox tr069Box1;
+    private javax.swing.JCheckBox tr069Box2;
+    private javax.swing.JCheckBox tr069Box3;
+    private javax.swing.JCheckBox tr069Box4;
+    private javax.swing.JCheckBox tr181Box0;
+    private javax.swing.JCheckBox tr181Box1;
+    private javax.swing.JCheckBox tr181Box2;
+    private javax.swing.JCheckBox tr181Box3;
+    private javax.swing.JCheckBox tr181Box4;
+    private javax.swing.JCheckBox uspBox0;
+    private javax.swing.JCheckBox uspBox1;
+    private javax.swing.JCheckBox uspBox2;
+    private javax.swing.JCheckBox uspBox3;
+    private javax.swing.JCheckBox uspBox4;
 }
 

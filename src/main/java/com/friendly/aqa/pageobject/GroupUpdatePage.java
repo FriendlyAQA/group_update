@@ -1038,7 +1038,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table goToSetPolicies(String tab) {
         goto_(4);
-        if (tab != null && tab.toLowerCase().equals("management")) {
+        if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         return getTable("tblParamsValue");
