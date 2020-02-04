@@ -53,25 +53,27 @@ public class BaseTestCase {
     @BeforeMethod
     public void beforeMethod(Method method) {
         testName = method.getName();
+        if (guPage == null) {
+            guPage = new GroupUpdatePage();
+        }
     }
 
     @AfterMethod
     public void afterMethod(ITestResult result) {
+        if (controller == null) {
+            controller = Controller.getController();
+        }
         if (ITestResult.FAILURE == result.getStatus()) {
             try {
                 BasePage.takeScreenshot("screenshots/" + result.getName() + ".png");
                 logger.error(result.getName() + " - FAILED");
-                if (controller != null) {
-                    controller.testFailed(testName);
-                }
+                controller.testFailed(testName);
             } catch (Exception e) {
                 logger.info("Exception while taking screenshot " + e.getMessage());
             }
         } else {
             logger.info(result.getName() + " - PASSED");
-            if (controller != null) {
-                controller.testPassed(testName);
-            }
+            controller.testPassed(testName);
         }
         BasePage.switchToFrame(ROOT);
         Table.flushResult();
