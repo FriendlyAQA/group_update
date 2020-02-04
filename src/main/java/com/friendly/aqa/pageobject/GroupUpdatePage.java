@@ -305,7 +305,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage presetFilter(String parameter, String value) {
         topMenu(DEVICE_UPDATE)
                 .getTable("tbl")
-                .clickOn(props.getProperty("cpe_serial"), 3);
+                .clickOn(getCurrentSerial(), 3);
         waitForUpdate();
         clickOn("btnEditUserInfo_lnk");
         switchToFrame(USER_INFO);

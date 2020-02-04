@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -42,9 +43,9 @@ public abstract class BasePage {
         frame = ROOT;
     }
 
-    public static void initDevice() {
-        device = DataBaseConnector.getDevice();
-    }
+//    public static void initDevice() {
+//        device = DataBaseConnector.getDevice();
+//    }
 
     BasePage() {
         PageFactory.initElements(driver, this);
@@ -238,12 +239,29 @@ public abstract class BasePage {
         return out;
     }
 
+    public static String getCurrentSerial() {
+        String serialRequest;
+        String testName = BaseTestCase.getTestName();
+        if (testName.contains("tr069")) {
+            serialRequest = "tr069_cpe_serial";
+        } else if (testName.contains("tr181")) {
+            serialRequest = "tr181_cpe_serial";
+        } else if (testName.contains("lwm2m")) {
+            serialRequest = "lwm2m_cpe_serial";
+        } else if (testName.contains("mqtt")) {
+            serialRequest = "mqtt_cpe_serial";
+        } else {
+            serialRequest = "usp_cpe_serial";
+        }
+        return props.getProperty(serialRequest);
+    }
+
     public static String getManufacturer() {
-        return device[0];
+        return DataBaseConnector.getDevice(getCurrentSerial())[0];
     }
 
     public static String getModelName() {
-        return device[1];
+        return DataBaseConnector.getDevice(getCurrentSerial())[1];
     }
 
     public String getTitle() {

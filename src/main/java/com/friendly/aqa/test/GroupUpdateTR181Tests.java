@@ -2,16 +2,18 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.HttpConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.friendly.aqa.pageobject.BasePage.waitForUpdate;
+import static com.friendly.aqa.pageobject.BasePage.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
 import static com.friendly.aqa.utils.Table.Parameter.VALUE;
 import static org.testng.Assert.*;
 
@@ -31,7 +33,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
+                .selectManufacturer(getManufacturer())
                 .globalButtons(CANCEL);
         assertTrue(guPage.mainTableIsAbsent());
     }
@@ -41,8 +43,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .globalButtons(CANCEL);
         waitForUpdate();
@@ -54,8 +56,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo()
                 .showList();
@@ -67,8 +69,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .createGroup();
         assertTrue(guPage.isButtonPresent(FINISH));
@@ -115,8 +117,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
@@ -129,8 +131,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo(targetTestName)
                 .editGroupButton()
@@ -144,8 +146,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
@@ -164,13 +166,13 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList();
-        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), props.getProperty("cpe_serial"));
+        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), BasePage.getCurrentSerial());
     }
 
     @Test
@@ -184,7 +186,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, props.getProperty("cpe_serial"));
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getCurrentSerial());
     }
 
     @Test
@@ -192,8 +194,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
@@ -2679,8 +2681,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .createGroup()
                 .fillName()

@@ -171,7 +171,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList();
-        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), props.getProperty("cpe_serial"));
+        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), BasePage.getCurrentSerial());
     }
 
     @Test
@@ -185,7 +185,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, props.getProperty("cpe_serial"));
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getCurrentSerial());
     }
 
     @Test

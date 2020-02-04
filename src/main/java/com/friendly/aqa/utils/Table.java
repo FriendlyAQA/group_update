@@ -344,7 +344,7 @@ public class Table {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint);
+                String paramType = DataBaseConnector.getValueType(hint, BasePage.getCurrentSerial());
                 switch (paramType) {
                     case "string":
                         value = "value" + i;

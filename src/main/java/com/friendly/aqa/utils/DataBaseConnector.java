@@ -9,7 +9,6 @@ import java.util.*;
 public class DataBaseConnector {
     private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
     private static final Properties PROPS = BasePage.getProps();
-    private static final String SERIAL = PROPS.getProperty("cpe_serial");
     private static Statement stmtObj;
     private static Connection connObj;
 
@@ -53,12 +52,12 @@ public class DataBaseConnector {
         return taskList;
     }
 
-    public static String getValueType(String value) {
+    public static String getValueType(String value, String serial) {
         String type = "";
         try {
             stmtObj.execute("SELECT type FROM ftacs.cpe_parameter_name WHERE name='" + value + "' AND id IN (" +
                     "SELECT name_id FROM ftacs.cpe_parameter WHERE cpe_id IN (" +
-                    "SELECT cpe_id FROM ftacs.cpe_serial WHERE serial='" + SERIAL + "'))");
+                    "SELECT cpe_id FROM ftacs.cpe_serial WHERE serial='" + serial + "'))");//TODO remove serial from query;
             ResultSet resultSet = stmtObj.getResultSet();
             if (resultSet.next()) {
                 type = resultSet.getString(1);
@@ -69,10 +68,10 @@ public class DataBaseConnector {
         return type;
     }
 
-    public static String[] getDevice() {
+    public static String[] getDevice(String serial) {
         String[] device = new String[2];
         try {
-            stmtObj.execute("SELECT * FROM ftacs.product_class_group WHERE id IN (SELECT group_id FROM ftacs.cpe_serial WHERE serial='" + PROPS.getProperty("cpe_serial") + "')");
+            stmtObj.execute("SELECT * FROM ftacs.product_class_group WHERE id IN (SELECT group_id FROM ftacs.cpe_serial WHERE serial='" + serial + "')");
             ResultSet resultSet = stmtObj.getResultSet();
             if (resultSet.next()) {
                 for (int i = 0; i < 2; i++) {
@@ -90,7 +89,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(Arrays.deepToString(getDevice()));
+        System.out.println(Arrays.deepToString(getDevice("")));
         disconnectDb();
     }
 }

@@ -39,7 +39,7 @@ public class BaseTestCase {
         logger.info("\n****************************************STARTING TEST SUITE*****************************************");
         DataBaseConnector.connectDb();
         BasePage.initDriver();
-        BasePage.initDevice();
+//        BasePage.initDevice();
         if (controller != null) {
             controller.testSuiteStarted();
         }
@@ -67,13 +67,17 @@ public class BaseTestCase {
             try {
                 BasePage.takeScreenshot("screenshots/" + result.getName() + ".png");
                 logger.error(result.getName() + " - FAILED");
-                controller.testFailed(testName);
+                if (controller != null) {
+                    controller.testFailed(testName);
+                }
             } catch (Exception e) {
                 logger.info("Exception while taking screenshot " + e.getMessage());
             }
         } else {
             logger.info(result.getName() + " - PASSED");
-            controller.testPassed(testName);
+            if (controller != null) {
+                controller.testPassed(testName);
+            }
         }
         BasePage.switchToFrame(ROOT);
         Table.flushResult();
