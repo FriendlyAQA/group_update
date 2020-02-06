@@ -239,29 +239,39 @@ public abstract class BasePage {
         return out;
     }
 
-    public static String getCurrentSerial() {
-        String serialRequest;
+    public static String getConfigPrefix(){
         String testName = BaseTestCase.getTestName();
         if (testName.contains("tr069")) {
-            serialRequest = "tr069_cpe_serial";
+            return "tr069_";
         } else if (testName.contains("tr181")) {
-            serialRequest = "tr181_cpe_serial";
+            return "tr181_";
         } else if (testName.contains("lwm2m")) {
-            serialRequest = "lwm2m_cpe_serial";
+            return "lwm2m_";
         } else if (testName.contains("mqtt")) {
-            serialRequest = "mqtt_cpe_serial";
+            return "mqtt_";
         } else {
-            serialRequest = "usp_cpe_serial";
+            return "usp_";
         }
-        return props.getProperty(serialRequest);
+    }
+
+    public static String getImportCpeFile() {
+        return props.getProperty(getConfigPrefix() + "import_cpe");
+    }
+
+    public static String getImportGroupFile() {
+        return props.getProperty(getConfigPrefix() + "import_group");
+    }
+
+    public static String getSerial() {
+        return props.getProperty(getConfigPrefix() + "cpe_serial");
     }
 
     public static String getManufacturer() {
-        return DataBaseConnector.getDevice(getCurrentSerial())[0];
+        return DataBaseConnector.getDevice(getSerial())[0];
     }
 
     public static String getModelName() {
-        return DataBaseConnector.getDevice(getCurrentSerial())[1];
+        return DataBaseConnector.getDevice(getSerial())[1];
     }
 
     public String getTitle() {
