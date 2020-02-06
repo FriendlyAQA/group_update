@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Update>
-  <Name>tr069_gu_081</Name>
+  <Name>lwm2m_gu_081</Name>
   <ProductGroupValue>
     <ProductGroup>
-      <Manufacturer>AudioCodes</Manufacturer>
-      <ModelName>MP252</ModelName>
+      <Manufacturer>Friendly</Manufacturer>
+      <ModelName>Friendly FSH hub</ModelName>
       <ProtocolId>MQTT</ProtocolId>
     </ProductGroup>
   </ProductGroupValue>
   <Tasks>
     <TaskSetParam>
       <Params>
-        <Param fullname="InternetGatewayDevice.ManagementServer.PeriodicInformInterval" value="60" />
+        <Param fullname="Root.Device.0.UTC Offset" value="+02:00" />
       </Params>
     </TaskSetParam>
   </Tasks>
