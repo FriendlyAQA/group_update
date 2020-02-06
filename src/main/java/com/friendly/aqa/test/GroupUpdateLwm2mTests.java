@@ -183,7 +183,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getCurrentSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
     }
 
     @Test
