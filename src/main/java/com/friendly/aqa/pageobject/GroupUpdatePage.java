@@ -288,7 +288,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage selectImportDevicesFile() {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
-        String inputText = new File(props.getProperty("import_devices_file_path")).getAbsolutePath();
+        String inputText = new File(getImportCpeFile()).getAbsolutePath();
         importDeviceField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
@@ -296,7 +296,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectImportGuFile() {
         switchToFrame(DESKTOP);
-        String inputText = new File(props.getProperty("import_group_update_file_path")).getAbsolutePath();
+        String inputText = new File(getImportGroupFile()).getAbsolutePath();
         System.out.println(inputText);
         importGuField.sendKeys(inputText);
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
@@ -323,7 +323,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage presetFilter(String parameter, String value) {
         topMenu(DEVICE_UPDATE)
                 .getTable("tbl")
-                .clickOn(getCurrentSerial(), 3);
+                .clickOn(getSerial(), 3);
         waitForUpdate();
         clickOn("btnEditUserInfo_lnk");
         switchToFrame(USER_INFO);
@@ -834,6 +834,33 @@ public class GroupUpdatePage extends BasePage {
             }
         }
         new Select(combobox).selectByValue(value);
+    }
+
+    public GroupUpdatePage deleteFilterGroups() {
+        List<WebElement> optList;
+        List<String> standard = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
+        while ((optList = sendToField.findElements(By.tagName("option"))).size() > 5) {
+            for (WebElement option : optList) {
+                String value = option.getAttribute("value");
+                if (standard.contains(value)) {
+                    System.out.println("skip " + value);
+                    continue;
+                }
+                System.out.println("try to select " + value);
+                new Select(sendToField).selectByValue(value);
+                editGroupButton();
+                try {
+                    globalButtons(DELETE_GROUP);
+                }catch (NoSuchElementException e){
+                    switchToPrevious();
+                    executeScript("SelectSendTp();");
+                    System.out.println("Execution script forced");
+                }
+                okButtonPopUp();
+                break;
+            }
+        }
+        return this;
     }
 
     public boolean isOptionPresent(String comboBoxId, String text) {

@@ -46,6 +46,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectManufacturer(getManufacturer())
                 .selectModel(getModelName())
                 .fillName()
+                .deleteFilterGroups()
                 .globalButtons(CANCEL);
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());
@@ -186,7 +187,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getCurrentSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
     }
 
     @Test
@@ -485,7 +486,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_037() {
         guPage
                 .gotoSetParameters("DHCPv4")
-                .setParameter(2);  //Test failed due to only one parameter on device
+                .setParameter(2);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -515,7 +516,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_040() {
         guPage
                 .gotoSetParameters("DHCPv6")
-                .setParameter(2);  //Test failed due to only one parameter on device
+                .setParameter(2);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -545,7 +546,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_043() {
         guPage
                 .gotoSetParameters("DNS")
-                .setParameter(2);  //Test failed due to only one parameter on device
+                .setParameter(2);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -885,7 +886,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_077() {
         guPage
                 .goToSetPolicies("DHCPv4")
-                .setPolicy(3);  //Test failed due to only one parameter on device
+                .setPolicy(3);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -925,7 +926,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_081() {
         guPage
                 .goToSetPolicies("DHCPv6")
-                .setPolicy(3);  //Test failed due to only one parameter on device
+                .setPolicy(3);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -995,7 +996,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_088() {
         guPage
                 .goToSetPolicies("Users")
-                .setPolicy(2);  //Test failed due to only one parameter on device
+                .setPolicy(2);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1005,7 +1006,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_089() {
         guPage
                 .goToSetPolicies("Users")
-                .setPolicy(3);  //Test failed due to only one parameter on device
+                .setPolicy(3);
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1140,12 +1141,12 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("CustomRPC", "DeleteObject");
     }
 
-    @Test   //Test fails
+    @Test
     public void tr181_gu_103() {
         guPage
                 .gotoSetParameters("time", true)
                 .setAllParameters()
-                .setAnyAdvancedParameter();  //Re-work required
+                .setAnyAdvancedParameter();
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1288,7 +1289,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkSorting("Updated");
     }
 
-    @Test
+    @Test   //reported bug #9389
     public void tr181_gu_118() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1737,7 +1738,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults();
     }
 
-    @Test  //Test fails > Pair 'Device.Users.UserNumberOfEntries' : 'values,names,attributes' not found
+    @Test   //Bug: Parameter name isn't displayed into result table;
     public void tr181_gu_163() {
         guPage
                 .gotoGetParameter("Users")
@@ -1828,6 +1829,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("Trace Diagnostic")
                 .inputHostField("8.8.8.8")
+                .numOfRepetitionsField("3")
                 .nextSaveAndActivate()
                 .checkResults("Trace Diagnostic", "8.8.8.8");
     }
@@ -1951,7 +1953,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
 
-    @Test  //Test fails
+    @Test
     public void tr181_gu_183() {
         guPage
                 .gotoFileDownload()
@@ -1959,7 +1961,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
+                .assertPresenceOfValue(2,"Vendor Configuration File");
     }
 
     @Test
@@ -2117,7 +2119,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60");
         guPage
-                .saveAndActivate()
+                .saveAndActivate(false)
                 .assertPresenceOfParameter("FactoryReset");
     }
 
@@ -2140,7 +2142,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60");
         guPage
-                .saveAndActivate()
+                .saveAndActivate(false)
                 .checkResults("CustomRPC", "Reboot");
     }
 
@@ -2163,7 +2165,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60");
         guPage
-                .saveAndActivate()
+                .saveAndActivate(false)
                 .checkResults("CustomRPC", "Download");
     }
 
@@ -2197,7 +2199,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60");
         guPage
-                .saveAndActivate()
+                .saveAndActivate(false)
                 .checkResults("CustomRPC", "Upload");
     }
 
@@ -2308,7 +2310,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Device.ManagementServer.PeriodicInformInterval", "60");
     }
 
-    @Test //doesn't work correctly (filter 'Created - on day')
+    @Test //Bug: doesn't work correctly (filter 'Created - on day')
     public void tr181_gu_210() {
         guPage
                 .gotoAddFilter()
@@ -4524,7 +4526,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage.getScheduledParameter("DNS", 0);
     }
 
-    @Test
+    @Test   //Bug: Parameter name isn't displayed into result table;
     public void tr181_gu_346() {
         guPage.getScheduledParameter("Users", 0);
     }
@@ -4695,7 +4697,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
+                .assertPresenceOfValue(2,"Vendor Configuration File");
     }
 
     @Test

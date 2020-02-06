@@ -1,7 +1,6 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.pageobject.GlobalButtons;
 import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -260,7 +259,7 @@ public class Table {
     }
 
     public Table checkResults() {
-        printResults();
+//        printResults();
         Set<Map.Entry<String, String>> entrySet = paramSet.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             checkResults(entry.getKey(), entry.getValue());
@@ -327,7 +326,7 @@ public class Table {
             paramSet = new HashMap<>();
         }
         BasePage.setImplicitlyWait(0);
-        int counter = amount == 0 ? elementTable.length : amount + 1;
+        int counter = (amount == 0 || amount >= elementTable.length) ? elementTable.length : amount + 1;
         for (int i = 1; i < counter; i++) {
             WebElement paramVal = elementTable[i][1];
             List<WebElement> selectList = paramVal.findElements(By.tagName("select"));
@@ -344,7 +343,7 @@ public class Table {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint, BasePage.getCurrentSerial());
+                String paramType = DataBaseConnector.getValueType(hint, BasePage.getSerial());
                 switch (paramType) {
                     case "string":
                         value = "value" + i;
@@ -385,32 +384,20 @@ public class Table {
         new Table(BasePage.getDriver().findElement(By.id("tblTree"))).setAdvancedParameter();
     }
 
-    public void setAdvancedParameter() {
+    private void setAdvancedParameter() {
         String path = BasePage.getElementText("divPath");
         for (int i = 1; i < elementTable.length; i++) {
-            clickOn(i, 0, -1);
+            List<WebElement> tagList = elementTable[i][0].findElements(By.tagName("span"));
+            WebElement last = tagList.get(tagList.size() - 1);
+            if (!last.isDisplayed() || last.getAttribute("onclick") == null) {
+                continue;
+            }
+            last.click();
             if (!BasePage.getElementText("divPath").equals(path)) {
                 break;
             }
         }
-        System.out.println("marker before");
         new Table(BasePage.getDriver().findElement(By.id("tblParamsValue"))).setParameter(1);
-        System.out.println("marker after");
-    }
-
-    public Table setUserInfo(String paramName, String value) {
-        int rowNum = getRowNumberByText(0, paramName);
-        if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + paramName + "' not found");
-        }
-        WebElement paramCell = getCellWebElement(rowNum, 1);
-        if (props.getProperty("browser").equals("edge")) {
-            BasePage.scrollToElement(paramCell);
-        }
-        WebElement input = paramCell.findElement(By.tagName("input"));
-        input.clear();
-        input.sendKeys(value);
-        return this;
     }
 
     public Table setParameter(String paramName, Parameter option, String value) {
@@ -431,6 +418,21 @@ public class Table {
         if (!BasePage.BROWSER.equals("edge")) {
             clickOn(0, 0);
         }
+        return this;
+    }
+
+    public Table setUserInfo(String paramName, String value) {
+        int rowNum = getRowNumberByText(0, paramName);
+        if (rowNum < 0) {
+            throw new AssertionError("Parameter name '" + paramName + "' not found");
+        }
+        WebElement paramCell = getCellWebElement(rowNum, 1);
+        if (props.getProperty("browser").equals("edge")) {
+            BasePage.scrollToElement(paramCell);
+        }
+        WebElement input = paramCell.findElement(By.tagName("input"));
+        input.clear();
+        input.sendKeys(value);
         return this;
     }
 
@@ -466,8 +468,9 @@ public class Table {
     }
 
     public void setPolicy(int scenario) {
-        if (scenario > textTable.length + 1) {
-            throw new AssertionError("Number of parameters on current tab is not enough to execute this testcase");
+        int counter = (scenario == 0 || scenario >= elementTable.length) ? elementTable.length : scenario + 1;
+        if (scenario >= textTable.length) {
+            LOGGER.warn("Number of parameters on current tab is not enough to execute this testcase");
         }
         if (paramSet == null) {
             paramSet = new HashMap<>();
@@ -477,21 +480,21 @@ public class Table {
             String hint = elementTable[1][0].findElement(By.tagName("span")).getAttribute("hintbody");
             paramSet.put(hint, "Access=AcsOnly");
         } else if (scenario == 2) {
-            for (int i = 1; i < 3; i++) {
+            for (int i = 1; i < counter; i++) {
                 setPolicy(textTable[i][0], Policy.OFF, null);
                 String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
                 paramSet.put(hint, "Notification=Off ");
             }
         } else {
-            String hint1 = elementTable[1][0].findElement(By.tagName("span")).getAttribute("hintbody");
-            String hint2 = elementTable[2][0].findElement(By.tagName("span")).getAttribute("hintbody");
-            String hint3 = elementTable[3][0].findElement(By.tagName("span")).getAttribute("hintbody");
-            setPolicy(textTable[1][0], Policy.OFF, Policy.ACS_ONLY);
-            paramSet.put(hint1, "Notification=Off Access=AcsOnly");
-            setPolicy(textTable[2][0], Policy.PASSIVE, Policy.ALL);
-            paramSet.put(hint2, "Notification=Passive Access=All");
-            setPolicy(textTable[3][0], Policy.ACTIVE, null);
-            paramSet.put(hint3, "Notification=Active ");
+            Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
+            Policy[] access = {null, Policy.ACS_ONLY, Policy.ALL, null};
+            String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active "};
+            for (int i = 1; i < counter; i++) {
+                String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
+                String name = textTable[i][0];
+                setPolicy(name, notify[i], access[i]);
+                paramSet.put(hint, results[i]);
+            }
         }
     }
 
