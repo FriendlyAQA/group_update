@@ -171,8 +171,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
-                .showList();
-        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), BasePage.getCurrentSerial());
+                .showList()
+                .getTable("tblDevices").assertPresenceOfValue(0,BasePage.getSerial());
     }
 
     @Test

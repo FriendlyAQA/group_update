@@ -236,6 +236,24 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdFactoryReset")
     private WebElement factoryResetRadioButton;
 
+    @FindBy(id = "rdReset Min and Max Measured Values")
+    private WebElement resetMinMaxValues;
+
+    @FindBy(id = "rdReset Cumulative energy")
+    private WebElement resetCumulativeEnergy;
+
+    @FindBy(id = "rdResetErrors")
+    private WebElement resetErrors;
+
+    @FindBy(id = "rdDisable")
+    private WebElement radioDisable;
+
+    @FindBy(id = "rdRegistrationUpdateTrigger")
+    private WebElement radioRegistrationUpdateTrigger;
+
+    @FindBy(id = "rdStartOrReset")
+    private WebElement radioStartOrReset;
+
     @FindBy(id = "cbqoe_task")
     private WebElement addToQoeCheckBox;
 
@@ -489,6 +507,42 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage factoryResetRadioButton() {
         waitForUpdate();
         factoryResetRadioButton.click();
+        return this;
+    }
+
+    public GroupUpdatePage resetMinMaxValues() {
+        waitForUpdate();
+        resetMinMaxValues.click();
+        return this;
+    }
+
+    public GroupUpdatePage resetCumulativeEnergy() {
+        waitForUpdate();
+        resetCumulativeEnergy.click();
+        return this;
+    }
+
+    public GroupUpdatePage resetErrors() {
+        waitForUpdate();
+        resetErrors.click();
+        return this;
+    }
+
+    public GroupUpdatePage radioDisable() {
+        waitForUpdate();
+        radioDisable.click();
+        return this;
+    }
+
+    public GroupUpdatePage radioRegistrationUpdateTrigger() {
+        waitForUpdate();
+        radioRegistrationUpdateTrigger.click();
+        return this;
+    }
+
+    public GroupUpdatePage radioStartOrReset() {
+        waitForUpdate();
+        radioStartOrReset.click();
         return this;
     }
 

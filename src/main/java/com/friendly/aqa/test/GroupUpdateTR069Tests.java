@@ -165,13 +165,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer(getManufacturer())
+                .selectModel(getModelName())
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
-                .showList();
-        assertEquals(guPage.getTable("tblDevices").getCellText(1, 0), BasePage.getCurrentSerial());
+                .showList()
+                .getTable("tblDevices").assertPresenceOfValue(0,BasePage.getSerial());
     }
 
     @Test
