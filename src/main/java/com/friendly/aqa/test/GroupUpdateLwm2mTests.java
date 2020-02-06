@@ -395,7 +395,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_27() {
+    public void lwm2m_gu_027() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -410,14 +410,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
+                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN");
         guPage
-                .saveAndActivate()
-                .checkResults("Action", "Reboot");
+                .saveAndActivate(false)
+                .assertPresenceOfValue(2, "Reboot");
     }
 
     @Test
-    public void lwm2m_gu_28() {
+    public void lwm2m_gu_028() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -436,7 +436,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_29() {
+    public void lwm2m_gu_029() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -451,14 +451,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
+                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN");
         guPage
-                .saveAndActivate()
-                .checkResults("Action", "FactoryReset");
+                .saveAndActivate(false)
+                .assertPresenceOfValue(2, "FactoryReset");
     }
 
     @Test
-    public void lwm2m_gu_30() {
+    public void lwm2m_gu_030() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -481,7 +481,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_31() {
+    public void lwm2m_gu_031() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -500,7 +500,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_32() {
+    public void lwm2m_gu_032() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -519,7 +519,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_33() {
+    public void lwm2m_gu_033() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -538,7 +538,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_34() {
+    public void lwm2m_gu_034() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -557,7 +557,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_35() {
+    public void lwm2m_gu_035() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -576,7 +576,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_36() {
+    public void lwm2m_gu_036() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -595,9 +595,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test   //Test fails
-    public void lwm2m_gu_37() {
+    public void lwm2m_gu_037() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters("Device", true)
                 .setAllParameters()
                 .setAnyAdvancedParameter();  //Re-work required
         guPage
@@ -606,9 +606,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test  //Test fails
-    public void lwm2m_gu_38() {
+    public void lwm2m_gu_038() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters("Device", true)
                 .setParameter(1);
         guPage
                 .nextSaveAndActivate()
@@ -616,9 +616,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test  //Test fails
-    public void lwm2m_gu_39() {
+    public void lwm2m_gu_039() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters("Device", true)
                 .setParameter(2);
         guPage
                 .nextSaveAndActivate()
@@ -626,7 +626,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test  //Test failed
-    public void lwm2m_gu_40() {
+    public void lwm2m_gu_040() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -640,8 +640,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
-                .clickOn("Timezone")
+                .getTable("tabsSettings_cell0Device_LWM2M")
+                .clickOn("Device")
                 .getTable("tblParamsValue")
                 .setParameter(1);
         guPage
@@ -658,7 +658,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_41() {
+    public void lwm2m_gu_041() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -667,7 +667,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_42() {
+    public void lwm2m_gu_042() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -676,21 +676,21 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_43() {
+    public void lwm2m_gu_043() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", getManufacturer());
     }
 
     @Test
-    public void lwm2m_gu_44() {
+    public void lwm2m_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", getModelName());
     }
 
     @Test
-    public void lwm2m_gu_45() {
+    public void lwm2m_gu_045() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
@@ -700,28 +700,28 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_46() {
+    public void lwm2m_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
-    public void lwm2m_gu_47() {
+    public void lwm2m_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
-    public void lwm2m_gu_48() {
+    public void lwm2m_gu_048() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
-    public void lwm2m_gu_49() {
+    public void lwm2m_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
@@ -729,28 +729,28 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_50() {
+    public void lwm2m_gu_050() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
-    public void lwm2m_gu_51() {
+    public void lwm2m_gu_051() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
-    public void lwm2m_gu_52() {
+    public void lwm2m_gu_052() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
-    public void lwm2m_gu_53() {
+    public void lwm2m_gu_053() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer()
@@ -758,7 +758,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_54() {
+    public void lwm2m_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -772,7 +772,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test  //Test failed
-    public void lwm2m_gu_55() {
+    public void lwm2m_gu_055() {
         guPage
                 .gotoSetParameters("Device")
                 .setParameter(1);
@@ -787,7 +787,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_56() {
+    public void lwm2m_gu_056() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Scheduled")
@@ -795,7 +795,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_57() {
+    public void lwm2m_gu_057() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Running")
@@ -803,7 +803,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_58() {
+    public void lwm2m_gu_058() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Paused")
@@ -811,7 +811,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_59() {
+    public void lwm2m_gu_059() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Reactivation")
@@ -819,7 +819,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_60() {
+    public void lwm2m_gu_060() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -831,7 +831,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_61() {
+    public void lwm2m_gu_061() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -853,7 +853,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test //doesn't work correctly (filter 'Created - on day')
-    public void lwm2m_gu_62() {
+    public void lwm2m_gu_062() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -878,7 +878,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_63() {
+    public void lwm2m_gu_063() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -905,7 +905,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_64() {
+    public void lwm2m_gu_064() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -932,7 +932,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_65() {
+    public void lwm2m_gu_065() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -955,7 +955,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_66() {
+    public void lwm2m_gu_066() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -978,7 +978,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_67() {
+    public void lwm2m_gu_067() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1001,7 +1001,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_68() {
+    public void lwm2m_gu_068() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1024,7 +1024,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_69() {
+    public void lwm2m_gu_069() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1048,7 +1048,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_70() {
+    public void lwm2m_gu_070() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1073,7 +1073,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_71() {
+    public void lwm2m_gu_071() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1098,7 +1098,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_72() {
+    public void lwm2m_gu_072() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1112,7 +1112,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_73() {
+    public void lwm2m_gu_073() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1137,7 +1137,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_74() {
+    public void lwm2m_gu_074() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1162,7 +1162,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_75() {
+    public void lwm2m_gu_075() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1186,7 +1186,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_76() {
+    public void lwm2m_gu_076() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1210,7 +1210,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_77() {
+    public void lwm2m_gu_077() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1221,7 +1221,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_78() {
+    public void lwm2m_gu_078() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1238,7 +1238,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_79() {
+    public void lwm2m_gu_079() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1266,7 +1266,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_80() {
+    public void lwm2m_gu_080() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1295,7 +1295,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_81() {
+    public void lwm2m_gu_081() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1324,7 +1324,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_82() {
+    public void lwm2m_gu_082() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1354,7 +1354,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_83() {
+    public void lwm2m_gu_083() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1384,7 +1384,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_84() {
+    public void lwm2m_gu_084() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1415,7 +1415,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_85() {
+    public void lwm2m_gu_085() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1444,7 +1444,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_86() {
+    public void lwm2m_gu_086() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1474,7 +1474,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_87() {
+    public void lwm2m_gu_087() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1504,7 +1504,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_88() {
+    public void lwm2m_gu_088() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1535,7 +1535,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_89() {
+    public void lwm2m_gu_089() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1564,7 +1564,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_90() {
+    public void lwm2m_gu_090() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1594,37 +1594,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_91() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .setPeriod(1)
-                .setPeriod(2)
-                .onlineDevicesCheckBox()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .checkResults("Root.Device.0.UTC Offset", "+02:00");
-    }
-
-    @Test
-    public void lwm2m_gu_92() {
+    public void lwm2m_gu_091() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1637,6 +1607,36 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("UTC Offset", VALUE, "+02:00");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Root.Device.0.UTC Offset", "+02:00");
+    }
+
+    @Test
+    public void lwm2m_gu_092() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .setPeriod(2)
+                .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
                 .addNewTask(1)
@@ -1655,7 +1655,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_93() {
+    public void lwm2m_gu_093() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1685,7 +1685,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_94() {
+    public void lwm2m_gu_094() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1716,7 +1716,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_95() {
+    public void lwm2m_gu_095() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1744,7 +1744,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_96() {
+    public void lwm2m_gu_096() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1774,7 +1774,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_97() {
+    public void lwm2m_gu_097() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1805,7 +1805,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_98() {
+    public void lwm2m_gu_098() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1835,7 +1835,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_99() {
+    public void lwm2m_gu_099() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -2684,8 +2684,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("UTC Offset", "+02:00")
-                .checkResults("Timezone", "Europe/Kharkov1");
+                .assertPresenceOfValue(2, "Root.Device.0.UTC Offset")
+               .assertPresenceOfValue(2, "Root.Device.0.Timezone");
     }
 
     @Test
