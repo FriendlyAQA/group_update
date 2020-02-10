@@ -321,7 +321,7 @@ public class Table {
         return this;
     }
 
-    public void setParameter(int amount) {
+    public Table setParameter(int amount) {
         if (paramSet == null) {
             paramSet = new HashMap<>();
         }
@@ -343,17 +343,21 @@ public class Table {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint, BasePage.getSerial());
+                String paramType = DataBaseConnector.getValueType(hint, BasePage.getSerial()).toLowerCase();
                 switch (paramType) {
                     case "string":
                         value = "value" + i;
                         break;
                     case "int":
-                    case "unsignedInt":
+                    case "integer":
+                    case "unsignedint":
                         value = "" + i;
                         break;
-                    case "dateTime":
+                    case "datetime":
                         value = "2019-10-27T02:00:0";
+                        break;
+                    case "time":
+                        value = "Tue Feb 03 11:30:55 CET 1970";
                         break;
                     case "boolean":
                         break;
@@ -370,6 +374,7 @@ public class Table {
             paramSet.put(hint, value);
         }
         BasePage.setDefaultImplicitlyWait();
+        return this;
 //        printResults();
     }
 
@@ -405,6 +410,10 @@ public class Table {
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
+        if (paramSet == null) {
+            paramSet = new HashMap<>();
+        }
+        String hint = elementTable[rowNum][0].findElement(By.tagName("span")).getAttribute("hintbody");
         WebElement paramCell = getCellWebElement(rowNum, 1);
         if (props.getProperty("browser").equals("edge")) {
             BasePage.scrollToElement(paramCell);
@@ -415,6 +424,7 @@ public class Table {
             input.clear();
             input.sendKeys(value);
         }
+        paramSet.put(hint, value);
         if (!BasePage.BROWSER.equals("edge")) {
             clickOn(0, 0);
         }

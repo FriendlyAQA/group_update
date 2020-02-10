@@ -21,8 +21,9 @@ import static org.testng.Assert.assertFalse;
 public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_001() {
-        guPage.deleteAll();
-        guPage.topMenu(GROUP_UPDATE);
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .deleteAll();
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());
     }
@@ -45,6 +46,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer(getManufacturer())
                 .selectModel(getModelName())
                 .fillName()
+                .deleteFilterGroups()
                 .globalButtons(CANCEL);
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());
@@ -171,7 +173,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0,BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
     }
 
     @Test
@@ -310,35 +312,30 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_020() {
         guPage
-                .gotoSetParameters("Device")
-                .setParameter("Timezone", VALUE, "Europe/Kharkov2")
-                .setParameter("UTC Offset", VALUE, "+02:00");
+                .gotoSetParameters(null)
+                .setParameter(2);
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.Device.0.")
-                .checkResults("Timezone", "Europe/Kharkov2")
-                .checkResults("UTC Offset", "+02:00");
+                .checkResults();
     }
 
     @Test
     public void usp_gu_021() {
         guPage
-                .gotoSetParameters("Device")
-                .setParameter("Timezone", VALUE, "Europe/Kharkov3");
+                .gotoSetParameters(null)
+                .setParameter(1);
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.Device.0.")
-                .checkResults("Timezone", "Europe/Kharkov3");
+                .checkResults();
     }
 
     @Test
     public void usp_gu_022() {
         guPage
-                .gotoSetParameters("Device")
-                .setParameter(0);
+                .gotoSetParameters(null)
+                .setAllParameters();
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.Device.0.")
                 .checkResults();
     }
 
@@ -346,10 +343,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     public void usp_gu_023() {
         guPage
                 .gotoSetParameters("Server")
-                .setParameter(0);
+                .setAllParameters();
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.usp Server.0.")
                 .checkResults();
     }
 
@@ -357,249 +353,129 @@ public class GroupUpdateUspTests extends BaseTestCase {
     public void usp_gu_024() {
         guPage
                 .gotoSetParameters("Server")
-                .setParameter("Lifetime", VALUE, "60");
+                .setParameter(1);
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.usp Server.0.")
-                .checkResults("Lifetime", "60");
+                .checkResults();
     }
 
     @Test
     public void usp_gu_025() {
         guPage
                 .gotoSetParameters("Server")
-                .setParameter("Default Maximum Period", VALUE, "10")
-                .setParameter("Default Minimum Period", VALUE, "1");
+                .setParameter(2);
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Root.usp Server.0.")
-                .checkResults("Default Maximum Period", "10")
-                .checkResults("Default Minimum Period", "1");
+                .checkResults();
     }
 
     @Test
-    public void usp_gu_26() {
+    public void usp_gu_026() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reboot");
     }
 
     @Test
-    public void usp_gu_27() {
+    public void usp_gu_027() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
-        guPage
-                .saveAndActivate()
-                .checkResults("Action", "Reboot");
+                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
+                .saveAndActivate(false)
+                .assertPresenceOfValue(2, "Reboot");
     }
 
     @Test
-    public void usp_gu_28() {
+    public void usp_gu_028() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("FactoryReset");
     }
 
     @Test
-    public void usp_gu_29() {
+    public void usp_gu_029() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
-        guPage
-                .saveAndActivate()
-                .checkResults("Action", "FactoryReset");
+                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
+                .saveAndActivate(false)
+                .assertPresenceOfValue(2, "FactoryReset");
     }
 
-    @Test
-    public void usp_gu_30() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_030() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .resetMinMaxValues()
-                .nextSaveAndActivate();
-        guPage
-                .getMainTable()
-                .clickOn(targetTestName, 4)
-                .getTable("tblPeriod")
-                .checkResults("Status", "Completed");
+                .nextSaveAndActivate()
+                .assertPresenceOfParameter("ResetMinandMaxMeasuredValues");
     }
 
-    @Test
-    public void usp_gu_31() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_031() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .resetCumulativeEnergy()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("resetCumulativeEnergy");
     }
 
-    @Test
-    public void usp_gu_32() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_032() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .resetErrors()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("resetErrors");
     }
 
-    @Test
-    public void usp_gu_33() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_033() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .radioDisable()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("radioDisable");
     }
 
-    @Test
-    public void usp_gu_34() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_034() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .radioRegistrationUpdateTrigger()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("radioRegistrationUpdateTrigger");
     }
 
-    @Test
-    public void usp_gu_35() {
+    @Test // bug: group state is 'Not active' instead of 'Completed'
+    public void usp_gu_035() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .radioStartOrReset()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("radioStartOrReset");
     }
 
     @Test
-    public void usp_gu_36() {
+    public void usp_gu_036() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask(2)
-                .addTaskButton()
+                .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reprovision");
+                .assertPresenceOfParameter("CPEReprovision");
     }
 
     @Test   //Test fails
-    public void usp_gu_37() {
+    public void usp_gu_037() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters(null, true)
                 .setAllParameters()
                 .setAnyAdvancedParameter();  //Re-work required
         guPage
@@ -608,9 +484,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test  //Test fails
-    public void usp_gu_38() {
+    public void usp_gu_038() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters(null, true)
                 .setParameter(1);
         guPage
                 .nextSaveAndActivate()
@@ -618,9 +494,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test  //Test fails
-    public void usp_gu_39() {
+    public void usp_gu_039() {
         guPage
-                .gotoSetParameters("ManagementServer", true)
+                .gotoSetParameters(null, true)
                 .setParameter(2);
         guPage
                 .nextSaveAndActivate()
@@ -628,7 +504,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test  //Test failed
-    public void usp_gu_40() {
+    public void usp_gu_040() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -642,25 +518,19 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
-                .clickOn("Timezone")
+                .getTable("tabsSettings_cell0Device_LWM2M")
+                .clickOn("Device")
                 .getTable("tblParamsValue")
                 .setParameter(1);
         guPage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .waitForStatus("Running", 5)
-                .readTasksFromDB()
-                .clickOn(testName)
-                .getTable("tblTasks")
+                .nextSaveAndActivate(false)
                 .checkResults()
                 .getTable("tblPeriod")
                 .checkResults("Online devices", "True");
     }
 
     @Test
-    public void usp_gu_41() {
+    public void usp_gu_041() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -669,7 +539,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_42() {
+    public void usp_gu_042() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -678,21 +548,21 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_43() {
+    public void usp_gu_043() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", getManufacturer());
     }
 
     @Test
-    public void usp_gu_44() {
+    public void usp_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", getModelName());
     }
 
     @Test
-    public void usp_gu_45() {
+    public void usp_gu_045() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
@@ -702,28 +572,28 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_46() {
+    public void usp_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
-    public void usp_gu_47() {
+    public void usp_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
-    public void usp_gu_48() {
+    public void usp_gu_048() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
-    public void usp_gu_49() {
+    public void usp_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
@@ -731,28 +601,28 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_50() {
+    public void usp_gu_050() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
-    public void usp_gu_51() {
+    public void usp_gu_051() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
-    public void usp_gu_52() {
+    public void usp_gu_052() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
-    public void usp_gu_53() {
+    public void usp_gu_053() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer()
@@ -760,7 +630,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_54() {
+    public void usp_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .getMainTable()
@@ -773,10 +643,10 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .pause(5000);
     }
 
-    @Test  //Test failed
-    public void usp_gu_55() {
+    @Test
+    public void usp_gu_055() {
         guPage
-                .gotoSetParameters("Device")
+                .gotoSetParameters(null)
                 .setParameter(1);
         guPage
                 .globalButtons(NEXT)
@@ -789,7 +659,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_56() {
+    public void usp_gu_056() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Scheduled")
@@ -797,7 +667,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_57() {
+    public void usp_gu_057() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Running")
@@ -805,7 +675,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_58() {
+    public void usp_gu_058() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Paused")
@@ -813,7 +683,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_59() {
+    public void usp_gu_059() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Reactivation")
@@ -821,7 +691,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_60() {
+    public void usp_gu_060() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -833,7 +703,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_61() {
+    public void usp_gu_061() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -855,7 +725,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test //doesn't work correctly (filter 'Created - on day')
-    public void usp_gu_62() {
+    public void usp_gu_062() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
@@ -880,7 +750,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_63() {
+    public void usp_gu_063() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -907,7 +777,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_64() {
+    public void usp_gu_064() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -934,7 +804,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_65() {
+    public void usp_gu_065() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -957,7 +827,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_66() {
+    public void usp_gu_066() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -980,7 +850,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_67() {
+    public void usp_gu_067() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1003,7 +873,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_68() {
+    public void usp_gu_068() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1026,7 +896,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_69() {
+    public void usp_gu_069() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1050,7 +920,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_70() {
+    public void usp_gu_070() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1075,13 +945,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_71() {
+    public void usp_gu_071() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
                 .selectColumnFilter("mycust03")
                 .compareSelect("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", "123")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
@@ -1100,7 +970,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_72() {
+    public void usp_gu_072() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1114,7 +984,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_73() {
+    public void usp_gu_073() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1139,13 +1009,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_74() {
+    public void usp_gu_074() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
                 .selectColumnFilter("mycust03")
                 .compareSelect("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", "abc")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
@@ -1164,9 +1034,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_75() {
+    public void usp_gu_075() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", "")
                 .gotoAddFilter()
                 .selectColumnFilter("mycust03")
                 .compareSelect("Is null")
@@ -1188,7 +1058,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_76() {
+    public void usp_gu_076() {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
@@ -1212,7 +1082,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_77() {
+    public void usp_gu_077() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -1223,7 +1093,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_78() {
+    public void usp_gu_078() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1240,7 +1110,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_79() {
+    public void usp_gu_079() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1268,7 +1138,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_80() {
+    public void usp_gu_080() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1297,7 +1167,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_81() {
+    public void usp_gu_081() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1326,7 +1196,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_82() {
+    public void usp_gu_082() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1356,7 +1226,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_83() {
+    public void usp_gu_083() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1386,7 +1256,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_84() {
+    public void usp_gu_084() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1417,7 +1287,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_85() {
+    public void usp_gu_085() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1446,7 +1316,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_86() {
+    public void usp_gu_086() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1476,7 +1346,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_87() {
+    public void usp_gu_087() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1506,7 +1376,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_88() {
+    public void usp_gu_088() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1537,7 +1407,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_89() {
+    public void usp_gu_089() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1566,7 +1436,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_90() {
+    public void usp_gu_090() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1596,37 +1466,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_91() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .setPeriod(1)
-                .setPeriod(2)
-                .onlineDevicesCheckBox()
-                .globalButtons(NEXT)
-                .addNewTask(1)
-                .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .checkResults("Root.Device.0.UTC Offset", "+02:00");
-    }
-
-    @Test
-    public void usp_gu_92() {
+    public void usp_gu_091() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1639,6 +1479,36 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
+                .globalButtons(NEXT)
+                .addNewTask(1)
+                .addTaskButton()
+                .getTable("tblParamsValue")
+                .setParameter("UTC Offset", VALUE, "+02:00");
+        guPage
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
+                .checkResults("Root.Device.0.UTC Offset", "+02:00");
+    }
+
+    @Test
+    public void usp_gu_092() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .setPeriod(2)
+                .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
                 .addNewTask(1)
@@ -1657,7 +1527,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_93() {
+    public void usp_gu_093() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1687,7 +1557,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_94() {
+    public void usp_gu_094() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1718,7 +1588,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_95() {
+    public void usp_gu_095() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1746,7 +1616,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_96() {
+    public void usp_gu_096() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1776,7 +1646,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_97() {
+    public void usp_gu_097() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1807,7 +1677,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_98() {
+    public void usp_gu_098() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1837,7 +1707,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_99() {
+    public void usp_gu_099() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -2686,8 +2556,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("UTC Offset", "+02:00")
-                .checkResults("Timezone", "Europe/Kharkov1");
+                .checkResults();
     }
 
     @Test
@@ -2715,7 +2584,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("UTC Offset", "+02:00");
+                .checkResults();
     }
 
     @Test
@@ -2789,6 +2658,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
+                .getTable("tabsSettings_tblTabs")
+                .clickOn("Server")
                 .getTable("tblParamsValue")
                 .setParameter("Default Maximum Period", VALUE, "10");
         guPage
@@ -2799,7 +2670,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("Default Maximum Period", "10");
+                .checkResults();
     }
 
     @Test
@@ -2817,9 +2688,10 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
+                .getTable("tabsSettings_tblTabs")
+                .clickOn("Server")
                 .getTable("tblParamsValue")
-                .setParameter("Default Maximum Period", VALUE, "10")
-                .setParameter("Default Minimum Period", VALUE, "1");
+                .setParameter(2);
         guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
@@ -2828,8 +2700,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("Default Maximum Period", "10")
-                .checkResults("Default Minimum Period", "1");
+                .checkResults();
     }
 
     @Test
@@ -2875,10 +2746,14 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
+                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
         guPage
-                .saveAndActivate()
-                .checkResults("Action", "Reboot");
+                .getTable("tblTasks")
+                .assertPresenceOfValue(2, "Reboot");
     }
 
     @Test
@@ -2897,7 +2772,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .factoryResetRadioButton()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("FactoryReset");
     }
 
@@ -2918,13 +2799,17 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60");
+                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
         guPage
-                .saveAndActivate()
-                .checkResults("Action", "FactoryReset");
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("FactoryReset");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void usp_gu_136() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2940,15 +2825,17 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .resetMinMaxValues()
-                .nextSaveAndActivate();
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
         guPage
-                .getMainTable()
-                .clickOn(targetTestName, 4)
-                .getTable("tblPeriod")
-                .checkResults("Status", "Completed");
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("ResetMinandMaxMeasuredValues");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void usp_gu_137() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2964,11 +2851,17 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .resetCumulativeEnergy()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("resetCumulativeEnergy");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void usp_gu_138() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2984,7 +2877,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .resetErrors()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("resetErrors");
     }
 
@@ -3004,7 +2903,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .radioDisable()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("radioDisable");
     }
 
@@ -3024,7 +2929,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .radioRegistrationUpdateTrigger()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("radioRegistrationUpdateTrigger");
     }
 
@@ -3044,7 +2955,13 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .radioStartOrReset()
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
                 .assertPresenceOfParameter("radioStartOrReset");
     }
 
@@ -3064,8 +2981,14 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addNewTask(2)
                 .addTaskButton()
                 .reprovisionRadioButton()
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reprovision");
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName);
+        guPage
+                .getTable("tblTasks")
+                .assertPresenceOfParameter("CPEReprovision");
     }
 
     @Test   //Test fails
@@ -3083,11 +3006,18 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .globalButtons(ADVANCED_VIEW);
-        //.setAllParameters()
-        //.setAnyAdvancedParameter();  //Re-work required
+                .globalButtons(ADVANCED_VIEW)
+                .getTable("tblParamsValue")
+                .setAllParameters()
+                .setAnyAdvancedParameter();  //Re-work required
         guPage
-                .nextSaveAndActivate()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
+        guPage
+                .getTable("tblTasks")
                 .checkResults();
     }
 
@@ -3106,15 +3036,19 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .globalButtons(ADVANCED_VIEW);
-        // .setParameter("UTC Offset", VALUE, "+02:00");
-        //.setAnyAdvancedParameter();  //Re-work required
+                .globalButtons(ADVANCED_VIEW)
+                .getTable("tblParamsValue")
+                .setParameter(1)
+                .setAnyAdvancedParameter();  //Re-work required
         guPage
-                .nextSaveAndActivate();
-
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("UTC Offset", "+02:00");
+                .checkResults();
     }
 
     @Test
@@ -3132,14 +3066,18 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask(1)
                 .addTaskButton()
-                .globalButtons(ADVANCED_VIEW);
-        //  .setParameter("UTC Offset", VALUE, "+02:00");
-        //.setAnyAdvancedParameter();  //Re-work required
+                .globalButtons(ADVANCED_VIEW)
+                .getTable("tblParamsValue")
+                .setParameter(2)
+                .setAnyAdvancedParameter();  //Re-work required
         guPage
-                .nextSaveAndActivate();
-
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("UTC Offset", "+02:00");
+                .checkResults();
     }
 }

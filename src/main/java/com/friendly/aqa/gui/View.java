@@ -1479,7 +1479,8 @@ public class View extends JFrame {
         jTextPane1.setEditable(false);
         jTextPane1.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         jTextPane1.setToolTipText("");
-        jTextPane1.setMinimumSize(new java.awt.Dimension(6, 23));
+        jTextPane1.setMaximumSize(new java.awt.Dimension(6, 21));
+        jTextPane1.setMinimumSize(new java.awt.Dimension(6, 21));
         jScrollPane1.setViewportView(jTextPane1);
 
         testResultsLabel.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -1496,6 +1497,7 @@ public class View extends JFrame {
         toExecValue.setText("8888");
 
         textArea.setEditable(false);
+        textArea.setMaximumSize(new java.awt.Dimension(100, 80));
 
         showReportButton.setText("Show report");
         showReportButton.setEnabled(false);
@@ -1568,8 +1570,8 @@ public class View extends JFrame {
                                         .addComponent(logLabel))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jScrollPane1)
-                                        .addComponent(textArea, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                                        .addComponent(textArea, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane1))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

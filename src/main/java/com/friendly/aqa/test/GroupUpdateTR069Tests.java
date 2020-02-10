@@ -45,6 +45,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer(BasePage.getManufacturer())
                 .selectModel(BasePage.getModelName())
                 .fillName()
+                .deleteFilterGroups()
                 .globalButtons(CANCEL);
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());

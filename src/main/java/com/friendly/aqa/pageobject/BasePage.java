@@ -194,7 +194,7 @@ public abstract class BasePage {
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
         for (int i = 0; i < 3; i++) {
             try {
-                new FluentWait<>(driver).withMessage("Button was not found")
+                new FluentWait<>(driver).withMessage("Button " + button + " was not found/not active")
                         .withTimeout(Duration.ofSeconds(timeout))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
@@ -239,7 +239,7 @@ public abstract class BasePage {
         return out;
     }
 
-    public static String getConfigPrefix(){
+    public static String getConfigPrefix() {
         String testName = BaseTestCase.getTestName();
         if (testName.contains("tr069")) {
             return "tr069_";

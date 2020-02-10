@@ -486,6 +486,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage addNewTask(String value) {
+        selectComboBox(selectTask, value);
+        return this;
+    }
+
     public GroupUpdatePage manualRadioButton() {
         waitForUpdate();
         manualRadioButton.click();
@@ -843,10 +848,8 @@ public class GroupUpdatePage extends BasePage {
             for (WebElement option : optList) {
                 String value = option.getAttribute("value");
                 if (standard.contains(value)) {
-                    System.out.println("skip " + value);
                     continue;
                 }
-                System.out.println("try to select " + value);
                 new Select(sendToField).selectByValue(value);
                 editGroupButton();
                 try {
@@ -905,8 +908,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table nextSaveAndActivate() {
+        return nextSaveAndActivate(true);
+    }
+
+    public Table nextSaveAndActivate(boolean waitForCompleted) {
         globalButtons(NEXT);
-        return saveAndActivate();
+        return saveAndActivate(waitForCompleted);
     }
 
     public Table saveAndActivate() {
@@ -1134,7 +1141,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table goToSetPolicies(String tab) {
-        goto_(4);
+        goto_("Policy");
         if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
@@ -1142,7 +1149,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table gotoSetParameters(String tab, boolean advancedView) {
-        goto_(1);
+        goto_("Set parameter value");
         if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
@@ -1275,7 +1282,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public Table gotoGetParameter(String tab, boolean advancedView) {
-        goto_(6);
+        goto_("Get parameter");
         if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
@@ -1286,18 +1293,33 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage gotoFileDownload() {
-        return goto_(2);
+        return goto_("Download file");
     }
 
     public GroupUpdatePage gotoFileUpload() {
-        return goto_(5);
+        return goto_("Upload file");
     }
 
     public GroupUpdatePage gotoBackup() {
-        return goto_(7);
+        return goto_("Backup");
     }
 
-    private GroupUpdatePage goto_(int taskIndex) {
+//    private GroupUpdatePage goto_(int taskIndex) {
+//        topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer(getManufacturer())
+//                .selectModel(getModelName())
+//                .fillName(BaseTestCase.getTestName())
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .immediately()
+//                .globalButtons(NEXT)
+//                .addNewTask(taskIndex)
+//                .addTaskButton();
+//        return this;
+//    }
+
+    private GroupUpdatePage goto_(String taskName) {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer(getManufacturer())
@@ -1307,17 +1329,17 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(taskIndex)
+                .addNewTask(taskName)
                 .addTaskButton();
         return this;
     }
 
     public GroupUpdatePage gotoAction() {
-        return goto_(3);
+        return goto_("Action");
     }
 
     public GroupUpdatePage gotoDiagnostic() {
-        return goto_(9);
+        return goto_("Diagnostic");
     }
 
     public void deleteAll() {
@@ -1345,7 +1367,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage gotoRestore() {
-        return goto_(8);
+        return goto_("Restore");
     }
 
     public boolean isButtonActive(String id) {
