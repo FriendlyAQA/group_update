@@ -202,7 +202,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_32() {
+    public void mqtt_gu_032() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
