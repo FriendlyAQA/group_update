@@ -481,10 +481,10 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage addNewTask(int index) {
-        new Select(selectTask).selectByIndex(index);
-        return this;
-    }
+//    public GroupUpdatePage addNewTask(int index) {
+//        new Select(selectTask).selectByIndex(index);
+//        return this;
+//    }
 
     public GroupUpdatePage addNewTask(String value) {
         selectComboBox(selectTask, value);
@@ -1079,13 +1079,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage setDelay(int minutes) {
-        String[] time = CalendarUtil.getDelay(10);
+        String[] time = CalendarUtil.getDelay(minutes);
         timeHoursSelect(time[0].replaceAll("^0", ""));
         timeMinutesSelect(time[1].replaceAll("^0", ""));
         return this;
     }
 
-    //
     public Table waitForStatus(String status, int timeout) {
         long start = System.currentTimeMillis();
         Table table;
@@ -1170,7 +1169,7 @@ public class GroupUpdatePage extends BasePage {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tabsSettings_tblTabs")
                 .clickOn(tab)
@@ -1196,7 +1195,7 @@ public class GroupUpdatePage extends BasePage {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(4)
+                .addNewTask("Policy")
                 .addTaskButton();
         if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs")
@@ -1224,7 +1223,7 @@ public class GroupUpdatePage extends BasePage {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(6)
+                .addNewTask("Get parameter")
                 .addTaskButton();
         if (tab != null && !tab.toLowerCase().equals("management")) {
             getTable("tabsSettings_tblTabs")
@@ -1252,7 +1251,7 @@ public class GroupUpdatePage extends BasePage {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod(method)

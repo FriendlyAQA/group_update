@@ -71,7 +71,9 @@ public class DataBaseConnector {
     public static String[] getDevice(String serial) {
         String[] device = new String[2];
         try {
-            stmtObj.execute("SELECT * FROM ftacs.product_class_group WHERE id IN (SELECT group_id FROM ftacs.cpe_serial WHERE serial='" + serial + "')");
+            stmtObj.execute("SELECT * FROM ftacs.product_class_group WHERE id IN (" +
+                    "SELECT group_id FROM ftacs.product_class WHERE id IN (" +
+                    "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "'))");
             ResultSet resultSet = stmtObj.getResultSet();
             if (resultSet.next()) {
                 for (int i = 0; i < 2; i++) {

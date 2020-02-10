@@ -1,6 +1,8 @@
 package com.friendly.aqa.test;
 
+import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.friendly.aqa.pageobject.BasePage.*;
@@ -8,10 +10,9 @@ import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
-import static com.friendly.aqa.utils.Table.Parameter.VALUE;
 import static org.testng.Assert.*;
-import static org.testng.Assert.assertEquals;
 
+@Listeners(UniversalVideoListener.class)
 public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_001() {
@@ -26,7 +27,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
+                .selectManufacturer()
                 .globalButtons(CANCEL);
         assertTrue(guPage.mainTableIsAbsent());
     }
@@ -36,8 +37,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .globalButtons(CANCEL);
         waitForUpdate();
@@ -49,8 +50,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo()
                 .showList();
@@ -62,8 +63,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup();
         assertTrue(guPage.isButtonPresent(FINISH));
@@ -110,8 +111,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
@@ -124,8 +125,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo(targetTestName)
                 .editGroupButton()
@@ -139,8 +140,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
@@ -159,8 +160,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
@@ -206,14 +207,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
@@ -225,14 +226,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
@@ -247,14 +248,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
@@ -266,14 +267,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
@@ -288,14 +289,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
@@ -307,14 +308,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .globalButtons(NEXT)
@@ -486,8 +487,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName()
@@ -511,7 +512,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
@@ -537,7 +538,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
@@ -564,7 +565,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
@@ -590,7 +591,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
@@ -617,7 +618,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .globalButtons(NEXT)
@@ -643,7 +644,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Action")
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .globalButtons(NEXT)

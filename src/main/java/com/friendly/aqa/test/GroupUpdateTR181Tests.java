@@ -33,7 +33,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
+                .selectManufacturer()
                 .globalButtons(CANCEL);
         assertTrue(guPage.mainTableIsAbsent());
     }
@@ -43,8 +43,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .deleteFilterGroups()
                 .globalButtons(CANCEL);
@@ -57,8 +57,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo()
                 .showList();
@@ -70,8 +70,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup();
         assertTrue(guPage.isButtonPresent(FINISH));
@@ -118,8 +118,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
@@ -132,8 +132,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo(targetTestName)
                 .editGroupButton()
@@ -147,8 +147,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
@@ -167,13 +167,13 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0,BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
     }
 
     @Test
@@ -195,14 +195,14 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton();
         assertTrue(guPage.isElementPresent("tblParamsValue"));
         assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
@@ -1185,7 +1185,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .immediately()
                 .onlineDevicesCheckBox()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tabsSettings_tblTabs")
                 .clickOn("Time")
@@ -1961,7 +1961,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(2,"Vendor Configuration File");
+                .assertPresenceOfValue(2, "Vendor Configuration File");
     }
 
     @Test
@@ -2015,15 +2015,15 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(5)
+                .addNewTask("Upload file")
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
@@ -2037,15 +2037,15 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(5)
+                .addNewTask("Upload file")
                 .addTaskButton()
                 .selectUploadFileType(2)
                 .defaultUploadRadioButton()
@@ -2208,8 +2208,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
@@ -2217,7 +2217,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod("FactoryReset")
@@ -2301,7 +2301,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage.globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2326,7 +2326,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2353,7 +2353,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2380,7 +2380,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2403,7 +2403,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2426,7 +2426,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2449,7 +2449,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2472,7 +2472,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2496,7 +2496,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2521,7 +2521,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2546,7 +2546,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2585,7 +2585,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2610,7 +2610,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2634,7 +2634,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2658,7 +2658,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2683,8 +2683,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName()
@@ -2708,7 +2708,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2737,7 +2737,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setDelay(10)
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2766,7 +2766,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setDelay(10)
                 .setPeriod(1)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2796,7 +2796,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(1)
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2826,7 +2826,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(1)
                 .setPeriod(2)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2857,7 +2857,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(2)
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2886,7 +2886,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setDelay(10)
                 .onlineDevicesCheckBox()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2916,7 +2916,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2946,7 +2946,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -2977,7 +2977,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3006,7 +3006,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3036,7 +3036,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3066,7 +3066,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3097,7 +3097,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3127,7 +3127,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setPeriod(1)
                 .setThreshold(50)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3158,7 +3158,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setThreshold(50)
                 .waitUntilConnectRadioButton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3186,7 +3186,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDate", 1)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3216,7 +3216,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3247,7 +3247,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryHourDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3277,7 +3277,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3309,7 +3309,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "1")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3341,7 +3341,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAOnRadiobutton()
                 .selectShiftedDate("calReactivationEndsOnDay", 8)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3372,7 +3372,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryHourDropDown("1")
                 .runOnFailed()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3402,7 +3402,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("1")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3433,7 +3433,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryDayDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3463,7 +3463,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3495,7 +3495,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3527,7 +3527,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAOnRadiobutton()
                 .selectShiftedDate("calReactivationEndsOnDay", 8)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3558,7 +3558,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryDayDropDown("1")
                 .runOnFailed()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3587,7 +3587,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setDelay(10)
                 .selectRepeatsDropDown("Weekly")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3615,7 +3615,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .immediately()
                 .selectRepeatsDropDown("Weekly")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3644,7 +3644,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Weekly")
                 .endAOnRadiobutton()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3675,7 +3675,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3706,7 +3706,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAOnRadiobutton()
                 .selectShiftedDate("calReactivationEndsOnDay", 32)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3736,7 +3736,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Weekly")
                 .runOnFailed()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3766,7 +3766,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("1")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3797,7 +3797,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryMonthDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 31)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3827,7 +3827,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3859,7 +3859,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3891,7 +3891,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAOnRadiobutton()
                 .selectShiftedDate("calReactivationEndsOnDay", 31)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3922,7 +3922,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatEveryMonthDropDown("1")
                 .runOnFailed()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3951,7 +3951,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -3981,7 +3981,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Yearly")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -4012,7 +4012,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -4043,7 +4043,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .endAOnRadiobutton()
                 .selectShiftedDate("calReactivationEndsOnDay", 365)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -4073,7 +4073,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectRepeatsDropDown("Yearly")
                 .runOnFailed()
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
@@ -4101,7 +4101,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
@@ -4231,7 +4231,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .globalButtons(NEXT)
@@ -4297,7 +4297,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(1)
+                .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tabsSettings_tblTabs")
                 .clickOn("Time");
@@ -4549,7 +4549,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(7)
+                .addNewTask("Backup")
                 .addTaskButton()
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -4573,7 +4573,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(8)
+                .addNewTask("Restore")
                 .addTaskButton()
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -4597,7 +4597,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(9)
+                .addNewTask("Diagnostic")
                 .addTaskButton()
                 .selectDiagnostic("IPPing Diagnostic")
                 .inputHostField("8.8.8.8")
@@ -4625,7 +4625,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Download file")
                 .addTaskButton()
                 .selectFileType(2)
                 .manualRadioButton()
@@ -4655,7 +4655,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Download file")
                 .addTaskButton()
                 .selectFileType(1)
                 .manualRadioButton()
@@ -4685,7 +4685,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Download file")
                 .addTaskButton()
                 .selectFileType(2)
                 .fromListRadioButton()
@@ -4697,7 +4697,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .assertPresenceOfValue(2,"Vendor Configuration File");
+                .assertPresenceOfValue(2, "Vendor Configuration File");
     }
 
     @Test
@@ -4713,7 +4713,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(2)
+                .addNewTask("Download file")
                 .addTaskButton()
                 .selectFileType(1)
                 .fromListRadioButton()
@@ -4741,7 +4741,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(5)
+                .addNewTask("Upload file")
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
@@ -4769,7 +4769,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(5)
+                .addNewTask("Upload file")
                 .addTaskButton()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
@@ -4797,7 +4797,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(5)
+                .addNewTask("Upload file")
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .defaultUploadRadioButton()
@@ -4824,7 +4824,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
@@ -4850,7 +4850,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
@@ -4876,7 +4876,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
@@ -4903,7 +4903,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod("Download")
@@ -4930,7 +4930,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod("Upload")
@@ -4957,7 +4957,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask(3)
+                .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod("FactoryReset")
