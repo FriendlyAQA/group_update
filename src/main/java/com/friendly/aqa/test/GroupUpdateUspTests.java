@@ -444,32 +444,28 @@ public class GroupUpdateUspTests extends BaseTestCase {
     public void usp_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled")
-                .resetView();
+                .checkFiltering("State", "Scheduled");
     }
 
     @Test
     public void usp_gu_055() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running")
-                .resetView();
+                .checkFiltering("State", "Running");
     }
 
     @Test
     public void usp_gu_056() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused")
-                .resetView();
+                .checkFiltering("State", "Paused");
     }
 
     @Test
     public void usp_gu_057() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation")
-                .resetView();
+                .checkFiltering("State", "Reactivation");
     }
 
     @Test

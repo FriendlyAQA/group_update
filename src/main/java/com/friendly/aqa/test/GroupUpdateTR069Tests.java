@@ -1724,32 +1724,28 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_152() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled")
-                .resetView();
+                .checkFiltering("State", "Scheduled");
     }
 
     @Test
     public void tr069_gu_153() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running")
-                .resetView();
+                .checkFiltering("State", "Running");
     }
 
     @Test
     public void tr069_gu_154() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused")
-                .resetView();
+                .checkFiltering("State", "Paused");
     }
 
     @Test
     public void tr069_gu_155() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation")
-                .resetView();
+                .checkFiltering("State", "Reactivation");
     }
 
     @Test

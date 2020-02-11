@@ -628,10 +628,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .clickOn("Manufacturer");
         guPage
                 .checkResetView();
-        guPage
-                .leftMenu(VIEW)
-                .itemsOnPage("10")
-                .pause(5000);
     }
 
     @Test
@@ -653,32 +649,28 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_056() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled")
-                .resetView();
+                .checkFiltering("State", "Scheduled");
     }
 
     @Test
     public void lwm2m_gu_057() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running")
-                .resetView();
+                .checkFiltering("State", "Running");
     }
 
     @Test
     public void lwm2m_gu_058() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused")
-                .resetView();
+                .checkFiltering("State", "Paused");
     }
 
     @Test
     public void lwm2m_gu_059() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation")
-                .resetView();
+                .checkFiltering("State", "Reactivation");
     }
 
     @Test
@@ -702,7 +694,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Is not null'!\n");
         guPage.globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -726,7 +718,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
+        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - On Day'!\n");
         guPage
                 .globalButtons(NEXT)
                 .immediately()
@@ -2878,7 +2870,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("resetErrors");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void lwm2m_gu_139() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2904,7 +2896,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("radioDisable");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void lwm2m_gu_140() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2930,7 +2922,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("radioRegistrationUpdateTrigger");
     }
 
-    @Test
+    @Test // bug: group state is 'Not active' instead of 'Scheduled'
     public void lwm2m_gu_141() {
         guPage
                 .topMenu(GROUP_UPDATE)

@@ -567,7 +567,7 @@ public class Table {
         return this;
     }
 
-    public static void flushResult() {
+    public static void flushResults() {
         paramSet = null;
     }
 

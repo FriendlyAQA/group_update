@@ -1823,7 +1823,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         assertFalse(guPage.isElementPresent("tblTasks"));
     }
 
-    @Test
+    @Test //bug: TaskDiagnostic task with id = xxx not found
     public void tr181_gu_171() {
         guPage
                 .gotoDiagnostic()
@@ -1834,7 +1834,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Trace Diagnostic", "8.8.8.8");
     }
 
-    @Test
+    @Test //bug: TaskDiagnostic task with id = xxx not found
     public void tr181_gu_172() {
         guPage
                 .gotoDiagnostic()
@@ -2248,32 +2248,28 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_204() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled")
-                .resetView();
+                .checkFiltering("State", "Scheduled");
     }
 
     @Test
     public void tr181_gu_205() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running")
-                .resetView();
+                .checkFiltering("State", "Running");
     }
 
     @Test
     public void tr181_gu_206() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused")
-                .resetView();
+                .checkFiltering("State", "Paused");
     }
 
     @Test
     public void tr181_gu_207() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation")
-                .resetView();
+                .checkFiltering("State", "Reactivation");
     }
 
     @Test

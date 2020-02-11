@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
 public class BaseTestCase {
@@ -79,12 +80,23 @@ public class BaseTestCase {
             }
         }
         BasePage.switchToFrame(ROOT);
-        Table.flushResult();
-        List<WebElement> list = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
-        if (list.size() > 0 && list.get(0).isDisplayed()) {
-            list.get(0).click();
+        Table.flushResults();
+        List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
+        BasePage.setImplicitlyWait(0);
+        if (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
+            popupList.get(0).click();
             logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+            BasePage.waitForUpdate();
         }
+        BasePage.switchToFrame(DESKTOP);
+        List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
+        if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
+            resetViewList.get(0).click();
+            System.out.println("resetView");
+            BasePage.waitForUpdate();
+        }
+        BasePage.setDefaultImplicitlyWait();
+        BasePage.switchToFrame(ROOT);
         if (isInterrupted) {
             throw new SkipException("Test execution interrupted manually");
         }
