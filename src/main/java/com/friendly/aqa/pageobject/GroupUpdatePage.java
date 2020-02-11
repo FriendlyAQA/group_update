@@ -74,17 +74,11 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rbReactivationEndsOccurrences")
     private WebElement reactivationEndsAfterRadiobutton;
 
-    @FindBy(id = "txtReactivationEndsOccurrences")
-    private WebElement reactivationEndsAfterField;
-
     @FindBy(id = "rbReactivationEndsDay")
     private WebElement reactivationEndsOn;
 
     @FindBy(id = "chbxFailedCPEOnly")
     private WebElement reactivationReRunFailedCheckbox;
-
-//    @FindBy(name = "btnBrowse$btn")
-//    private WebElement browseButton;
 
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
@@ -101,9 +95,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnAddFilter_btn")
     private WebElement addFilterButton;
 
-    @FindBy(id = "btnDelFilter_btn")
-    private WebElement deleteFilterButton;
-
     @FindBy(id = "ddlColumns")
     private WebElement selectColumnFilter;
 
@@ -113,29 +104,17 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnOk_btn")
     private WebElement okButtonPopUp;
 
-    @FindBy(id = "btnCancel_btn")
-    private WebElement cancelButtonPopUp;
-
     @FindBy(id = "ddlTasks")
     private WebElement selectTask;
 
     @FindBy(id = "btnAddTask_btn")
     private WebElement addTaskButton;
 
-    @FindBy(id = "cbPeriod1")
-    private WebElement period1CheckBox;
-
-    @FindBy(id = "cbPeriod2")
-    private WebElement period2CheckBox;
-
     @FindBy(id = "txtFailedMax")
     private WebElement thresholdField;
 
     @FindBy(id = "lblWait")
     private WebElement waitUntilConnectRadioButton;
-
-    @FindBy(id = "lblPush")
-    private WebElement requestToConnectRadioButton;
 
     @FindBy(id = "cbOnlineOnly")
     private WebElement onlineDevicesCheckBox;
@@ -206,15 +185,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_tbPass")
     private WebElement passwordField;
 
-    @FindBy(id = "UcFirmware1_tbSize")
-    private WebElement fileSizeField;
-
-//    @FindBy(id = "txtInt")
-//    private WebElement integerField;
-
-//    @FindBy(id = "UcFirmware1_tbDelay")
-//    private WebElement delayField;
-
     @FindBy(id = "UcFirmware1_rdTarget")
     private WebElement fromListRadioButton;
 
@@ -269,14 +239,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
 
-//    @FindBy(id = "lblSelect")
-//    private WebElement importLabel;
-
     @FindBy(id = "btnDefaultView_btn")
     private WebElement resetViewButton;
-
-//    @FindBy(id = "tblParamsValue")
-//    private WebElement paramTable;
 
     public GroupUpdatePage topMenu(TopMenu value) {
         super.topMenu(value);
@@ -310,14 +274,13 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
-    public GroupUpdatePage assertElementIsPresent(String id) {
+    public void assertElementIsPresent(String id) {
         List<WebElement> list = driver.findElements(By.id(id));
         if (list.size() == 0) {
             String warn = "Element with id='" + id + "' not found on the Group Update page";
             logger.warn(warn);
             throw new AssertionError(warn);
         }
-        return this;
     }
 
     public GroupUpdatePage presetFilter(String parameter, String value) {
@@ -432,11 +395,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectMethod(int index) {
-        new Select(selectMethodComboBox).selectByIndex(index);
-        return this;
-    }
-
     public GroupUpdatePage selectMethod(String value) {
         selectComboBox(selectMethodComboBox, value);
         return this;
@@ -449,11 +407,6 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage addToQoeCheckBox() {
         addToQoeCheckBox.click();
-        return this;
-    }
-
-    public GroupUpdatePage requestToConnectRadioButton() {
-        requestToConnectRadioButton.click();
         return this;
     }
 
@@ -480,11 +433,6 @@ public class GroupUpdatePage extends BasePage {
         addTaskButton.click();
         return this;
     }
-
-//    public GroupUpdatePage addNewTask(int index) {
-//        new Select(selectTask).selectByIndex(index);
-//        return this;
-//    }
 
     public GroupUpdatePage addNewTask(String value) {
         selectComboBox(selectTask, value);
@@ -595,21 +543,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage cancelButtonPopUp() {
-        switchToFrame(ROOT);
-        cancelButtonPopUp.click();
-        switchToFrame(DESKTOP);
-        return this;
-    }
-
-    public GroupUpdatePage deleteFilter() {
-        deleteFilterButton.click();
-        return this;
-    }
-
-    public GroupUpdatePage addFilter() {
+    public void addFilter() {
         addFilterButton.click();
-        return this;
     }
 
     public GroupUpdatePage compareSelect(String option) {
@@ -734,16 +669,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage fillFileSize(String fileSize) {
-        fileSizeField.sendKeys(fileSize);
-        return this;
-    }
-
-    public GroupUpdatePage fillDelay(String delay) {
-        fileSizeField.sendKeys(delay);
-        return this;
-    }
-
     public GroupUpdatePage inputTextField(String text) {
         inputTextField.sendKeys(text);
         return this;
@@ -854,7 +779,7 @@ public class GroupUpdatePage extends BasePage {
                 editGroupButton();
                 try {
                     globalButtons(DELETE_GROUP);
-                }catch (NoSuchElementException e){
+                } catch (NoSuchElementException e) {
                     switchToPrevious();
                     executeScript("SelectSendTp();");
                     System.out.println("Execution script forced");
@@ -898,13 +823,12 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage pause(int millis) {
+    public void pause(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return this;
     }
 
     public Table nextSaveAndActivate() {
@@ -1303,21 +1227,6 @@ public class GroupUpdatePage extends BasePage {
         return goto_("Backup");
     }
 
-//    private GroupUpdatePage goto_(int taskIndex) {
-//        topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer(getManufacturer())
-//                .selectModel(getModelName())
-//                .fillName(BaseTestCase.getTestName())
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .immediately()
-//                .globalButtons(NEXT)
-//                .addNewTask(taskIndex)
-//                .addTaskButton();
-//        return this;
-//    }
-
     private GroupUpdatePage goto_(String taskName) {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1373,9 +1282,8 @@ public class GroupUpdatePage extends BasePage {
         return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
     }
 
-    public GroupUpdatePage filterRecordsCheckbox() {
+    public void filterRecordsCheckbox() {
         driver.findElement(By.id("tblTree")).findElement(By.tagName("input")).click();
-        return this;
     }
 
     public enum Left {

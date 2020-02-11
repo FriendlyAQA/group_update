@@ -13,7 +13,7 @@ public enum TopMenu {
 
     private String item;
 
-    private TopMenu(String item) {
+    TopMenu(String item) {
         this.item = item;
     }
 

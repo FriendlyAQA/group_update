@@ -34,10 +34,6 @@ public class CalendarUtil {
         return dateFormat.format(getDay(-30));
     }
 
-    public static String getTomorrowDateString() {
-        return dateFormat.format(getDay(1));
-    }
-
     public static String getTodayDateString() {
         return dateFormat.format(new Date());
     }
@@ -62,4 +58,3 @@ public class CalendarUtil {
         System.out.println(getTimeStamp());
     }
 }
-//"Tue Feb 03 11:30:55 CET 1970"

@@ -39,7 +39,6 @@ public class BaseTestCase {
         logger.info("\n****************************************STARTING TEST SUITE*****************************************");
         DataBaseConnector.connectDb();
         BasePage.initDriver();
-//        BasePage.initDevice();
         if (controller != null) {
             controller.testSuiteStarted();
         }
@@ -118,7 +117,7 @@ public class BaseTestCase {
     }
 
     protected void setTargetTestName() {
-        this.targetTestName = testName;
+        targetTestName = testName;
     }
 
     public static String getTestName() {

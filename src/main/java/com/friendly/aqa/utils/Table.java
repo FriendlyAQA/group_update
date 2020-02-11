@@ -102,8 +102,8 @@ public class Table {
         return this;
     }
 
-    public Table clickOn(int row, int column) {
-        return clickOn(row, column, -1);
+    public void clickOn(int row, int column) {
+        clickOn(row, column, -1);
     }
 
     public Table clickOn(String text, int column) {
@@ -137,6 +137,7 @@ public class Table {
         return this;
     }
 
+    @SuppressWarnings("unused")
     public Table print() {
         int[] size = new int[textTable[1].length];
         for (String[] strings : textTable) {
@@ -157,6 +158,7 @@ public class Table {
         return this;
     }
 
+    @SuppressWarnings("unused")
     public Table pause(int millis) {
         try {
             Thread.sleep(millis);
@@ -221,10 +223,6 @@ public class Table {
         WebElement cell = getCellWebElement(getRowNumberByText(4, groupName), 11);
         String attr = cell.getAttribute("onclick");
         return attr.substring(10, attr.indexOf("event)") - 2);
-    }
-
-    public String getCellText(int row, int column) {
-        return textTable[row][column];
     }
 
     public String getCellText(int searchColumn, String searchText, int resultColumn) {
@@ -356,7 +354,7 @@ public class Table {
                         value = "2019-10-27T02:00:0";
                         break;
                     case "time":
-                        value = CalendarUtil.getTimeStamp();;
+                        value = CalendarUtil.getTimeStamp();
                         break;
                     case "boolean":
                         break;
@@ -377,6 +375,7 @@ public class Table {
 //        printResults();
     }
 
+    @SuppressWarnings("unused")
     public void printResults() {
         Set<Map.Entry<String, String>> entrySet = paramSet.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
@@ -430,7 +429,7 @@ public class Table {
         return this;
     }
 
-    public Table setUserInfo(String paramName, String value) {
+    public void setUserInfo(String paramName, String value) {
         int rowNum = getRowNumberByText(0, paramName);
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
@@ -442,10 +441,9 @@ public class Table {
         WebElement input = paramCell.findElement(By.tagName("input"));
         input.clear();
         input.sendKeys(value);
-        return this;
     }
 
-    public Table setCondition(String conditionName, Conditions condition, String value) {
+    public void setCondition(String conditionName, Conditions condition, String value) {
         int rowNum = getRowNumberByText(0, conditionName);
         if (rowNum < 0) {
             throw new AssertionError("Condition name '" + conditionName + "' not found");
@@ -462,7 +460,6 @@ public class Table {
             valueCell.findElement(By.tagName("input")).sendKeys(value);
         }
         clickOn(0, 0);
-        return this;
     }
 
     public void setAllPolicies() {
@@ -507,7 +504,7 @@ public class Table {
         }
     }
 
-    public Table setPolicy(String policyName, Policy notification, Policy accessList) {
+    public void setPolicy(String policyName, Policy notification, Policy accessList) {
         int rowNum = getRowNumberByText(0, policyName);
         if (rowNum < 0) {
             throw new AssertionError("Policy name '" + policyName + "' not found");
@@ -526,20 +523,21 @@ public class Table {
         }
         BasePage.waitForUpdate();
 //        clickOn(0, 0);
-        return this;
     }
 
-    public Table assertPresenceOfParameter(String value) {
+    public void assertPresenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
             if (row[length - 2].equals(value) || row[length - 2].equals(prefix + value)) {
-                return this;
+                return;
             }
         }
         String warning = "Specified table does not contain value '" + value + "'";
         throw new AssertionError(warning);
     }
 
+
+    @SuppressWarnings("unused")
     public Table assertAbsenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
@@ -561,6 +559,7 @@ public class Table {
         throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
     }
 
+    @SuppressWarnings("unused")
     public Table assertAbsenceOfValue(int column, String value) {
         if (getRowNumberByText(column, value) >= 0) {
             throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but MUST NOT!");

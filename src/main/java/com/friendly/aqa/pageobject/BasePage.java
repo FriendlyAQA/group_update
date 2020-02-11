@@ -34,7 +34,6 @@ public abstract class BasePage {
     private static Logger logger;
     static FrameSwitch frame;
     private static FrameSwitch previousFrame;
-    static String[] device;
 
     static {
         initProperties();
@@ -42,10 +41,6 @@ public abstract class BasePage {
         BROWSER = props.getProperty("browser");
         frame = ROOT;
     }
-
-//    public static void initDevice() {
-//        device = DataBaseConnector.getDevice();
-//    }
 
     BasePage() {
         PageFactory.initElements(driver, this);
