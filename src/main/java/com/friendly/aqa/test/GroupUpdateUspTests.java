@@ -40,6 +40,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel(getModelName())
                 .fillName()
+                .deleteFilterGroups()
                 .globalButtons(CANCEL);
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());

@@ -40,6 +40,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .deleteFilterGroups()
                 .globalButtons(CANCEL);
         waitForUpdate();
         assertTrue(guPage.mainTableIsAbsent());

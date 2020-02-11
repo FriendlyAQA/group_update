@@ -238,7 +238,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .clickOn(targetTestName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("Root.Device.0.UTC Offset", "+01:00");
+                .checkResults();
     }
 
     @Test
@@ -463,18 +463,18 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("CPEReprovision");
     }
 
-    @Test   //Test fails
+    @Test
     public void lwm2m_gu_037() {
         guPage
                 .gotoSetParameters(null, true)
                 .setAllParameters()
-                .setAnyAdvancedParameter();  //Re-work required
+                .setAnyAdvancedParameter();
         guPage
                 .nextSaveAndActivate()
                 .checkResults();
     }
 
-    @Test  //Test fails
+    @Test
     public void lwm2m_gu_038() {
         guPage
                 .gotoSetParameters(null, true)
@@ -484,7 +484,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkResults();
     }
 
-    @Test  //Test fails
+    @Test
     public void lwm2m_gu_039() {
         guPage
                 .gotoSetParameters(null, true)
@@ -494,7 +494,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkResults();
     }
 
-    @Test  //Test failed
+    @Test
     public void lwm2m_gu_040() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -715,7 +715,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkResults();
     }
 
-    @Test //doesn't work correctly (filter 'Created - on day')
+    @Test //bug: doesn't work correctly (filter 'Created - on day')
     public void lwm2m_gu_062() {
         guPage
                 .gotoAddFilter()
@@ -2982,7 +2982,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("CPEReprovision");
     }
 
-    @Test   //Test fails
+    @Test
     public void lwm2m_gu_143() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -3000,7 +3000,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(ADVANCED_VIEW)
                 .getTable("tblParamsValue")
                 .setAllParameters()
-                .setAnyAdvancedParameter();  //Re-work required
+                .setAnyAdvancedParameter();
         guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
@@ -3030,7 +3030,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(ADVANCED_VIEW)
                 .getTable("tblParamsValue")
                 .setParameter(1)
-                .setAnyAdvancedParameter();  //Re-work required
+                .setAnyAdvancedParameter();
         guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
@@ -3060,7 +3060,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(ADVANCED_VIEW)
                 .getTable("tblParamsValue")
                 .setParameter(2)
-                .setAnyAdvancedParameter();  //Re-work required
+                .setAnyAdvancedParameter();
         guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
@@ -3071,5 +3071,4 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .getTable("tblTasks")
                 .checkResults();
     }
-
 }

@@ -246,7 +246,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .clickOn(targetTestName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "61");
+                .checkResults();
     }
 
     @Test
@@ -313,9 +313,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("Password", VALUE, "ftacs");
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("InternetGatewayDevice.ManagementServer.")
-                .checkResults("Username", "ftacs")
-                .checkResults("Password", "ftacs");
+                .checkResults();
     }
 
     @Test
@@ -325,7 +323,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("Username", VALUE, "ftacs");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
+                .checkResults();
     }
 
     @Test
@@ -1462,7 +1460,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1653,7 +1651,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertPresenceOfParameter("FactoryReset");
     }
 
-    @Test//80
+    @Test
     public void tr069_gu_148() {
         guPage
                 .gotoAction()
@@ -1673,7 +1671,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkResults("CustomRPC", "Download");
     }
 
-    @Test   //needs running device
+    @Test
     public void tr069_gu_150() {
         guPage
                 .gotoAction()
@@ -1785,11 +1783,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
 
-    @Test //doesn't work correctly (filter 'Created - on day')
+    @Test //bug: doesn't work correctly (filter 'Created - on day')
     public void tr069_gu_158() {
         guPage
                 .gotoAddFilter()
@@ -1811,7 +1809,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1838,7 +1836,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1865,7 +1863,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1888,7 +1886,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1911,7 +1909,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1934,7 +1932,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1957,7 +1955,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -1981,7 +1979,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2006,7 +2004,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2031,7 +2029,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2070,7 +2068,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2095,7 +2093,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2119,7 +2117,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2143,7 +2141,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60");
         guPage
                 .nextSaveAndActivate()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -2199,7 +2197,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .clickOn(testName, 4);
         guPage
                 .getTable("tblTasks")
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResults();
     }
 
     @Test
@@ -4279,6 +4277,56 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .getTable("tblTasks")
                 .checkResults("CustomRPC", "FactoryReset");
+    }
+
+    @Test
+    public void tr069_gu_283() {
+        guPage
+                .gotoSetParameters("Information")
+                .setParameter(1);
+        guPage
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_gu_284() {
+        guPage
+                .goToSetPolicies("Information")
+                .setAllPolicies();
+        guPage
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_gu_285() {
+        guPage
+                .goToSetPolicies("Information")
+                .setPolicy(1);
+        guPage
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_gu_286() {
+        guPage
+                .goToSetPolicies("Information")
+                .setPolicy(2);
+        guPage
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_gu_287() {
+        guPage
+                .goToSetPolicies("Information")
+                .setPolicy(3);
+        guPage
+                .nextSaveAndActivate()
+                .checkResults();
     }
 
 }

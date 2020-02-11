@@ -4,10 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CalendarUtil {
     private static DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
-    private static DateFormat fullDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    private static DateFormat fullDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'CET' yyyy", Locale.ENGLISH);
     private static DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
     private static DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
     private static DateFormat hours = new SimpleDateFormat("HH");
@@ -58,7 +59,7 @@ public class CalendarUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getFileName());
+        System.out.println(getTimeStamp());
     }
 }
-
+//"Tue Feb 03 11:30:55 CET 1970"

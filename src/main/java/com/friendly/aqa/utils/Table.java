@@ -200,7 +200,6 @@ public class Table {
                 }
                 return this;
             }
-//            System.out.println("contains pending");
             long timeout;
             if ((timeout = 1000 - System.currentTimeMillis() + start) > 0) {
                 try {
@@ -357,7 +356,7 @@ public class Table {
                         value = "2019-10-27T02:00:0";
                         break;
                     case "time":
-                        value = "Tue Feb 03 11:30:55 CET 1970";
+                        value = CalendarUtil.getTimeStamp();;
                         break;
                     case "boolean":
                         break;
