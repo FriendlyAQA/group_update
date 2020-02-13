@@ -44,9 +44,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "ddlUpdateStatus")
     private WebElement updStatusComboBox;
 
-    @FindBy(id = "txtName")
-    private WebElement nameField;
-
     @FindBy(id = "ddlSend")
     private WebElement sendToField;
 
@@ -91,18 +88,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "lrbWaitScheduled")
     private WebElement scheduledToRadioButton;
-
-    @FindBy(id = "btnAddFilter_btn")
-    private WebElement addFilterButton;
-
-    @FindBy(id = "ddlColumns")
-    private WebElement selectColumnFilter;
-
-    @FindBy(id = "ddlCondition")
-    private WebElement compareSelect;
-
-    @FindBy(id = "btnOk_btn")
-    private WebElement okButtonPopUp;
 
     @FindBy(id = "ddlTasks")
     private WebElement selectTask;
@@ -243,10 +228,7 @@ public class GroupUpdatePage extends BasePage {
     private WebElement resetViewButton;
 
     public GroupUpdatePage topMenu(TopMenu value) {
-        super.topMenu(value);
-        switchToFrame(DESKTOP);
-        waitForUpdate();
-        return this;
+        return (GroupUpdatePage) super.topMenu(value);
     }
 
     public GroupUpdatePage selectImportDevicesFile() {
@@ -271,15 +253,6 @@ public class GroupUpdatePage extends BasePage {
 //        waitForUpdate();
         if (!taskTableList.isEmpty()) {
             throw new AssertionError("Task table was found on page");
-        }
-    }
-
-    public void assertElementIsPresent(String id) {
-        List<WebElement> list = driver.findElements(By.id(id));
-        if (list.size() == 0) {
-            String warn = "Element with id='" + id + "' not found on the Group Update page";
-            logger.warn(warn);
-            throw new AssertionError(warn);
         }
     }
 
@@ -309,22 +282,6 @@ public class GroupUpdatePage extends BasePage {
 
     public Table getMainTable() {
         return getTable("tblParameters");
-    }
-
-    public Table getTable(String id) {
-        return getTable(id, null);
-    }
-
-    public Table getTable(String id, FrameSwitch frame) {
-        waitForUpdate();
-        if (frame != null) {
-            switchToFrame(frame);
-        }
-        WebElement tableEl = driver.findElement(By.id(id));
-        setImplicitlyWait(0);
-        Table table = new Table(tableEl);
-        setDefaultImplicitlyWait();
-        return table;
     }
 
     public GroupUpdatePage clickOn(String id) {
@@ -537,23 +494,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage okButtonPopUp() {
-        switchToFrame(ROOT);
-        okButtonPopUp.click();
-        switchToFrame(DESKTOP);
-        return this;
-    }
-
-    public void addFilter() {
-        addFilterButton.click();
+        return (GroupUpdatePage) super.okButtonPopUp;
     }
 
     public GroupUpdatePage compareSelect(String option) {
         selectComboBox(compareSelect, option);
-        return this;
-    }
-
-    public GroupUpdatePage selectColumnFilter(String option) {
-        selectComboBox(selectColumnFilter, option);
         return this;
     }
 
@@ -633,13 +578,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage fillName(String name) {
-        nameField.sendKeys(name);
-        return this;
+        return (GroupUpdatePage) super.fillName(name);
     }
 
     public GroupUpdatePage fillName() {
-        nameField.sendKeys(BaseTestCase.getTestName());
-        return this;
+        return (GroupUpdatePage) super.fillName();
     }
 
     public GroupUpdatePage fillUrl(String url) {
@@ -754,16 +697,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    private void selectComboBox(WebElement combobox, String value) {
-        waitForUpdate();
-        List<WebElement> options = combobox.findElements(By.tagName("option"));
-        for (WebElement option : options) {
-            if (option.getText().toLowerCase().equals(value.toLowerCase())) {
-                new Select(combobox).selectByValue(option.getAttribute("value"));
-                return;
-            }
-        }
-        new Select(combobox).selectByValue(value);
+    public GroupUpdatePage selectColumnFilter(String option) {
+        selectComboBox(selectColumnFilter, option);
+        return this;
     }
 
     public GroupUpdatePage deleteFilterGroups() {
@@ -808,7 +744,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage leftMenu(GroupUpdatePage.Left item) {
+    public GroupUpdatePage leftMenu(Left item) {
         switchToFrame(ROOT);
         leftMenuClick(item.getValue());
         waitForUpdate();
@@ -1260,30 +1196,23 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
-    public String getSelectedValue(String inputId) {
-        return getSelectedValue(driver.findElement(By.id(inputId)));
-    }
-
-    private String getSelectedValue(WebElement comboBox) {
-        List<WebElement> optList = comboBox.findElements(By.tagName("option"));
-        for (WebElement el : optList) {
-            if (el.getAttribute("selected") != null) {
-                return el.getText();
-            }
-        }
-        return null;
-    }
-
     public GroupUpdatePage gotoRestore() {
         return goto_("Restore");
     }
 
-    public boolean isButtonActive(String id) {
-        return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
+    @Override
+    public GroupUpdatePage assertElementIsPresent(String id) {
+        return (GroupUpdatePage) super.assertElementIsPresent(id);
     }
 
-    public void filterRecordsCheckbox() {
-        driver.findElement(By.id("tblTree")).findElement(By.tagName("input")).click();
+    @Override
+    public GroupUpdatePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+        return (GroupUpdatePage) super.assertButtonsAreEnabled(enabled, buttons);
+    }
+
+    @Override
+    public GroupUpdatePage assertButtonsArePresent(GlobalButtons... buttons) {
+        return (GroupUpdatePage) super.assertButtonsArePresent(buttons);
     }
 
     public enum Left {

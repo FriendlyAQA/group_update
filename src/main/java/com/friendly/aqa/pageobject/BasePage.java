@@ -2,6 +2,7 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
@@ -13,6 +14,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,8 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.BUTTONS;
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
 
 public abstract class BasePage {
@@ -117,6 +118,9 @@ public abstract class BasePage {
     @FindBy(tagName = "table")
     private WebElement buttonTable;
 
+    @FindBy(id = "txtName")
+    protected WebElement nameField;
+
     @FindBy(id = "menuCircularG")
     private static WebElement spinningWheel;
 
@@ -126,6 +130,18 @@ public abstract class BasePage {
     @FindBy(id = "btnAlertOk_btn")
     protected WebElement okButtonAlertPopUp;
 
+    @FindBy(id = "btnAddFilter_btn")
+    private WebElement addFilterButton;
+
+    @FindBy(id = "ddlColumns")
+    protected WebElement selectColumnFilter;
+
+    @FindBy(id = "ddlCondition")
+    protected WebElement compareSelect;
+
+    @FindBy(id = "btnOk_btn")
+    protected WebElement okButtonPopUp;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -134,6 +150,57 @@ public abstract class BasePage {
 
     public void scrollTo(WebElement element) {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public BasePage addFilter() {
+        addFilterButton.click();
+        return this;
+    }
+
+    public void filterRecordsCheckbox() {
+        driver.findElement(By.id("tblTree")).findElement(By.tagName("input")).click();
+    }
+
+    protected void selectComboBox(WebElement comboBox, String value) {
+        waitForUpdate();
+        List<WebElement> options = comboBox.findElements(By.tagName("option"));
+        for (WebElement option : options) {
+            if (option.getText().toLowerCase().equals(value.toLowerCase())) {
+                new Select(comboBox).selectByValue(option.getAttribute("value"));
+                return;
+            }
+        }
+        new Select(comboBox).selectByValue(value);
+    }
+
+    public boolean isButtonActive(String id) {
+        return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
+    }
+
+    public BasePage fillName(String name) {
+        nameField.sendKeys(name);
+        return this;
+    }
+
+    public BasePage fillName() {
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    public Table getTable(String id, FrameSwitch frame) {
+        waitForUpdate();
+        if (frame != null) {
+            switchToFrame(frame);
+        }
+        WebElement tableEl = driver.findElement(By.id(id));
+        setImplicitlyWait(0);
+        Table table = new Table(tableEl);
+        setDefaultImplicitlyWait();
+        return table;
+    }
+
+    public Table getTable(String id) {
+        return getTable(id, null);
     }
 
     public static void waitForUpdate() {
@@ -159,6 +226,13 @@ public abstract class BasePage {
         }
     }
 
+    public BasePage okButtonPopUp() {
+        switchToFrame(ROOT);
+        okButtonPopUp.click();
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
     public String getAlertTextAndClickOk() {
         switchToFrame(ROOT);
         String out = alertWindow.getText();
@@ -174,6 +248,19 @@ public abstract class BasePage {
             if (btn.getText().equals(value.getItem())) {
                 btn.click();
             }
+        }
+        switchToFrame(DESKTOP);
+        waitForUpdate();
+        return this;
+    }
+
+    public BasePage assertElementIsPresent(String id) {
+        waitForUpdate();
+        List<WebElement> list = driver.findElements(By.id(id));
+        if (list.size() == 0) {
+            String warn = "Element with id='" + id + "' not found on the Group Update page";
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
         return this;
     }
@@ -203,6 +290,20 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
+    public String getSelectedValue(String inputId) {
+        return getSelectedValue(driver.findElement(By.id(inputId)));
+    }
+
+    private String getSelectedValue(WebElement comboBox) {
+        List<WebElement> optList = comboBox.findElements(By.tagName("option"));
+        for (WebElement el : optList) {
+            if (el.getAttribute("selected") != null) {
+                return el.getText();
+            }
+        }
+        return null;
+    }
+
     public boolean isInputActive(String id) {
         String attr = getAttributeById(id, "disabled");
         return attr == null || !attr.equals("true");
@@ -213,6 +314,33 @@ public abstract class BasePage {
         boolean out = driver.findElements(By.id(button.getId())).size() == 1;
         switchToPrevious();
         return out;
+    }
+
+    protected BasePage assertButtonsArePresent(GlobalButtons... buttons) {
+        switchToFrame(BUTTONS);
+        for (GlobalButtons button : buttons) {
+            List<WebElement> list = driver.findElements(By.id(button.getId()));
+            if (list.size() != 1 || !list.get(0).isDisplayed()) {
+                switchToPrevious();
+                throw new AssertionError("Button " + button + " not found");
+            }
+        }
+        switchToPrevious();
+        return this;
+    }
+
+    protected BasePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+        assertButtonsArePresent(buttons);
+        switchToFrame(BUTTONS);
+        for (GlobalButtons button : buttons) {
+            WebElement btn = driver.findElement(By.id(button.getId()));
+            if (btn.getAttribute("class").equals("button_disabled") == enabled) {
+                switchToPrevious();
+                throw new AssertionError("Button " + button + " has unexpected state (" + (enabled ? "disabled)" : "enabled)"));
+            }
+        }
+        switchToPrevious();
+        return this;
     }
 
     public String getAttributeById(String id, String attr) {

@@ -20,6 +20,7 @@ import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 public class BaseTestCase {
     private LoginPage loginPage;
     protected GroupUpdatePage guPage;
+    protected MonitoringPage monPage;
     private long start = System.currentTimeMillis();
     protected static String testName, targetTestName;
     static Properties props;
@@ -47,6 +48,7 @@ public class BaseTestCase {
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         guPage = new GroupUpdatePage();
+        monPage = new MonitoringPage();
         testName = "";
     }
 
@@ -92,7 +94,6 @@ public class BaseTestCase {
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
         if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
             resetViewList.get(0).click();
-            System.out.println("resetView");
             BasePage.waitForUpdate();
         }
         BasePage.setDefaultImplicitlyWait();

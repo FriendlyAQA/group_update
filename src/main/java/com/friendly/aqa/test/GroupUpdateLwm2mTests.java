@@ -195,8 +195,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_013() {
         guPage
                 .gotoSetParameters(null);
-        assertTrue(guPage.isElementPresent("tblParamsValue"));
-        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
+        guPage
+                .assertElementIsPresent("tblParamsValue")
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test

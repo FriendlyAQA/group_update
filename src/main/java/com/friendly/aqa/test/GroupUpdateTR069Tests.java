@@ -202,8 +202,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
-                .addTaskButton();
-        assertTrue(guPage.isElementPresent("tblParamsValue"));
+                .addTaskButton()
+                .assertElementIsPresent("tblParamsValue");
         assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
     }
 
@@ -1318,9 +1318,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .getTable("tblTasks")
                 .clickOn(1, 0);
         guPage
-                .deleteButton();
-        waitForUpdate();
-        assertFalse(guPage.isElementPresent("tblTasks"));
+                .deleteButton()
+                .assertElementIsPresent("tblTasks");
     }
 
     @Test

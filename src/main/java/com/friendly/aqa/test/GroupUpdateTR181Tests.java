@@ -193,19 +193,10 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_013() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton();
-        assertTrue(guPage.isElementPresent("tblParamsValue"));
-        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
+                .gotoSetParameters(null);
+        guPage
+                .assertElementIsPresent("tblParamsValue")
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
