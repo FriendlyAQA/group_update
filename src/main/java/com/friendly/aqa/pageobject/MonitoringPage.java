@@ -1,15 +1,15 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.test.BaseTestCase;
+import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
+import java.io.File;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
 public class MonitoringPage extends BasePage {
     private static Logger logger = Logger.getLogger(MonitoringPage.class);
@@ -40,11 +40,20 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "btnEditView_btn")
     private WebElement editViewButton;
 
+    @FindBy(id = "btnAddModel_btn")
+    private WebElement addModelButton;
+
     @FindBy(id = "btnNewView_btn")
     private WebElement newViewButton;
 
     @FindBy(id = "btnDefaultView_btn")
     private WebElement resetViewButton;
+
+    @FindBy(id = "btnSelectDevices_btn")
+    private WebElement selectButton;
+
+    @FindBy(id = "btnCancel_btn")
+    private WebElement cancelIndividualButton;
 
     @FindBy(id = "IsDefaultViewForPublic")
     private WebElement forPublicCheckbox;
@@ -52,10 +61,30 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "IsDefaultViewForUser")
     private WebElement forUserCheckbox;
 
+    @FindBy(id = "tbName")
+    private WebElement nameField;
+
 
     public MonitoringPage newViewButton() {
         newViewButton.click();
         return this;
+    }
+
+    public MonitoringPage newGroupButton() {
+        return newViewButton();
+    }
+
+    public MonitoringPage fillName() {
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    public MonitoringPage fillGroupName() {
+        return (MonitoringPage) super.fillName();
+    }
+
+    public MonitoringPage fillGroupName(String name) {
+        return (MonitoringPage) super.fillName(name);
     }
 
     public MonitoringPage forPublicCheckbox() {
@@ -70,7 +99,22 @@ public class MonitoringPage extends BasePage {
 
     public MonitoringPage editViewButton() {
         editViewButton.click();
+        waitForUpdate();
         return this;
+    }
+
+    public Table getMainTable() {
+        return new Table("tbl");
+    }
+
+    public MonitoringPage addModel() {
+        addModelButton.click();
+        waitForUpdate();
+        return this;
+    }
+
+    public MonitoringPage immediately() {
+        return (MonitoringPage) super.immediately();
     }
 
     public MonitoringPage assertMainPageDisplayed() {
@@ -96,14 +140,50 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    public MonitoringPage selectManufacturer(String value) {
+    public MonitoringPage selectFilterManufacturer(String value) {
         selectComboBox(filterManufacturerComboBox, value);
         return this;
     }
 
-    public MonitoringPage selectModelName(String value) {
+    public MonitoringPage selectFilterModelName(String value) {
         selectComboBox(filterModelNameComboBox, value);
         return this;
+    }
+
+    public MonitoringPage selectButton() {
+        selectButton.click();
+        return this;
+    }
+
+    public MonitoringPage selectIndividualDevises(int amount) {
+        System.out.println(frame);
+        switchToFrame(POPUP);
+        Table table = getTable("tblDevices");
+        for (int i = 1; i < amount + 1; i++) {
+            table.clickOn(i, 0, 0);
+        }
+        selectButton();
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
+    public MonitoringPage selectImportDevicesFile() {
+        return (MonitoringPage) super.selectImportDevicesFile();
+    }
+
+    public MonitoringPage selectManufacturer() {
+        selectComboBox(manufacturerComboBox, getManufacturer());
+        return this;
+    }
+
+    @Override
+    public MonitoringPage selectModel() {
+        return (MonitoringPage) super.selectModel();
+    }
+
+    @Override
+    public MonitoringPage selectModel(String value) {
+        return (MonitoringPage) super.selectModel(value);
     }
 
     public MonitoringPage selectColumnFilter(String option) {
@@ -117,6 +197,16 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
+    public MonitoringPage selectSendTo() {
+        return (MonitoringPage) super.selectSendTo();
+    }
+
+    @Override
+    public MonitoringPage selectSendTo(String sendTo) {
+        return (MonitoringPage) super.selectSendTo(sendTo);
+    }
+
+    @Override
     public MonitoringPage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
         return (MonitoringPage) super.assertButtonsAreEnabled(enabled, buttons);
     }
@@ -126,13 +216,41 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.assertButtonsArePresent(buttons);
     }
 
-    @Override
-    public MonitoringPage fillName() {
+    public MonitoringPage assertTableIsEmpty(String id) {
+        Table table = getTable(id);
+        if (table.getTableSize()[0] > 0) {
+            throw new AssertionError("Unexpected table content (expected: empty table)");
+        }
+        return this;
+    }
+
+    public MonitoringPage assertTableHasContent(String id) {
+        Table table = getTable(id);
+        if (table.getTableSize()[0] == 0) {
+            throw new AssertionError("Unexpected table content (expected: not empty table)");
+        }
+        return this;
+    }
+
+    public MonitoringPage cancelIndividualSelection() {
+        switchToFrame(POPUP);
+        cancelIndividualButton.click();
+        switchToPreviousFrame();
+        return this;
+    }
+
+    public MonitoringPage assertButtonAreActive(String id) {
+        if (isButtonActive(id)) {
+            return this;
+        }
+        throw new AssertionError("Button ID='" + id + "' is disabled");
+    }
+
+    public MonitoringPage fillViewName() {
         return (MonitoringPage) super.fillName();
     }
 
-    @Override
-    public MonitoringPage fillName(String name) {
+    public MonitoringPage fillViewName(String name) {
         return (MonitoringPage) super.fillName(name);
     }
 

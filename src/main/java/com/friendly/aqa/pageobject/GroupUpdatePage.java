@@ -35,17 +35,8 @@ public class GroupUpdatePage extends BasePage {
         return "tr[topmenu='Update Group']";
     }
 
-    @FindBy(id = "ddlManufacturer")
-    private WebElement manufacturerComboBox;
-
-    @FindBy(id = "ddlModelName")
-    private WebElement modelComboBox;
-
     @FindBy(name = "ddlUpdateStatus")
     private WebElement updStatusComboBox;
-
-    @FindBy(id = "ddlSend")
-    private WebElement sendToField;
 
     @FindBy(id = "txtText")
     private WebElement inputTextField;
@@ -83,9 +74,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "ddlPageSizes")
     private WebElement itemsOnPageComboBox;
 
-    @FindBy(id = "lrbImmediately")
-    private WebElement immediatelyRadioButton;
-
     @FindBy(id = "lrbWaitScheduled")
     private WebElement scheduledToRadioButton;
 
@@ -122,9 +110,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "fuImport")
     private WebElement importGuField;
 
-    @FindBy(id = "fuSerials")
-    private WebElement importDeviceField;
-
     @FindBy(id = "txtHost")
     private WebElement inputHostField;
 
@@ -133,9 +118,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "txtDnsServer")
     private WebElement inputDnsField;
-
-    @FindBy(id = "frmImportFromFile")
-    private WebElement importFrame;
 
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
@@ -231,13 +213,9 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.topMenu(value);
     }
 
+    @Override
     public GroupUpdatePage selectImportDevicesFile() {
-        switchToFrame(DESKTOP);
-        driver.switchTo().frame(importFrame);
-        String inputText = new File(getImportCpeFile()).getAbsolutePath();
-        importDeviceField.sendKeys(inputText);
-        driver.switchTo().parentFrame();
-        return this;
+        return (GroupUpdatePage) super.selectImportDevicesFile();
     }
 
     public GroupUpdatePage selectImportGuFile() {
@@ -245,7 +223,7 @@ public class GroupUpdatePage extends BasePage {
         String inputText = new File(getImportGroupFile()).getAbsolutePath();
         System.out.println(inputText);
         importGuField.sendKeys(inputText);
-        ((JavascriptExecutor) BasePage.getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
+        ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
     }
 
@@ -262,7 +240,7 @@ public class GroupUpdatePage extends BasePage {
                 .clickOn(getSerial(), 3);
         waitForUpdate();
         clickOn("btnEditUserInfo_lnk");
-        switchToFrame(USER_INFO);
+        switchToFrame(POPUP);
         WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
 //        pause(2000);
         while (!saveButton.isDisplayed()) {
@@ -290,7 +268,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public void executeScript(String script) {
-        ((JavascriptExecutor) BasePage.getDriver()).executeScript(script);
+        ((JavascriptExecutor) getDriver()).executeScript(script);
     }
 
     public GroupUpdatePage selectTodayDate(String date) {
@@ -494,7 +472,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage okButtonPopUp() {
-        return (GroupUpdatePage) super.okButtonPopUp;
+        return (GroupUpdatePage) super.okButtonPopUp();
     }
 
     public GroupUpdatePage compareSelect(String option) {
@@ -508,8 +486,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage immediately() {
-        immediatelyRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.immediately();
     }
 
     public boolean isElementDisplayed(String id) {
@@ -568,13 +545,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectSendTo() {
-        new Select(sendToField).selectByValue("All");
-        return this;
+        return (GroupUpdatePage) super.selectSendTo();
     }
 
     public GroupUpdatePage selectSendTo(String sendTo) {
-        selectComboBox(sendToField, sendTo);
-        return this;
+        return (GroupUpdatePage) super.selectSendTo(sendTo);
     }
 
     public GroupUpdatePage fillName(String name) {
@@ -679,22 +654,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectManufacturer() {
-        return selectManufacturer(getManufacturer());
-    }
-
-    public GroupUpdatePage selectManufacturer(String manufacturer) {
-        selectComboBox(manufacturerComboBox, manufacturer);
-        return this;
+        return (GroupUpdatePage) selectManufacturer(getManufacturer());
     }
 
     public GroupUpdatePage selectModel() {
-        selectModel(getModelName());
-        return this;
-    }
-
-    public GroupUpdatePage selectModel(String modelName) {
-        selectComboBox(modelComboBox, modelName);
-        return this;
+        return (GroupUpdatePage) super.selectModel();
     }
 
     public GroupUpdatePage selectColumnFilter(String option) {
@@ -705,18 +669,18 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage deleteFilterGroups() {
         List<WebElement> optList;
         List<String> standard = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
-        while ((optList = sendToField.findElements(By.tagName("option"))).size() > 5) {
+        while ((optList = sendToComboBox.findElements(By.tagName("option"))).size() > 5) {
             for (WebElement option : optList) {
                 String value = option.getAttribute("value");
                 if (standard.contains(value)) {
                     continue;
                 }
-                new Select(sendToField).selectByValue(value);
+                new Select(sendToComboBox).selectByValue(value);
                 editGroupButton();
                 try {
                     globalButtons(DELETE_GROUP);
                 } catch (NoSuchElementException e) {
-                    switchToPrevious();
+                    switchToPreviousFrame();
                     executeScript("SelectSendTp();");
                     System.out.println("Execution script forced");
                 }
@@ -725,18 +689,6 @@ public class GroupUpdatePage extends BasePage {
             }
         }
         return this;
-    }
-
-    public boolean isOptionPresent(String comboBoxId, String text) {
-        waitForUpdate();
-        WebElement combobox = driver.findElement(By.id(comboBoxId));
-        List<WebElement> options = combobox.findElements(By.tagName("option"));
-        for (WebElement option : options) {
-            if (option.getText().toLowerCase().equals(text.toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public GroupUpdatePage globalButtons(GlobalButtons button) {
@@ -979,8 +931,8 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage gotoAddFilter() {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(BasePage.getManufacturer())
-                .selectModel(BasePage.getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName()
@@ -1001,7 +953,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table goToSetPolicies(String tab) {
         goto_("Policy");
-        if (tab != null && !tab.toLowerCase().equals("management")) {
+        if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         return getTable("tblParamsValue");
@@ -1057,7 +1009,7 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask("Policy")
                 .addTaskButton();
-        if (tab != null && !tab.toLowerCase().equals("management")) {
+        if (tab != null) {
             getTable("tabsSettings_tblTabs")
                     .clickOn(tab);
         }
@@ -1085,7 +1037,7 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask("Get parameter")
                 .addTaskButton();
-        if (tab != null && !tab.toLowerCase().equals("management")) {
+        if (tab != null) {
             getTable("tabsSettings_tblTabs")
                     .clickOn(tab);
         }
@@ -1142,7 +1094,7 @@ public class GroupUpdatePage extends BasePage {
 
     public Table gotoGetParameter(String tab, boolean advancedView) {
         goto_("Get parameter");
-        if (tab != null && !tab.toLowerCase().equals("management")) {
+        if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
         if (advancedView) {
@@ -1166,8 +1118,8 @@ public class GroupUpdatePage extends BasePage {
     private GroupUpdatePage goto_(String taskName) {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
-                .selectManufacturer(getManufacturer())
-                .selectModel(getModelName())
+                .selectManufacturer()
+                .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)

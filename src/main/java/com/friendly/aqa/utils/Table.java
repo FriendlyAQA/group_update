@@ -17,7 +17,6 @@ public class Table {
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
-    private String prefix;
     private WebElement table;
     private Properties props;
 
@@ -27,7 +26,6 @@ public class Table {
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
-        prefix = "";
         parseTable();
     }
 
@@ -40,8 +38,10 @@ public class Table {
         rowsList.parallelStream()
                 .forEach(webElement -> {
                     int i = rowsList.indexOf(webElement);
-                    String tagName = i == 0 ? "th" : "td";
-                    List<WebElement> tdList = webElement.findElements(By.tagName(tagName));
+                    List<WebElement> tdList = webElement.findElements(By.tagName("td"));
+                    if (tdList.size() == 0) {
+                        tdList = webElement.findElements(By.tagName("th"));
+                    }
                     elementTable[i] = tdList.toArray(new WebElement[0]);
                 });
         Pattern row = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
@@ -82,10 +82,6 @@ public class Table {
         } else {
             return out;
         }
-    }
-
-    public int[] getTableSize() {
-        return new int[]{textTable.length, textTable[1].length};
     }
 
     public Table clickOn(int row, int column, int tagNum) {
@@ -137,15 +133,22 @@ public class Table {
         return this;
     }
 
+    public int[] getTableSize() {
+        int maxCells = 0;
+        for (String[] row : textTable) {
+            maxCells = Math.max(maxCells, row.length);
+        }
+        return new int[]{textTable.length, maxCells};
+    }
+
     @SuppressWarnings("unused")
     public Table print() {
-        int[] size = new int[textTable[1].length];
-        for (String[] strings : textTable) {
-            for (int j = 0; j < strings.length; j++) {
-                int k = strings[j].length();
-                if (k > size[j]) {
-                    size[j] = k;
-                }
+        int maxCells = getTableSize()[1];
+        int[] size = new int[maxCells];
+        for (String[] rows : textTable) {
+            for (int j = 0; j < rows.length; j++) {
+                int k = rows[j].length();
+                size[j] = Math.max(size[j], k);
             }
         }
         for (String[] strings : textTable) {
@@ -229,13 +232,30 @@ public class Table {
         return textTable[getRowNumberByText(searchColumn, searchText)][resultColumn];
     }
 
-    public WebElement getCellWebElement(int row, int column) {
-        return elementTable[row][column];
+    public void assertStartWith(int row, int column, String expectedText) {
+        if (column < 0) {
+            column = textTable[row].length + column;
+        }
+        System.out.println("text:"+textTable[row][column]);
+        print();
+        if (!textTable[row][column].startsWith(expectedText)) {
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "doesn't start with '" + expectedText + "'!");
+        }
     }
 
-    public Table setPrefix(String prefix) {
-        this.prefix = prefix;
-        return this;
+    public void assertEndsWith(int row, int column, String expectedText) {
+        if (column < 0) {
+            column = textTable[row].length + column;
+        }
+        System.out.println("text:"+textTable[row][column]);
+        print();
+        if (!textTable[row][column].endsWith(expectedText)) {
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "doesn't start with '" + expectedText + "'!");
+        }
+    }
+
+    public WebElement getCellWebElement(int row, int column) {
+        return elementTable[row][column];
     }
 
     private int getRowNumberByText(int columnNum, String text) {
@@ -269,7 +289,7 @@ public class Table {
         for (String[] row : textTable) {
             try {
                 int length = row.length;
-                if (row[length - 2].equals(prefix + parameter) && row[length - 1].equals(value)) {
+                if (row[length - 2].equals(parameter) && row[length - 1].equals(value)) {
                     match = true;
                     break;
                 }
@@ -340,7 +360,7 @@ public class Table {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint, BasePage.getSerial()).toLowerCase();
+                String paramType = DataBaseConnector.getValueType(hint).toLowerCase();
                 switch (paramType) {
                     case "string":
                         value = "value" + i;
@@ -528,7 +548,7 @@ public class Table {
     public void assertPresenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
-            if (row[length - 2].equals(value) || row[length - 2].equals(prefix + value)) {
+            if (row[length - 2].equals(value)) {
                 return;
             }
         }
@@ -541,7 +561,7 @@ public class Table {
     public Table assertAbsenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
-            if (row[length - 2].equals(value) || row[length - 2].equals(prefix + value)) {
+            if (row[length - 2].equals(value)) {
                 String warning = "Specified table contains value '" + value + "', but must NOT!";
                 throw new AssertionError(warning);
             }
@@ -571,6 +591,7 @@ public class Table {
         paramSet = null;
     }
 
+    @SuppressWarnings("unused")
     public enum Parameter {
         EMPTY_VALUE("sendEmpty"),
         VALUE("sendValue"),
@@ -587,6 +608,7 @@ public class Table {
         }
     }
 
+    @SuppressWarnings("unused")
     public enum Policy {
         DEFAULT("-1"),
         OFF("0"),
@@ -602,6 +624,7 @@ public class Table {
         }
     }
 
+    @SuppressWarnings("unused")
     public enum Conditions {
         CONTAINS(1, "5"),
         EQUAL(2, "2"),

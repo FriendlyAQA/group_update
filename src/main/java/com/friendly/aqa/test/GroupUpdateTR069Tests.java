@@ -172,7 +172,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -186,7 +186,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -509,7 +509,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_040() {
         guPage
-                .goToSetPolicies(null)
+                .goToSetPolicies("Management")
                 .setAllPolicies();
         guPage
                 .nextSaveAndActivate()
@@ -519,7 +519,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_041() {
         guPage
-                .goToSetPolicies(null)
+                .goToSetPolicies("Management")
                 .setPolicy(1);
         guPage
                 .nextSaveAndActivate()
@@ -529,7 +529,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_042() {
         guPage
-                .goToSetPolicies(null)
+                .goToSetPolicies("Management")
                 .setPolicy(2);
         guPage
                 .nextSaveAndActivate()
@@ -539,7 +539,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_043() {
         guPage
-                .goToSetPolicies(null)
+                .goToSetPolicies("Management")
                 .setPolicy(3);
         guPage
                 .nextSaveAndActivate()
@@ -922,7 +922,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Time")
                 .getTable("tblParamsValue")
                 .setParameter(1);
@@ -3702,7 +3702,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Time");
         guPage
                 .globalButtons(ADVANCED_VIEW)

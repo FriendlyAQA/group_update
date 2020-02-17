@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -167,7 +166,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -181,7 +180,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test

@@ -3,10 +3,13 @@ package com.friendly.aqa.pageobject;
 public enum GlobalButtons {
 
     ACTIVATE("btnActivate_btn"),
+    ADVANCED_VIEW("btnAdvancedView_btn"),
     CANCEL("btnCancel_btn"),
     DEACTIVATE("btnStop_btn"),
     DELETE("btnDelete_btn"),
     DELETE_GROUP("btnDeleteView_btn"),
+    DUPLICATE("btnDuplicate_btn"),
+    EDIT("btnEdit_btn"),
     FINISH("btnFinish_btn"),
     NEXT("btnNext_btn"),
     PAUSE("btnPause_btn"),
@@ -14,10 +17,8 @@ public enum GlobalButtons {
     PREVIOUS("btnPrev_btn"),
     SAVE("btnSave_btn"),
     SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
+    SIMPLE_VIEW("btnView_btn"),
     STOP("btnStop_btn"),
-    EDIT("btnEdit_btn"),
-    DUPLICATE("btnDuplicate_btn"),
-    ADVANCED_VIEW("btnAdvancedView_btn"),
     STOP_WITH_RESET("btnStopWithReset_btn");
 
     GlobalButtons(String id) {

@@ -173,7 +173,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -308,9 +308,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .setParameter("Password", VALUE, "ftacs");
         guPage
                 .nextSaveAndActivate()
-                .setPrefix("Device.ManagementServer.")
-                .checkResults("Username", "ftacs")
-                .checkResults("Password", "ftacs");
+                .checkResults();
     }
 
     @Test
@@ -1178,7 +1176,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Time")
                 .getTable("tblParamsValue")
                 .setParameter(1);
@@ -4286,7 +4284,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Time");
         guPage
                 .globalButtons(ADVANCED_VIEW)

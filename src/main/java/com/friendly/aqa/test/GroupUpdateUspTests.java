@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -38,7 +37,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .deleteFilterGroups()
                 .globalButtons(CANCEL);
@@ -52,7 +51,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .selectSendTo()
                 .showList();
@@ -65,7 +64,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .createGroup();
         assertTrue(guPage.isButtonPresent(FINISH));
@@ -113,7 +112,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
@@ -127,7 +126,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .selectSendTo(targetTestName)
                 .editGroupButton()
@@ -142,7 +141,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
                 .getTable("tblDevices")
@@ -162,12 +161,12 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -181,7 +180,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -209,8 +208,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName(getTestName())
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -228,8 +227,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -250,8 +249,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -269,8 +268,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -291,8 +290,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -310,8 +309,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
-                .fillName(BaseTestCase.getTestName())
+                .selectModel()
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -485,7 +484,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .selectModel(getModelName())
+                .selectModel()
                 .fillName()
                 .createGroup()
                 .fillName()

@@ -125,6 +125,14 @@ public class BaseTestCase {
         }
     }
 
+    protected String getSerial() {
+        return BasePage.getSerial();
+    }
+
+    protected int getDeviceAmount(){
+        return DataBaseConnector.getDeviceAmount(getSerial());
+    }
+
     public static void interruptTestRunning(boolean interrupt) {
         isInterrupted = interrupt;
     }

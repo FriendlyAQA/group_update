@@ -52,12 +52,10 @@ public class DataBaseConnector {
         return taskList;
     }
 
-    public static String getValueType(String value, String serial) {
+    public static String getValueType(String value) {
         String type = "";
         try {
-            stmtObj.execute("SELECT type FROM ftacs.cpe_parameter_name WHERE name='" + value + "' AND id IN (" +
-                    "SELECT name_id FROM ftacs.cpe_parameter WHERE cpe_id IN (" +
-                    "SELECT cpe_id FROM ftacs.cpe_serial WHERE serial='" + serial + "'))");//TODO remove serial from query;
+            stmtObj.execute("SELECT type FROM ftacs.cpe_parameter_name WHERE name='" + value + "'");
             ResultSet resultSet = stmtObj.getResultSet();
             if (resultSet.next()) {
                 type = resultSet.getString(1);
@@ -89,9 +87,24 @@ public class DataBaseConnector {
         return device;
     }
 
+    public static int getDeviceAmount(String serial) {
+        int amount = 0;
+        try {
+            stmtObj.execute("SELECT * FROM ftacs.cpe WHERE product_class_id IN (" +
+                    "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')");
+            ResultSet resultSet = stmtObj.getResultSet();
+            while (resultSet.next()) {
+                amount++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return amount;
+    }
+
     public static void main(String[] args) {
         connectDb();
-        System.out.println(Arrays.deepToString(getDevice("")));
+        System.out.println(getDeviceAmount("FT001SN0000268FF7B6332BC"));
         disconnectDb();
     }
 }

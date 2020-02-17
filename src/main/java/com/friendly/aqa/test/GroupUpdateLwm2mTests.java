@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.HttpConnector;
 import org.testng.annotations.Listeners;
@@ -11,12 +10,12 @@ import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.BasePage.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
 import static com.friendly.aqa.utils.Table.Parameter.VALUE;
 import static org.testng.Assert.*;
-import static org.testng.Assert.assertFalse;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateLwm2mTests extends BaseTestCase {
@@ -174,7 +173,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -188,7 +187,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(testName)
                 .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, BasePage.getSerial());
+        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
     }
 
     @Test
@@ -2642,7 +2641,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Server")
                 .getTable("tblParamsValue")
                 .setParameter("Default Maximum Period", VALUE, "10");
@@ -2672,7 +2671,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
+                .getTabTable()
                 .clickOn("Server")
                 .getTable("tblParamsValue")
                 .setParameter(2);

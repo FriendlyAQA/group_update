@@ -142,6 +142,24 @@ public abstract class BasePage {
     @FindBy(id = "btnOk_btn")
     protected WebElement okButtonPopUp;
 
+    @FindBy(id = "ddlManufacturer")
+    protected WebElement manufacturerComboBox;
+
+    @FindBy(id = "ddlModelName")
+    protected WebElement modelComboBox;
+
+    @FindBy(id = "ddlSend")
+    protected WebElement sendToComboBox;
+
+    @FindBy(id = "lrbImmediately")
+    protected WebElement immediatelyRadioButton;
+
+    @FindBy(id = "frmImportFromFile")
+    protected WebElement importFrame;
+
+    @FindBy(id = "fuSerials")
+    protected WebElement importDeviceField;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -152,8 +170,38 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
+    public BasePage selectManufacturer(String manufacturer) {
+        selectComboBox(manufacturerComboBox, manufacturer);
+        return this;
+    }
+
+    public BasePage selectModel(String modelName) {
+        selectComboBox(modelComboBox, modelName);
+        return this;
+    }
+
+    public BasePage selectModel() {
+        selectComboBox(modelComboBox, getModelName());
+        return this;
+    }
+
+    public BasePage selectSendTo(String value) {
+        selectComboBox(sendToComboBox, value);
+        waitForUpdate();
+        return this;
+    }
+
+    public BasePage selectSendTo() {
+        return selectSendTo("All");
+    }
+
     public BasePage addFilter() {
         addFilterButton.click();
+        return this;
+    }
+
+    public BasePage immediately() {
+        immediatelyRadioButton.click();
         return this;
     }
 
@@ -171,6 +219,27 @@ public abstract class BasePage {
             }
         }
         new Select(comboBox).selectByValue(value);
+    }
+
+    public BasePage selectImportDevicesFile() {
+        switchToFrame(DESKTOP);
+        driver.switchTo().frame(importFrame);
+        String inputText = new File(getImportCpeFile()).getAbsolutePath();
+        importDeviceField.sendKeys(inputText);
+        driver.switchTo().parentFrame();
+        return this;
+    }
+
+    public boolean isOptionPresent(String comboBoxId, String text) {
+        waitForUpdate();
+        WebElement combobox = driver.findElement(By.id(comboBoxId));
+        List<WebElement> options = combobox.findElements(By.tagName("option"));
+        for (WebElement option : options) {
+            if (option.getText().toLowerCase().equals(text.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isButtonActive(String id) {
@@ -203,6 +272,10 @@ public abstract class BasePage {
         return getTable(id, null);
     }
 
+    public Table getTabTable() {
+        return getTable("tabsSettings_tblTabs", null);
+    }
+
     public static void waitForUpdate() {
         switchToFrame(ROOT);
         String style;
@@ -214,7 +287,7 @@ public abstract class BasePage {
                 e.printStackTrace();
             }
         } while (!style.contains("display: none;"));
-        switchToPrevious();
+        switchToPreviousFrame();
     }
 
     void leftMenuClick(String value) {
@@ -237,7 +310,7 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         String out = alertWindow.getText();
         okButtonAlertPopUp.click();
-        switchToPrevious();
+        switchToPreviousFrame();
         return out;
     }
 
@@ -281,7 +354,7 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
                         .click();
-                switchToPrevious();
+                switchToPreviousFrame();
                 return;
             } catch (StaleElementReferenceException e) {
                 logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
@@ -312,7 +385,7 @@ public abstract class BasePage {
     public boolean isButtonPresent(GlobalButtons button) {
         switchToFrame(BUTTONS);
         boolean out = driver.findElements(By.id(button.getId())).size() == 1;
-        switchToPrevious();
+        switchToPreviousFrame();
         return out;
     }
 
@@ -321,11 +394,11 @@ public abstract class BasePage {
         for (GlobalButtons button : buttons) {
             List<WebElement> list = driver.findElements(By.id(button.getId()));
             if (list.size() != 1 || !list.get(0).isDisplayed()) {
-                switchToPrevious();
+                switchToPreviousFrame();
                 throw new AssertionError("Button " + button + " not found");
             }
         }
-        switchToPrevious();
+        switchToPreviousFrame();
         return this;
     }
 
@@ -335,11 +408,11 @@ public abstract class BasePage {
         for (GlobalButtons button : buttons) {
             WebElement btn = driver.findElement(By.id(button.getId()));
             if (btn.getAttribute("class").equals("button_disabled") == enabled) {
-                switchToPrevious();
+                switchToPreviousFrame();
                 throw new AssertionError("Button " + button + " has unexpected state (" + (enabled ? "disabled)" : "enabled)"));
             }
         }
-        switchToPrevious();
+        switchToPreviousFrame();
         return this;
     }
 
@@ -358,7 +431,7 @@ public abstract class BasePage {
     public boolean isButtonActive(GlobalButtons button) {
         switchToFrame(BUTTONS);
         boolean out = driver.findElement(By.id(button.getId())).getAttribute("class").equals("button_default");
-        switchToPrevious();
+        switchToPreviousFrame();
         return out;
     }
 
@@ -426,14 +499,14 @@ public abstract class BasePage {
         driver.switchTo().frame(frameEl);
     }
 
-    public static void switchToPrevious() {
+    public static void switchToPreviousFrame() {
         switchToFrame(previousFrame);
     }
 
 
     public enum FrameSwitch {
         ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"),
-        CONDITIONS("frmPopup2"), USER_INFO("frmPopup");
+        CONDITIONS("frmPopup2"), POPUP("frmPopup");
 
         FrameSwitch(String frameId) {
             this.frameId = frameId;
