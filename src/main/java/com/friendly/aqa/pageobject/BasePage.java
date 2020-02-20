@@ -23,9 +23,11 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
 
 
 public abstract class BasePage {
@@ -35,6 +37,8 @@ public abstract class BasePage {
     private static Logger logger;
     static FrameSwitch frame;
     private static FrameSwitch previousFrame;
+    protected Table currentTable;
+    protected static Set<String> parameterSet;
 
     static {
         initProperties();
@@ -105,6 +109,8 @@ public abstract class BasePage {
     }
 
     abstract protected String getLeftMenuCssSelector();
+
+    public abstract Table getMainTable();
 
     @FindBy(id = "tblTopMenu")
     private WebElement topMenuTable;
@@ -268,6 +274,28 @@ public abstract class BasePage {
         return table;
     }
 
+    public BasePage globalButtons(GlobalButtons button) {
+        clickGlobalButtons(button);
+        return this;
+    }
+
+    public Table waitForStatus(String status, String testName, int timeout) {
+        long start = System.currentTimeMillis();
+        Table table;
+        while (!(table = getMainTable()).getCellText(4, testName, 1).equals(status)) {
+            globalButtons(REFRESH);
+            if (System.currentTimeMillis() - start > timeout * 1000) {
+                throw new AssertionError("Timed out while waiting for status " + status);
+            }
+        }
+        this.currentTable = table;
+        return table;
+    }
+
+    public Table waitForStatus(String status, int timeout) {
+        return waitForStatus(status, BaseTestCase.getTestName(), timeout);
+    }
+
     public Table getTable(String id) {
         return getTable(id, null);
     }
@@ -331,7 +359,7 @@ public abstract class BasePage {
         waitForUpdate();
         List<WebElement> list = driver.findElements(By.id(id));
         if (list.size() == 0) {
-            String warn = "Element with id='" + id + "' not found on the Group Update page";
+            String warn = "Element with id='" + id + "' not found on current page";
             logger.warn(warn);
             throw new AssertionError(warn);
         }
@@ -472,6 +500,18 @@ public abstract class BasePage {
 
     public String getTitle() {
         return driver.getTitle();
+    }
+
+    public static void flushResults() {
+        parameterSet = null;
+    }
+
+    public void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void takeScreenshot(String pathname) throws IOException {

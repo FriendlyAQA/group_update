@@ -1,5 +1,6 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.utils.Table;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -7,6 +8,11 @@ public class LoginPage extends BasePage {
 
     @Override
     protected String getLeftMenuCssSelector() {
+        return null;
+    }
+
+    @Override
+    public Table getMainTable() {
         return null;
     }
 

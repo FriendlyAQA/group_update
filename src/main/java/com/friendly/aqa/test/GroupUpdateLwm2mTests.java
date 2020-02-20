@@ -207,11 +207,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
-                .okButtonPopUp();
-        waitForUpdate();
-        assertEquals(guPage
-                .getMainTable()
-                .getCellText(4, testName, 1), "Not active");
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5);
         setTargetTestName();
     }
 

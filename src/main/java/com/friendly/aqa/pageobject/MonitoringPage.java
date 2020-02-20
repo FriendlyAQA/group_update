@@ -3,11 +3,12 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.io.File;
+import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
@@ -64,6 +65,9 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "tbName")
     private WebElement nameField;
 
+    @FindBy(id = "tblDataParams")
+    private WebElement paramTable;
+
 
     public MonitoringPage newViewButton() {
         newViewButton.click();
@@ -103,14 +107,66 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    @Override
     public Table getMainTable() {
-        return new Table("tbl");
+        return currentTable = new Table("tbl");
     }
 
     public MonitoringPage addModel() {
         addModelButton.click();
         waitForUpdate();
         return this;
+    }
+
+    public MonitoringPage setParameters(String tab, int startParam, int endParam) {
+        Table table;
+        if (parameterSet == null) {
+            getTabTable().clickOn("Summary");
+            waitForUpdate();
+            table = new Table(paramTable);
+            String[] params = table.getColumn(0);
+            parameterSet = new HashSet<>(Arrays.asList(params));
+        }
+        getTabTable().clickOn(tab);
+        waitForUpdate();
+        table = new Table(paramTable);
+        int lastParam = Math.min(endParam, table.getTableSize()[0] - 2);
+        startParam = Math.min(startParam, lastParam);
+        for (int i = startParam; i < lastParam + 1; i++) {
+            WebElement checkBox = table.getCellWebElement(i + 1, 1).findElement(By.tagName("input"));
+            checkBox.click();
+            String hint = table.getHint(i + 1);
+            if (hint.equals("InternetGatewayDevice.DeviceInfo.UpTime")) {
+                continue;
+            }
+            if (!parameterSet.add(hint)) {
+                parameterSet.remove(hint);
+            }
+        }
+        return this;
+    }
+
+    public void checkResults() {
+        checkResults(BaseTestCase.getTestName());
+    }
+
+    public void checkResults(String testName) {
+        currentTable.clickOn(testName);
+        getTabTable().clickOn("Summary");
+        waitForUpdate();
+        String[] params = getParamTable().getColumn(0);
+        for (String param : params) {
+            if (!parameterSet.remove(param)) {
+                throw new AssertionError("Parameter '" + param + "' not found on the 'Summary' tab!");
+            }
+        }
+        if (parameterSet.size() > 0) {
+            StringBuilder unexpected = new StringBuilder("Unexpected parameters:\n");
+            for (String param : parameterSet) {
+                unexpected.append(param).append("\n");
+            }
+            throw new AssertionError(unexpected.append("was found on the 'Summary' tab!").toString());
+        }
     }
 
     public MonitoringPage immediately() {
@@ -176,6 +232,10 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    private Table getParamTable() {
+        return new Table(this.paramTable);
+    }
+
     @Override
     public MonitoringPage selectModel() {
         return (MonitoringPage) super.selectModel();
@@ -193,6 +253,16 @@ public class MonitoringPage extends BasePage {
 
     public MonitoringPage compareSelect(String option) {
         selectComboBox(compareSelect, option);
+        return this;
+    }
+
+    public MonitoringPage waitForStatus(String status) {
+        waitForStatus(status, 5);
+        return this;
+    }
+
+    public MonitoringPage waitForStatus(String status, String testName) {
+        waitForStatus(status, testName, 5);
         return this;
     }
 

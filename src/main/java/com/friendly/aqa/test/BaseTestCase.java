@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
-public class BaseTestCase {
+public abstract class BaseTestCase {
     private LoginPage loginPage;
     protected GroupUpdatePage guPage;
     protected MonitoringPage monPage;
@@ -83,6 +83,7 @@ public class BaseTestCase {
         }
         BasePage.switchToFrame(ROOT);
         Table.flushResults();
+        BasePage.flushResults();
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         BasePage.setImplicitlyWait(0);
         if (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
@@ -122,6 +123,14 @@ public class BaseTestCase {
         interruptTestRunning(false);
         if (controller != null) {
             controller.testSuiteStopped();
+        }
+    }
+
+    protected void pause(int millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

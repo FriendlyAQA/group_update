@@ -520,7 +520,9 @@ public class Controller implements WindowListener, Runnable {
         public void write(int b) {
             buffer.append((char) b);
             if (b == 10) {
-                textArea.append(buffer.toString());
+                if (!buffer.toString().startsWith("JavaScript")) {
+                    textArea.append(buffer.toString());
+                }
                 buffer = new StringBuilder();
             }
         }

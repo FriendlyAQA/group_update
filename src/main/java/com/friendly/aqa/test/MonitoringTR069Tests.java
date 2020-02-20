@@ -259,7 +259,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_mo_018() {
+    public void tr069_mo_018() {    //is dependent on #016
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
@@ -275,7 +275,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_mo_019() {
+    public void tr069_mo_019() {    //is dependent on #016
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
@@ -341,7 +341,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group.
-        monPage
+        monPage                     //is dependent on #016
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -365,7 +365,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectModel()
                 .addModel()
                 .immediately()
-                .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE);
+                .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
 
     @Test
@@ -379,13 +379,497 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addModel()
                 .immediately()
                 .selectSendTo("All")
-                .getTable("tblDataParams")
-                .clickOn(1, 1, 0);
+                .setParameters("Management", 0, 1)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_026() {    //is dependent on #025
         monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn("tr069_mo_025");
+        monPage
+                .immediately()
+                .setParameters("Management", 2, 2)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_027() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Information", 0, 7)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .getMainTable()
-                .assertPresenceOfValue(2, testName);
+                .waitForStatus("Running")
+                .checkResults();
         setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_028() {    //is dependent on #027
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Information", 8, 8)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_029() {    //is dependent on #027 and #028
+        tr069_mo_028();
+    }
+
+    @Test
+    public void tr069_mo_030() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Management", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_031() {    //is dependent on #030
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Management", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_032() {    //is dependent on #030
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Management", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_033() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Information", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_034() {    //is dependent on #033
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Information", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_035() {    //is dependent on #033
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Information", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_036() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Time", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_037() {    //is dependent on #036
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Time", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_038() {    //is dependent on #036
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Time", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_039() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("DSL settings", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_040() {    //is dependent on #039
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("DSL settings", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_041() {    //is dependent on #039
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("DSL settings", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_042() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("WAN", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_043() {    //is dependent on #042
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("WAN", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_044() {    //is dependent on #042
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("WAN", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_045() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("LAN", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_046() {    //is dependent on #045
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("LAN", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_047() {    //is dependent on #045
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("LAN", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_048() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Wireless", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_049() {    //is dependent on #048
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Wireless", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_050() {    //is dependent on #048
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Wireless", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_051() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("VoIP settings", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_052() {    //is dependent on #051
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("VoIP settings", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_053() {    //is dependent on #051
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("VoIP settings", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_054() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Management", 0, 0)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_055() {    //is dependent on #054
+        monPage
+                .topMenu(MONITORING)
+                .getMainTable()
+                .clickOn(targetTestName);
+        monPage
+                .setParameters("Management", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName)
+                .checkResults(targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_056() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Management", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .pause(1000)
+                .selectGroup();
+        monPage
+                .globalButtons(ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .checkResults();
     }
 }

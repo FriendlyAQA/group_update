@@ -134,11 +134,11 @@ public class Table {
     }
 
     public int[] getTableSize() {
-        int maxCells = 0;
+        int maxCellRow = 0;
         for (String[] row : textTable) {
-            maxCells = Math.max(maxCells, row.length);
+            maxCellRow = Math.max(maxCellRow, row.length);
         }
-        return new int[]{textTable.length, maxCells};
+        return new int[]{textTable.length, maxCellRow};
     }
 
     @SuppressWarnings("unused")
@@ -229,17 +229,16 @@ public class Table {
     }
 
     public String getCellText(int searchColumn, String searchText, int resultColumn) {
-        return textTable[getRowNumberByText(searchColumn, searchText)][resultColumn];
+        return textTable[getRowNumberByText(/*searchColumn, */searchText)][resultColumn];
     }
 
     public void assertStartWith(int row, int column, String expectedText) {
         if (column < 0) {
             column = textTable[row].length + column;
         }
-        System.out.println("text:"+textTable[row][column]);
-        print();
+        System.out.println("text:" + textTable[row][column]);
         if (!textTable[row][column].startsWith(expectedText)) {
-            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "doesn't start with '" + expectedText + "'!");
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't start with '" + expectedText + "'!");
         }
     }
 
@@ -247,8 +246,7 @@ public class Table {
         if (column < 0) {
             column = textTable[row].length + column;
         }
-        System.out.println("text:"+textTable[row][column]);
-        print();
+        System.out.println("text:" + textTable[row][column]);
         if (!textTable[row][column].endsWith(expectedText)) {
             throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "doesn't start with '" + expectedText + "'!");
         }
@@ -273,6 +271,17 @@ public class Table {
             throw new AssertionError(warning);
         }
         return rowNum;
+    }
+
+    private int getRowNumberByText(String text) {
+        for (int i = 0; i < textTable.length; i++) {
+            for (int j = 0; j < textTable[i].length; j++) {
+                if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     public Table checkResults() {
@@ -306,8 +315,16 @@ public class Table {
     }
 
     public void selectGroup() {
-        int rowNum = getRowNumberByText(4, BaseTestCase.getTestName());
+        selectGroup(BaseTestCase.getTestName());
+    }
+
+    public void selectGroup(String searchText) {
+        int rowNum = getRowNumberByText(searchText);
         clickOn(rowNum, 0);
+    }
+
+    public String getHint(int row) {
+        return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");
     }
 
     public Table getTable(String id) {
@@ -318,7 +335,7 @@ public class Table {
         if (paramSet == null) {
             paramSet = new HashMap<>();
         }
-        String hint = elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");
+        String hint = getHint(row);
         String values;
         if (column < 1) {
             values = "values,names,attributes";
@@ -353,7 +370,7 @@ public class Table {
                 }
                 continue;
             }
-            String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
+            String hint = getHint(i);
             List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
             Parameter option;
             String value = "1";
@@ -431,7 +448,7 @@ public class Table {
         if (paramSet == null) {
             paramSet = new HashMap<>();
         }
-        String hint = elementTable[rowNum][0].findElement(By.tagName("span")).getAttribute("hintbody");
+        String hint = getHint(rowNum);
         WebElement paramCell = getCellWebElement(rowNum, 1);
         if (props.getProperty("browser").equals("edge")) {
             BasePage.scrollToElement(paramCell);
@@ -488,7 +505,7 @@ public class Table {
         }
         for (int i = 1; i < elementTable.length; i++) {
             setPolicy(textTable[i][0], Policy.ACTIVE, Policy.ALL);
-            String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
+            String hint = getHint(i);
             paramSet.put(hint, "Notification=Active Access=All");
         }
     }
@@ -503,12 +520,12 @@ public class Table {
         }
         if (scenario == 1) {
             setPolicy(textTable[1][0], null, Policy.ACS_ONLY);
-            String hint = elementTable[1][0].findElement(By.tagName("span")).getAttribute("hintbody");
+            String hint = getHint(1);
             paramSet.put(hint, "Access=AcsOnly");
         } else if (scenario == 2) {
             for (int i = 1; i < counter; i++) {
                 setPolicy(textTable[i][0], Policy.OFF, null);
-                String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
+                String hint = getHint(i);
                 paramSet.put(hint, "Notification=Off ");
             }
         } else {
@@ -516,7 +533,7 @@ public class Table {
             Policy[] access = {null, Policy.ACS_ONLY, Policy.ALL, null};
             String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active "};
             for (int i = 1; i < counter; i++) {
-                String hint = elementTable[i][0].findElement(By.tagName("span")).getAttribute("hintbody");
+                String hint = getHint(i);
                 String name = textTable[i][0];
                 setPolicy(name, notify[i], access[i]);
                 paramSet.put(hint, results[i]);

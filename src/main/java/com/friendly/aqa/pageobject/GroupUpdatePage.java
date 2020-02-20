@@ -711,14 +711,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void pause(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Table nextSaveAndActivate() {
         return nextSaveAndActivate(true);
     }
@@ -895,18 +887,6 @@ public class GroupUpdatePage extends BasePage {
         timeHoursSelect(time[0].replaceAll("^0", ""));
         timeMinutesSelect(time[1].replaceAll("^0", ""));
         return this;
-    }
-
-    public Table waitForStatus(String status, int timeout) {
-        long start = System.currentTimeMillis();
-        Table table;
-        while (!(table = getMainTable()).getCellText(4, BaseTestCase.getTestName(), 1).equals(status)) {
-            globalButtons(REFRESH);
-            if (System.currentTimeMillis() - start > timeout * 1000) {
-                throw new AssertionError("Timed out while waiting for status " + status);
-            }
-        }
-        return table;
     }
 
     public Table waitForStatusWithoutRefresh(String status, int timeout) {
