@@ -2,6 +2,7 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 
 import java.io.File;
 import java.time.Duration;
@@ -74,9 +76,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "ddlPageSizes")
     private WebElement itemsOnPageComboBox;
 
-    @FindBy(id = "lrbWaitScheduled")
-    private WebElement scheduledToRadioButton;
-
     @FindBy(id = "ddlTasks")
     private WebElement selectTask;
 
@@ -104,7 +103,7 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(how = How.ID, using = "tblDevices")
     private List<WebElement> serialNumberTableList;
 
-    @FindBy(how = How.ID, using = "tbl_tasks")
+    @FindBy(how = How.ID, using = "tblTasks")
     private List<WebElement> taskTableList;
 
     @FindBy(id = "fuImport")
@@ -234,6 +233,36 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
+    public GroupUpdatePage assertEquals(String actual, String expected) {
+        Assert.assertEquals(actual, expected);
+        return this;
+    }
+
+    public GroupUpdatePage assertEquals(String actual, String expected, String message) {
+        Assert.assertEquals(actual, expected, message);
+        return this;
+    }
+
+    public GroupUpdatePage assertTrue(boolean condition) {
+        Assert.assertTrue(condition);
+        return this;
+    }
+
+    public GroupUpdatePage assertTrue(boolean condition, String message) {
+        Assert.assertTrue(condition, message);
+        return this;
+    }
+
+    public GroupUpdatePage assertFalse(boolean condition) {
+        Assert.assertFalse(condition);
+        return this;
+    }
+
+    public GroupUpdatePage assertFalse(boolean condition, String message) {
+        Assert.assertFalse(condition, message);
+        return this;
+    }
+
     public GroupUpdatePage presetFilter(String parameter, String value) {
         topMenu(DEVICE_UPDATE)
                 .getTable("tbl")
@@ -244,13 +273,12 @@ public class GroupUpdatePage extends BasePage {
         WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
 //        pause(2000);
         while (!saveButton.isDisplayed()) {
-            System.out.println("not displayed");
             pause(100);
         }
-        getTable("tblMain")
-                .setUserInfo(parameter, value);
         while (!saveButton.isEnabled()) {
-            pause(100);
+            setUserInfo(parameter, value);
+            pause(500);
+            System.out.println("retry setUserInfo()");
         }
         saveButton.click();
         okButtonPopUp();
@@ -258,8 +286,28 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
+    public GroupUpdatePage filterRecordsCheckbox() {
+        return (GroupUpdatePage) super.filterRecordsCheckbox();
+    }
+
+    @Override
     public Table getMainTable() {
         return getTable("tblParameters");
+    }
+
+    @Override
+    public GroupUpdatePage clickOnTable(String id, int row, int column) {
+        return (GroupUpdatePage) super.clickOnTable(id, row, column);
+    }
+
+    @Override
+    public GroupUpdatePage clickOnTable(String id, String text) {
+        return (GroupUpdatePage) super.clickOnTable(id, text);
+    }
+
+    public Table getParamTable() {
+        return getTable("tblParamsValue");
     }
 
     public GroupUpdatePage clickOn(String id) {
@@ -267,18 +315,29 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void executeScript(String script) {
-        ((JavascriptExecutor) getDriver()).executeScript(script);
-    }
-
     public GroupUpdatePage selectTodayDate(String date) {
         executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + date + "')");
         return this;
     }
 
+    @Override
     public GroupUpdatePage selectShiftedDate(String id, int value) {
-        executeScript("CalendarPopup_FindCalendar('" + id + "').SelectDate('" + CalendarUtil.getShiftedDate(value) + "')");
-        return this;
+        return (GroupUpdatePage) super.selectShiftedDate(id, value);
+    }
+
+    @Override
+    public GroupUpdatePage pause(int millis) {
+        return (GroupUpdatePage) super.pause(millis);
+    }
+
+    @Override
+    public GroupUpdatePage selectGroup() {
+        return (GroupUpdatePage) super.selectGroup();
+    }
+
+    @Override
+    public GroupUpdatePage selectGroup(String groupName) {
+        return (GroupUpdatePage) super.selectGroup(groupName);
     }
 
     public void checkIsCalendarClickable() {
@@ -481,8 +540,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage scheduledToRadioButton() {
-        scheduledToRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.scheduledToRadioButton();
     }
 
     public GroupUpdatePage immediately() {
@@ -696,6 +754,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
+    public GroupUpdatePage waitForUpdate() {
+        return (GroupUpdatePage) super.waitForUpdate();
+    }
+
     public GroupUpdatePage leftMenu(Left item) {
         switchToFrame(ROOT);
         leftMenuClick(item.getValue());
@@ -711,31 +774,28 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public Table nextSaveAndActivate() {
+    public GroupUpdatePage nextSaveAndActivate() {
         return nextSaveAndActivate(true);
     }
 
-    public Table nextSaveAndActivate(boolean waitForCompleted) {
+    public GroupUpdatePage nextSaveAndActivate(boolean waitForCompleted) {
         globalButtons(NEXT);
         return saveAndActivate(waitForCompleted);
     }
 
-    public Table saveAndActivate() {
+    public GroupUpdatePage saveAndActivate() {
         return saveAndActivate(true);
     }
 
-    public Table saveAndActivate(boolean waitForCompleted) {
+    public GroupUpdatePage saveAndActivate(boolean waitForCompleted) {
         globalButtons(SAVE_AND_ACTIVATE);
         okButtonPopUp();
-        Table table;
         if (waitForCompleted) {
-            table = waitForStatus("Completed", 30);
-        } else {
-            table = getMainTable();
+            waitForStatus("Completed", 30);
         }
-        table.readTasksFromDB()
-                .clickOn(BaseTestCase.getTestName(), 4);
-        return new Table("tblTasks");
+        readTasksFromDb();
+        enterIntoGroup();
+        return this;
     }
 
     public GroupUpdatePage checkFiltering(String dropdown, String option) {
@@ -843,7 +903,7 @@ public class GroupUpdatePage extends BasePage {
         waitForUpdate();
     }
 
-    public void checkResetView() {
+    public GroupUpdatePage checkResetView() {
         waitForUpdate();
         resetView();
         if (BROWSER.equals("chrome")) {
@@ -862,6 +922,7 @@ public class GroupUpdatePage extends BasePage {
             logger.warn(warn);
             throw new AssertionError(warn);
         }
+        return this;
     }
 
     public boolean serialNumberTableIsPresent() {
@@ -889,23 +950,22 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public Table waitForStatusWithoutRefresh(String status, int timeout) {
+    public GroupUpdatePage waitForStatusWithoutRefresh(String status, int timeout) {
         String groupName = BaseTestCase.getTestName();
         long start = System.currentTimeMillis();
-        Table table = null;
         for (int i = 0; i < 2; i++) {
             try {
-                while (!(table = getMainTable()).getCellText(4, groupName, 1).equals(status)) {
+                while (!getMainTable().getCellText(groupName, 1).equals(status)) {
                     if (System.currentTimeMillis() - start > timeout * 1000) {
                         throw new AssertionError("Timed out while waiting for status " + status);
                     }
                 }
-                return table;
+                return this;
             } catch (StaleElementReferenceException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return table;
+        return this;
     }
 
     public GroupUpdatePage gotoAddFilter() {
@@ -931,15 +991,15 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public Table goToSetPolicies(String tab) {
+    public GroupUpdatePage goToSetPolicies(String tab) {
         goto_("Policy");
         if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
         }
-        return getTable("tblParamsValue");
+        return this;
     }
 
-    public Table gotoSetParameters(String tab, boolean advancedView) {
+    public GroupUpdatePage gotoSetParameters(String tab, boolean advancedView) {
         goto_("Set parameter value");
         if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
@@ -947,7 +1007,7 @@ public class GroupUpdatePage extends BasePage {
         if (advancedView) {
             globalButtons(ADVANCED_VIEW);
         }
-        return getTable("tblParamsValue");
+        return this;
     }
 
     public void setScheduledParameters(String tab) {
@@ -964,16 +1024,14 @@ public class GroupUpdatePage extends BasePage {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .getTable("tabsSettings_tblTabs")
-                .clickOn(tab)
-                .getTable("tblParamsValue")
-                .setParameter(2);
+                .clickOn(tab);
+        setParameter(2);
         globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(BaseTestCase.getTestName(), 4);
-        getTable("tblTasks")
-                .checkResults();
+                .enterIntoGroup();
+        checkResults();
     }
 
     public void setScheduledPolicy(String tab) {
@@ -988,19 +1046,15 @@ public class GroupUpdatePage extends BasePage {
                 .setDelay(10)
                 .globalButtons(NEXT)
                 .addNewTask("Policy")
-                .addTaskButton();
-        if (tab != null) {
-            getTable("tabsSettings_tblTabs")
-                    .clickOn(tab);
-        }
-        getTable("tblParamsValue")
-                .setPolicy(3);
-        globalButtons(NEXT)
+                .addTaskButton()
+                .getTabTable()
+                .clickOn(tab);
+        setPolicy(3)
+                .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(BaseTestCase.getTestName(), 4);
-        getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1016,19 +1070,15 @@ public class GroupUpdatePage extends BasePage {
                 .setDelay(10)
                 .globalButtons(NEXT)
                 .addNewTask("Get parameter")
-                .addTaskButton();
-        if (tab != null) {
-            getTable("tabsSettings_tblTabs")
-                    .clickOn(tab);
-        }
-        getTable("tblParamsValue")
-                .getParameter(1, column);
-        globalButtons(NEXT)
+                .addTaskButton()
+                .getTabTable()
+                .clickOn(tab);
+        getParameter(1, column)
+                .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(BaseTestCase.getTestName(), 4);
-        getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1051,28 +1101,27 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(BaseTestCase.getTestName(), 4);
-        getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", method);
     }
 
-    public Table gotoSetParameters(String tab) {
+    public GroupUpdatePage gotoSetParameters(String tab) {
         return gotoSetParameters(tab, false);
     }
 
-    public Table gotoSetParameters() {
+    public GroupUpdatePage gotoSetParameters() {
         return gotoSetParameters(null);
     }
 
-    public Table gotoGetParameter() {
+    public GroupUpdatePage gotoGetParameter() {
         return gotoGetParameter("tblParamsValue");
     }
 
-    public Table gotoGetParameter(String tableId) {
+    public GroupUpdatePage gotoGetParameter(String tableId) {
         return gotoGetParameter(tableId, false);
     }
 
-    public Table gotoGetParameter(String tab, boolean advancedView) {
+    public GroupUpdatePage gotoGetParameter(String tab, boolean advancedView) {
         goto_("Get parameter");
         if (tab != null) {
             getTable("tabsSettings_tblTabs").clickOn(tab);
@@ -1080,7 +1129,7 @@ public class GroupUpdatePage extends BasePage {
         if (advancedView) {
             globalButtons(ADVANCED_VIEW);
         }
-        return getTable("tblParamsValue");
+        return this;
     }
 
     public GroupUpdatePage gotoFileDownload() {
@@ -1118,7 +1167,7 @@ public class GroupUpdatePage extends BasePage {
         return goto_("Diagnostic");
     }
 
-    public void deleteAll() {
+    public GroupUpdatePage deleteAll() {
         topMenu(GROUP_UPDATE);
         while (noDataFound.size() == 0) {
             switchToFrame(DESKTOP);
@@ -1126,10 +1175,277 @@ public class GroupUpdatePage extends BasePage {
             globalButtons(DELETE)
                     .okButtonPopUp();
         }
+        return this;
     }
 
     public GroupUpdatePage gotoRestore() {
         return goto_("Restore");
+    }
+
+
+    public GroupUpdatePage getParameter(int row, int column) {
+        Table table = getParamTable();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(row);
+        String values;
+        if (column < 1) {
+            values = "values,names,attributes";
+            for (int i = 1; i < table.getRowLength(row); i++) {
+                table.clickOn(row, i, 0);
+            }
+        } else {
+            String[] valuesArr = {"", "names", "values", "attributes"};
+            values = valuesArr[column];
+            table.clickOn(row, column, 0);
+        }
+        parameterMap.put(hint, values);
+        return this;
+    }
+
+    public GroupUpdatePage setParameter(String tab, String paramName, Parameter option, String value) {
+        getTabTable().clickOn(tab);
+        return setParameter(getParamTable(), paramName, option, value);
+    }
+
+    public GroupUpdatePage setParameter(String paramName, Parameter option, String value) {
+        return setParameter(getParamTable(), paramName, option, value);
+    }
+
+    public GroupUpdatePage setParameter(Table table, String paramName, Parameter option, String value) {
+        int rowNum = table.getRowNumberByText(paramName);
+        if (rowNum < 0) {
+            throw new AssertionError("Parameter name '" + paramName + "' not found");
+        }
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(rowNum);
+        WebElement paramCell = table.getCellWebElement(rowNum, 1);
+        if (props.getProperty("browser").equals("edge")) {
+            scrollToElement(paramCell);
+        }
+        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
+        if (value != null && option == Parameter.VALUE) {
+            WebElement input = paramCell.findElement(By.tagName("input"));
+            input.clear();
+            input.sendKeys(value);
+        }
+        parameterMap.put(hint, value);
+        if (!BROWSER.equals("edge")) {
+            table.clickOn(0, 0);
+        }
+        return this;
+    }
+
+    public GroupUpdatePage setParameter(int amount) {
+        Table table = getParamTable();
+        setImplicitlyWait(0);
+        int counter = (amount == 0 || amount >= table.getTableSize()[0]) ? table.getTableSize()[0] : amount + 1;
+        for (int i = 1; i < counter; i++) {
+            WebElement paramVal = table.getCellWebElement(i, 1);
+            List<WebElement> selectList = paramVal.findElements(By.tagName("select"));
+            if (selectList.size() == 0) {
+                if (amount != 0) {
+                    counter++;
+                }
+                continue;
+            }
+            String hint = table.getHint(i);
+            List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
+            Parameter option;
+            String value = "1";
+            String attr = optionList.get(1).getAttribute("value");
+            if (attr.equals("sendEmpty")) {
+                option = Parameter.VALUE;
+                String paramType = DataBaseConnector.getValueType(hint).toLowerCase();
+                switch (paramType) {
+                    case "string":
+                        value = "value" + i;
+                        break;
+                    case "int":
+                    case "integer":
+                    case "unsignedint":
+                        value = "" + i;
+                        break;
+                    case "datetime":
+                        value = "2019-10-27T02:00:0";
+                        break;
+                    case "opaque":
+                        value = " ";
+                        break;
+                    case "time":
+                        value = CalendarUtil.getTimeStamp();
+                        break;
+                    case "boolean":
+                        break;
+                    default:
+                        throw new AssertionError("Unsupported data type:" + paramType);
+                }
+            } else if (attr.equals("true")) {
+                option = Parameter.TRUE;
+            } else {
+                option = Parameter.CUSTOM;
+                value = attr;
+            }
+            setParameter(table.getCellText(i, 0), option, value);
+        }
+        setDefaultImplicitlyWait();
+        return this;
+    }
+
+    public GroupUpdatePage setAllParameters() {
+        setParameter(0);
+        return this;
+    }
+
+    public GroupUpdatePage setParameter(String tab, int amount) {
+        if (tab != null) {
+            getTabTable().clickOn(tab);
+        }
+        setParameter(amount);
+        return this;
+    }
+
+    public GroupUpdatePage setAnyAdvancedParameter() {
+        selectBranch();
+        setParameter(1);
+        return this;
+    }
+
+    public GroupUpdatePage setAdvancedParameter(String branch, int amount) {
+        if (branch == null) {
+            selectBranch();
+        } else {
+            selectBranch(branch);
+        }
+        setParameter(amount);
+        return this;
+    }
+
+    public GroupUpdatePage setAllPolicies() {
+        Table table = getParamTable();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String[] names = table.getColumn(0);
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            setPolicy(table, names[i - 1], Policy.ACTIVE, Policy.ALL);
+            String hint = table.getHint(i);
+            parameterMap.put(hint, "Notification=Active Access=All");
+        }
+        return this;
+    }
+
+    public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
+        int rowNum = table.getRowNumberByText(0, policyName);
+        if (rowNum < 0) {
+            throw new AssertionError("Policy name '" + policyName + "' not found");
+        }
+        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
+        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
+        if (BasePage.BROWSER.equals("edge")) {
+            BasePage.scrollToElement(notificationCell);
+        }
+        if (notification != null) {
+            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
+        }
+        waitForUpdate();
+        if (accessList != null) {
+            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
+        }
+        waitForUpdate();
+//        clickOn(0, 0);
+    }
+
+    public GroupUpdatePage setPolicy(int scenario) {
+        Table table = getParamTable();
+        int length = table.getTableSize()[0];
+        String[] names = table.getColumn(0);
+        int counter = (scenario == 0 || scenario >= length) ? length : scenario + 1;
+        if (scenario >= length) {
+            logger.warn("Number of parameters on current tab is not enough to execute this testcase");
+        }
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        if (scenario == 1) {
+            setPolicy(table, names[0], null, Policy.ACS_ONLY);
+            String hint = table.getHint(1);
+            parameterMap.put(hint, "Access=AcsOnly");
+        } else if (scenario == 2) {
+            for (int i = 1; i < counter; i++) {
+                setPolicy(table, names[i - 1], Policy.OFF, null);
+                String hint = table.getHint(i);
+                parameterMap.put(hint, "Notification=Off ");
+            }
+        } else {
+            Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
+            Policy[] access = {null, Policy.ACS_ONLY, Policy.ALL, null};
+            String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active "};
+            for (int i = 1; i < counter; i++) {
+                String hint = table.getHint(i);
+                String name = names[i - 1];
+                setPolicy(table, name, notify[i], access[i]);
+                parameterMap.put(hint, results[i]);
+            }
+        }
+        return this;
+    }
+
+    public void checkResults() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkResults(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public GroupUpdatePage checkResults(String parameter, String value) {
+        Table table = getTable("tblTasks");
+        int[] tableSize = table.getTableSize();
+        boolean match = false;
+        for (int i = 0; i < tableSize[0]; i++) {
+            try {
+                int length = table.getRowLength(i);
+                if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
+                    match = true;
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        if (!match) {
+            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
+            logger.warn(warning);
+            throw new AssertionError(warning);
+        }
+        return this;
+    }
+
+    public GroupUpdatePage readTasksFromDb() {
+        return (GroupUpdatePage) super.readTasksFromDb();
+    }
+
+    public GroupUpdatePage assertOnlineDevices() {
+        Table table = getTable("tblPeriod");
+        Assert.assertEquals(table.getCellText(table.getTableSize()[0] - 1, 0), "Online devices");
+        Assert.assertEquals(table.getCellText(table.getTableSize()[0] - 1, 1), "True");
+        return this;
+    }
+
+    public GroupUpdatePage waitForStatus(String status, int timeout) {
+        return (GroupUpdatePage) super.waitForStatus(status, timeout);
+    }
+
+    public GroupUpdatePage enterIntoGroup(String groupName) {
+        getMainTable().clickOn(groupName);
+        return this;
+    }
+
+    public GroupUpdatePage enterIntoGroup() {
+        return enterIntoGroup(BaseTestCase.getTestName());
     }
 
     @Override
@@ -1147,6 +1463,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.assertButtonsArePresent(buttons);
     }
 
+    @Override
+    public GroupUpdatePage assertEqualsAlertMessage(String expectedMessage) {
+        return (GroupUpdatePage) super.assertEqualsAlertMessage(expectedMessage);
+    }
+
     public enum Left {
         VIEW("View"), IMPORT("Import"), NEW("New");
         private String value;
@@ -1157,6 +1478,39 @@ public class GroupUpdatePage extends BasePage {
 
         public String getValue() {
             return value;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public enum Parameter {
+        EMPTY_VALUE("sendEmpty"),
+        VALUE("sendValue"),
+        FALSE("0"),
+        TRUE("1"),
+        DO_NOT_SEND("notSend"),
+        NULL(""),
+        CUSTOM(null);
+
+        private String option;
+
+        Parameter(String option) {
+            this.option = option;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public enum Policy {
+        DEFAULT("-1"),
+        OFF("0"),
+        PASSIVE("1"),
+        ACTIVE("2"),
+        ACS_ONLY("1"),
+        ALL("2");
+
+        private String option;
+
+        Policy(String option) {
+            this.option = option;
         }
     }
 }

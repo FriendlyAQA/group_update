@@ -50,7 +50,7 @@ public class CalendarUtil {
         return fileNameFormat.format(new Date());
     }
 
-    static String getTimeStamp() {
+    public static String getTimeStamp() {
         return fullDateFormat.format(new Date());
     }
 

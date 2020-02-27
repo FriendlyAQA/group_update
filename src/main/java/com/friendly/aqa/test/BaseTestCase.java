@@ -44,20 +44,20 @@ public abstract class BaseTestCase {
         if (controller != null) {
             controller.testSuiteStarted();
         }
-        loginPage = new LoginPage();
+        loginPage = getLoginPage();
         Assert.assertEquals("Login", loginPage.getTitle());
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
-        guPage = new GroupUpdatePage();
-        monPage = new MonitoringPage();
+        guPage = getGuPage();
+        monPage = getMonPage();
         testName = "";
     }
 
     @BeforeMethod
     public void beforeMethod(Method method) {
         testName = method.getName();
-        if (guPage == null) {
-            guPage = new GroupUpdatePage();
-        }
+        loginPage = getLoginPage();
+        guPage = getGuPage();
+        monPage = getMonPage();
     }
 
     @AfterMethod
@@ -85,17 +85,27 @@ public abstract class BaseTestCase {
         Table.flushResults();
         BasePage.flushResults();
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
+        List<WebElement> popup2List = BasePage.getDriver().findElements(By.id("popup2"));
+        List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));
         BasePage.setImplicitlyWait(0);
         if (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
             popupList.get(0).click();
             logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
-            BasePage.waitForUpdate();
+            loginPage.waitForUpdate();
+        }
+        if (popup2List.size() > 0 && popup2List.get(0).isDisplayed()) {
+            loginPage.executeScript("PopupHide2('cancel');");
+            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+        }
+        if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
+            loginPage.executeScript("PopupHide('cancel');");
+            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
         }
         BasePage.switchToFrame(DESKTOP);
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
         if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
             resetViewList.get(0).click();
-            BasePage.waitForUpdate();
+            loginPage.waitForUpdate();
         }
         BasePage.setDefaultImplicitlyWait();
         BasePage.switchToFrame(ROOT);
@@ -126,7 +136,7 @@ public abstract class BaseTestCase {
         }
     }
 
-    protected void pause(int millis){
+    protected void pause(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -138,7 +148,7 @@ public abstract class BaseTestCase {
         return BasePage.getSerial();
     }
 
-    protected int getDeviceAmount(){
+    protected int getDeviceAmount() {
         return DataBaseConnector.getDeviceAmount(getSerial());
     }
 
@@ -152,6 +162,27 @@ public abstract class BaseTestCase {
 
     public static String getTestName() {
         return testName;
+    }
+
+    private LoginPage getLoginPage() {
+        if (loginPage == null) {
+            loginPage = new LoginPage();
+        }
+        return loginPage;
+    }
+
+    private GroupUpdatePage getGuPage() {
+        if (guPage == null) {
+            guPage = new GroupUpdatePage();
+        }
+        return guPage;
+    }
+
+    private MonitoringPage getMonPage() {
+        if (monPage == null) {
+            monPage = new MonitoringPage();
+        }
+        return monPage;
     }
 }
 

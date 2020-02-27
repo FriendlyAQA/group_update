@@ -14,17 +14,18 @@ import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
-import static com.friendly.aqa.utils.Table.Parameter.VALUE;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
 import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_001() {
-        guPage.deleteAll();
-        guPage.topMenu(GROUP_UPDATE);
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+        guPage
+                .deleteAll()
+                .topMenu(GROUP_UPDATE)
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -33,8 +34,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .globalButtons(CANCEL);
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -46,9 +47,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .deleteFilterGroups()
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -60,8 +61,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .showList();
-        assertTrue(guPage.serialNumberTableIsPresent());
+                .showList()
+                .assertTrue(guPage.serialNumberTableIsPresent());
     }
 
     @Test
@@ -72,13 +73,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup();
-        assertTrue(guPage.isButtonPresent(FINISH));
-        guPage
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        guPage.pause(500);
-        assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .createGroup()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .pause(500)
+                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
     }
 
     @Test
@@ -87,15 +87,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("IsNull")
-                .globalButtons(NEXT);
-        assertFalse(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage.filterRecordsCheckbox();
-        assertTrue(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage
+                .globalButtons(NEXT)
+                .assertFalse(guPage.isButtonActive("btnDelFilter_btn"))
+                .filterRecordsCheckbox()
+                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
-                .okButtonPopUp();
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
         setTargetTestName();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"));
     }
 
     @Test
@@ -107,9 +106,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n")
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
     }
 
     @Test
@@ -122,8 +121,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
-                .globalButtons(NEXT);
-        assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .globalButtons(NEXT)
+                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
 
     @Test
@@ -137,8 +136,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectSendTo(targetTestName)
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
-                .okButtonPopUp();
-        assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .okButtonPopUp()
+                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -150,14 +149,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
-                .getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertTrue(guPage.isButtonActive(NEXT));
-        guPage.getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertFalse(guPage.isButtonActive(NEXT));
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(true, NEXT)
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(false, NEXT);
     }
 
     @Test
@@ -172,7 +169,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -185,8 +182,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .selectSendTo(testName)
-                .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -203,16 +200,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .assertElementIsPresent("tblParamsValue");
-        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
+                .assertElementIsPresent("tblParamsValue")
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
     public void tr069_gu_014() {
         guPage
                 .gotoSetParameters()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -224,25 +220,17 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_015() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
+                .enterIntoGroup(targetTestName)
                 .globalButtons(EDIT)
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .getTable("tblTasks")
-                .clickOn("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", 3)
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "61");
-        guPage
+                .clickOnTable("tblTasks", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup(targetTestName)
                 .checkResults();
     }
 
@@ -250,8 +238,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_016() {
         guPage
                 .gotoSetParameters()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate();
         setTargetTestName();
     }
@@ -260,17 +247,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_017() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
-                .globalButtons(EDIT);
-        assertFalse(guPage.isInputActive("ddlSend"));
-        guPage
-                .globalButtons(NEXT);
-        assertFalse(guPage.isInputActive("lrbImmediately"));
-        guPage
-                .globalButtons(NEXT);
-        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
+                .enterIntoGroup(targetTestName)
+                .globalButtons(EDIT)
+                .assertFalse(guPage.isInputActive("ddlSend"))
+                .globalButtons(NEXT)
+                .assertFalse(guPage.isInputActive("lrbImmediately"))
+                .globalButtons(NEXT)
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
@@ -285,21 +268,19 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
-                .globalButtons(NEXT);
-        waitForUpdate();
-        assertEquals(guPage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
-        guPage
+                .globalButtons(NEXT)
+                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
                 .checkIsCalendarClickable();
     }
 
     @Test
     public void tr069_gu_019() throws IOException {
         guPage
-                .topMenu(GROUP_UPDATE);
-        assertTrue(HttpConnector.getUrlSource(guPage
-                .getMainTable()
-                .getExportLink(targetTestName))
-                .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
+                .topMenu(GROUP_UPDATE)
+                .assertTrue(HttpConnector.getUrlSource(guPage
+                        .getMainTable()
+                        .getExportLink(targetTestName))
+                        .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }
 
     @Test
@@ -307,8 +288,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs")
-                .setParameter("Password", VALUE, "ftacs");
-        guPage
+                .setParameter("Password", VALUE, "ftacs")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -317,8 +297,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_021() {
         guPage
                 .gotoSetParameters()
-                .setParameter("Username", VALUE, "ftacs");
-        guPage
+                .setParameter("Username", VALUE, "ftacs")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -327,8 +306,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_022() {
         guPage
                 .gotoSetParameters("Time")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -337,8 +315,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_023() {
         guPage
                 .gotoSetParameters("Time")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -347,8 +324,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_024() {
         guPage
                 .gotoSetParameters("Time")
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -357,8 +333,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_025() {
         guPage
                 .gotoSetParameters("WAN")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -367,8 +342,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_026() {
         guPage
                 .gotoSetParameters("WAN")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -377,8 +351,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_027() {
         guPage
                 .gotoSetParameters("WAN")
-                .setParameter(3);
-        guPage
+                .setParameter(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -387,8 +360,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_028() {
         guPage
                 .gotoSetParameters("LAN")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -397,8 +369,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_029() {
         guPage
                 .gotoSetParameters("LAN")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -407,8 +378,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_030() {
         guPage
                 .gotoSetParameters("LAN")
-                .setParameter(3);
-        guPage
+                .setParameter(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -417,8 +387,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_031() {
         guPage
                 .gotoSetParameters("Wireless")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -427,8 +396,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_032() {
         guPage
                 .gotoSetParameters("Wireless")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -437,8 +405,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_033() {
         guPage
                 .gotoSetParameters("Wireless")
-                .setParameter(3);
-        guPage
+                .setParameter(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -447,8 +414,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_034() {
         guPage
                 .gotoSetParameters("DSL settings")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -457,8 +423,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_035() {
         guPage
                 .gotoSetParameters("DSL settings")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -467,8 +432,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_036() {
         guPage
                 .gotoSetParameters("DSL settings")
-                .setParameter(3);
-        guPage
+                .setParameter(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -477,8 +441,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_037() {
         guPage
                 .gotoSetParameters("VoIP settings")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -487,8 +450,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_038() {
         guPage
                 .gotoSetParameters("VoIP settings")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -497,8 +459,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_039() {
         guPage
                 .gotoSetParameters("VoIP settings")
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -507,8 +468,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_040() {
         guPage
                 .goToSetPolicies("Management")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -517,8 +477,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_041() {
         guPage
                 .goToSetPolicies("Management")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -527,8 +486,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_042() {
         guPage
                 .goToSetPolicies("Management")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -537,8 +495,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_043() {
         guPage
                 .goToSetPolicies("Management")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -547,8 +504,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_044() {
         guPage
                 .goToSetPolicies("Time")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -557,8 +513,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_045() {
         guPage
                 .goToSetPolicies("Time")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -567,8 +522,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_046() {
         guPage
                 .goToSetPolicies("Time")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -577,8 +531,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_047() {
         guPage
                 .goToSetPolicies("Time")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -587,8 +540,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_048() {
         guPage
                 .goToSetPolicies("WAN")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -597,8 +549,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_049() {
         guPage
                 .goToSetPolicies("WAN")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -607,8 +558,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_050() {
         guPage
                 .goToSetPolicies("WAN")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -617,8 +567,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_051() {
         guPage
                 .goToSetPolicies("WAN")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -627,8 +576,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_052() {
         guPage
                 .goToSetPolicies("LAN")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -637,8 +585,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_053() {
         guPage
                 .goToSetPolicies("LAN")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -647,8 +594,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_054() {
         guPage
                 .goToSetPolicies("LAN")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -657,8 +603,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_055() {
         guPage
                 .goToSetPolicies("LAN")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -667,8 +612,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_056() {
         guPage
                 .goToSetPolicies("Wireless")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -677,8 +621,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_057() {
         guPage
                 .goToSetPolicies("Wireless")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -687,8 +630,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_058() {
         guPage
                 .goToSetPolicies("Wireless")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -697,8 +639,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_059() {
         guPage
                 .goToSetPolicies("Wireless")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -707,8 +648,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_060() {
         guPage
                 .goToSetPolicies("DSL settings")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -717,8 +657,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_061() {
         guPage
                 .goToSetPolicies("DSL settings")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -727,8 +666,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_062() {
         guPage
                 .goToSetPolicies("DSL settings")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -737,8 +675,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_063() {
         guPage
                 .goToSetPolicies("DSL settings")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -747,8 +684,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_064() {
         guPage
                 .goToSetPolicies("VoIP settings")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -757,8 +693,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_065() {
         guPage
                 .goToSetPolicies("VoIP settings")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -767,8 +702,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_066() {
         guPage
                 .goToSetPolicies("VoIP settings")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -777,8 +711,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_067() {
         guPage
                 .goToSetPolicies("VoIP settings")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -789,7 +722,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
 //                .checkResults("CPEReprovision", "prov_attrib, custom_rpc, prov_object, profile, provision, file");
     }
 
@@ -878,8 +811,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("time", true)
                 .setAllParameters()
-                .setAnyAdvancedParameter();
-        guPage
+                .setAnyAdvancedParameter()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -888,8 +820,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_078() {
         guPage
                 .gotoSetParameters("time", true)
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -898,8 +829,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_079() {
         guPage
                 .gotoSetParameters("time", true)
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -919,21 +849,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTabTable()
-                .clickOn("Time")
-                .getTable("tblParamsValue")
-                .setParameter(1);
-        guPage
+                .setParameter("Time", 1)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5)
-                .readTasksFromDB()
-                .clickOn(testName)
-                .getTable("tblTasks")
-                .checkResults()
-                .getTable("tblPeriod")
-                .checkResults("Online devices", "True");
+                .readTasksFromDb()
+                .enterIntoGroup()
+                .assertOnlineDevices()
+                .checkResults();
     }
 
     @Test
@@ -1021,7 +945,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkSorting("Updated");
     }
 
-    @Test
+    @Test //bug: ascending sorting failures;
     public void tr069_gu_092() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1040,11 +964,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_094() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn("Manufacturer");
-        guPage
-                .checkResetView();
-        guPage
+                .enterIntoGroup("Manufacturer")
+                .checkResetView()
                 .leftMenu(VIEW)
                 .itemsOnPage("10")
                 .pause(5000);
@@ -1054,8 +975,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_095() {
         guPage
                 .gotoGetParameter()
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1064,8 +984,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_096() {
         guPage
                 .gotoGetParameter("Information")
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1074,8 +993,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_097() {
         guPage
                 .gotoGetParameter("Time")
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1084,8 +1002,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_098() {
         guPage
                 .gotoGetParameter("WAN")
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1094,8 +1011,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_099() {
         guPage
                 .gotoGetParameter("LAN")
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1104,8 +1020,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_100() {
         guPage
                 .gotoGetParameter("Wireless")
-                .getParameter(1, 1);
-        guPage
+                .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1114,8 +1029,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_101() {
         guPage
                 .gotoGetParameter()
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1124,8 +1038,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_102() {
         guPage
                 .gotoGetParameter("Information")
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1134,8 +1047,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_103() {
         guPage
                 .gotoGetParameter("Time")
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1144,8 +1056,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_104() {
         guPage
                 .gotoGetParameter("WAN")
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1154,8 +1065,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_105() {
         guPage
                 .gotoGetParameter("LAN")
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1164,8 +1074,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_106() {
         guPage
                 .gotoGetParameter("Wireless")
-                .getParameter(1, 2);
-        guPage
+                .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1174,8 +1083,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_107() {
         guPage
                 .gotoGetParameter()
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1184,8 +1092,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_108() {
         guPage
                 .gotoGetParameter("Information")
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1194,8 +1101,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_109() {
         guPage
                 .gotoGetParameter("Time")
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1204,8 +1110,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_110() {
         guPage
                 .gotoGetParameter("WAN")
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1214,8 +1119,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_111() {
         guPage
                 .gotoGetParameter("LAN")
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1224,8 +1128,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_112() {
         guPage
                 .gotoGetParameter("Wireless")
-                .getParameter(1, 3);
-        guPage
+                .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1234,8 +1137,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_113() {
         guPage
                 .gotoGetParameter()
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1244,8 +1146,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_114() {
         guPage
                 .gotoGetParameter("Information")
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1254,8 +1155,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_115() {
         guPage
                 .gotoGetParameter("Time")
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1264,8 +1164,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_116() {
         guPage
                 .gotoGetParameter("WAN")
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1274,8 +1173,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_117() {
         guPage
                 .gotoGetParameter("LAN")
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1284,8 +1182,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_118() {
         guPage
                 .gotoGetParameter("Wireless")
-                .getParameter(1, 0);
-        guPage
+                .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1295,7 +1192,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoBackup()
                 .saveAndActivate()
-                .assertPresenceOfValue(0, "Backup");
+                .assertPresenceOfValue("tblTasks", 0, "Backup");
     }
 
     @Test
@@ -1304,17 +1201,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoBackup()
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(0, "Backup")
-                .assertPresenceOfValue(1, "Present");
+                .assertPresenceOfValue("tblTasks", 0, "Backup")
+                .assertPresenceOfValue("tblTasks", 1, "Present");
     }
 
     @Test
     public void tr069_gu_121() {
         guPage
                 .gotoBackup()
-                .getTable("tblTasks")
-                .clickOn(1, 0);
-        guPage
+                .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertElementIsPresent("tblTasks");
     }
@@ -1324,7 +1219,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoRestore()
                 .saveAndActivate()
-                .assertPresenceOfValue(0, "Restore");
+                .assertPresenceOfValue("tblTasks", 0, "Restore");
     }
 
     @Test
@@ -1334,24 +1229,19 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .getMainTable()
-                .readTasksFromDB()  //No waiting for "Completed" status
-                .clickOn(testName, 4)
-                .getTable("tblTasks")
-                .assertPresenceOfValue(0, "Restore")
-                .assertPresenceOfValue(1, "Present");
+                .readTasksFromDb()  //No waiting for "Completed" status
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", 0, "Restore")
+                .assertPresenceOfValue("tblTasks", 1, "Present");
     }
 
     @Test
     public void tr069_gu_124() {
         guPage
                 .gotoRestore()
-                .getTable("tblTasks")
-                .clickOn(1, 0);
-        guPage
-                .deleteButton();
-        waitForUpdate();
-        assertFalse(guPage.isElementPresent("tblTasks"));
+                .clickOnTable("tblTasks", 1, 0)
+                .deleteButton()
+                .assertElementIsPresent("tblTasks");
     }
 
     @Test
@@ -1381,7 +1271,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("Download Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(-2, "Download Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
     }
 
     @Test
@@ -1390,7 +1280,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(-2, "Upload Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
     }
 
     @Test
@@ -1399,7 +1289,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("Wi-Fi Neighboring Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(-2, "Wi-Fi Neighboring Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
     }
 
     @Test
@@ -1408,7 +1298,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("DSL Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(-2, "DSL Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "DSL Diagnostic");
     }
 
     @Test
@@ -1417,7 +1307,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("NSlookup")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(-2, "NSlookup");
+                .assertPresenceOfValue("tblTasks", -2, "NSlookup");
     }
 
     @Test
@@ -1441,21 +1331,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .selectGroup();
-        guPage
+                .selectGroup()
                 .globalButtons(ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Running", 10)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .waitForStatus("Running", 5)
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1463,14 +1348,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_134() {
         guPage
                 .gotoSetParameters("Time")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
-                .clickOn(testName, 4)
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1519,7 +1402,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
-                .assertPresenceOfValue(2, "Firmware Image");
+                .assertPresenceOfValue("tblTasks", 2, "Firmware Image");
 //                .checkResults("Firmware Image", BasePage.getProps().getProperty("http_image_file"));
     }
 
@@ -1621,10 +1504,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
                 .globalButtons(NEXT)
-                .getTable("tblTasks")
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"))
-                .clickOn(1, 0);
-        guPage
+                .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
     }
@@ -1635,7 +1516,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reboot");
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -1644,7 +1525,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -1676,15 +1557,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .getMainTable()
-                .clickOn(1, 0);
-        guPage
+                .selectGroup()
                 .globalButtons(PAUSE)
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
-                .readTasksFromDB()
-                .clickOn(testName, 4)
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "Upload");
     }
 
@@ -1710,9 +1587,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "FactoryReset");
     }
 
@@ -1752,8 +1627,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .okButtonPopUp()
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
     }
 
     @Test
@@ -1764,16 +1639,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        guPage.globalButtons(NEXT)
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1789,17 +1662,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectTodayDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1816,17 +1686,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1843,17 +1710,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selectedby filter 'Created - Later than'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selectedby filter 'Created - Later than'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1866,17 +1730,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1889,17 +1750,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Before Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1912,17 +1770,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Yesterday")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1935,17 +1790,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Prev 7 days")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1959,17 +1811,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtInt", "4")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1984,17 +1833,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2009,17 +1855,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2048,17 +1891,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2073,17 +1913,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2097,17 +1934,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2121,17 +1955,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -2142,9 +1973,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Is not null")
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
     }
 
     @Test
@@ -2159,9 +1990,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
     }
 
     @Test
@@ -2179,16 +2010,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2208,16 +2035,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2237,16 +2060,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2267,16 +2086,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2297,16 +2112,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2328,16 +2139,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2357,16 +2164,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2387,16 +2190,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2417,16 +2216,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2448,16 +2243,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2478,16 +2269,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2508,16 +2295,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2539,16 +2322,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2569,16 +2348,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2600,16 +2375,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2628,16 +2399,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2658,16 +2425,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2689,16 +2452,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2719,16 +2478,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2751,16 +2506,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2783,16 +2534,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2814,16 +2561,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2844,16 +2587,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2875,16 +2614,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2905,16 +2640,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2937,16 +2668,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -2969,16 +2696,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3000,16 +2723,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3029,16 +2748,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3057,16 +2772,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3086,16 +2797,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3117,16 +2824,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3148,16 +2851,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3178,16 +2877,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3208,16 +2903,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3239,16 +2930,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3269,16 +2956,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3301,16 +2984,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3333,16 +3012,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3364,16 +3039,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3393,16 +3064,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3423,16 +3090,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3454,16 +3117,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3485,16 +3144,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3515,16 +3170,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60");
-        guPage
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
@@ -3543,17 +3194,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .setParameter("Username", VALUE, "ftacs");
-        guPage
+                .setParameter("Username", VALUE, "ftacs")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
                 .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }
@@ -3638,10 +3285,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(2, "CPEReprovision");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
     }
 
     @Test
@@ -3699,20 +3344,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTabTable()
-                .clickOn("Time");
-        guPage
                 .globalButtons(ADVANCED_VIEW)
-                .getTable("tblParamsValue")
-                .setParameter(2);
-        guPage
+                .setAdvancedParameter("Time", 2)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -3854,10 +3492,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(0, "Backup");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", 0, "Backup");
     }
 
     @Test
@@ -3878,10 +3514,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(0, "Restore");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", 0, "Restore");
     }
 
     @Test
@@ -3905,10 +3539,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(-2, "IPPing Diagnostic");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", -2, "IPPing Diagnostic");
 
     }
 
@@ -3936,9 +3568,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
 
@@ -3966,9 +3596,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
 
@@ -3994,9 +3622,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
     }
 
@@ -4022,10 +3648,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(-2, "Firmware Image");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", -2, "Firmware Image");
     }
 
     @Test
@@ -4050,9 +3674,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
     }
 
@@ -4078,9 +3700,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
     }
 
@@ -4105,9 +3725,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
     }
 
@@ -4131,8 +3749,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
+                .enterIntoGroup()
                 .getTable("tblTasks")
                 .assertPresenceOfParameter("Reboot");
     }
@@ -4157,8 +3774,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
+                .enterIntoGroup()
                 .getTable("tblTasks")
                 .assertPresenceOfParameter("FactoryReset");
     }
@@ -4184,9 +3800,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "Reboot");
     }
 
@@ -4211,9 +3825,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "Download");
     }
 
@@ -4238,9 +3850,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "Upload");
     }
 
@@ -4265,9 +3875,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults("CustomRPC", "FactoryReset");
     }
 
@@ -4275,8 +3883,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_283() {
         guPage
                 .gotoSetParameters("Information")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -4285,8 +3892,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_284() {
         guPage
                 .goToSetPolicies("Information")
-                .setAllPolicies();
-        guPage
+                .setAllPolicies()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -4295,8 +3901,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_285() {
         guPage
                 .goToSetPolicies("Information")
-                .setPolicy(1);
-        guPage
+                .setPolicy(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -4305,8 +3910,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_286() {
         guPage
                 .goToSetPolicies("Information")
-                .setPolicy(2);
-        guPage
+                .setPolicy(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -4315,8 +3919,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_287() {
         guPage
                 .goToSetPolicies("Information")
-                .setPolicy(3);
-        guPage
+                .setPolicy(3)
                 .nextSaveAndActivate()
                 .checkResults();
     }

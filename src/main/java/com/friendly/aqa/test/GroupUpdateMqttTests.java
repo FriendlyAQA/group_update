@@ -4,21 +4,22 @@ import com.automation.remarks.testng.UniversalVideoListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.pageobject.BasePage.*;
+import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
+import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
-import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_001() {
-        guPage.deleteAll();
-        guPage.topMenu(GROUP_UPDATE);
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+        guPage
+                .deleteAll()
+                .topMenu(GROUP_UPDATE)
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -27,8 +28,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .globalButtons(CANCEL);
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -40,9 +41,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .deleteFilterGroups()
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -54,8 +55,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .showList();
-        assertTrue(guPage.serialNumberTableIsPresent());
+                .showList()
+                .assertTrue(guPage.serialNumberTableIsPresent());
     }
 
     @Test
@@ -66,13 +67,11 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup();
-        assertTrue(guPage.isButtonPresent(FINISH));
-        guPage
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        guPage.pause(500);
-        assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .createGroup()
+                .assertTrue(guPage.isButtonPresent(FINISH))
+                .globalButtons(CANCEL)
+                .waitForUpdate().pause(500)
+                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
     }
 
     @Test
@@ -81,15 +80,13 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("IsNull")
-                .globalButtons(NEXT);
-        assertFalse(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage.filterRecordsCheckbox();
-        assertTrue(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage
+                .globalButtons(NEXT)
+                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
+                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
-                .okButtonPopUp();
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
         setTargetTestName();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"));
     }
 
     @Test
@@ -101,9 +98,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n")
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
     }
 
     @Test
@@ -116,8 +113,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
-                .globalButtons(NEXT);
-        assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .globalButtons(NEXT)
+                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
 
     @Test
@@ -131,8 +128,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectSendTo(targetTestName)
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
-                .okButtonPopUp();
-        assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .okButtonPopUp()
+                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -144,14 +141,12 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
-                .getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertTrue(guPage.isButtonActive(NEXT));
-        guPage.getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertFalse(guPage.isButtonActive(NEXT));
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(true, NEXT)
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(false, NEXT);
     }
 
     @Test
@@ -166,7 +161,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -179,8 +174,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .selectSendTo(testName)
-                .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -195,10 +190,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
-                .globalButtons(NEXT);
-        waitForUpdate();
-        assertEquals(guPage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
-        guPage
+                .globalButtons(NEXT)
+                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
                 .checkIsCalendarClickable();
     }
 
@@ -209,7 +202,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -218,7 +211,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reboot");
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -228,7 +221,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -237,10 +230,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .rebootRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo");
-        guPage
+                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(2, "Reboot");
+                .assertPresenceOfValue("tblTasks", 2, "Reboot");
     }
 
     @Test
@@ -250,7 +242,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -259,7 +251,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -269,7 +261,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -278,10 +270,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo");
-        guPage
+                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(2, "FactoryReset");
+                .assertPresenceOfValue("tblTasks", 2, "FactoryReset");
     }
 
     @Test
@@ -291,7 +282,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -300,7 +291,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("CPEReprovision");
+                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
     }
 
     @Test
@@ -310,7 +301,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
                 .selectSendTo()
                 .globalButtons(NEXT)
                 .immediately()
@@ -319,10 +310,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo");
-        guPage
+                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
     }
 
     @Test
@@ -429,11 +419,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     public void mqtt_gu_052() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn("Manufacturer");
-        guPage
-                .checkResetView();
-        guPage
+                .enterIntoGroup("Manufacturer")
+                .checkResetView()
                 .leftMenu(VIEW)
                 .itemsOnPage("10")
                 .pause(5000);
@@ -473,9 +460,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Is not null")
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
     }
 
     @Test
@@ -490,9 +477,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
     }
 
     @Test
@@ -515,10 +502,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("Reboot");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -542,10 +527,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("Reboot");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -568,10 +551,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -595,10 +576,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -621,10 +600,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("CPEReprovision");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
     }
 
     @Test
@@ -648,11 +625,27 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("CPEReprovision");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
     }
 
-
+    @Test
+    public void mqtt_gu_142() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .globalButtons(ADVANCED_VIEW)
+                .setAdvancedParameter(null, 0)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
 }

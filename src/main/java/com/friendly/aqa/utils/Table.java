@@ -13,12 +13,13 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    private static Map<String, String> paramSet;
+    private static Map<String, String> parameterMap;
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
     private WebElement table;
     private Properties props;
+    private boolean retryInit;
 
     public Table(WebElement table) {
         this.table = table;
@@ -63,7 +64,15 @@ public class Table {
                 System.out.println(tableHtml);
                 System.out.println("textTable.length:" + textTable.length);
                 System.out.println("i:" + i);
-                throw new ArrayIndexOutOfBoundsException(e.getMessage());
+                if (retryInit) {
+                    throw new ArrayIndexOutOfBoundsException(e.getMessage());
+                } else {
+                    retryInit = true;
+                    rowsList = table.findElements(By.tagName("tr"));
+                    textTable = new String[rowsList.size()][];
+                    elementTable = new WebElement[rowsList.size()][];
+                    parseTable();
+                }
             }
             i++;
         }
@@ -139,6 +148,20 @@ public class Table {
             maxCellRow = Math.max(maxCellRow, row.length);
         }
         return new int[]{textTable.length, maxCellRow};
+    }
+
+    public int getRowLength(int row) {
+        return textTable[row].length;
+    }
+
+    public int getEnabledUpperRowNum(String branch) {
+        int branchRowNum = getRowNumberByText(branch);
+        for (int i = branchRowNum; i > 0; i--) {
+            if (rowsList.get(i).getAttribute("style").endsWith("y:;")) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @SuppressWarnings("unused")
@@ -228,11 +251,15 @@ public class Table {
         return attr.substring(10, attr.indexOf("event)") - 2);
     }
 
-    public String getCellText(int searchColumn, String searchText, int resultColumn) {
-        return textTable[getRowNumberByText(/*searchColumn, */searchText)][resultColumn];
+    public String getCellText(String searchText, int resultColumn) {
+        return textTable[getRowNumberByText(searchText)][resultColumn];
     }
 
-    public void assertStartWith(int row, int column, String expectedText) {
+    public String getCellText(int row, int column) {
+        return textTable[row][column];
+    }
+
+    public void assertStartsWith(int row, int column, String expectedText) {
         if (column < 0) {
             column = textTable[row].length + column;
         }
@@ -248,7 +275,7 @@ public class Table {
         }
         System.out.println("text:" + textTable[row][column]);
         if (!textTable[row][column].endsWith(expectedText)) {
-            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "doesn't start with '" + expectedText + "'!");
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't ends with '" + expectedText + "'!");
         }
     }
 
@@ -256,7 +283,7 @@ public class Table {
         return elementTable[row][column];
     }
 
-    private int getRowNumberByText(int columnNum, String text) {
+    public int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
@@ -273,7 +300,7 @@ public class Table {
         return rowNum;
     }
 
-    private int getRowNumberByText(String text) {
+    public int getRowNumberByText(String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
@@ -285,8 +312,7 @@ public class Table {
     }
 
     public Table checkResults() {
-//        printResults();
-        Set<Map.Entry<String, String>> entrySet = paramSet.entrySet();
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             checkResults(entry.getKey(), entry.getValue());
         }
@@ -332,8 +358,8 @@ public class Table {
     }
 
     public void getParameter(int row, int column) {
-        if (paramSet == null) {
-            paramSet = new HashMap<>();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
         String hint = getHint(row);
         String values;
@@ -347,7 +373,7 @@ public class Table {
             values = valuesArr[column];
             clickOn(row, column, 0);
         }
-        paramSet.put(hint, values);
+        parameterMap.put(hint, values);
     }
 
     public Table setAllParameters() {
@@ -356,8 +382,8 @@ public class Table {
     }
 
     public Table setParameter(int amount) {
-        if (paramSet == null) {
-            paramSet = new HashMap<>();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
         BasePage.setImplicitlyWait(0);
         int counter = (amount == 0 || amount >= elementTable.length) ? elementTable.length : amount + 1;
@@ -405,16 +431,15 @@ public class Table {
                 value = attr;
             }
             setParameter(textTable[i][0], option, value);
-            paramSet.put(hint, value);
+            parameterMap.put(hint, value);
         }
         BasePage.setDefaultImplicitlyWait();
         return this;
-//        printResults();
     }
 
     @SuppressWarnings("unused")
     public void printResults() {
-        Set<Map.Entry<String, String>> entrySet = paramSet.entrySet();
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }
@@ -424,7 +449,7 @@ public class Table {
         new Table(BasePage.getDriver().findElement(By.id("tblTree"))).setAdvancedParameter();
     }
 
-    private void setAdvancedParameter() {
+    public void setAdvancedParameter() {
         String path = BasePage.getElementText("divPath");
         for (int i = 1; i < elementTable.length; i++) {
             List<WebElement> tagList = elementTable[i][0].findElements(By.tagName("span"));
@@ -445,8 +470,8 @@ public class Table {
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
-        if (paramSet == null) {
-            paramSet = new HashMap<>();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
         String hint = getHint(rowNum);
         WebElement paramCell = getCellWebElement(rowNum, 1);
@@ -459,7 +484,7 @@ public class Table {
             input.clear();
             input.sendKeys(value);
         }
-        paramSet.put(hint, value);
+        parameterMap.put(hint, value);
         if (!BasePage.BROWSER.equals("edge")) {
             clickOn(0, 0);
         }
@@ -500,13 +525,13 @@ public class Table {
     }
 
     public void setAllPolicies() {
-        if (paramSet == null) {
-            paramSet = new HashMap<>();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
         for (int i = 1; i < elementTable.length; i++) {
             setPolicy(textTable[i][0], Policy.ACTIVE, Policy.ALL);
             String hint = getHint(i);
-            paramSet.put(hint, "Notification=Active Access=All");
+            parameterMap.put(hint, "Notification=Active Access=All");
         }
     }
 
@@ -515,18 +540,18 @@ public class Table {
         if (scenario >= textTable.length) {
             LOGGER.warn("Number of parameters on current tab is not enough to execute this testcase");
         }
-        if (paramSet == null) {
-            paramSet = new HashMap<>();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
         if (scenario == 1) {
             setPolicy(textTable[1][0], null, Policy.ACS_ONLY);
             String hint = getHint(1);
-            paramSet.put(hint, "Access=AcsOnly");
+            parameterMap.put(hint, "Access=AcsOnly");
         } else if (scenario == 2) {
             for (int i = 1; i < counter; i++) {
                 setPolicy(textTable[i][0], Policy.OFF, null);
                 String hint = getHint(i);
-                paramSet.put(hint, "Notification=Off ");
+                parameterMap.put(hint, "Notification=Off ");
             }
         } else {
             Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
@@ -536,7 +561,7 @@ public class Table {
                 String hint = getHint(i);
                 String name = textTable[i][0];
                 setPolicy(name, notify[i], access[i]);
-                paramSet.put(hint, results[i]);
+                parameterMap.put(hint, results[i]);
             }
         }
     }
@@ -554,11 +579,11 @@ public class Table {
         if (notification != null) {
             new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
         }
-        BasePage.waitForUpdate();
+//        BasePage.waitForUpdate();
         if (accessList != null) {
             new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
         }
-        BasePage.waitForUpdate();
+//        BasePage.waitForUpdate();
 //        clickOn(0, 0);
     }
 
@@ -605,10 +630,10 @@ public class Table {
     }
 
     public static void flushResults() {
-        paramSet = null;
+        parameterMap = null;
     }
 
-    @SuppressWarnings("unused")
+
     public enum Parameter {
         EMPTY_VALUE("sendEmpty"),
         VALUE("sendValue"),
@@ -625,7 +650,6 @@ public class Table {
         }
     }
 
-    @SuppressWarnings("unused")
     public enum Policy {
         DEFAULT("-1"),
         OFF("0"),

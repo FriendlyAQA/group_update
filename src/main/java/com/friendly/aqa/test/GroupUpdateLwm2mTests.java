@@ -8,14 +8,14 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.friendly.aqa.pageobject.BasePage.*;
+import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
+import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
-import static com.friendly.aqa.utils.Table.Parameter.VALUE;
-import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateLwm2mTests extends BaseTestCase {
@@ -23,9 +23,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_001() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .deleteAll();
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+                .deleteAll()
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -34,8 +34,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
-                .globalButtons(CANCEL);
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -47,9 +47,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .deleteFilterGroups()
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.mainTableIsAbsent());
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.mainTableIsAbsent());
     }
 
     @Test
@@ -61,8 +61,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .showList();
-        assertTrue(guPage.serialNumberTableIsPresent());
+                .showList()
+                .assertTrue(guPage.serialNumberTableIsPresent());
     }
 
     @Test
@@ -73,13 +73,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup();
-        assertTrue(guPage.isButtonPresent(FINISH));
-        guPage
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        guPage.pause(500);
-        assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .createGroup()
+                .assertTrue(guPage.isButtonPresent(FINISH))
+                .globalButtons(CANCEL)
+                .waitForUpdate().pause(500)
+                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
     }
 
     @Test
@@ -88,15 +86,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("IsNull")
-                .globalButtons(NEXT);
-        assertFalse(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage.filterRecordsCheckbox();
-        assertTrue(guPage.isButtonActive("btnDelFilter_btn"));
-        guPage
+                .globalButtons(NEXT)
+                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
+                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
-                .okButtonPopUp();
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
         setTargetTestName();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"));
     }
 
     @Test
@@ -108,9 +104,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n");
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .okButtonPopUp()
+                .assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n")
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
     }
 
     @Test
@@ -123,8 +119,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .createGroup()
                 .fillName(targetTestName)
-                .globalButtons(NEXT);
-        assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .globalButtons(NEXT)
+                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
 
     @Test
@@ -138,8 +134,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectSendTo(targetTestName)
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
-                .okButtonPopUp();
-        assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .okButtonPopUp()
+                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -151,14 +147,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectSendTo("Individual")
-                .getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertTrue(guPage.isButtonActive(NEXT));
-        guPage.getTable("tblDevices")
-                .clickOn(1, 0);
-        waitForUpdate();
-        assertFalse(guPage.isButtonActive(NEXT));
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(true, NEXT)
+                .clickOnTable("tblDevices", 1, 0)
+                .waitForUpdate()
+                .assertButtonsAreEnabled(false, NEXT);
     }
 
     @Test
@@ -173,7 +167,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -186,15 +180,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .selectSendTo(testName)
-                .showList();
-        guPage.getTable("tblDevices").assertPresenceOfValue(0, getSerial());
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
     public void lwm2m_gu_013() {
         guPage
-                .gotoSetParameters(null);
-        guPage
+                .gotoSetParameters(null)
                 .assertElementIsPresent("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
@@ -203,8 +196,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_014() {
         guPage
                 .gotoSetParameters()
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -216,25 +208,17 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_015() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
+                .enterIntoGroup(targetTestName)
                 .globalButtons(EDIT)
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
-                .getTable("tblTasks")
-                .clickOn("Root.Device.0.UTC Offset", 3)
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+01:00");
-        guPage
+                .clickOnTable("tblTasks", "Root.Device.0.UTC Offset")
+                .setParameter("UTC Offset", VALUE, "+01:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup(targetTestName)
                 .checkResults();
     }
 
@@ -242,8 +226,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_016() {
         guPage
                 .gotoSetParameters()
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate();
         setTargetTestName();
     }
@@ -252,17 +235,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_017() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn(targetTestName, 4);
-        guPage
-                .globalButtons(EDIT);
-        assertFalse(guPage.isInputActive("ddlSend"));
-        guPage
-                .globalButtons(NEXT);
-        assertFalse(guPage.isInputActive("lrbImmediately"));
-        guPage
-                .globalButtons(NEXT);
-        assertFalse(guPage.isButtonActive(SAVE_AND_ACTIVATE));
+                .enterIntoGroup(targetTestName)
+                .globalButtons(EDIT)
+                .assertFalse(guPage.isInputActive("ddlSend"))
+                .globalButtons(NEXT)
+                .assertFalse(guPage.isInputActive("lrbImmediately"))
+                .globalButtons(NEXT)
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
@@ -277,32 +256,26 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
-                .globalButtons(NEXT);
-        waitForUpdate();
-        assertEquals(guPage.getAlertTextAndClickOk(), "Update can't scheduled to past"/*"Can't be scheduled to the past"*/);
-        guPage
+                .globalButtons(NEXT)
+                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
                 .checkIsCalendarClickable();
     }
 
     @Test
     public void lwm2m_gu_019() throws IOException {
         guPage
-                .topMenu(GROUP_UPDATE);
-        System.out.println(guPage
-                .getMainTable()
-                .getExportLink(targetTestName));
-        assertTrue(HttpConnector.getUrlSource(guPage
-                .getMainTable()
-                .getExportLink(targetTestName))
-                .contains("\"Root.Device.0.UTC Offset\" value=\"+02:00\""));
+                .topMenu(GROUP_UPDATE)
+                .assertTrue(HttpConnector.getUrlSource(guPage
+                        .getMainTable()
+                        .getExportLink(targetTestName))
+                        .contains("\"Root.Device.0.UTC Offset\" value=\"+02:00\""));
     }
 
     @Test
     public void lwm2m_gu_020() {
         guPage
                 .gotoSetParameters(null)
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -311,8 +284,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_021() {
         guPage
                 .gotoSetParameters(null)
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -321,8 +293,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_022() {
         guPage
                 .gotoSetParameters(null)
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -331,8 +302,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_023() {
         guPage
                 .gotoSetParameters("Server")
-                .setAllParameters();
-        guPage
+                .setAllParameters()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -341,8 +311,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_024() {
         guPage
                 .gotoSetParameters("Server")
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -351,8 +320,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_025() {
         guPage
                 .gotoSetParameters("Server")
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -363,7 +331,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reboot");
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -374,7 +342,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(2, "Reboot");
+                .assertPresenceOfValue("tblTasks", 2, "Reboot");
     }
 
     @Test
@@ -383,7 +351,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -394,7 +362,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
-                .assertPresenceOfValue(2, "FactoryReset");
+                .assertPresenceOfValue("tblTasks", 2, "FactoryReset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -403,7 +371,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetMinMaxValues()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("ResetMinandMaxMeasuredValues");
+                .assertPresenceOfParameter("tblTasks", "ResetMinandMaxMeasuredValues");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -412,7 +380,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetCumulativeEnergy()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("resetCumulativeEnergy");
+                .assertPresenceOfParameter("tblTasks", "resetCumulativeEnergy");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -421,7 +389,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetErrors()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("resetErrors");
+                .assertPresenceOfParameter("tblTasks", "resetErrors");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -430,7 +398,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioDisable()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("radioDisable");
+                .assertPresenceOfParameter("tblTasks", "radioDisable");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -439,7 +407,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioRegistrationUpdateTrigger()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("radioRegistrationUpdateTrigger");
+                .assertPresenceOfParameter("tblTasks", "radioRegistrationUpdateTrigger");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -448,7 +416,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioStartOrReset()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("radioStartOrReset");
+                .assertPresenceOfParameter("tblTasks", "radioStartOrReset");
     }
 
     @Test
@@ -457,7 +425,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("CPEReprovision");
+                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
     }
 
     @Test
@@ -465,8 +433,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters(null, true)
                 .setAllParameters()
-                .setAnyAdvancedParameter();
-        guPage
+                .setAnyAdvancedParameter()
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -475,8 +442,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_038() {
         guPage
                 .gotoSetParameters(null, true)
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -485,8 +451,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_039() {
         guPage
                 .gotoSetParameters(null, true)
-                .setParameter(2);
-        guPage
+                .setParameter(2)
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -506,15 +471,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_cell0Device_LWM2M")
-                .clickOn("Device")
-                .getTable("tblParamsValue")
-                .setParameter(1);
-        guPage
+                .clickOnTable("tabsSettings_cell0Device_LWM2M", "Device")
+                .setParameter(1)
                 .nextSaveAndActivate(false)
-                .checkResults()
-                .getTable("tblPeriod")
-                .checkResults("Online devices", "True");
+                .assertOnlineDevices()
+                .checkResults();
     }
 
     @Test
@@ -621,9 +582,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .getMainTable()
-                .clickOn("Manufacturer");
-        guPage
+                .enterIntoGroup("Manufacturer")
                 .checkResetView();
     }
 
@@ -631,14 +590,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_055() {
         guPage
                 .gotoSetParameters(null)
-                .setParameter(1);
-        guPage
+                .setParameter(1)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
-                .clickOn(testName, 4)
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -678,8 +635,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .okButtonPopUp()
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
     }
 
     @Test
@@ -690,16 +647,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Is not null'!\n");
-        guPage.globalButtons(NEXT)
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Is not null'!\n").globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -714,17 +668,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectTodayDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - On Day'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - On Day'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -741,17 +692,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -768,17 +716,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Later than'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Later than'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -791,17 +736,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -814,17 +756,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Before Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -837,17 +776,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Yesterday")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -860,17 +796,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Prev 7 days")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -884,17 +817,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtInt", "4")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -909,17 +839,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -934,17 +861,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtText", "123")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -959,8 +883,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .okButtonPopUp()
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
     }
 
     @Test
@@ -973,17 +897,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -998,17 +919,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .inputText("txtText", "abc")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1022,17 +940,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1046,17 +961,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n");
-        guPage
+                .okButtonPopUp()
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
                 .checkResults();
     }
@@ -1067,9 +979,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Is not null")
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
     }
 
     @Test
@@ -1084,9 +996,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
-                .globalButtons(CANCEL);
-        waitForUpdate();
-        assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .globalButtons(CANCEL)
+                .waitForUpdate()
+                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
     }
 
     @Test
@@ -1104,16 +1016,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1133,16 +1041,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1162,16 +1066,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1192,16 +1092,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1222,16 +1118,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1253,16 +1145,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1282,16 +1170,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1312,16 +1196,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1342,16 +1222,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1373,16 +1249,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1402,16 +1274,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1432,16 +1300,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1462,16 +1326,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1493,16 +1353,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1523,16 +1379,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1554,16 +1406,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1582,16 +1430,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1612,16 +1456,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1643,16 +1483,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1673,16 +1509,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1705,16 +1537,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1737,16 +1565,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1768,16 +1592,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1798,16 +1618,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1829,16 +1645,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1859,16 +1671,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1891,16 +1699,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1923,16 +1727,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1954,16 +1754,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -1983,16 +1779,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2011,16 +1803,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2040,16 +1828,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2071,16 +1855,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2102,16 +1882,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2132,16 +1908,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2162,16 +1934,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2193,16 +1961,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2223,16 +1987,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2255,16 +2015,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2287,16 +2043,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2318,16 +2070,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2347,16 +2095,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2377,16 +2121,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2408,16 +2148,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2439,16 +2175,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2469,16 +2201,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2497,16 +2225,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2525,17 +2249,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
                 .setParameter("UTC Offset", VALUE, "+02:00")
-                .setParameter("Timezone", VALUE, "Europe/Kharkov1");
-        guPage
+                .setParameter("Timezone", VALUE, "Europe/Kharkov1")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2554,16 +2274,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter("UTC Offset", VALUE, "+02:00");
-        guPage
+                .setParameter("UTC Offset", VALUE, "+02:00")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2582,16 +2298,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter(0);
-        guPage
+                .setParameter(0)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2610,16 +2322,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tblParamsValue")
-                .setParameter(0);
-        guPage
+                .setParameter(0)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2638,18 +2346,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTabTable()
-                .clickOn("Server")
-                .getTable("tblParamsValue")
-                .setParameter("Default Maximum Period", VALUE, "10");
-        guPage
+                .setParameter("Server", "Default Maximum Period", VALUE, "10")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2668,18 +2370,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTabTable()
-                .clickOn("Server")
-                .getTable("tblParamsValue")
-                .setParameter(2);
-        guPage
+                .setParameter("Server", 2)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -2703,10 +2399,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("Reboot");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -2730,10 +2424,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfValue(2, "Reboot");
+                .enterIntoGroup()
+                .assertPresenceOfValue("tblTasks", 2, "Reboot");
     }
 
     @Test
@@ -2756,10 +2448,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test
@@ -2783,10 +2473,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "FactoryReset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2809,10 +2497,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("ResetMinandMaxMeasuredValues");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "ResetMinandMaxMeasuredValues");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2835,10 +2521,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("resetCumulativeEnergy");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "resetCumulativeEnergy");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2861,10 +2545,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("resetErrors");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "resetErrors");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2887,10 +2569,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("radioDisable");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "radioDisable");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2913,10 +2593,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("radioRegistrationUpdateTrigger");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "radioRegistrationUpdateTrigger");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2939,10 +2617,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("radioStartOrReset");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "radioStartOrReset");
     }
 
     @Test
@@ -2965,10 +2641,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName);
-        guPage
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("CPEReprovision");
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
     }
 
     @Test
@@ -2987,17 +2661,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .globalButtons(ADVANCED_VIEW)
-                .getTable("tblParamsValue")
                 .setAllParameters()
-                .setAnyAdvancedParameter();
-        guPage
+                .setAnyAdvancedParameter()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -3017,17 +2687,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .globalButtons(ADVANCED_VIEW)
-                .getTable("tblParamsValue")
                 .setParameter(1)
-                .setAnyAdvancedParameter();
-        guPage
+                .setAnyAdvancedParameter()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 
@@ -3047,17 +2713,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .globalButtons(ADVANCED_VIEW)
-                .getTable("tblParamsValue")
                 .setParameter(2)
-                .setAnyAdvancedParameter();
-        guPage
+                .setAnyAdvancedParameter()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .clickOn(testName, 4);
-        guPage
-                .getTable("tblTasks")
+                .enterIntoGroup()
                 .checkResults();
     }
 }

@@ -8,7 +8,6 @@ import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.TopMenu.MONITORING;
-import static org.testng.Assert.*;
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringTR069Tests extends BaseTestCase {
@@ -50,17 +49,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName()
                 .globalButtons(NEXT)
-                .getTable("tblFilter")
-                .clickOn(1, 1);
-        monPage
+                .clickOnTable("tblFilter", 1, 1)
                 .globalButtons(NEXT)
                 .addFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Is not null")
                 .globalButtons(NEXT)
-                .filterRecordsCheckbox();
-        assertTrue(monPage.isButtonActive("btnDelFilter_btn"));
-        monPage
+                .filterRecordsCheckbox()
+                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .assertMainPageDisplayed();
@@ -97,28 +93,27 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .forUserCheckbox()
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertMainPageDisplayed();
-        assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
-        monPage
+                .assertMainPageDisplayed()
+                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName)
                 .topMenu(GROUP_UPDATE)
-                .topMenu(MONITORING);
-        assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
+                .topMenu(MONITORING)
+                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
     }
 
     @Test
     public void tr069_mo_008() {
         monPage
                 .topMenu(MONITORING)
-                .selectView("Default");
-        assertEquals(monPage.getSelectedValue("ddlView"), "Default");
+                .selectView("Default")
+                .assertEquals(monPage.getSelectedValue("ddlView"), "Default");
     }
 
     @Test
     public void tr069_mo_009() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName);
-        assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
+                .selectView(targetTestName)
+                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
     }
 
     @Test
@@ -134,8 +129,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectView(targetTestName)
                 .editViewButton()
                 .globalButtons(DELETE_GROUP)
-                .okButtonPopUp();
-        assertEquals(monPage.getSelectedValue("ddlView"), "Default");
+                .okButtonPopUp()
+                .assertEquals(monPage.getSelectedValue("ddlView"), "Default");
     }
 
     @Test
@@ -154,8 +149,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
-                .selectManufacturer();
-        assertFalse(monPage.isButtonActive("btnAddModel_btn"));
+                .selectManufacturer()
+                .assertFalse(monPage.isButtonActive("btnAddModel_btn"));
     }
 
     @Test
@@ -166,16 +161,13 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel("MP282")
-                .addModel();
-        assertEquals(monPage.getAlertTextAndClickOk(), "Template for this model doesn't exist");
-        monPage
+                .addModel()
+                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectModel()
                 .addModel()
                 .selectSendTo()
                 .immediately()
-                .getTable("tblDataParams")
-                .clickOn(1, 1, 0);
-        monPage
+                .clickOnTable("tblDataParams", 1, 1, 0)
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL, ADVANCED_VIEW);
     }
 
@@ -206,8 +198,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addModel()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
-                .globalButtons(CANCEL);
-        assertEquals(monPage.getAttributeById("tbName", "value"), testName);
+                .globalButtons(CANCEL)
+                .assertEquals(monPage.getAttributeById("tbName", "value"), testName);
     }
 
     @Test
@@ -225,14 +217,13 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Is not null")
-                .globalButtons(NEXT);
-        assertFalse(monPage.isButtonActive("btnDelFilter_btn"));
-        monPage.filterRecordsCheckbox();
-        assertTrue(monPage.isButtonActive("btnDelFilter_btn"));
-        monPage
+                .globalButtons(NEXT)
+                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .filterRecordsCheckbox()
+                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertEquals(monPage.getSelectedValue("ddlSend"), testName);
+                .okButtonPopUp()
+                .assertEquals(monPage.getSelectedValue("ddlSend"), testName);
         setTargetTestName();
     }
 
@@ -285,8 +276,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addModel()
                 .immediately()
                 .selectSendTo(targetTestName)
-                .getTabTable()
-                .assertStartWith(1, -2, "Devices");
+                .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
     }
 
     @Test
@@ -300,8 +290,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addModel()
                 .immediately()
                 .selectSendTo("All")
-                .getTabTable()
-                .assertEndsWith(1, -2, " " + getDeviceAmount());
+                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
     }
 
     @Test
@@ -320,8 +309,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .getTabTable()
-                .assertEndsWith(1, -2, " 1");
+                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
     }
 
     @Test
@@ -335,8 +323,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addModel()
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
-                .getTabTable()
-                .assertEndsWith(1, -2, " 1");
+                .pause(2000)
+                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 2");
     }
 
     @Test
@@ -351,8 +339,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectSendTo(targetTestName)
                 .editViewButton()
                 .globalButtons(DELETE_GROUP)
-                .okButtonPopUp();
-        assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
+                .okButtonPopUp()
+                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
     }
 
     @Test
@@ -383,6 +371,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -391,15 +380,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_026() {    //is dependent on #025
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn("tr069_mo_025");
-        monPage
+                .enterIntoGroup(targetTestName)
                 .immediately()
                 .setParameters("Management", 2, 2)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -417,6 +405,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -425,14 +414,13 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_028() {    //is dependent on #027
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Information", 8, 8)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -455,6 +443,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -463,28 +452,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_031() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Management", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_032() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Management", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -502,6 +489,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -510,28 +498,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_034() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Information", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_035() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Information", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -549,6 +535,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -557,28 +544,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_037() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Time", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_038() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Time", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -596,6 +581,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -604,28 +590,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_040() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("DSL settings", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_041() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("DSL settings", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -643,6 +627,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -651,28 +636,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_043() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("WAN", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_044() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("WAN", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -690,6 +673,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -698,28 +682,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_046() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("LAN", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_047() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("LAN", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -737,6 +719,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -745,28 +728,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_049() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Wireless", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_050() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Wireless", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -784,6 +765,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -792,28 +774,26 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_052() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("VoIP settings", 1, 3)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
     public void tr069_mo_053() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("VoIP settings", 4, 100)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -831,6 +811,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
                 .checkResults();
         setTargetTestName();
     }
@@ -839,14 +820,13 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_055() {    //is dependent on #054
         monPage
                 .topMenu(MONITORING)
-                .getMainTable()
-                .clickOn(targetTestName);
-        monPage
+                .enterIntoGroup(targetTestName)
                 .setParameters("Management", 0, 0)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
-                .checkResults(targetTestName);
+                .enterIntoGroup(targetTestName)
+                .checkResults();
     }
 
     @Test
@@ -865,11 +845,133 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .pause(1000)
-                .selectGroup();
-        monPage
+                .selectGroup()
                 .globalButtons(ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_057() {    //is dependent on #056
+        monPage
+                .topMenu(MONITORING)
+                .selectGroup(targetTestName)
+                .globalButtons(STOP)
+                .okButtonPopUp()
+                .waitForStatus("Not active", targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_058() {    //is dependent on #056
+        monPage
+                .topMenu(MONITORING)
+                .selectGroup(targetTestName)
+                .globalButtons(ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running", targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_059() {    //is dependent on #056
+        monPage
+                .topMenu(MONITORING)
+                .selectGroup(targetTestName)
+                .globalButtons(STOP_WITH_RESET)
+                .okButtonPopUp()
+                .waitForStatus("Not active", targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_060() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .clickOn("calDateTo")
+                .selectShiftedDate("calDateTo", 0)
+                .setEndDateDelay(-10)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertEqualsAlertMessage("Finish date can't scheduled to past")
+                .selectShiftedDate("calDateTo", 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertEqualsAlertMessage("Finish date can't scheduled to past");
+    }
+
+    @Test
+    public void tr069_mo_061() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setParameters("Management", 0, 100)
+                .setParameters("Information", 0, 0)
+                .setParameters("Time", 0, 0)
+                .setParameters("DSL settings", 0, 0)
+                .setParameters("WAN", 0, 0)
+                .setParameters("LAN", 0, 0)
+                .setParameters("Wireless", 0, 0)
+                .setParameters("VoIP settings", 0, 0)
+                .selectShiftedDate("calDateTo", 0)
+                .setEndDateDelay(2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running")
+                .waitForStatus("Completed", 120)
+                .enterIntoGroup()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_062() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .immediately()
+                .selectSendTo("All")
+                .setAdvancedParameters("InternetGatewayDevice.ManagementServer", 0, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active")
+                .enterIntoGroup()
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_063() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .setEndDateDelay(10)
+                .selectSendTo("All")
+                .setParameters("Management", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
                 .checkResults();
     }
 }

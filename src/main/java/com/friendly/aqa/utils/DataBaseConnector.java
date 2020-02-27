@@ -66,6 +66,20 @@ public class DataBaseConnector {
         return type;
     }
 
+    public static String getGroupId(String groupName){
+        String groupId = "";
+        try {
+            stmtObj.execute("SELECT id FROM ftacs.update_group WHERE name='" + groupName + "'");
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                groupId = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groupId;
+    }
+
     public static String[] getDevice(String serial) {
         String[] device = new String[2];
         try {
@@ -104,7 +118,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getDeviceAmount("FT001SN0000268FF7B6332BC"));
+        System.out.println(getGroupId("tr069_gu_080"));
         disconnectDb();
     }
 }

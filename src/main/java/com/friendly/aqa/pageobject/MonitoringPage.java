@@ -1,16 +1,21 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
+import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+import static com.friendly.aqa.pageobject.GlobalButtons.ADVANCED_VIEW;
 
 public class MonitoringPage extends BasePage {
     private static Logger logger = Logger.getLogger(MonitoringPage.class);
@@ -68,6 +73,12 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "tblDataParams")
     private WebElement paramTable;
 
+    @FindBy(id = "tbTimeToHour")
+    private WebElement endDateHours;
+
+    @FindBy(id = "tbTimeToMinute")
+    private WebElement endDateMinutes;
+
 
     public MonitoringPage newViewButton() {
         newViewButton.click();
@@ -109,7 +120,46 @@ public class MonitoringPage extends BasePage {
 
     @Override
     public Table getMainTable() {
-        return currentTable = new Table("tbl");
+        try {
+            currentTable = new Table("tbl");
+        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+            currentTable = new Table("tbl");
+        }
+        return currentTable;
+    }
+
+    @Override
+    public MonitoringPage clickOnTable(String id, int row, int column) {
+        return (MonitoringPage) super.clickOnTable(id, row, column);
+    }
+
+    @Override
+    public MonitoringPage clickOnTable(String id, int row, int column, int tagNum) {
+        return (MonitoringPage) super.clickOnTable(id, row, column, tagNum);
+    }
+
+    @Override
+    public MonitoringPage assertEqualsAlertMessage(String expectedMessage) {
+        return (MonitoringPage) super.assertEqualsAlertMessage(expectedMessage);
+    }
+
+    @Override
+    public MonitoringPage selectGroup() {
+        return (MonitoringPage) super.selectGroup();
+    }
+
+    @Override
+    public MonitoringPage selectGroup(String groupName) {
+        return (MonitoringPage) super.selectGroup(groupName);
+    }
+
+    public MonitoringPage enterIntoGroup(String groupName) {
+        getMainTable().clickOn(groupName);
+        return this;
+    }
+
+    public MonitoringPage enterIntoGroup() {
+        return enterIntoGroup(BaseTestCase.getTestName());
     }
 
     public MonitoringPage addModel() {
@@ -119,6 +169,14 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage setParameters(String tab, int startParam, int endParam) {
+        return setParameters(false, tab, startParam, endParam);
+    }
+
+    public MonitoringPage setAdvancedParameters(String branch, int startParam, int endParam) {
+        return setParameters(true, branch, startParam, endParam);
+    }
+
+    public MonitoringPage setParameters(boolean advancedView, String tab, int startParam, int endParam) {
         Table table;
         if (parameterSet == null) {
             getTabTable().clickOn("Summary");
@@ -127,7 +185,16 @@ public class MonitoringPage extends BasePage {
             String[] params = table.getColumn(0);
             parameterSet = new HashSet<>(Arrays.asList(params));
         }
-        getTabTable().clickOn(tab);
+        if (advancedView) {
+            if (isButtonActive(ADVANCED_VIEW)) {
+                getTabTable().clickOn("Management");
+                globalButtons(ADVANCED_VIEW);
+                waitForUpdate();
+            }
+            selectBranch(tab);
+        } else {
+            getTabTable().clickOn(tab);
+        }
         waitForUpdate();
         table = new Table(paramTable);
         int lastParam = Math.min(endParam, table.getTableSize()[0] - 2);
@@ -143,34 +210,38 @@ public class MonitoringPage extends BasePage {
                 parameterSet.remove(hint);
             }
         }
+        table.clickOn(0, 0);
         return this;
     }
 
-    public void checkResults() {
-        checkResults(BaseTestCase.getTestName());
-    }
+//    public void checkResults() {
+//        checkResults(BaseTestCase.getTestName());
+//    }
 
-    public void checkResults(String testName) {
-        currentTable.clickOn(testName);
+    public void checkResults() {
         getTabTable().clickOn("Summary");
         waitForUpdate();
         String[] params = getParamTable().getColumn(0);
         for (String param : params) {
             if (!parameterSet.remove(param)) {
-                throw new AssertionError("Parameter '" + param + "' not found on the 'Summary' tab!");
+                throw new AssertionError("Unexpected parameter: '" + param + "' detected on the 'Summary' tab!");
             }
         }
         if (parameterSet.size() > 0) {
-            StringBuilder unexpected = new StringBuilder("Unexpected parameters:\n");
+            StringBuilder unexpected = new StringBuilder("Parameters:\n");
             for (String param : parameterSet) {
                 unexpected.append(param).append("\n");
             }
-            throw new AssertionError(unexpected.append("was found on the 'Summary' tab!").toString());
+            throw new AssertionError(unexpected.append("not found on the 'Summary' tab!").toString());
         }
     }
 
     public MonitoringPage immediately() {
         return (MonitoringPage) super.immediately();
+    }
+
+    public MonitoringPage scheduledToRadioButton() {
+        return (MonitoringPage) super.scheduledToRadioButton();
     }
 
     public MonitoringPage assertMainPageDisplayed() {
@@ -286,6 +357,16 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.assertButtonsArePresent(buttons);
     }
 
+    @Override
+    public MonitoringPage selectShiftedDate(String id, int value) {
+        return (MonitoringPage) super.selectShiftedDate(id, value);
+    }
+
+    public MonitoringPage clickOn(String id) {
+        driver.findElement(By.id(id)).click();
+        return this;
+    }
+
     public MonitoringPage assertTableIsEmpty(String id) {
         Table table = getTable(id);
         if (table.getTableSize()[0] > 0) {
@@ -316,6 +397,36 @@ public class MonitoringPage extends BasePage {
         throw new AssertionError("Button ID='" + id + "' is disabled");
     }
 
+    public MonitoringPage assertEquals(String actual, String expected) {
+        Assert.assertEquals(actual, expected);
+        return this;
+    }
+
+    public MonitoringPage assertEquals(String actual, String expected, String message) {
+        Assert.assertEquals(actual, expected, message);
+        return this;
+    }
+
+    public MonitoringPage assertTrue(boolean condition) {
+        Assert.assertTrue(condition);
+        return this;
+    }
+
+    public MonitoringPage assertTrue(boolean condition, String message) {
+        Assert.assertTrue(condition, message);
+        return this;
+    }
+
+    public MonitoringPage assertFalse(boolean condition) {
+        Assert.assertFalse(condition);
+        return this;
+    }
+
+    public MonitoringPage assertFalse(boolean condition, String message) {
+        Assert.assertFalse(condition, message);
+        return this;
+    }
+
     public MonitoringPage fillViewName() {
         return (MonitoringPage) super.fillName();
     }
@@ -330,8 +441,41 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
+    public MonitoringPage filterRecordsCheckbox() {
+        return (MonitoringPage) super.filterRecordsCheckbox();
+    }
+
+    @Override
     public MonitoringPage okButtonPopUp() {
         return (MonitoringPage) super.okButtonPopUp();
+    }
+
+    public MonitoringPage setEndDateDelay(int minutes) {
+        String[] time = CalendarUtil.getDelay(minutes);
+        endDateHours.clear();
+        endDateHours.sendKeys(time[0]);
+        endDateMinutes.clear();
+        endDateMinutes.sendKeys(time[1]);
+        return this;
+    }
+
+    public MonitoringPage setScheduledDelay(int minutes) {
+        String[] time = CalendarUtil.getDelay(minutes);
+//        scheduledHours.clear();
+//        scheduledHours.sendKeys(time[0]);
+//        scheduledMinutes.clear();
+//        scheduledMinutes.sendKeys(time[1]);
+        return this;
+    }
+
+    @Override
+    public MonitoringPage waitForStatus(String status, int timeout) {
+        return (MonitoringPage) super.waitForStatus(status, timeout);
+    }
+
+    @Override
+    public MonitoringPage pause(int millis) {
+        return (MonitoringPage) super.pause(millis);
     }
 
     public MonitoringPage assertElementIsPresent(String id) {
