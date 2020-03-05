@@ -1,11 +1,9 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -154,16 +152,6 @@ public class Table {
         return textTable[row].length;
     }
 
-    public int getEnabledUpperRowNum(String branch) {
-        int branchRowNum = getRowNumberByText(branch);
-        for (int i = branchRowNum; i > 0; i--) {
-            if (rowsList.get(i).getAttribute("style").endsWith("y:;")) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     @SuppressWarnings("unused")
     public Table print() {
         int maxCells = getTableSize()[1];
@@ -204,41 +192,6 @@ public class Table {
 
     public String[] getColumn(String column) {
         return getColumn(getColumnNumber(0, column));
-    }
-
-    public Table readTasksFromDB() {
-        String groupName = BaseTestCase.getTestName();
-        List<String[]> groupList;
-        int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));
-        for (int i = 0; i < count; i++) {
-            long start = System.currentTimeMillis();
-            groupList = DataBaseConnector.getTaskList(getGroupId(groupName));
-            if (groupList.isEmpty()) {
-                String warn = "There are no tasks created by '" + groupName + "' Group Update";
-                LOGGER.warn(warn);
-                throw new AssertionError(warn);
-            }
-            Set<String> StateSet = new HashSet<>();
-            for (String[] line : groupList) {
-                StateSet.add(line[2]);
-            }
-            if (!StateSet.contains("1")) {
-                if (StateSet.size() != 1 || !StateSet.contains("2")) {
-                    LOGGER.info("All tasks created. One or more tasks failed or rejected");
-                }
-                return this;
-            }
-            long timeout;
-            if ((timeout = 1000 - System.currentTimeMillis() + start) > 0) {
-                try {
-                    Thread.sleep(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        LOGGER.info("All tasks created. One or more tasks remains in pending state");
-        return this;
     }
 
     public String getExportLink(String groupName) {
@@ -340,101 +293,8 @@ public class Table {
         return this;
     }
 
-    public void selectGroup() {
-        selectGroup(BaseTestCase.getTestName());
-    }
-
-    public void selectGroup(String searchText) {
-        int rowNum = getRowNumberByText(searchText);
-        clickOn(rowNum, 0);
-    }
-
     public String getHint(int row) {
         return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");
-    }
-
-    public Table getTable(String id) {
-        return new Table(id);
-    }
-
-    public void getParameter(int row, int column) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = getHint(row);
-        String values;
-        if (column < 1) {
-            values = "values,names,attributes";
-            for (int i = 1; i < elementTable[row].length; i++) {
-                clickOn(row, i, 0);
-            }
-        } else {
-            String[] valuesArr = {"", "names", "values", "attributes"};
-            values = valuesArr[column];
-            clickOn(row, column, 0);
-        }
-        parameterMap.put(hint, values);
-    }
-
-    public Table setAllParameters() {
-        setParameter(0);
-        return this;
-    }
-
-    public Table setParameter(int amount) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        BasePage.setImplicitlyWait(0);
-        int counter = (amount == 0 || amount >= elementTable.length) ? elementTable.length : amount + 1;
-        for (int i = 1; i < counter; i++) {
-            WebElement paramVal = elementTable[i][1];
-            List<WebElement> selectList = paramVal.findElements(By.tagName("select"));
-            if (selectList.size() == 0) {
-                if (amount != 0) {
-                    counter++;
-                }
-                continue;
-            }
-            String hint = getHint(i);
-            List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
-            Parameter option;
-            String value = "1";
-            String attr = optionList.get(1).getAttribute("value");
-            if (attr.equals("sendEmpty")) {
-                option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint).toLowerCase();
-                switch (paramType) {
-                    case "string":
-                        value = "value" + i;
-                        break;
-                    case "int":
-                    case "integer":
-                    case "unsignedint":
-                        value = "" + i;
-                        break;
-                    case "datetime":
-                        value = "2019-10-27T02:00:0";
-                        break;
-                    case "time":
-                        value = CalendarUtil.getTimeStamp();
-                        break;
-                    case "boolean":
-                        break;
-                    default:
-                        throw new AssertionError("Unsupported data type:" + paramType);
-                }
-            } else if (attr.equals("true")) {
-                option = Parameter.TRUE;
-            } else {
-                option = Parameter.CUSTOM;
-                value = attr;
-            }
-            setParameter(textTable[i][0], option, value);
-            parameterMap.put(hint, value);
-        }
-        BasePage.setDefaultImplicitlyWait();
-        return this;
     }
 
     @SuppressWarnings("unused")
@@ -443,148 +303,6 @@ public class Table {
         for (Map.Entry<String, String> entry : entrySet) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }
-    }
-
-    public void setAnyAdvancedParameter() {
-        new Table(BasePage.getDriver().findElement(By.id("tblTree"))).setAdvancedParameter();
-    }
-
-    public void setAdvancedParameter() {
-        String path = BasePage.getElementText("divPath");
-        for (int i = 1; i < elementTable.length; i++) {
-            List<WebElement> tagList = elementTable[i][0].findElements(By.tagName("span"));
-            WebElement last = tagList.get(tagList.size() - 1);
-            if (!last.isDisplayed() || last.getAttribute("onclick") == null) {
-                continue;
-            }
-            last.click();
-            if (!BasePage.getElementText("divPath").equals(path)) {
-                break;
-            }
-        }
-        new Table(BasePage.getDriver().findElement(By.id("tblParamsValue"))).setParameter(1);
-    }
-
-    public Table setParameter(String paramName, Parameter option, String value) {
-        int rowNum = getRowNumberByText(0, paramName);
-        if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + paramName + "' not found");
-        }
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = getHint(rowNum);
-        WebElement paramCell = getCellWebElement(rowNum, 1);
-        if (props.getProperty("browser").equals("edge")) {
-            BasePage.scrollToElement(paramCell);
-        }
-        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
-        if (value != null && option == Parameter.VALUE) {
-            WebElement input = paramCell.findElement(By.tagName("input"));
-            input.clear();
-            input.sendKeys(value);
-        }
-        parameterMap.put(hint, value);
-        if (!BasePage.BROWSER.equals("edge")) {
-            clickOn(0, 0);
-        }
-        return this;
-    }
-
-    public void setUserInfo(String paramName, String value) {
-        int rowNum = getRowNumberByText(0, paramName);
-        if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + paramName + "' not found");
-        }
-        WebElement paramCell = getCellWebElement(rowNum, 1);
-        if (props.getProperty("browser").equals("edge")) {
-            BasePage.scrollToElement(paramCell);
-        }
-        WebElement input = paramCell.findElement(By.tagName("input"));
-        input.clear();
-        input.sendKeys(value);
-    }
-
-    public void setCondition(String conditionName, Conditions condition, String value) {
-        int rowNum = getRowNumberByText(0, conditionName);
-        if (rowNum < 0) {
-            throw new AssertionError("Condition name '" + conditionName + "' not found");
-        }
-        WebElement conditionCell = getCellWebElement(rowNum, 1);
-        WebElement valueCell = getCellWebElement(rowNum, 2);
-        if (BasePage.BROWSER.equals("edge")) {
-            BasePage.scrollToElement(conditionCell);
-        }
-        if (condition != null) {
-            new Select(conditionCell.findElement(By.tagName("select"))).selectByValue(condition.value);
-        }
-        if (value != null && condition != Conditions.VALUE_CHANGE) {
-            valueCell.findElement(By.tagName("input")).sendKeys(value);
-        }
-        clickOn(0, 0);
-    }
-
-    public void setAllPolicies() {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        for (int i = 1; i < elementTable.length; i++) {
-            setPolicy(textTable[i][0], Policy.ACTIVE, Policy.ALL);
-            String hint = getHint(i);
-            parameterMap.put(hint, "Notification=Active Access=All");
-        }
-    }
-
-    public void setPolicy(int scenario) {
-        int counter = (scenario == 0 || scenario >= elementTable.length) ? elementTable.length : scenario + 1;
-        if (scenario >= textTable.length) {
-            LOGGER.warn("Number of parameters on current tab is not enough to execute this testcase");
-        }
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        if (scenario == 1) {
-            setPolicy(textTable[1][0], null, Policy.ACS_ONLY);
-            String hint = getHint(1);
-            parameterMap.put(hint, "Access=AcsOnly");
-        } else if (scenario == 2) {
-            for (int i = 1; i < counter; i++) {
-                setPolicy(textTable[i][0], Policy.OFF, null);
-                String hint = getHint(i);
-                parameterMap.put(hint, "Notification=Off ");
-            }
-        } else {
-            Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
-            Policy[] access = {null, Policy.ACS_ONLY, Policy.ALL, null};
-            String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active "};
-            for (int i = 1; i < counter; i++) {
-                String hint = getHint(i);
-                String name = textTable[i][0];
-                setPolicy(name, notify[i], access[i]);
-                parameterMap.put(hint, results[i]);
-            }
-        }
-    }
-
-    public void setPolicy(String policyName, Policy notification, Policy accessList) {
-        int rowNum = getRowNumberByText(0, policyName);
-        if (rowNum < 0) {
-            throw new AssertionError("Policy name '" + policyName + "' not found");
-        }
-        WebElement notificationCell = getCellWebElement(rowNum, 1);
-        WebElement accessListCell = getCellWebElement(rowNum, 2);
-        if (BasePage.BROWSER.equals("edge")) {
-            BasePage.scrollToElement(notificationCell);
-        }
-        if (notification != null) {
-            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
-        }
-//        BasePage.waitForUpdate();
-        if (accessList != null) {
-            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
-        }
-//        BasePage.waitForUpdate();
-//        clickOn(0, 0);
     }
 
     public void assertPresenceOfParameter(String value) {
@@ -633,60 +351,7 @@ public class Table {
         parameterMap = null;
     }
 
-
-    public enum Parameter {
-        EMPTY_VALUE("sendEmpty"),
-        VALUE("sendValue"),
-        FALSE("0"),
-        TRUE("1"),
-        DO_NOT_SEND("notSend"),
-        NULL(""),
-        CUSTOM(null);
-
-        private String option;
-
-        Parameter(String option) {
-            this.option = option;
-        }
-    }
-
-    public enum Policy {
-        DEFAULT("-1"),
-        OFF("0"),
-        PASSIVE("1"),
-        ACTIVE("2"),
-        ACS_ONLY("1"),
-        ALL("2");
-
-        private String option;
-
-        Policy(String option) {
-            this.option = option;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public enum Conditions {
-        CONTAINS(1, "5"),
-        EQUAL(2, "2"),
-        GREATER(3, "1"),
-        GREATER_EQUAL(4, "8"),
-        LESS(5, "4"),
-        LESS_EQUAL(6, "3"),
-        NOT_EQUAL(7, "6"),
-        STARTS_WITH(8, "7"),
-        VALUE_CHANGE(9, "9");
-
-        Conditions(int index, String value) {
-            this.index = index;
-            this.value = value;
-        }
-
-        int index;
-        String value;
-
-        public String getValue() {
-            return value;
-        }
+    public List<String> getRow(int rowNum) {
+        return new ArrayList<>(Arrays.asList(textTable[rowNum]));
     }
 }

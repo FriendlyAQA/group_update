@@ -15,7 +15,7 @@ import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTR181Tests extends BaseTestCase {
@@ -1757,7 +1757,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
@@ -1770,7 +1770,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
@@ -1994,7 +1994,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .selectGroup()
+                .selectItem()
                 .globalButtons(PAUSE)
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
@@ -2120,7 +2120,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2142,7 +2142,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -2166,7 +2166,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getMonthBeforeDate())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -4189,7 +4189,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -4217,7 +4217,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

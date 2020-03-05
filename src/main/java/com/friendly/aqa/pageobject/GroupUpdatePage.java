@@ -5,8 +5,8 @@ import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,7 +21,6 @@ import java.util.*;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
-import static com.friendly.aqa.pageobject.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
@@ -72,9 +71,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
-
-    @FindBy(id = "ddlPageSizes")
-    private WebElement itemsOnPageComboBox;
 
     @FindBy(id = "ddlTasks")
     private WebElement selectTask;
@@ -205,9 +201,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
 
-    @FindBy(id = "btnDefaultView_btn")
-    private WebElement resetViewButton;
-
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
     }
@@ -219,7 +212,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectImportGuFile() {
         switchToFrame(DESKTOP);
-        String inputText = new File(getImportGroupFile()).getAbsolutePath();
+        String inputText = new File(getImportGuFile()).getAbsolutePath();
         System.out.println(inputText);
         importGuField.sendKeys(inputText);
         ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
@@ -264,26 +257,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage presetFilter(String parameter, String value) {
-        topMenu(DEVICE_UPDATE)
-                .getTable("tbl")
-                .clickOn(getSerial(), 3);
-        waitForUpdate();
-        clickOn("btnEditUserInfo_lnk");
-        switchToFrame(POPUP);
-        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
-//        pause(2000);
-        while (!saveButton.isDisplayed()) {
-            pause(100);
-        }
-        while (!saveButton.isEnabled()) {
-            setUserInfo(parameter, value);
-            pause(500);
-            System.out.println("retry setUserInfo()");
-        }
-        saveButton.click();
-        okButtonPopUp();
-
-        return this;
+        return (GroupUpdatePage) super.presetFilter(parameter, value);
     }
 
     @Override
@@ -310,14 +284,13 @@ public class GroupUpdatePage extends BasePage {
         return getTable("tblParamsValue");
     }
 
+    @Override
     public GroupUpdatePage clickOn(String id) {
-        driver.findElement(By.id(id)).click();
-        return this;
+        return (GroupUpdatePage) super.clickOn(id);
     }
 
-    public GroupUpdatePage selectTodayDate(String date) {
-        executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + date + "')");
-        return this;
+    public GroupUpdatePage selectDate(String date) {
+        return (GroupUpdatePage) super.selectDate(date);
     }
 
     @Override
@@ -331,13 +304,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage selectGroup() {
-        return (GroupUpdatePage) super.selectGroup();
+    public GroupUpdatePage selectItem() {
+        return (GroupUpdatePage) super.selectItem();
     }
 
     @Override
-    public GroupUpdatePage selectGroup(String groupName) {
-        return (GroupUpdatePage) super.selectGroup(groupName);
+    public GroupUpdatePage selectItem(String groupName) {
+        return (GroupUpdatePage) super.selectItem(groupName);
     }
 
     public void checkIsCalendarClickable() {
@@ -640,7 +613,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage fillpassword(String password) {
+    public GroupUpdatePage fillPassword(String password) {
         passwordField.sendKeys(password);
         return this;
     }
@@ -852,43 +825,45 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage checkSorting(String column) {
-//        itemsOnPage("200");
-        waitForUpdate();
-        Table table = getMainTable();
-        int colNum = table.getColumnNumber(0, column);
-        table.clickOn(0, colNum);
-        waitForUpdate();
-        table = getMainTable();
-        String[] arr = table.getColumn(colNum);
-        String[] arr2 = Arrays.copyOf(arr, arr.length);
-        Arrays.sort(arr);
-        if (!Arrays.deepEquals(arr, arr2)) {
-            String warn = "Sorting check failed";
-            logger.warn(warn);
-            throw new AssertionError(warn);
-        }
-        table.clickOn(0, colNum);
-        waitForUpdate();
-        table = getMainTable();
-        arr = table.getColumn(colNum);
-        arr2 = Arrays.copyOf(arr, arr.length);
-        Arrays.sort(arr, Comparator.reverseOrder());
-        if (!Arrays.deepEquals(arr, arr2)) {
-            String warn = "Reverse sorting check failed";
-            logger.warn(warn);
-            throw new AssertionError(warn);
-        }
-        return this;
-    }
+//    public GroupUpdatePage checkSorting(String column) {
+//        waitForUpdate();
+//        Table table = getMainTable();
+//        int colNum = table.getColumnNumber(0, column);
+//        table.clickOn(0, colNum);
+//        waitForUpdate();
+//        table = getMainTable();
+//        String[] arr = table.getColumn(colNum);
+//        String[] arr2 = Arrays.copyOf(arr, arr.length);
+//        Arrays.sort(arr);
+//        if (!Arrays.deepEquals(arr, arr2)) {
+//            String warn = "Sorting check failed";
+//            logger.warn(warn);
+//            resetView();
+//            throw new AssertionError(warn);
+//        }
+//        table.clickOn(0, colNum);
+//        waitForUpdate();
+//        table = getMainTable();
+//        arr = table.getColumn(colNum);
+//        arr2 = Arrays.copyOf(arr, arr.length);
+//        Arrays.sort(arr, Comparator.reverseOrder());
+//        if (!Arrays.deepEquals(arr, arr2)) {
+//            String warn = "Reverse sorting check failed";
+//            logger.warn(warn);
+//            resetView();
+//            throw new AssertionError(warn);
+//        }
+//        resetView();
+//        return this;
+//    }
 
-    public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Table.Conditions condition, String value) {
+    public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Conditions condition, String value) {
         WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
         button.click();
         Table treeTable = getTable("tblTree", CONDITIONS);
         treeTable.clickOn(branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
-        paramTable.setCondition(conditionName, condition, value);
+        setCondition(paramTable, conditionName, condition, value);
         WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
         new FluentWait<>(driver).withMessage("Element was not found")
                 .withTimeout(Duration.ofSeconds(30))
@@ -898,9 +873,23 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void resetView() {
-        resetViewButton.click();
-        waitForUpdate();
+    public void setCondition(Table table, String conditionName, Conditions condition, String value) {
+        int rowNum = table.getRowNumberByText(0, conditionName);
+        if (rowNum < 0) {
+            throw new AssertionError("Condition name '" + conditionName + "' not found");
+        }
+        WebElement conditionCell = table.getCellWebElement(rowNum, 1);
+        WebElement valueCell = table.getCellWebElement(rowNum, 2);
+        if (BasePage.BROWSER.equals("edge")) {
+            BasePage.scrollToElement(conditionCell);
+        }
+        if (condition != null) {
+            new Select(conditionCell.findElement(By.tagName("select"))).selectByValue(condition.value);
+        }
+        if (value != null && condition != Conditions.VALUE_CHANGE) {
+            valueCell.findElement(By.tagName("input")).sendKeys(value);
+        }
+        table.clickOn(0, 0);
     }
 
     public GroupUpdatePage checkResetView() {
@@ -986,9 +975,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage inputText(String id, String text) {
-        driver.findElement(By.id(id)).sendKeys(text);
-        return this;
+        return (GroupUpdatePage) super.inputText(id, text);
     }
 
     public GroupUpdatePage goToSetPolicies(String tab) {
@@ -1511,6 +1500,30 @@ public class GroupUpdatePage extends BasePage {
 
         Policy(String option) {
             this.option = option;
+        }
+    }
+
+    public enum Conditions {
+//        CONTAINS(1, "5"),
+//        GREATER(3, "1"),
+//        GREATER_EQUAL(4, "8"),
+//        LESS(5, "4"),
+//        LESS_EQUAL(6, "3"),
+//        STARTS_WITH(8, "7"),
+        EQUAL(2, "2"),
+        NOT_EQUAL(7, "6"),
+        VALUE_CHANGE(9, "9");
+
+        Conditions(int index, String value) {
+            this.index = index;
+            this.value = value;
+        }
+
+        int index;
+        String value;
+
+        public String getValue() {
+            return value;
         }
     }
 }

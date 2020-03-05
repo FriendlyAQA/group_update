@@ -15,7 +15,7 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateLwm2mTests extends BaseTestCase {
@@ -665,7 +665,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -687,7 +687,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -711,7 +711,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getMonthBeforeDate())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)

@@ -1,10 +1,12 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.TopMenu.MONITORING;
@@ -16,28 +18,28 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_001() {
         monPage
                 .topMenu(MONITORING)
-                .assertMainPageDisplayed();
+                .assertMainPageIsDisplayed();
     }
 
     @Test
     public void tr069_mo_002() {
         monPage
                 .topMenu(MONITORING)
-                .assertMainPageDisplayed()
+                .assertMainPageIsDisplayed()
                 .globalButtons(REFRESH)
-                .assertMainPageDisplayed();
+                .assertMainPageIsDisplayed();
     }
 
     @Test
     public void tr069_mo_003() {
         monPage
                 .topMenu(MONITORING)
-                .assertMainPageDisplayed()
+                .assertMainPageIsDisplayed()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
                 .globalButtons(CANCEL)
-                .assertMainPageDisplayed()
+                .assertMainPageIsDisplayed()
                 .assertButtonsAreEnabled(false, ACTIVATE, STOP, STOP_WITH_RESET, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH);
     }
@@ -59,7 +61,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertMainPageDisplayed();
+                .assertMainPageIsDisplayed();
         setTargetTestName();
     }
 
@@ -80,7 +82,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectView(targetTestName)
                 .editViewButton()
                 .globalButtons(CANCEL)
-                .assertMainPageDisplayed();
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -93,7 +95,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .forUserCheckbox()
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertMainPageDisplayed()
+                .assertMainPageIsDisplayed()
                 .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName)
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
@@ -140,7 +142,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .assertElementIsPresent("lbActivate")
                 .globalButtons(CANCEL)
-                .assertMainPageDisplayed();
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -159,10 +161,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
+                .addDeviceWithoutTemplate()
                 .selectManufacturer()
-                .selectModel("MP282")
-                .addModel()
-                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectModel()
                 .addModel()
                 .selectSendTo()
@@ -845,7 +845,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .pause(1000)
-                .selectGroup()
+                .selectItem()
                 .globalButtons(ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
@@ -858,7 +858,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_057() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectGroup(targetTestName)
+                .selectItem(targetTestName)
                 .globalButtons(STOP)
                 .okButtonPopUp()
                 .waitForStatus("Not active", targetTestName);
@@ -868,7 +868,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_058() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectGroup(targetTestName)
+                .selectItem(targetTestName)
                 .globalButtons(ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName);
@@ -878,7 +878,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_059() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectGroup(targetTestName)
+                .selectItem(targetTestName)
                 .globalButtons(STOP_WITH_RESET)
                 .okButtonPopUp()
                 .waitForStatus("Not active", targetTestName);
@@ -965,7 +965,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectModel()
                 .addModel()
                 .scheduledToRadioButton()
-                .setEndDateDelay(10)
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
                 .globalButtons(SAVE)
@@ -973,5 +974,1068 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
                 .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_064() {    //is dependent on #063
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Management", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_065() {    //is dependent on #063
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Management", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_066() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("Information", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_067() {    //is dependent on #066
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Information", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_068() {    //is dependent on #066
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Information", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_069() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("Time", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_070() {    //is dependent on #069
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Time", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_071() {    //is dependent on #069
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Time", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_072() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("DSL settings", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_073() {    //is dependent on #072
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("DSL settings", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_074() {    //is dependent on #072
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("DSL settings", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_075() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("WAN", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_076() {    //is dependent on #075
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("WAN", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_077() {    //is dependent on #075
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("WAN", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_078() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("LAN", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_079() {    //is dependent on #078
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("LAN", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_080() {    //is dependent on #078
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("LAN", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_081() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("Wireless", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_082() {    //is dependent on #081
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Wireless", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_083() {    //is dependent on #081
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("Wireless", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_084() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("VoIP settings", 0, 0)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_085() {    //is dependent on #084
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("VoIP settings", 1, 3)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_086() {    //is dependent on #084
+        monPage
+                .topMenu(MONITORING)
+                .enterIntoGroup(targetTestName)
+                .scheduledToRadioButton()
+                .setParameters("VoIP settings", 4, 100)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", targetTestName)
+                .enterIntoGroup(targetTestName)
+                .checkResults();
+    }
+
+    @Test
+    public void tr069_mo_087() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .scheduledToRadioButton()
+                .selectShiftedDate("calDateFrom", 0)
+                .setScheduledDelay(10)
+                .selectSendTo("All")
+                .setParameters("VoIP settings", 0, 1)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled")
+                .selectItem()
+                .globalButtons(STOP)
+                .okButtonPopUp()
+                .globalButtons(REFRESH)
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .checkResults();
+        setTargetTestName();
+    }
+
+    @Test
+    public void tr069_mo_088() {
+        monPage
+                .topMenu(MONITORING)
+                .selectItem(targetTestName)
+                .globalButtons(ACTIVATE)
+                .okButtonPopUp()
+                .globalButtons(REFRESH)
+                .waitForStatus("Scheduled", targetTestName);
+    }
+
+    @Test
+    public void tr069_mo_089() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .selectSendTo("All")
+                .scheduledToRadioButton()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertEqualsAlertMessage("Activation date can't be scheduled to past");
+    }
+
+    @Test
+    public void tr069_mo_090() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(IMPORT)
+                .selectImportGuFile()
+                .assertPresenceOfValue("tblModels", 0, "AudioCodes MP252");
+    }
+
+    @Test
+    public void tr069_mo_091() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(IMPORT)
+                .globalButtons(CANCEL)
+                .assertMainPageIsDisplayed();
+    }
+
+    @Test
+    public void tr069_mo_092() {
+        monPage
+                .topMenu(MONITORING)
+                .checkFilteringByManufacturer();
+    }
+
+    @Test
+    public void tr069_mo_093() {
+        monPage
+                .topMenu(MONITORING)
+                .checkFilteringByModelName();
+    }
+
+    @Test
+    public void tr069_mo_094() {
+        setTargetTestName();
+        monPage
+                .topMenu(MONITORING)
+                .newViewButton()
+                .fillCustomViewName()
+                .globalButtons(NEXT)
+                .setViewColumns(0, 100)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .checkViewColumns();
+    }
+
+    @Test
+    public void tr069_mo_095() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Created");
+    }
+
+    @Test
+    public void tr069_mo_096() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Date from");
+    }
+
+    @Test
+    public void tr069_mo_097() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Date to");
+    }
+
+    @Test
+    public void tr069_mo_098() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Description");
+    }
+
+    @Test
+    public void tr069_mo_099() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Name");
+    }
+
+    @Test
+    public void tr069_mo_100() {    //Bug: Unclear sorting algorithm by "State" column
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("State");
+    }
+
+    @Test
+    public void tr069_mo_101() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .checkSorting("Updated");
+    }
+
+    @Test
+    public void tr069_mo_102() {
+        monPage
+                .topMenu(MONITORING)
+                .selectView(targetTestName)
+                .resetView()
+                .assertEquals(monPage.getSelectedValue("ddlView"), "Default", "View reset does not occur");
+    }
+
+    @Test
+    public void tr069_mo_103() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .selectSendTo()
+                .addAnotherModel()
+                .setParametersFor2Devices(true);
+    }
+
+    @Test
+    public void tr069_mo_104() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .selectSendTo()
+                .addAnotherModel()
+                .setParametersFor2Devices(false);
+    }
+
+
+    @Test
+    public void tr069_mo_105() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .assertElementIsPresent("lblHead")
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .assertButtonsAreEnabled(true, CANCEL)
+                .globalButtons(CANCEL)
+                .assertElementIsPresent("tbName")
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE)
+                .assertButtonsAreEnabled(true, CANCEL, ADVANCED_VIEW);
+    }
+
+    @Test
+    public void tr069_mo_110() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Is not null")
+                .globalButtons(NEXT)
+                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .filterRecordsCheckbox()
+                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .assertEquals(monPage.getSelectedValue("ddlSend"), testName)
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running", 5);
+    }
+
+    @Test
+    public void tr069_mo_111() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("On Day")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_112() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Prior to")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_113() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Later than")
+                .clickOn("calFilterDate_image")
+                .selectDate(CalendarUtil.getMonthBeforeDate())
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_114() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Today")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_115() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Before Today")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_116() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Yesterday")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_117() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Prev 7 days")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_118() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .compareSelect("Prev X days")
+                .inputText("txtInt", "4")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_119() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("=")
+                .inputText("txtText", testName)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_120() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("!=")
+                .inputText("txtText", testName)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_121() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("Description")
+                .compareSelect("Starts with")
+                .inputText("txtText", testName)
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE);
+    }
+
+    @Test
+    public void tr069_mo_122() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Like")
+                .inputText("txtText", testName.substring(1, 5))
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_123() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("No like")
+                .inputText("txtText", testName.substring(1, 5))
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_124() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_125() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is not null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_126() {
+        monPage
+                .presetFilter("mycust03", testName)
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is not null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectManufacturer()
+                .addAnotherModel()
+                .newGroupButton()
+                .fillGroupName(testName + "_1")
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust03")
+                .compareSelect("Is null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
+    }
+
+    @Test
+    public void tr069_mo_127() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModel()
+                .newGroupButton()
+                .fillGroupName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust04")
+                .compareSelect("Is null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectManufacturer()
+                .addAnotherModel()
+                .newGroupButton()
+                .fillGroupName(testName + "_1")
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectColumnFilter("mycust04")
+                .compareSelect("Is null")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .immediately()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatus("Running");
     }
 }

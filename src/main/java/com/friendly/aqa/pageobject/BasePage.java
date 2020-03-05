@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
+import static com.friendly.aqa.pageobject.TopMenu.DEVICE_UPDATE;
 
 
 public abstract class BasePage {
@@ -172,10 +173,22 @@ public abstract class BasePage {
     @FindBy(id = "fuSerials")
     protected WebElement importDeviceField;
 
+    @FindBy(id = "ddlPageSizes")
+    protected WebElement itemsOnPageComboBox;
+
+    @FindBy(id = "btnDefaultView_btn")
+    protected WebElement resetViewButton;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
         logOutButton.click();
+    }
+
+    public BasePage resetView() {
+        resetViewButton.click();
+        waitForUpdate();
+        return this;
     }
 
     public void scrollTo(WebElement element) {
@@ -250,8 +263,8 @@ public abstract class BasePage {
 
     public boolean isOptionPresent(String comboBoxId, String text) {
         waitForUpdate();
-        WebElement combobox = driver.findElement(By.id(comboBoxId));
-        List<WebElement> options = combobox.findElements(By.tagName("option"));
+        WebElement comboBox = driver.findElement(By.id(comboBoxId));
+        List<WebElement> options = comboBox.findElements(By.tagName("option"));
         for (WebElement option : options) {
             if (option.getText().toLowerCase().equals(text.toLowerCase())) {
                 return true;
@@ -296,6 +309,16 @@ public abstract class BasePage {
 
     public void executeScript(String script) {
         ((JavascriptExecutor) getDriver()).executeScript(script);
+    }
+
+    public BasePage inputText(String id, String text) {
+        driver.findElement(By.id(id)).sendKeys(text);
+        return this;
+    }
+
+    public BasePage selectDate(String date) {
+        executeScript("CalendarPopup_FindCalendar('calFilterDate').SelectDate('" + date + "')");
+        return this;
     }
 
     public BasePage selectShiftedDate(String id, int value) {
@@ -377,6 +400,72 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertElementIsPresent(String id) {
+        waitForUpdate();
+        List<WebElement> list = driver.findElements(By.id(id));
+        if (list.size() == 0) {
+            String warn = "Element with id='" + id + "' not found on current page";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
+        return this;
+    }
+
+    public boolean elementIsAbsent(String id) {
+        waitForUpdate();
+        setImplicitlyWait(0);
+        boolean out = driver.findElements(By.id(id)).size() == 0;
+        setDefaultImplicitlyWait();
+        return out;
+    }
+
+    public boolean elementIsPresent(String id) {
+        return !elementIsAbsent(id);
+    }
+
+    public BasePage assertPresenceOfValue(String tableId, int column, String value) {
+        getTable(tableId).assertPresenceOfValue(column, value);
+        return this;
+    }
+
+    public void assertPresenceOfParameter(String tableId, String value) {
+        getTable(tableId).print().assertPresenceOfParameter(value);
+    }
+
+    public void assertCellStartsWith(String tabId, int row, int column, String expectedText) {
+        getTable(tabId).assertStartsWith(row, column, expectedText);
+    }
+
+    public void assertCellEndsWith(String tabId, int row, int column, String expectedText) {
+        getTable(tabId).assertEndsWith(row, column, expectedText);
+    }
+
+    public BasePage presetFilter(String parameter, String value) {
+        topMenu(DEVICE_UPDATE)
+                .getTable("tbl")
+                .clickOn(getSerial(), 3);
+        waitForUpdate();
+        clickOn("btnEditUserInfo_lnk");
+        switchToFrame(POPUP);
+        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
+        while (!saveButton.isDisplayed()) {
+            pause(100);
+        }
+        while (!saveButton.isEnabled()) {
+            setUserInfo(parameter, value);
+            pause(500);
+            System.out.println("retry setUserInfo()");
+        }
+        saveButton.click();
+        okButtonPopUp();
+        return this;
+    }
+
+    public BasePage clickOn(String id) {
+        driver.findElement(By.id(id)).click();
+        return this;
+    }
+
     public void setUserInfo(String paramName, String value) {
         Table table = getTable("tblMain");
         int rowNum = table.getRowNumberByText(0, paramName);
@@ -393,49 +482,17 @@ public abstract class BasePage {
         input.sendKeys(value);
     }
 
-    public BasePage assertElementIsPresent(String id) {
-        waitForUpdate();
-        List<WebElement> list = driver.findElements(By.id(id));
-        if (list.size() == 0) {
-            String warn = "Element with id='" + id + "' not found on current page";
-            logger.warn(warn);
-            throw new AssertionError(warn);
-        }
-        return this;
-    }
+//    public boolean isElementPresent(String id) {
+//        List<WebElement> list = driver.findElements(By.id(id));
+//        return list.size() == 1;
+//    }
 
-    public BasePage assertElementIsAbsent(String id) {
-        waitForUpdate();
-        List<WebElement> list = driver.findElements(By.id(id));
-        if (list.size() != 0) {
-            String warn = "Element with id='" + id + "' was found on current page, but must not!";
-            logger.warn(warn);
-            throw new AssertionError(warn);
-        }
-        return this;
-    }
-
-    public BasePage assertPresenceOfValue(String tableId, int column, String value) {
-        getTable(tableId).assertPresenceOfValue(column, value);
-        return this;
-    }
-
-    public BasePage assertPresenceOfParameter(String tableId, String value) {
-        getTable(tableId).assertPresenceOfParameter(value);
-        return this;
-    }
-
-    public void assertCellStartsWith(String tabId, int row, int column, String expectedText) {
-        getTable(tabId).assertStartsWith(row, column, expectedText);
-    }
-
-    public void assertCellEndsWith(String tabId, int row, int column, String expectedText) {
-        getTable(tabId).assertEndsWith(row, column, expectedText);
-    }
-
-    public boolean isElementPresent(String id) {
-        List<WebElement> list = driver.findElements(By.id(id));
-        return list.size() == 1;
+    public List<String> getOptionList(WebElement comboBox) {
+        List<String> out = new ArrayList<>();
+        new Select(comboBox)
+                .getOptions()
+                .forEach(element -> out.add(element.getText()));
+        return out;
     }
 
     void clickGlobalButtons(GlobalButtons button) {
@@ -519,6 +576,36 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertEquals(String actual, String expected) {
+        Assert.assertEquals(actual, expected);
+        return this;
+    }
+
+    public BasePage assertEquals(String actual, String expected, String message) {
+        Assert.assertEquals(actual, expected, message);
+        return this;
+    }
+
+    public BasePage assertTrue(boolean condition) {
+        Assert.assertTrue(condition);
+        return this;
+    }
+
+    public BasePage assertTrue(boolean condition, String message) {
+        Assert.assertTrue(condition, message);
+        return this;
+    }
+
+    public BasePage assertFalse(boolean condition) {
+        Assert.assertFalse(condition);
+        return this;
+    }
+
+    public BasePage assertFalse(boolean condition, String message) {
+        Assert.assertFalse(condition, message);
+        return this;
+    }
+
     public String getAttributeById(String id, String attr) {
         return driver.findElement(By.id(id)).getAttribute(attr);
     }
@@ -591,8 +678,12 @@ public abstract class BasePage {
         return props.getProperty(getConfigPrefix() + "import_cpe");
     }
 
-    public static String getImportGroupFile() {
+    public static String getImportGuFile() {
         return props.getProperty(getConfigPrefix() + "import_group");
+    }
+
+    public static String getImportMonitorFile() {
+        return props.getProperty(getConfigPrefix() + "import_monitor");
     }
 
     public static String getSerial() {
@@ -682,15 +773,39 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage selectGroup() {
-        selectGroup(BaseTestCase.getTestName());
+    public BasePage selectItem() {
+        selectItem(BaseTestCase.getTestName());
         return this;
     }
 
-    public BasePage selectGroup(String groupName) {
+    public BasePage selectItem(String groupName) {
         Table table = getMainTable();
         int rowNum = table.getRowNumberByText(groupName);
         table.clickOn(rowNum, 0);
+        return this;
+    }
+
+    public BasePage checkSorting(String column) {
+        waitForUpdate();
+        Table table = getMainTable();
+        int colNum = table.getColumnNumber(0, column);
+        for (int i = 0; i < 2; i++) {
+            table.clickOn(0, colNum);
+            waitForUpdate();
+            table = getMainTable();
+            boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
+            String[] arr = table.getColumn(colNum);
+            String[] arr2 = Arrays.copyOf(arr, arr.length);
+            Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
+            if (!Arrays.deepEquals(arr, arr2)) {
+                String warn = "sorting check failed!";
+                warn = (descending ? "Descending " : "Ascending ") + warn;
+                logger.warn(warn);
+                resetView();
+                throw new AssertionError(warn);
+            }
+        }
+        resetView();
         return this;
     }
 

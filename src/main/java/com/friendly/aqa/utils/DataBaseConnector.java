@@ -66,7 +66,7 @@ public class DataBaseConnector {
         return type;
     }
 
-    public static String getGroupId(String groupName){
+    public static String getGroupId(String groupName) {
         String groupId = "";
         try {
             stmtObj.execute("SELECT id FROM ftacs.update_group WHERE name='" + groupName + "'");
@@ -99,6 +99,35 @@ public class DataBaseConnector {
             LOGGER.error("Serial not found on server. Check config.properties 'cpe_serial' field!");
         }
         return device;
+    }
+
+    public static Set<String> getMonitorNameSetByManufacturer(String manufacturer) {
+        String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
+                "SELECT id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
+                "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "')))";
+        return getSet(query);
+    }
+
+    public static Set<String> getMonitorNameSetByModelName(String modelName) {
+        String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
+                "SELECT id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "'))";
+        return getSet(query);
+    }
+
+    private static Set<String> getSet(String query) {
+        Set<String> nameSet = new HashSet<>();
+        try {
+            stmtObj.execute(query);
+            ResultSet resultSet = stmtObj.getResultSet();
+            while (resultSet.next()) {
+                nameSet.add(resultSet.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nameSet;
     }
 
     public static int getDeviceAmount(String serial) {

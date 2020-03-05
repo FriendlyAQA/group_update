@@ -13,7 +13,7 @@ import static com.friendly.aqa.pageobject.BasePage.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.utils.Table.Conditions.EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
 import static org.testng.Assert.*;
 
@@ -1336,7 +1336,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
-                .selectGroup()
+                .selectItem()
                 .globalButtons(ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5)
@@ -1365,7 +1365,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
@@ -1378,7 +1378,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
                 .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
     }
@@ -1557,7 +1557,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .selectGroup()
+                .selectItem()
                 .globalButtons(PAUSE)
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
@@ -1652,14 +1652,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     }
 
 
-    @Test //bug: doesn't work correctly (filter 'Created - on day')
+    @Test
     public void tr069_gu_158() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("device_created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -1681,7 +1681,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getTodayDateString())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -1705,13 +1705,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectTodayDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getMonthBeforeDate())
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selectedby filter 'Created - Later than'!\n")
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Later than'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -3563,7 +3563,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -3591,7 +3591,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillpassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
