@@ -80,7 +80,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView(targetTestName)
-                .editViewButton()
+                .editButton()
                 .globalButtons(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -90,7 +90,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView(targetTestName)
-                .editViewButton()
+                .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .globalButtons(FINISH)
@@ -122,14 +122,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_010() {
         monPage
                 .topMenu(MONITORING)
-                .selectView("Default")
-                .editViewButton()
+                .selectView(targetTestName)
+                .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .selectView(targetTestName)
-                .editViewButton()
+                .editButton()
                 .globalButtons(DELETE_GROUP)
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedValue("ddlView"), "Default");
@@ -337,7 +337,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectModel()
                 .addModel()
                 .selectSendTo(targetTestName)
-                .editViewButton()
+                .editButton()
                 .globalButtons(DELETE_GROUP)
                 .okButtonPopUp()
                 .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
@@ -1547,26 +1547,6 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(false);
-    }
-
-
-    @Test
-    public void tr069_mo_105() {
-        monPage
-                .topMenu(MONITORING)
-                .leftMenu(NEW)
-                .fillName()
-                .selectManufacturer()
-                .selectModel()
-                .addModel()
-                .newGroupButton()
-                .assertElementIsPresent("lblHead")
-                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
-                .assertButtonsAreEnabled(true, CANCEL)
-                .globalButtons(CANCEL)
-                .assertElementIsPresent("tbName")
-                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE)
-                .assertButtonsAreEnabled(true, CANCEL, ADVANCED_VIEW);
     }
 
     @Test

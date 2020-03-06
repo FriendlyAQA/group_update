@@ -46,7 +46,7 @@ public class MonitoringPage extends BasePage {
     private WebElement filterModelNameComboBox;
 
     @FindBy(id = "btnEditView_btn")
-    private WebElement editViewButton;
+    private WebElement editButton;
 
     @FindBy(id = "btnAddModel_btn")
     private WebElement addModelButton;
@@ -125,8 +125,8 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    public MonitoringPage editViewButton() {
-        editViewButton.click();
+    public MonitoringPage editButton() {
+        editButton.click();
         waitForUpdate();
         return this;
     }
@@ -379,7 +379,7 @@ public class MonitoringPage extends BasePage {
             boolean viewComboBox = filterViewComboBox.isDisplayed() && filterViewComboBox.isEnabled();
             boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
             boolean modelNameComboBox = filterModelNameComboBox.isDisplayed() && filterModelNameComboBox.isEnabled();
-            boolean editViewBtn = editViewButton.isDisplayed() && editViewButton.isEnabled();
+            boolean editViewBtn = editButton.isDisplayed() && editButton.isEnabled();
             boolean newViewBtn = newViewButton.isDisplayed() && newViewButton.isEnabled();
             boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
             if (viewComboBox && manufacturerComboBox && modelNameComboBox && editViewBtn && newViewBtn && resetViewBtn) {
