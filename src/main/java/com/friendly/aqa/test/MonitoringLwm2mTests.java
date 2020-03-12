@@ -1,6 +1,7 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -167,7 +168,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addModel()
                 .selectSendTo()
                 .immediately()
-                .clickOnTable("tblDataParams", 1, 1, 0)
+                .setSingleParameter()
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL, ADVANCED_VIEW);
     }
 
@@ -181,6 +182,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectModel()
                 .addModel()
                 .assertTableHasContent("tabsSettings_tblTabs")
+                .setSingleParameter()
                 .globalButtons(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .globalButtons(SIMPLE_VIEW)
@@ -309,7 +311,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
+                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
     }
 
     @Test
@@ -324,11 +326,11 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 2");
+                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
     }
 
-    @Test
-    public void lwm2m_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group.
+//    @Test
+    public void lwm2m_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group, but DELETE DEFAULT VIEW!!!
         monPage                     //is dependent on #016
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
@@ -587,7 +589,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_mo_040() {    //is dependent on #054
+    public void lwm2m_mo_040() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
                 .enterIntoGroup(targetTestName)
@@ -625,7 +627,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_mo_042() {    //is dependent on #056
+    public void lwm2m_mo_042() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
                 .selectItem(targetTestName)
@@ -635,7 +637,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_mo_043() {    //is dependent on #056
+    public void lwm2m_mo_043() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
                 .selectItem(targetTestName)
@@ -645,7 +647,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_mo_044() {    //is dependent on #056
+    public void lwm2m_mo_044() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
                 .selectItem(targetTestName)
@@ -930,7 +932,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertPresenceOfValue("tblModels", 0, "AudioCodes MP252");
+                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
     @Test
@@ -1382,6 +1384,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");

@@ -294,7 +294,7 @@ public abstract class BasePage {
 
     public BasePage waitForStatus(String status, String testName, int timeout) {
         long start = System.currentTimeMillis();
-        while (!(getMainTable()).getCellText(testName, 1).equals(status)) {
+        while (!(getMainTable()).getCellText(testName, "State").equals(status)) {
             globalButtons(REFRESH);
             if (System.currentTimeMillis() - start > timeout * 1000) {
                 throw new AssertionError("Timed out while waiting for status " + status);
@@ -432,6 +432,19 @@ public abstract class BasePage {
         getTable(tableId).print().assertPresenceOfParameter(value);
     }
 
+    public BasePage assertPresenceOfOptions(String comboBoxId, String... options) {
+        WebElement comboBox = driver.findElement(By.id(comboBoxId));
+        List<WebElement> optList = comboBox.findElements(By.tagName("option"));
+        Set<String> optSet = new HashSet<>(optList.size());
+        optList.forEach(o -> optSet.add(o.getText()));
+        Set<String> valueSet = new HashSet<>(Arrays.asList(options));
+        valueSet.removeAll(optSet);
+        if (!valueSet.isEmpty()) {
+            throw new AssertionError("Options " + valueSet + " not found inside dropdown #" + comboBoxId + "'");
+        }
+        return this;
+    }
+
     public void assertCellStartsWith(String tabId, int row, int column, String expectedText) {
         getTable(tabId).assertStartsWith(row, column, expectedText);
     }
@@ -440,10 +453,25 @@ public abstract class BasePage {
         getTable(tabId).assertEndsWith(row, column, expectedText);
     }
 
+    public void assertCellMatches(String tabId, int row, int column, String regex) {
+        String s = getTable(tabId).getCellText(row, column);
+        if (!s.matches(regex)) {
+            throw new AssertionError("Table cell text doesn't match regex!");
+        }
+    }
+
     public BasePage presetFilter(String parameter, String value) {
-        topMenu(DEVICE_UPDATE)
-                .getTable("tbl")
-                .clickOn(getSerial(), 3);
+        try {
+            topMenu(DEVICE_UPDATE)
+                    .getTable("tbl")
+                    .clickOn(getSerial());
+        } catch (AssertionError e) {
+            selectComboBox(itemsOnPageComboBox, "200");
+            waitForUpdate();
+            topMenu(DEVICE_UPDATE)
+                    .getTable("tbl")
+                    .clickOn(getSerial());
+        }
         waitForUpdate();
         clickOn("btnEditUserInfo_lnk");
         switchToFrame(POPUP);
@@ -454,7 +482,6 @@ public abstract class BasePage {
         while (!saveButton.isEnabled()) {
             setUserInfo(parameter, value);
             pause(500);
-            System.out.println("retry setUserInfo()");
         }
         saveButton.click();
         okButtonPopUp();
@@ -547,6 +574,28 @@ public abstract class BasePage {
         boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
         switchToPreviousFrame();
         return out;
+    }
+
+    public BasePage assertTableIsEmpty(String id) {
+        Table table = getTable(id);
+        if (table.getTableSize()[0] > 0) {
+            throw new AssertionError("Unexpected table content (expected: empty table)");
+        }
+        return this;
+    }
+
+    public BasePage assertTableHasContent(String id) {
+        Table table = getTable(id);
+        if (table.getTableSize()[0] == 0) {
+            throw new AssertionError("Unexpected table content (expected: not empty table)");
+        }
+        return this;
+    }
+
+    public BasePage enterIntoGroup(String groupName) {
+        getMainTable().clickOn(groupName);
+        waitForUpdate();
+        return this;
     }
 
     protected BasePage assertButtonsArePresent(GlobalButtons... buttons) {
@@ -698,6 +747,11 @@ public abstract class BasePage {
         return DataBaseConnector.getDevice(getSerial())[1];
     }
 
+    public static String deviceToString() {
+        String[] device = DataBaseConnector.getDevice(getSerial());
+        return device[0] + " " + device[1];
+    }
+
     public String getTitle() {
         return driver.getTitle();
     }
@@ -794,11 +848,11 @@ public abstract class BasePage {
             waitForUpdate();
             table = getMainTable();
             boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
-            String[] arr = table.getColumn(colNum);
+            String[] arr = table.getColumn(colNum, true);
             String[] arr2 = Arrays.copyOf(arr, arr.length);
             Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
             if (!Arrays.deepEquals(arr, arr2)) {
-                String warn = "sorting check failed!";
+                String warn = "sorting by column '" + column + "' failed!";
                 warn = (descending ? "Descending " : "Ascending ") + warn;
                 logger.warn(warn);
                 resetView();

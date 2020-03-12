@@ -66,6 +66,9 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "IsDefaultViewForUser")
     private WebElement forUserCheckbox;
 
+    @FindBy(id = "cbDateTo")
+    private WebElement endDateCheckbox;
+
     @FindBy(id = "tbName")
     private WebElement nameField;
 
@@ -166,10 +169,9 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.selectItem(groupName);
     }
 
+    @Override
     public MonitoringPage enterIntoGroup(String groupName) {
-        getMainTable().clickOn(groupName);
-        waitForUpdate();
-        return this;
+        return (MonitoringPage) super.enterIntoGroup(groupName);
     }
 
     public MonitoringPage enterIntoGroup() {
@@ -209,10 +211,12 @@ public class MonitoringPage extends BasePage {
     public void setParametersFor2Devices(boolean theSameParameter) {
         int param1 = 0, param2 = -1;
         String hint1, hint2;
-        getTable("tblModels").clickOn(0, 0);
+        Table devTable = getTable("tblModels");
+        String[] devices = {devTable.getCellText(0, 0), devTable.getCellText(1, 0)};
+        devTable.clickOn(0, 0);
         String[] dev1 = getParamTable().getColumn(0);
         waitForUpdate();
-        getTable("tblModels").clickOn(1, 0);
+        devTable.clickOn(1, 0);
         String[] dev2 = getParamTable().getColumn(0);
         out:
         for (int i = 0; i < dev1.length; i++) {
@@ -235,6 +239,7 @@ public class MonitoringPage extends BasePage {
         globalButtons(SAVE);
         okButtonPopUp();
         enterIntoGroup();
+        getTable("tblModels").clickOn(devices[0]);
         getTabTable().clickOn("Summary");
         waitForUpdate();
         dev1 = getParamTable().getColumn(0);
@@ -251,16 +256,14 @@ public class MonitoringPage extends BasePage {
         if (!success) {
             throw new AssertionError("Parameter " + hint1 + " not found!");
         }
-        getTable("tblModels").clickOn(1, 0);
+        getTable("tblModels").clickOn(devices[1]);
         waitForUpdate();
         dev2 = getParamTable().getColumn(0);
         if (dev2.length != 2) {
             throw new AssertionError("Unexpected number of parameters!");
         }
         success = false;
-        System.out.println("hint2:" + hint2);
         for (int i = 0; i < 2; i++) {
-            System.out.println("dev2[" + i + "]:" + dev2[i]);
             if (dev2[i].equals(hint2)) {
                 success = true;
                 break;
@@ -280,12 +283,18 @@ public class MonitoringPage extends BasePage {
     }
 
     private MonitoringPage setParameters(boolean advancedView, String tab, int startParam, int endParam) {
-        Table table;
         if (parameterSet == null) {
             getTabTable().clickOn("Summary");
             waitForUpdate();
-            table = new Table(paramTable);
-            String[] params = table.getColumn(0);
+            String[] params = new String[0];
+            try {
+                setImplicitlyWait(1);
+                params = getParamTable().getColumn(0);
+            } catch (NoSuchElementException e) {
+                System.out.println("There are no default parameters");
+            } finally {
+                setDefaultImplicitlyWait();
+            }
             parameterSet = new HashSet<>(Arrays.asList(params));
         }
         if (advancedView) {
@@ -299,14 +308,14 @@ public class MonitoringPage extends BasePage {
             getTabTable().clickOn(tab);
         }
         waitForUpdate();
-        table = new Table(paramTable);
+        Table table = getParamTable();
         int lastParam = Math.min(endParam, table.getTableSize()[0] - 2);
         startParam = Math.min(startParam, lastParam);
         for (int i = startParam; i < lastParam + 1; i++) {
             WebElement checkBox = table.getCellWebElement(i + 1, 1).findElement(By.tagName("input"));
             checkBox.click();
             String hint = table.getHint(i + 1);
-            if (hint.equals("InternetGatewayDevice.DeviceInfo.UpTime")) {
+            if (hint.endsWith("DeviceInfo.UpTime")) {
                 continue;
             }
             if (!parameterSet.add(hint)) {
@@ -315,6 +324,13 @@ public class MonitoringPage extends BasePage {
             waitForUpdate();
         }
         table.clickOn(0, 0);
+        return this;
+    }
+
+    public MonitoringPage setSingleParameter() {
+        getTabTable().clickOn(1, 1);
+        waitForUpdate();
+        getParamTable().clickOn(1, 1, 0);
         return this;
     }
 
@@ -367,6 +383,9 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage immediately() {
+        if (endDateCheckbox.isSelected()) {
+            endDateCheckbox.click();
+        }
         return (MonitoringPage) super.immediately();
     }
 
@@ -438,7 +457,7 @@ public class MonitoringPage extends BasePage {
             }
         }
         resetView();
-        throw new AssertionError("Filtering by manufacturer failed!");
+        throw new AssertionError("Filtering by " + (byManufacturer ? "manufacturer" : "model name") + "failed!");
     }
 
     public void selectFilterManufacturer(String value) {
@@ -470,9 +489,10 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage selectManufacturer() {
-        return (MonitoringPage) super.selectManufacturer(getManufacturer());
+        return selectManufacturer(getManufacturer());
     }
 
+    @Override
     public MonitoringPage selectManufacturer(String manufacturer) {
         return (MonitoringPage) super.selectManufacturer(manufacturer);
     }
@@ -541,20 +561,14 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    @Override
     public MonitoringPage assertTableIsEmpty(String id) {
-        Table table = getTable(id);
-        if (table.getTableSize()[0] > 0) {
-            throw new AssertionError("Unexpected table content (expected: empty table)");
-        }
-        return this;
+        return (MonitoringPage) super.assertTableIsEmpty(id);
     }
 
+    @Override
     public MonitoringPage assertTableHasContent(String id) {
-        Table table = getTable(id);
-        if (table.getTableSize()[0] == 0) {
-            throw new AssertionError("Unexpected table content (expected: not empty table)");
-        }
-        return this;
+        return (MonitoringPage) super.assertTableHasContent(id);
     }
 
     public MonitoringPage cancelIndividualSelection() {

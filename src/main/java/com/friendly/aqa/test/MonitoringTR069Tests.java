@@ -1,6 +1,7 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -324,7 +325,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 2");
+                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
     }
 
     @Test
@@ -1415,7 +1416,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertPresenceOfValue("tblModels", 0, "AudioCodes MP252");
+                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
     @Test

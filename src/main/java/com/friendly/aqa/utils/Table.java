@@ -137,7 +137,9 @@ public class Table {
                 }
             }
         }
-        return this;
+        String warning = "Text '" + text + "' not found in current table";
+        LOGGER.warn(warning);
+        throw new AssertionError(warning);
     }
 
     public int[] getTableSize() {
@@ -183,9 +185,23 @@ public class Table {
     }
 
     public String[] getColumn(int column) {
+        return getColumn(column, false);
+    }
+
+    public String[] getColumn(int column, boolean normalize) {
         String[] out = new String[textTable.length - 1];
         for (int i = 0; i < textTable.length - 1; i++) {
             out[i] = textTable[i + 1][column];
+            if (normalize) {
+                StringBuilder sb = new StringBuilder(out[i]);
+                if (out[i].matches("\\d+/\\d/.+")) {
+                    sb.insert(2, '0');
+                }
+                if (out[i].matches("^\\d/.+")) {
+                    sb.insert(0, '0');
+                }
+                out[i] = sb.toString();
+            }
         }
         return out;
     }
@@ -208,7 +224,14 @@ public class Table {
         return textTable[getRowNumberByText(searchText)][resultColumn];
     }
 
+    public String getCellText(String searchText, String columnHeader) {
+        return textTable[getRowNumberByText(searchText)][getColumnNumber(0, columnHeader)];
+    }
+
     public String getCellText(int row, int column) {
+        if (column < 0) {
+            column += textTable[row].length;
+        }
         return textTable[row][column];
     }
 
@@ -216,7 +239,6 @@ public class Table {
         if (column < 0) {
             column = textTable[row].length + column;
         }
-        System.out.println("text:" + textTable[row][column]);
         if (!textTable[row][column].startsWith(expectedText)) {
             throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't start with '" + expectedText + "'!");
         }
@@ -226,9 +248,8 @@ public class Table {
         if (column < 0) {
             column = textTable[row].length + column;
         }
-        System.out.println("text:" + textTable[row][column]);
         if (!textTable[row][column].endsWith(expectedText)) {
-            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't ends with '" + expectedText + "'!");
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't end with '" + expectedText + "'!");
         }
     }
 
@@ -336,7 +357,7 @@ public class Table {
                 return this;
             }
         }
-        throw new AssertionError("Specified column '" + column + "' does not contain value: " + value);
+        throw new AssertionError("Specified column '" + column + "' does not contain value '" + value + "'");
     }
 
     @SuppressWarnings("unused")

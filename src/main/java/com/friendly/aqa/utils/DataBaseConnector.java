@@ -103,7 +103,7 @@ public class DataBaseConnector {
 
     public static Set<String> getMonitorNameSetByManufacturer(String manufacturer) {
         String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
-                "SELECT id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
+                "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
                 "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "')))";
         return getSet(query);
@@ -111,7 +111,7 @@ public class DataBaseConnector {
 
     public static Set<String> getMonitorNameSetByModelName(String modelName) {
         String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
-                "SELECT id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
+                "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "'))";
         return getSet(query);
     }
