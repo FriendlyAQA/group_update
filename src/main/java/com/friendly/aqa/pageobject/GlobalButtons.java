@@ -5,7 +5,7 @@ public enum GlobalButtons {
     ACTIVATE("btnActivate_btn"),
     ADVANCED_VIEW("btnAdvancedView_btn"),
     CANCEL("btnCancel_btn"),
-    DEACTIVATE("btnStop_btn"),
+    DEACTIVATE("btnDeactivate_btn"),
     DELETE("btnDelete_btn"),
     DELETE_GROUP("btnDeleteView_btn"),
     DUPLICATE("btnDuplicate_btn"),

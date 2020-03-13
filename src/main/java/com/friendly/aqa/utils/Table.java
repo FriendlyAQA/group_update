@@ -129,6 +129,19 @@ public class Table {
         return -1;
     }
 
+    public List<Integer> getRowsContainText(String text) {
+        List<Integer> out = new ArrayList<>();
+        for (int i = 0; i < textTable.length; i++) {
+            String[] row = textTable[i];
+            for (String cell : row) {
+                if (cell.toLowerCase().equals(text.toLowerCase())) {
+                    out.add(i);
+                }
+            }
+        }
+        return out;
+    }
+
     public Table clickOn(int tagNum, String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {

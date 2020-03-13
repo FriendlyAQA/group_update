@@ -7,8 +7,14 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
     private static Logger logger = Logger.getLogger(MonitoringPage.class);
@@ -103,6 +109,70 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public void checkFilteringByManufacturer() {
+        List<String> optionList = getOptionList(filterManufacturerComboBox);
+        optionList.remove("All");
+        selectModel("All");
+        selectProfileStatus("All");
+        optionList.forEach(option -> checkFiltering(0, option));
+    }
+
+    public void checkFilteringByModelName() {
+        List<String> optionList = getOptionList(filterModelNameComboBox);
+        optionList.remove("All");
+        selectManufacturer("All");
+        selectProfileStatus("All");
+        optionList.forEach(option -> checkFiltering(1, option));
+    }
+
+    public void checkFilteringByStatus() {
+        List<String> optionList = getOptionList(filterProfileStatusComboBox);
+        optionList.remove("All");
+        selectManufacturer("All");
+        selectModel("All");
+        optionList.forEach(option -> checkFiltering(2, option));
+    }
+
+    private void checkFiltering(int comboBox, String filter) { //0 - Manufacturer; 1 - Model Name; 2 - Profile status.
+        Set<String> dbNameSet;
+        if (comboBox == 0) {
+            selectManufacturer(filter);
+            dbNameSet = getDeviceProfileNameSetByManufacturer(filter);
+        } else if (comboBox == 1) {
+            selectModel(filter);
+            dbNameSet = getDeviceProfileNameSetByModelName(filter);
+        } else {
+            selectProfileStatus(filter);
+            dbNameSet = getDeviceProfileNameSetByStatus(filter);
+        }
+        waitForUpdate();
+        if (elementIsPresent("btnPager2")) {
+            selectComboBox(itemsOnPageComboBox, "200");
+            waitForUpdate();
+        }
+        String[] names = elementIsPresent("tblSample") ? getMainTable().getColumn("Name") : new String[0];
+        Set<String> webNameSet = new HashSet<>(Arrays.asList(names));
+        if (elementIsAbsent("btnPager2")) {
+            dbNameSet.removeAll(webNameSet);
+            if (dbNameSet.size() == 0) {
+                return;
+            }
+        } else if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
+            return;
+        }
+        throw new AssertionError("Filtering by "
+                + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!");
+    }
+
+    @Override
+    public DeviceProfilePage assertColumnHasSingleValue(String column, String value) {
+        return (DeviceProfilePage) super.assertColumnHasSingleValue(column, value);
+    }
+
+    @Override
+    public DeviceProfilePage assertColumnContainsValue(String column, String value) {
+        return (DeviceProfilePage) super.assertColumnContainsValue(column, value);
+    }
 
     public DeviceProfilePage leftMenu(DeviceProfilePage.Left item) {
         switchToFrame(ROOT);

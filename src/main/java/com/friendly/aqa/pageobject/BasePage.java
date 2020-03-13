@@ -611,7 +611,7 @@ public abstract class BasePage {
         return this;
     }
 
-    protected BasePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+    public BasePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
         assertButtonsArePresent(buttons);
         switchToFrame(BUTTONS);
         for (GlobalButtons button : buttons) {
@@ -839,6 +839,31 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage selectItem(String text, int startFromRow) {
+        Table table = getMainTable();
+        List<Integer> list = table.getRowsContainText(text);
+        for (int i : list) {
+            if (i >= startFromRow) {
+                table.clickOn(i, 0);
+                break;
+            }
+        }
+        return this;
+    }
+
+    public BasePage assertColumnHasSingleValue(String column, String value) {
+        waitForUpdate();
+        String[] col = getMainTable().getColumn(column);
+        Set<String> set = new HashSet<>(Arrays.asList(col));
+        if (set.size() > 1) {
+            throw new AssertionError("Column '" + column + "' has more than one value!");
+        }
+        if (!set.contains(value)) {
+            throw new AssertionError("Column '" + column + "' doesn't contain '" + value + "'!");
+        }
+        return this;
+    }
+
     public BasePage checkSorting(String column) {
         waitForUpdate();
         Table table = getMainTable();
@@ -849,18 +874,27 @@ public abstract class BasePage {
             table = getMainTable();
             boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
             String[] arr = table.getColumn(colNum, true);
+            arr = toLowerCase(arr);
             String[] arr2 = Arrays.copyOf(arr, arr.length);
             Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
             if (!Arrays.deepEquals(arr, arr2)) {
+                System.out.println("arr2:" + Arrays.toString(arr2));
+                System.out.println("arr:" + Arrays.toString(arr));
                 String warn = "sorting by column '" + column + "' failed!";
                 warn = (descending ? "Descending " : "Ascending ") + warn;
                 logger.warn(warn);
-                resetView();
                 throw new AssertionError(warn);
             }
         }
-        resetView();
         return this;
+    }
+
+    String[] toLowerCase(String[] array) {
+        String[] output = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            output[i] = array[i].toLowerCase();
+        }
+        return output;
     }
 
     public static void closeDriver() {
@@ -883,6 +917,15 @@ public abstract class BasePage {
 
     public static void switchToPreviousFrame() {
         switchToFrame(previousFrame);
+    }
+
+    public BasePage assertColumnContainsValue(String column, String value) {
+        waitForUpdate();
+        String[] col = getMainTable().getColumn(column);
+        if (!Arrays.asList(col).contains(value)) {
+            throw new AssertionError("Column '" + column + "' doesn't contain the value '" + value + "'!");
+        }
+        return this;
     }
 
 

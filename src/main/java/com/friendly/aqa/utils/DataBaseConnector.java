@@ -116,6 +116,24 @@ public class DataBaseConnector {
         return getSet(query);
     }
 
+    public static Set<String> getDeviceProfileNameSetByManufacturer(String manufacturer) {
+        String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
+                "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "'))";
+        return getSet(query);
+    }
+
+    public static Set<String> getDeviceProfileNameSetByModelName(String modelName) {
+        String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "')";
+        return getSet(query);
+    }
+
+    public static Set<String> getDeviceProfileNameSetByStatus(String status) {
+        String query = "SELECT name FROM ftacs.profile WHERE is_active='" + (status.equals("Active") ? "1" : "0") + "'";
+        return getSet(query);
+    }
+
     private static Set<String> getSet(String query) {
         Set<String> nameSet = new HashSet<>();
         try {

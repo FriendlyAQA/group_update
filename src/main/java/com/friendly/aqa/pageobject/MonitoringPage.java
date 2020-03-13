@@ -420,14 +420,12 @@ public class MonitoringPage extends BasePage {
         List<String> optionList = getOptionList(filterManufacturerComboBox);
         optionList.remove("All");
         optionList.forEach(option -> checkMonitoringFiltering(true, option));
-        resetView();
     }
 
     public void checkFilteringByModelName() {
         List<String> optionList = getOptionList(filterModelNameComboBox);
         optionList.remove("All");
         optionList.forEach(option -> checkMonitoringFiltering(false, option));
-        resetView();
     }
 
     private void checkMonitoringFiltering(boolean byManufacturer, String filter) {
@@ -456,7 +454,6 @@ public class MonitoringPage extends BasePage {
                 return;
             }
         }
-        resetView();
         throw new AssertionError("Filtering by " + (byManufacturer ? "manufacturer" : "model name") + "failed!");
     }
 
