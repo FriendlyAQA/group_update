@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MonitorGroup>
+  <Name>lwm2m_mo_060</Name>
+  <Description />
+  <DateFrom>01/01/1</DateFrom>
+  <DateTo>03/18/2020 17:09:00</DateTo>
+  <PerformEvery>60</PerformEvery>
+  <Location>0</Location>
+  <ChildMonirorings>
+    <MonitorParam>
+      <ProductGroup>
+        <Manufacturer>Friendly</Manufacturer>
+        <ModelName>Friendly FSH hub</ModelName>
+        <ProtocolId>LWM2M</ProtocolId>
+      </ProductGroup>
+      <applyForNew>true</applyForNew>
+      <Params>
+        <Param>
+          <FullName>Root.Device.0.Firmware Version</FullName>
+        </Param>
+      </Params>
+    </MonitorParam>
+  </ChildMonirorings>
+</MonitorGroup>

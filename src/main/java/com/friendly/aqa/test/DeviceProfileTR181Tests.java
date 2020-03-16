@@ -120,4 +120,17 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectItem("Active", 2)
                 .assertButtonsAreEnabled(false, ACTIVATE, DEACTIVATE, DELETE);
     }
+
+    @Test
+    public void tr181_dp_012() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .selectProfileStatus("All")
+                .assertButtonsAreEnabled(false, ACTIVATE, DEACTIVATE, DELETE)
+                .selectItem("Not active", 2)
+                .assertButtonsAreEnabled(true, ACTIVATE, DELETE)
+                .assertButtonsAreEnabled(false, DEACTIVATE)
+                .selectItem("Not active", 2)
+                .assertButtonsAreEnabled(false, ACTIVATE, DEACTIVATE, DELETE);
+    }
 }
