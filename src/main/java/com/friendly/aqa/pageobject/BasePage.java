@@ -43,6 +43,7 @@ public abstract class BasePage {
     protected Table currentTable;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
+    protected String currentName;
 
     static {
         initProperties();
@@ -53,6 +54,7 @@ public abstract class BasePage {
 
     BasePage() {
         PageFactory.initElements(driver, this);
+        currentName = "";
     }
 
     private static void initProperties() {
@@ -372,7 +374,12 @@ public abstract class BasePage {
 
     public BasePage okButtonPopUp() {
         switchToFrame(ROOT);
-        okButtonPopUp.click();
+        if (okButtonPopUp.isDisplayed()) {
+            okButtonPopUp.click();
+        }
+        if (okButtonAlertPopUp.isDisplayed()) {
+            okButtonAlertPopUp.click();
+        }
         switchToFrame(DESKTOP);
         waitForUpdate();
         return this;
@@ -832,19 +839,28 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage selectItem(String groupName) {
-        Table table = getMainTable();
-        int rowNum = table.getRowNumberByText(groupName);
-        table.clickOn(rowNum, 0);
-        return this;
+//    public BasePage selectItem(String groupName) {
+//        Table table = getMainTable();
+//        int rowNum = table.getRowNumberByText(groupName);
+//        table.clickOn(rowNum, 0);
+//        return this;
+//    }
+
+    public BasePage selectItem(String text) {
+        return selectItem(text, 1);
     }
 
     public BasePage selectItem(String text, int startFromRow) {
+        currentName = "";
         Table table = getMainTable();
         List<Integer> list = table.getRowsContainText(text);
         for (int i : list) {
             if (i >= startFromRow) {
                 table.clickOn(i, 0);
+                int colNumber = table.getColumnNumber(0, "Name");
+                if (colNumber >= 0) {
+                    currentName = table.getCellText(i, colNumber);
+                }
                 break;
             }
         }
@@ -862,6 +878,23 @@ public abstract class BasePage {
             throw new AssertionError("Column '" + column + "' doesn't contain '" + value + "'!");
         }
         return this;
+    }
+
+    public BasePage assertItemIsSelected() {
+        return assertItemIsSelected(currentName);
+    }
+
+    public BasePage assertItemIsSelected(String text) {
+        Table table = getMainTable();
+        WebElement cell = table.getCellWebElement(table.getRowNumberByText(text), 0);
+        List<WebElement> checkBoxList = cell.findElements(By.tagName("input"));
+        if (checkBoxList.size() > 0) {
+            if (!checkBoxList.get(0).isSelected()) {
+                throw new AssertionError("Table item with text '" + text + "' is not selected!");
+            }
+            return this;
+        }
+        throw new AssertionError("Checkbox not found!");
     }
 
     public BasePage checkSorting(String column) {

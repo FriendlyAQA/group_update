@@ -1204,9 +1204,6 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage setParameter(Table table, String paramName, Parameter option, String value) {
         int rowNum = table.getRowNumberByText(paramName);
-        if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + paramName + "' not found");
-        }
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }

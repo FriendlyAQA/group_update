@@ -295,7 +295,8 @@ public class Table {
                 }
             }
         }
-        return -1;
+        throw new AssertionError("Text '" + text + "not found on page!");
+//        return -1;
     }
 
     public Table checkResults() {

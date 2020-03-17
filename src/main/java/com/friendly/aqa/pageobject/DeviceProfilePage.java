@@ -83,6 +83,17 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("One or more elements not found on Device Profile tab main page");
     }
 
+    public DeviceProfilePage assertProfileIsActive(boolean isActive) {
+        Table table = getMainTable();
+        int row = table.getRowNumberByText(currentName);
+        int col = table.getColumnNumber(0, "Name");
+        boolean actualState = table.getCellText(row, col).equals("Active");
+        if (actualState == isActive) {
+            return this;
+        }
+        throw new AssertionError("Profile '" + currentName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!");
+    }
+
     public DeviceProfilePage selectManufacturer() {
         return selectManufacturer(getManufacturer());
     }
@@ -165,6 +176,16 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
+    public DeviceProfilePage selectItem(String text) {
+        return (DeviceProfilePage) super.selectItem(text);
+    }
+
+    @Override
+    public DeviceProfilePage selectItem(String text, int startFromRow) {
+        return (DeviceProfilePage) super.selectItem(text, startFromRow);
+    }
+
+    @Override
     public DeviceProfilePage assertColumnHasSingleValue(String column, String value) {
         return (DeviceProfilePage) super.assertColumnHasSingleValue(column, value);
     }
@@ -172,6 +193,16 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage assertColumnContainsValue(String column, String value) {
         return (DeviceProfilePage) super.assertColumnContainsValue(column, value);
+    }
+
+    @Override
+    public DeviceProfilePage okButtonPopUp() {
+        return (DeviceProfilePage) super.okButtonPopUp();
+    }
+
+    public DeviceProfilePage globalButtons(GlobalButtons button) {
+        clickGlobalButtons(button);
+        return this;
     }
 
     public DeviceProfilePage leftMenu(DeviceProfilePage.Left item) {
