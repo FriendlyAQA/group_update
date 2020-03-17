@@ -1,12 +1,14 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
+import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -83,10 +85,26 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("One or more elements not found on Device Profile tab main page");
     }
 
+    public DeviceProfilePage assertProfileIsPresent(boolean isExpected) {
+        Table table = getMainTable();
+        int col = table.getColumnNumber(0, "Name");
+        boolean isFound = true;
+        try {
+            table.getRowNumberByText(col, currentName);
+        }catch (AssertionError e){
+            isFound = false;
+        }
+        if (isFound != isExpected) {
+            throw new AssertionError("Unexpected profile presence (expected to find: " + isExpected + ")");
+        }
+        return this;
+    }
+
     public DeviceProfilePage assertProfileIsActive(boolean isActive) {
+        waitForUpdate();
         Table table = getMainTable();
         int row = table.getRowNumberByText(currentName);
-        int col = table.getColumnNumber(0, "Name");
+        int col = table.getColumnNumber(0, "State");
         boolean actualState = table.getCellText(row, col).equals("Active");
         if (actualState == isActive) {
             return this;
@@ -173,6 +191,14 @@ public class DeviceProfilePage extends BasePage {
         }
         throw new AssertionError("Filtering by "
                 + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!");
+    }
+
+    public DeviceProfilePage getExport (String item)throws IOException {
+        HttpConnector.getUrlSource(
+                getMainTable()
+                .getExportLink(item))
+                .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\"");
+        return this;
     }
 
     @Override

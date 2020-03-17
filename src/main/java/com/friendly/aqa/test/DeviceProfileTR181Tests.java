@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.GlobalButtons;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -154,6 +153,31 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Not Active")
+                .assertProfileIsActive(false);
+    }
+
+    @Test
+    public void tr181_dp_015() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .selectProfileStatus("Not Active")
+                .selectItem("Not active")
+                .globalButtons(ACTIVATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
                 .assertProfileIsActive(true);
+    }
+
+    @Test
+    public void tr181_dp_016() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .selectProfileStatus("All")
+                .selectItem("Active", 2)
+                .globalButtons(DELETE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .assertProfileIsPresent(false);
     }
 }
