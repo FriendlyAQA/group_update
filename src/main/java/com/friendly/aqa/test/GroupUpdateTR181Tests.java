@@ -269,7 +269,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.getUrlSource(guPage
                         .getMainTable()
-                        .getExportLink(targetTestName))
+                        .getGuExportLink(targetTestName))
                         .contains("\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }
 

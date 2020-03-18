@@ -267,7 +267,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.getUrlSource(guPage
                         .getMainTable()
-                        .getExportLink(targetTestName))
+                        .getGuExportLink(targetTestName))
                         .contains("\"Root.Device.0.UTC Offset\" value=\"+02:00\""));
     }
 

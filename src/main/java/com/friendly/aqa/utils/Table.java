@@ -223,7 +223,8 @@ public class Table {
         return getColumn(getColumnNumber(0, column));
     }
 
-    public String getExportLink(String groupName) {
+    //TODO: move method to Group Update class
+    public String getGuExportLink(String groupName) {
         return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + getGroupId(groupName);
     }
 
@@ -352,8 +353,7 @@ public class Table {
     }
 
 
-    @SuppressWarnings("unused")
-    public Table assertAbsenceOfParameter(String value) {
+    public void assertAbsenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
             if (row[length - 2].equals(value)) {
@@ -361,7 +361,6 @@ public class Table {
                 throw new AssertionError(warning);
             }
         }
-        return this;
     }
 
     public Table assertPresenceOfValue(int column, String value) {

@@ -4,6 +4,7 @@ import com.automation.remarks.testng.UniversalVideoListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.NEW;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.TopMenu.DEVICE_PROFILE;
@@ -179,5 +180,67 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .assertProfileIsPresent(false);
+    }
+
+    @Test
+    public void tr181_dp_017() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .getExport();
+    }
+
+    @Test
+    public void tr181_dp_018() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE)
+                .fillName()
+                .pause(1000)
+                .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL)
+                .globalButtons(CANCEL)
+                .assertMainPageIsDisplayed()
+                .assertAbsenceOfProfile();
+    }
+
+    @Test
+    public void tr181_dp_019() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .pause(1000)
+                .addDeviceWithoutTemplate()
+                .assertElementIsPresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .selectManufacturer()
+                .selectModel()
+                .globalButtons(CANCEL)
+                .assertAbsenceOfProfile();
+    }
+
+    @Test
+    public void tr181_dp_020() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .fullRequestRadioButton()
+                .assertElementIsSelected("rdFullRequest")
+                .dontRequestRadioButton()
+                .assertElementIsSelected("rdNoRequest")
+                .fullRequestRadioButton()
+                .assertElementIsSelected("rdFullRequest")
+                .applyProvisionRadioButton()
+                .assertElementIsSelected("rdRequiresReprovision")
+                .dontApplyProvisionRadioButton()
+                .assertElementIsSelected("rdNoReprovision")
+                .applyProvisionRadioButton()
+                .assertElementIsSelected("rdRequiresReprovision");
     }
 }

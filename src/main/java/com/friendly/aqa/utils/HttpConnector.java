@@ -2,6 +2,7 @@ package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Cookie;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -17,10 +18,14 @@ public class HttpConnector {
     private static Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
 
     public static String getUrlSource(String url) throws IOException {
-        Map<String, String> cookie = new HashMap<>();
-        cookie.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0");
-        cookie.put("Referer", BasePage.getProps().getProperty("ui_url"));
-        return getUrlSource(url, "GET", cookie, null);
+        Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0");
+        requestProperty.put("Referer", BasePage.getProps().getProperty("ui_url"));
+        Set<Cookie> cookies = BasePage.getDriver().manage().getCookies();
+        for (Cookie c : cookies) {
+            requestProperty.put("Cookie", c.getName() + "=" + c.getValue());
+        }
+        return getUrlSource(url, "GET", requestProperty, null);
     }
 
     public static String getUrlSource(String url, String requestMethod, Map<String, String> requestProperty, Map<String, String> postParameters) throws IOException {
@@ -58,7 +63,7 @@ public class HttpConnector {
             try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
                 wr.write(postData);
             } catch (IOException e) {
-                logger.warn("IOException happens during POST parameters sending: \" + e.getMessage()");
+                logger.warn("IOException happened during POST parameters sending: \" + e.getMessage()");
             }
         }
         InputStream inputStream = urlConnection.getInputStream();

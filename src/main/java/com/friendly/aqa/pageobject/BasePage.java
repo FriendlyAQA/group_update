@@ -222,6 +222,13 @@ public abstract class BasePage {
         return selectSendTo("All");
     }
 
+    public BasePage addDeviceWithoutTemplate() {
+        String[] device = props.getProperty("device_without_template").split(":");
+        selectManufacturer(device[0]);
+        selectModel(device[1]);
+        return this;
+    }
+
     public BasePage addFilter() {
         addFilterButton.click();
         return this;
@@ -619,6 +626,7 @@ public abstract class BasePage {
     }
 
     public BasePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+        waitForUpdate();
         assertButtonsArePresent(buttons);
         switchToFrame(BUTTONS);
         for (GlobalButtons button : buttons) {
@@ -895,6 +903,16 @@ public abstract class BasePage {
             return this;
         }
         throw new AssertionError("Checkbox not found!");
+    }
+
+    public BasePage assertElementIsSelected(String id) {
+        WebElement element = driver.findElement(By.id(id));
+        if (element.isSelected()) {
+            return this;
+        }
+        String type = element.getAttribute("type");
+        String el = type.equals("radio") ? "Radiobutton" : type.equals("checkbox") ? "Checkbox" : "Element";
+        throw new AssertionError(el + " id='" + id + "' is not selected!");
     }
 
     public BasePage checkSorting(String column) {

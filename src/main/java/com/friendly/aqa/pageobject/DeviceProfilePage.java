@@ -70,6 +70,43 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlUpdateStatus")
     private WebElement filterProfileStatusComboBox;
 
+    @FindBy(id = "rdFullRequest")
+    private WebElement fullRequestRadioButton;
+
+    @FindBy(id = "rdNoRequest")
+    private WebElement dontRequestRadioButton;
+
+    @FindBy(id = "rdRequiresReprovision")
+    private WebElement applyProvisionRadioButton;
+
+    @FindBy(id = "rdNoReprovision")
+    private WebElement dontApplyProvisionRadioButton;
+
+    @Override
+    public DeviceProfilePage assertElementIsSelected(String id) {
+        return (DeviceProfilePage) super.assertElementIsSelected(id);
+    }
+
+    public DeviceProfilePage fullRequestRadioButton() {
+        fullRequestRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage dontRequestRadioButton() {
+        dontRequestRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage applyProvisionRadioButton() {
+        applyProvisionRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage dontApplyProvisionRadioButton() {
+        dontApplyProvisionRadioButton.click();
+        return this;
+    }
+
     public DeviceProfilePage assertMainPageIsDisplayed() {
         try {
             boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
@@ -85,13 +122,22 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("One or more elements not found on Device Profile tab main page");
     }
 
+    public DeviceProfilePage addDeviceWithoutTemplate() {
+        return (DeviceProfilePage) super.addDeviceWithoutTemplate();
+    }
+
+    public DeviceProfilePage assertAbsenceOfProfile() {
+        getMainTable().assertAbsenceOfParameter("asp");
+        return this;
+    }
+
     public DeviceProfilePage assertProfileIsPresent(boolean isExpected) {
         Table table = getMainTable();
         int col = table.getColumnNumber(0, "Name");
         boolean isFound = true;
         try {
             table.getRowNumberByText(col, currentName);
-        }catch (AssertionError e){
+        } catch (AssertionError e) {
             isFound = false;
         }
         if (isFound != isExpected) {
@@ -193,12 +239,24 @@ public class DeviceProfilePage extends BasePage {
                 + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!");
     }
 
-    public DeviceProfilePage getExport (String item)throws IOException {
-        HttpConnector.getUrlSource(
-                getMainTable()
-                .getExportLink(item))
-                .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\"");
+    public DeviceProfilePage getExport() {
+        Table table = getMainTable();
+        int col = table.getColumnNumber(0, "Name");
+        int row = table.getRowsContainText("Active").get(1);
+        String item = table.getCellText(row, col);
+        int id = getDeviceProfileIdByName(item);
+        String link = props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + id;
+        System.out.println(link);
+        try {
+            assertTrue(HttpConnector.getUrlSource(link).contains("<Name>" + item + "</Name>"));
+        } catch (IOException e) {
+            throw new AssertionError("Download export file failed!");
+        }
         return this;
+    }
+
+    public String getDpExportLink(String groupName) {
+        return props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + getDeviceProfileIdByName(groupName);
     }
 
     @Override
@@ -224,6 +282,26 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage okButtonPopUp() {
         return (DeviceProfilePage) super.okButtonPopUp();
+    }
+
+    @Override
+    public DeviceProfilePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+        return (DeviceProfilePage) super.assertButtonsAreEnabled(enabled, buttons);
+    }
+
+    @Override
+    public DeviceProfilePage fillName() {
+        return (DeviceProfilePage) super.fillName();
+    }
+
+    @Override
+    public DeviceProfilePage pause(int illis) {
+        return (DeviceProfilePage) super.pause(illis);
+    }
+
+    @Override
+    public DeviceProfilePage assertElementIsPresent(String id) {
+        return (DeviceProfilePage) super.assertElementIsPresent(id);
     }
 
     public DeviceProfilePage globalButtons(GlobalButtons button) {

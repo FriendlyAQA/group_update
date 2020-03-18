@@ -611,11 +611,9 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage addDeviceWithoutTemplate() {
-        String[] device = props.getProperty("device_without_template").split(":");
-        selectManufacturer(device[0])
-                .selectModel(device[1])
-                .addModel()
-                .assertEqualsAlertMessage("Template for this model doesn't exist");
+        super.addDeviceWithoutTemplate();
+        addModel();
+        assertEqualsAlertMessage("Template for this model doesn't exist");
         return this;
     }
 

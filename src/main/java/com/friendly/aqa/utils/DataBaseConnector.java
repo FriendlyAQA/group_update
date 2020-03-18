@@ -163,9 +163,23 @@ public class DataBaseConnector {
         return amount;
     }
 
+    public static int getDeviceProfileIdByName(String name) {
+        int profileId = -1;
+        try {
+            stmtObj.execute("SELECT id FROM ftacs.profile WHERE name='" + name + "'");
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                profileId = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return profileId;
+    }
+
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getGroupId("tr069_gu_080"));
+        System.out.println(getDeviceProfileIdByName("qwe"));
         disconnectDb();
     }
 }
