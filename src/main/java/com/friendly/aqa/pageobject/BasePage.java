@@ -43,7 +43,7 @@ public abstract class BasePage {
     protected Table currentTable;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
-    protected String currentName;
+    protected String selectedName;
 
     static {
         initProperties();
@@ -54,7 +54,7 @@ public abstract class BasePage {
 
     BasePage() {
         PageFactory.initElements(driver, this);
-        currentName = "";
+        selectedName = "";
     }
 
     private static void initProperties() {
@@ -296,7 +296,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage globalButtons(GlobalButtons button) {
+    public BasePage globalButtons(IGlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -333,6 +333,10 @@ public abstract class BasePage {
     public BasePage selectShiftedDate(String id, int value) {
         executeScript("CalendarPopup_FindCalendar('" + id + "').SelectDate('" + CalendarUtil.getShiftedDate(value) + "')");
         return this;
+    }
+
+    String getTestName() {
+        return BaseTestCase.getTestName();
     }
 
     public Table getTable(String id, FrameSwitch frame) {
@@ -536,13 +540,14 @@ public abstract class BasePage {
         return out;
     }
 
-    void clickGlobalButtons(GlobalButtons button) {
+    void clickGlobalButtons(IGlobalButtons button) {
         waitForUpdate();
         switchToFrame(BUTTONS);
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
         for (int i = 0; i < 3; i++) {
             try {
-                new FluentWait<>(driver).withMessage("Button " + button + " was not found/not active")
+                new FluentWait<>(driver)
+                        .withMessage("Button " + button + " not found/not active")
                         .withTimeout(Duration.ofSeconds(timeout))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
@@ -612,9 +617,9 @@ public abstract class BasePage {
         return this;
     }
 
-    protected BasePage assertButtonsArePresent(GlobalButtons... buttons) {
+    protected BasePage assertButtonsArePresent(IGlobalButtons... buttons) {
         switchToFrame(BUTTONS);
-        for (GlobalButtons button : buttons) {
+        for (IGlobalButtons button : buttons) {
             List<WebElement> list = driver.findElements(By.id(button.getId()));
             if (list.size() != 1 || !list.get(0).isDisplayed()) {
                 switchToPreviousFrame();
@@ -625,11 +630,11 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+    public BasePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
         waitForUpdate();
         assertButtonsArePresent(buttons);
         switchToFrame(BUTTONS);
-        for (GlobalButtons button : buttons) {
+        for (IGlobalButtons button : buttons) {
             WebElement btn = driver.findElement(By.id(button.getId()));
             if (btn.getAttribute("class").equals("button_disabled") == enabled) {
                 switchToPreviousFrame();
@@ -697,7 +702,8 @@ public abstract class BasePage {
         }
     }
 
-    public void selectBranch(String branch) {
+    public BasePage selectBranch(String branch) {
+        waitForUpdate();
         List<String> nodeList = new ArrayList<>();
         Pattern p = Pattern.compile("(.+?(\\.\\d+)?)(\\.|$)");
         Matcher m = p.matcher(branch);
@@ -719,6 +725,8 @@ public abstract class BasePage {
             }
         }
         branchTable.clickOn(branch);
+        waitForUpdate();
+        return this;
     }
 
     public void selectBranch() {
@@ -859,7 +867,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectItem(String text, int startFromRow) {
-        currentName = "";
+        selectedName = "";
         Table table = getMainTable();
         List<Integer> list = table.getRowsContainText(text);
         for (int i : list) {
@@ -867,7 +875,7 @@ public abstract class BasePage {
                 table.clickOn(i, 0);
                 int colNumber = table.getColumnNumber(0, "Name");
                 if (colNumber >= 0) {
-                    currentName = table.getCellText(i, colNumber);
+                    selectedName = table.getCellText(i, colNumber);
                 }
                 break;
             }
@@ -889,7 +897,7 @@ public abstract class BasePage {
     }
 
     public BasePage assertItemIsSelected() {
-        return assertItemIsSelected(currentName);
+        return assertItemIsSelected(selectedName);
     }
 
     public BasePage assertItemIsSelected(String text) {

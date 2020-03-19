@@ -539,12 +539,12 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+    public MonitoringPage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
         return (MonitoringPage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
-    public MonitoringPage assertButtonsArePresent(GlobalButtons... buttons) {
+    public MonitoringPage assertButtonsArePresent(IGlobalButtons... buttons) {
         return (MonitoringPage) super.assertButtonsArePresent(buttons);
     }
 

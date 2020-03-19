@@ -1440,12 +1440,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+    public GroupUpdatePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
         return (GroupUpdatePage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
-    public GroupUpdatePage assertButtonsArePresent(GlobalButtons... buttons) {
+    public GroupUpdatePage assertButtonsArePresent(IGlobalButtons... buttons) {
         return (GroupUpdatePage) super.assertButtonsArePresent(buttons);
     }
 

@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.concurrent.*;
 
 public class HttpConnector {
-
     private static Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
 
     public static String getUrlSource(String url) throws IOException {

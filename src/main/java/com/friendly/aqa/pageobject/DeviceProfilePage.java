@@ -4,6 +4,7 @@ import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -57,6 +58,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
+    public DeviceProfilePage selectBranch(String branch) {
+        return (DeviceProfilePage) super.selectBranch(branch);
+    }
+
+    @Override
     public DeviceProfilePage selectModel(String modelName) {
         return (DeviceProfilePage) super.selectModel(modelName);
     }
@@ -82,9 +88,26 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "rdNoReprovision")
     private WebElement dontApplyProvisionRadioButton;
 
+    @FindBy(id = "tabsMain_tblTabs")
+    private WebElement mainTabTable;
+
+    @FindBy(id = "tblParameters")
+    private WebElement paramTable;
+
+
     @Override
     public DeviceProfilePage assertElementIsSelected(String id) {
         return (DeviceProfilePage) super.assertElementIsSelected(id);
+    }
+
+    public DeviceProfilePage selectMainTab(String tab) {
+        new Table(mainTabTable).clickOn(tab);
+        return this;
+    }
+
+    public DeviceProfilePage selectTab(String tab) {
+        getTabTable().clickOn(tab);
+        return this;
     }
 
     public DeviceProfilePage fullRequestRadioButton() {
@@ -107,6 +130,33 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setParameter(String paramName, String value) {
+        Table paramTbl = new Table(paramTable);
+        int row = paramTbl.getRowsContainText(paramName).get(0);
+        WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
+        if (input.getAttribute("type").equals("checkbox")) {
+            input.click();
+        } else {
+            input.clear();
+            waitForUpdate();
+            input.sendKeys(value);
+        }
+        return this;
+    }
+
+    public DeviceProfilePage checkParameter(String paramName, String value) {
+        waitForUpdate();
+        Table paramTbl = new Table(paramTable);
+        int row = paramTbl.getRowsContainText(paramName).get(0);
+        WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
+        String actual = input.getAttribute("value");
+        if (actual.equals(value)) {
+            return this;
+        }
+        throw new AssertionError("The value of the parameter '" + paramName + "' doesn't match the declared (" +
+                "expected to find '" + value + "', but find '" + actual + "')");
+    }
+
     public DeviceProfilePage assertMainPageIsDisplayed() {
         try {
             boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
@@ -126,17 +176,16 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.addDeviceWithoutTemplate();
     }
 
-    public DeviceProfilePage assertAbsenceOfProfile() {
-        getMainTable().assertAbsenceOfParameter("asp");
-        return this;
+    public DeviceProfilePage assertProfileIsPresent(boolean isExpected) {
+        return assertProfileIsPresent(isExpected, selectedName);
     }
 
-    public DeviceProfilePage assertProfileIsPresent(boolean isExpected) {
+    public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
         Table table = getMainTable();
         int col = table.getColumnNumber(0, "Name");
         boolean isFound = true;
         try {
-            table.getRowNumberByText(col, currentName);
+            table.getRowNumberByText(col, name);
         } catch (AssertionError e) {
             isFound = false;
         }
@@ -149,13 +198,13 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage assertProfileIsActive(boolean isActive) {
         waitForUpdate();
         Table table = getMainTable();
-        int row = table.getRowNumberByText(currentName);
+        int row = table.getRowNumberByText(selectedName);
         int col = table.getColumnNumber(0, "State");
         boolean actualState = table.getCellText(row, col).equals("Active");
         if (actualState == isActive) {
             return this;
         }
-        throw new AssertionError("Profile '" + currentName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!");
+        throw new AssertionError("Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!");
     }
 
     public DeviceProfilePage selectManufacturer() {
@@ -285,18 +334,22 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertButtonsAreEnabled(boolean enabled, GlobalButtons... buttons) {
+    public DeviceProfilePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
         return (DeviceProfilePage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
     public DeviceProfilePage fillName() {
-        return (DeviceProfilePage) super.fillName();
+        pause(500);
+        super.fillName();
+        waitForUpdate();
+        pause(500);
+        return this;
     }
 
     @Override
-    public DeviceProfilePage pause(int illis) {
-        return (DeviceProfilePage) super.pause(illis);
+    public DeviceProfilePage pause(int millis) {
+        return (DeviceProfilePage) super.pause(millis);
     }
 
     @Override
@@ -327,6 +380,38 @@ public class DeviceProfilePage extends BasePage {
 
         public String getValue() {
             return value;
+        }
+    }
+
+    public enum GlobalButtons implements IGlobalButtons {
+
+        ACTIVATE("btnActivate_btn"),
+        ADVANCED_VIEW("btnAdvView_btn"),
+        CANCEL("btnCancel_btn"),
+        DEACTIVATE("btnDeactivate_btn"),
+        DELETE("btnDelete_btn"),
+        DELETE_GROUP("btnDeleteView_btn"),
+        DUPLICATE("btnDuplicate_btn"),
+        EDIT("btnEdit_btn"),
+        FINISH("btnFinish_btn"),
+        NEXT("btnNext_btn"),
+        PAUSE("btnPause_btn"),
+        REFRESH("btnRefresh_btn"),
+        PREVIOUS("btnPrev_btn"),
+        SAVE("btnSave_btn"),
+        SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
+        SIMPLE_VIEW("btnTabView_btn"),
+        STOP("btnStop_btn"),
+        STOP_WITH_RESET("btnStopWithReset_btn");
+
+        GlobalButtons(String id) {
+            this.id = id;
+        }
+
+        private String id;
+
+        public String getId() {
+            return id;
         }
     }
 }

@@ -4,9 +4,8 @@ import com.automation.remarks.testng.UniversalVideoListener;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.NEW;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
-import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.*;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.TopMenu.DEVICE_PROFILE;
 
 @Listeners(UniversalVideoListener.class)
@@ -202,7 +201,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL)
                 .globalButtons(CANCEL)
                 .assertMainPageIsDisplayed()
-                .assertAbsenceOfProfile();
+                .assertProfileIsPresent(false, getTestName());
     }
 
     @Test
@@ -219,7 +218,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .globalButtons(CANCEL)
-                .assertAbsenceOfProfile();
+                .assertProfileIsPresent(false, getTestName());
     }
 
     @Test
@@ -242,5 +241,79 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertElementIsSelected("rdNoReprovision")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision");
+    }
+
+    @Test
+    public void tr181_dp_021() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .globalButtons(ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
+                .setParameter("PeriodicInformInterval, sec", "70")
+                .globalButtons(SIMPLE_VIEW)
+                .checkParameter("PeriodicInformInterval, sec", "70")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertMainPageIsDisplayed();
+    }
+
+    @Test
+    public void tr181_dp_022() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .dontRequestRadioButton()
+                .dontApplyProvisionRadioButton()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE, CANCEL)
+                .globalButtons(CANCEL)
+                .assertProfileIsPresent(false, getTestName());
+    }
+
+    @Test
+    public void tr181_dp_023() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .dontRequestRadioButton()
+                .applyProvisionRadioButton()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE, CANCEL)
+                .globalButtons(CANCEL)
+                .assertProfileIsPresent(false, getTestName());
+    }
+
+    @Test
+    public void tr181_dp_024() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .fullRequestRadioButton()
+                .dontApplyProvisionRadioButton()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE, CANCEL)
+                .globalButtons(CANCEL)
+                .assertProfileIsPresent(false, getTestName());
     }
 }

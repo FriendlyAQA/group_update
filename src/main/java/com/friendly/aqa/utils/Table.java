@@ -352,7 +352,7 @@ public class Table {
         throw new AssertionError(warning);
     }
 
-
+    @SuppressWarnings("unused")
     public void assertAbsenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
