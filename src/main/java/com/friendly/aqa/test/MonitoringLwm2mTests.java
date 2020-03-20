@@ -306,7 +306,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addModel()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonAreActive("btnSelectDevices_btn")
+                .assertButtonIsActive("btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()

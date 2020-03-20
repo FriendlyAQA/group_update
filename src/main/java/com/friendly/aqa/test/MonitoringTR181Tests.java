@@ -305,7 +305,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .addModel()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonAreActive("btnSelectDevices_btn")
+                .assertButtonIsActive("btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()

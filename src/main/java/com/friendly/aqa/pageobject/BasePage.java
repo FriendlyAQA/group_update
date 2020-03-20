@@ -261,6 +261,14 @@ public abstract class BasePage {
         new Select(comboBox).selectByValue(value);
     }
 
+    public BasePage assertButtonIsActive(boolean assertActive, String id) {
+        if (isButtonActive(id) == assertActive) {
+            return this;
+        }
+        throw new AssertionError("Button id='" + id + "' has unexpected state (" +
+                (assertActive ? "disabled" : "enabled") + ")");
+    }
+
     public BasePage selectImportDevicesFile() {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);

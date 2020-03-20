@@ -575,11 +575,11 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    public MonitoringPage assertButtonAreActive(String id) {
+    public MonitoringPage assertButtonIsActive(String id) {
         if (isButtonActive(id)) {
             return this;
         }
-        throw new AssertionError("Button ID='" + id + "' is disabled");
+        throw new AssertionError("Button id='" + id + "' is disabled");
     }
 
     public MonitoringPage assertEquals(String actual, String expected) {

@@ -5,9 +5,11 @@ import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -76,6 +78,15 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlUpdateStatus")
     private WebElement filterProfileStatusComboBox;
 
+    @FindBy(id = "ddlCondType")
+    private WebElement selectConditionTypeComboBox;
+
+    @FindBy(id = "ddlFilters")
+    private WebElement conditionComboBox;
+
+    @FindBy(id = "ddlCust")
+    private WebElement selectUserInfoComboBox;
+
     @FindBy(id = "rdFullRequest")
     private WebElement fullRequestRadioButton;
 
@@ -88,11 +99,20 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "rdNoReprovision")
     private WebElement dontApplyProvisionRadioButton;
 
+    @FindBy(id = "btnNewView_btn")
+    private WebElement newConditionRadioButton;
+
+    @FindBy(id = "rdCust")
+    private WebElement userInfoRadioButton;
+
     @FindBy(id = "tabsMain_tblTabs")
     private WebElement mainTabTable;
 
     @FindBy(id = "tblParameters")
     private WebElement paramTable;
+
+    @FindBy(id = "txtValue")
+    private WebElement valueInputField;
 
 
     @Override
@@ -110,8 +130,19 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage userInfoRadioButton() {
+        userInfoRadioButton.click();
+        return this;
+    }
+
     public DeviceProfilePage fullRequestRadioButton() {
         fullRequestRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage newConditionRadioButton() {
+        waitForUpdate();
+        newConditionRadioButton.click();
         return this;
     }
 
@@ -137,11 +168,32 @@ public class DeviceProfilePage extends BasePage {
         if (input.getAttribute("type").equals("checkbox")) {
             input.click();
         } else {
-            input.clear();
+            for (int i = 0; i < 10; i++) {
+                input.sendKeys(Keys.BACK_SPACE);
+            }
             waitForUpdate();
             input.sendKeys(value);
         }
         return this;
+    }
+
+    public DeviceProfilePage selectCondition(int index) {
+        new Select(conditionComboBox).selectByIndex(index);
+        return this;
+    }
+
+    public DeviceProfilePage selectUserInfoComboBox(String info) {
+        selectComboBox(selectUserInfoComboBox, info);
+        return this;
+    }
+
+    public DeviceProfilePage selectConditionTypeComboBox(String condition) {
+        selectComboBox(selectConditionTypeComboBox, condition);
+        return this;
+    }
+
+    public DeviceProfilePage assertButtonIsActive(boolean assertActive, String id) {
+        return (DeviceProfilePage) super.assertButtonIsActive(assertActive, id);
     }
 
     public DeviceProfilePage checkParameter(String paramName, String value) {
@@ -341,9 +393,16 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage fillName() {
         pause(500);
+        waitForUpdate();
         super.fillName();
         waitForUpdate();
-        pause(500);
+        return this;
+    }
+
+    public DeviceProfilePage fillValue(String value) {
+//        waitForUpdate();
+        valueInputField.sendKeys(value);
+//        waitForUpdate();
         return this;
     }
 
@@ -355,6 +414,21 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage assertElementIsPresent(String id) {
         return (DeviceProfilePage) super.assertElementIsPresent(id);
+    }
+
+    @Override
+    public DeviceProfilePage addFilter() {
+        return (DeviceProfilePage) super.addFilter();
+    }
+
+    public DeviceProfilePage assertHasRedBorder(boolean expectedRed, String paramName) {
+        Table table = new Table(paramTable);
+        int row = table.getRowsContainText(paramName).get(0);
+        WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
+        if (input.getAttribute("style").endsWith("rgb(255, 74, 74);") == expectedRed) {
+            return this;
+        }
+        throw new AssertionError("Input field for parameter '" + paramName + "' doesn't have red border!");
     }
 
     public DeviceProfilePage globalButtons(GlobalButtons button) {

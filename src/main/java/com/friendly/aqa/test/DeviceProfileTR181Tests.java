@@ -316,4 +316,79 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .globalButtons(CANCEL)
                 .assertProfileIsPresent(false, getTestName());
     }
+
+    @Test
+    public void tr181_dp_025() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("ConnectionRequestPassword", "")
+//                .pause(5000)
+                .assertHasRedBorder(true, "ConnectionRequestPassword")
+                .setParameter("ConnectionRequestPassword", "ftacs")
+                .assertHasRedBorder(false, "ConnectionRequestPassword")
+                .setParameter("PeriodicInformEnable", "")
+                .setParameter("PeriodicInformEnable", "")
+                .setParameter("PeriodicInformInterval, sec", "")
+                .assertHasRedBorder(true, "PeriodicInformInterval, sec")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .assertHasRedBorder(false, "PeriodicInformInterval, sec")
+                .selectCondition(1)
+                .assertButtonIsActive(true, "btnEditView_btn")
+                .selectCondition(0)
+                .assertButtonIsActive(false, "btnEditView_btn")
+                .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE, CANCEL)
+                .globalButtons(CANCEL)
+                .assertProfileIsPresent(false, getTestName());
+    }
+
+    @Test
+    public void tr181_dp_026() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test       //text in Name field is disappearing when condition added;
+    public void tr181_dp_027() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .newConditionRadioButton()
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("1")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .assertProfileIsPresent(true, getTestName());
+    }
 }
