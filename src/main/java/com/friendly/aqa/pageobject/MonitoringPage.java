@@ -679,16 +679,17 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.assertElementIsPresent(id);
     }
 
+    public MonitoringPage presetFilter(String parameter, String value) {
+        new DeviceUpdatePage().presetFilter(parameter, value);
+        return this;
+    }
+
     public MonitoringPage selectImportGuFile() {
         switchToFrame(DESKTOP);
         String inputText = new File(getImportMonitorFile()).getAbsolutePath();
         importMonField.sendKeys(inputText);
         ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
-    }
-
-    public MonitoringPage presetFilter(String parameter, String value) {
-        return (MonitoringPage) super.presetFilter(parameter, value);
     }
 
     public MonitoringPage leftMenu(Left item) {

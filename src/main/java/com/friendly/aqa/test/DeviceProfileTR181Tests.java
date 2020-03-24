@@ -364,31 +364,62 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertProfileIsPresent(true, getTestName());
     }
 
-    @Test       //text in Name field is disappearing when condition added;
+    @Test
     public void tr181_dp_027() {
         dpPage
+                .presetFilter("Zip", "61000")
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .selectMainTab("Parameters")
-                .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "60")
                 .newConditionRadioButton()
                 .fillName()
                 .globalButtons(NEXT)
                 .addFilter()
                 .userInfoRadioButton()
-                .selectUserInfoComboBox("user_tag")
-                .selectConditionTypeComboBox("!=")
-                .fillValue("1")
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "70")
+                .fillName()       //text in Name field is disappearing when condition added;
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .assertProfileIsPresent(true, getTestName());
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+    }
+
+    @Test
+    public void tr181_dp_028() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionRadioButton()
+                .fillName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "65")
+                .fillName()       //text in Name field is disappearing when condition added;
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(false, "PeriodicInformInterval, sec", "65");
     }
 }

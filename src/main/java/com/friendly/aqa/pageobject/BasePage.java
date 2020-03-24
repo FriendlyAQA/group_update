@@ -393,14 +393,15 @@ public abstract class BasePage {
 
     public BasePage okButtonPopUp() {
         switchToFrame(ROOT);
+        waitForUpdate();
         if (okButtonPopUp.isDisplayed()) {
             okButtonPopUp.click();
         }
         if (okButtonAlertPopUp.isDisplayed()) {
             okButtonAlertPopUp.click();
         }
-        switchToFrame(DESKTOP);
         waitForUpdate();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -486,53 +487,9 @@ public abstract class BasePage {
         }
     }
 
-    public BasePage presetFilter(String parameter, String value) {
-        try {
-            topMenu(DEVICE_UPDATE)
-                    .getTable("tbl")
-                    .clickOn(getSerial());
-        } catch (AssertionError e) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
-            topMenu(DEVICE_UPDATE)
-                    .getTable("tbl")
-                    .clickOn(getSerial());
-        }
-        waitForUpdate();
-        clickOn("btnEditUserInfo_lnk");
-        switchToFrame(POPUP);
-        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
-        while (!saveButton.isDisplayed()) {
-            pause(100);
-        }
-        while (!saveButton.isEnabled()) {
-            setUserInfo(parameter, value);
-            pause(500);
-        }
-        saveButton.click();
-        okButtonPopUp();
-        return this;
-    }
-
     public BasePage clickOn(String id) {
         driver.findElement(By.id(id)).click();
         return this;
-    }
-
-    public void setUserInfo(String paramName, String value) {
-        Table table = getTable("tblMain");
-        int rowNum = table.getRowNumberByText(0, paramName);
-        if (rowNum < 0) {
-            throw new AssertionError("Parameter name '" + paramName + "' not found");
-        }
-        WebElement paramCell = table.getCellWebElement(rowNum, 1);
-        if (props.getProperty("browser").equals("edge")) {
-            BasePage.scrollToElement(paramCell);
-        }
-        WebElement input = paramCell.findElement(By.tagName("input"));
-        input.clear();
-        pause(300);
-        input.sendKeys(value);
     }
 
 //    public boolean isElementPresent(String id) {
@@ -558,7 +515,7 @@ public abstract class BasePage {
                         .withMessage("Button " + button + " not found/not active")
                         .withTimeout(Duration.ofSeconds(timeout))
                         .pollingEvery(Duration.ofMillis(100))
-                        .until(ExpectedConditions.elementToBeClickable(buttonTable.findElement(By.id(button.getId()))))
+                        .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id(button.getId()))))
                         .click();
                 switchToPreviousFrame();
                 return;

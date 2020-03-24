@@ -69,6 +69,11 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.selectModel(modelName);
     }
 
+    public DeviceProfilePage presetFilter(String parameter, String value) {
+        new DeviceUpdatePage().presetFilter(parameter, value);
+        return this;
+    }
+
     @FindBy(id = "ddlManufacturer")
     private WebElement filterManufacturerComboBox;
 
@@ -431,12 +436,38 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("Input field for parameter '" + paramName + "' doesn't have red border!");
     }
 
+    public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
+        DeviceUpdatePage dUPage = new DeviceUpdatePage();
+        dUPage
+                .topMenu(TopMenu.DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
+        getTabTable().clickOn("Management");
+        for (int i = 0; i < 10; i++) {
+            Table table = new Table("tblParamsTable");
+            int row = table.getRowNumberByText(0, parameter);
+            WebElement cell = table.getCellWebElement(row, 1);
+            String text = cell.findElement(By.tagName("input")).getAttribute("value");
+            if (isExpected && text.equals(value)) {
+                break;
+            }
+            if ((i == 9 && isExpected) || (!isExpected && text.equals(value))) {
+                String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
+                logger.warn(warn);
+                throw new AssertionError(warn);
+            }
+            globalButtons(DeviceUpdatePage.GlobalButtons.GET_CURRENT);
+            okButtonPopUp();
+        }
+        return this;
+    }
+
     public DeviceProfilePage globalButtons(GlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }
 
-    public DeviceProfilePage leftMenu(DeviceProfilePage.Left item) {
+    public DeviceProfilePage leftMenu(Left item) {
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
         waitForUpdate();

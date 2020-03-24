@@ -257,7 +257,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage presetFilter(String parameter, String value) {
-        return (GroupUpdatePage) super.presetFilter(parameter, value);
+        new DeviceUpdatePage().presetFilter(parameter, value);
+        return this;
     }
 
     @Override
