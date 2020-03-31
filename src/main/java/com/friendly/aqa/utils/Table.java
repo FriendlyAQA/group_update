@@ -271,6 +271,19 @@ public class Table {
         return elementTable[row][column];
     }
 
+    public WebElement getInput(int row, int column) {
+        return elementTable[row][column].findElement(By.tagName("input"));
+    }
+
+    public String getInputText(int row, int column) {
+        WebElement input = getInput(row, column);
+        if (input.getAttribute("type").equals("text")) {
+            return getInput(row, column).getAttribute("value");
+        } else {
+            return "";
+        }
+    }
+
     public int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
@@ -300,34 +313,34 @@ public class Table {
 //        return -1;
     }
 
-    public Table checkResults() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            checkResults(entry.getKey(), entry.getValue());
-        }
-        return this;
-    }
-
-    public Table checkResults(String parameter, String value) {
-        boolean match = false;
-        for (String[] row : textTable) {
-            try {
-                int length = row.length;
-                if (row[length - 2].equals(parameter) && row[length - 1].equals(value)) {
-                    match = true;
-                    break;
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        if (!match) {
-            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
-            LOGGER.warn(warning);
-            throw new AssertionError(warning);
-        }
-        return this;
-    }
+//    public Table checkResults() {
+//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            checkResults(entry.getKey(), entry.getValue());
+//        }
+//        return this;
+//    }
+//
+//    public Table checkResults(String parameter, String value) {
+//        boolean match = false;
+//        for (String[] row : textTable) {
+//            try {
+//                int length = row.length;
+//                if (row[length - 2].equals(parameter) && row[length - 1].equals(value)) {
+//                    match = true;
+//                    break;
+//                }
+//            } catch (ArrayIndexOutOfBoundsException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
+//        if (!match) {
+//            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
+//            LOGGER.warn(warning);
+//            throw new AssertionError(warning);
+//        }
+//        return this;
+//    }
 
     public String getHint(int row) {
         return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");

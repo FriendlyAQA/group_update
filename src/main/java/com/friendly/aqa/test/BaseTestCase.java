@@ -89,19 +89,26 @@ public abstract class BaseTestCase {
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         List<WebElement> popup2List = BasePage.getDriver().findElements(By.id("popup2"));
         List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));
+        WebElement okBtn = BasePage.getDriver().findElement(By.id("btnOk_btn"));
         BasePage.setImplicitlyWait(0);
-        if (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
+        String warn = "Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.";
+        while (okBtn.isDisplayed()) {
+            okBtn.click();
+            logger.warn(warn);
+            loginPage.waitForUpdate();
+        }
+        while (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
             popupList.get(0).click();
-            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+            logger.warn(warn);
             loginPage.waitForUpdate();
         }
         if (popup2List.size() > 0 && popup2List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide2('cancel');");
-            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+            logger.warn(warn);
         }
         if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide('cancel');");
-            logger.warn("Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.");
+            logger.warn(warn);
         }
         BasePage.switchToFrame(DESKTOP);
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));

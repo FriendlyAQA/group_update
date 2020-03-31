@@ -12,13 +12,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.SAVE_AND_ACTIVATE;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
@@ -110,11 +108,23 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "rdCust")
     private WebElement userInfoRadioButton;
 
+    @FindBy(id = "btnEditView_btn")
+    private WebElement editConditionButton;
+
     @FindBy(id = "tabsMain_tblTabs")
     private WebElement mainTabTable;
 
     @FindBy(id = "tblParameters")
     private WebElement paramTable;
+
+    @FindBy(id = "tblEvents")
+    private WebElement eventsTable;
+
+    @FindBy(id = "tblParamsMonitoring")
+    private WebElement monitorTable;
+
+    @FindBy(id = "tblPolicy")
+    private WebElement policyTable;
 
     @FindBy(id = "txtValue")
     private WebElement valueInputField;
@@ -127,11 +137,13 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectMainTab(String tab) {
         new Table(mainTabTable).clickOn(tab);
+        waitForUpdate();
         return this;
     }
 
     public DeviceProfilePage selectTab(String tab) {
         getTabTable().clickOn(tab);
+        waitForUpdate();
         return this;
     }
 
@@ -166,18 +178,81 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage editConditionButton() {
+        editConditionButton.click();
+        return this;
+    }
+
     public DeviceProfilePage setParameter(String paramName, String value) {
-        Table paramTbl = new Table(paramTable);
-        int row = paramTbl.getRowsContainText(paramName).get(0);
-        WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
-        if (input.getAttribute("type").equals("checkbox")) {
-            input.click();
-        } else {
-            for (int i = 0; i < 10; i++) {
-                input.sendKeys(Keys.BACK_SPACE);
-            }
+        return setParameter(new Table(paramTable), paramName, value);
+    }
+
+    public DeviceProfilePage setParameter(Table table, String paramName, String value) {
+        int row = table.getRowNumberByText(paramName);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        WebElement box = table.getCellWebElement(row, 0).findElement(By.tagName("input"));
+        if (!box.isSelected()) {
+            box.click();
             waitForUpdate();
-            input.sendKeys(value);
+        }
+        String hint = table.getHint(row);
+        WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
+        if (input.getAttribute("type").equals("checkbox")) {
+            if (!input.isSelected() || !value.isEmpty()) {
+                input.click();
+//                waitForUpdate();
+            }
+            value = "";
+        } else if (!input.getAttribute("value").equals(value)) {
+            input.clear();
+            input.sendKeys(value + " ");
+            waitForUpdate();
+            input.sendKeys(Keys.BACK_SPACE);
+            waitForUpdate();
+        }
+        parameterMap.put(hint, value);
+        return this;
+    }
+
+    public DeviceProfilePage setParameter(String tab, int amount) {
+        waitForUpdate();
+        addSummaryParameter();
+        selectMainTab("Parameters");
+        waitForUpdate();
+        selectTab(tab);
+        waitForUpdate();
+        Table table = new Table(paramTable);
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < Math.min(amount, names.length); i++) {
+            String hint = table.getHint(i + 1);
+            WebElement input = table.getInput(i + 1, 1);
+            String value = "";
+            if (input.getAttribute("type").equals("text")) {
+                if (!input.getAttribute("value").isEmpty()) {
+                    value = input.getAttribute("value");
+                } else {
+                    value = generateValue(hint, i + 1);
+                }
+            }
+            setParameter(table, names[i], value);
+            table.clickOn(0, 0);
+            waitForUpdate();
+        }
+        return this;
+    }
+
+    public DeviceProfilePage addSummaryParameter() {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        waitForUpdate();
+        selectMainTab("Summary");
+        Table table = new Table(paramTable);
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < names.length; i++) {
+            parameterMap.put(names[i], table.getInputText(i + 1, 1));
         }
         return this;
     }
@@ -212,6 +287,26 @@ public class DeviceProfilePage extends BasePage {
         }
         throw new AssertionError("The value of the parameter '" + paramName + "' doesn't match the declared (" +
                 "expected to find '" + value + "', but find '" + actual + "')");
+    }
+
+    public void checkParameters() {
+//        System.out.println("parameterMap:");
+//        System.out.println(parameterMap);
+        waitForUpdate();
+        Table paramTbl = new Table(paramTable);
+        String[] names = paramTbl.getColumn(0);
+        for (int i = 0; i < names.length; i++) {
+            String paramName = names[i];
+            String actual = paramTbl.getInputText(i + 1, 1);
+            String expected = parameterMap.get(paramName);
+//            System.out.println("Param:" + paramName + "| actual:" + actual + "| expected:" + expected);
+            if (expected.equals(actual)) {
+                parameterMap.remove(paramName);
+            } else {
+                throw new AssertionError("The value of the parameter '" + paramName + "' doesn't match the declared (" +
+                        "expected to find '" + expected + "', but find '" + actual + "')");
+            }
+        }
     }
 
     public DeviceProfilePage assertMainPageIsDisplayed() {
@@ -278,7 +373,14 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage enterIntoProfile(String profileName) {
-        return (DeviceProfilePage) enterIntoGroup(profileName);
+        try {
+        enterIntoGroup(profileName);
+        }catch (NoSuchElementException e){
+            System.out.println("***********retry to find OK button...***************");
+            okButtonPopUp();
+            enterIntoGroup(profileName);
+        }
+        return this;
     }
 
     public DeviceProfilePage enterIntoProfile() {
@@ -397,10 +499,17 @@ public class DeviceProfilePage extends BasePage {
 
     @Override
     public DeviceProfilePage fillName() {
-        pause(500);
-        waitForUpdate();
-        super.fillName();
-        waitForUpdate();
+//        pause(500);
+//        waitForUpdate();
+//        super.fillName();
+//        waitForUpdate();
+        do {
+            nameField.clear();
+            nameField.sendKeys(BaseTestCase.getTestName() + " ");
+            waitForUpdate();
+            nameField.sendKeys(Keys.BACK_SPACE);
+            waitForUpdate();
+        } while (!isButtonActive(SAVE_AND_ACTIVATE));
         return this;
     }
 
@@ -467,6 +576,32 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage selectCondition(String condition) {
+        selectComboBox(conditionComboBox, condition);
+        return this;
+    }
+
+    public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
+        int rowNum = table.getRowNumberByText(0, policyName);
+        if (rowNum < 0) {
+            throw new AssertionError("Policy name '" + policyName + "' not found");
+        }
+        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
+        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
+        if (BasePage.BROWSER.equals("edge")) {
+            BasePage.scrollToElement(notificationCell);
+        }
+        if (notification != null) {
+            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
+        }
+        waitForUpdate();
+        if (accessList != null) {
+            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
+        }
+        waitForUpdate();
+//        clickOn(0, 0);
+    }
+
     public DeviceProfilePage leftMenu(Left item) {
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
@@ -495,7 +630,7 @@ public class DeviceProfilePage extends BasePage {
         CANCEL("btnCancel_btn"),
         DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
-        DELETE_GROUP("btnDeleteView_btn"),
+        DELETE_CONDITION("btnDeleteView_btn"),
         DUPLICATE("btnDuplicate_btn"),
         EDIT("btnEdit_btn"),
         FINISH("btnFinish_btn"),
@@ -517,6 +652,21 @@ public class DeviceProfilePage extends BasePage {
 
         public String getId() {
             return id;
+        }
+    }
+
+    public enum Policy {
+        //      DEFAULT("Default"),
+        OFF("0"),
+        PASSIVE("1"),
+        ACTIVE("2"),
+        ACS_ONLY("AcsOnly"),
+        ALL("All");
+
+        private String option;
+
+        Policy(String option) {
+            this.option = option;
         }
     }
 }

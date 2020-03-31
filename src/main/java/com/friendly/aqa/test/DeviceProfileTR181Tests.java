@@ -328,11 +328,10 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Parameters")
                 .selectTab("Management")
                 .setParameter("ConnectionRequestPassword", "")
-//                .pause(5000)
                 .assertHasRedBorder(true, "ConnectionRequestPassword")
                 .setParameter("ConnectionRequestPassword", "ftacs")
                 .assertHasRedBorder(false, "ConnectionRequestPassword")
-                .setParameter("PeriodicInformEnable", "")
+                .setParameter("PeriodicInformEnable", " ")
                 .setParameter("PeriodicInformEnable", "")
                 .setParameter("PeriodicInformInterval, sec", "")
                 .assertHasRedBorder(true, "PeriodicInformInterval, sec")
@@ -421,5 +420,516 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
                 .checkTargetDevice(false, "PeriodicInformInterval, sec", "65");
+        setTargetTestName();
+    }
+
+    @Test   // depends on 028
+    public void tr181_dp_029() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectCondition("tr181_dp_028")
+                .editConditionButton()
+                .assertButtonsAreEnabled(false, DELETE_CONDITION);
+    }
+
+    @Test
+    public void tr181_dp_030() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .addSummaryParameter()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_031() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Information", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_032() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Time", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_033() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("WiFi", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_034() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("IP", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_035() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Firewall", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_036() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv4", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_037() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv6", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_038() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DNS", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_039() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Users", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_040() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Ethernet", 1)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_041() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Management", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_042() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Information", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_043() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Time", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_044() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("WiFi", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_045() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("IP", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_046() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Firewall", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_047() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv4", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_048() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv6", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_049() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DNS", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_050() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Users", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_051() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Ethernet", 2)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_052() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Management", 99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_053() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Information", 99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_054() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Time",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_055() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("WiFi",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_056() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("IP",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_057() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Firewall",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_058() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv4",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_059() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DHCPv6",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_060() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("DNS",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_061() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Users",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_062() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setParameter("Ethernet",99)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
     }
 }

@@ -1246,29 +1246,9 @@ public class GroupUpdatePage extends BasePage {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = Parameter.VALUE;
-                String paramType = DataBaseConnector.getValueType(hint).toLowerCase();
-                switch (paramType) {
-                    case "string":
-                        value = "value" + i;
-                        break;
-                    case "int":
-                    case "integer":
-                    case "unsignedint":
-                        value = "" + i;
-                        break;
-                    case "datetime":
-                        value = "2019-10-27T02:00:0";
-                        break;
-                    case "opaque":
-                        value = " ";
-                        break;
-                    case "time":
-                        value = CalendarUtil.getTimeStamp();
-                        break;
-                    case "boolean":
-                        break;
-                    default:
-                        throw new AssertionError("Unsupported data type:" + paramType);
+                String val = generateValue(hint, i);
+                if (val != null) {
+                    value = val;
                 }
             } else if (attr.equals("true")) {
                 option = Parameter.TRUE;
@@ -1485,9 +1465,8 @@ public class GroupUpdatePage extends BasePage {
         }
     }
 
-    @SuppressWarnings("unused")
     public enum Policy {
-        DEFAULT("-1"),
+//        DEFAULT("-1"),
         OFF("0"),
         PASSIVE("1"),
         ACTIVE("2"),
@@ -1502,7 +1481,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public enum Conditions {
-//        CONTAINS(1, "5"),
+        //        CONTAINS(1, "5"),
 //        GREATER(3, "1"),
 //        GREATER_EQUAL(4, "8"),
 //        LESS(5, "4"),

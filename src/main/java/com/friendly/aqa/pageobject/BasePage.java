@@ -394,13 +394,14 @@ public abstract class BasePage {
     public BasePage okButtonPopUp() {
         switchToFrame(ROOT);
         waitForUpdate();
-        if (okButtonPopUp.isDisplayed()) {
+        while (okButtonPopUp.isDisplayed()) {
             okButtonPopUp.click();
+            waitForUpdate();
         }
-        if (okButtonAlertPopUp.isDisplayed()) {
+        while (okButtonAlertPopUp.isDisplayed()) {
             okButtonAlertPopUp.click();
+            waitForUpdate();
         }
-        waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
     }
@@ -552,7 +553,7 @@ public abstract class BasePage {
         return out;
     }
 
-    public boolean isButtonActive(GlobalButtons button) {
+    public boolean isButtonActive(IGlobalButtons button) {
         switchToFrame(BUTTONS);
         List<WebElement> list = driver.findElements(By.id(button.getId()));
         boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
@@ -709,6 +710,35 @@ public abstract class BasePage {
                 tagList.get(0).click();
             }
         }
+    }
+
+    String generateValue(String parameter, int increment){
+        String value = null;
+        String paramType = DataBaseConnector.getValueType(parameter).toLowerCase();
+        switch (paramType) {
+            case "string":
+                value = "value" + increment;
+                break;
+            case "int":
+            case "integer":
+            case "unsignedint":
+                value = "" + increment;
+                break;
+            case "datetime":
+                value = "2019-10-27T02:00:0";
+                break;
+            case "opaque":
+                value = " ";
+                break;
+            case "time":
+                value = CalendarUtil.getTimeStamp();
+                break;
+            case "boolean":
+                break;
+            default:
+                throw new AssertionError("Unsupported data type:" + paramType);
+        }
+        return value;
     }
 
     public static String getImportCpeFile() {
