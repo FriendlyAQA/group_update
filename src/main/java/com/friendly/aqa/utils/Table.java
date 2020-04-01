@@ -129,7 +129,7 @@ public class Table {
         return -1;
     }
 
-    public List<Integer> getRowsContainText(String text) {
+    public List<Integer> getRowsWithText(String text) {
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {
             String[] row = textTable[i];
@@ -139,6 +139,19 @@ public class Table {
                 }
             }
         }
+        return out;
+    }
+
+    public List<Integer> getRowsWithInput(int column) {
+        BasePage.setImplicitlyWait(0);
+        List<Integer> out = new ArrayList<>();
+        for (int i = 0; i < elementTable.length; i++) {
+            List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
+            if (!list.isEmpty()) {
+                out.add(i);
+            }
+        }
+        BasePage.setDefaultImplicitlyWait();
         return out;
     }
 

@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
-import static com.friendly.aqa.pageobject.TopMenu.DEVICE_UPDATE;
 
 
 public abstract class BasePage {
@@ -713,7 +712,7 @@ public abstract class BasePage {
     }
 
     String generateValue(String parameter, int increment){
-        String value = null;
+        String value = "1";
         String paramType = DataBaseConnector.getValueType(parameter).toLowerCase();
         switch (paramType) {
             case "string":
@@ -864,7 +863,7 @@ public abstract class BasePage {
     public BasePage selectItem(String text, int startFromRow) {
         selectedName = "";
         Table table = getMainTable();
-        List<Integer> list = table.getRowsContainText(text);
+        List<Integer> list = table.getRowsWithText(text);
         for (int i : list) {
             if (i >= startFromRow) {
                 table.clickOn(i, 0);

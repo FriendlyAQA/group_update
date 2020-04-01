@@ -932,4 +932,34 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .checkParameters();
     }
+
+    @Test
+    public void tr181_dp_063() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_062")
+                .setParameter("WiFi",99)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_062")
+                .checkParameters();
+    }
+
+    @Test
+    public void tr181_dp_064() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("WiFi")
+                .selectTreeObject(true)
+                .assertParametersAreSelected(true)
+                .selectAnotherTreeObject(true)
+                .assertParametersAreSelected(true)
+                .selectTreeObject(true)
+                .assertParametersAreSelected(false);
+    }
 }

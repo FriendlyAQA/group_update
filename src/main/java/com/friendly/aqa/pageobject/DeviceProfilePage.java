@@ -279,7 +279,7 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage checkParameter(String paramName, String value) {
         waitForUpdate();
         Table paramTbl = new Table(paramTable);
-        int row = paramTbl.getRowsContainText(paramName).get(0);
+        int row = paramTbl.getRowsWithText(paramName).get(0);
         WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
         String actual = input.getAttribute("value");
         if (actual.equals(value)) {
@@ -374,8 +374,8 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage enterIntoProfile(String profileName) {
         try {
-        enterIntoGroup(profileName);
-        }catch (NoSuchElementException e){
+            enterIntoGroup(profileName);
+        } catch (NoSuchElementException e) {
             System.out.println("***********retry to find OK button...***************");
             okButtonPopUp();
             enterIntoGroup(profileName);
@@ -450,7 +450,7 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage getExport() {
         Table table = getMainTable();
         int col = table.getColumnNumber(0, "Name");
-        int row = table.getRowsContainText("Active").get(1);
+        int row = table.getRowsWithText("Active").get(1);
         String item = table.getCellText(row, col);
         int id = getDeviceProfileIdByName(item);
         String link = props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + id;
@@ -537,7 +537,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage assertHasRedBorder(boolean expectedRed, String paramName) {
         Table table = new Table(paramTable);
-        int row = table.getRowsContainText(paramName).get(0);
+        int row = table.getRowsWithText(paramName).get(0);
         WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
         if (input.getAttribute("style").endsWith("rgb(255, 74, 74);") == expectedRed) {
             return this;
@@ -567,6 +567,36 @@ public class DeviceProfilePage extends BasePage {
             }
             globalButtons(DeviceUpdatePage.GlobalButtons.GET_CURRENT);
             okButtonPopUp();
+        }
+        return this;
+    }
+
+    public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox){
+        return selectTreeObject(clickOnCheckbox, 0);
+    }
+
+    public DeviceProfilePage selectAnotherTreeObject(boolean clickOnCheckbox){
+        return selectTreeObject(clickOnCheckbox, 1);
+    }
+
+    public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
+        Table table = new Table("tblTree");
+        List<Integer> rows = table.getRowsWithInput(0);
+        table.clickOn(rows.get(objNum), 0, 1);
+        waitForUpdate();
+        if (clickOnCheckbox) {
+            table.clickOn(rows.get(objNum), 0, 0);
+            waitForUpdate();
+        }
+        return this;
+    }
+
+    public DeviceProfilePage assertParametersAreSelected(boolean expectedState){
+        Table table = new Table("tblParameters");
+        for (int i = 1; i < table.getTableSize()[0]; i++){
+            if (table.getInput(i, 0).isSelected() != expectedState){
+                throw new AssertionError("One or more parameter has unexpected state!");
+            }
         }
         return this;
     }
