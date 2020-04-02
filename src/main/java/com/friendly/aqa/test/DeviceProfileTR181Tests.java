@@ -962,4 +962,20 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectTreeObject(true)
                 .assertParametersAreSelected(false);
     }
+
+    @Test
+    public void tr181_dp_065() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters")
+                .selectTab("WiFi")
+                .selectTreeObject(true, 1)
+                .assertParametersAreSelected(true)
+                .selectTreeObject(true, 2)
+                .assertParametersAreSelected(true);
+    }
 }

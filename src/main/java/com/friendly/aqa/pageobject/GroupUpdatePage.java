@@ -120,38 +120,20 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "calDate_calendar")
     private WebElement divCalendar;
 
-    @FindBy(id = "UcFirmware1_ddlFileType")
-    private WebElement selectFileTypeComboBox;
-
     @FindBy(id = "ddlFileType")
     private WebElement selectUploadFileTypeComboBox;
 
     @FindBy(id = "ddlDiagnostics")
     private WebElement diagnosticTypeComboBox;
 
-    @FindBy(id = "UcFirmware1_rdUrl")
-    private WebElement manualRadioButton;
-
-    @FindBy(id = "UcFirmware1_tbUrl")
-    private WebElement urlField;
+    @FindBy(id = "btnDelete_btn")
+    private WebElement deleteButton;
 
     @FindBy(id = "tbUrl")
     private WebElement uploadUrlField;
 
-    @FindBy(id = "UcFirmware1_tbLogin")
-    private WebElement userNameField;
-
     @FindBy(id = "tbLogin")
     private WebElement userNameUploadField;
-
-    @FindBy(id = "UcFirmware1_tbPass")
-    private WebElement passwordField;
-
-    @FindBy(id = "UcFirmware1_rdTarget")
-    private WebElement fromListRadioButton;
-
-    @FindBy(id = "btnDelete_btn")
-    private WebElement deleteButton;
 
     @FindBy(id = "UcFirmware1_ddlFileName")
     private WebElement fileNameComboBox;

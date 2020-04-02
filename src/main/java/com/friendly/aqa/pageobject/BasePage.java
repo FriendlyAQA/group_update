@@ -180,6 +180,24 @@ public abstract class BasePage {
     @FindBy(id = "btnDefaultView_btn")
     protected WebElement resetViewButton;
 
+    @FindBy(id = "UcFirmware1_ddlFileType")
+    protected WebElement selectFileTypeComboBox;
+
+    @FindBy(id = "UcFirmware1_rdUrl")
+    protected WebElement manualRadioButton;
+
+    @FindBy(id = "UcFirmware1_rdTarget")
+    protected WebElement fromListRadioButton;
+
+    @FindBy(id = "UcFirmware1_tbUrl")
+    protected WebElement urlField;
+
+    @FindBy(id = "UcFirmware1_tbLogin")
+    protected WebElement userNameField;
+
+    @FindBy(id = "UcFirmware1_tbPass")
+    protected WebElement passwordField;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -189,6 +207,36 @@ public abstract class BasePage {
     public BasePage resetView() {
         resetViewButton.click();
         waitForUpdate();
+        return this;
+    }
+
+    public BasePage selectFileType(String type) {
+        selectComboBox(selectFileTypeComboBox, type);
+        return this;
+    }
+
+    public BasePage manualRadioButton() {
+        manualRadioButton.click();
+        return this;
+    }
+
+    public BasePage selectFromListRadioButton() {
+        fromListRadioButton.click();
+        return this;
+    }
+
+    public BasePage fillUrl() {
+        urlField.sendKeys(BasePage.getProps().getProperty("ftp_config_file_url"));
+        return this;
+    }
+
+    public BasePage fillUsername() {
+        urlField.sendKeys(BasePage.getProps().getProperty("ftp_user"));
+        return this;
+    }
+
+    public BasePage fillPassword() {
+        urlField.sendKeys(BasePage.getProps().getProperty("ftp_password"));
         return this;
     }
 
@@ -711,7 +759,7 @@ public abstract class BasePage {
         }
     }
 
-    String generateValue(String parameter, int increment){
+    String generateValue(String parameter, int increment) {
         String value = "1";
         String paramType = DataBaseConnector.getValueType(parameter).toLowerCase();
         switch (paramType) {

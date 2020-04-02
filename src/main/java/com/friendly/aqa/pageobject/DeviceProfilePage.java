@@ -571,11 +571,11 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox){
+    public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox) {
         return selectTreeObject(clickOnCheckbox, 0);
     }
 
-    public DeviceProfilePage selectAnotherTreeObject(boolean clickOnCheckbox){
+    public DeviceProfilePage selectAnotherTreeObject(boolean clickOnCheckbox) {
         return selectTreeObject(clickOnCheckbox, 1);
     }
 
@@ -591,10 +591,26 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage assertParametersAreSelected(boolean expectedState){
+    public DeviceProfilePage selectTreeObjectCheckbox(int objNum) {
+        Table table = new Table("tblTree");
+        List<Integer> rows = table.getRowsWithInput(0);
+        table.clickOn(rows.get(objNum), 0, 0);
+        waitForUpdate();
+        return this;
+    }
+
+    public DeviceProfilePage selectTreeObjectCheckbox() {
+        return selectTreeObjectCheckbox(0);
+    }
+
+    public DeviceProfilePage selectAnotherTreeObjectCheckbox() {
+        return selectTreeObjectCheckbox(1);
+    }
+
+    public DeviceProfilePage assertParametersAreSelected(boolean expectedState) {
         Table table = new Table("tblParameters");
-        for (int i = 1; i < table.getTableSize()[0]; i++){
-            if (table.getInput(i, 0).isSelected() != expectedState){
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            if (table.getInput(i, 0).isSelected() != expectedState) {
                 throw new AssertionError("One or more parameter has unexpected state!");
             }
         }
@@ -609,6 +625,30 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage selectCondition(String condition) {
         selectComboBox(conditionComboBox, condition);
         return this;
+    }
+
+    public DeviceProfilePage selectFileType(String type) {
+        return (DeviceProfilePage) super.selectFileType(type);
+    }
+
+    public DeviceProfilePage manualRadioButton() {
+        return (DeviceProfilePage) super.manualRadioButton();
+    }
+
+    public DeviceProfilePage selectFromListRadioButton() {
+        return (DeviceProfilePage) super.selectFromListRadioButton();
+    }
+
+    public DeviceProfilePage fillUrl() {
+        return (DeviceProfilePage) super.fillUrl();
+    }
+
+    public DeviceProfilePage fillUsername() {
+        return (DeviceProfilePage) super.fillUsername();
+    }
+
+    public DeviceProfilePage fillPassword() {
+        return (DeviceProfilePage) super.fillPassword();
     }
 
     public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {

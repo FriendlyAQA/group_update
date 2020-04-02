@@ -1365,7 +1365,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                    .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
                 .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
     }
