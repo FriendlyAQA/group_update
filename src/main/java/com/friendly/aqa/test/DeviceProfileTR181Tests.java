@@ -978,4 +978,38 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectTreeObject(true, 2)
                 .assertParametersAreSelected(true);
     }
+
+    @Test
+    public void tr181_dp_066() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Download file")
+                .downloadImageFile()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, testName);
+    }
+
+    @Test
+    public void tr181_dp_067() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .addSummaryParameter()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .setAnotherTabParameter()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .checkParameters();
+    }
 }

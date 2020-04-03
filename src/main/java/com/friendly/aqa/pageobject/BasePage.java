@@ -211,7 +211,10 @@ public abstract class BasePage {
     }
 
     public BasePage selectFileType(String type) {
-        selectComboBox(selectFileTypeComboBox, type);
+        selectComboBox(new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.elementToBeClickable(selectFileTypeComboBox)), type);
         return this;
     }
 
@@ -231,12 +234,12 @@ public abstract class BasePage {
     }
 
     public BasePage fillUsername() {
-        urlField.sendKeys(BasePage.getProps().getProperty("ftp_user"));
+        userNameField.sendKeys(BasePage.getProps().getProperty("ftp_user"));
         return this;
     }
 
     public BasePage fillPassword() {
-        urlField.sendKeys(BasePage.getProps().getProperty("ftp_password"));
+        passwordField.sendKeys(BasePage.getProps().getProperty("ftp_password"));
         return this;
     }
 
@@ -444,10 +447,12 @@ public abstract class BasePage {
         while (okButtonPopUp.isDisplayed()) {
             okButtonPopUp.click();
             waitForUpdate();
+            System.out.println("ok pressed");
         }
         while (okButtonAlertPopUp.isDisplayed()) {
             okButtonAlertPopUp.click();
             waitForUpdate();
+            System.out.println("ok alert pressed");
         }
         switchToFrame(DESKTOP);
         return this;
@@ -553,6 +558,26 @@ public abstract class BasePage {
         return out;
     }
 
+    void clickButton(WebElement button) {
+        waitForUpdate();
+        int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
+        for (int i = 0; i < 3; i++) {
+            try {
+                new FluentWait<>(driver)
+                        .withMessage("Button '" + button + "' not found/not active")
+                        .withTimeout(Duration.ofSeconds(timeout))
+                        .pollingEvery(Duration.ofMillis(100))
+                        .until(ExpectedConditions.elementToBeClickable(button))
+                        .click();
+                waitForUpdate();
+                return;
+            } catch (StaleElementReferenceException e) {
+                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+            }
+        }
+        throw new AssertionError("cannot click button!");
+    }
+
     void clickGlobalButtons(IGlobalButtons button) {
         waitForUpdate();
         switchToFrame(BUTTONS);
@@ -565,10 +590,11 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id(button.getId()))))
                         .click();
-                switchToPreviousFrame();
                 return;
             } catch (StaleElementReferenceException e) {
                 logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+            } finally {
+                switchToPreviousFrame();
             }
         }
         throw new AssertionError("cannot click button!");
@@ -1012,6 +1038,9 @@ public abstract class BasePage {
         if (frame == ROOT) {
             return;
         }
+        if (frame == SUB_FRAME) {
+            driver.switchTo().frame(driver.findElement(By.id(DESKTOP.frameId)));
+        }
         WebElement frameEl = driver.findElement(By.id(frame.frameId));
         driver.switchTo().frame(frameEl);
     }
@@ -1032,7 +1061,7 @@ public abstract class BasePage {
 
     public enum FrameSwitch {
         ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"),
-        CONDITIONS("frmPopup2"), POPUP("frmPopup");
+        CONDITIONS("frmPopup2"), POPUP("frmPopup"), SUB_FRAME("frmSubFrame");
 
         FrameSwitch(String frameId) {
             this.frameId = frameId;

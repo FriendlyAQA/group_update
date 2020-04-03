@@ -9,13 +9,15 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.SAVE_AND_ACTIVATE;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
@@ -75,6 +77,10 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlManufacturer")
     private WebElement filterManufacturerComboBox;
 
+    @FindBy(id = "frmSubFrame")
+    private WebElement subFrame;
+
+
     @FindBy(id = "ddlModelName")
     private WebElement filterModelNameComboBox;
 
@@ -110,6 +116,9 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "btnEditView_btn")
     private WebElement editConditionButton;
+
+    @FindBy(id = "btnSendUpdate_btn")
+    protected WebElement saveButton;
 
     @FindBy(id = "tabsMain_tblTabs")
     private WebElement mainTabTable;
@@ -183,6 +192,11 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage saveButton() {
+        clickButton(saveButton);
+        return this;
+    }
+
     public DeviceProfilePage setParameter(String paramName, String value) {
         return setParameter(new Table(paramTable), paramName, value);
     }
@@ -192,24 +206,24 @@ public class DeviceProfilePage extends BasePage {
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
-        WebElement box = table.getCellWebElement(row, 0).findElement(By.tagName("input"));
+        WebElement box = table.getInput(row, 0);
         if (!box.isSelected()) {
             box.click();
             waitForUpdate();
         }
         String hint = table.getHint(row);
-        WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
-        if (input.getAttribute("type").equals("checkbox")) {
-            if (!input.isSelected() || !value.isEmpty()) {
-                input.click();
+        WebElement field = table.getInput(row, 1);
+        if (field.getAttribute("type").equals("checkbox")) {
+            if (!field.isSelected() || !value.isEmpty()) {
+                field.click();
 //                waitForUpdate();
             }
             value = "";
-        } else if (!input.getAttribute("value").equals(value)) {
-            input.clear();
-            input.sendKeys(value + " ");
+        } else if (!field.getAttribute("value").equals(value)) {
+            field.clear();
+            field.sendKeys(value + " ");
             waitForUpdate();
-            input.sendKeys(Keys.BACK_SPACE);
+            field.sendKeys(Keys.BACK_SPACE);
             waitForUpdate();
         }
         parameterMap.put(hint, value);
@@ -243,6 +257,16 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setAnotherTabParameter(){
+        getTabTable().clickOn(1,2);
+        waitForUpdate();
+        Table table = new Table("tblParameters");
+        String parameter = table.getCellText(1, 0);
+//        System.out.println("hint:" + table.getHint(1));
+        setParameter(table, parameter, generateValue(table.getHint(1),1));
+        return this;
+    }
+
     public DeviceProfilePage addSummaryParameter() {
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
@@ -254,6 +278,20 @@ public class DeviceProfilePage extends BasePage {
         for (int i = 0; i < names.length; i++) {
             parameterMap.put(names[i], table.getInputText(i + 1, 1));
         }
+        return this;
+    }
+
+    public DeviceProfilePage downloadImageFile() {
+        switchToFrame(SUB_FRAME);
+        selectFileType("Firmware Image");
+        waitForUpdate();
+        manualRadioButton();
+        waitForUpdate();
+        fillUrl();
+        fillUsername();
+        fillPassword();
+        saveButton();
+        switchToPreviousFrame();
         return this;
     }
 
@@ -290,8 +328,6 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void checkParameters() {
-//        System.out.println("parameterMap:");
-//        System.out.println(parameterMap);
         waitForUpdate();
         Table paramTbl = new Table(paramTable);
         String[] names = paramTbl.getColumn(0);
