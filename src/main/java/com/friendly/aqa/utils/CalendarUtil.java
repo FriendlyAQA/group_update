@@ -9,6 +9,7 @@ import java.util.Locale;
 public class CalendarUtil {
     private static DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
     private static DateFormat fullDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'CET' yyyy", Locale.ENGLISH);
+    private static DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     private static DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
     private static DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
     private static DateFormat hours = new SimpleDateFormat("HH");
@@ -26,8 +27,12 @@ public class CalendarUtil {
         return hourAndMinutes.format(calendar.getTime()).split("-");
     }
 
-    public static String getShiftedDate(int countDays) {
-        return dateFormat.format(getDay(countDays));
+    public static String getShiftedDate(int numOfDays) {
+        return dateFormat.format(getDay(numOfDays));
+    }
+
+    public static String getDbShiftedDate(int numOfDays) {
+        return dbDateFormat.format(getDay(numOfDays));
     }
 
     public static String getMonthBeforeDate() {
@@ -55,6 +60,6 @@ public class CalendarUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getTimeStamp());
+        System.out.println(getDbShiftedDate(-29));
     }
 }

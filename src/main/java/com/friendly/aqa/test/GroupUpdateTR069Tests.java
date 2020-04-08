@@ -722,7 +722,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
 //                .checkResults("CPEReprovision", "prov_attrib, custom_rpc, prov_object, profile, provision, file");
     }
 
@@ -733,7 +733,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetRPCMethods");
+                .checkResults("Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -743,7 +743,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterNames");
+                .checkResults("Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -753,7 +753,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterAttributes");
+                .checkResults("Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -763,7 +763,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterValues");
+                .checkResults("Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -773,7 +773,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "SetParameterValues");
+                .checkResults("Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -783,7 +783,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "SetParameterAttributes");
+                .checkResults("Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -793,7 +793,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("AddObject")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "AddObject");
+                .checkResults("Custom RPC", "AddObject");
     }
 
     @Test
@@ -803,7 +803,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "DeleteObject");
+                .checkResults("Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -1525,7 +1525,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -1535,7 +1535,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "Reboot");
+                .checkResults("Custom RPC", "Reboot");
     }
 
     @Test
@@ -1545,7 +1545,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Download")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "Download");
+                .checkResults("Custom RPC", "Download");
     }
 
     @Test
@@ -1562,7 +1562,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Upload");
+                .checkResults("Custom RPC", "Upload");
     }
 
     @Test
@@ -1588,7 +1588,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "FactoryReset");
+                .checkResults("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -3286,7 +3286,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
     }
 
     @Test
@@ -3750,8 +3750,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("Reboot");
+                .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
     @Test
@@ -3775,8 +3774,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .getTable("tblTasks")
-                .assertPresenceOfParameter("FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -3801,7 +3799,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Reboot");
+                .checkResults("Custom RPC", "Reboot");
     }
 
     @Test
@@ -3826,7 +3824,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Download");
+                .checkResults("Custom RPC", "Download");
     }
 
     @Test
@@ -3851,7 +3849,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Upload");
+                .checkResults("Custom RPC", "Upload");
     }
 
     @Test
@@ -3876,7 +3874,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "FactoryReset");
+                .checkResults("Custom RPC", "FactoryReset");
     }
 
     @Test

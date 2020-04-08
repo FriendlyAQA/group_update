@@ -202,7 +202,6 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public void assertResultTableIsAbsent() {
-//        waitForUpdate();
         if (!taskTableList.isEmpty()) {
             throw new AssertionError("Task table was found on page");
         }
@@ -481,8 +480,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage deleteButton() {
-        waitForUpdate();
         deleteButton.click();
+        waitForUpdate();
         return this;
     }
 
@@ -910,6 +909,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage selectFileType(String option) {
+        selectComboBox(selectFileTypeComboBox, option);
+        return this;
+    }
+
     public GroupUpdatePage selectUploadFileType(int index) {
         new Select(selectUploadFileTypeComboBox).selectByIndex(index);
         return this;
@@ -1074,7 +1078,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", method);
+                .checkResults("Custom RPC", method);
     }
 
     public GroupUpdatePage gotoSetParameters(String tab) {
@@ -1197,6 +1201,7 @@ public class GroupUpdatePage extends BasePage {
         }
         new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
         if (value != null && option == Parameter.VALUE) {
+            waitForUpdate();
             WebElement input = paramCell.findElement(By.tagName("input"));
             input.clear();
             input.sendKeys(value);
@@ -1211,18 +1216,21 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage setParameter(int amount) {
         Table table = getParamTable();
         setImplicitlyWait(0);
-        int counter = (amount == 0 || amount >= table.getTableSize()[0]) ? table.getTableSize()[0] : amount + 1;
+//        int counter = (amount >= table.getTableSize()[0]) ? table.getTableSize()[0] : amount + 1;
+        int size = table.getTableSize()[0];
+        int counter = Math.min(size, amount + 1);
         for (int i = 1; i < counter; i++) {
             WebElement paramVal = table.getCellWebElement(i, 1);
             List<WebElement> selectList = paramVal.findElements(By.tagName("select"));
             if (selectList.size() == 0) {
-                if (amount != 0) {
+                if (i < size - 1) {
                     counter++;
                 }
                 continue;
             }
             String hint = table.getHint(i);
-            List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
+//            List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
+            List<WebElement> optionList = new Select(selectList.get(0)).getOptions();
             Parameter option;
             String value = "1";
             String attr = optionList.get(1).getAttribute("value");
@@ -1245,7 +1253,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage setAllParameters() {
-        setParameter(0);
+        setParameter(99);
         return this;
     }
 
@@ -1448,7 +1456,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public enum Policy {
-//        DEFAULT("-1"),
+        //        DEFAULT("-1"),
         OFF("0"),
         PASSIVE("1"),
         ACTIVE("2"),

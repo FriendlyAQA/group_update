@@ -3,6 +3,7 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -259,7 +260,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
                 .globalButtons(NEXT)
-                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
+                .assertEqualsAlertMessage("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
@@ -269,7 +270,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.getUrlSource(guPage
                         .getMainTable()
-                        .getGuExportLink(targetTestName))
+                        .getGuExportLink("tr181_gu_016"))
                         .contains("\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }
 
@@ -946,7 +947,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
     }
 
     @Test
@@ -956,7 +957,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetRPCMethods");
+                .checkResults("Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -966,7 +967,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterNames");
+                .checkResults("Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -976,7 +977,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterAttributes");
+                .checkResults("Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -986,7 +987,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "GetParameterValues");
+                .checkResults("Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -996,7 +997,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "SetParameterValues");
+                .checkResults("Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -1006,7 +1007,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "SetParameterAttributes");
+                .checkResults("Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -1016,7 +1017,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("AddObject")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "AddObject");
+                .checkResults("Custom RPC", "AddObject");
     }
 
     @Test
@@ -1026,7 +1027,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "DeleteObject");
+                .checkResults("Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -1647,7 +1648,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .assertResultTableIsAbsent();
     }
 
-    @Test //bug: TaskDiagnostic task with id = xxx not found
+    @Test //bug: Result table title and content mismatch
     public void tr181_gu_171() {
         guPage
                 .gotoDiagnostic()
@@ -1658,7 +1659,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Trace Diagnostic", "8.8.8.8");
     }
 
-    @Test //bug: TaskDiagnostic task with id = xxx not found
+    @Test //bug: Result table title and content mismatch
     public void tr181_gu_172() {
         guPage
                 .gotoDiagnostic()
@@ -1669,7 +1670,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("NSLookupDiagnostics", "8.8.8.8");
     }
 
-    @Test
+    @Test //bug: Result table title and content mismatch
     public void tr181_gu_173() {
         guPage
                 .gotoDiagnostic()
@@ -1679,42 +1680,45 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("IPPing Diagnostic", "8.8.8.8");
     }
 
-    @Test
+    @Test //bug: Result table title and content mismatch
     public void tr181_gu_174() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
+                .checkResults("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
+//                .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
     }
 
-    @Test
+    @Test //bug: TaskDiagnostic task with id=1994 not found (analog in BT #9682)
     public void tr181_gu_175() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download Diagnostic")
                 .addToQoeCheckBox()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
+                .checkResults("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
     }
 
-    @Test
+    @Test //bug: Result table title and content mismatch
     public void tr181_gu_176() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload Diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
+                .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
+//                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
     }
 
-    @Test
+    @Test //bug: TaskDiagnostic task with id=1994 not found
     public void tr181_gu_177() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload Diagnostic")
                 .addToQoeCheckBox()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
+                .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
+//                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
     }
 
     @Test
@@ -1726,7 +1730,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
     }
 
-    @Test
+    @Test //bug: TaskDiagnostic task with id=1994 not found
     public void tr181_gu_179() {
         guPage
                 .gotoDiagnostic()
@@ -1753,7 +1757,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_181() {
         guPage
                 .gotoFileDownload()
-                .selectFileType(2)
+                .selectFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1766,7 +1770,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_182() {
         guPage
                 .gotoFileDownload()
-                .selectFileType(1)
+                .selectFileType("Firmware Image")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1779,7 +1783,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_183() {
         guPage
                 .gotoFileDownload()
-                .selectFileType(2)
+                .selectFileType("Vendor Configuration File")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
@@ -1790,7 +1794,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_184() {
         guPage
                 .gotoFileDownload()
-                .selectFileType(1)
+                .selectFileType("Firmware Image")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
@@ -1917,7 +1921,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .rebootRadioButton()
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
-                .saveAndActivate()
+                .saveAndActivate(false)
                 .assertPresenceOfParameter("tblTasks", "Reboot");
     }
 
@@ -1927,7 +1931,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -1938,7 +1942,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -1948,7 +1952,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "Reboot");
+                .checkResults("Custom RPC", "Reboot");
     }
 
     @Test
@@ -1960,7 +1964,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .checkResults("CustomRPC", "Reboot");
+                .checkResults("Custom RPC", "Reboot");
     }
 
     @Test
@@ -1970,7 +1974,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Download")
                 .nextSaveAndActivate()
-                .checkResults("CustomRPC", "Download");
+                .checkResults("Custom RPC", "Download");
     }
 
     @Test
@@ -1982,7 +1986,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .checkResults("CustomRPC", "Download");
+                .checkResults("Custom RPC", "Download");
     }
 
     @Test   //needs running device
@@ -2001,7 +2005,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .readTasksFromDb()
                 .pause(1000)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Upload");
+                .checkResults("Custom RPC", "Upload");
     }
 
     @Test
@@ -2013,7 +2017,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .checkResults("CustomRPC", "Upload");
+                .checkResults("Custom RPC", "Upload");
     }
 
     @Test
@@ -2039,7 +2043,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "FactoryReset");
+                .checkResults("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2050,8 +2054,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectMethod("FactoryReset")
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
-                .saveAndActivate()
-                .checkResults("CustomRPC", "FactoryReset");
+                .saveAndActivate(false)
+                .checkResults("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2113,14 +2117,16 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Device.ManagementServer.PeriodicInformInterval", "60");
     }
 
-    @Test //Bug: doesn't work correctly (filter 'Created - on day')
+    @Test
     public void tr181_gu_210() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         guPage
                 .gotoAddFilter()
-                .selectColumnFilter("device_created")
+                .selectColumnFilter("Created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+//                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2142,7 +2148,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+//                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -2166,7 +2173,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -2269,7 +2276,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Prev X days")
-                .inputText("txtInt", "4")
+                .inputText("txtInt", "9")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2331,9 +2338,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_220() {
         guPage
-                .presetFilter("mycust03", testName)
+//                .presetFilter("mycust03", testName)
                 .gotoAddFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("Hardware version")
                 .compareSelect("Starts with")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
@@ -3812,7 +3819,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
     }
 
     @Test
@@ -4400,7 +4407,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -4425,7 +4432,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Reboot");
+                .checkResults("Custom RPC", "Reboot");
     }
 
     @Test
@@ -4450,7 +4457,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Download");
+                .checkResults("Custom RPC", "Download");
     }
 
     @Test
@@ -4475,7 +4482,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "Upload");
+                .checkResults("Custom RPC", "Upload");
     }
 
     @Test
@@ -4500,7 +4507,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("CustomRPC", "FactoryReset");
+                .checkResults("Custom RPC", "FactoryReset");
     }
 
 }

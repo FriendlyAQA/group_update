@@ -66,6 +66,7 @@ public class Table {
                     throw new ArrayIndexOutOfBoundsException(e.getMessage());
                 } else {
                     retryInit = true;
+                    pause(1500);
                     rowsList = table.findElements(By.tagName("tr"));
                     textTable = new String[rowsList.size()][];
                     elementTable = new WebElement[rowsList.size()][];

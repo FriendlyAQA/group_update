@@ -106,35 +106,35 @@ public class DataBaseConnector {
                 "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
                 "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "')))";
-        return getSet(query);
+        return getValueSet(query);
     }
 
     public static Set<String> getMonitorNameSetByModelName(String modelName) {
         String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
                 "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "'))";
-        return getSet(query);
+        return getValueSet(query);
     }
 
     public static Set<String> getDeviceProfileNameSetByManufacturer(String manufacturer) {
         String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
                 "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "'))";
-        return getSet(query);
+        return getValueSet(query);
     }
 
     public static Set<String> getDeviceProfileNameSetByModelName(String modelName) {
         String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "')";
-        return getSet(query);
+        return getValueSet(query);
     }
 
     public static Set<String> getDeviceProfileNameSetByStatus(String status) {
         String query = "SELECT name FROM ftacs.profile WHERE is_active='" + (status.equals("Active") ? "1" : "0") + "'";
-        return getSet(query);
+        return getValueSet(query);
     }
 
-    private static Set<String> getSet(String query) {
+    private static Set<String> getValueSet(String query) {
         Set<String> nameSet = new HashSet<>();
         try {
             stmtObj.execute(query);
@@ -177,9 +177,23 @@ public class DataBaseConnector {
         return profileId;
     }
 
+    public static void createFilterPreconditions(String serial) {
+        Set<String> deviceSet = getValueSet("SELECT id FROM ftacs.cpe WHERE product_class_id IN (SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')");
+        List<String> devices = new ArrayList<>(deviceSet);
+        int[] shift = {0, -1, -10};
+        try {
+            for (int i = 0; i < 3; i++) {
+                stmtObj.execute("UPDATE `ftacs`.`cpe` SET `created`='" + CalendarUtil.getDbShiftedDate(shift[i]) + "' WHERE `id`=" + devices.get(i) + ";");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(devices);
+    }
+
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getDeviceProfileIdByName("qwe"));
+        createFilterPreconditions("FT001SN000013196121001234");
         disconnectDb();
     }
 }

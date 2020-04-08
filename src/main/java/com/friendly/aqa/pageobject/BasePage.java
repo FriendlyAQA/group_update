@@ -290,6 +290,7 @@ public abstract class BasePage {
     }
 
     public BasePage scheduledToRadioButton() {
+        System.out.println(frame);
         scheduledToRadioButton.click();
         return this;
     }
@@ -447,12 +448,10 @@ public abstract class BasePage {
         while (okButtonPopUp.isDisplayed()) {
             okButtonPopUp.click();
             waitForUpdate();
-            System.out.println("ok pressed");
         }
         while (okButtonAlertPopUp.isDisplayed()) {
             okButtonAlertPopUp.click();
             waitForUpdate();
-            System.out.println("ok alert pressed");
         }
         switchToFrame(DESKTOP);
         return this;
@@ -541,6 +540,7 @@ public abstract class BasePage {
     }
 
     public BasePage clickOn(String id) {
+        waitForUpdate();
         driver.findElement(By.id(id)).click();
         return this;
     }
@@ -590,11 +590,14 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id(button.getId()))))
                         .click();
+                waitForUpdate();
                 return;
             } catch (StaleElementReferenceException e) {
                 logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             } finally {
-                switchToPreviousFrame();
+//                System.out.println("finally, prev frame:" + previousFrame);
+//                switchToPreviousFrame();
+                switchToFrame(DESKTOP);
             }
         }
         throw new AssertionError("cannot click button!");
@@ -726,7 +729,7 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public static String getConfigPrefix() {
+    public static String getProtocolPrefix() {
         String testName = BaseTestCase.getTestName();
         if (testName.contains("tr069")) {
             return "tr069_";
@@ -815,19 +818,19 @@ public abstract class BasePage {
     }
 
     public static String getImportCpeFile() {
-        return props.getProperty(getConfigPrefix() + "import_cpe");
+        return props.getProperty(getProtocolPrefix() + "import_cpe");
     }
 
     public static String getImportGuFile() {
-        return props.getProperty(getConfigPrefix() + "import_group");
+        return props.getProperty(getProtocolPrefix() + "import_group");
     }
 
     public static String getImportMonitorFile() {
-        return props.getProperty(getConfigPrefix() + "import_monitor");
+        return props.getProperty(getProtocolPrefix() + "import_monitor");
     }
 
     public static String getSerial() {
-        return props.getProperty(getConfigPrefix() + "cpe_serial");
+        return props.getProperty(getProtocolPrefix() + "cpe_serial");
     }
 
     public static String getManufacturer() {
