@@ -144,7 +144,7 @@ public class Controller implements WindowListener, Runnable {
     }
 
     public void run() {
-        XmlWriter.createXml(createTaskMap());
+        XmlWriter.createTestngConfig(createTaskMap());
         calculateTestSum();
         progressBar.setMaximum(testSum);
         progressBar.setValue(0);

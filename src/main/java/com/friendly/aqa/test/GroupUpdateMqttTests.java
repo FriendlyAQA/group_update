@@ -1,6 +1,7 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -152,6 +153,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void mqtt_gu_011() {
+        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -191,7 +193,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
                 .globalButtons(NEXT)
-                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
+                .assertEqualsAlertMessage("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
@@ -317,11 +319,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
 
     @Test
     public void mqtt_gu_039() {
+        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertElementIsPresent("lblTitle1");
+                .selectSendTo()
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test

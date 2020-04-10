@@ -5,6 +5,7 @@ import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -161,6 +162,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void tr181_gu_011() {
+        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -1086,11 +1088,15 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
 
     @Test
     public void tr181_gu_107() {
+        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertElementIsPresent("lblTitle1");
+                .selectSendTo()
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
+//                .assertElementIsPresent("lblTitle1");
     }
 
     @Test
@@ -1652,18 +1658,18 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_171() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Trace Diagnostic")
+                .selectDiagnostic("Trace diagnostic")
                 .inputHostField("8.8.8.8")
                 .numOfRepetitionsField("3")
                 .nextSaveAndActivate()
-                .checkResults("Trace Diagnostic", "8.8.8.8");
+                .checkResults("Trace diagnostic", "8.8.8.8");
     }
 
-    @Test //bug: Result table title and content mismatch
+    @Test //bug: TaskDiagnostic task with id=2657 not found, NSLoopUp/NSLoopback
     public void tr181_gu_172() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("NSLookupDiagnostics")
+                .selectDiagnostic("NSLoopUp diagnostics")
                 .inputDnsField("8.8.8.8")
                 .inputHostField("127.0.0.1")
                 .nextSaveAndActivate()
@@ -1674,27 +1680,27 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_173() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("IPPing Diagnostic")
+                .selectDiagnostic("IPPing diagnostic")
                 .inputHostField("8.8.8.8")
                 .nextSaveAndActivate()
-                .checkResults("IPPing Diagnostic", "8.8.8.8");
+                .checkResults("IPPing diagnostic", "8.8.8.8");
     }
 
     @Test //bug: Result table title and content mismatch
     public void tr181_gu_174() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Download Diagnostic")
+                .selectDiagnostic("Download diagnostic")
                 .nextSaveAndActivate()
                 .checkResults("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
-//                .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
+//                .assertPresenceOfValue("tblTasks", -2, "Download diagnostic");
     }
 
     @Test //bug: TaskDiagnostic task with id=1994 not found (analog in BT #9682)
     public void tr181_gu_175() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Download Diagnostic")
+                .selectDiagnostic("Download diagnostic")
                 .addToQoeCheckBox()
                 .nextSaveAndActivate()
                 .checkResults("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
@@ -1704,40 +1710,40 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_176() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Upload Diagnostic")
+                .selectDiagnostic("Upload diagnostic")
                 .nextSaveAndActivate()
                 .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
-//                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
+//                .assertPresenceOfValue("tblTasks", -2, "Upload diagnostic");
     }
 
     @Test //bug: TaskDiagnostic task with id=1994 not found
     public void tr181_gu_177() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Upload Diagnostic")
+                .selectDiagnostic("Upload diagnostic")
                 .addToQoeCheckBox()
                 .nextSaveAndActivate()
                 .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
-//                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
+//                .assertPresenceOfValue("tblTasks", -2, "Upload diagnostic");
     }
 
     @Test
     public void tr181_gu_178() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Wi-Fi Neighboring Diagnostic")
+                .selectDiagnostic("Wi-Fi Neighboring diagnostic")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring diagnostic");
     }
 
     @Test //bug: TaskDiagnostic task with id=1994 not found
     public void tr181_gu_179() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Wi-Fi Neighboring Diagnostic")
+                .selectDiagnostic("Wi-Fi Neighboring diagnostic")
                 .addToQoeCheckBox()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring diagnostic");
     }
 
     @Test
@@ -2107,7 +2113,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n").globalButtons(NEXT)
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
@@ -2125,7 +2132,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-//                .selectDate(CalendarUtil.getTodayDateString())
                 .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2148,7 +2154,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-//                .selectDate(CalendarUtil.getTodayDateString())
                 .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
@@ -4164,16 +4169,16 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask("Diagnostic")
+                .addNewTask("diagnostic")
                 .addTaskButton()
-                .selectDiagnostic("IPPing Diagnostic")
+                .selectDiagnostic("IPPing diagnostic")
                 .inputHostField("8.8.8.8")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", -2, "IPPing Diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "IPPing diagnostic");
 
     }
 
@@ -4192,7 +4197,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType(2)
+                .selectFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -4220,7 +4225,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType(1)
+                .selectFileType("Firmware Image")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -4248,7 +4253,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType(2)
+                .selectFileType("Vendor Configuration File")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .globalButtons(NEXT)
@@ -4274,7 +4279,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType(1)
+                .selectFileType("Firmware Image")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .globalButtons(NEXT)

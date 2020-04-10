@@ -1,8 +1,11 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -158,6 +161,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void lwm2m_gu_011() {
+        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -257,7 +261,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
                 .globalButtons(NEXT)
-                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
+                .assertEqualsAlertMessage("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
@@ -480,11 +484,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_gu_041() {
+        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertElementIsPresent("lblTitle1");
+                .selectSendTo()
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -658,14 +665,15 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkResults();
     }
 
-    @Test //bug: doesn't work correctly (filter 'Created - on day')
+    @Test
     public void lwm2m_gu_062() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         guPage
                 .gotoAddFilter()
-                .selectColumnFilter("device_created")
+                .selectColumnFilter("Created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -687,13 +695,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prior to'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -711,7 +719,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -814,7 +822,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Prev X days")
-                .inputText("txtInt", "4")
+                .inputText("txtInt", "9")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -878,7 +886,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("Hardware version")
                 .compareSelect("Starts with")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)

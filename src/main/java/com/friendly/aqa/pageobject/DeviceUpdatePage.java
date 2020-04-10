@@ -50,7 +50,6 @@ public class DeviceUpdatePage extends BasePage {
         }
         saveButton.click();
         okButtonPopUp();
-        System.out.println("Device Update Page");
         return this;
     }
 

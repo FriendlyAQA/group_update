@@ -323,7 +323,8 @@ public abstract class BasePage {
     public BasePage selectImportDevicesFile() {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
-        String inputText = new File(getImportCpeFile()).getAbsolutePath();
+        String inputText = new File("import/" + getProtocolPrefix() + "_import_cpe.xml").getAbsolutePath();
+        System.out.println(inputText);
         importDeviceField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
@@ -558,7 +559,7 @@ public abstract class BasePage {
         return out;
     }
 
-    void clickButton(WebElement button) {
+    public BasePage clickButton(WebElement button) {
         waitForUpdate();
         int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
         for (int i = 0; i < 3; i++) {
@@ -570,7 +571,7 @@ public abstract class BasePage {
                         .until(ExpectedConditions.elementToBeClickable(button))
                         .click();
                 waitForUpdate();
-                return;
+                return this;
             } catch (StaleElementReferenceException e) {
                 logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             }
@@ -729,20 +730,38 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
+//    public static String getProtocolPrefix() {
+//        String testName = BaseTestCase.getTestName();
+//        if (testName.contains("tr069")) {
+//            return "tr069_";
+//        } else if (testName.contains("tr181")) {
+//            return "tr181_";
+//        } else if (testName.contains("lwm2m")) {
+//            return "lwm2m_";
+//        } else if (testName.contains("mqtt")) {
+//            return "mqtt_";
+//        } else {
+//            return "usp_";
+//        }
+//    }
+//
+//    public static String getProtocolPrefix1() {
+//        String testName = "usp_du_352"/*BaseTestCase.getTestName()*/;
+//        Pattern p = Pattern.compile("^(.+?_).+$");
+//        Matcher m = p.matcher(testName);
+//        if (m.find()) {
+//            return m.group(1);
+//        }
+//        return null;
+//    }
+
     public static String getProtocolPrefix() {
-        String testName = BaseTestCase.getTestName();
-        if (testName.contains("tr069")) {
-            return "tr069_";
-        } else if (testName.contains("tr181")) {
-            return "tr181_";
-        } else if (testName.contains("lwm2m")) {
-            return "lwm2m_";
-        } else if (testName.contains("mqtt")) {
-            return "mqtt_";
-        } else {
-            return "usp_";
-        }
+        return BaseTestCase.getTestName().split("_")[0];
     }
+
+//    public static void main(String[] args) {
+//        System.out.println(getProtocolPrefix2());
+//    }
 
     public BasePage selectBranch(String branch) {
         waitForUpdate();
@@ -817,20 +836,12 @@ public abstract class BasePage {
         return value;
     }
 
-    public static String getImportCpeFile() {
-        return props.getProperty(getProtocolPrefix() + "import_cpe");
-    }
-
-    public static String getImportGuFile() {
-        return props.getProperty(getProtocolPrefix() + "import_group");
-    }
-
     public static String getImportMonitorFile() {
-        return props.getProperty(getProtocolPrefix() + "import_monitor");
+        return props.getProperty(getProtocolPrefix() + "_import_monitor");
     }
 
     public static String getSerial() {
-        return props.getProperty(getProtocolPrefix() + "cpe_serial");
+        return props.getProperty(getProtocolPrefix() + "_cpe_serial");
     }
 
     public static String getManufacturer() {

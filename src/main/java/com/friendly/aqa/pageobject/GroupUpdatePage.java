@@ -194,8 +194,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectImportGuFile() {
         switchToFrame(DESKTOP);
-        String inputText = new File(getImportGuFile()).getAbsolutePath();
-        System.out.println(inputText);
+        String inputText = new File("import/" + getProtocolPrefix() + "_import_group.xml").getAbsolutePath();
         importGuField.sendKeys(inputText);
         ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
@@ -271,6 +270,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.clickOn(id);
     }
 
+    @Override
+    public GroupUpdatePage clickButton(WebElement button) {
+        return (GroupUpdatePage) super.clickButton(button);
+    }
+
     public GroupUpdatePage selectDate(String date) {
         return (GroupUpdatePage) super.selectDate(date);
     }
@@ -341,6 +345,13 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectFileName(int index) {
         new Select(fileNameComboBox).selectByIndex(index);
+        return this;
+    }
+
+    public GroupUpdatePage selectFileName(String fileName) {
+        String[] arr = fileName.split("/");
+        String shortName = arr[arr.length - 1];
+        selectComboBox(fileNameComboBox, shortName);
         return this;
     }
 
@@ -552,9 +563,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage showList() {
-        waitForUpdate();
-        showListButton.click();
-        return this;
+        pause(1000);
+        return clickButton(showListButton);
     }
 
     public GroupUpdatePage selectSendTo() {
@@ -626,6 +636,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectRepeatEveryHourDropDown(String value) {
+        waitForUpdate();
         selectComboBox(reactivationRepeatEveryHourDropDown, value);
         return this;
     }
@@ -683,12 +694,14 @@ public class GroupUpdatePage extends BasePage {
         List<WebElement> optList;
         List<String> standard = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
         while ((optList = sendToComboBox.findElements(By.tagName("option"))).size() > 5) {
+            waitForUpdate();
             for (WebElement option : optList) {
                 String value = option.getAttribute("value");
                 if (standard.contains(value)) {
                     continue;
                 }
                 new Select(sendToComboBox).selectByValue(value);
+                waitForUpdate();
                 editGroupButton();
                 try {
                     globalButtons(DELETE_GROUP);
@@ -842,6 +855,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Conditions condition, String value) {
         WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
         button.click();
+        pause(1000);
         Table treeTable = getTable("tblTree", CONDITIONS);
         treeTable.clickOn(branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
@@ -952,6 +966,7 @@ public class GroupUpdatePage extends BasePage {
                 .fillName()
                 .createGroup()
                 .fillName()
+                .pause(1000)
                 .globalButtons(NEXT)
                 .addFilter();
         return this;
@@ -1023,6 +1038,7 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask("Policy")
                 .addTaskButton()
+                .waitForUpdate()
                 .getTabTable()
                 .clickOn(tab);
         setPolicy(3)
@@ -1223,7 +1239,7 @@ public class GroupUpdatePage extends BasePage {
             WebElement paramVal = table.getCellWebElement(i, 1);
             List<WebElement> selectList = paramVal.findElements(By.tagName("select"));
             if (selectList.size() == 0) {
-                if (i < size - 1) {
+                if (counter < size - 1) {
                     counter++;
                 }
                 continue;
@@ -1246,7 +1262,7 @@ public class GroupUpdatePage extends BasePage {
                 option = Parameter.CUSTOM;
                 value = attr;
             }
-            setParameter(table.getCellText(i, 0), option, value);
+            setParameter(table, table.getCellText(i, 0), option, value);
         }
         setDefaultImplicitlyWait();
         return this;
@@ -1365,6 +1381,7 @@ public class GroupUpdatePage extends BasePage {
         for (int i = 0; i < tableSize[0]; i++) {
             try {
                 int length = table.getRowLength(i);
+                System.out.println("GUP:1377 = param:" + table.getCellText(i, length - 2) + "; val:" + table.getCellText(i, length - 1));
                 if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
                     match = true;
                     break;

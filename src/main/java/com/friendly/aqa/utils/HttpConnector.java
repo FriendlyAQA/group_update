@@ -3,6 +3,7 @@ package com.friendly.aqa.utils;
 import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -18,7 +19,7 @@ public class HttpConnector {
 
     public static String getUrlSource(String url) throws IOException {
         Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0");
+        requestProperty.put("User-Agent", ((JavascriptExecutor) BasePage.getDriver()).executeScript("return navigator.userAgent;").toString());
         requestProperty.put("Referer", BasePage.getProps().getProperty("ui_url"));
         Set<Cookie> cookies = BasePage.getDriver().manage().getCookies();
         for (Cookie c : cookies) {

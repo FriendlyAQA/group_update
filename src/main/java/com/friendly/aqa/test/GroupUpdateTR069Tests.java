@@ -3,7 +3,9 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -160,6 +162,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void tr069_gu_011() {
+        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -269,7 +272,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .timeHoursSelect("0")
                 .globalButtons(NEXT)
-                .assertEqualsAlertMessage("Update can't scheduled to past")/*"Can't be scheduled to the past"*/
+                .assertEqualsAlertMessage("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
@@ -279,7 +282,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.getUrlSource(guPage
                         .getMainTable()
-                        .getGuExportLink(targetTestName))
+                        .getGuExportLink("tr069_gu_016"))
                         .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }
 
@@ -862,11 +865,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_gu_081() {
+        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
-                .assertElementIsPresent("lblTitle1");
+                .selectSendTo()
+                .showList()
+                .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
 
     @Test
@@ -974,7 +980,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_095() {
         guPage
-                .gotoGetParameter()
+                .gotoGetParameter("Management")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1028,7 +1034,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_101() {
         guPage
-                .gotoGetParameter()
+                .gotoGetParameter("Management")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1082,7 +1088,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_107() {
         guPage
-                .gotoGetParameter()
+                .gotoGetParameter("Management")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1136,7 +1142,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     @Test
     public void tr069_gu_113() {
         guPage
-                .gotoGetParameter()
+                .gotoGetParameter("Management")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
                 .checkResults();
@@ -1211,7 +1217,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoBackup()
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
-                .assertElementIsPresent("tblTasks");
+                .assertResultTableIsAbsent();
     }
 
     @Test
@@ -1241,20 +1247,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoRestore()
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
-                .assertElementIsPresent("tblTasks");
+                .assertResultTableIsAbsent();
     }
 
     @Test
     public void tr069_gu_125() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("IPPing Diagnostic")
+                .selectDiagnostic("IPPing diagnostic")
                 .inputHostField("8.8.8.8")
                 .nextSaveAndActivate()
-                .checkResults("IPPing Diagnostic", "8.8.8.8");
+                .checkResults("IPPing diagnostic", "8.8.8.8");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_126() {
         guPage
                 .gotoDiagnostic()
@@ -1265,7 +1271,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkResults("Trace Diagnostic", "8.8.8.8");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_127() {
         guPage
                 .gotoDiagnostic()
@@ -1274,7 +1280,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "Download Diagnostic");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_128() {
         guPage
                 .gotoDiagnostic()
@@ -1283,7 +1289,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostic");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_129() {
         guPage
                 .gotoDiagnostic()
@@ -1292,7 +1298,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_130() {
         guPage
                 .gotoDiagnostic()
@@ -1301,7 +1307,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "DSL Diagnostic");
     }
 
-    @Test
+    @Test //Not supported by AudioCodes
     public void tr069_gu_131() {
         guPage
                 .gotoDiagnostic()
@@ -1363,11 +1369,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoFileDownload()
                 .selectFileType(2)
                 .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                    .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillUrl(props.getProperty("ftp_config_file_url"))
+                .fillUserName(props.getProperty("ftp_user"))
+                .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -1376,11 +1382,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoFileDownload()
                 .selectFileType(1)
                 .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillUrl(props.getProperty("ftp_image_file_url"))
+                .fillUserName(props.getProperty("ftp_user"))
+                .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+                .checkResults("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -1389,9 +1395,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoFileDownload()
                 .selectFileType(2)
                 .fromListRadioButton()
-                .selectFileName(1)
+                .selectFileName(props.getProperty("http_config_file"))        //test new method
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
+                .checkResults("Vendor Configuration File", props.getProperty("http_config_file"));
     }
 
     @Test
@@ -1403,7 +1409,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectFileName(1)
                 .nextSaveAndActivate()
                 .assertPresenceOfValue("tblTasks", 2, "Firmware Image");
-//                .checkResults("Firmware Image", BasePage.getProps().getProperty("http_image_file"));
+//                .checkResults("Firmware Image", props.getProperty("http_image_file"));
     }
 
     @Test
@@ -1413,9 +1419,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1425,9 +1431,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1438,7 +1444,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1460,7 +1466,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1482,7 +1488,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1493,7 +1499,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1504,7 +1510,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
                 .globalButtons(NEXT)
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"))
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"))
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
@@ -1654,16 +1660,17 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_gu_158() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         guPage
                 .gotoAddFilter()
-                .selectColumnFilter("device_created")
+                .selectColumnFilter("Created")
                 .compareSelect("On Day")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - On Day'!\n")
                 .globalButtons(NEXT)
                 .immediately()
                 .globalButtons(NEXT)
@@ -1681,7 +1688,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Prior to")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getTodayDateString())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -1705,7 +1712,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .compareSelect("Later than")
                 .clickOn("calFilterDate_image")
-                .selectDate(CalendarUtil.getMonthBeforeDate())
+                .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
                 .inputText("txtTimeMinute", CalendarUtil.getMinutes())
                 .globalButtons(NEXT)
@@ -1808,7 +1815,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
                 .compareSelect("Prev X days")
-                .inputText("txtInt", "4")
+                .inputText("txtInt", "9")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -1872,13 +1879,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .presetFilter("mycust03", testName)
                 .gotoAddFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("Hardware version")
                 .compareSelect("Starts with")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
-                .okButtonPopUp();
-        assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .okButtonPopUp()
+                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
     }
 
     @Test
@@ -3561,15 +3568,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectFileType(2)
                 .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillUrl(props.getProperty("ftp_config_file_url"))
+                .fillUserName(props.getProperty("ftp_user"))
+                .fillPassword(props.getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -3589,15 +3596,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectFileType(1)
                 .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .fillUrl(props.getProperty("ftp_image_file_url"))
+                .fillUserName(props.getProperty("ftp_user"))
+                .fillPassword(props.getProperty("ftp_password"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+                .checkResults("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -3617,13 +3624,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectFileType(2)
                 .fromListRadioButton()
-                .selectFileName(1)
+                .selectFileName(props.getProperty("http_config_file"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("http_config_file"));
+                .checkResults("Vendor Configuration File", props.getProperty("http_config_file"));
     }
 
     @Test
@@ -3669,13 +3676,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl(props.getProperty("upload_url"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3695,13 +3702,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl(props.getProperty("upload_url"))
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3726,7 +3733,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
