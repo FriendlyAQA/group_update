@@ -395,10 +395,6 @@ public abstract class BasePage {
         return this;
     }
 
-    String getTestName() {
-        return BaseTestCase.getTestName();
-    }
-
     public Table getTable(String id, FrameSwitch frame) {
         waitForUpdate();
         if (frame != null) {
@@ -785,12 +781,11 @@ public abstract class BasePage {
                 tagList.get(tagList.size() - 1).click();
             }
         }
-        branchTable.clickOn(branch);
         waitForUpdate();
         return this;
     }
 
-    public void selectBranch() {
+    public void selectAnotherBranch() {
         String branch = getElementText("divPath");
         Table branchTable = new Table("tblTree");
         String[] column = branchTable.getColumn(0);

@@ -3883,7 +3883,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .globalButtons(ADVANCED_VIEW)
-                .setAdvancedParameter("Time", 2)
+                .setAdvancedParameter("Device.Time", 2)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

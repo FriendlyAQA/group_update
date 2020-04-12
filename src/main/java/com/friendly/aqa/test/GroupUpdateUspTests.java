@@ -253,7 +253,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -274,48 +274,49 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "FactoryReset");
+                .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
     }
 
-    @Test
-    public void usp_gu_036() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
-
-    @Test
-    public void usp_gu_037() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
-                .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
-    }
+    //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
+//    @Test
+//    public void usp_gu_036() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .immediately()
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .nextSaveAndActivate()
+//                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+//    }
+//
+//    @Test
+//    public void usp_gu_037() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .immediately()
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
+//                .saveAndActivate(false)
+//                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+//    }
 
     @Test
     public void usp_gu_039() {
@@ -426,9 +427,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .enterIntoGroup("Manufacturer")
                 .checkResetView()
-                .leftMenu(VIEW)
-                .itemsOnPage("10")
-                .pause(5000);
+                .leftMenu(VIEW);
     }
 
     @Test
@@ -557,7 +556,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -582,55 +581,56 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
-    @Test
-    public void usp_gu_140() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
-
-    @Test
-    public void usp_gu_141() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
+    //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
+//    @Test
+//    public void usp_gu_140() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .waitForStatus("Scheduled", 5)
+//                .enterIntoGroup()
+//                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+//    }
+//
+//    @Test
+//    public void usp_gu_141() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .waitForStatus("Scheduled", 5)
+//                .enterIntoGroup()
+//                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+//    }
 }

@@ -355,7 +355,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -366,7 +366,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "FactoryReset");
+                .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -375,7 +375,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetMinMaxValues()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "ResetMinandMaxMeasuredValues");
+                .assertPresenceOfParameter("tblTasks", "Reset Min and Max Measured Values");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -384,7 +384,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetCumulativeEnergy()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "resetCumulativeEnergy");
+                .assertPresenceOfParameter("tblTasks", "Reset Cumulative energy");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -393,7 +393,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .resetErrors()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "resetErrors");
+                .assertPresenceOfParameter("tblTasks", "Reset errors");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -402,7 +402,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioDisable()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "radioDisable");
+                .assertPresenceOfParameter("tblTasks", "Disable");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -411,7 +411,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioRegistrationUpdateTrigger()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "radioRegistrationUpdateTrigger");
+                .assertPresenceOfParameter("tblTasks", "Registration update trigger");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -420,7 +420,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .radioStartOrReset()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "radioStartOrReset");
+                .assertPresenceOfParameter("tblTasks", "Start or reset");
     }
 
     @Test
@@ -429,7 +429,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
     }
 
     @Test
@@ -475,7 +475,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .clickOnTable("tabsSettings_cell0Device_LWM2M", "Device")
+                .clickOnTable("tabsSettings_tblTabs", "Device")
                 .setParameter(1)
                 .nextSaveAndActivate(false)
                 .assertOnlineDevices()
@@ -2457,7 +2457,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -2482,7 +2482,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2506,7 +2506,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "ResetMinandMaxMeasuredValues");
+                .assertPresenceOfParameter("tblTasks", "Reset Min and Max Measured Values");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2530,7 +2530,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "resetCumulativeEnergy");
+                .assertPresenceOfParameter("tblTasks", "Reset Cumulative energy");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2554,7 +2554,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "resetErrors");
+                .assertPresenceOfParameter("tblTasks", "Reset errors");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2578,7 +2578,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "radioDisable");
+                .assertPresenceOfParameter("tblTasks", "Disable");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2602,7 +2602,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "radioRegistrationUpdateTrigger");
+                .assertPresenceOfParameter("tblTasks", "Registration update trigger");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2626,7 +2626,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "radioStartOrReset");
+                .assertPresenceOfParameter("tblTasks", "Start or reset");
     }
 
     @Test
@@ -2650,7 +2650,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
     }
 
     @Test

@@ -254,7 +254,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Parameters")
                 .selectTab("Management")
                 .globalButtons(ADVANCED_VIEW)
-                .selectBranch("ManagementServer")
+//                .selectBranch("ManagementServer")
                 .setParameter("PeriodicInformInterval, sec", "70")
                 .globalButtons(SIMPLE_VIEW)
                 .checkParameter("PeriodicInformInterval, sec", "70")

@@ -198,6 +198,114 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
+    public void mqtt_gu_020(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_021(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_022(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_023(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_024(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_025(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_026(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_027(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_028(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_029(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_030(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
+    public void mqtt_gu_031(){
+        guPage
+                .gotoSetParameters(true)
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
+                .nextSaveAndActivate()
+                .checkResults();
+    }
+
+    @Test
     public void mqtt_gu_032() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -253,7 +361,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -274,48 +382,49 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "FactoryReset");
+                .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
     }
 
-    @Test
-    public void mqtt_gu_036() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
-
-    @Test
-    public void mqtt_gu_037() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
-                .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
-    }
+    //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
+//    @Test
+//    public void mqtt_gu_036() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .immediately()
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .nextSaveAndActivate()
+//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+//    }
+//
+//    @Test
+//    public void mqtt_gu_037() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .immediately()
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
+//                .saveAndActivate(false)
+//                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
+//    }
 
     @Test
     public void mqtt_gu_039() {
@@ -557,7 +666,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
     @Test
@@ -582,75 +691,56 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "FactoryReset");
+                .assertPresenceOfParameter("tblTasks", "Factory Reset");
     }
 
-    @Test
-    public void mqtt_gu_140() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
-
-    @Test
-    public void mqtt_gu_141() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .scheduledToRadioButton()
-                .setDelay(10)
-                .globalButtons(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .reprovisionRadioButton()
-                .globalButtons(NEXT)
-                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
-                .globalButtons(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
-    }
-
-    @Test
-    public void mqtt_gu_142() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
-                .globalButtons(NEXT)
-                .immediately()
-                .globalButtons(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .globalButtons(ADVANCED_VIEW)
-                .setAdvancedParameter(null, 0)
-                .nextSaveAndActivate()
-                .checkResults();
-    }
+    //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
+//    @Test
+//    public void mqtt_gu_140() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .waitForStatus("Scheduled", 5)
+//                .enterIntoGroup()
+//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+//    }
+//
+//    @Test
+//    public void mqtt_gu_141() {
+//        guPage
+//                .topMenu(GROUP_UPDATE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .fillName()
+//                .selectSendTo()
+//                .globalButtons(NEXT)
+//                .scheduledToRadioButton()
+//                .setDelay(10)
+//                .globalButtons(NEXT)
+//                .addNewTask("Action")
+//                .addTaskButton()
+//                .reprovisionRadioButton()
+//                .globalButtons(NEXT)
+//                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
+//                .globalButtons(SAVE)
+//                .okButtonPopUp()
+//                .waitForStatus("Scheduled", 5)
+//                .enterIntoGroup()
+//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+//    }
 }

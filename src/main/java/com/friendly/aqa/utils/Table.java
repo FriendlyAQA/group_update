@@ -166,6 +166,7 @@ public class Table {
         }
         String warning = "Text '" + text + "' not found in current table";
         LOGGER.warn(warning);
+        print();
         throw new AssertionError(warning);
     }
 
@@ -323,38 +324,8 @@ public class Table {
                 }
             }
         }
-        throw new AssertionError("Text '" + text + "not found on page!");
-//        return -1;
+        throw new AssertionError("Text '" + text + "' not found on page!");
     }
-
-//    public Table checkResults() {
-//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-//        for (Map.Entry<String, String> entry : entrySet) {
-//            checkResults(entry.getKey(), entry.getValue());
-//        }
-//        return this;
-//    }
-//
-//    public Table checkResults(String parameter, String value) {
-//        boolean match = false;
-//        for (String[] row : textTable) {
-//            try {
-//                int length = row.length;
-//                if (row[length - 2].equals(parameter) && row[length - 1].equals(value)) {
-//                    match = true;
-//                    break;
-//                }
-//            } catch (ArrayIndexOutOfBoundsException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//        if (!match) {
-//            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
-//            LOGGER.warn(warning);
-//            throw new AssertionError(warning);
-//        }
-//        return this;
-//    }
 
     public String getHint(int row) {
         return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");

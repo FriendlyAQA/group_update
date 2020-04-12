@@ -11,13 +11,13 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static com.friendly.aqa.pageobject.BasePage.*;
+import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
+import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
-import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
-import static org.testng.Assert.*;
+import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTR069Tests extends BaseTestCase {
@@ -3352,7 +3352,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .globalButtons(ADVANCED_VIEW)
-                .setAdvancedParameter("Time", 2)
+                .setAdvancedParameter("InternetGatewayDevice.Time", 2)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

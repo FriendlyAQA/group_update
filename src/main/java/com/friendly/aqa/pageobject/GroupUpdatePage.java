@@ -2,7 +2,6 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -990,6 +989,10 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage gotoSetParameters(boolean advancedView) {
+        return gotoSetParameters(null, advancedView);
+    }
+
     public GroupUpdatePage gotoSetParameters(String tab, boolean advancedView) {
         goto_("Set parameter value");
         if (tab != null) {
@@ -1103,10 +1106,6 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage gotoSetParameters() {
         return gotoSetParameters(null);
-    }
-
-    public GroupUpdatePage gotoGetParameter() {
-        return gotoGetParameter("tblParamsValue");
     }
 
     public GroupUpdatePage gotoGetParameter(String tableId) {
@@ -1282,14 +1281,14 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage setAnyAdvancedParameter() {
-        selectBranch();
+        selectAnotherBranch();
         setParameter(1);
         return this;
     }
 
     public GroupUpdatePage setAdvancedParameter(String branch, int amount) {
         if (branch == null) {
-            selectBranch();
+            selectAnotherBranch();
         } else {
             selectBranch(branch);
         }
@@ -1381,7 +1380,6 @@ public class GroupUpdatePage extends BasePage {
         for (int i = 0; i < tableSize[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                System.out.println("GUP:1377 = param:" + table.getCellText(i, length - 2) + "; val:" + table.getCellText(i, length - 1));
                 if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
                     match = true;
                     break;
