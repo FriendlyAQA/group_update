@@ -28,7 +28,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .deleteAll()
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -38,7 +38,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .globalButtons(CANCEL)
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -52,7 +52,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .deleteFilterGroups()
                 .globalButtons(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test

@@ -235,6 +235,21 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage assertMainPageIsDisplayed() {
+        try {
+            boolean update = updStatusComboBox.isDisplayed() && updStatusComboBox.isEnabled();
+            boolean manuf = manufacturerComboBox.isDisplayed() && manufacturerComboBox.isEnabled();
+            boolean model = modelComboBox.isDisplayed() && modelComboBox.isEnabled();
+            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
+            if (update && manuf && model && resetViewBtn) {
+                return this;
+            }
+        } catch (NoSuchElementException e) {
+            logger.warn(e.getMessage());
+        }
+        throw new AssertionError("One or more elements not found on Group Update tab main page");
+    }
+
     public GroupUpdatePage presetFilter(String parameter, String value) {
         new DeviceUpdatePage().presetFilter(parameter, value);
         return this;
@@ -913,10 +928,6 @@ public class GroupUpdatePage extends BasePage {
         return serialNumberTableList.size() != 0;
     }
 
-    public boolean mainTableIsAbsent() {
-        return noDataFound.size() == 1;
-    }
-
     public GroupUpdatePage selectFileType(int index) {
         new Select(selectFileTypeComboBox).selectByIndex(index);
         return this;
@@ -1486,12 +1497,6 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public enum Conditions {
-        //        CONTAINS(1, "5"),
-//        GREATER(3, "1"),
-//        GREATER_EQUAL(4, "8"),
-//        LESS(5, "4"),
-//        LESS_EQUAL(6, "3"),
-//        STARTS_WITH(8, "7"),
         EQUAL(2, "2"),
         NOT_EQUAL(7, "6"),
         VALUE_CHANGE(9, "9");

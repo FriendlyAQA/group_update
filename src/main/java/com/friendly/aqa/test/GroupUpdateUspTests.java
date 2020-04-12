@@ -17,9 +17,10 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_001() {
         guPage
-                .deleteAll().topMenu(GROUP_UPDATE)
+                .deleteAll()
+                .topMenu(GROUP_UPDATE)
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -29,7 +30,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .globalButtons(CANCEL)
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -43,7 +44,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .deleteFilterGroups()
                 .globalButtons(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test

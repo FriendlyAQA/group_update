@@ -27,7 +27,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .deleteAll()
                 .topMenu(GROUP_UPDATE)
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -37,7 +37,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .globalButtons(CANCEL)
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
@@ -51,7 +51,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .deleteFilterGroups()
                 .globalButtons(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.mainTableIsAbsent());
+                .assertMainPageIsDisplayed();
     }
 
     @Test
