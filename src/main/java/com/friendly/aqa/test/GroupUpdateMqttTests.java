@@ -386,45 +386,45 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
-//    @Test
-//    public void mqtt_gu_036() {
-//        guPage
-//                .topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer()
-//                .selectModel()
-//                .fillName()
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .immediately()
-//                .globalButtons(NEXT)
-//                .addNewTask("Action")
-//                .addTaskButton()
-//                .reprovisionRadioButton()
-//                .nextSaveAndActivate()
-//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
-//    }
-//
-//    @Test
-//    public void mqtt_gu_037() {
-//        guPage
-//                .topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer()
-//                .selectModel()
-//                .fillName()
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .immediately()
-//                .globalButtons(NEXT)
-//                .addNewTask("Action")
-//                .addTaskButton()
-//                .reprovisionRadioButton()
-//                .globalButtons(NEXT)
-//                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
-//                .saveAndActivate(false)
-//                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
-//    }
+    @Test
+    public void mqtt_gu_036() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask("Action")
+                .addTaskButton()
+                .reprovisionRadioButton()
+                .nextSaveAndActivate()
+                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+    }
+
+    @Test
+    public void mqtt_gu_037() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .immediately()
+                .globalButtons(NEXT)
+                .addNewTask("Action")
+                .addTaskButton()
+                .reprovisionRadioButton()
+                .globalButtons(NEXT)
+                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
+                .saveAndActivate(false)
+                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
+    }
 
     @Test
     public void mqtt_gu_039() {
@@ -695,52 +695,52 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
-//    @Test
-//    public void mqtt_gu_140() {
-//        guPage
-//                .topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer()
-//                .selectModel()
-//                .fillName()
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .scheduledToRadioButton()
-//                .setDelay(10)
-//                .globalButtons(NEXT)
-//                .addNewTask("Action")
-//                .addTaskButton()
-//                .reprovisionRadioButton()
-//                .globalButtons(NEXT)
-//                .globalButtons(SAVE)
-//                .okButtonPopUp()
-//                .waitForStatus("Scheduled", 5)
-//                .enterIntoGroup()
-//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
-//    }
-//
-//    @Test
-//    public void mqtt_gu_141() {
-//        guPage
-//                .topMenu(GROUP_UPDATE)
-//                .leftMenu(NEW)
-//                .selectManufacturer()
-//                .selectModel()
-//                .fillName()
-//                .selectSendTo()
-//                .globalButtons(NEXT)
-//                .scheduledToRadioButton()
-//                .setDelay(10)
-//                .globalButtons(NEXT)
-//                .addNewTask("Action")
-//                .addTaskButton()
-//                .reprovisionRadioButton()
-//                .globalButtons(NEXT)
-//                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
-//                .globalButtons(SAVE)
-//                .okButtonPopUp()
-//                .waitForStatus("Scheduled", 5)
-//                .enterIntoGroup()
-//                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
-//    }
+    @Test
+    public void mqtt_gu_140() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask("Action")
+                .addTaskButton()
+                .reprovisionRadioButton()
+                .globalButtons(NEXT)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+    }
+
+    @Test
+    public void mqtt_gu_141() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .globalButtons(NEXT)
+                .scheduledToRadioButton()
+                .setDelay(10)
+                .globalButtons(NEXT)
+                .addNewTask("Action")
+                .addTaskButton()
+                .reprovisionRadioButton()
+                .globalButtons(NEXT)
+                .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .assertPresenceOfParameter("tblTasks", "Device Reprovision");
+    }
 }

@@ -362,12 +362,12 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectFileName(String fileName) {
-        String[] arr = fileName.split("/");
-        String shortName = arr[arr.length - 1];
-        selectComboBox(fileNameComboBox, shortName);
-        return this;
-    }
+//    public GroupUpdatePage selectFileName(String fileName) {
+//        String[] arr = fileName.split("/");
+//        String shortName = arr[arr.length - 1];
+//        selectComboBox(fileNameComboBox, shortName);
+//        return this;
+//    }
 
     public GroupUpdatePage selectMethod(String value) {
         selectComboBox(selectMethodComboBox, value);
@@ -379,7 +379,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage addToQoeCheckBox() {
+    public GroupUpdatePage addToMonitoringCheckBox() {
         addToQoeCheckBox.click();
         return this;
     }

@@ -32,7 +32,7 @@ public abstract class BaseTestCase {
     static {
         props = BasePage.getProps();
         logger = Logger.getLogger(BaseTestCase.class);
-        System.setProperty("video.folder", props.getProperty("video_folder"));
+        System.setProperty("video.folder", "video");
         System.setProperty("video.mode", "ALL");
     }
 

@@ -1665,11 +1665,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkResults("Trace diagnostic", "8.8.8.8");
     }
 
-    @Test //bug: TaskDiagnostic task with id=2657 not found, NSLoopUp/NSLoopback
+    @Test //bug: TaskDiagnostic task with id=2657 not found, NSLookUp/NSLoopback
     public void tr181_gu_172() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("NSLoopUp diagnostics")
+                .selectDiagnostic("NSLookUp diagnostics")
                 .inputDnsField("8.8.8.8")
                 .inputHostField("127.0.0.1")
                 .nextSaveAndActivate()
@@ -1701,7 +1701,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download diagnostic")
-                .addToQoeCheckBox()
+                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .checkResults("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
     }
@@ -1713,7 +1713,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectDiagnostic("Upload diagnostic")
                 .nextSaveAndActivate()
                 .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
-//                .assertPresenceOfValue("tblTasks", -2, "Upload diagnostic");
     }
 
     @Test //bug: TaskDiagnostic task with id=1994 not found
@@ -1721,10 +1720,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload diagnostic")
-                .addToQoeCheckBox()
+                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .checkResults("Upload diagnostic", "http://127.0.0.1/webdav/");
-//                .assertPresenceOfValue("tblTasks", -2, "Upload diagnostic");
     }
 
     @Test
@@ -1741,7 +1739,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Wi-Fi Neighboring diagnostic")
-                .addToQoeCheckBox()
+                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring diagnostic");
     }

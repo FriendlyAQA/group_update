@@ -1395,9 +1395,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoFileDownload()
                 .selectFileType(2)
                 .fromListRadioButton()
-                .selectFileName(props.getProperty("http_config_file"))        //test new method
+                .selectFileName(1)
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", props.getProperty("http_config_file"));
+                .assertPresenceOfValue("tblTasks", 2, "Vendor Configuration File");
     }
 
     @Test
@@ -1409,7 +1409,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectFileName(1)
                 .nextSaveAndActivate()
                 .assertPresenceOfValue("tblTasks", 2, "Firmware Image");
-//                .checkResults("Firmware Image", props.getProperty("http_image_file"));
     }
 
     @Test
@@ -3624,13 +3623,13 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectFileType(2)
                 .fromListRadioButton()
-                .selectFileName(props.getProperty("http_config_file"))
+                .selectFileName(1)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", props.getProperty("http_config_file"));
+                .assertPresenceOfValue("tblTasks", 2, "Vendor Configuration File");
     }
 
     @Test
