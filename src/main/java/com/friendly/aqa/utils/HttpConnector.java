@@ -17,18 +17,17 @@ import java.util.concurrent.*;
 public class HttpConnector {
     private static Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
 
-    public static String getUrlSource(String url) throws IOException {
-        Map<String, String> requestProperty = new HashMap<>();
-        requestProperty.put("User-Agent", ((JavascriptExecutor) BasePage.getDriver()).executeScript("return navigator.userAgent;").toString());
-        requestProperty.put("Referer", BasePage.getProps().getProperty("ui_url"));
-        Set<Cookie> cookies = BasePage.getDriver().manage().getCookies();
-        for (Cookie c : cookies) {
-            requestProperty.put("Cookie", c.getName() + "=" + c.getValue());
-        }
-        return getUrlSource(url, "GET", requestProperty, null);
+    public static String sendGetRequest(String url) throws IOException {
+        Map<String, String> requestProperty = getRequestProperty();
+        return sendRequest(url, "GET", requestProperty, null);
     }
 
-    public static String getUrlSource(String url, String requestMethod, Map<String, String> requestProperty, Map<String, String> postParameters) throws IOException {
+    public static String sendPostRequest(String url, String postParameters) throws IOException {
+        Map<String, String> requestProperty = getRequestProperty();
+        return sendRequest(url, "POST", requestProperty, postParameters);
+    }
+
+    public static String sendRequest(String url, String requestMethod, Map<String, String> requestProperty, String postParameters) throws IOException {
         URL urlObject = new URL(url);
         boolean requestMethodIsPost = (requestMethod != null && postParameters != null && requestMethod.equals("POST"));
         HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
@@ -42,22 +41,10 @@ public class HttpConnector {
         }
         if (requestMethodIsPost) {
             urlConnection.setInstanceFollowRedirects(false);
-            StringBuilder urlParams = new StringBuilder();
-            Set<Map.Entry<String, String>> paramSet = postParameters.entrySet();
-            for (Map.Entry<String, String> current : paramSet) {
-                if (urlParams.length() > 0) {
-                    urlParams.append("&");
-                }
-                if (current.getKey() != null && current.getValue() != null) {
-                    urlParams.append(current.getKey());
-                    urlParams.append("=");
-                    urlParams.append(current.getValue());
-                }
-            }
-            String urlParameters = urlParams.toString();
-            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+
+            byte[] postData = postParameters.getBytes(StandardCharsets.UTF_8);
             int postDataLength = postData.length;
-            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             urlConnection.setRequestProperty("Content-Length", String.valueOf(postDataLength));
             urlConnection.setDoOutput(true);
             try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
@@ -100,5 +87,16 @@ public class HttpConnector {
             future.cancel(true);
         }
         return result;
+    }
+
+    private static Map<String, String> getRequestProperty() {
+        Map<String, String> requestProperty = new HashMap<>();
+        requestProperty.put("User-Agent", ((JavascriptExecutor) BasePage.getDriver()).executeScript("return navigator.userAgent;").toString());
+        requestProperty.put("Referer", BasePage.getProps().getProperty("ui_url"));
+        Set<Cookie> cookies = BasePage.getDriver().manage().getCookies();
+        for (Cookie c : cookies) {
+            requestProperty.put("Cookie", c.getName() + "=" + c.getValue());
+        }
+        return requestProperty;
     }
 }

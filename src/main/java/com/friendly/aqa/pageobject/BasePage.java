@@ -893,14 +893,13 @@ public abstract class BasePage {
     }
 
     public BasePage readTasksFromDb() {
-        String groupName = BaseTestCase.getTestName();
         List<String[]> groupList;
         int count = Integer.parseInt(props.getProperty("pending_tasks_check_time"));
         for (int i = 0; i < count; i++) {
             long start = System.currentTimeMillis();
-            groupList = DataBaseConnector.getTaskList(DataBaseConnector.getGroupId(groupName));
+            groupList = DataBaseConnector.getTaskList();
             if (groupList.isEmpty()) {
-                String warn = "There are no tasks created by '" + groupName + "' Group Update";
+                String warn = "There are no tasks created by '" + BaseTestCase.getTestName() + "' Group Update";
                 logger.warn(warn);
                 throw new AssertionError(warn);
             }
@@ -943,9 +942,12 @@ public abstract class BasePage {
         return selectItem(text, 1);
     }
 
-    public BasePage selectItem(String text, int startFromRow) {
+    public BasePage selectItem(String text, int startFromRow){
+        return selectItem(getMainTable(), text, startFromRow);
+    }
+
+    public BasePage selectItem(Table table, String text, int startFromRow) {
         selectedName = "";
-        Table table = getMainTable();
         List<Integer> list = table.getRowsWithText(text);
         for (int i : list) {
             if (i >= startFromRow) {

@@ -280,7 +280,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_019() throws IOException {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .assertTrue(HttpConnector.getUrlSource(guPage
+                .assertTrue(HttpConnector.sendGetRequest(guPage
                         .getMainTable()
                         .getGuExportLink("tr069_gu_016"))
                         .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));

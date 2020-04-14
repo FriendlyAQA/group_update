@@ -1,6 +1,7 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -34,7 +35,8 @@ public class DataBaseConnector {
         }
     }
 
-    public static List<String[]> getTaskList(String ug_id) {
+    public static List<String[]> getTaskList() {
+        String ug_id = getGroupUpdateId(BaseTestCase.getTestName());
         List<String[]> taskList = new ArrayList<>();
         try {
             stmtObj.execute("SELECT * FROM ftacs.ug_cpe_completed WHERE ug_id = '" + ug_id + "'");
@@ -52,6 +54,20 @@ public class DataBaseConnector {
         return taskList;
     }
 
+    private static String getGroupUpdateId(String groupName) {
+        String groupId = "";
+        try {
+            stmtObj.execute("SELECT id FROM ftacs.update_group WHERE name='" + groupName + "'");
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                groupId = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return groupId;
+    }
+
     public static String getValueType(String value) {
         String type = "";
         try {
@@ -64,20 +80,6 @@ public class DataBaseConnector {
             e.printStackTrace();
         }
         return type;
-    }
-
-    public static String getGroupId(String groupName) {
-        String groupId = "";
-        try {
-            stmtObj.execute("SELECT id FROM ftacs.update_group WHERE name='" + groupName + "'");
-            ResultSet resultSet = stmtObj.getResultSet();
-            if (resultSet.next()) {
-                groupId = resultSet.getString(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return groupId;
     }
 
     public static String[] getDevice(String serial) {
@@ -134,6 +136,13 @@ public class DataBaseConnector {
         return getValueSet(query);
     }
 
+    public static Set<String> getProfileSet() {
+        String query = "SELECT id FROM ftacs.profile WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE id IN (" +
+                "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + BasePage.getSerial() + "'))";
+        return getValueSet(query);
+    }
+
     private static Set<String> getValueSet(String query) {
         Set<String> nameSet = new HashSet<>();
         try {
@@ -175,6 +184,19 @@ public class DataBaseConnector {
             e.printStackTrace();
         }
         return profileId;
+    }
+
+    public static String getValue(String query){
+        try {
+            stmtObj.execute(query);
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                return resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static void createFilterPreconditions(String serial) {
