@@ -604,6 +604,10 @@ public abstract class BasePage {
         return getSelectedValue(driver.findElement(By.id(inputId)));
     }
 
+    public String getGuExportLink(String groupName) {
+        return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + DataBaseConnector.getGroupUpdateId(groupName);
+    }
+
     private String getSelectedValue(WebElement comboBox) {
         List<WebElement> optList = comboBox.findElements(By.tagName("option"));
         for (WebElement el : optList) {
@@ -612,6 +616,27 @@ public abstract class BasePage {
             }
         }
         return null;
+    }
+
+    public void checkObjectTree() {
+        Table table = new Table("tblTree");
+        List<Integer> plusList = new ArrayList<>();
+        List<Integer> minusList = new ArrayList<>();
+        setImplicitlyWait(0);
+        for (int i = 0; i < table.getTableSize()[0]; i++) {
+            List<WebElement> images = table.getCellWebElement(i, 0).findElements(By.tagName("img"));
+            if (!images.isEmpty()) {
+                if (images.get(0).getAttribute("src").endsWith("collapse.png")) {
+                    minusList.add(i);
+                } else {
+                    plusList.add(i);
+                }
+            }
+        }
+        setDefaultImplicitlyWait();
+        if (plusList.isEmpty() || minusList.size() != 1 || minusList.get(0) != 0) {
+            throw new AssertionError("Object tree looks like corrupt...");
+        }
     }
 
     public boolean isInputActive(String id) {
@@ -942,7 +967,7 @@ public abstract class BasePage {
         return selectItem(text, 1);
     }
 
-    public BasePage selectItem(String text, int startFromRow){
+    public BasePage selectItem(String text, int startFromRow) {
         return selectItem(getMainTable(), text, startFromRow);
     }
 

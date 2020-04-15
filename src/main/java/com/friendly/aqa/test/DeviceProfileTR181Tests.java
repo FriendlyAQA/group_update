@@ -1563,6 +1563,18 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkParameters();
     }
 
+    @Test
+    public void tr181_dp_100() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .checkObjectTree();
+    }
+
 
 //    @Test
 //    public void tr181_dp_999() {

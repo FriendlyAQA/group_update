@@ -91,7 +91,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .compareSelect("IsNull")
                 .globalButtons(NEXT)
-                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
+                .assertFalse(guPage.isButtonActive("btnDelFilter_btn"))
+                .filterRecordsCheckbox()
                 .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -271,7 +272,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.sendGetRequest(guPage
-                        .getMainTable()
                         .getGuExportLink("tr181_gu_016"))
                         .contains("\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }

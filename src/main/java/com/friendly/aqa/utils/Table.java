@@ -238,17 +238,6 @@ public class Table {
         return getColumn(getColumnNumber(0, column));
     }
 
-    //TODO: move method to Group Update class
-    public String getGuExportLink(String groupName) {
-        return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + getGroupId(groupName);
-    }
-
-    private String getGroupId(String groupName) {
-        WebElement cell = getCellWebElement(getRowNumberByText(4, groupName), 11);
-        String attr = cell.getAttribute("onclick");
-        return attr.substring(10, attr.indexOf("event)") - 2);
-    }
-
     public String getCellText(String searchText, int resultColumn) {
         return textTable[getRowNumberByText(searchText)][resultColumn];
     }

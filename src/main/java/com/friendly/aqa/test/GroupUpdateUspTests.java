@@ -199,7 +199,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_032() {
+    public void usp_gu_023() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -218,7 +218,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_033() {
+    public void usp_gu_024() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -239,7 +239,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_034() {
+    public void usp_gu_025() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -258,7 +258,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_035() {
+    public void usp_gu_026() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -280,7 +280,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
 
     //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
     @Test
-    public void usp_gu_036() {
+    public void usp_gu_027() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -299,7 +299,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_037() {
+    public void usp_gu_028() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -320,7 +320,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_039() {
+    public void usp_gu_033() {
         XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -332,7 +332,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_040() {
+    public void usp_gu_034() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
@@ -341,21 +341,21 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_041() {
+    public void usp_gu_035() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", getManufacturer());
     }
 
     @Test
-    public void usp_gu_042() {
+    public void usp_gu_036() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Model", getModelName());
     }
 
     @Test
-    public void usp_gu_043() {
+    public void usp_gu_037() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Completed")
@@ -365,28 +365,28 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_044() {
+    public void usp_gu_038() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Manufacturer");
     }
 
     @Test
-    public void usp_gu_045() {
+    public void usp_gu_039() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Model");
     }
 
     @Test
-    public void usp_gu_046() {
+    public void usp_gu_040() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name");
     }
 
     @Test
-    public void usp_gu_047() {
+    public void usp_gu_041() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Name")
@@ -394,28 +394,28 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_048() {
+    public void usp_gu_042() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Creator");
     }
 
     @Test
-    public void usp_gu_049() {
+    public void usp_gu_043() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Updated");
     }
 
     @Test
-    public void usp_gu_050() {
+    public void usp_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkSorting("Activated");
     }
 
     @Test
-    public void usp_gu_051() {
+    public void usp_gu_045() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer()
@@ -423,7 +423,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_052() {
+    public void usp_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .enterIntoGroup("Manufacturer")
@@ -432,35 +432,35 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_054() {
+    public void usp_gu_048() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Scheduled");
     }
 
     @Test
-    public void usp_gu_055() {
+    public void usp_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Running");
     }
 
     @Test
-    public void usp_gu_056() {
+    public void usp_gu_050() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Paused");
     }
 
     @Test
-    public void usp_gu_057() {
+    public void usp_gu_051() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("State", "Reactivation");
     }
 
     @Test
-    public void usp_gu_075() {
+    public void usp_gu_069() {
         guPage
                 .gotoAddFilter()
                 .selectColumnFilter("Created")
@@ -471,7 +471,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_076() {
+    public void usp_gu_070() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -488,7 +488,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_136() {
+    public void usp_gu_121() {//136
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -512,7 +512,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_137() {
+    public void usp_gu_122() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -537,7 +537,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_138() {
+    public void usp_gu_123() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -561,7 +561,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_139() {
+    public void usp_gu_124() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -587,7 +587,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
 
     //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
     @Test
-    public void usp_gu_140() {
+    public void usp_gu_125() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -611,7 +611,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_gu_141() {
+    public void usp_gu_126() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)

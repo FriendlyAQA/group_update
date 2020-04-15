@@ -54,7 +54,7 @@ public class DataBaseConnector {
         return taskList;
     }
 
-    private static String getGroupUpdateId(String groupName) {
+    public static String getGroupUpdateId(String groupName) {
         String groupId = "";
         try {
             stmtObj.execute("SELECT id FROM ftacs.update_group WHERE name='" + groupName + "'");

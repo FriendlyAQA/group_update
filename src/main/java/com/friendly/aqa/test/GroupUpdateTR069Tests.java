@@ -281,7 +281,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.sendGetRequest(guPage
-                        .getMainTable()
                         .getGuExportLink("tr069_gu_016"))
                         .contains("\"InternetGatewayDevice.ManagementServer.PeriodicInformInterval\" value=\"60\""));
     }
@@ -951,7 +950,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkSorting("Updated");
     }
 
-    @Test //bug: ascending sorting failures;
+    @Test
     public void tr069_gu_092() {
         guPage
                 .topMenu(GROUP_UPDATE)
