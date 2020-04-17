@@ -249,6 +249,10 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.setEvent(event);
     }
 
+    public DeviceProfilePage setEvents(int amount, Event event) {
+        return (DeviceProfilePage) super.setEvents(amount, event);
+    }
+
     public DeviceProfilePage setParameter(String tab, int amount) {
         return setParameter(tab, amount, true);
     }
@@ -637,10 +641,10 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("Input field for parameter '" + paramName + "' doesn't have red border!");
     }
 
-    public DeviceProfilePage assertAddTaskButtonIsActive(String eventName) {
+    public DeviceProfilePage assertAddTaskButtonIsActive(String eventName, boolean expectedActive) {
         Table table = new Table("tblEvents");
         WebElement input = table.getInput(table.getRowNumberByText(eventName), 4);
-        if (input.isEnabled()) {
+        if (input.isEnabled() == expectedActive) {
             return this;
         }
         throw new AssertionError("Button 'Add task' has unexpected state (disabled)");

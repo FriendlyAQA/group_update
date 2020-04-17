@@ -1593,4 +1593,100 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .expandEvents()
                 .checkEvents();
     }
+
+    @Test
+    public void tr181_dp_102() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("0 BOOTSTRAP", false, "5", "4:hours"))
+                .assertAddTaskButtonIsActive("0 BOOTSTRAP", true)
+                .setEvent(new Event("0 BOOTSTRAP", null, "0", null))
+                .assertAddTaskButtonIsActive("0 BOOTSTRAP", false)
+                .setEvent(new Event("0 BOOTSTRAP", false, "5", "4:hours"))
+                .assertAddTaskButtonIsActive("0 BOOTSTRAP", true)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
+
+    @Test
+    public void tr181_dp_103() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", true, null, null))
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
+
+    @Test
+    public void tr181_dp_104() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "6", "3:hours"))
+                .setEvent(new Event("1 BOOT", true, "1", "1:minutes"))
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
+
+    @Test
+    public void tr181_dp_105() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvents(2, new Event("EXAMPLE", false, "5", "8:hours"))
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
+
+    @Test
+    public void tr181_dp_106() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvents(99, new Event("EXAMPLE", false, "5", "8:hours"))
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
 }

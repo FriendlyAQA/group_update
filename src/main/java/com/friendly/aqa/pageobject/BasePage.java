@@ -43,7 +43,7 @@ public abstract class BasePage {
     protected Table currentTable;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
-    protected static List<Event> eventList;
+    protected static Map<String, Event> eventMap;
     protected String selectedName;
 
     static {
@@ -620,10 +620,10 @@ public abstract class BasePage {
         return null;
     }
 
-    public List<Event> readEvents() {
+    public Map<String, Event> readEvents() {
         Table table = new Table("tblEvents");
         setImplicitlyWait(0);
-        List<Event> list = new ArrayList<>();
+        Map<String, Event> map = new HashMap<>();
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             String countOfEvents = getSelectedValue(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
             if (countOfEvents.isEmpty()) {
@@ -633,7 +633,8 @@ public abstract class BasePage {
             List<WebElement> selectList = table.getCellWebElement(i, 3).findElements(By.tagName("select"));
             String num = getSelectedValue(selectList.get(0));
             String units = getSelectedValue(selectList.get(1));
-            list.add(new Event(table.getCellText(i, 0), onEachEvent, countOfEvents, num + ":" + units));
+            String name = table.getCellText(i, 0);
+            map.put(name, new Event(name, onEachEvent, countOfEvents, num + ":" + units));
 //            if (table.getInput(i, 1).isSelected()) {
 //                list.add(new Event(table.getCellText(i, 0), true, "1", "1:minutes"));
 //                continue;
@@ -647,14 +648,18 @@ public abstract class BasePage {
 //            }
         }
         setDefaultImplicitlyWait();
-        return list;
+        return map;
     }
 
     public BasePage setEvent(Event event) {
-        if (eventList == null) {
-            eventList = new ArrayList<>();
+        return setEvent(event, new Table("tblEvents"));
+    }
+
+    public BasePage setEvent(Event event, Table table) {
+        if (eventMap == null) {
+            eventMap = new HashMap<>();
         }
-        Table table = new Table("tblEvents");
+//        Table table = new Table("tblEvents");
         if (table.getTableSize()[0] < 2) {
             pause(1000);
             waitForUpdate();
@@ -664,7 +669,7 @@ public abstract class BasePage {
         int rowNum = table.getRowNumberByText(0, event.getName());
         WebElement input = table.getInput(rowNum, 1);
         if (event.isOnEachEvent() != null) {
-            if (event.isOnEachEvent()) {
+            if (event.isOnEachEvent() != input.isSelected()) {
                 input.click();
             }
         } else {
@@ -672,27 +677,41 @@ public abstract class BasePage {
         }
         WebElement select = table.getCellWebElement(rowNum, 2).findElement(By.tagName("select"));
         if (event.getCountOfEvents() != null) {
-            new Select(select).selectByValue(event.getCountOfEvents());
+            if (select.isEnabled()) {
+                new Select(select).selectByValue(event.getCountOfEvents());
+            }
         } else {
             event.setCountOfEvents(getSelectedValue(select));
         }
         List<WebElement> selectList = table.getCellWebElement(rowNum, 3).findElements(By.tagName("select"));
         if (event.getDuration() != null) {
-            selectComboBox(selectList.get(0), event.getDuration().split(":")[0]);
-            selectComboBox(selectList.get(1), event.getDuration().split(":")[1]);
+            if (selectList.get(0).isEnabled()) {
+                selectComboBox(selectList.get(0), event.getDuration().split(":")[0]);
+                selectComboBox(selectList.get(1), event.getDuration().split(":")[1]);
+            }
         } else {
             String num = getSelectedValue(selectList.get(0));
             String units = getSelectedValue(selectList.get(1));
             event.setDuration(num + ":" + units);
         }
-        eventList.add(event);
+        eventMap.put(event.getName(), event);
+        waitForUpdate();
+        return this;
+    }
+
+    public BasePage setEvents(int amount, Event example) {
+        Table table = new Table("tblEvents");
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < Math.min(amount, names.length); i++) {
+            setEvent(new Event(names[i], example.isOnEachEvent(), example.getCountOfEvents(), example.getDuration()));
+        }
         return this;
     }
 
     public void checkEvents() {
-        System.out.println(eventList.get(0));
-        System.out.println(readEvents().get(0));
-        if (!eventList.equals(readEvents())) {
+        System.out.println(eventMap);
+        System.out.println(readEvents());
+        if (!eventMap.equals(readEvents())) {
             throw new AssertionError("Events comparison error!");
         }
     }
@@ -934,7 +953,7 @@ public abstract class BasePage {
     public static void flushResults() {
         parameterSet = null;
         parameterMap = null;
-        eventList = null;
+        eventMap = null;
     }
 
     public BasePage pause(int millis) {
