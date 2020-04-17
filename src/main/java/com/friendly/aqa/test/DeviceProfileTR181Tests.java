@@ -2,6 +2,7 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Event;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -1575,11 +1576,21 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkObjectTree();
     }
 
-
-//    @Test
-//    public void tr181_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
+    @Test
+    public void tr181_dp_101() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", null, "5", null))
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
 }

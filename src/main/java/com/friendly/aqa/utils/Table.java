@@ -299,6 +299,7 @@ public class Table {
         }
         if (rowNum < 0) {
             String warning = "Text '" + text + "' not found in current table";
+            print();
             LOGGER.warn(warning);
             throw new AssertionError(warning);
         }
@@ -313,6 +314,7 @@ public class Table {
                 }
             }
         }
+        print();
         throw new AssertionError("Text '" + text + "' not found on page!");
     }
 

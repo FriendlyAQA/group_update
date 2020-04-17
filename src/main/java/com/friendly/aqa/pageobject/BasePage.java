@@ -3,6 +3,7 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Event;
 import com.friendly.aqa.utils.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -42,6 +43,7 @@ public abstract class BasePage {
     protected Table currentTable;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
+    protected static List<Event> eventList;
     protected String selectedName;
 
     static {
@@ -312,12 +314,12 @@ public abstract class BasePage {
         new Select(comboBox).selectByValue(value);
     }
 
-    public BasePage assertButtonIsActive(boolean assertActive, String id) {
-        if (isButtonActive(id) == assertActive) {
+    public BasePage assertButtonIsActive(boolean expectedActive, String id) {
+        if (isButtonActive(id) == expectedActive) {
             return this;
         }
         throw new AssertionError("Button id='" + id + "' has unexpected state (" +
-                (assertActive ? "disabled" : "enabled") + ")");
+                (expectedActive ? "disabled" : "enabled") + ")");
     }
 
     public BasePage selectImportDevicesFile() {
@@ -618,6 +620,83 @@ public abstract class BasePage {
         return null;
     }
 
+    public List<Event> readEvents() {
+        Table table = new Table("tblEvents");
+        setImplicitlyWait(0);
+        List<Event> list = new ArrayList<>();
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            String countOfEvents = getSelectedValue(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
+            if (countOfEvents.isEmpty()) {
+                continue;
+            }
+            boolean onEachEvent = table.getInput(i, 1).isSelected();
+            List<WebElement> selectList = table.getCellWebElement(i, 3).findElements(By.tagName("select"));
+            String num = getSelectedValue(selectList.get(0));
+            String units = getSelectedValue(selectList.get(1));
+            list.add(new Event(table.getCellText(i, 0), onEachEvent, countOfEvents, num + ":" + units));
+//            if (table.getInput(i, 1).isSelected()) {
+//                list.add(new Event(table.getCellText(i, 0), true, "1", "1:minutes"));
+//                continue;
+//            }
+//            String countOfEvents = getSelectedValue(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
+//            if (!countOfEvents.isEmpty()) {
+//                List<WebElement> selectList = table.getCellWebElement(i, 3).findElements(By.tagName("select"));
+//                String num = getSelectedValue(selectList.get(0));
+//                String units = getSelectedValue(selectList.get(1));
+//                list.add(new Event(table.getCellText(i, 0), false, countOfEvents, num + ":" + units));
+//            }
+        }
+        setDefaultImplicitlyWait();
+        return list;
+    }
+
+    public BasePage setEvent(Event event) {
+        if (eventList == null) {
+            eventList = new ArrayList<>();
+        }
+        Table table = new Table("tblEvents");
+        if (table.getTableSize()[0] < 2) {
+            pause(1000);
+            waitForUpdate();
+            table = new Table("tblEvents");
+            System.out.println("new Table");
+        }
+        int rowNum = table.getRowNumberByText(0, event.getName());
+        WebElement input = table.getInput(rowNum, 1);
+        if (event.isOnEachEvent() != null) {
+            if (event.isOnEachEvent()) {
+                input.click();
+            }
+        } else {
+            event.setOnEachEvent(input.isSelected());
+        }
+        WebElement select = table.getCellWebElement(rowNum, 2).findElement(By.tagName("select"));
+        if (event.getCountOfEvents() != null) {
+            new Select(select).selectByValue(event.getCountOfEvents());
+        } else {
+            event.setCountOfEvents(getSelectedValue(select));
+        }
+        List<WebElement> selectList = table.getCellWebElement(rowNum, 3).findElements(By.tagName("select"));
+        if (event.getDuration() != null) {
+            selectComboBox(selectList.get(0), event.getDuration().split(":")[0]);
+            selectComboBox(selectList.get(1), event.getDuration().split(":")[1]);
+        } else {
+            String num = getSelectedValue(selectList.get(0));
+            String units = getSelectedValue(selectList.get(1));
+            event.setDuration(num + ":" + units);
+        }
+        eventList.add(event);
+        return this;
+    }
+
+    public void checkEvents() {
+        System.out.println(eventList.get(0));
+        System.out.println(readEvents().get(0));
+        if (!eventList.equals(readEvents())) {
+            throw new AssertionError("Events comparison error!");
+        }
+    }
+
     public void checkObjectTree() {
         Table table = new Table("tblTree");
         List<Integer> plusList = new ArrayList<>();
@@ -751,38 +830,9 @@ public abstract class BasePage {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-//    public static String getProtocolPrefix() {
-//        String testName = BaseTestCase.getTestName();
-//        if (testName.contains("tr069")) {
-//            return "tr069_";
-//        } else if (testName.contains("tr181")) {
-//            return "tr181_";
-//        } else if (testName.contains("lwm2m")) {
-//            return "lwm2m_";
-//        } else if (testName.contains("mqtt")) {
-//            return "mqtt_";
-//        } else {
-//            return "usp_";
-//        }
-//    }
-//
-//    public static String getProtocolPrefix1() {
-//        String testName = "usp_du_352"/*BaseTestCase.getTestName()*/;
-//        Pattern p = Pattern.compile("^(.+?_).+$");
-//        Matcher m = p.matcher(testName);
-//        if (m.find()) {
-//            return m.group(1);
-//        }
-//        return null;
-//    }
-
     public static String getProtocolPrefix() {
         return BaseTestCase.getTestName().split("_")[0];
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(getProtocolPrefix2());
-//    }
 
     public BasePage selectBranch(String branch) {
         waitForUpdate();
@@ -827,17 +877,17 @@ public abstract class BasePage {
         }
     }
 
-    String generateValue(String parameter, int increment) {
+    String generateValue(String parameter, int index) {
         String value = "1";
         String paramType = DataBaseConnector.getValueType(parameter).toLowerCase();
         switch (paramType) {
             case "string":
-                value = "value" + increment;
+                value = "value" + index;
                 break;
             case "int":
             case "integer":
             case "unsignedint":
-                value = "" + increment;
+                value = "" + index;
                 break;
             case "datetime":
                 value = "2019-10-27T02:00:0";
@@ -884,6 +934,7 @@ public abstract class BasePage {
     public static void flushResults() {
         parameterSet = null;
         parameterMap = null;
+        eventList = null;
     }
 
     public BasePage pause(int millis) {

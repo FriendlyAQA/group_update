@@ -2,6 +2,7 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Event;
 import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
@@ -244,8 +245,17 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setEvent(Event event) {
+        return (DeviceProfilePage) super.setEvent(event);
+    }
+
     public DeviceProfilePage setParameter(String tab, int amount) {
         return setParameter(tab, amount, true);
+    }
+
+    public DeviceProfilePage expandEvents() {
+        driver.findElement(By.id("imgSpoilerEvents")).click();
+        return this;
     }
 
     public DeviceProfilePage setParameter(String tab, int amount, boolean setValue) {
@@ -328,8 +338,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage assertButtonIsActive(boolean assertActive, String id) {
-        return (DeviceProfilePage) super.assertButtonIsActive(assertActive, id);
+    public DeviceProfilePage assertButtonIsActive(boolean expectedActive, String id) {
+        return (DeviceProfilePage) super.assertButtonIsActive(expectedActive, id);
     }
 
     public DeviceProfilePage checkParameter(String paramName, String value) {
@@ -625,6 +635,15 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         throw new AssertionError("Input field for parameter '" + paramName + "' doesn't have red border!");
+    }
+
+    public DeviceProfilePage assertAddTaskButtonIsActive(String eventName) {
+        Table table = new Table("tblEvents");
+        WebElement input = table.getInput(table.getRowNumberByText(eventName), 4);
+        if (input.isEnabled()) {
+            return this;
+        }
+        throw new AssertionError("Button 'Add task' has unexpected state (disabled)");
     }
 
     public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
