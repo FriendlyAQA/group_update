@@ -16,7 +16,7 @@ import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
+import static com.friendly.aqa.pageobject.BasePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 

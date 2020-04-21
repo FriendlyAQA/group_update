@@ -1,11 +1,11 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.Event;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import static com.friendly.aqa.pageobject.BasePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.*;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.TopMenu.DEVICE_PROFILE;
@@ -1681,12 +1681,51 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectMainTab("Events")
-                .setEvents(99, new Event("EXAMPLE", false, "5", "8:hours"))
+                .setEvents(99, new Event("EXAMPLE", false, "2", "8:hours"))
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents();
+    }
+
+    @Test   //bug: editing profile events causes a reset of all events.
+    public void tr181_dp_107() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_106")
+                .selectMainTab("Events")
+                .disableAllEvents()
+                .setEvent(new Event("2 PERIODIC", null, "5", null))
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_106")
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents();
+    }
+
+    @Test
+    public void tr181_dp_108() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Set parameter value")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("1 BOOT");
     }
 }

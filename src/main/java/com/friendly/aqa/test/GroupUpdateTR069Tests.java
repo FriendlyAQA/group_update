@@ -16,7 +16,7 @@ import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.pageobject.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Parameter.VALUE;
+import static com.friendly.aqa.pageobject.BasePage.Parameter.VALUE;
 import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
 
 @Listeners(UniversalVideoListener.class)
@@ -735,7 +735,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "GetRPCMethods");
+                .checkResult("Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -745,7 +745,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "GetParameterNames");
+                .checkResult("Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -755,7 +755,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "GetParameterAttributes");
+                .checkResult("Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -765,7 +765,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "GetParameterValues");
+                .checkResult("Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -775,7 +775,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "SetParameterValues");
+                .checkResult("Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -785,7 +785,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "SetParameterAttributes");
+                .checkResult("Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -795,7 +795,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("AddObject")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "AddObject");
+                .checkResult("Custom RPC", "AddObject");
     }
 
     @Test
@@ -805,7 +805,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "DeleteObject");
+                .checkResult("Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -1256,7 +1256,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectDiagnostic("IPPing diagnostic")
                 .inputHostField("8.8.8.8")
                 .nextSaveAndActivate()
-                .checkResults("IPPing diagnostic", "8.8.8.8");
+                .checkResult("IPPing diagnostic", "8.8.8.8");
     }
 
     @Test //Not supported by AudioCodes
@@ -1267,7 +1267,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputHostField("8.8.8.8")
                 .numOfRepetitionsField("3")
                 .nextSaveAndActivate()
-                .checkResults("Trace Diagnostic", "8.8.8.8");
+                .checkResult("Trace Diagnostic", "8.8.8.8");
     }
 
     @Test //Not supported by AudioCodes
@@ -1372,7 +1372,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillUserName(props.getProperty("ftp_user"))
                 .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -1385,7 +1385,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillUserName(props.getProperty("ftp_user"))
                 .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResults("Firmware Image", props.getProperty("ftp_image_file_url"));
+                .checkResult("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -1419,7 +1419,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1431,7 +1431,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillDescriptionUploadFile("test log file upload")
                 .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", props.getProperty("upload_url"));
+                .checkResult("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1442,7 +1442,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1464,7 +1464,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1486,7 +1486,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", props.getProperty("upload_url"));
+                .checkResult("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1497,7 +1497,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResults("Vendor Log File", props.getProperty("upload_url"));
+                .checkResult("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1508,7 +1508,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
                 .globalButtons(NEXT)
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"))
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"))
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
@@ -1539,7 +1539,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "Reboot");
+                .checkResult("Custom RPC", "Reboot");
     }
 
     @Test
@@ -1549,7 +1549,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Download")
                 .nextSaveAndActivate()
-                .checkResults("Custom RPC", "Download");
+                .checkResult("Custom RPC", "Download");
     }
 
     @Test
@@ -1566,7 +1566,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "Upload");
+                .checkResult("Custom RPC", "Upload");
     }
 
     @Test
@@ -1592,7 +1592,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "FactoryReset");
+                .checkResult("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2046,7 +2046,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2071,7 +2071,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2097,7 +2097,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2123,7 +2123,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2150,7 +2150,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2175,7 +2175,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2201,7 +2201,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2227,7 +2227,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2254,7 +2254,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2280,7 +2280,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2306,7 +2306,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2333,7 +2333,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2359,7 +2359,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2386,7 +2386,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2410,7 +2410,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2436,7 +2436,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2463,7 +2463,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2489,7 +2489,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2517,7 +2517,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2545,7 +2545,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2572,7 +2572,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2598,7 +2598,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2625,7 +2625,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2651,7 +2651,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2679,7 +2679,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2707,7 +2707,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2734,7 +2734,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2759,7 +2759,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2783,7 +2783,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2808,7 +2808,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2835,7 +2835,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2862,7 +2862,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2888,7 +2888,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2914,7 +2914,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2941,7 +2941,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2967,7 +2967,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2995,7 +2995,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3023,7 +3023,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3050,7 +3050,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3075,7 +3075,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3101,7 +3101,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3128,7 +3128,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3155,7 +3155,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3181,7 +3181,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3206,8 +3206,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
-                .checkResults("InternetGatewayDevice.ManagementServer.Username", "ftacs");
+                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
+                .checkResult("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }
 
     @Test
@@ -3574,7 +3574,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -3602,7 +3602,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Firmware Image", props.getProperty("ftp_image_file_url"));
+                .checkResult("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -3680,7 +3680,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3706,7 +3706,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Log File", props.getProperty("upload_url"));
+                .checkResult("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3731,7 +3731,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3804,7 +3804,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "Reboot");
+                .checkResult("Custom RPC", "Reboot");
     }
 
     @Test
@@ -3829,7 +3829,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "Download");
+                .checkResult("Custom RPC", "Download");
     }
 
     @Test
@@ -3854,7 +3854,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "Upload");
+                .checkResult("Custom RPC", "Upload");
     }
 
     @Test
@@ -3879,7 +3879,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", "FactoryReset");
+                .checkResult("Custom RPC", "FactoryReset");
     }
 
     @Test

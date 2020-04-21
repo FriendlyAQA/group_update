@@ -71,12 +71,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
 
-    @FindBy(id = "ddlTasks")
-    private WebElement selectTask;
-
-    @FindBy(id = "btnAddTask_btn")
-    private WebElement addTaskButton;
-
     @FindBy(id = "txtFailedMax")
     private WebElement thresholdField;
 
@@ -1108,7 +1102,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults("Custom RPC", method);
+                .checkResult("Custom RPC", method);
     }
 
     public GroupUpdatePage gotoSetParameters(String tab) {
@@ -1216,27 +1210,28 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage setParameter(Table table, String paramName, Parameter option, String value) {
-        int rowNum = table.getRowNumberByText(paramName);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = table.getHint(rowNum);
-        WebElement paramCell = table.getCellWebElement(rowNum, 1);
-        if (props.getProperty("browser").equals("edge")) {
-            scrollToElement(paramCell);
-        }
-        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.option : value);
-        if (value != null && option == Parameter.VALUE) {
-            waitForUpdate();
-            WebElement input = paramCell.findElement(By.tagName("input"));
-            input.clear();
-            input.sendKeys(value);
-        }
-        parameterMap.put(hint, value);
-        if (!BROWSER.equals("edge")) {
-            table.clickOn(0, 0);
-        }
-        return this;
+//        int rowNum = table.getRowNumberByText(paramName);
+//        if (parameterMap == null) {
+//            parameterMap = new HashMap<>();
+//        }
+//        String hint = table.getHint(rowNum);
+//        WebElement paramCell = table.getCellWebElement(rowNum, 1);
+//        if (props.getProperty("browser").equals("edge")) {
+//            scrollToElement(paramCell);
+//        }
+//        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.getOption() : value);
+//        if (value != null && option == Parameter.VALUE) {
+//            waitForUpdate();
+//            WebElement input = paramCell.findElement(By.tagName("input"));
+//            input.clear();
+//            input.sendKeys(value);
+//        }
+//        parameterMap.put(hint, value);
+//        if (!BROWSER.equals("edge")) {
+//            table.clickOn(0, 0);
+//        }
+//        return this;
+        return (GroupUpdatePage) super.setParameter(table, paramName, option, value);
     }
 
     public GroupUpdatePage setParameter(int amount) {
@@ -1377,34 +1372,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void checkResults() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            checkResults(entry.getKey(), entry.getValue());
-        }
-    }
-
-    public GroupUpdatePage checkResults(String parameter, String value) {
-        Table table = getTable("tblTasks");
-        int[] tableSize = table.getTableSize();
-        boolean match = false;
-        for (int i = 0; i < tableSize[0]; i++) {
-            try {
-                int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
-                    match = true;
-                    break;
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        if (!match) {
-            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
-            logger.warn(warning);
-            throw new AssertionError(warning);
-        }
-        return this;
+    public GroupUpdatePage checkResult(String parameter, String value) {
+        return (GroupUpdatePage) super.checkResult(parameter, value);
     }
 
     public GroupUpdatePage readTasksFromDb() {
@@ -1451,6 +1420,7 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.assertEqualsAlertMessage(expectedMessage);
     }
 
+
     public enum Left {
         VIEW("View"), IMPORT("Import"), NEW("New");
         private String value;
@@ -1461,23 +1431,6 @@ public class GroupUpdatePage extends BasePage {
 
         public String getValue() {
             return value;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public enum Parameter {
-        EMPTY_VALUE("sendEmpty"),
-        VALUE("sendValue"),
-        FALSE("0"),
-        TRUE("1"),
-        DO_NOT_SEND("notSend"),
-        NULL(""),
-        CUSTOM(null);
-
-        private String option;
-
-        Parameter(String option) {
-            this.option = option;
         }
     }
 

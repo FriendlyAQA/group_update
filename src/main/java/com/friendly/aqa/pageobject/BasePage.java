@@ -200,6 +200,12 @@ public abstract class BasePage {
     @FindBy(id = "UcFirmware1_tbPass")
     protected WebElement passwordField;
 
+    @FindBy(id = "ddlTasks")
+    protected WebElement selectTask;
+
+    @FindBy(id = "btnAddTask_btn")
+    protected WebElement addTaskButton;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -346,6 +352,15 @@ public abstract class BasePage {
 
     public boolean isButtonActive(String id) {
         return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
+    }
+
+    protected void waitElementActivity(String id, int timeOut) {
+        WebElement element = driver.findElement(By.id(id));
+        new FluentWait<>(driver)
+                .withMessage("Element '#" + id + "' not found/not active")
+                .withTimeout(Duration.ofSeconds(timeOut))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public BasePage fillName(String name) {
@@ -624,7 +639,7 @@ public abstract class BasePage {
         Table table = new Table("tblEvents");
         setImplicitlyWait(0);
         Map<String, Event> map = new HashMap<>();
-        for (int i = 1; i < table.getTableSize()[0]; i++) {
+        for (int i = 1; i < table.getTableSize()[0]; i++) { //Very slow performance!!!
             String countOfEvents = getSelectedValue(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
             if (countOfEvents.isEmpty()) {
                 continue;
@@ -651,15 +666,22 @@ public abstract class BasePage {
         return map;
     }
 
+    public BasePage setEvent(Event event, boolean addTask) {
+        return setEvent(event, new Table("tblEvents"), addTask);
+    }
+
     public BasePage setEvent(Event event) {
         return setEvent(event, new Table("tblEvents"));
     }
 
     public BasePage setEvent(Event event, Table table) {
+        return setEvent(event, table, false);
+    }
+
+    public BasePage setEvent(Event event, Table table, boolean addTask) {
         if (eventMap == null) {
             eventMap = new HashMap<>();
         }
-//        Table table = new Table("tblEvents");
         if (table.getTableSize()[0] < 2) {
             pause(1000);
             waitForUpdate();
@@ -678,7 +700,7 @@ public abstract class BasePage {
         WebElement select = table.getCellWebElement(rowNum, 2).findElement(By.tagName("select"));
         if (event.getCountOfEvents() != null) {
             if (select.isEnabled()) {
-                new Select(select).selectByValue(event.getCountOfEvents());
+                selectComboBox(select, event.getCountOfEvents());
             }
         } else {
             event.setCountOfEvents(getSelectedValue(select));
@@ -694,7 +716,16 @@ public abstract class BasePage {
             String units = getSelectedValue(selectList.get(1));
             event.setDuration(num + ":" + units);
         }
-        eventMap.put(event.getName(), event);
+        if (Objects.requireNonNull(getSelectedValue(select)).isEmpty()) {
+            eventMap.remove(event.getName());
+            System.out.println("BP:701 = removed");
+        } else {
+            eventMap.put(event.getName(), event);
+            System.out.println("BP:704 = put");
+        }
+        if (addTask) {
+            table.clickOn(rowNum, 4);
+        }
         waitForUpdate();
         return this;
     }
@@ -703,17 +734,28 @@ public abstract class BasePage {
         Table table = new Table("tblEvents");
         String[] names = table.getColumn(0);
         for (int i = 0; i < Math.min(amount, names.length); i++) {
-            setEvent(new Event(names[i], example.isOnEachEvent(), example.getCountOfEvents(), example.getDuration()));
+            setEvent(new Event(names[i], example.isOnEachEvent(), example.getCountOfEvents(), example.getDuration()), table);
         }
         return this;
     }
 
-    public void checkEvents() {
-        System.out.println(eventMap);
-        System.out.println(readEvents());
+    public BasePage checkEvents() {
         if (!eventMap.equals(readEvents())) {
-            throw new AssertionError("Events comparison error!");
+            String warn = "Events comparison error!";
+            logger.warn("expected:" + eventMap);
+            logger.warn("actual:" + readEvents());
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
+        return this;
+    }
+
+    public BasePage disableAllEvents() {
+        Table table = new Table("tblEvents");
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            setEvent(new Event(table.getCellText(i, 0), false, "", null), table);
+        }
+        return this;
     }
 
     public void checkObjectTree() {
@@ -1162,6 +1204,81 @@ public abstract class BasePage {
             throw new AssertionError("Column '" + column + "' doesn't contain the value '" + value + "'!");
         }
         return this;
+    }
+
+    public BasePage setParameter(Table table, String paramName, Parameter option, String value) {
+//        Table table = new Table("tblParamsValue");
+        int rowNum = table.getRowNumberByText(paramName);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(rowNum);
+        WebElement paramCell = table.getCellWebElement(rowNum, 1);
+        if (props.getProperty("browser").equals("edge")) {
+            scrollToElement(paramCell);
+        }
+        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.getOption() : value);
+        if (value != null && option == Parameter.VALUE) {
+            waitForUpdate();
+            WebElement input = paramCell.findElement(By.tagName("input"));
+            input.clear();
+            input.sendKeys(value);
+        }
+        parameterMap.put(hint, value);
+        if (!BROWSER.equals("edge")) {
+            table.clickOn(0, 0);
+        }
+        return this;
+    }
+
+    public BasePage checkResult(String parameter, String value) {
+        Table table = getTable("tblTasks");
+        int[] tableSize = table.getTableSize();
+        boolean match = false;
+        for (int i = 0; i < tableSize[0]; i++) {
+            try {
+                int length = table.getRowLength(i);
+                if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
+                    match = true;
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        if (!match) {
+            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
+            logger.warn(warning);
+            throw new AssertionError(warning);
+        }
+        return this;
+    }
+
+    public void checkResults() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkResult(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public enum Parameter {
+        EMPTY_VALUE("sendEmpty"),
+        VALUE("sendValue"),
+        FALSE("0"),
+        TRUE("1"),
+        DO_NOT_SEND("notSend"),
+        NULL(""),
+        CUSTOM(null);
+
+        private String option;
+
+        public String getOption() {
+            return option;
+        }
+
+        Parameter(String option) {
+            this.option = option;
+        }
     }
 
 

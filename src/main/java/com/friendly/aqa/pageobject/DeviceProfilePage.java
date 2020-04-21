@@ -212,6 +212,32 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    @Override
+    public DeviceProfilePage setEvent(Event event) {
+        return (DeviceProfilePage) super.setEvent(event);
+    }
+
+    @Override
+    public DeviceProfilePage setEvent(Event event, boolean addTask) {
+        return (DeviceProfilePage) super.setEvent(event, addTask);
+    }
+
+    @Override
+    public DeviceProfilePage setEvents(int amount, Event event) {
+        return (DeviceProfilePage) super.setEvents(amount, event);
+    }
+
+    @Override
+    public DeviceProfilePage disableAllEvents() {
+        return (DeviceProfilePage) super.disableAllEvents();
+
+    }
+
+    public DeviceProfilePage expandEvents() {
+        driver.findElement(By.id("imgSpoilerEvents")).click();
+        return this;
+    }
+
     public DeviceProfilePage setParameter(String paramName, String value) {
         return setParameter(new Table(paramTable), paramName, value);
     }
@@ -245,21 +271,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage setEvent(Event event) {
-        return (DeviceProfilePage) super.setEvent(event);
-    }
-
-    public DeviceProfilePage setEvents(int amount, Event event) {
-        return (DeviceProfilePage) super.setEvents(amount, event);
-    }
-
     public DeviceProfilePage setParameter(String tab, int amount) {
         return setParameter(tab, amount, true);
-    }
-
-    public DeviceProfilePage expandEvents() {
-        driver.findElement(By.id("imgSpoilerEvents")).click();
-        return this;
     }
 
     public DeviceProfilePage setParameter(String tab, int amount, boolean setValue) {
@@ -311,6 +324,28 @@ public class DeviceProfilePage extends BasePage {
             parameterMap.put(names[i], table.getInputText(i + 1, 1));
         }
         return this;
+    }
+
+    public DeviceProfilePage setParameter(String paramName, Parameter option, String value) {
+        return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
+    }
+
+    public void checkAddedTasks(String eventName) {
+        Table table = new Table("tblEvents");
+        table.clickOn(table.getRowNumberByText(eventName), 4);
+        switchToFrame(POPUP);
+        checkResults();
+    }
+
+    public DeviceProfilePage addTask(String task) {
+        switchToFrame(POPUP);
+        selectComboBox(selectTask, task);
+        clickButton(addTaskButton);
+        return this;
+    }
+
+    public DeviceProfilePage checkEvents() {
+        return (DeviceProfilePage) super.checkEvents();
     }
 
     public DeviceProfilePage downloadImageFile() {
@@ -754,6 +789,12 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage fillPassword() {
         return (DeviceProfilePage) super.fillPassword();
+    }
+
+    public DeviceProfilePage saveTaskButton() {
+        clickButton(driver.findElement(By.id("btnSave_btn")));
+        waitForUpdate();
+        return this;
     }
 
     public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
