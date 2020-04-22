@@ -203,7 +203,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -212,7 +212,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -221,7 +221,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -230,7 +230,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -239,7 +239,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -248,7 +248,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -257,7 +257,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -266,7 +266,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -275,7 +275,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -284,7 +284,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -293,7 +293,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -302,7 +302,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(true)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test

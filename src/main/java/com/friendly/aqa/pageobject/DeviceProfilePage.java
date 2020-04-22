@@ -13,7 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.*;
 
@@ -331,10 +330,25 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void checkAddedTasks(String eventName) {
+        pause(1000);
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(eventName), 4);
         switchToFrame(POPUP);
-        checkResults();
+        super.checkAddedTasks();
+    }
+
+    public void checkAddedTask(String eventName, String parameter, String value) {
+        Table table = new Table("tblEvents");
+        table.clickOn(table.getRowNumberByText(eventName), 4);
+        switchToFrame(POPUP);
+        super.checkAddedTask(parameter, value);
+    }
+
+    public void checkAddedAction(String eventName, String parameter, String value) {
+        Table table = new Table("tblEvents");
+        table.clickOn(table.getRowNumberByText(eventName), 4);
+        switchToFrame(POPUP);
+        super.checkAddedTask(parameter, value, 1);
     }
 
     public DeviceProfilePage addTask(String task) {
@@ -353,7 +367,6 @@ public class DeviceProfilePage extends BasePage {
         selectFileType("Firmware Image");
         waitForUpdate();
         manualRadioButton();
-        waitForUpdate();
         fillUrl();
         fillUsername();
         fillPassword();
@@ -626,6 +639,31 @@ public class DeviceProfilePage extends BasePage {
         return inputText(BaseTestCase.getTestName(), SAVE_AND_ACTIVATE);
     }
 
+    @Override
+    public DeviceProfilePage rebootRadioButton() {
+        return (DeviceProfilePage) super.rebootRadioButton();
+    }
+
+    @Override
+    public DeviceProfilePage factoryResetRadioButton() {
+        return (DeviceProfilePage) super.factoryResetRadioButton();
+    }
+
+    @Override
+    public DeviceProfilePage reprovisionRadioButton() {
+        return (DeviceProfilePage) super.reprovisionRadioButton();
+    }
+
+    @Override
+    public DeviceProfilePage customRpcRadioButton() {
+        return (DeviceProfilePage) super.customRpcRadioButton();
+    }
+
+    @Override
+    public DeviceProfilePage selectMethod(String value) {
+        return (DeviceProfilePage) super.selectMethod(value);
+    }
+
     public DeviceProfilePage fillConditionName() {
         return inputText(BaseTestCase.getTestName(), NEXT);
     }
@@ -797,25 +835,36 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
-        int rowNum = table.getRowNumberByText(0, policyName);
-        if (rowNum < 0) {
-            throw new AssertionError("Policy name '" + policyName + "' not found");
+    public DeviceProfilePage setPolicy(int scenario) {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
         }
-        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
-        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
-        if (BasePage.BROWSER.equals("edge")) {
-            BasePage.scrollToElement(notificationCell);
+        Table table = new Table("tblParamsValue");
+        int tableSize = table.getTableSize()[0];
+        int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + 1;
+        String[][] all = {{"Off", "Active", "Passive"}, {"Default", "ACS only", "All"}};
+        for (int i = 1; i < limit; i++) {
+            WebElement notification = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
+            WebElement accessList = table.getCellWebElement(i, 2).findElement(By.tagName("select"));
+            String result;
+            if (scenario == 1) {
+                selectComboBox(accessList, "ACS only");
+                result = "Access=AcsOnly";
+            } else if (scenario == 2) {
+                selectComboBox(notification, "Off");
+                result = "Notification=Off ";
+            } else if (scenario == 3) {
+                selectComboBox(notification, all[0][i - 1]);
+                selectComboBox(accessList, all[1][i - 1]);
+                result = "Notification=" + all[0][i - 1] + " " + (i == 1 ? "" : "Access=" + all[1][i - 1]);
+            } else {
+                selectComboBox(notification, "Active");
+                selectComboBox(accessList, "ACS only");
+                result = "Notification=Active Access=AcsOnly";
+            }
+            parameterMap.put(table.getHint(i), result);
         }
-        if (notification != null) {
-            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
-        }
-        waitForUpdate();
-        if (accessList != null) {
-            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
-        }
-        waitForUpdate();
-//        clickOn(0, 0);
+        return this;
     }
 
     public DeviceProfilePage deleteProfileIfExists() {
@@ -843,7 +892,7 @@ public class DeviceProfilePage extends BasePage {
 
     public enum Left {
         VIEW("View"), IMPORT("Import"), NEW("New");
-        private String value;
+        private final String value;
 
         Left(String value) {
             this.value = value;
@@ -879,14 +928,14 @@ public class DeviceProfilePage extends BasePage {
             this.id = id;
         }
 
-        private String id;
+        private final String id;
 
         public String getId() {
             return id;
         }
     }
 
-    public enum Policy {
+    public enum Policy implements IPolicy {
         //      DEFAULT("Default"),
         OFF("0"),
         PASSIVE("1"),
@@ -894,7 +943,11 @@ public class DeviceProfilePage extends BasePage {
         ACS_ONLY("AcsOnly"),
         ALL("All");
 
-        private String option;
+        private final String option;
+
+        public String getOption() {
+            return option;
+        }
 
         Policy(String option) {
             this.option = option;

@@ -234,7 +234,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -292,7 +292,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setParameter("Username", VALUE, "ftacs")
                 .setParameter("Password", VALUE, "ftacs")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -301,7 +301,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -310,7 +310,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Time")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -319,7 +319,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Time")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -328,7 +328,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Time")
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -337,7 +337,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("WAN")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -346,7 +346,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("WAN")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -355,7 +355,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("WAN")
                 .setParameter(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -364,7 +364,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("LAN")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -373,7 +373,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("LAN")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -382,7 +382,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("LAN")
                 .setParameter(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -391,7 +391,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Wireless")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -400,7 +400,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Wireless")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -409,7 +409,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Wireless")
                 .setParameter(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -418,7 +418,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("DSL settings")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -427,7 +427,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("DSL settings")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -436,7 +436,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("DSL settings")
                 .setParameter(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -445,7 +445,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("VoIP settings")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -454,7 +454,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("VoIP settings")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -463,7 +463,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("VoIP settings")
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -472,7 +472,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Management")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -481,7 +481,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Management")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -490,7 +490,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Management")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -499,7 +499,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Management")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -508,7 +508,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Time")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -517,7 +517,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Time")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -526,7 +526,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Time")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -535,7 +535,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Time")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -544,7 +544,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("WAN")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -553,7 +553,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("WAN")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -562,7 +562,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("WAN")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -571,7 +571,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("WAN")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -580,7 +580,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("LAN")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -589,7 +589,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("LAN")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -598,7 +598,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("LAN")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -607,7 +607,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("LAN")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -616,7 +616,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Wireless")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -625,7 +625,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Wireless")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -634,7 +634,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Wireless")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -643,7 +643,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Wireless")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -652,7 +652,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("DSL settings")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -661,7 +661,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("DSL settings")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -670,7 +670,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("DSL settings")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -679,7 +679,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("DSL settings")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -688,7 +688,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("VoIP settings")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -697,7 +697,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -706,7 +706,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -715,7 +715,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -735,7 +735,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "GetRPCMethods");
+                .checkAddedTask("Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -745,7 +745,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "GetParameterNames");
+                .checkAddedTask("Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -755,7 +755,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "GetParameterAttributes");
+                .checkAddedTask("Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -765,7 +765,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "GetParameterValues");
+                .checkAddedTask("Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -775,7 +775,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "SetParameterValues");
+                .checkAddedTask("Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -785,7 +785,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "SetParameterAttributes");
+                .checkAddedTask("Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -795,7 +795,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("AddObject")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "AddObject");
+                .checkAddedTask("Custom RPC", "AddObject");
     }
 
     @Test
@@ -805,7 +805,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "DeleteObject");
+                .checkAddedTask("Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -815,7 +815,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .setAllParameters()
                 .setAnyAdvancedParameter()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -824,7 +824,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("time", true)
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -833,7 +833,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("time", true)
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -859,7 +859,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .readTasksFromDb()
                 .enterIntoGroup()
                 .assertOnlineDevices()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -982,7 +982,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Management")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -991,7 +991,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Information")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1000,7 +1000,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Time")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1009,7 +1009,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("WAN")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1018,7 +1018,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("LAN")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1027,7 +1027,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1036,7 +1036,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Management")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1045,7 +1045,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Information")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1054,7 +1054,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Time")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1063,7 +1063,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("WAN")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1072,7 +1072,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("LAN")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1081,7 +1081,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1090,7 +1090,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Management")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1099,7 +1099,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Information")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1108,7 +1108,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Time")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1117,7 +1117,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("WAN")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1126,7 +1126,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("LAN")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1135,7 +1135,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1144,7 +1144,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Management")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1153,7 +1153,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Information")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1162,7 +1162,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Time")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1171,7 +1171,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("WAN")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1180,7 +1180,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("LAN")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1189,7 +1189,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 0)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1256,7 +1256,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectDiagnostic("IPPing diagnostic")
                 .inputHostField("8.8.8.8")
                 .nextSaveAndActivate()
-                .checkResult("IPPing diagnostic", "8.8.8.8");
+                .checkAddedTask("IPPing diagnostic", "8.8.8.8");
     }
 
     @Test //Not supported by AudioCodes
@@ -1267,7 +1267,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .inputHostField("8.8.8.8")
                 .numOfRepetitionsField("3")
                 .nextSaveAndActivate()
-                .checkResult("Trace Diagnostic", "8.8.8.8");
+                .checkAddedTask("Trace Diagnostic", "8.8.8.8");
     }
 
     @Test //Not supported by AudioCodes
@@ -1346,7 +1346,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1359,7 +1359,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1372,7 +1372,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillUserName(props.getProperty("ftp_user"))
                 .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResult("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -1385,7 +1385,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillUserName(props.getProperty("ftp_user"))
                 .fillPassword(props.getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .checkResult("Firmware Image", props.getProperty("ftp_image_file_url"));
+                .checkAddedTask("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -1419,7 +1419,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1431,7 +1431,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillDescriptionUploadFile("test log file upload")
                 .fillUploadUrl(props.getProperty("upload_url"))
                 .nextSaveAndActivate()
-                .checkResult("Vendor Log File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1442,7 +1442,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1464,7 +1464,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1486,7 +1486,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResult("Vendor Log File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1497,7 +1497,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .checkResult("Vendor Log File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -1508,7 +1508,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
                 .globalButtons(NEXT)
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"))
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"))
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
@@ -1539,7 +1539,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Reboot")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "Reboot");
+                .checkAddedTask("Custom RPC", "Reboot");
     }
 
     @Test
@@ -1549,7 +1549,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .customRpcRadioButton()
                 .selectMethod("Download")
                 .nextSaveAndActivate()
-                .checkResult("Custom RPC", "Download");
+                .checkAddedTask("Custom RPC", "Download");
     }
 
     @Test
@@ -1566,7 +1566,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "Upload");
+                .checkAddedTask("Custom RPC", "Upload");
     }
 
     @Test
@@ -1592,7 +1592,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "FactoryReset");
+                .checkAddedTask("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -1652,7 +1652,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
 
@@ -1676,7 +1676,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1700,7 +1700,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1724,7 +1724,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1744,7 +1744,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1764,7 +1764,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1784,7 +1784,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1804,7 +1804,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1825,7 +1825,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1847,7 +1847,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1869,7 +1869,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1905,7 +1905,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1927,7 +1927,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1948,7 +1948,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1969,7 +1969,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -2021,7 +2021,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -2046,7 +2046,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2071,7 +2071,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2097,7 +2097,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2123,7 +2123,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2150,7 +2150,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2175,7 +2175,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2201,7 +2201,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2227,7 +2227,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2254,7 +2254,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2280,7 +2280,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2306,7 +2306,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2333,7 +2333,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2359,7 +2359,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2386,7 +2386,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2410,7 +2410,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2436,7 +2436,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2463,7 +2463,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2489,7 +2489,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2517,7 +2517,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2545,7 +2545,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2572,7 +2572,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2598,7 +2598,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2625,7 +2625,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2651,7 +2651,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2679,7 +2679,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2707,7 +2707,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2734,7 +2734,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2759,7 +2759,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2783,7 +2783,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2808,7 +2808,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2835,7 +2835,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2862,7 +2862,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2888,7 +2888,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2914,7 +2914,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2941,7 +2941,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2967,7 +2967,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -2995,7 +2995,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3023,7 +3023,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3050,7 +3050,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3075,7 +3075,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3101,7 +3101,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3128,7 +3128,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3155,7 +3155,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3181,7 +3181,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
     }
 
     @Test
@@ -3206,8 +3206,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
-                .checkResult("InternetGatewayDevice.ManagementServer.Username", "ftacs");
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
+                .checkAddedTask("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }
 
     @Test
@@ -3356,7 +3356,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -3574,7 +3574,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -3602,7 +3602,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Firmware Image", props.getProperty("ftp_image_file_url"));
+                .checkAddedTask("Firmware Image", props.getProperty("ftp_image_file_url"));
     }
 
     @Test
@@ -3680,7 +3680,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3706,7 +3706,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Vendor Log File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Log File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3731,7 +3731,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -3804,7 +3804,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "Reboot");
+                .checkAddedTask("Custom RPC", "Reboot");
     }
 
     @Test
@@ -3829,7 +3829,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "Download");
+                .checkAddedTask("Custom RPC", "Download");
     }
 
     @Test
@@ -3854,7 +3854,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "Upload");
+                .checkAddedTask("Custom RPC", "Upload");
     }
 
     @Test
@@ -3879,7 +3879,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", "FactoryReset");
+                .checkAddedTask("Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -3888,7 +3888,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("Information")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -3897,7 +3897,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Information")
                 .setAllPolicies()
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -3906,7 +3906,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Information")
                 .setPolicy(1)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -3915,7 +3915,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Information")
                 .setPolicy(2)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -3924,7 +3924,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .goToSetPolicies("Information")
                 .setPolicy(3)
                 .nextSaveAndActivate()
-                .checkResults();
+                .checkAddedTasks();
     }
 
 }

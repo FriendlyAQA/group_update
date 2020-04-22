@@ -206,6 +206,21 @@ public abstract class BasePage {
     @FindBy(id = "btnAddTask_btn")
     protected WebElement addTaskButton;
 
+    @FindBy(id = "rdReboot")
+    protected WebElement rebootRadioButton;
+
+    @FindBy(id = "rdFactoryReset")
+    protected WebElement factoryResetRadioButton;
+
+    @FindBy(id = "rdCPEReprovision")
+    protected WebElement reprovisionRadioButton;
+
+    @FindBy(id = "rdCustomRPC")
+    protected WebElement customRpcRadioButton;
+
+    @FindBy(id = "ddlMethods")
+    protected WebElement selectMethodComboBox;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -215,6 +230,35 @@ public abstract class BasePage {
     public BasePage resetView() {
         resetViewButton.click();
         waitForUpdate();
+        return this;
+    }
+
+    public BasePage rebootRadioButton() {
+        waitForUpdate();
+        rebootRadioButton.click();
+        return this;
+    }
+
+    public BasePage factoryResetRadioButton() {
+        waitForUpdate();
+        factoryResetRadioButton.click();
+        return this;
+    }
+
+    public BasePage reprovisionRadioButton() {
+        waitForUpdate();
+        reprovisionRadioButton.click();
+        return this;
+    }
+
+    public BasePage customRpcRadioButton() {
+        waitForUpdate();
+        customRpcRadioButton.click();
+        return this;
+    }
+
+    public BasePage selectMethod(String value) {
+        selectComboBox(selectMethodComboBox, value);
         return this;
     }
 
@@ -228,6 +272,7 @@ public abstract class BasePage {
 
     public BasePage manualRadioButton() {
         manualRadioButton.click();
+        waitForUpdate();
         return this;
     }
 
@@ -432,7 +477,8 @@ public abstract class BasePage {
         return getTable("tabsSettings_tblTabs", null);
     }
 
-    public BasePage waitForUpdate() {
+    public BasePage waitForUpdate() {   //TODO rework with ExpectedCondition
+        long start = System.currentTimeMillis();
         switchToFrame(ROOT);
         String style;
         do {
@@ -442,7 +488,7 @@ public abstract class BasePage {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while (!style.contains("display: none;"));
+        } while (!style.contains("display: none;") || System.currentTimeMillis() > start + 30000);
         switchToPreviousFrame();
         return this;
     }
@@ -967,6 +1013,27 @@ public abstract class BasePage {
         return value;
     }
 
+    public void setPolicy(Table table, String policyName, IPolicy notification, IPolicy accessList) {
+        int rowNum = table.getRowNumberByText(0, policyName);
+        if (rowNum < 0) {
+            throw new AssertionError("Policy name '" + policyName + "' not found");
+        }
+        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
+        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
+        if (BROWSER.equals("edge")) {
+            scrollToElement(notificationCell);
+        }
+        if (notification != null) {
+            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.getOption());
+        }
+        waitForUpdate();
+        if (accessList != null) {
+            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.getOption());
+        }
+        waitForUpdate();
+//        clickOn(0, 0);
+    }
+
     public static String getImportMonitorFile() {
         return props.getProperty(getProtocolPrefix() + "_import_monitor");
     }
@@ -1231,14 +1298,18 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage checkResult(String parameter, String value) {
+    public BasePage checkAddedTask(String parameter, String value) {
+        return checkAddedTask(parameter, value, 0);
+    }
+
+    public BasePage checkAddedTask(String parameter, String value, int shift) {
         Table table = getTable("tblTasks");
         int[] tableSize = table.getTableSize();
         boolean match = false;
         for (int i = 0; i < tableSize[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2).equals(parameter) && table.getCellText(i, length - 1).equals(value)) {
+                if (table.getCellText(i, length - 2 - shift).equals(parameter) && table.getCellText(i, length - 1 - shift).equals(value)) {
                     match = true;
                     break;
                 }
@@ -1254,10 +1325,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public void checkResults() {
+    public void checkAddedTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkResult(entry.getKey(), entry.getValue());
+            checkAddedTask(entry.getKey(), entry.getValue());
         }
     }
 

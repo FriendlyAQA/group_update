@@ -350,7 +350,7 @@ public class MonitoringPage extends BasePage {
 //        checkResults(BaseTestCase.getTestName());
 //    }
 
-    public void checkResults() {
+    public void checkAddedTasks() {
         getTabTable().clickOn("Summary");
         waitForUpdate();
         String[] params = getParamTable().getColumn(0);

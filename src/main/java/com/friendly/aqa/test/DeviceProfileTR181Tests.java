@@ -1728,4 +1728,1701 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkEvents()
                 .checkAddedTasks("1 BOOT");
     }
+
+    @Test
+    public void tr181_dp_109() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Download file")
+                .selectFileType("Vendor Configuration File")
+                .manualRadioButton()
+                .fillUrl()
+                .fillUsername()
+                .fillPassword()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+    }
+
+    @Test
+    public void tr181_dp_110() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("1 BOOT", "Action", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_111() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("1 BOOT", "Action", "Factory Reset");
+    }
+
+    @Test
+    public void tr181_dp_112() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("1 BOOT", "Action", "Device Reprovision");
+    }
+
+    @Test
+    public void tr181_dp_113() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetRPCMethods")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "GetRPCMethods");
+    }
+
+    @Test
+    public void tr181_dp_114() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "SetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_115() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_116() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterNames")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterNames");
+    }
+
+    @Test
+    public void tr181_dp_117() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_118() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_119() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("AddObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "AddObject");
+    }
+
+    @Test
+    public void tr181_dp_120() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("DeleteObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "DeleteObject");
+    }
+
+    @Test
+    public void tr181_dp_121() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Download")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "Download");
+    }
+
+    @Test
+    public void tr181_dp_122() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Reboot")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_123() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("FactoryReset")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "FactoryReset");
+    }
+
+    @Test
+    public void tr181_dp_124() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Upload")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Custom RPC", "Upload");
+    }
+
+    @Test
+    public void tr181_dp_125() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Set parameter value")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("2 PERIODIC");
+    }
+
+    @Test
+    public void tr181_dp_126() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Download file")
+                .selectFileType("Vendor Configuration File")
+                .manualRadioButton()
+                .fillUrl()
+                .fillUsername()
+                .fillPassword()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+    }
+
+    @Test
+    public void tr181_dp_127() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("2 PERIODIC", "Action", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_128() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("2 PERIODIC", "Action", "Factory Reset");
+    }
+
+    @Test
+    public void tr181_dp_129() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("2 PERIODIC", "Action", "Device Reprovision");
+    }
+
+    @Test
+    public void tr181_dp_130() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetRPCMethods")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
+    }
+
+    @Test
+    public void tr181_dp_131() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_132() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_133() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterNames")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
+    }
+
+    @Test
+    public void tr181_dp_134() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_135() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_136() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("AddObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "AddObject");
+    }
+
+    @Test
+    public void tr181_dp_137() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("DeleteObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "DeleteObject");
+    }
+
+    @Test
+    public void tr181_dp_138() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Download")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "Download");
+    }
+
+    @Test
+    public void tr181_dp_139() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Reboot")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_140() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("FactoryReset")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "FactoryReset");
+    }
+
+    @Test
+    public void tr181_dp_141() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Upload")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Custom RPC", "Upload");
+    }
+
+    @Test
+    public void tr181_dp_142() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Set parameter value")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("4 VALUE CHANGE");
+    }
+
+    @Test
+    public void tr181_dp_143() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Download file")
+                .selectFileType("Vendor Configuration File")
+                .manualRadioButton()
+                .fillUrl()
+                .fillUsername()
+                .fillPassword()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+    }
+
+    @Test
+    public void tr181_dp_144() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("4 VALUE CHANGE", "Action", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_145() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("4 VALUE CHANGE", "Action", "Factory Reset");
+    }
+
+    @Test
+    public void tr181_dp_146() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("4 VALUE CHANGE", "Action", "Device Reprovision");
+    }
+
+    @Test
+    public void tr181_dp_147() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetRPCMethods")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
+    }
+
+    @Test
+    public void tr181_dp_148() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_149() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_150() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterNames")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
+    }
+
+    @Test
+    public void tr181_dp_151() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_152() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_153() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("AddObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
+    }
+
+    @Test
+    public void tr181_dp_154() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("DeleteObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
+    }
+
+    @Test
+    public void tr181_dp_155() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Download")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Download");
+    }
+
+    @Test
+    public void tr181_dp_156() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Reboot")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_157() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("FactoryReset")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
+    }
+
+    @Test
+    public void tr181_dp_158() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Upload")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Upload");
+    }
+
+    @Test
+    public void tr181_dp_159() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Set parameter value")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_160() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Download file")
+                .selectFileType("Vendor Configuration File")
+                .manualRadioButton()
+                .fillUrl()
+                .fillUsername()
+                .fillPassword()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+    }
+
+    @Test
+    public void tr181_dp_161() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("6 CONNECTION REQUEST", "Action", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_162() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("6 CONNECTION REQUEST", "Action", "Factory Reset");
+    }
+
+    @Test
+    public void tr181_dp_163() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedAction("6 CONNECTION REQUEST", "Action", "Device Reprovision");
+    }
+
+    @Test
+    public void tr181_dp_164() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetRPCMethods")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
+    }
+
+    @Test
+    public void tr181_dp_165() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_166() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterValues")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
+    }
+
+    @Test
+    public void tr181_dp_167() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterNames")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
+    }
+
+    @Test
+    public void tr181_dp_168() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("SetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_169() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("GetParameterAttributes")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
+    }
+
+    @Test
+    public void tr181_dp_170() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("AddObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
+    }
+
+    @Test
+    public void tr181_dp_171() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("DeleteObject")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
+    }
+
+    @Test
+    public void tr181_dp_172() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Download")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
+    }
+
+    @Test
+    public void tr181_dp_173() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Reboot")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
+    }
+
+    @Test
+    public void tr181_dp_174() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("FactoryReset")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
+    }
+
+    @Test
+    public void tr181_dp_175() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Action")
+                .customRpcRadioButton()
+                .selectMethod("Upload")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
+    }
+
+    @Test
+    public void tr181_dp_176() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_177() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_178() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_179() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
 }

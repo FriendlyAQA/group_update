@@ -131,17 +131,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "UcFirmware1_ddlFileName")
     private WebElement fileNameComboBox;
 
-    @FindBy(id = "ddlMethods")
-    private WebElement selectMethodComboBox;
-
     @FindBy(id = "rdUrlUpload")
     private WebElement manuallyUrlRadioButton;
-
-    @FindBy(id = "rdReboot")
-    private WebElement rebootRadioButton;
-
-    @FindBy(id = "rdFactoryReset")
-    private WebElement factoryResetRadioButton;
 
     @FindBy(id = "rdReset Min and Max Measured Values")
     private WebElement resetMinMaxValues;
@@ -163,12 +154,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "cbqoe_task")
     private WebElement addToQoeCheckBox;
-
-    @FindBy(id = "rdCPEReprovision")
-    private WebElement reprovisionRadioButton;
-
-    @FindBy(id = "rdCustomRPC")
-    private WebElement customRpcRadioButton;
 
     @FindBy(id = "tbName")
     private WebElement descriptionFileUploadField;
@@ -363,9 +348,9 @@ public class GroupUpdatePage extends BasePage {
 //        return this;
 //    }
 
+    @Override
     public GroupUpdatePage selectMethod(String value) {
-        selectComboBox(selectMethodComboBox, value);
-        return this;
+        return (GroupUpdatePage) super.selectMethod(value);
     }
 
     public GroupUpdatePage onlineDevicesCheckBox() {
@@ -419,16 +404,14 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage rebootRadioButton() {
-        waitForUpdate();
-        rebootRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.rebootRadioButton();
     }
 
+    @Override
     public GroupUpdatePage factoryResetRadioButton() {
-        waitForUpdate();
-        factoryResetRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.factoryResetRadioButton();
     }
 
     public GroupUpdatePage resetMinMaxValues() {
@@ -467,10 +450,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage reprovisionRadioButton() {
-        waitForUpdate();
-        reprovisionRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.reprovisionRadioButton();
     }
 
     public GroupUpdatePage editGroupButton() {
@@ -479,11 +461,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-
+    @Override
     public GroupUpdatePage customRpcRadioButton() {
-        waitForUpdate();
-        customRpcRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.customRpcRadioButton();
     }
 
     public GroupUpdatePage defaultUploadRadioButton() {
@@ -1030,7 +1010,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup();
-        checkResults();
+        checkAddedTasks();
     }
 
     public void setScheduledPolicy(String tab) {
@@ -1055,7 +1035,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     public void getScheduledParameter(String tab, int column) {
@@ -1079,7 +1059,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     public void scheduledCallCustomRPC(String method) {
@@ -1102,7 +1082,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkResult("Custom RPC", method);
+                .checkAddedTask("Custom RPC", method);
     }
 
     public GroupUpdatePage gotoSetParameters(String tab) {
@@ -1316,27 +1296,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
-        int rowNum = table.getRowNumberByText(0, policyName);
-        if (rowNum < 0) {
-            throw new AssertionError("Policy name '" + policyName + "' not found");
-        }
-        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
-        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
-        if (BasePage.BROWSER.equals("edge")) {
-            BasePage.scrollToElement(notificationCell);
-        }
-        if (notification != null) {
-            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.option);
-        }
-        waitForUpdate();
-        if (accessList != null) {
-            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.option);
-        }
-        waitForUpdate();
-//        clickOn(0, 0);
-    }
-
     public GroupUpdatePage setPolicy(int scenario) {
         Table table = getParamTable();
         int length = table.getTableSize()[0];
@@ -1372,8 +1331,29 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage checkResult(String parameter, String value) {
-        return (GroupUpdatePage) super.checkResult(parameter, value);
+    public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
+        int rowNum = table.getRowNumberByText(0, policyName);
+        if (rowNum < 0) {
+            throw new AssertionError("Policy name '" + policyName + "' not found");
+        }
+        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
+        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
+        if (BROWSER.equals("edge")) {
+            scrollToElement(notificationCell);
+        }
+        if (notification != null) {
+            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.getOption());
+        }
+        waitForUpdate();
+        if (accessList != null) {
+            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.getOption());
+        }
+        waitForUpdate();
+//        clickOn(0, 0);
+    }
+
+    public GroupUpdatePage checkAddedTask(String parameter, String value) {
+        return (GroupUpdatePage) super.checkAddedTask(parameter, value);
     }
 
     public GroupUpdatePage readTasksFromDb() {
@@ -1443,6 +1423,10 @@ public class GroupUpdatePage extends BasePage {
         ALL("2");
 
         private String option;
+
+        public String getOption() {
+            return option;
+        }
 
         Policy(String option) {
             this.option = option;

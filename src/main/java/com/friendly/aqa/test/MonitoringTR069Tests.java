@@ -373,7 +373,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -388,7 +388,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -407,7 +407,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -421,7 +421,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -445,7 +445,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -459,7 +459,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -472,7 +472,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -491,7 +491,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -505,7 +505,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -518,7 +518,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -537,7 +537,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -551,7 +551,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -564,7 +564,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -583,7 +583,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -597,7 +597,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -610,7 +610,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -629,7 +629,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -643,7 +643,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -656,7 +656,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -675,7 +675,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -689,7 +689,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -702,7 +702,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -721,7 +721,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -735,7 +735,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -748,7 +748,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -767,7 +767,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -781,7 +781,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -794,7 +794,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -813,7 +813,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -827,7 +827,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -851,7 +851,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -934,7 +934,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .waitForStatus("Running")
                 .waitForStatus("Completed", 120)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -953,7 +953,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -974,7 +974,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -989,7 +989,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1003,7 +1003,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1024,7 +1024,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1039,7 +1039,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1053,7 +1053,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1074,7 +1074,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1089,7 +1089,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1103,7 +1103,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1124,7 +1124,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1139,7 +1139,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1153,7 +1153,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1174,7 +1174,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1189,7 +1189,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1203,7 +1203,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1224,7 +1224,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1239,7 +1239,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1253,7 +1253,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1274,7 +1274,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1289,7 +1289,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1303,7 +1303,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1324,7 +1324,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
@@ -1339,7 +1339,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1353,7 +1353,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", targetTestName)
                 .enterIntoGroup(targetTestName)
-                .checkResults();
+                .checkAddedTasks();
     }
 
     @Test
@@ -1379,7 +1379,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .globalButtons(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkResults();
+                .checkAddedTasks();
         setTargetTestName();
     }
 
