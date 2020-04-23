@@ -183,7 +183,10 @@ public abstract class BasePage {
     protected WebElement resetViewButton;
 
     @FindBy(id = "UcFirmware1_ddlFileType")
-    protected WebElement selectFileTypeComboBox;
+    protected WebElement selectDownloadFileTypeComboBox;
+
+    @FindBy(id = "ddlFileType")
+    protected WebElement selectUploadFileTypeComboBox;
 
     @FindBy(id = "UcFirmware1_rdUrl")
     protected WebElement manualRadioButton;
@@ -193,6 +196,9 @@ public abstract class BasePage {
 
     @FindBy(id = "UcFirmware1_tbUrl")
     protected WebElement urlField;
+
+    @FindBy(id = "tbUrl")
+    protected WebElement uploadUrlField;
 
     @FindBy(id = "UcFirmware1_tbLogin")
     protected WebElement userNameField;
@@ -221,10 +227,22 @@ public abstract class BasePage {
     @FindBy(id = "ddlMethods")
     protected WebElement selectMethodComboBox;
 
+    @FindBy(id = "rdUrlUpload")
+    protected WebElement manuallyUrlRadioButton;
+
+    @FindBy(id = "tbLogin")
+    protected WebElement userNameUploadField;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
         logOutButton.click();
+    }
+
+    public BasePage manuallyUrlRadioButton() {
+        waitForUpdate();
+        manuallyUrlRadioButton.click();
+        return this;
     }
 
     public BasePage resetView() {
@@ -251,6 +269,13 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage fillUploadUrl() {
+        uploadUrlField.clear();
+        uploadUrlField.sendKeys(props.getProperty("upload_url"));
+        userNameUploadField.click();
+        return this;
+    }
+
     public BasePage customRpcRadioButton() {
         waitForUpdate();
         customRpcRadioButton.click();
@@ -262,11 +287,19 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage selectFileType(String type) {
+    public BasePage selectDownloadFileType(String type) {
         selectComboBox(new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(5))
                 .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.elementToBeClickable(selectFileTypeComboBox)), type);
+                .until(ExpectedConditions.elementToBeClickable(selectDownloadFileTypeComboBox)), type);
+        return this;
+    }
+
+    public BasePage selectUploadFileType(String type) {
+        selectComboBox(new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.elementToBeClickable(selectUploadFileTypeComboBox)), type);
         return this;
     }
 
@@ -343,7 +376,6 @@ public abstract class BasePage {
     }
 
     public BasePage scheduledToRadioButton() {
-        System.out.println(frame);
         scheduledToRadioButton.click();
         return this;
     }
@@ -365,6 +397,28 @@ public abstract class BasePage {
         new Select(comboBox).selectByValue(value);
     }
 
+
+    public BasePage getParameter(int row, int column) {
+        Table table = new Table("tblParamsValue");
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(row);
+        String values;
+        if (column < 1) {
+            values = "values,names,attributes";
+            for (int i = 1; i < table.getRowLength(row); i++) {
+                table.clickOn(row, i, 0);
+            }
+        } else {
+            String[] valuesArr = {"", "names", "values", "attributes"};
+            values = valuesArr[column];
+            table.clickOn(row, column, 0);
+        }
+        parameterMap.put(hint, values);
+        return this;
+    }
+
     public BasePage assertButtonIsActive(boolean expectedActive, String id) {
         if (isButtonActive(id) == expectedActive) {
             return this;
@@ -377,7 +431,6 @@ public abstract class BasePage {
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
         String inputText = new File("import/" + getProtocolPrefix() + "_import_cpe.xml").getAbsolutePath();
-        System.out.println(inputText);
         importDeviceField.sendKeys(inputText);
         driver.switchTo().parentFrame();
         return this;
@@ -655,8 +708,6 @@ public abstract class BasePage {
             } catch (StaleElementReferenceException e) {
                 logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             } finally {
-//                System.out.println("finally, prev frame:" + previousFrame);
-//                switchToPreviousFrame();
                 switchToFrame(DESKTOP);
             }
         }
@@ -732,7 +783,6 @@ public abstract class BasePage {
             pause(1000);
             waitForUpdate();
             table = new Table("tblEvents");
-            System.out.println("new Table");
         }
         int rowNum = table.getRowNumberByText(0, event.getName());
         WebElement input = table.getInput(rowNum, 1);
@@ -764,10 +814,8 @@ public abstract class BasePage {
         }
         if (Objects.requireNonNull(getSelectedValue(select)).isEmpty()) {
             eventMap.remove(event.getName());
-            System.out.println("BP:701 = removed");
         } else {
             eventMap.put(event.getName(), event);
-            System.out.println("BP:704 = put");
         }
         if (addTask) {
             table.clickOn(rowNum, 4);
@@ -1319,6 +1367,7 @@ public abstract class BasePage {
         }
         if (!match) {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
+            table.print();
             logger.warn(warning);
             throw new AssertionError(warning);
         }

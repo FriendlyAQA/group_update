@@ -1740,7 +1740,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Download file")
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl()
                 .fillUsername()
@@ -2147,7 +2147,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Download file")
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl()
                 .fillUsername()
@@ -2554,7 +2554,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Download file")
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl()
                 .fillUsername()
@@ -2961,7 +2961,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Download file")
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl()
                 .fillUsername()
@@ -3424,5 +3424,2128 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .expandEvents()
                 .checkEvents()
                 .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_180() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Information")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_181() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Information")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_182() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Information")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_183() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Information")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_184() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Time")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_185() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Time")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_186() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Time")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_187() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Time")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_188() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("WiFi")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_189() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("WiFi")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_190() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("WiFi")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_191() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("WiFi")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_192() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("IP")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_193() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("IP")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_194() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("IP")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_195() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("IP")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_196() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Firewall")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_197() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Firewall")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_198() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Firewall")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_199() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Firewall")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_200() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv4")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_201() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv4")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_202() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv4")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_203() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv4")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_204() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv6")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_205() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv6")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_206() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv6")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_207() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DHCPv6")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_208() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DNS")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_209() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DNS")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_210() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DNS")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_211() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("DNS")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_212() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Users")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_213() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Users")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_214() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Users")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_215() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Users")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_216() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Ethernet")
+                .setPolicy(1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_217() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Ethernet")
+                .setPolicy(2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_218() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Ethernet")
+                .setPolicy(4)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_219() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Policy")
+                .selectTab("Ethernet")
+                .setPolicy(3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_220() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", false, "3", null), true)
+                .addTask("Upload file")
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUrlRadioButton()
+                .fillUploadUrl()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr181_dp_221() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Upload file")
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUrlRadioButton()
+                .fillUploadUrl()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr181_dp_222() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
+                .addTask("Upload file")
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUrlRadioButton()
+                .fillUploadUrl()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr181_dp_223() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Upload file")
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUrlRadioButton()
+                .fillUploadUrl()
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
+    }
+
+    @Test
+    public void tr181_dp_224() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Management")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_225() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Information")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_226() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Time")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_227() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("WiFi")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_228() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("IP")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_229() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Firewall")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_230() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv4")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_231() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv6")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_232() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DNS")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_233() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Users")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_234() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Ethernet")
+                .getParameter(1, 1)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_235() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Management")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_236() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Information")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_237() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Time")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_238() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("WiFi")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_239() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("IP")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_240() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Firewall")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_241() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv4")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_242() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv6")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_243() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DNS")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_244() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Users")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_245() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Ethernet")
+                .getParameter(1, 2)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_246() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Management")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_247() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Information")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_248() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Time")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_249() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("WiFi")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_250() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("IP")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_251() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Firewall")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_252() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv4")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_253() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv6")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_254() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DNS")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_255() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Users")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_256() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Ethernet")
+                .getParameter(1, 3)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_257() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Management")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_258() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Information")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_259() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Time")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_260() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("WiFi")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_261() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("IP")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_262() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Firewall")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_263() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv4")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_264() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DHCPv6")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_265() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("DNS")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test   //Bug: Parameter name isn't displayed into result table;
+    public void tr181_dp_266() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Users")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_267() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
+                .addTask("Get parameter")
+                .selectTab("Ethernet")
+                .getParameter(1, 0)
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedTasks("6 CONNECTION REQUEST");
+    }
+
+    @Test
+    public void tr181_dp_999() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .deleteAllProfiles();
     }
 }

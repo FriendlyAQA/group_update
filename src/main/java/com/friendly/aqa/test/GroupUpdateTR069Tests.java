@@ -1417,7 +1417,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .fillUploadUrl(props.getProperty("upload_url"))
+                .fillUploadUrl()
                 .nextSaveAndActivate()
                 .checkAddedTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
@@ -1429,7 +1429,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .fillUploadUrl(props.getProperty("upload_url"))
+                .fillUploadUrl()
                 .nextSaveAndActivate()
                 .checkAddedTask("Vendor Log File", props.getProperty("upload_url"));
     }
@@ -3674,7 +3674,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(props.getProperty("upload_url"))
+                .fillUploadUrl()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -3700,7 +3700,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(props.getProperty("upload_url"))
+                .fillUploadUrl()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

@@ -173,7 +173,7 @@ public class DeviceProfilePage extends BasePage {
         if (options.contains(testName)) {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
-            System.out.println("deleting profile " + collisionProfileId);
+            System.out.println("deleting existing profile " + collisionProfileId);
             deleteProfileRequestApi(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
@@ -334,7 +334,12 @@ public class DeviceProfilePage extends BasePage {
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(eventName), 4);
         switchToFrame(POPUP);
-        super.checkAddedTasks();
+        try {
+            super.checkAddedTasks();
+        } catch (AssertionError e) {
+            pause(1000);
+            super.checkAddedTasks();
+        }
     }
 
     public void checkAddedTask(String eventName, String parameter, String value) {
@@ -364,7 +369,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage downloadImageFile() {
         switchToFrame(SUB_FRAME);
-        selectFileType("Firmware Image");
+        selectDownloadFileType("Firmware Image");
         waitForUpdate();
         manualRadioButton();
         fillUrl();
@@ -591,7 +596,6 @@ public class DeviceProfilePage extends BasePage {
         String item = table.getCellText(row, col);
         int id = getDeviceProfileIdByName(item);
         String link = props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + id;
-        System.out.println(link);
         try {
             assertTrue(HttpConnector.sendGetRequest(link).contains("<Name>" + item + "</Name>"));
         } catch (IOException e) {
@@ -805,28 +809,54 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage selectFileType(String type) {
-        return (DeviceProfilePage) super.selectFileType(type);
+    @Override
+    public DeviceProfilePage selectDownloadFileType(String type) {
+        return (DeviceProfilePage) super.selectDownloadFileType(type);
     }
 
+    @Override
+    public DeviceProfilePage selectUploadFileType(String type) {
+        return (DeviceProfilePage) super.selectUploadFileType(type);
+    }
+
+    @Override
+    public DeviceProfilePage manuallyUrlRadioButton() {
+        return (DeviceProfilePage) super.manuallyUrlRadioButton();
+    }
+
+    @Override
     public DeviceProfilePage manualRadioButton() {
         return (DeviceProfilePage) super.manualRadioButton();
     }
 
+    @Override
     public DeviceProfilePage selectFromListRadioButton() {
         return (DeviceProfilePage) super.selectFromListRadioButton();
     }
 
+    @Override
     public DeviceProfilePage fillUrl() {
         return (DeviceProfilePage) super.fillUrl();
     }
 
+    @Override
+    public DeviceProfilePage fillUploadUrl() {
+        return (DeviceProfilePage) super.fillUploadUrl();
+    }
+
+    @Override
     public DeviceProfilePage fillUsername() {
         return (DeviceProfilePage) super.fillUsername();
     }
 
+    @Override
     public DeviceProfilePage fillPassword() {
         return (DeviceProfilePage) super.fillPassword();
+    }
+
+    @Override
+    public DeviceProfilePage getParameter(int row, int column) {
+        return (DeviceProfilePage) super.getParameter(row, column);
     }
 
     public DeviceProfilePage saveTaskButton() {
@@ -842,7 +872,7 @@ public class DeviceProfilePage extends BasePage {
         Table table = new Table("tblParamsValue");
         int tableSize = table.getTableSize()[0];
         int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + 1;
-        String[][] all = {{"Off", "Active", "Passive"}, {"Default", "ACS only", "All"}};
+        String[][] all = {{"Off", "Passive", "Active"}, {"Default", "AcsOnly", "All"}};
         for (int i = 1; i < limit; i++) {
             WebElement notification = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
             WebElement accessList = table.getCellWebElement(i, 2).findElement(By.tagName("select"));
@@ -854,8 +884,8 @@ public class DeviceProfilePage extends BasePage {
                 selectComboBox(notification, "Off");
                 result = "Notification=Off ";
             } else if (scenario == 3) {
-                selectComboBox(notification, all[0][i - 1]);
-                selectComboBox(accessList, all[1][i - 1]);
+                new Select(notification).selectByIndex(i);
+                new Select(accessList).selectByIndex(i - 1);
                 result = "Notification=" + all[0][i - 1] + " " + (i == 1 ? "" : "Access=" + all[1][i - 1]);
             } else {
                 selectComboBox(notification, "Active");
@@ -868,7 +898,6 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage deleteProfileIfExists() {
-        System.out.println(System.currentTimeMillis());
         try {
             Table table = getMainTable();
             int row = table.getRowNumberByText(table.getColumnNumber(0, "Name"), BaseTestCase.getTestName());
@@ -878,7 +907,6 @@ public class DeviceProfilePage extends BasePage {
         } catch (AssertionError e) {
             System.out.println("Profile '" + BaseTestCase.getTestName() + "' not found, nothing to delete");
         }
-        System.out.println(System.currentTimeMillis());
         return this;
     }
 

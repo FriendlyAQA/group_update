@@ -1761,7 +1761,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_181() {
         guPage
                 .gotoFileDownload()
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1774,7 +1774,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_182() {
         guPage
                 .gotoFileDownload()
-                .selectFileType("Firmware Image")
+                .selectDownloadFileType("Firmware Image")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -1787,7 +1787,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_183() {
         guPage
                 .gotoFileDownload()
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
@@ -1798,7 +1798,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_184() {
         guPage
                 .gotoFileDownload()
-                .selectFileType("Firmware Image")
+                .selectDownloadFileType("Firmware Image")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .nextSaveAndActivate()
@@ -1812,7 +1812,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl()
                 .nextSaveAndActivate()
                 .checkAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
     }
@@ -1824,7 +1824,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl()
                 .nextSaveAndActivate()
                 .checkAddedTask("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
     }
@@ -4195,7 +4195,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -4223,7 +4223,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType("Firmware Image")
+                .selectDownloadFileType("Firmware Image")
                 .manualRadioButton()
                 .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
                 .fillUserName(BasePage.getProps().getProperty("ftp_user"))
@@ -4251,7 +4251,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType("Vendor Configuration File")
+                .selectDownloadFileType("Vendor Configuration File")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .globalButtons(NEXT)
@@ -4277,7 +4277,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Download file")
                 .addTaskButton()
-                .selectFileType("Firmware Image")
+                .selectDownloadFileType("Firmware Image")
                 .fromListRadioButton()
                 .selectFileName(1)
                 .globalButtons(NEXT)
@@ -4305,7 +4305,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(1)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -4331,7 +4331,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .selectUploadFileType(2)
                 .manuallyUrlRadioButton()
-                .fillUploadUrl(BasePage.getProps().getProperty("upload_url"))
+                .fillUploadUrl()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

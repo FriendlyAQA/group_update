@@ -113,26 +113,14 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "calDate_calendar")
     private WebElement divCalendar;
 
-    @FindBy(id = "ddlFileType")
-    private WebElement selectUploadFileTypeComboBox;
-
     @FindBy(id = "ddlDiagnostics")
     private WebElement diagnosticTypeComboBox;
 
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
 
-    @FindBy(id = "tbUrl")
-    private WebElement uploadUrlField;
-
-    @FindBy(id = "tbLogin")
-    private WebElement userNameUploadField;
-
     @FindBy(id = "UcFirmware1_ddlFileName")
     private WebElement fileNameComboBox;
-
-    @FindBy(id = "rdUrlUpload")
-    private WebElement manuallyUrlRadioButton;
 
     @FindBy(id = "rdReset Min and Max Measured Values")
     private WebElement resetMinMaxValues;
@@ -399,9 +387,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage manuallyUrlRadioButton() {
-        waitForUpdate();
-        manuallyUrlRadioButton.click();
-        return this;
+        return (GroupUpdatePage) super.manuallyUrlRadioButton();
     }
 
     @Override
@@ -581,11 +567,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage fillUploadUrl(String url) {
-        uploadUrlField.clear();
-        uploadUrlField.sendKeys(url);
-        userNameUploadField.click();
-        return this;
+    @Override
+    public GroupUpdatePage fillUploadUrl() {
+        return (GroupUpdatePage) super.fillUploadUrl();
     }
 
     public GroupUpdatePage fillUserName(String userName) {
@@ -903,12 +887,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectFileType(int index) {
-        new Select(selectFileTypeComboBox).selectByIndex(index);
+        new Select(selectDownloadFileTypeComboBox).selectByIndex(index);
         return this;
     }
 
-    public GroupUpdatePage selectFileType(String option) {
-        selectComboBox(selectFileTypeComboBox, option);
+    public GroupUpdatePage selectDownloadFileType(String option) {
+        selectComboBox(selectDownloadFileTypeComboBox, option);
         return this;
     }
 
@@ -1158,26 +1142,9 @@ public class GroupUpdatePage extends BasePage {
         return goto_("Restore");
     }
 
-
+    @Override
     public GroupUpdatePage getParameter(int row, int column) {
-        Table table = getParamTable();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = table.getHint(row);
-        String values;
-        if (column < 1) {
-            values = "values,names,attributes";
-            for (int i = 1; i < table.getRowLength(row); i++) {
-                table.clickOn(row, i, 0);
-            }
-        } else {
-            String[] valuesArr = {"", "names", "values", "attributes"};
-            values = valuesArr[column];
-            table.clickOn(row, column, 0);
-        }
-        parameterMap.put(hint, values);
-        return this;
+        return (GroupUpdatePage) super.getParameter(row, column);
     }
 
     public GroupUpdatePage setParameter(String tab, String paramName, Parameter option, String value) {
