@@ -1690,7 +1690,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkEvents();
     }
 
-    @Test   //bug: editing profile events causes a reset of all events.
+    @Test   //bug: editing profile events causes an erase of all events.
     public void tr181_dp_107() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1726,7 +1726,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("1 BOOT");
+                .checkAddedToEventTasks("1 BOOT");
     }
 
     @Test
@@ -1753,7 +1753,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedToEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -1846,7 +1846,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "GetRPCMethods");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -1870,7 +1870,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "SetParameterValues");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -1894,7 +1894,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterValues");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -1918,7 +1918,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterNames");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -1942,7 +1942,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -1966,7 +1966,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -1990,7 +1990,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "AddObject");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2014,7 +2014,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "DeleteObject");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2038,7 +2038,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "Download");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "Download");
     }
 
     @Test
@@ -2062,7 +2062,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "Reboot");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -2086,7 +2086,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "FactoryReset");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2110,7 +2110,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Custom RPC", "Upload");
+                .checkAddedToEventTask("1 BOOT", "Custom RPC", "Upload");
     }
 
     @Test
@@ -2133,7 +2133,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("2 PERIODIC");
+                .checkAddedToEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2160,7 +2160,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedToEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -2253,7 +2253,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -2277,7 +2277,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -2301,7 +2301,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -2325,7 +2325,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -2349,7 +2349,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -2373,7 +2373,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -2397,7 +2397,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "AddObject");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2421,7 +2421,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "DeleteObject");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2445,7 +2445,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "Download");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "Download");
     }
 
     @Test
@@ -2469,7 +2469,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "Reboot");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -2493,7 +2493,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "FactoryReset");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2517,7 +2517,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Custom RPC", "Upload");
+                .checkAddedToEventTask("2 PERIODIC", "Custom RPC", "Upload");
     }
 
     @Test
@@ -2540,7 +2540,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("4 VALUE CHANGE");
+                .checkAddedToEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2567,7 +2567,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedToEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -2660,7 +2660,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -2684,7 +2684,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -2708,7 +2708,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -2732,7 +2732,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -2756,7 +2756,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -2780,7 +2780,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -2804,7 +2804,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2828,7 +2828,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2852,7 +2852,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Download");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "Download");
     }
 
     @Test
@@ -2876,7 +2876,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -2900,7 +2900,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2924,7 +2924,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Custom RPC", "Upload");
+                .checkAddedToEventTask("4 VALUE CHANGE", "Custom RPC", "Upload");
     }
 
     @Test
@@ -2947,7 +2947,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2974,7 +2974,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -3067,7 +3067,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -3091,7 +3091,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -3115,7 +3115,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -3139,7 +3139,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -3163,7 +3163,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -3187,7 +3187,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -3211,7 +3211,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -3235,7 +3235,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -3259,7 +3259,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
     }
 
     @Test
@@ -3283,7 +3283,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -3307,7 +3307,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -3331,7 +3331,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
     }
 
     @Test
@@ -3354,7 +3354,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3377,7 +3377,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3400,7 +3400,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3423,7 +3423,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3447,7 +3447,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3471,7 +3471,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3495,7 +3495,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3519,7 +3519,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3543,7 +3543,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3567,7 +3567,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3591,7 +3591,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3615,7 +3615,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3639,7 +3639,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3663,7 +3663,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3687,7 +3687,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3711,7 +3711,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3735,7 +3735,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3759,7 +3759,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3783,7 +3783,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3807,7 +3807,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3831,7 +3831,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3855,7 +3855,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3879,7 +3879,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3903,7 +3903,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3927,7 +3927,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3951,7 +3951,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3975,7 +3975,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3999,7 +3999,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4023,7 +4023,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4047,7 +4047,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4071,7 +4071,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4095,7 +4095,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4119,7 +4119,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4143,7 +4143,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4167,7 +4167,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4191,7 +4191,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4215,7 +4215,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4239,7 +4239,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4263,7 +4263,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4287,7 +4287,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4311,7 +4311,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4335,7 +4335,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4359,7 +4359,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4383,7 +4383,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4408,7 +4408,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedToEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4433,7 +4433,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedToEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4458,7 +4458,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedToEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4483,7 +4483,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
+                .checkAddedToEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4507,7 +4507,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4531,7 +4531,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4555,7 +4555,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4579,7 +4579,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4603,7 +4603,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4627,7 +4627,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4651,7 +4651,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4675,7 +4675,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4699,7 +4699,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4723,7 +4723,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4747,7 +4747,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4771,7 +4771,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4795,7 +4795,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4819,7 +4819,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4843,7 +4843,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4867,7 +4867,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4891,7 +4891,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4915,7 +4915,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4939,7 +4939,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4963,7 +4963,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4987,7 +4987,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5011,7 +5011,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5035,7 +5035,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5059,7 +5059,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5083,7 +5083,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5107,7 +5107,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5131,7 +5131,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5155,7 +5155,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5179,7 +5179,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5203,7 +5203,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5227,7 +5227,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5251,7 +5251,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5275,7 +5275,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5299,7 +5299,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5323,7 +5323,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5347,7 +5347,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5371,7 +5371,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5395,7 +5395,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5419,7 +5419,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5443,7 +5443,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5467,7 +5467,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5491,7 +5491,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test   //Bug: Parameter name isn't displayed into result table;
@@ -5515,7 +5515,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5539,13 +5539,237 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedTasks("6 CONNECTION REQUEST");
+                .checkAddedToEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
-    public void tr181_dp_999() {
+    public void tr181_dp_268() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .deleteAllProfiles();
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Backup")
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Backup");
     }
+
+    @Test//bug: editing profile events causes an erase of all events.
+    public void tr181_dp_269() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_268")
+                .expandEvents()
+                .editTask("2 PERIODIC")
+                .deleteTask("Backup")
+                .assertTaskIsAbsent("Backup")
+                .saveTaskButton()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_268")
+                .selectMainTab("Summary")
+                .expandEvents()
+                .editTask("2 PERIODIC")
+                .assertTaskIsAbsent("Backup");
+    }
+
+    @Test
+    public void tr181_dp_270() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Restore")
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Restore");
+    }
+
+    @Test//bug: editing profile events causes an erase of all events.
+    public void tr181_dp_271() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_270")
+                .expandEvents()
+                .editTask("2 PERIODIC")
+                .deleteTask("Restore")
+                .assertTaskIsAbsent("Restore")
+                .saveTaskButton()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_270")
+                .selectMainTab("Summary")
+                .expandEvents()
+                .editTask("2 PERIODIC")
+                .assertTaskIsAbsent("Restore");
+    }
+
+    @Test
+    public void tr181_dp_272() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("Trace diagnostic")
+                .inputHost("8.8.8.8")
+                .inputNumOfRepetitions("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Trace diagnostic", "8.8.8.8");
+    }
+
+    @Test
+    public void tr181_dp_273() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("Download diagnostic")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Diagnostic");
+    }
+
+    @Test
+    public void tr181_dp_274() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("Upload diagnostic")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Diagnostic");
+    }
+
+    @Test
+    public void tr181_dp_275() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("Wi-Fi neighboring diagnostic")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostic", " ");
+    }
+
+    @Test
+    public void tr181_dp_276() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("IPPing diagnostic")
+                .inputHost("8.8.8.8")
+                .inputNumOfRepetitions("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "IPPing diagnostic", "8.8.8.8");
+    }
+
+    @Test   //Bug:TaskDiagnostic task with id=4704 not found
+    public void tr181_dp_277() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", false, "3", null), true)
+                .addTask("Diagnostic")
+                .selectDiagnostic("NSLoopback diagnostics")
+                .inputDnsField("8.8.8.8")
+                .inputHost("127.0.0.1")
+                .saveTaskButton()
+                .saveTaskButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedToEventTask("2 PERIODIC", "NSLoopback diagnostics", "127.0.0.1");
+    }
+
+//    @Test
+//    public void tr181_dp_999() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .deleteAllProfiles();
+//    }
 }

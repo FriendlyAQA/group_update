@@ -1659,8 +1659,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Trace diagnostic")
-                .inputHostField("8.8.8.8")
-                .numOfRepetitionsField("3")
+                .inputHost("8.8.8.8")
+                .inputNumOfRepetitions("3")
                 .nextSaveAndActivate()
                 .checkAddedTask("Trace diagnostic", "8.8.8.8");
     }
@@ -1671,7 +1671,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("NSLookUp diagnostics")
                 .inputDnsField("8.8.8.8")
-                .inputHostField("127.0.0.1")
+                .inputHost("127.0.0.1")
                 .nextSaveAndActivate()
                 .checkAddedTask("NSLookupDiagnostics", "8.8.8.8");
     }
@@ -1681,7 +1681,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("IPPing diagnostic")
-                .inputHostField("8.8.8.8")
+                .inputHost("8.8.8.8")
                 .nextSaveAndActivate()
                 .checkAddedTask("IPPing diagnostic", "8.8.8.8");
     }
@@ -1915,7 +1915,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -1926,7 +1926,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -1935,7 +1935,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test
@@ -1946,7 +1946,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test
@@ -4170,7 +4170,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addNewTask("diagnostic")
                 .addTaskButton()
                 .selectDiagnostic("IPPing diagnostic")
-                .inputHostField("8.8.8.8")
+                .inputHost("8.8.8.8")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -4386,7 +4386,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -4410,7 +4410,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test

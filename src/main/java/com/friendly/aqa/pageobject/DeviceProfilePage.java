@@ -232,6 +232,12 @@ public class DeviceProfilePage extends BasePage {
 
     }
 
+    public DeviceProfilePage editTask(String eventName) {
+        Table table = new Table("tblEvents");
+        table.clickOn(table.getRowNumberByText(0, eventName), 4);
+        return this;
+    }
+
     public DeviceProfilePage expandEvents() {
         driver.findElement(By.id("imgSpoilerEvents")).click();
         return this;
@@ -329,7 +335,7 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
     }
 
-    public void checkAddedTasks(String eventName) {
+    public void checkAddedToEventTasks(String eventName) {
         pause(1000);
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(eventName), 4);
@@ -342,7 +348,21 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public void checkAddedTask(String eventName, String parameter, String value) {
+    public void checkAddedToEventTask(String eventName, String taskName) {
+        pause(1000);
+        Table table = new Table("tblEvents");
+        table.clickOn(table.getRowNumberByText(eventName), 4);
+        switchToFrame(POPUP);
+        table = new Table("tblTasks");
+        try {
+            table.assertPresenceOfTask(taskName);
+        } catch (AssertionError e) {
+            pause(1000);
+            table.assertPresenceOfParameter(taskName);
+        }
+    }
+
+    public void checkAddedToEventTask(String eventName, String parameter, String value) {
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(eventName), 4);
         switchToFrame(POPUP);
@@ -365,6 +385,21 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage checkEvents() {
         return (DeviceProfilePage) super.checkEvents();
+    }
+
+    public DeviceProfilePage deleteTask(String taskName) {
+        switchToFrame(POPUP);
+        selectItem(new Table("tblTasks"), taskName, 1);
+        clickOn("btnDelete_btn");
+        return this;
+    }
+
+    public DeviceProfilePage assertTaskIsAbsent(String taskName) {
+        waitForUpdate();
+        if (elementIsAbsent("tblTasks") || !new Table("tblTasks").contains(taskName)) {
+            return this;
+        }
+        throw new AssertionError("Task is still present on page!");
     }
 
     public DeviceProfilePage downloadImageFile() {
@@ -666,6 +701,26 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage selectMethod(String value) {
         return (DeviceProfilePage) super.selectMethod(value);
+    }
+
+    @Override
+    public DeviceProfilePage selectDiagnostic(String value) {
+        return (DeviceProfilePage) super.selectDiagnostic(value);
+    }
+
+    @Override
+    public DeviceProfilePage inputDnsField(String text) {
+        return (DeviceProfilePage) super.inputDnsField(text);
+    }
+
+    @Override
+    public DeviceProfilePage inputHost(String text) {
+        return (DeviceProfilePage) super.inputHost(text);
+    }
+
+    @Override
+    public DeviceProfilePage inputNumOfRepetitions(String text) {
+        return (DeviceProfilePage) super.inputNumOfRepetitions(text);
     }
 
     public DeviceProfilePage fillConditionName() {

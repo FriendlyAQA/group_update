@@ -98,23 +98,11 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "fuImport")
     private WebElement importGuField;
 
-    @FindBy(id = "txtHost")
-    private WebElement inputHostField;
-
-    @FindBy(id = "txtNumberRepetitions")
-    private WebElement numOfRepetitionsField;
-
-    @FindBy(id = "txtDnsServer")
-    private WebElement inputDnsField;
-
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
 
     @FindBy(id = "calDate_calendar")
     private WebElement divCalendar;
-
-    @FindBy(id = "ddlDiagnostics")
-    private WebElement diagnosticTypeComboBox;
 
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
@@ -587,19 +575,19 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage inputHostField(String text) {
-        inputHostField.sendKeys(text);
-        return this;
-    }
-
+    @Override
     public GroupUpdatePage inputDnsField(String text) {
-        inputDnsField.sendKeys(text);
-        return this;
+        return (GroupUpdatePage) super.inputDnsField(text);
     }
 
-    public GroupUpdatePage numOfRepetitionsField(String text) {
-        numOfRepetitionsField.sendKeys(text);
-        return this;
+    @Override
+    public GroupUpdatePage inputHost(String text) {
+        return (GroupUpdatePage) super.inputHost(text);
+    }
+
+    @Override
+    public GroupUpdatePage inputNumOfRepetitions(String text) {
+        return (GroupUpdatePage) super.inputNumOfRepetitions(text);
     }
 
     public GroupUpdatePage selectRepeatsDropDown(String value) {
@@ -639,14 +627,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectDiagnostic(String value) {
-        try {
-            selectComboBox(diagnosticTypeComboBox, value);
-        } catch (NoSuchElementException e) {
-            String warn = value + " type is not supported by current device!";
-            logger.warn(warn);
-            throw new AssertionError(warn);
-        }
-        return this;
+        return (GroupUpdatePage) super.selectDiagnostic(value);
     }
 
     public GroupUpdatePage selectManufacturer() {

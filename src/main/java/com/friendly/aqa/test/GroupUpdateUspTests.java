@@ -214,7 +214,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -254,7 +254,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test
@@ -295,7 +295,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+                .assertPresenceOfParameter("CPEReprovision");
     }
 
     @Test
@@ -508,7 +508,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -533,7 +533,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -557,7 +557,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test
@@ -582,7 +582,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
@@ -607,7 +607,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+                .assertPresenceOfParameter("CPEReprovision");
     }
 
     @Test
@@ -632,6 +632,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "CPEReprovision");
+                .assertPresenceOfParameter("CPEReprovision");
     }
 }

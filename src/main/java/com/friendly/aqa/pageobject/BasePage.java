@@ -8,6 +8,7 @@ import com.friendly.aqa.utils.Table;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -233,6 +234,18 @@ public abstract class BasePage {
     @FindBy(id = "tbLogin")
     protected WebElement userNameUploadField;
 
+    @FindBy(id = "ddlDiagnostics")
+    protected WebElement diagnosticTypeComboBox;
+
+    @FindBy(id = "txtHost")
+    protected WebElement inputHostField;
+
+    @FindBy(id = "txtNumberRepetitions")
+    protected WebElement numOfRepetitionsField;
+
+    @FindBy(id = "txtDnsServer")
+    protected WebElement inputDnsField;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -245,9 +258,38 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage inputDnsField(String text) {
+        inputDnsField.clear();
+        inputDnsField.sendKeys(text);
+        return this;
+    }
+
+    public BasePage inputNumOfRepetitions(String text) {
+        numOfRepetitionsField.clear();
+        numOfRepetitionsField.sendKeys(text);
+        return this;
+    }
+
+    public BasePage inputHost(String text) {
+        inputHostField.clear();
+        inputHostField.sendKeys(text);
+        return this;
+    }
+
     public BasePage resetView() {
         resetViewButton.click();
         waitForUpdate();
+        return this;
+    }
+
+    public BasePage selectDiagnostic(String value) {
+        try {
+            selectComboBox(diagnosticTypeComboBox, value);
+        } catch (NoSuchElementException e) {
+            String warn = value + " type is not supported by current device!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
         return this;
     }
 
@@ -620,8 +662,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public void assertPresenceOfParameter(String tableId, String value) {
-        getTable(tableId).print().assertPresenceOfParameter(value);
+    public void assertPresenceOfParameter(String value) {
+        getTable("tblTasks")/*.print()*/.assertPresenceOfParameter(value);
     }
 
     public BasePage assertPresenceOfOptions(String comboBoxId, String... options) {

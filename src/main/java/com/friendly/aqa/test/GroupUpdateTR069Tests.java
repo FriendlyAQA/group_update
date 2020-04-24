@@ -1254,7 +1254,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("IPPing diagnostic")
-                .inputHostField("8.8.8.8")
+                .inputHost("8.8.8.8")
                 .nextSaveAndActivate()
                 .checkAddedTask("IPPing diagnostic", "8.8.8.8");
     }
@@ -1264,8 +1264,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Trace Diagnostic")
-                .inputHostField("8.8.8.8")
-                .numOfRepetitionsField("3")
+                .inputHost("8.8.8.8")
+                .inputNumOfRepetitions("3")
                 .nextSaveAndActivate()
                 .checkAddedTask("Trace Diagnostic", "8.8.8.8");
     }
@@ -1520,7 +1520,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .rebootRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -1529,7 +1529,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test
@@ -3539,7 +3539,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .addNewTask("Diagnostic")
                 .addTaskButton()
                 .selectDiagnostic("IPPing Diagnostic")
-                .inputHostField("8.8.8.8")
+                .inputHost("8.8.8.8")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -3755,7 +3755,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Reboot");
+                .assertPresenceOfParameter("Reboot");
     }
 
     @Test
@@ -3779,7 +3779,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("tblTasks", "Factory Reset");
+                .assertPresenceOfParameter("Factory Reset");
     }
 
     @Test

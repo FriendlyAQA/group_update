@@ -330,6 +330,17 @@ public class Table {
         }
     }
 
+    public boolean contains(String value){
+        for (String[] rows: textTable){
+            for (String cell: rows){
+                if (cell.toLowerCase().equals(value.toLowerCase())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void assertPresenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
@@ -338,6 +349,19 @@ public class Table {
             }
         }
         String warning = "Specified table does not contain value '" + value + "'";
+        print();
+        throw new AssertionError(warning);
+    }
+
+    public void assertPresenceOfTask(String value) {
+        for (String[] row : textTable) {
+            int length = row.length;
+            if (row[length - 3].equals(value)) {
+                return;
+            }
+        }
+        String warning = "Specified table does not contain value '" + value + "'";
+        print();
         throw new AssertionError(warning);
     }
 
