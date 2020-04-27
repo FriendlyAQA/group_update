@@ -1,8 +1,11 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.entities.GlobalButtons;
+import com.friendly.aqa.entities.IGlobalButtons;
+import com.friendly.aqa.entities.TopMenu;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.Table;
+import com.friendly.aqa.entities.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,8 +17,8 @@ import java.io.File;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.GlobalButtons.ADVANCED_VIEW;
-import static com.friendly.aqa.pageobject.GlobalButtons.SAVE;
+import static com.friendly.aqa.entities.GlobalButtons.ADVANCED_VIEW;
+import static com.friendly.aqa.entities.GlobalButtons.SAVE;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByManufacturer;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByModelName;
 

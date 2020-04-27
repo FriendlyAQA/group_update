@@ -1,4 +1,4 @@
-package com.friendly.aqa.pageobject;
+package com.friendly.aqa.entities;
 
 public enum TopMenu {
     SYSTEM("System"),

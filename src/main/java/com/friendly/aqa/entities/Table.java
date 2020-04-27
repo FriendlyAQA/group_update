@@ -1,4 +1,4 @@
-package com.friendly.aqa.utils;
+package com.friendly.aqa.entities;
 
 import com.friendly.aqa.pageobject.BasePage;
 import org.apache.log4j.Logger;

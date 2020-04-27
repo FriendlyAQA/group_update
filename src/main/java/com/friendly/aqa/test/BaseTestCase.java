@@ -3,7 +3,7 @@ package com.friendly.aqa.test;
 import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.Table;
+import com.friendly.aqa.entities.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -85,7 +85,7 @@ public abstract class BaseTestCase {
         }
         BasePage.switchToFrame(ROOT);
         Table.flushResults();
-        BasePage.flushResults();
+        BasePage.flushCollections();
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         List<WebElement> popup2List = BasePage.getDriver().findElements(By.id("popup2"));
         List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));

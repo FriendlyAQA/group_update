@@ -1,14 +1,16 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.utils.Event;
+import com.friendly.aqa.entities.Event;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.pageobject.BasePage.Parameter.VALUE;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.*;
+import static com.friendly.aqa.entities.Condition.*;
+import static com.friendly.aqa.entities.ParameterType.VALUE;
+import static com.friendly.aqa.entities.TopMenu.DEVICE_PROFILE;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.TopMenu.DEVICE_PROFILE;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.NEW;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 
 @Listeners(UniversalVideoListener.class)
 public class DeviceProfileTR181Tests extends BaseTestCase {
@@ -5764,6 +5766,1788 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .expandEvents()
                 .checkEvents()
                 .checkAddedToEventTask("2 PERIODIC", "NSLoopback diagnostics", "127.0.0.1");
+    }
+
+    @Test
+    public void tr181_dp_278() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_279() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_280() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_281() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_282() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_283() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_284() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_285() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_286() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Management")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_287() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_288() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_289() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_290() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_291() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_292() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_293() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_294() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_295() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Information")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_296() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_297() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_298() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_299() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_300() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_301() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_302() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_303() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_304() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Time")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_305() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_306() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_307() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_308() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_309() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_310() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_311() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_312() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_313() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("WiFi")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_314() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_315() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_316() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_317() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_318() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_319() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_320() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_321() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_322() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("IP")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_323() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_324() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_325() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_326() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_327() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_328() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_329() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_330() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_331() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Firewall")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_332() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_333() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_334() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_335() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_336() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_337() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_338() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_339() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_340() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv4")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_341() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_342() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_343() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_344() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_345() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_346() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_347() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_348() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_349() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DHCPv6")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_350() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_351() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_352() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_353() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_354() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_355() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_356() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_357() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_358() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("DNS")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_359() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_360() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_361() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_362() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_363() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_364() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_365() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_366() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_367() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Users")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_368() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_369() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_370() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(GREATER)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_371() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(GREATER_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_372() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(LESS)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_373() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(LESS_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_374() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(NOT_EQUAL)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_375() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(STARTS_WITH)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void tr181_dp_376() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Parameters monitor")
+                .selectEventTab("Ethernet")
+                .setParametersMonitor(VALUE_CHANGE)
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
     }
 
 //    @Test

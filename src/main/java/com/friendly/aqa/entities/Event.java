@@ -1,4 +1,4 @@
-package com.friendly.aqa.utils;
+package com.friendly.aqa.entities;
 
 import com.sun.istack.internal.NotNull;
 

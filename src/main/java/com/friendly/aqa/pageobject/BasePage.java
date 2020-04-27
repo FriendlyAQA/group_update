@@ -1,10 +1,10 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.Event;
-import com.friendly.aqa.utils.Table;
+import javafx.scene.control.Tab;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.GlobalButtons.REFRESH;
+import static com.friendly.aqa.entities.GlobalButtons.REFRESH;
 
 
 public abstract class BasePage {
@@ -45,6 +45,7 @@ public abstract class BasePage {
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
     protected static Map<String, Event> eventMap;
+    protected static Map<String, ParametersMonitor> parametersMonitorMap;
     protected String selectedName;
 
     static {
@@ -1149,10 +1150,11 @@ public abstract class BasePage {
         return driver.getTitle();
     }
 
-    public static void flushResults() {
+    public static void flushCollections() {
         parameterSet = null;
         parameterMap = null;
         eventMap = null;
+        parametersMonitorMap = null;
     }
 
     public BasePage pause(int millis) {
@@ -1363,7 +1365,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setParameter(Table table, String paramName, Parameter option, String value) {
+    public BasePage setParameter(Table table, String paramName, ParameterType option, String value) {
 //        Table table = new Table("tblParamsValue");
         int rowNum = table.getRowNumberByText(paramName);
         if (parameterMap == null) {
@@ -1374,8 +1376,8 @@ public abstract class BasePage {
         if (props.getProperty("browser").equals("edge")) {
             scrollToElement(paramCell);
         }
-        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.getOption() : value);
-        if (value != null && option == Parameter.VALUE) {
+        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != ParameterType.CUSTOM ? option.getOption() : value);
+        if (value != null && option == ParameterType.VALUE) {
             waitForUpdate();
             WebElement input = paramCell.findElement(By.tagName("input"));
             input.clear();
@@ -1385,6 +1387,67 @@ public abstract class BasePage {
         if (!BROWSER.equals("edge")) {
             table.clickOn(0, 0);
         }
+        return this;
+    }
+
+    public BasePage setParametersMonitor(Table table, String name, Condition condition, String value) {
+        if (parametersMonitorMap == null) {
+            parametersMonitorMap = new HashMap<>();
+        }
+        ParametersMonitor monitor = new ParametersMonitor(null, condition, value);
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < names.length; i++) {
+            String nm = names[i];
+            if (nm.equals(name) || table.getHint(i + 1).equals(name)) {
+                WebElement select = table.getCellWebElement(i + 1, 1).findElement(By.tagName("select"));
+                selectComboBox(select, condition.toString());
+                waitForUpdate();
+                if (condition != Condition.VALUE_CHANGE) {
+                    WebElement field = table.getInput(i + 1, 2);
+                    field.clear();
+                    field.sendKeys(value + " ");
+                    waitForUpdate();
+                    field.sendKeys(Keys.BACK_SPACE);
+                    waitForUpdate();
+                } else {
+                    monitor.setValue("");
+                }
+                monitor.setName(table.getHint(i + 1));
+                parametersMonitorMap.put(monitor.getName(), monitor);
+            }
+        }
+        return this;
+    }
+
+    public BasePage setParametersMonitor(Condition condition) {
+        Table table = new Table("tblParamsMonitoring");
+        String name = table.getColumn(0)[0];
+        String value = generateValue(table.getHint(1), 1);
+        return setParametersMonitor(table, name, condition, value);
+    }
+
+    public BasePage checkParametersMonitor() {
+        Table table = new Table("tblParamsMonitoring");
+        String[] names = table.getColumn(0);
+        if (parametersMonitorMap.size() != names.length) {
+            throw new AssertionError("Expected number of Parameters Monitor is " + parametersMonitorMap.size() + ", but found: " + names.length);
+        }
+        parametersMonitorMap.forEach((name, monitor) -> {
+            boolean isFound = false;
+            for (int i = 1; i < table.getTableSize()[0]; i++) {
+                System.out.println("BP:1437 = " + name + ":" + table.getHint(i) + ";" + monitor.getValue().equals(table.getInput(i, 2).getAttribute("value")));
+                if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInput(i, 2).getAttribute("value"))) {
+                    WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
+                    if (Objects.equals(getSelectedValue(select), monitor.getCondition().toString())) {
+                        isFound = true;
+                        break;
+                    }
+                }
+            }
+            if (!isFound) {
+                throw new AssertionError(monitor.toString() + " not found on current table!\n" + table.print());
+            }
+        });
         return this;
     }
 
@@ -1420,26 +1483,6 @@ public abstract class BasePage {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             checkAddedTask(entry.getKey(), entry.getValue());
-        }
-    }
-
-    public enum Parameter {
-        EMPTY_VALUE("sendEmpty"),
-        VALUE("sendValue"),
-        FALSE("0"),
-        TRUE("1"),
-        DO_NOT_SEND("notSend"),
-        NULL(""),
-        CUSTOM(null);
-
-        private String option;
-
-        public String getOption() {
-            return option;
-        }
-
-        Parameter(String option) {
-            this.option = option;
         }
     }
 

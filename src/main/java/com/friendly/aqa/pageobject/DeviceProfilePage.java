@@ -1,15 +1,12 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.Event;
 import com.friendly.aqa.utils.HttpConnector;
-import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
@@ -155,6 +152,23 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage selectEventTab(String tab) {
+        if (!tab.equals("Management") && !tab.equals("Device")) {
+            String start;
+            try {
+                start = new Table("tblTree").getCellText(0, 0);
+            }catch (StaleElementReferenceException e){
+                start = new Table("tblTree").getCellText(0, 0);
+            }
+            new Table("tabsEventSettings_tblTabs").clickOn(tab);
+            long from = System.currentTimeMillis();
+            do {
+                waitForUpdate();
+            } while (new Table("tblTree").getCellText(0, 0).equals(start) && System.currentTimeMillis() - from < 10000);
+        }
+        return this;
+    }
+
     public DeviceProfilePage userInfoRadioButton() {
         userInfoRadioButton.click();
         return this;
@@ -232,6 +246,11 @@ public class DeviceProfilePage extends BasePage {
 
     }
 
+    @Override
+    public DeviceProfilePage setParametersMonitor(Condition condition) {
+        return (DeviceProfilePage) super.setParametersMonitor(condition);
+    }
+
     public DeviceProfilePage editTask(String eventName) {
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(0, eventName), 4);
@@ -240,6 +259,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage expandEvents() {
         driver.findElement(By.id("imgSpoilerEvents")).click();
+        return this;
+    }
+
+    public DeviceProfilePage expandParametersMonitor() {
+        driver.findElement(By.id("imgSpoilerParametersMonitoring")).click();
         return this;
     }
 
@@ -285,9 +309,7 @@ public class DeviceProfilePage extends BasePage {
             waitForUpdate();
             addSummaryParameter();
             selectMainTab("Parameters");
-            waitForUpdate();
             selectTab(tab);
-            waitForUpdate();
         }
         Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
@@ -331,7 +353,7 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage setParameter(String paramName, Parameter option, String value) {
+    public DeviceProfilePage setParameter(String paramName, ParameterType option, String value) {
         return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
     }
 

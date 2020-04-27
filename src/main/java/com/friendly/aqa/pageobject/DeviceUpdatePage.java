@@ -1,6 +1,8 @@
 package com.friendly.aqa.pageobject;
 
-import com.friendly.aqa.utils.Table;
+import com.friendly.aqa.entities.IGlobalButtons;
+import com.friendly.aqa.entities.Table;
+import com.friendly.aqa.entities.TopMenu;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,7 +11,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.TopMenu.DEVICE_UPDATE;
+import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 
 public class DeviceUpdatePage extends BasePage {
     @Override

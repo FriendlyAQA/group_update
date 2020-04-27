@@ -1,6 +1,6 @@
-package com.friendly.aqa.pageobject;
+package com.friendly.aqa.entities;
 
-public enum GlobalButtons implements IGlobalButtons{
+public enum GlobalButtons implements IGlobalButtons {
 
     ACTIVATE("btnActivate_btn"),
     ADVANCED_VIEW("btnAdvancedView_btn"),

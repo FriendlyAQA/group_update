@@ -6,11 +6,11 @@ import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.entities.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
-import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.pageobject.TopMenu.MONITORING;
+import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.entities.TopMenu.MONITORING;
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringMqttTests extends BaseTestCase {

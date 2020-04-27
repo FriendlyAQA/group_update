@@ -1,8 +1,8 @@
 package com.friendly.aqa.pageobject;
 
+import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.Table;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -18,9 +18,9 @@ import java.time.Duration;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.entities.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
-import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 
 public class GroupUpdatePage extends BasePage {
     private static Logger logger = Logger.getLogger(GroupUpdatePage.class);
@@ -1128,16 +1128,16 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.getParameter(row, column);
     }
 
-    public GroupUpdatePage setParameter(String tab, String paramName, Parameter option, String value) {
+    public GroupUpdatePage setParameter(String tab, String paramName, ParameterType option, String value) {
         getTabTable().clickOn(tab);
         return setParameter(getParamTable(), paramName, option, value);
     }
 
-    public GroupUpdatePage setParameter(String paramName, Parameter option, String value) {
+    public GroupUpdatePage setParameter(String paramName, ParameterType option, String value) {
         return setParameter(getParamTable(), paramName, option, value);
     }
 
-    public GroupUpdatePage setParameter(Table table, String paramName, Parameter option, String value) {
+    public GroupUpdatePage setParameter(Table table, String paramName, ParameterType option, String value) {
 //        int rowNum = table.getRowNumberByText(paramName);
 //        if (parameterMap == null) {
 //            parameterMap = new HashMap<>();
@@ -1180,19 +1180,19 @@ public class GroupUpdatePage extends BasePage {
             String hint = table.getHint(i);
 //            List<WebElement> optionList = selectList.get(0).findElements(By.tagName("option"));
             List<WebElement> optionList = new Select(selectList.get(0)).getOptions();
-            Parameter option;
+            ParameterType option;
             String value = "1";
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
-                option = Parameter.VALUE;
+                option = ParameterType.VALUE;
                 String val = generateValue(hint, i);
                 if (val != null) {
                     value = val;
                 }
             } else if (attr.equals("true")) {
-                option = Parameter.TRUE;
+                option = ParameterType.TRUE;
             } else {
-                option = Parameter.CUSTOM;
+                option = ParameterType.CUSTOM;
                 value = attr;
             }
             setParameter(table, table.getCellText(i, 0), option, value);

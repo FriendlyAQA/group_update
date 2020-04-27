@@ -13,11 +13,11 @@ import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
-import static com.friendly.aqa.pageobject.GlobalButtons.*;
+import static com.friendly.aqa.entities.GlobalButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
-import static com.friendly.aqa.pageobject.BasePage.Parameter.VALUE;
-import static com.friendly.aqa.pageobject.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.entities.ParameterType.VALUE;
+import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 
 @Listeners(UniversalVideoListener.class)
