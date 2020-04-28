@@ -495,13 +495,13 @@ public abstract class BasePage {
         return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
     }
 
-    protected void waitElementActivity(String id, int timeOut) {
+    protected void waitElementVisibility(String id, int timeOut) {
         WebElement element = driver.findElement(By.id(id));
         new FluentWait<>(driver)
                 .withMessage("Element '#" + id + "' not found/not active")
                 .withTimeout(Duration.ofSeconds(timeOut))
                 .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.elementToBeClickable(element));
+                .until(ExpectedConditions.visibilityOf(element));
     }
 
     public BasePage fillName(String name) {
@@ -765,7 +765,7 @@ public abstract class BasePage {
         return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + DataBaseConnector.getGroupUpdateId(groupName);
     }
 
-    private String getSelectedValue(WebElement comboBox) {
+    public String getSelectedValue(WebElement comboBox) {
         List<WebElement> optList = comboBox.findElements(By.tagName("option"));
         for (WebElement el : optList) {
             if (el.getAttribute("selected") != null) {
@@ -1420,10 +1420,18 @@ public abstract class BasePage {
     }
 
     public BasePage setParametersMonitor(Condition condition) {
+        return setParametersMonitor(condition, false);
+    }
+
+    public BasePage setParametersMonitor(Condition condition, boolean addTask) {
         Table table = new Table("tblParamsMonitoring");
         String name = table.getColumn(0)[0];
         String value = generateValue(table.getHint(1), 1);
-        return setParametersMonitor(table, name, condition, value);
+        setParametersMonitor(table, name, condition, value);
+        if (addTask) {
+            table.clickOn(1, 3);
+        }
+        return this;
     }
 
     public BasePage checkParametersMonitor() {
@@ -1435,7 +1443,6 @@ public abstract class BasePage {
         parametersMonitorMap.forEach((name, monitor) -> {
             boolean isFound = false;
             for (int i = 1; i < table.getTableSize()[0]; i++) {
-                System.out.println("BP:1437 = " + name + ":" + table.getHint(i) + ";" + monitor.getValue().equals(table.getInput(i, 2).getAttribute("value")));
                 if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInput(i, 2).getAttribute("value"))) {
                     WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
                     if (Objects.equals(getSelectedValue(select), monitor.getCondition().toString())) {

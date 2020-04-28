@@ -15,13 +15,13 @@ public class Table {
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
-    private WebElement table;
-    private Properties props;
+    private final WebElement table;
+    //    private Properties props;
     private boolean retryInit;
 
     public Table(WebElement table) {
         this.table = table;
-        props = BasePage.getProps();
+//        props = BasePage.getProps();
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
@@ -92,7 +92,10 @@ public class Table {
         }
     }
 
-    public Table clickOn(int row, int column, int tagNum) {
+    public Table clickOn(int row, int column, int tagNum) { //TODO: rewrite negative tagNum
+        if (column < 0) {
+            column += textTable[row].length;
+        }
         if (tagNum == -1) {
             elementTable[row][column].click();
         } else {
@@ -113,10 +116,6 @@ public class Table {
     public Table clickOn(String text, int column) {
         clickOn(getRowNumberByText(column, text), column);
         return this;
-    }
-
-    public Table clickOn(String text) {
-        return clickOn(-1, text);
     }
 
     public int getColumnNumber(int row, String text) {
@@ -156,11 +155,11 @@ public class Table {
         return out;
     }
 
-    public Table clickOn(int tagNum, String text) {
+    public Table clickOn(String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
-                    return clickOn(i, j, tagNum);
+                    return clickOn(i, j, -1);
                 }
             }
         }
@@ -279,6 +278,15 @@ public class Table {
         return elementTable[row][column].findElement(By.tagName("input"));
     }
 
+    public WebElement getSelect(int row, int column) {
+        BasePage.setImplicitlyWait(0);
+        List<WebElement> list = elementTable[row][column].findElements(By.tagName("select"));
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
+    }
+
     public String getInputText(int row, int column) {
         WebElement input = getInput(row, column);
         if (input.getAttribute("type").equals("text")) {
@@ -330,10 +338,10 @@ public class Table {
         }
     }
 
-    public boolean contains(String value){
-        for (String[] rows: textTable){
-            for (String cell: rows){
-                if (cell.toLowerCase().equals(value.toLowerCase())){
+    public boolean contains(String value) {
+        for (String[] rows : textTable) {
+            for (String cell : rows) {
+                if (cell.toLowerCase().equals(value.toLowerCase())) {
                     return true;
                 }
             }

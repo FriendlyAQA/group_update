@@ -157,7 +157,8 @@ public class DeviceProfilePage extends BasePage {
             String start;
             try {
                 start = new Table("tblTree").getCellText(0, 0);
-            }catch (StaleElementReferenceException e){
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException!!!");
                 start = new Table("tblTree").getCellText(0, 0);
             }
             new Table("tabsEventSettings_tblTabs").clickOn(tab);
@@ -251,6 +252,11 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.setParametersMonitor(condition);
     }
 
+    @Override
+    public DeviceProfilePage setParametersMonitor(Condition condition, boolean addTask) {
+        return (DeviceProfilePage) super.setParametersMonitor(condition, addTask);
+    }
+
     public DeviceProfilePage editTask(String eventName) {
         Table table = new Table("tblEvents");
         table.clickOn(table.getRowNumberByText(0, eventName), 4);
@@ -264,6 +270,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage expandParametersMonitor() {
         driver.findElement(By.id("imgSpoilerParametersMonitoring")).click();
+        return this;
+    }
+
+    public DeviceProfilePage expandPolicy() {
+        driver.findElement(By.id("imgSpoilerPolicy")).click();
         return this;
     }
 
@@ -357,10 +368,10 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
     }
 
-    public void checkAddedToEventTasks(String eventName) {
+    private void checkAddedTasks(Table table, String eventName) {
         pause(1000);
-        Table table = new Table("tblEvents");
-        table.clickOn(table.getRowNumberByText(eventName), 4);
+        int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
+        table.clickOn(row, -1);
         switchToFrame(POPUP);
         try {
             super.checkAddedTasks();
@@ -370,10 +381,43 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public void checkAddedToEventTask(String eventName, String taskName) {
+    public void checkAddedMonitorTasks() {
+        checkAddedTasks(new Table("tblParamsMonitoring"), null);
+    }
+
+    public void checkAddedEventTasks(String eventName) {
+        checkAddedTasks(new Table("tblEvents"), eventName);
+    }
+
+    public void checkAddedMonitorTask(String parameter, String value) {
+        checkAddedTask(new Table("tblParamsMonitoring"), null, parameter, value);
+    }
+
+    public void checkAddedEventTask(String eventName, String parameter, String value) {
+        checkAddedTask(new Table("tblEvents"), eventName, parameter, value);
+    }
+
+    private void checkAddedTask(Table table, String name, String parameter, String value) {
+        int row = name == null ? 1 : table.getRowNumberByText(name);
+        table.clickOn(row, -1);
+        switchToFrame(POPUP);
+        super.checkAddedTask(parameter, value);
+    }
+
+    public void checkAddedEventTask(String eventName, String taskName) {
         pause(1000);
-        Table table = new Table("tblEvents");
-        table.clickOn(table.getRowNumberByText(eventName), 4);
+        checkAddedTask(new Table("tblEvents"), eventName, taskName);
+    }
+
+    public void checkAddedMonitorTask(String taskName) {
+        pause(1000);
+        checkAddedTask(new Table("tblParamsMonitoring"), null, taskName);
+    }
+
+    private void checkAddedTask(Table table, String name, String taskName) {
+        pause(1000);
+        int row = name == null ? 1 : table.getRowNumberByText(name);
+        table.clickOn(row, -1);
         switchToFrame(POPUP);
         table = new Table("tblTasks");
         try {
@@ -384,29 +428,66 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public void checkAddedToEventTask(String eventName, String parameter, String value) {
-        Table table = new Table("tblEvents");
-        table.clickOn(table.getRowNumberByText(eventName), 4);
-        switchToFrame(POPUP);
-        super.checkAddedTask(parameter, value);
+    public void checkAddedEventAction(String eventName, String parameter, String value) {
+        checkAddedAction(new Table("tblEvents"), eventName, parameter, value);
     }
 
-    public void checkAddedAction(String eventName, String parameter, String value) {
-        Table table = new Table("tblEvents");
-        table.clickOn(table.getRowNumberByText(eventName), 4);
+    public void checkAddedMonitorAction(String eventName, String parameter, String value) {
+        checkAddedAction(new Table("tblParamsMonitoring"), eventName, parameter, value);
+    }
+
+    private void checkAddedAction(Table table, String eventName, String parameter, String value) {
+        int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
+        table.clickOn(row, -1);
         switchToFrame(POPUP);
         super.checkAddedTask(parameter, value, 1);
     }
 
+    @Override
+    public DeviceProfilePage checkParametersMonitor() {
+        return (DeviceProfilePage) super.checkParametersMonitor();
+    }
+
+    @Override
+    public DeviceProfilePage checkEvents() {
+        return (DeviceProfilePage) super.checkEvents();
+    }
+
+    public void checkPolicy() {
+        Table table = new Table("tblPolicy");
+        String[] names = table.getColumn(0);
+        List<String> notifyList = Arrays.asList("Default", "Off", "Passive", "Active");
+        List<String> accessList = Arrays.asList("Default", "ACS only", "All");
+        String[] notifyAnswer = {"", "Notification=Off ", "Notification=Passive ", "Notification=Active "};
+        String[] accessAnswer = {"", "Access=AcsOnly", "Access=All"};
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            String name = names[i - 1];
+            WebElement notifySelect = table.getSelect(i, 1);
+            WebElement accessSelect = table.getSelect(i, 2);
+            String notification = notifySelect == null ? "" : getSelectedValue(notifySelect);
+            String access = accessSelect == null ? "" : getSelectedValue(accessSelect);
+            if ((notification.equals("Default") || notification.isEmpty()) && (access.equals("Default") || access.isEmpty())) {
+                continue;
+            }
+            String result = "";
+            if (!notification.isEmpty()) {
+                result += notifyAnswer[notifyList.indexOf(notification)];
+            }
+            if (!access.isEmpty()) {
+                result += accessAnswer[accessList.indexOf(access)];
+            }
+            assertEquals(result, parameterMap.get(name), "Unexpected policy for parameter '" + name + '\'');
+            parameterMap.remove(name);
+        }
+        assertTrue(parameterMap.isEmpty(), "Cannot find policy for following parameters:" + parameterMap);
+    }
+
     public DeviceProfilePage addTask(String task) {
         switchToFrame(POPUP);
+        waitElementVisibility("btnAddTask_btn", 5);
         selectComboBox(selectTask, task);
         clickButton(addTaskButton);
         return this;
-    }
-
-    public DeviceProfilePage checkEvents() {
-        return (DeviceProfilePage) super.checkEvents();
     }
 
     public DeviceProfilePage deleteTask(String taskName) {
@@ -575,6 +656,7 @@ public class DeviceProfilePage extends BasePage {
         for (String id : idSet) {
             deleteProfileRequestApi(id);
         }
+        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed");
         return this;
     }
 
@@ -942,32 +1024,59 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setTaskPolicy(int scenario) {
+        return setPolicy(new Table("tblParamsValue"), scenario);
+    }
+
     public DeviceProfilePage setPolicy(int scenario) {
+        return setPolicy(new Table("tblPolicy"), scenario);
+    }
+
+    public DeviceProfilePage setPolicy(Table table, int scenario) {
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
-        Table table = new Table("tblParamsValue");
         int tableSize = table.getTableSize()[0];
         int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + 1;
         String[][] all = {{"Off", "Passive", "Active"}, {"Default", "AcsOnly", "All"}};
         for (int i = 1; i < limit; i++) {
-            WebElement notification = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
-            WebElement accessList = table.getCellWebElement(i, 2).findElement(By.tagName("select"));
-            String result;
+            WebElement notification = table.getSelect(i, 1);
+            WebElement accessList = table.getSelect(i, 2);
+            String result = "";
+            waitForUpdate();
             if (scenario == 1) {
-                selectComboBox(accessList, "ACS only");
-                result = "Access=AcsOnly";
+                if (accessList != null) {
+                    selectComboBox(accessList, "ACS only");
+                    result = "Access=AcsOnly";
+                }
             } else if (scenario == 2) {
-                selectComboBox(notification, "Off");
-                result = "Notification=Off ";
+                if (notification != null) {
+                    selectComboBox(notification, "Off");
+                    result = "Notification=Off ";
+                }
             } else if (scenario == 3) {
-                new Select(notification).selectByIndex(i);
-                new Select(accessList).selectByIndex(i - 1);
-                result = "Notification=" + all[0][i - 1] + " " + (i == 1 ? "" : "Access=" + all[1][i - 1]);
+                if (notification != null) {
+                    new Select(notification).selectByIndex(i);
+                    result = "Notification=" + all[0][i - 1] + " ";
+                    waitForUpdate();
+                }
+                if (accessList != null) {
+                    new Select(accessList).selectByIndex(i - 1);
+                    result += (i == 1 ? "" : "Access=" + all[1][i - 1]);
+                }
             } else {
-                selectComboBox(notification, "Active");
-                selectComboBox(accessList, "ACS only");
-                result = "Notification=Active Access=AcsOnly";
+                if (notification != null) {
+                    selectComboBox(notification, "Active");
+                    result = "Notification=Active ";
+                    waitForUpdate();
+                }
+                if (accessList != null) {
+                    selectComboBox(accessList, "ACS only");
+                    result += "Access=AcsOnly";
+                }
+            }
+            if (result.isEmpty()) {
+                throw new AssertionError("Cannot complete test on current tab for this device!");
             }
             parameterMap.put(table.getHint(i), result);
         }
