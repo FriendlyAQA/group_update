@@ -993,7 +993,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .selectMainTab("Download file")
-                .downloadImageFile()
+                .downloadManualImageFile("Firmware Image")
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, testName);
@@ -8640,9 +8640,107 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr181_dp_999() {
+    public void tr181_dp_432() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .deleteAllProfiles();
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Download file")
+                .downloadFromListFile("Firmware Image")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
     }
+
+    @Test
+    public void tr181_dp_433() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Download file")
+                .downloadManualImageFile("Firmware Image")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test
+    public void tr181_dp_434() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_433")
+                .selectMainTab("Download file")
+                .editFileEntry()
+                .downloadFromListFile("Firmware Image")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_433")
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test
+    public void tr181_dp_435() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Download file")
+                .downloadFromListFile("Vendor Configuration File")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test
+    public void tr181_dp_436() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectMainTab("Download file")
+                .downloadManualImageFile("Vendor Configuration File")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test
+    public void tr181_dp_437() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_436")
+                .selectMainTab("Download file")
+                .editFileEntry()
+                .downloadFromListFile("Vendor Configuration File")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("tr181_dp_436")
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+//    @Test
+//    public void tr181_dp_999() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .deleteAllProfiles();
+//    }
 }

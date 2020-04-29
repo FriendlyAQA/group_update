@@ -247,6 +247,9 @@ public abstract class BasePage {
     @FindBy(id = "txtDnsServer")
     protected WebElement inputDnsField;
 
+    @FindBy(id = "UcFirmware1_ddlFileName")
+    protected WebElement fileNameComboBox;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -358,7 +361,7 @@ public abstract class BasePage {
     }
 
     public BasePage fillUrl() {
-        urlField.sendKeys(BasePage.getProps().getProperty("ftp_config_file_url"));
+        urlField.sendKeys(getProps().getProperty("ftp_config_file_url"));
         return this;
     }
 

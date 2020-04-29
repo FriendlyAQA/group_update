@@ -107,9 +107,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
 
-    @FindBy(id = "UcFirmware1_ddlFileName")
-    private WebElement fileNameComboBox;
-
     @FindBy(id = "rdReset Min and Max Measured Values")
     private WebElement resetMinMaxValues;
 

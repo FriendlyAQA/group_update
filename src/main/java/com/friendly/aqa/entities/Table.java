@@ -266,7 +266,8 @@ public class Table {
             column = textTable[row].length + column;
         }
         if (!textTable[row][column].endsWith(expectedText)) {
-            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't end with '" + expectedText + "'!");
+            throw new AssertionError("Text in cell (tab) #[" + row + "," + column + "] doesn't end with '" + expectedText
+                    + "'! (Actual cell text is:'" + textTable[row][column] + "')");
         }
     }
 
@@ -285,6 +286,16 @@ public class Table {
             return null;
         }
         return list.get(0);
+    }
+
+    public List<Integer> getRowsWithSelectList(int column) {
+        List<Integer> out = new ArrayList<>();
+        for (int i = 1; i < elementTable.length; i++) {
+            if (getSelect(i, column) != null) {
+                out.add(i);
+            }
+        }
+        return out;
     }
 
     public String getInputText(int row, int column) {

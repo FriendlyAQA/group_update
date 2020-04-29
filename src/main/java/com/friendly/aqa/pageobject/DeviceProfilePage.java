@@ -505,17 +505,46 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError("Task is still present on page!");
     }
 
-    public DeviceProfilePage downloadImageFile() {
+    public DeviceProfilePage downloadManualImageFile(String fileType) {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
         switchToFrame(SUB_FRAME);
-        selectDownloadFileType("Firmware Image");
+        selectDownloadFileType(fileType);
         waitForUpdate();
         manualRadioButton();
         fillUrl();
-        fillUsername();
-        fillPassword();
+//        fillUsername();
+//        fillPassword();
         saveButton();
         switchToPreviousFrame();
+        parameterMap.put(fileType, getProps().getProperty("ftp_config_file_url"));
         return this;
+    }
+
+    public DeviceProfilePage downloadFromListFile(String fileType) {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        switchToFrame(SUB_FRAME);
+        selectDownloadFileType(fileType);
+        waitForUpdate();
+        selectFromListRadioButton();
+        List<String> optList = getOptionList(fileNameComboBox);
+        String lastOpt = optList.get(optList.size() - 1);
+        selectComboBox(fileNameComboBox, lastOpt);
+        saveButton();
+        switchToPreviousFrame();
+        parameterMap.put(fileType, lastOpt);
+        return this;
+    }
+
+    public void checkDownloadFile() {
+        switchToFrame(SUB_FRAME);
+        Table table = new Table("tblFirmwares");
+        String fileType = new ArrayList<>(parameterMap.keySet()).get(0);
+        assertEquals(table.getCellText(1, 1), fileType);
+        table.assertEndsWith(1, 2, parameterMap.get(fileType));
     }
 
     public DeviceProfilePage selectCondition(int index) {
@@ -822,6 +851,18 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.inputHost(text);
     }
 
+
+    public DeviceProfilePage editFileEntry() {
+        waitForUpdate();
+        switchToFrame(SUB_FRAME);
+        pause(1000);
+        System.out.println("table:");
+        new Table("tblFirmwares").print();
+        clickOnTable("tblFirmwares", 1, 1, -1);
+        waitForUpdate();
+        return this;
+    }
+
     @Override
     public DeviceProfilePage inputNumOfRepetitions(String text) {
         return (DeviceProfilePage) super.inputNumOfRepetitions(text);
@@ -1036,10 +1077,35 @@ public class DeviceProfilePage extends BasePage {
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
+        int shift = 1;
+        if (scenario == 1) {
+            List<Integer> rowsList = table.getRowsWithSelectList(2);
+            if (!rowsList.isEmpty()) {
+                shift = rowsList.get(0);
+            } else {
+                Table treeTable = new Table("tblTree");
+                String branch = driver.findElement(By.id("divPath")).getText();
+                for (int i = 1; i < treeTable.getTableSize()[0]; i++) {
+                    treeTable.clickOn(i, 0, 0);
+                    waitForUpdate();
+                    String newBranch = driver.findElement(By.id("divPath")).getText();
+                    if (newBranch.equals(branch)) {
+                        continue;
+                    }
+                    table = new Table("tblPolicy");
+                    branch = newBranch;
+                    rowsList = table.getRowsWithSelectList(2);
+                    if (!rowsList.isEmpty()) {
+                        shift = rowsList.get(0);
+                        break;
+                    }
+                }
+            }
+        }
         int tableSize = table.getTableSize()[0];
-        int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + 1;
+        int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + shift;
         String[][] all = {{"Off", "Passive", "Active"}, {"Default", "AcsOnly", "All"}};
-        for (int i = 1; i < limit; i++) {
+        for (int i = shift; i < limit; i++) {
             WebElement notification = table.getSelect(i, 1);
             WebElement accessList = table.getSelect(i, 2);
             String result = "";
