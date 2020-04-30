@@ -425,7 +425,6 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
                 .checkTargetDevice(false, "PeriodicInformInterval, sec", "65");
-        setTargetTestName();
     }
 
     @Test   // depends on 028
@@ -8735,6 +8734,797 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile("tr181_dp_436")
                 .selectMainTab("Download file")
                 .checkDownloadFile();
+    }
+
+    @Test
+    public void tr181_dp_438() {//duplicate with 027
+        dpPage
+                .presetFilter("Zip", "61000")
+                .topMenu(DEVICE_PROFILE)
+//                .deleteProfileIfExists()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "61")
+                .fillName()       //text in Name field is disappearing when condition added;
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
+    }
+
+    @Test   //depends on 438
+    public void tr181_dp_439() {//duplicate with 028
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "62")
+                .fillName()       //text in Name field is disappearing when condition added;
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(false, "PeriodicInformInterval, sec", "62");
+    }
+
+    @Test   //depends on 438
+    public void tr181_dp_440() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("^6.+$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "63")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "63");
+    }
+
+    @Test
+    public void tr181_dp_441() {
+        dpPage
+                .presetFilter("User location", "USA")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("=")
+                .fillValue("USA")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "64")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "64");
+    }
+
+    @Test   //depends on 441
+    public void tr181_dp_442() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Ukraine")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "65")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "65");
+    }
+
+    @Test   //depends on 441
+    public void tr181_dp_443() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("^US.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "66")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "66");
+    }
+
+    @Test
+    public void tr181_dp_444() {
+        dpPage
+                .presetFilter("User tag", "Egorych")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("=")
+                .fillValue("Egorych")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "67")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "67");
+    }
+
+    @Test   //depends on 444
+    public void tr181_dp_445() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Zheka")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "68")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "68");
+    }
+
+    @Test   //depends on 444
+    public void tr181_dp_446() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".+ryc.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "69")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "69");
+    }
+
+    @Test
+    public void tr181_dp_447() {
+        dpPage
+                .presetFilter("User ID", "245")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("=")
+                .fillValue("245")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "70")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+    }
+
+    @Test   //depends on 447
+    public void tr181_dp_448() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("246")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "71")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "71");
+    }
+
+    @Test   //depends on 447
+    public void tr181_dp_449() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("\\d{3}")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "72")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "72");
+    }
+
+    @Test
+    public void tr181_dp_450() {
+        dpPage
+                .presetFilter("User status", "online")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("=")
+                .fillValue("online")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "60")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "60");
+    }
+
+    @Test   //depends on 450
+    public void tr181_dp_451() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("offline")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "61")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
+    }
+
+    @Test   //depends on 450
+    public void tr181_dp_452() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".{5}e")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "62")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "62");
+    }
+
+    @Test//bug: Parameter Device.DeviceSummary not found;
+    public void tr181_dp_453() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionTypeComboBox("=")
+                .fillValue("6 CONNECTION REQUEST")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "63")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "63");
+    }
+
+    @Test//bug: Parameter Device.DeviceSummary not found;
+    public void tr181_dp_454() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("HC220-G1 v1 00000001")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "64")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "64");
+    }
+
+    @Test//bug: Parameter Device.DeviceSummary not found;
+    public void tr181_dp_455() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("HC220-G1 v1 0{8}$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "65")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "65");
+    }
+
+    @Test
+    public void tr181_dp_456() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionTypeComboBox("=")
+                .fillValue("HC220-G1 v1 00000000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "66")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "66");
+    }
+
+    @Test
+    public void tr181_dp_457() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("HC220-G1 v1 00000001")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "67")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "67");
+    }
+
+    @Test
+    public void tr181_dp_458() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("HC220-G1 v1 0{8}$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "68")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "68");
+    }
+
+    @Test
+    public void tr181_dp_459() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionTypeComboBox("=")
+                .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "69")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "69");
+    }
+
+    @Test
+    public void tr181_dp_460() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("incorrect")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "70")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+    }
+
+    @Test
+    public void tr181_dp_461() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".+40046n$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "71")
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "71");
+    }
+
+    @Test
+    public void tr181_dp_462() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton()
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionTypeComboBox("=")
+                .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Management")
+                .setParameter("PeriodicInformInterval, sec", "72")
+                .fillName()       //text in Name field is disappearing when condition added;
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName())
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "72");
+    }
+
+    @Test  //depends on 462
+    public void tr181_dp_463() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_462")
+                .editConditionButton()
+                .globalButtons(NEXT)
+                .selectFilterItem(1)
+                .deleteFilter()
+                .okButtonPopUp()
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "tr181_dp_462");
+    }
+
+    @Test  //depends on 462
+    public void tr181_dp_464() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("tr181_dp_462")
+                .editConditionButton()
+                .globalButtons(DELETE_CONDITION)
+                .okButtonPopUp()
+                .assertButtonIsActive(false,"btnEditView_btn")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "tr181_dp_462");
+    }
+
+    @Test
+    public void tr181_dp_465() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test
+    public void tr181_dp_466() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test
+    public void tr181_dp_467() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .applyForNewDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
     }
 
 //    @Test

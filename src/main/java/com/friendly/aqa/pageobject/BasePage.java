@@ -146,7 +146,10 @@ public abstract class BasePage {
     protected WebElement okButtonAlertPopUp;
 
     @FindBy(id = "btnAddFilter_btn")
-    private WebElement addFilterButton;
+    protected WebElement addFilterButton;
+
+    @FindBy(id = "btnDelFilter_btn")
+    protected WebElement deleteFilterButton;
 
     @FindBy(id = "ddlColumns")
     protected WebElement selectColumnFilter;

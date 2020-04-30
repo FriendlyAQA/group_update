@@ -92,6 +92,9 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlCust")
     private WebElement selectUserInfoComboBox;
 
+    @FindBy(id = "ddlInform")
+    private WebElement selectInformComboBox;
+
     @FindBy(id = "rdFullRequest")
     private WebElement fullRequestRadioButton;
 
@@ -109,6 +112,9 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "rdCust")
     private WebElement userInfoRadioButton;
+
+    @FindBy(id = "rdInfo")
+    private WebElement informRadioButton;
 
     @FindBy(id = "btnEditView_btn")
     private WebElement editConditionButton;
@@ -134,6 +140,25 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "txtValue")
     private WebElement valueInputField;
 
+    @FindBy(id = "cbSendBackup")
+    private WebElement performDeviceCheckbox;
+
+    @FindBy(id = "cbsendBackupForExisting")
+    private WebElement applyForNewDeviceCheckbox;
+
+
+    public DeviceProfilePage performDeviceCheckbox() {
+        performDeviceCheckbox.click();
+        pause(1000);
+        waitForUpdate();
+        return this;
+    }
+
+    public DeviceProfilePage applyForNewDeviceCheckbox() {
+        applyForNewDeviceCheckbox.click();
+        waitForUpdate();
+        return this;
+    }
 
     @Override
     public DeviceProfilePage assertElementIsSelected(String id) {
@@ -172,6 +197,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage userInfoRadioButton() {
         userInfoRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage informRadioButton() {
+        informRadioButton.click();
         return this;
     }
 
@@ -557,6 +587,11 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage selectInformComboBox(String info) {
+        selectComboBox(selectInformComboBox, info);
+        return this;
+    }
+
     public DeviceProfilePage selectConditionTypeComboBox(String condition) {
         selectComboBox(selectConditionTypeComboBox, condition);
         return this;
@@ -621,7 +656,13 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
-        Table table = getMainTable();
+        Table table;
+        try {
+            table = getMainTable();
+        } catch (NoSuchElementException e) {
+            okButtonPopUp();
+            table = getMainTable();
+        }
         int col = table.getColumnNumber(0, "Name");
         boolean isFound = true;
         try {
@@ -645,6 +686,16 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         throw new AssertionError("Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!");
+    }
+
+    public DeviceProfilePage selectFilterItem(int itemNum) {
+        clickOnTable("tblItems", itemNum, 0, 0);
+        return this;
+    }
+
+    public DeviceProfilePage deleteFilter() {
+        deleteFilterButton.click();
+        return this;
     }
 
     public DeviceProfilePage selectManufacturer() {
@@ -1163,6 +1214,10 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage leftMenu(Left item) {
+        switchToFrame(DESKTOP);
+        if (driver.findElement(By.id("pager2_lblCount")).getText().equals("15")) {
+            deleteAllProfiles();
+        }
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
         waitForUpdate();
