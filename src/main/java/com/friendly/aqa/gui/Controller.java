@@ -1,5 +1,6 @@
 package com.friendly.aqa.gui;
 
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.XmlWriter;
 import org.apache.log4j.PropertyConfigurator;
@@ -26,14 +27,14 @@ public class Controller implements WindowListener, Runnable {
     private JRadioButton[] runSpecifiedButtons, excludeSpecificButtons;
     private JTextField[] runSpecifiedFields, excludeSpecificFields;
     private JCheckBox[] enableTabCheckboxes;
-    private Set<String>[][] tabTestAmount;
+    private final Set<String>[][] tabTestAmount;
     private JCheckBox reRunFailedCheckbox;
     private JCheckBox[][] protocolCheckBoxes;
     private JButton runButton;
     private JProgressBar progressBar;
-    private Set<String>[][] sourceTestSet;
+    private final Set<String>[][] sourceTestSet;
     private Set<String> failedTestSet;
-    private int[][] lastTestNumber;
+    private final int[][] lastTestNumber;
     private int testSum;
     private final List<Character> allowedChars = new ArrayList<>(Arrays.asList(new Character[]{44, 45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57}));
     private final String[][] classNames = {
@@ -56,7 +57,7 @@ public class Controller implements WindowListener, Runnable {
             {"settings_"}};
     private final String[] tabNames = {"Device Profile", "Device Update", "Group Update", "Monitoring", "Events", "Reports", "File Management", "Settings"};
     private static Controller controller;
-    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Controller.class);
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Controller.class);
     private int passedTestCount;
     private int failedTestCount;
     private String reRunBuffer;
@@ -468,6 +469,7 @@ public class Controller implements WindowListener, Runnable {
     @Override
     public void windowClosing(WindowEvent e) {
         logger.info("Application closed\n\n\n");
+        BasePage.getDriver().quit();
         System.exit(0);
     }
 
@@ -509,7 +511,7 @@ public class Controller implements WindowListener, Runnable {
     }
 
     private static class TextAreaOutputStream extends OutputStream {
-        private TextArea textArea;
+        private final TextArea textArea;
         private StringBuilder buffer = new StringBuilder();
 
         public TextAreaOutputStream(TextArea textArea) {
@@ -529,8 +531,8 @@ public class Controller implements WindowListener, Runnable {
     }
 
     public static class TabTask {
-        private String tabName;
-        private Map<String, Set<String>> classMap;
+        private final String tabName;
+        private final Map<String, Set<String>> classMap;
 
         public TabTask(String tabName) {
             this.tabName = tabName;

@@ -370,7 +370,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
     @Test
     public void tr181_dp_027() {
         dpPage
-//                .presetFilter("Zip", "61000")
+                .presetFilter("Zip", "61000")
                 .topMenu(DEVICE_PROFILE)
 //                .deleteProfileIfExists()
                 .leftMenu(NEW)
@@ -1595,7 +1595,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkEvents();
     }
 
-    @Test
+    @Test//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
     public void tr181_dp_102() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1608,7 +1608,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertAddTaskButtonIsActive("0 BOOTSTRAP", true)
                 .setEvent(new Event("0 BOOTSTRAP", null, "0", null))
                 .assertAddTaskButtonIsActive("0 BOOTSTRAP", false)
-                .setEvent(new Event("0 BOOTSTRAP", false, "5", "4:hours"))
+                .setEvent(new Event("0 BOOTSTRAP", false, "5", "4:hours"))  //saved 4:minutes
                 .assertAddTaskButtonIsActive("0 BOOTSTRAP", true)
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -8622,7 +8622,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkPolicy();
     }
 
-    @Test
+    @Test//depends on 430
     public void tr181_dp_431() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -8672,7 +8672,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkDownloadFile();
     }
 
-    @Test
+    @Test//depends on 433
     public void tr181_dp_434() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

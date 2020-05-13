@@ -219,7 +219,7 @@ public class DeviceProfilePage extends BasePage {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
             System.out.println("deleting existing profile " + collisionProfileId);
-            deleteProfileRequestApi(collisionProfileId);
+            deleteProfileByApiRequest(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
             inputText(testName, DELETE_CONDITION);
@@ -642,7 +642,7 @@ public class DeviceProfilePage extends BasePage {
                 return this;
             }
         } catch (NoSuchElementException e) {
-            logger.warn(e.getMessage());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
         }
         throw new AssertionError("One or more elements not found on Device Profile tab main page");
     }
@@ -734,13 +734,13 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage deleteAllProfiles() {
         Set<String> idSet = DataBaseConnector.getProfileSet();
         for (String id : idSet) {
-            deleteProfileRequestApi(id);
+            deleteProfileByApiRequest(id);
         }
         System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed");
         return this;
     }
 
-    public DeviceProfilePage deleteProfileRequestApi(String id) {
+    public DeviceProfilePage deleteProfileByApiRequest(String id) {
         String response = "empty";
         try {
             response = HttpConnector.sendPostRequest("http://95.217.85.220/CpeAdmin/CpeService.asmx/DeleteProfile", "{\"confIdHolder\":\"" + id + "\"}");
@@ -748,7 +748,7 @@ public class DeviceProfilePage extends BasePage {
             e.printStackTrace();
         }
         if (!response.equals("{\"d\":true}")) {
-            System.out.println("Profile deleting failed!");
+            System.out.println("Profile deleting failed/not found!");
         }
         return this;
     }
@@ -811,7 +811,11 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage getExport() {
         Table table = getMainTable();
         int col = table.getColumnNumber(0, "Name");
-        int row = table.getRowsWithText("Active").get(1);
+        List<Integer> activeList = table.getRowsWithText("Active");
+        if (activeList.size() < 2) {
+            throw new AssertionError("There is no active profile to export except Default profile!");
+        }
+        int row = activeList.get(1);
         String item = table.getCellText(row, col);
         int id = getDeviceProfileIdByName(item);
         String link = props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + id;
@@ -995,7 +999,7 @@ public class DeviceProfilePage extends BasePage {
             }
             if ((i == 9 && isExpected) || (!isExpected && text.equals(value))) {
                 String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
             globalButtons(DeviceUpdatePage.GlobalButtons.GET_CURRENT);
@@ -1203,7 +1207,6 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage deleteProfileIfExists() {
         try {
             Table table = getMainTable();
-            int row = table.getRowNumberByText(table.getColumnNumber(0, "Name"), BaseTestCase.getTestName());
             selectItem(table, BaseTestCase.getTestName(), 1);
             globalButtons(DELETE);
             okButtonPopUp();

@@ -380,7 +380,7 @@ public class MonitoringPage extends BasePage {
         if (!parameterSet.isEmpty()) {
             StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
             parameterSet.forEach(sb::append);
-            logger.warn(sb.toString());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + sb.toString());
         }
         throw new AssertionError("Checking column headers failed!");
     }
@@ -408,7 +408,7 @@ public class MonitoringPage extends BasePage {
                 return this;
             }
         } catch (NoSuchElementException e) {
-            logger.warn(e.getMessage());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
         }
         throw new AssertionError("One or more elements not found on Monitoring tab main page");
     }

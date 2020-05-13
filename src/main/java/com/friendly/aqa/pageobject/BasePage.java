@@ -294,7 +294,7 @@ public abstract class BasePage {
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
             String warn = value + " type is not supported by current device!";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + '(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -646,7 +646,7 @@ public abstract class BasePage {
         List<WebElement> list = driver.findElements(By.id(id));
         if (list.size() == 0) {
             String warn = "Element with id='" + id + "' not found on current page";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + '(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -885,9 +885,9 @@ public abstract class BasePage {
     public BasePage checkEvents() {
         if (!eventMap.equals(readEvents())) {
             String warn = "Events comparison error!";
-            logger.warn("expected:" + eventMap);
-            logger.warn("actual:" + readEvents());
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + "expected:" + eventMap);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + "actual:" + readEvents());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -1191,7 +1191,7 @@ public abstract class BasePage {
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File src = screenshot.getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(src, new File(pathname));
-        System.out.println("Successfully captured a screenshot");
+//        System.out.println("Successfully captured a screenshot");
     }
 
     public BasePage readTasksFromDb() {
@@ -1202,7 +1202,7 @@ public abstract class BasePage {
             groupList = DataBaseConnector.getTaskList();
             if (groupList.isEmpty()) {
                 String warn = "There are no tasks created by '" + BaseTestCase.getTestName() + "' Group Update";
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
             Set<String> StateSet = new HashSet<>();
@@ -1322,7 +1322,7 @@ public abstract class BasePage {
                 System.out.println("arr:" + Arrays.toString(arr));
                 String warn = "sorting by column '" + column + "' failed!";
                 warn = (descending ? "Descending " : "Ascending ") + warn;
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
         }
@@ -1486,7 +1486,7 @@ public abstract class BasePage {
         if (!match) {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
             table.print();
-            logger.warn(warning);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warning);
             throw new AssertionError(warning);
         }
         return this;

@@ -197,7 +197,7 @@ public class GroupUpdatePage extends BasePage {
                 return this;
             }
         } catch (NoSuchElementException e) {
-            logger.warn(e.getMessage());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
         }
         throw new AssertionError("One or more elements not found on Group Update tab main page");
     }
@@ -762,7 +762,7 @@ public class GroupUpdatePage extends BasePage {
         }
         if (set.size() != 1 && !set.contains(option)) {
             String warn = "Filtering failed on dropdown '" + dropdown + "'";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             itemsOnPage("10");
             throw new AssertionError(warn);
         }
@@ -782,7 +782,7 @@ public class GroupUpdatePage extends BasePage {
 //        Arrays.sort(arr);
 //        if (!Arrays.deepEquals(arr, arr2)) {
 //            String warn = "Sorting check failed";
-//            logger.warn(warn);
+//            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
 //            resetView();
 //            throw new AssertionError(warn);
 //        }
@@ -794,7 +794,7 @@ public class GroupUpdatePage extends BasePage {
 //        Arrays.sort(arr, Comparator.reverseOrder());
 //        if (!Arrays.deepEquals(arr, arr2)) {
 //            String warn = "Reverse sorting check failed";
-//            logger.warn(warn);
+//            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
 //            resetView();
 //            throw new AssertionError(warn);
 //        }
@@ -854,7 +854,7 @@ public class GroupUpdatePage extends BasePage {
         boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
         if (!(man && model && status && sortedByCreated)) {
             String warn = "\"Reset View\" check failed";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -1247,7 +1247,7 @@ public class GroupUpdatePage extends BasePage {
         String[] names = table.getColumn(0);
         int counter = (scenario == 0 || scenario >= length) ? length : scenario + 1;
         if (scenario >= length) {
-            logger.warn("Number of parameters on current tab is not enough to execute this testcase");
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + "Number of parameters on current tab is not enough to execute this testcase");
         }
         if (parameterMap == null) {
             parameterMap = new HashMap<>();

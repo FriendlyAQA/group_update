@@ -5,6 +5,7 @@ import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.entities.Table;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.*;
@@ -39,7 +40,7 @@ public abstract class BaseTestCase {
     @BeforeSuite
     public void init() {
         controller = Controller.getController();
-        logger.info("\n****************************************STARTING TEST SUITE*****************************************");
+        logger.warn("\n****************************************STARTING TEST SUITE*****************************************");
         DataBaseConnector.connectDb();
         BasePage.initDriver();
         if (controller != null) {
@@ -137,7 +138,7 @@ public abstract class BaseTestCase {
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         ));
-        logger.info("\n****************************************TEST SUITE COMPLETED****************************************\n");
+        logger.warn("\n****************************************TEST SUITE COMPLETED****************************************\n");
         BasePage.closeDriver();
         interruptTestRunning(false);
         if (controller != null) {
