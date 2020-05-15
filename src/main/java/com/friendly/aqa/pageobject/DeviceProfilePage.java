@@ -989,7 +989,7 @@ public class DeviceProfilePage extends BasePage {
                 .enterToDevice()
                 .leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
         getTabTable().clickOn("Management");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             Table table = new Table("tblParamsTable");
             int row = table.getRowNumberByText(0, parameter);
             WebElement cell = table.getCellWebElement(row, 1);
@@ -997,11 +997,16 @@ public class DeviceProfilePage extends BasePage {
             if (isExpected && text.equals(value)) {
                 break;
             }
-            if ((i == 9 && isExpected) || (!isExpected && text.equals(value))) {
+            if ((i == 29 && isExpected) || (!isExpected && text.equals(value))) {//TODO wait 40 sec from profile was created
                 String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
                 logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
+//            try {
+//                Thread.sleep(4000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             globalButtons(DeviceUpdatePage.GlobalButtons.GET_CURRENT);
             okButtonPopUp();
         }

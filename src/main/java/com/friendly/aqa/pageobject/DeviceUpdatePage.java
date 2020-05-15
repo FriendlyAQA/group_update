@@ -58,6 +58,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage enterToDevice(){
         try {
             getTable("tbl").clickOn(getSerial());
+            waitForUpdate();
         } catch (AssertionError e) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();

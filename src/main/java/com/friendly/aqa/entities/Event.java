@@ -1,11 +1,8 @@
 package com.friendly.aqa.entities;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Objects;
 
 public class Event {
-    @NotNull
     private final String name;
     private Boolean onEachEvent;
     private String countOfEvents;
