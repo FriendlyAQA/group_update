@@ -532,7 +532,9 @@ public class DeviceProfilePage extends BasePage {
         if (elementIsAbsent("tblTasks") || !new Table("tblTasks").contains(taskName)) {
             return this;
         }
-        throw new AssertionError("Task is still present on page!");
+        String warn = "Task is still present on page!";
+        logger.error(warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage downloadManualImageFile(String fileType) {
@@ -610,8 +612,10 @@ public class DeviceProfilePage extends BasePage {
         if (actual.equals(value)) {
             return this;
         }
-        throw new AssertionError("The value of the parameter '" + paramName + "' doesn't match the declared (" +
-                "expected to find '" + value + "', but find '" + actual + "')");
+        String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
+                "expected to find '" + value + "', but find '" + actual + "')";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
     public void checkParameters() {
@@ -626,8 +630,10 @@ public class DeviceProfilePage extends BasePage {
             if (expected.equals(actual)) {
                 parameterMap.remove(paramName);
             } else {
-                throw new AssertionError("The value of the parameter '" + paramName + "' doesn't match the declared (" +
-                        "expected to find '" + expected + "', but find '" + actual + "')");
+                String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
+                        "expected to find '" + expected + "', but find '" + actual + "')";
+                logger.warn(warn);
+                throw new AssertionError(warn);
             }
         }
     }
@@ -644,7 +650,9 @@ public class DeviceProfilePage extends BasePage {
         } catch (NoSuchElementException e) {
             logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
         }
-        throw new AssertionError("One or more elements not found on Device Profile tab main page");
+        String warn = "One or more elements not found on Device Profile tab main page";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage addDeviceWithoutTemplate() {
@@ -671,7 +679,9 @@ public class DeviceProfilePage extends BasePage {
             isFound = false;
         }
         if (isFound != isExpected) {
-            throw new AssertionError("Unexpected profile presence (expected to find: " + isExpected + ")");
+            String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
         return this;
     }
@@ -685,7 +695,9 @@ public class DeviceProfilePage extends BasePage {
         if (actualState == isActive) {
             return this;
         }
-        throw new AssertionError("Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!");
+        String warn = "Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage selectFilterItem(int itemNum) {
@@ -804,31 +816,33 @@ public class DeviceProfilePage extends BasePage {
         } else if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
             return;
         }
-        throw new AssertionError("Filtering by "
-                + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!");
+        String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
-    public DeviceProfilePage getExport() {
+    public void getExport() {
         Table table = getMainTable();
-        int col = table.getColumnNumber(0, "Name");
         List<Integer> activeList = table.getRowsWithText("Active");
-        if (activeList.size() < 2) {
-            throw new AssertionError("There is no active profile to export except Default profile!");
+        List<Integer> modelList = table.getRowsWithText(getDevice(getSerial())[1]);
+        modelList.retainAll(activeList);
+        if (modelList.size() < 1) {
+            String warn = "There is no active custom profile to export for current device!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
-        int row = activeList.get(1);
+        int row = modelList.get(0);
+        int col = table.getColumnNumber(0, "Name");
         String item = table.getCellText(row, col);
         int id = getDeviceProfileIdByName(item);
         String link = props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + id;
         try {
             assertTrue(HttpConnector.sendGetRequest(link).contains("<Name>" + item + "</Name>"));
         } catch (IOException e) {
-            throw new AssertionError("Download export file failed!");
+            String warn = "Download export file failed!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
-        return this;
-    }
-
-    public String getDpExportLink(String groupName) {
-        return props.getProperty("ui_url") + "/CPEprofile/Export.aspx?configId=" + getDeviceProfileIdByName(groupName);
     }
 
     @Override
@@ -970,7 +984,9 @@ public class DeviceProfilePage extends BasePage {
         if (input.getAttribute("style").endsWith("rgb(255, 74, 74);") == expectedRed) {
             return this;
         }
-        throw new AssertionError("Input field for parameter '" + paramName + "' doesn't have red border!");
+        String warn = "Input field for parameter '" + paramName + "' doesn't have red border!";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage assertAddTaskButtonIsActive(String eventName, boolean expectedActive) {
@@ -979,7 +995,9 @@ public class DeviceProfilePage extends BasePage {
         if (input.isEnabled() == expectedActive) {
             return this;
         }
-        throw new AssertionError("Button 'Add task' has unexpected state (disabled)");
+        String warn = "Button 'Add task' has unexpected state (disabled)";
+        logger.warn(warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
@@ -1053,7 +1071,9 @@ public class DeviceProfilePage extends BasePage {
         Table table = new Table("tblParameters");
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             if (table.getInput(i, 0).isSelected() != expectedState) {
-                throw new AssertionError("One or more parameter has unexpected state!");
+                String warn = "One or more parameter has unexpected state!";
+                logger.warn(warn);
+                throw new AssertionError(warn);
             }
         }
         return this;
@@ -1202,7 +1222,9 @@ public class DeviceProfilePage extends BasePage {
                 }
             }
             if (result.isEmpty()) {
-                throw new AssertionError("Cannot complete test on current tab for this device!");
+                String warn = "Cannot complete test on current tab for this device!";
+                logger.warn(warn);
+                throw new AssertionError(warn);
             }
             parameterMap.put(table.getHint(i), result);
         }
