@@ -8,9 +8,12 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
@@ -165,8 +168,24 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.assertElementIsSelected(id);
     }
 
-    public DeviceProfilePage selectMainTab(String tab) {
+    public DeviceProfilePage selectMainTab(String tab) {//TODO something...
         new Table(mainTabTable).clickOn(tab);
+//        long start = System.currentTimeMillis();
+//        if (!tab.toLowerCase().equals("summary")) {
+////            new FluentWait<>(driver)
+////                    .withTimeout(Duration.ofSeconds(10))
+////                    .pollingEvery(Duration.ofMillis(100))
+////                    .until(ExpectedConditions.invisibilityOfElementLocated(By.id("imgSpoilerParameters")));
+//            while (!driver.findElements(By.id("divSpoilerParameters")).isEmpty()) {
+//                if (System.currentTimeMillis() - start > IMPLICITLY_WAIT * 1000) {
+//                    String warn = "Tab content has not changed after switching tabs";
+//                    logger.warn(warn);
+//                    throw new AssertionError(warn);
+//                }
+//            }
+//
+//        }
+//        System.out.println("time:" + (System.currentTimeMillis() - start));
         waitForUpdate();
         return this;
     }
@@ -941,14 +960,15 @@ public class DeviceProfilePage extends BasePage {
         return inputText(BaseTestCase.getTestName(), NEXT);
     }
 
-    public DeviceProfilePage inputText(String text, GlobalButtons waitForActive) {
+    public DeviceProfilePage inputText(String text, GlobalButtons targetButton) {
         for (int i = 0; i < 10; i++) {
             nameField.clear();
             nameField.sendKeys(text + " ");
             waitForUpdate();
             nameField.sendKeys(Keys.BACK_SPACE);
             waitForUpdate();
-            if (isButtonActive(waitForActive)) {
+            if (isButtonActive(targetButton)) {
+                waitForUpdate();
                 break;
             }
         }
