@@ -372,7 +372,6 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
         dpPage
                 .presetFilter("Zip", "61000")
                 .topMenu(DEVICE_PROFILE)
-//                .deleteProfileIfExists()
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()

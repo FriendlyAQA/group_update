@@ -1,18 +1,23 @@
 package com.friendly.aqa.test;
 
+import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.entities.Table;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.*;
-import org.testng.annotations.*;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
@@ -47,7 +52,7 @@ public abstract class BaseTestCase {
             controller.testSuiteStarted();
         }
         loginPage = getLoginPage();
-        Assert.assertEquals("Login", loginPage.getTitle());
+        Assert.assertEquals(loginPage.getTitle(), "Login");
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         guPage = getGuPage();
         monPage = getMonPage();

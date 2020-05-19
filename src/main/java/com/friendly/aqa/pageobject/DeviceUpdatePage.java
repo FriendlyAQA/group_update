@@ -55,10 +55,10 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public DeviceUpdatePage enterToDevice(){
+    public DeviceUpdatePage enterToDevice() {
         try {
             getTable("tbl").clickOn(getSerial());
-            waitForUpdate();
+            pause(500);
         } catch (AssertionError e) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();

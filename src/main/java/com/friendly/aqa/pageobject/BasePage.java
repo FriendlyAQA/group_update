@@ -4,11 +4,10 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
-import javafx.scene.control.Tab;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -30,15 +29,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.entities.GlobalButtons.REFRESH;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
 
 public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
     public static final String BROWSER;
-    private static Logger logger;
+    private static final Logger logger;
     static FrameSwitch frame;
     private static FrameSwitch previousFrame;
     protected Table currentTable;
@@ -47,11 +46,13 @@ public abstract class BasePage {
     protected static Map<String, Event> eventMap;
     protected static Map<String, ParametersMonitor> parametersMonitorMap;
     protected String selectedName;
+    public static final long IMPLICITLY_WAIT;
 
     static {
         initProperties();
         logger = Logger.getLogger(BasePage.class);
         BROWSER = props.getProperty("browser");
+        IMPLICITLY_WAIT = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         frame = ROOT;
     }
 
@@ -95,8 +96,8 @@ public abstract class BasePage {
                 driver = new FirefoxDriver();
                 logger.info("Firefox driver is running");
         }
-        long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
-        driver.manage().timeouts().implicitlyWait(implWait, TimeUnit.SECONDS);
+//        long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
+        driver.manage().timeouts().implicitlyWait(IMPLICITLY_WAIT, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get(props.getProperty("ui_url"));
     }
@@ -106,7 +107,7 @@ public abstract class BasePage {
     }
 
     public static void setDefaultImplicitlyWait() {
-        setImplicitlyWait(Long.parseLong(props.getProperty("driver_implicitly_wait")));
+        setImplicitlyWait(IMPLICITLY_WAIT);
     }
 
     public static WebDriver getDriver() {
@@ -722,12 +723,11 @@ public abstract class BasePage {
 
     public BasePage clickButton(WebElement button) {
         waitForUpdate();
-        int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
         for (int i = 0; i < 3; i++) {
             try {
                 new FluentWait<>(driver)
                         .withMessage("Button '" + button + "' not found/not active")
-                        .withTimeout(Duration.ofSeconds(timeout))
+                        .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(button))
                         .click();
@@ -743,12 +743,11 @@ public abstract class BasePage {
     void clickGlobalButtons(IGlobalButtons button) {
         waitForUpdate();
         switchToFrame(BUTTONS);
-        int timeout = Integer.parseInt(props.getProperty("driver_implicitly_wait"));
         for (int i = 0; i < 3; i++) {
             try {
                 new FluentWait<>(driver)
                         .withMessage("Button " + button + " not found/not active")
-                        .withTimeout(Duration.ofSeconds(timeout))
+                        .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id(button.getId()))))
                         .click();
@@ -876,6 +875,11 @@ public abstract class BasePage {
     public BasePage setEvents(int amount, Event example) {
         Table table = new Table("tblEvents");
         String[] names = table.getColumn(0);
+        if (names.length == 0) {
+            String warn = "No one events was found!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
         for (int i = 0; i < Math.min(amount, names.length); i++) {
             setEvent(new Event(names[i], example.isOnEachEvent(), example.getCountOfEvents(), example.getDuration()), table);
         }
