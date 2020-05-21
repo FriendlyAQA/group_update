@@ -8,12 +8,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
@@ -123,7 +120,10 @@ public class DeviceProfilePage extends BasePage {
     private WebElement editConditionButton;
 
     @FindBy(id = "btnSendUpdate_btn")
-    protected WebElement saveButton;
+    private WebElement saveButton;
+
+    @FindBy(id = "btnCancel_btn")
+    private WebElement cancelButton;
 
     @FindBy(id = "tabsMain_tblTabs")
     private WebElement mainTabTable;
@@ -186,6 +186,7 @@ public class DeviceProfilePage extends BasePage {
 //
 //        }
 //        System.out.println("time:" + (System.currentTimeMillis() - start));
+        pause(1000);
         waitForUpdate();
         return this;
     }
@@ -231,6 +232,13 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage newConditionButton() {
         waitForUpdate();
+        deleteConditionIfExists();
+        waitUntilButtonIsEnabled(SAVE);
+        newConditionButton.click();
+        return this;
+    }
+
+    private void deleteConditionIfExists() {
         conditionComboBox.click();
         List<String> options = getOptionList(conditionComboBox);
         String testName = BaseTestCase.getTestName();
@@ -246,8 +254,6 @@ public class DeviceProfilePage extends BasePage {
             okButtonPopUp();
         }
         waitForUpdate();
-        newConditionButton.click();
-        return this;
     }
 
     public DeviceProfilePage dontRequestRadioButton() {
@@ -451,6 +457,7 @@ public class DeviceProfilePage extends BasePage {
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         super.checkAddedTask(parameter, value);
+        cancelButton.click();
     }
 
     public void checkAddedEventTask(String eventName, String taskName) {
@@ -762,16 +769,16 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage deleteAllProfiles() {
+    public void deleteAllProfiles() {
+        long start = System.currentTimeMillis();
         Set<String> idSet = DataBaseConnector.getProfileSet();
         for (String id : idSet) {
             deleteProfileByApiRequest(id);
         }
-        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed");
-        return this;
+        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed in " + (System.currentTimeMillis() - start) + " ms");
     }
 
-    public DeviceProfilePage deleteProfileByApiRequest(String id) {
+    public void deleteProfileByApiRequest(String id) {
         String response = "empty";
         try {
             response = HttpConnector.sendPostRequest("http://95.217.85.220/CpeAdmin/CpeService.asmx/DeleteProfile", "{\"confIdHolder\":\"" + id + "\"}");
@@ -781,7 +788,6 @@ public class DeviceProfilePage extends BasePage {
         if (!response.equals("{\"d\":true}")) {
             System.out.println("Profile deleting failed/not found!");
         }
-        return this;
     }
 
     public void checkFilteringByManufacturer() {
@@ -982,6 +988,10 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setDefaultPeriodic() {
+        return setParameter("Device.ManagementServer.PeriodicInformInterval", "60");
+    }
+
     @Override
     public DeviceProfilePage pause(int millis) {
         return (DeviceProfilePage) super.pause(millis);
@@ -1027,28 +1037,28 @@ public class DeviceProfilePage extends BasePage {
                 .enterToDevice()
                 .leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
         getTabTable().clickOn("Management");
-        for (int i = 0; i < 30; i++) {
-            Table table = new Table("tblParamsTable");
-            int row = table.getRowNumberByText(0, parameter);
-            WebElement cell = table.getCellWebElement(row, 1);
-            String text = cell.findElement(By.tagName("input")).getAttribute("value");
-            if (isExpected && text.equals(value)) {
-                break;
+        long start = System.currentTimeMillis();
+        boolean textFound = false;
+        while (System.currentTimeMillis() - start < 60000L) {
+            try {
+                Table table = new Table("tblParamsTable");
+                int row = table.getRowNumberByText(0, parameter);
+                WebElement cell = table.getCellWebElement(row, 1);
+                String text = cell.findElement(By.tagName("input")).getAttribute("value");
+                if (isExpected && text.equals(value)) {
+                    textFound = true;
+                    break;
+                }
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException");
             }
-            if ((i == 29 && isExpected) || (!isExpected && text.equals(value))) {//TODO wait 40 sec from profile was created
-                String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
-                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-                throw new AssertionError(warn);
-            }
-//            try {
-//                Thread.sleep(4000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            globalButtons(DeviceUpdatePage.GlobalButtons.GET_CURRENT);
-            okButtonPopUp();
         }
-        return this;
+        if (textFound == isExpected) {
+            return this;
+        }
+        String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        throw new AssertionError(warn);
     }
 
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox) {

@@ -90,7 +90,7 @@ public abstract class BaseTestCase {
             }
         }
         BasePage.switchToFrame(ROOT);
-        Table.flushResults();
+//        Table.flushResults();
         BasePage.flushCollections();
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         List<WebElement> popup2List = BasePage.getDriver().findElements(By.id("popup2"));

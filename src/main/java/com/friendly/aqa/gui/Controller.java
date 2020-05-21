@@ -469,7 +469,9 @@ public class Controller implements WindowListener, Runnable {
     @Override
     public void windowClosing(WindowEvent e) {
         logger.info("Application closed\n\n\n");
-        BasePage.getDriver().quit();
+        if (BasePage.getDriver() != null) {
+            BasePage.getDriver().quit();
+        }
         System.exit(0);
     }
 

@@ -52,6 +52,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         saveButton.click();
         okButtonPopUp();
+        pause(500);
         return this;
     }
 

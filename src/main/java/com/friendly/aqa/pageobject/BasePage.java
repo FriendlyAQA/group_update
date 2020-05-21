@@ -946,6 +946,27 @@ public abstract class BasePage {
         return out;
     }
 
+    public void waitUntilButtonIsEnabled(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
+        switchToFrame(BUTTONS);
+        long start = System.currentTimeMillis();
+        long implWait = IMPLICITLY_WAIT * 1000;
+        boolean success = false;
+        while (System.currentTimeMillis() - start < implWait) {
+            List<WebElement> list = driver.findElements(By.id(button.getId()));
+            if (list.size() == 1 && list.get(0).isEnabled()) {
+                success = true;
+                break;
+            }
+//            boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
+        }
+        if (!success) {
+            String warn = "Button '" + button + "' not found/not active";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
+        switchToPreviousFrame();
+    }
+
     public BasePage assertTableIsEmpty(String id) {
         Table table = getTable(id);
         if (table.getTableSize()[0] > 0) {

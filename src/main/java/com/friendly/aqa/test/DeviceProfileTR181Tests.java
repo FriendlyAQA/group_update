@@ -388,13 +388,13 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "70")
+                .setParameter("PeriodicInformInterval, sec", "61")
                 .fillName()       //text in Name field is disappearing when condition added;
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test
@@ -417,13 +417,13 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "65")
+                .setParameter("PeriodicInformInterval, sec", "62")
                 .fillName()       //text in Name field is disappearing when condition added;
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(false, "PeriodicInformInterval, sec", "65");
+                .checkTargetDevice(false, "PeriodicInformInterval, sec", "62");
     }
 
     @Test   // depends on 028
@@ -990,6 +990,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .setDefaultPeriodic()
                 .selectMainTab("Download file")
                 .downloadManualImageFile("Firmware Image")
                 .globalButtons(SAVE_AND_ACTIVATE)
@@ -1594,7 +1595,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .checkEvents();
     }
 
-    @Test//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
+    @Test
+//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
     public void tr181_dp_102() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1833,6 +1835,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .setDefaultPeriodic()
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
@@ -9472,7 +9475,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .editConditionButton()
                 .globalButtons(DELETE_CONDITION)
                 .okButtonPopUp()
-                .assertButtonIsActive(false,"btnEditView_btn")
+                .assertButtonIsActive(false, "btnEditView_btn")
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, "tr181_dp_462");
@@ -9526,10 +9529,10 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertProfileIsPresent(true, getTestName());
     }
 
-//    @Test
-//    public void tr181_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
+    @Test
+    public void tr181_dp_999() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .deleteAllProfiles();
+    }
 }

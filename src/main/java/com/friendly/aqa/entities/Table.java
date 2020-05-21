@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    private static Map<String, String> parameterMap;
+//    private static Map<String, String> parameterMap;
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
@@ -341,13 +341,13 @@ public class Table {
         return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");
     }
 
-    @SuppressWarnings("unused")
-    public void printResults() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
-        }
-    }
+//    @SuppressWarnings("unused")
+//    public void printResults() {
+//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            System.out.println(entry.getKey() + ":" + entry.getValue());
+//        }
+//    }
 
     public boolean contains(String value) {
         for (String[] rows : textTable) {
@@ -405,17 +405,17 @@ public class Table {
         throw new AssertionError("Specified column '" + column + "' does not contain value '" + value + "'");
     }
 
-    @SuppressWarnings("unused")
-    public Table assertAbsenceOfValue(int column, String value) {
-        if (getRowNumberByText(column, value) >= 0) {
-            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but MUST NOT!");
-        }
-        return this;
-    }
-
-    public static void flushResults() {
-        parameterMap = null;
-    }
+//    @SuppressWarnings("unused")
+//    public Table assertAbsenceOfValue(int column, String value) {
+//        if (getRowNumberByText(column, value) >= 0) {
+//            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but MUST NOT!");
+//        }
+//        return this;
+//    }
+//
+//    public static void flushResults() {
+//        parameterMap = null;
+//    }
 
     public List<String> getRow(int rowNum) {
         return new ArrayList<>(Arrays.asList(textTable[rowNum]));
