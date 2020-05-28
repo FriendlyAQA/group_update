@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-//    private static Map<String, String> parameterMap;
+    //    private static Map<String, String> parameterMap;
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
@@ -156,16 +156,20 @@ public class Table {
     }
 
     public Table clickOn(String text) {
+        List<String> debugList = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
-                if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
+                if (textTable[i][j].toLowerCase().trim().equals(text.toLowerCase())) {
                     return clickOn(i, j, -1);
+                } else {
+                    debugList.add(textTable[i][j].toLowerCase());
                 }
             }
         }
         String warning = "Text '" + text + "' not found in current table";
         LOGGER.warn(warning);
         print();
+        System.out.println("text '" + text.toLowerCase() + "' not equals with:" + debugList.toString());
         throw new AssertionError(warning);
     }
 
@@ -181,7 +185,7 @@ public class Table {
         return textTable[row].length;
     }
 
-    @SuppressWarnings("unused")
+    //    @SuppressWarnings("unused")
     public Table print() {
         int maxCells = getTableSize()[1];
         int[] size = new int[maxCells];
@@ -307,11 +311,15 @@ public class Table {
         }
     }
 
+    public boolean isEmpty() {
+        return elementTable.length == 0;
+    }
+
     public int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
         String[] column = getColumn(columnNum);
         for (int i = 0; i < column.length; i++) {
-            if (column[i].toLowerCase().equals(text.toLowerCase())) {
+            if (column[i].toLowerCase().trim().equals(text.toLowerCase())) {
                 rowNum = i + 1;
                 break;
             }

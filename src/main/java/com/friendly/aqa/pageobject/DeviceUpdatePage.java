@@ -29,7 +29,7 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.topMenu(value);
     }
 
-    public DeviceUpdatePage presetFilter(String parameter, String value) {
+    public DeviceUpdatePage presetFilter1(String parameter, String value) {
         topMenu(DEVICE_UPDATE);
         enterToDevice();
         clickOn("btnEditUserInfo_lnk");
@@ -42,6 +42,7 @@ public class DeviceUpdatePage extends BasePage {
                 .until(ExpectedConditions.visibilityOf(saveButton));
         for (int i = 0; i < 10; i++) {
             setUserInfo(parameter, value);
+            pause(500);
             if (saveButton.isEnabled()) {
                 break;
             }
@@ -50,6 +51,31 @@ public class DeviceUpdatePage extends BasePage {
             }
             pause(500);
         }
+        saveButton.click();
+        okButtonPopUp();
+        pause(500);
+        return this;
+    }
+
+    public DeviceUpdatePage presetFilter(String parameter, String value) {
+        topMenu(DEVICE_UPDATE);
+        enterToDevice();
+        Table table = new Table("tblUserInfo");
+        if (!table.isEmpty()) {
+            try {
+                int rowNum = table.getRowNumberByText(parameter);
+                if (rowNum >= 0 && table.getCellText(rowNum, 1).equals(value)) {
+                    return this;
+                }
+            } catch (AssertionError e) {
+                System.out.println("filter does not exist, go to create new one");
+            }
+        }
+        clickOn("btnEditUserInfo_lnk");
+        switchToFrame(POPUP);
+        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
+        setUserInfo(parameter, value);
+        waitUntilElementIsEnabled("btnSaveUsr_btn");
         saveButton.click();
         okButtonPopUp();
         pause(500);

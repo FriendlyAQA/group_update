@@ -52,7 +52,7 @@ public abstract class BaseTestCase {
             controller.testSuiteStarted();
         }
         loginPage = getLoginPage();
-        Assert.assertEquals(loginPage.getTitle(), "Login");
+        Assert.assertEquals(loginPage.getTitle(), "Friendly One-IoT Management Console");
         loginPage.authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
         guPage = getGuPage();
         monPage = getMonPage();
@@ -97,7 +97,7 @@ public abstract class BaseTestCase {
         List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));
         WebElement okBtn = BasePage.getDriver().findElement(By.id("btnOk_btn"));
         BasePage.setImplicitlyWait(0);
-        String warn = "Unexpected popup detected after test '" + testName + "'. Button 'OK' clicked.";
+        String warn = "Unexpected popup detected after test '" + testName + "'. The window has been closed.";
         while (okBtn.isDisplayed()) {
             okBtn.click();
             logger.warn(warn);

@@ -890,7 +890,7 @@ public abstract class BasePage {
         if (!eventMap.equals(readEvents())) {
             String warn = "Events comparison error!";
             logger.warn('(' + BaseTestCase.getTestName() + ')' + "expected:" + eventMap);
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + "actual:" + readEvents());
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + "  actual:" + readEvents());
             logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
@@ -946,7 +946,7 @@ public abstract class BasePage {
         return out;
     }
 
-    public void waitUntilButtonIsEnabled(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
+    public void waitUntilButtonIsEnabled1(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
         switchToFrame(BUTTONS);
         long start = System.currentTimeMillis();
         long implWait = IMPLICITLY_WAIT * 1000;
@@ -965,6 +965,36 @@ public abstract class BasePage {
             throw new AssertionError(warn);
         }
         switchToPreviousFrame();
+    }
+
+    public void waitUntilButtonIsEnabled(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
+        switchToFrame(BUTTONS);
+        try {
+            waitUntilElementIsEnabled(button.getId());
+        } catch (AssertionError e) {
+            String warn = "Button '" + button + "' not found/not active";
+            throw new AssertionError(warn);
+        }
+        switchToPreviousFrame();
+    }
+
+    public void waitUntilElementIsEnabled(String id) {
+        long start = System.currentTimeMillis();
+        long implWait = IMPLICITLY_WAIT * 1000;
+        boolean success = false;
+        while (System.currentTimeMillis() - start < implWait) {
+            List<WebElement> list = driver.findElements(By.id(id));
+            if (list.size() == 1 && list.get(0).isEnabled()) {
+                success = true;
+                break;
+            }
+//            boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
+        }
+        if (!success) {
+            String warn = "Element with id='" + id + "' not found/not active";
+            logger.warn(warn);
+            throw new AssertionError(warn);
+        }
     }
 
     public BasePage assertTableIsEmpty(String id) {
@@ -991,6 +1021,7 @@ public abstract class BasePage {
 
     protected BasePage assertButtonsArePresent(IGlobalButtons... buttons) {
         switchToFrame(BUTTONS);
+        setDefaultImplicitlyWait();
         for (IGlobalButtons button : buttons) {
             List<WebElement> list = driver.findElements(By.id(button.getId()));
             if (list.size() != 1 || !list.get(0).isDisplayed()) {
@@ -1006,6 +1037,7 @@ public abstract class BasePage {
         waitForUpdate();
         assertButtonsArePresent(buttons);
         switchToFrame(BUTTONS);
+        setDefaultImplicitlyWait();
         for (IGlobalButtons button : buttons) {
             WebElement btn = driver.findElement(By.id(button.getId()));
             if (btn.getAttribute("class").equals("button_disabled") == enabled) {
@@ -1500,7 +1532,8 @@ public abstract class BasePage {
         for (int i = 0; i < tableSize[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2 - shift).equals(parameter) && table.getCellText(i, length - 1 - shift).equals(value)) {
+                if (table.getCellText(i, length - 2 - shift).toLowerCase().equals(parameter.toLowerCase())
+                        && table.getCellText(i, length - 1 - shift).toLowerCase().equals(value.toLowerCase())) {
                     match = true;
                     break;
                 }

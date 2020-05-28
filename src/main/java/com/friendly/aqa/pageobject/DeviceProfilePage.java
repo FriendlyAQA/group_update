@@ -18,7 +18,7 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
-    private static Logger logger = Logger.getLogger(MonitoringPage.class);
+    private static final Logger logger = Logger.getLogger(MonitoringPage.class);
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -192,25 +192,34 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage selectTab(String tab) {
-        getTabTable().clickOn(tab);
-        waitForUpdate();
-        return this;
+        return selectTab(tab, getTabTable());
     }
 
     public DeviceProfilePage selectEventTab(String tab) {
+        return selectTab(tab, new Table("tabsEventSettings_tblTabs"));
+    }
+
+    public DeviceProfilePage selectTab(String tab, Table tabTable) {
         if (!tab.equals("Management") && !tab.equals("Device")) {
             String start;
             try {
                 start = new Table("tblTree").getCellText(0, 0);
             } catch (StaleElementReferenceException e) {
-                System.out.println("StaleElementReferenceException!!!");
+//                System.out.println("StaleElementReferenceException!!!");
                 start = new Table("tblTree").getCellText(0, 0);
             }
-            new Table("tabsEventSettings_tblTabs").clickOn(tab);
+            tabTable.clickOn(tab);
             long from = System.currentTimeMillis();
             do {
                 waitForUpdate();
-            } while (new Table("tblTree").getCellText(0, 0).equals(start) && System.currentTimeMillis() - from < 10000);
+                try {
+                    if (!new Table("tblTree").getCellText(0, 0).equals(start)) {
+                        break;
+                    }
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("DPP:220 - StaleElementReferenceException handled");
+                }
+            } while (System.currentTimeMillis() - from < 10000);
         }
         return this;
     }
@@ -245,7 +254,7 @@ public class DeviceProfilePage extends BasePage {
         if (options.contains(testName)) {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
-            System.out.println("deleting existing profile " + collisionProfileId);
+            System.out.println("DPP:257 - Condition name already exists! Check existing profile... " + collisionProfileId);
             deleteProfileByApiRequest(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
@@ -333,11 +342,19 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage setParameter(String paramName, String value) {
-        return setParameter(new Table(paramTable), paramName, value);
+    public DeviceProfilePage setDefaultPeriodic() {
+        return setParameter(new Table(paramTable), "Device.ManagementServer.PeriodicInformInterval", "60", true);
     }
 
-    public DeviceProfilePage setParameter(Table table, String paramName, String value) {
+    public DeviceProfilePage setDefaultPeriodic(boolean addToCheck) {
+        return setParameter(new Table(paramTable), "Device.ManagementServer.PeriodicInformInterval", "60", addToCheck);
+    }
+
+    public DeviceProfilePage setParameter(String paramName, String value) {
+        return setParameter(new Table(paramTable), paramName, value, true);
+    }
+
+    private DeviceProfilePage setParameter(Table table, String paramName, String value, boolean addToCheck) {
         int row = table.getRowNumberByText(paramName);
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
@@ -362,7 +379,9 @@ public class DeviceProfilePage extends BasePage {
             field.sendKeys(Keys.BACK_SPACE);
             waitForUpdate();
         }
-        parameterMap.put(hint, value);
+        if (addToCheck) {
+            parameterMap.put(hint, value);
+        }
         return this;
     }
 
@@ -392,7 +411,7 @@ public class DeviceProfilePage extends BasePage {
             } else if (!setValue) {
                 value = "x";
             }
-            setParameter(table, names[i], value);
+            setParameter(table, names[i], value, true);
             table.clickOn(0, 0);
             waitForUpdate();
         }
@@ -434,6 +453,7 @@ public class DeviceProfilePage extends BasePage {
             pause(1000);
             super.checkAddedTasks();
         }
+        cancelButton.click();
     }
 
     public void checkAddedMonitorTasks() {
@@ -640,7 +660,7 @@ public class DeviceProfilePage extends BasePage {
         }
         String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
                 "expected to find '" + value + "', but find '" + actual + "')";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -652,13 +672,12 @@ public class DeviceProfilePage extends BasePage {
             String paramName = names[i];
             String actual = paramTbl.getInputText(i + 1, 1);
             String expected = parameterMap.get(paramName);
-//            System.out.println("Param:" + paramName + "| actual:" + actual + "| expected:" + expected);
             if (expected.equals(actual)) {
                 parameterMap.remove(paramName);
             } else {
                 String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
                         "expected to find '" + expected + "', but find '" + actual + "')";
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
         }
@@ -677,7 +696,7 @@ public class DeviceProfilePage extends BasePage {
             logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
         }
         String warn = "One or more elements not found on Device Profile tab main page";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -706,7 +725,7 @@ public class DeviceProfilePage extends BasePage {
         }
         if (isFound != isExpected) {
             String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -722,7 +741,7 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         String warn = "Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -753,7 +772,7 @@ public class DeviceProfilePage extends BasePage {
         try {
             enterIntoGroup(profileName);
         } catch (NoSuchElementException e) {
-            System.out.println("***********retry to find OK button...***************");
+            System.out.println("DPP:775 - ***********retry to find OK button...***************");
             okButtonPopUp();
             enterIntoGroup(profileName);
         }
@@ -775,7 +794,7 @@ public class DeviceProfilePage extends BasePage {
         for (String id : idSet) {
             deleteProfileByApiRequest(id);
         }
-        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed in " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed within " + (System.currentTimeMillis() - start) + " ms");
     }
 
     public void deleteProfileByApiRequest(String id) {
@@ -786,7 +805,7 @@ public class DeviceProfilePage extends BasePage {
             e.printStackTrace();
         }
         if (!response.equals("{\"d\":true}")) {
-            System.out.println("Profile deleting failed/not found!");
+            System.out.println("DPP:808 - Profile deleting failed/not found!");
         }
     }
 
@@ -842,7 +861,7 @@ public class DeviceProfilePage extends BasePage {
             return;
         }
         String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -853,7 +872,7 @@ public class DeviceProfilePage extends BasePage {
         modelList.retainAll(activeList);
         if (modelList.size() < 1) {
             String warn = "There is no active custom profile to export for current device!";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         int row = modelList.get(0);
@@ -865,7 +884,7 @@ public class DeviceProfilePage extends BasePage {
             assertTrue(HttpConnector.sendGetRequest(link).contains("<Name>" + item + "</Name>"));
         } catch (IOException e) {
             String warn = "Download export file failed!";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
     }
@@ -950,7 +969,6 @@ public class DeviceProfilePage extends BasePage {
         waitForUpdate();
         switchToFrame(SUB_FRAME);
         pause(1000);
-        System.out.println("table:");
         new Table("tblFirmwares").print();
         clickOnTable("tblFirmwares", 1, 1, -1);
         waitForUpdate();
@@ -988,10 +1006,6 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage setDefaultPeriodic() {
-        return setParameter("Device.ManagementServer.PeriodicInformInterval", "60");
-    }
-
     @Override
     public DeviceProfilePage pause(int millis) {
         return (DeviceProfilePage) super.pause(millis);
@@ -1015,7 +1029,7 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         String warn = "Input field for parameter '" + paramName + "' doesn't have red border!";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -1026,7 +1040,7 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         String warn = "Button 'Add task' has unexpected state (disabled)";
-        logger.warn(warn);
+        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -1050,7 +1064,7 @@ public class DeviceProfilePage extends BasePage {
                     break;
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("StaleElementReferenceException");
+                System.out.println("DPP:1067 - StaleElementReferenceException handled");
             }
         }
         if (textFound == isExpected) {
@@ -1102,7 +1116,7 @@ public class DeviceProfilePage extends BasePage {
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             if (table.getInput(i, 0).isSelected() != expectedState) {
                 String warn = "One or more parameter has unexpected state!";
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
         }
@@ -1253,22 +1267,10 @@ public class DeviceProfilePage extends BasePage {
             }
             if (result.isEmpty()) {
                 String warn = "Cannot complete test on current tab for this device!";
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
             parameterMap.put(table.getHint(i), result);
-        }
-        return this;
-    }
-
-    public DeviceProfilePage deleteProfileIfExists() {
-        try {
-            Table table = getMainTable();
-            selectItem(table, BaseTestCase.getTestName(), 1);
-            globalButtons(DELETE);
-            okButtonPopUp();
-        } catch (AssertionError e) {
-            System.out.println("Profile '" + BaseTestCase.getTestName() + "' not found, nothing to delete");
         }
         return this;
     }
@@ -1330,22 +1332,22 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public enum Policy implements IPolicy {
-        //      DEFAULT("Default"),
-        OFF("0"),
-        PASSIVE("1"),
-        ACTIVE("2"),
-        ACS_ONLY("AcsOnly"),
-        ALL("All");
-
-        private final String option;
-
-        public String getOption() {
-            return option;
-        }
-
-        Policy(String option) {
-            this.option = option;
-        }
-    }
+//    public enum Policy implements IPolicy {
+//        //      DEFAULT("Default"),
+//        OFF("0"),
+//        PASSIVE("1"),
+//        ACTIVE("2"),
+//        ACS_ONLY("AcsOnly"),
+//        ALL("All");
+//
+//        private final String option;
+//
+//        public String getOption() {
+//            return option;
+//        }
+//
+//        Policy(String option) {
+//            this.option = option;
+//        }
+//    }
 }
