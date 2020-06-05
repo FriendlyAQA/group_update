@@ -347,7 +347,14 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setDefaultPeriodic(boolean addToCheck) {
-        return setParameter(new Table(paramTable), "Device.ManagementServer.PeriodicInformInterval", "60", addToCheck);
+        Table table = new Table(paramTable);
+        String[] names = table.getColumn(0);
+        for (String name : names) {
+            if (name.endsWith("PeriodicInformInterval")) {
+                return setParameter(table, name, "60", addToCheck);
+            }
+        }
+        throw new AssertionError("Parameter 'PeriodicInformInterval' not found!");
     }
 
     public DeviceProfilePage setParameter(String paramName, String value) {
@@ -365,19 +372,32 @@ public class DeviceProfilePage extends BasePage {
             waitForUpdate();
         }
         String hint = table.getHint(row);
-        WebElement field = table.getInput(row, 1);
-        if (field.getAttribute("type").equals("checkbox")) {
-            if (!field.isSelected() && value.isEmpty()) {
-                field.click();
+        WebElement input = null;
+        WebElement select = null;
+        setImplicitlyWait(0);
+        try {
+            input = table.getInput(row, 1);
+        } catch (NoSuchElementException e) {
+            select = table.getSelect(row, 1);
+        } finally {
+            setDefaultImplicitlyWait();
+        }
+        if (input != null) {
+            if (input.getAttribute("type").equals("checkbox")) {
+                if (/*!input.isSelected() && */value.isEmpty()) {
+                    input.click();
 //                waitForUpdate();
+                }
+                value = "";
+            } else if (!input.getAttribute("value").equals(value)) {
+                input.clear();
+                input.sendKeys(value + " ");
+                waitForUpdate();
+                input.sendKeys(Keys.BACK_SPACE);
+                waitForUpdate();
             }
-            value = "";
-        } else if (!field.getAttribute("value").equals(value)) {
-            field.clear();
-            field.sendKeys(value + " ");
-            waitForUpdate();
-            field.sendKeys(Keys.BACK_SPACE);
-            waitForUpdate();
+        } else if (select != null) {
+            selectComboBox(select, value);
         }
         if (addToCheck) {
             parameterMap.put(hint, value);
@@ -389,10 +409,10 @@ public class DeviceProfilePage extends BasePage {
         return setParameter(tab, amount, true);
     }
 
-    public DeviceProfilePage setParameter(String tab, int amount, boolean setValue) {
+    private DeviceProfilePage setParameter(String tab, int amount, boolean setValue) {
         if (tab != null) {
             waitForUpdate();
-            addSummaryParameter();
+            addSummaryParameters();
             selectMainTab("Parameters");
             selectTab(tab);
         }
@@ -400,16 +420,41 @@ public class DeviceProfilePage extends BasePage {
         String[] names = table.getColumn(0);
         for (int i = 0; i < Math.min(amount, names.length); i++) {
             String hint = table.getHint(i + 1);
-            WebElement input = table.getInput(i + 1, 1);
+            WebElement input = null;
+            WebElement select = null;
+            setImplicitlyWait(1);
+            try {
+                input = table.getInput(i + 1, 1);
+            } catch (NoSuchElementException e) {
+                select = table.getSelect(i + 1, 1);
+            } finally {
+                setDefaultImplicitlyWait();
+            }
             String value = "";
-            if (input.getAttribute("type").equals("text")) {
-                if (!input.getAttribute("value").isEmpty() || !setValue) {
-                    value = input.getAttribute("value");
-                } else {
-                    value = generateValue(hint, i + 1);
+            if (input != null) {
+                if (input.getAttribute("type").equals("text")) {
+                    if (/*!input.getAttribute("value").isEmpty() || */!setValue) {
+                        value = input.getAttribute("value");
+                    } else {
+                        String s = generateValue(hint, i + 1);
+                        value = s.equals(generateValue(hint, i + 1))? generateValue(hint, i + 20): s;
+                    }
+                } else if (!setValue) {
+                    value = "x";
+                    System.out.println("DPP:444 - checkbox set to X");
                 }
-            } else if (!setValue) {
-                value = "x";
+            } else if (select != null) {
+                String selected = getSelectedValue(select);
+                if (setValue) {
+                    for (String opt : getOptionList(select)) {
+                        if (!opt.equals(selected)) {
+                            value = opt;
+                            break;
+                        }
+                    }
+                } else {
+                    value = selected;
+                }
             }
             setParameter(table, names[i], value, true);
             table.clickOn(0, 0);
@@ -424,7 +469,7 @@ public class DeviceProfilePage extends BasePage {
         return setParameter(null, amount, setValue);
     }
 
-    public DeviceProfilePage addSummaryParameter() {
+    public DeviceProfilePage addSummaryParameters() {
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
@@ -432,9 +477,15 @@ public class DeviceProfilePage extends BasePage {
         selectMainTab("Summary");
         Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
+        setImplicitlyWait(0);
         for (int i = 0; i < names.length; i++) {
-            parameterMap.put(names[i], table.getInputText(i + 1, 1));
+            if (table.getCellWebElement(i + 1, 1).findElements(By.tagName("input")).size() > 0) {
+                parameterMap.put(names[i], table.getInputText(i + 1, 1));
+            } else {
+                parameterMap.put(names[i], getSelectedValue(table.getSelect(i + 1, 1)));
+            }
         }
+        setDefaultImplicitlyWait();
         return this;
     }
 
@@ -666,11 +717,19 @@ public class DeviceProfilePage extends BasePage {
 
     public void checkParameters() {
         waitForUpdate();
-        Table paramTbl = new Table(paramTable);
-        String[] names = paramTbl.getColumn(0);
+        Table table = new Table(paramTable);
+        String[] names = table.getColumn(0);
         for (int i = 0; i < names.length; i++) {
             String paramName = names[i];
-            String actual = paramTbl.getInputText(i + 1, 1);
+            String actual;
+            WebElement cell = table.getCellWebElement(i + 1, 1);
+            setImplicitlyWait(0);
+            if (cell.findElements(By.tagName("input")).size() > 0) {
+                actual = table.getInputText(i + 1, 1);
+            } else {
+                actual = getSelectedValue(cell.findElement(By.tagName("select")));
+            }
+            setDefaultImplicitlyWait();
             String expected = parameterMap.get(paramName);
             if (expected.equals(actual)) {
                 parameterMap.remove(paramName);
