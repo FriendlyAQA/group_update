@@ -96,21 +96,20 @@ public class Table {
         if (column < 0) {
             column += textTable[row].length;
         }
-        if (tagNum == -1) {
+        if (tagNum == 99) {
             elementTable[row][column].click();
         } else {
             List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input | child::select"));
-            if (tagNum == -2) {
-                tagList.get(tagList.size() - 1).click();
-            } else {
-                tagList.get(tagNum).click();
+            if (tagNum < 0) {
+                tagNum += tagList.size();
             }
+            tagList.get(tagNum).click();
         }
         return this;
     }
 
     public void clickOn(int row, int column) {
-        clickOn(row, column, -1);
+        clickOn(row, column, 99);
     }
 
     public Table clickOn(String text, int column) {
@@ -146,9 +145,11 @@ public class Table {
         BasePage.setImplicitlyWait(0);
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < elementTable.length; i++) {
-            List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
-            if (!list.isEmpty()) {
-                out.add(i);
+            if (elementTable[i][column].isDisplayed()) {
+                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
+                if (!list.isEmpty()) {
+                    out.add(i);
+                }
             }
         }
         BasePage.setDefaultImplicitlyWait();
@@ -160,7 +161,7 @@ public class Table {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().trim().equals(text.toLowerCase())) {
-                    return clickOn(i, j, -1);
+                    return clickOn(i, j, 99);
                 } else {
                     debugList.add(textTable[i][j].toLowerCase());
                 }

@@ -107,24 +107,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
 
-    @FindBy(id = "rdReset Min and Max Measured Values")
-    private WebElement resetMinMaxValues;
-
-    @FindBy(id = "rdReset Cumulative energy")
-    private WebElement resetCumulativeEnergy;
-
-    @FindBy(id = "rdResetErrors")
-    private WebElement resetErrors;
-
-    @FindBy(id = "rdDisable")
-    private WebElement radioDisable;
-
-    @FindBy(id = "rdRegistrationUpdateTrigger")
-    private WebElement radioRegistrationUpdateTrigger;
-
-    @FindBy(id = "rdStartOrReset")
-    private WebElement radioStartOrReset;
-
     @FindBy(id = "cbqoe_task")
     private WebElement addToQoeCheckBox;
 
@@ -397,28 +379,24 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage resetErrors() {
-        waitForUpdate();
-        resetErrors.click();
-        return this;
+    @Override
+    public GroupUpdatePage resetErrors() {//
+        return (GroupUpdatePage) super.resetErrors();
     }
 
-    public GroupUpdatePage radioDisable() {
-        waitForUpdate();
-        radioDisable.click();
-        return this;
+    @Override
+    public GroupUpdatePage disableRadiobutton() {//
+        return (GroupUpdatePage) super.disableRadiobutton();
     }
 
-    public GroupUpdatePage radioRegistrationUpdateTrigger() {
-        waitForUpdate();
-        radioRegistrationUpdateTrigger.click();
-        return this;
+    @Override
+    public GroupUpdatePage radioRegistrationUpdateTrigger() {//
+        return (GroupUpdatePage) super.radioRegistrationUpdateTrigger();
     }
 
-    public GroupUpdatePage radioStartOrReset() {
-        waitForUpdate();
-        radioStartOrReset.click();
-        return this;
+    @Override
+    public GroupUpdatePage radioStartOrReset() {//
+        return (GroupUpdatePage) super.radioStartOrReset();
     }
 
     @Override

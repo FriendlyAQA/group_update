@@ -107,6 +107,12 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "rdNoReprovision")
     private WebElement dontApplyProvisionRadioButton;
 
+    @FindBy(id = "rd8")
+    private WebElement minAndMaxRadioButton;
+
+    @FindBy(id = "rd10")
+    private WebElement cumulativeEnergyButton;
+
     @FindBy(id = "btnNewView_btn")
     private WebElement newConditionButton;
 
@@ -170,22 +176,6 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectMainTab(String tab) {//TODO something...
         new Table(mainTabTable).clickOn(tab);
-//        long start = System.currentTimeMillis();
-//        if (!tab.toLowerCase().equals("summary")) {
-////            new FluentWait<>(driver)
-////                    .withTimeout(Duration.ofSeconds(10))
-////                    .pollingEvery(Duration.ofMillis(100))
-////                    .until(ExpectedConditions.invisibilityOfElementLocated(By.id("imgSpoilerParameters")));
-//            while (!driver.findElements(By.id("divSpoilerParameters")).isEmpty()) {
-//                if (System.currentTimeMillis() - start > IMPLICITLY_WAIT * 1000) {
-//                    String warn = "Tab content has not changed after switching tabs";
-//                    logger.warn(warn);
-//                    throw new AssertionError(warn);
-//                }
-//            }
-//
-//        }
-//        System.out.println("time:" + (System.currentTimeMillis() - start));
         pause(1000);
         waitForUpdate();
         return this;
@@ -217,7 +207,7 @@ public class DeviceProfilePage extends BasePage {
                         break;
                     }
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("DPP:220 - StaleElementReferenceException handled");
+                    System.out.println("DPP:210 - StaleElementReferenceException handled");
                 }
             } while (System.currentTimeMillis() - from < 10000);
         }
@@ -235,14 +225,21 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage fullRequestRadioButton() {
+        waitForUpdate();
         fullRequestRadioButton.click();
         return this;
     }
 
     public DeviceProfilePage newConditionButton() {
+        return newConditionButton(false);
+    }
+
+    public DeviceProfilePage newConditionButton(boolean ignoreSaveButtonState) {
         waitForUpdate();
         deleteConditionIfExists();
-        waitUntilButtonIsEnabled(SAVE);
+        if (!ignoreSaveButtonState) {
+            waitUntilButtonIsEnabled(SAVE);
+        }
         newConditionButton.click();
         return this;
     }
@@ -254,7 +251,7 @@ public class DeviceProfilePage extends BasePage {
         if (options.contains(testName)) {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
-            System.out.println("DPP:257 - Condition name already exists! Check existing profile... " + collisionProfileId);
+            System.out.println("DPP:254 - Condition name already exists! Check existing profile... " + collisionProfileId);
             deleteProfileByApiRequest(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
@@ -277,6 +274,16 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage dontApplyProvisionRadioButton() {
         dontApplyProvisionRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage minAndMaxRadioButton() {
+        minAndMaxRadioButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage cumulativeEnergyButton() {
+        cumulativeEnergyButton.click();
         return this;
     }
 
@@ -319,6 +326,26 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage setParametersMonitor(Condition condition, boolean addTask) {
         return (DeviceProfilePage) super.setParametersMonitor(condition, addTask);
+    }
+
+    @Override
+    public DeviceProfilePage resetErrors() {//
+        return (DeviceProfilePage) super.resetErrors();
+    }
+
+    @Override
+    public DeviceProfilePage disableRadiobutton() {//
+        return (DeviceProfilePage) super.disableRadiobutton();
+    }
+
+    @Override
+    public DeviceProfilePage radioRegistrationUpdateTrigger() {//
+        return (DeviceProfilePage) super.radioRegistrationUpdateTrigger();
+    }
+
+    @Override
+    public DeviceProfilePage radioStartOrReset() {//
+        return (DeviceProfilePage) super.radioStartOrReset();
     }
 
     public DeviceProfilePage editTask(String eventName) {
@@ -432,18 +459,22 @@ public class DeviceProfilePage extends BasePage {
             }
             String value = "";
             if (input != null) {
+                System.out.println("input != null");
                 if (input.getAttribute("type").equals("text")) {
-                    if (/*!input.getAttribute("value").isEmpty() || */!setValue) {
-                        value = input.getAttribute("value");
-                    } else {
+                    System.out.println("input.getAttribute(\"type\").equals(\"text\")");
+                    String currentValue = input.getAttribute("value");
+                    if (setValue) {
+                        System.out.println("setValue");
                         String s = generateValue(hint, i + 1);
-                        value = s.equals(generateValue(hint, i + 1))? generateValue(hint, i + 20): s;
+                        value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
                     }
                 } else if (!setValue) {
+                    System.out.println("!setValue");
                     value = "x";
-                    System.out.println("DPP:444 - checkbox set to X");
+                    System.out.println("DPP:474 - checkbox set to X");
                 }
             } else if (select != null) {
+                System.out.println("select != null");
                 String selected = getSelectedValue(select);
                 if (setValue) {
                     for (String opt : getOptionList(select)) {
@@ -464,7 +495,12 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setAnotherTabParameter(int amount, boolean setValue) {
-        getTabTable().clickOn(1, 2);
+        Table tabTable = getTabTable();
+        if (tabTable.getTableSize()[1] < 5) {
+            tabTable.clickOn(1, 1);
+        } else {
+            tabTable.clickOn(1, 2);
+        }
         waitForUpdate();
         return setParameter(null, amount, setValue);
     }
@@ -831,7 +867,7 @@ public class DeviceProfilePage extends BasePage {
         try {
             enterIntoGroup(profileName);
         } catch (NoSuchElementException e) {
-            System.out.println("DPP:775 - ***********retry to find OK button...***************");
+            System.out.println("DPP:870 - ***********retry to find OK button...***************");
             okButtonPopUp();
             enterIntoGroup(profileName);
         }
@@ -864,7 +900,7 @@ public class DeviceProfilePage extends BasePage {
             e.printStackTrace();
         }
         if (!response.equals("{\"d\":true}")) {
-            System.out.println("DPP:808 - Profile deleting failed/not found!");
+            System.out.println("DPP:903 - Profile deleting failed/not found!");
         }
     }
 
@@ -980,7 +1016,16 @@ public class DeviceProfilePage extends BasePage {
 
     @Override
     public DeviceProfilePage fillName() {
+        switchToFrame(DESKTOP);
         return inputText(BaseTestCase.getTestName(), SAVE_AND_ACTIVATE);
+    }
+
+    public DeviceProfilePage fillName(boolean waitForSaveButtonIsActive) {
+        if (waitForSaveButtonIsActive) {
+            return inputText(BaseTestCase.getTestName(), SAVE_AND_ACTIVATE);
+        }
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
     }
 
     @Override
@@ -1029,7 +1074,7 @@ public class DeviceProfilePage extends BasePage {
         switchToFrame(SUB_FRAME);
         pause(1000);
         new Table("tblFirmwares").print();
-        clickOnTable("tblFirmwares", 1, 1, -1);
+        clickOnTable("tblFirmwares", 1, 1, 99);
         waitForUpdate();
         return this;
     }
@@ -1043,7 +1088,7 @@ public class DeviceProfilePage extends BasePage {
         return inputText(BaseTestCase.getTestName(), NEXT);
     }
 
-    public DeviceProfilePage inputText(String text, GlobalButtons targetButton) {
+    private DeviceProfilePage inputText(String text, GlobalButtons targetButton) {
         for (int i = 0; i < 10; i++) {
             nameField.clear();
             nameField.sendKeys(text + " ");
@@ -1103,16 +1148,29 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError(warn);
     }
 
+    public DeviceProfilePage checkTargetDevice(boolean isExpected) {
+        String path = new ArrayList<String>(parameterMap.keySet()).get(0);
+        String[] arr = path.split("\\.");
+        String param = arr[arr.length - 1];
+        String value = parameterMap.get(path);
+        return checkTargetDevice(isExpected, param, value);
+    }
+
     public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
         DeviceUpdatePage dUPage = new DeviceUpdatePage();
         dUPage
                 .topMenu(TopMenu.DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
-        getTabTable().clickOn("Management");
+        Table tabTable = getTabTable();
+        if (tabTable.contains("Management"))
+            tabTable.clickOn("Management");
+        else {
+            tabTable.clickOn("Device");
+        }
         long start = System.currentTimeMillis();
         boolean textFound = false;
-        while (System.currentTimeMillis() - start < 60000L) {
+        while (System.currentTimeMillis() - start < 61000L) {
             try {
                 Table table = new Table("tblParamsTable");
                 int row = table.getRowNumberByText(0, parameter);
@@ -1123,7 +1181,7 @@ public class DeviceProfilePage extends BasePage {
                     break;
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("DPP:1067 - StaleElementReferenceException handled");
+                System.out.println("DPP:1184 - StaleElementReferenceException handled");
             }
         }
         if (textFound == isExpected) {
@@ -1145,30 +1203,31 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
         Table table = new Table("tblTree");
         List<Integer> rows = table.getRowsWithInput(0);
-        table.clickOn(rows.get(objNum), 0, 1);
+        System.out.println("rows:" + rows.size());
+        table.clickOn(rows.get(objNum), 0, -1);
         waitForUpdate();
         if (clickOnCheckbox) {
-            table.clickOn(rows.get(objNum), 0, 0);
+            table.clickOn(rows.get(objNum), 0, -2);
             waitForUpdate();
         }
         return this;
     }
 
-    public DeviceProfilePage selectTreeObjectCheckbox(int objNum) {
-        Table table = new Table("tblTree");
-        List<Integer> rows = table.getRowsWithInput(0);
-        table.clickOn(rows.get(objNum), 0, 0);
-        waitForUpdate();
-        return this;
-    }
-
-    public DeviceProfilePage selectTreeObjectCheckbox() {
-        return selectTreeObjectCheckbox(0);
-    }
-
-    public DeviceProfilePage selectAnotherTreeObjectCheckbox() {
-        return selectTreeObjectCheckbox(1);
-    }
+//    public DeviceProfilePage selectTreeObjectCheckbox(int objNum) {
+//        Table table = new Table("tblTree");
+//        List<Integer> rows = table.getRowsWithInput(0);
+//        table.clickOn(rows.get(objNum), 0, 0);
+//        waitForUpdate();
+//        return this;
+//    }
+//
+//    public DeviceProfilePage selectTreeObjectCheckbox() {
+//        return selectTreeObjectCheckbox(0);
+//    }
+//
+//    public DeviceProfilePage selectAnotherTreeObjectCheckbox() {
+//        return selectTreeObjectCheckbox(1);
+//    }
 
     public DeviceProfilePage assertParametersAreSelected(boolean expectedState) {
         Table table = new Table("tblParameters");
@@ -1336,13 +1395,29 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage leftMenu(Left item) {
         switchToFrame(DESKTOP);
-        if (driver.findElement(By.id("pager2_lblCount")).getText().equals("15")) {
-            deleteAllProfiles();
+        String stringTotal = driver.findElement(By.id("pager2_lblCount")).getText();
+        int total = Integer.parseInt(stringTotal);
+        if (total >= 14) {
+            descendingSortByCreateColumn();
         }
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
         waitForUpdate();
         switchToFrame(DESKTOP);
+        return this;
+    }
+
+    private void descendingSortByCreateColumn() {
+        Table table = new Table("tblItems");
+        int colNum = table.getColumnNumber(0, "Created");
+        boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
+        if (!descending) {
+            table.clickOn(0, colNum);
+        }
+    }
+
+    public DeviceProfilePage marker(String marker) {
+        System.out.println("marker " + marker);
         return this;
     }
 

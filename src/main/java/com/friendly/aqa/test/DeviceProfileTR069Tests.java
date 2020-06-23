@@ -397,7 +397,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", "61")
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .selectProfileStatus("Active")
+//                .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
                 .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
     }
@@ -7412,7 +7412,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .checkDownloadFile();
     }
 
-    @Test
+    @Test   //Depends on 352
     public void tr069_dp_353() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7432,7 +7432,6 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
         dpPage
                 .presetFilter("Zip", "61000")
                 .topMenu(DEVICE_PROFILE)
-//                .deleteProfileIfExists()
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()

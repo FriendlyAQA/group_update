@@ -399,7 +399,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_033() {
         guPage
                 .gotoAction()
-                .radioDisable()
+                .disableRadiobutton()
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Disable");
     }
@@ -2571,7 +2571,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .radioDisable()
+                .disableRadiobutton()
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()

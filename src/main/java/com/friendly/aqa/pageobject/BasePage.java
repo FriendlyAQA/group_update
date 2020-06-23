@@ -38,7 +38,7 @@ public abstract class BasePage {
     static Properties props;
     public static final String BROWSER;
     private static final Logger logger;
-    static FrameSwitch frame;
+    public static FrameSwitch frame;
     private static FrameSwitch previousFrame;
     protected Table currentTable;
     protected static Set<String> parameterSet;
@@ -254,6 +254,24 @@ public abstract class BasePage {
     @FindBy(id = "UcFirmware1_ddlFileName")
     protected WebElement fileNameComboBox;
 
+    @FindBy(id = "rdReset Min and Max Measured Values")
+    protected WebElement resetMinMaxValues;
+
+    @FindBy(id = "rdReset Cumulative energy")
+    protected WebElement resetCumulativeEnergy;
+
+    @FindBy(id = "rdResetErrors")
+    protected WebElement resetErrors;
+
+    @FindBy(id = "rdDisable")
+    protected WebElement disableRadiobutton;
+
+    @FindBy(id = "rdRegistrationUpdateTrigger")
+    protected WebElement radioRegistrationUpdateTrigger;
+
+    @FindBy(id = "rdStartOrReset")
+    protected WebElement radioStartOrReset;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -316,6 +334,30 @@ public abstract class BasePage {
     public BasePage reprovisionRadioButton() {
         waitForUpdate();
         reprovisionRadioButton.click();
+        return this;
+    }
+
+    public BasePage resetErrors() {//
+        waitForUpdate();
+        resetErrors.click();
+        return this;
+    }
+
+    public BasePage disableRadiobutton() {//
+        waitForUpdate();
+        disableRadiobutton.click();
+        return this;
+    }
+
+    public BasePage radioRegistrationUpdateTrigger() {//
+        waitForUpdate();
+        radioRegistrationUpdateTrigger.click();
+        return this;
+    }
+
+    public BasePage radioStartOrReset() {//
+        waitForUpdate();
+        radioStartOrReset.click();
         return this;
     }
 
