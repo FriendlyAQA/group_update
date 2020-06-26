@@ -328,7 +328,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .assertProfileIsPresent(false, getTestName());
     }
 
-    @Test// bug: red border is absent around empty fields (feature?)
+    @Test//bug: red border is absent around empty fields (feature?)
     public void lwm2m_dp_025() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -697,7 +697,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Events")
-                .setEvent(new Event("NOTIFY REQUEST", null, "1", null))
+                .setEvent(new Event("NOTIFY REQUEST", null, "2", null))
                 .fillName()
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -2583,7 +2583,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .checkDownloadFile();
     }
 
-//tests 139-141 are skipped due to "Vendor Configuration File" is absent from dropdown list
+//  tests 139-141 are skipped due to "Vendor Configuration File" is absent from dropdown list
 
     @Test   //bug: cannot upload "Resource Definition" file on server as precondition;
     public void lwm2m_dp_142() {
@@ -2788,6 +2788,391 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_152() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Ukraine")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_153() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("^US.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_154() {
+        dpPage
+                .presetFilter("User tag", "Egorych")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("=")
+                .fillValue("Egorych")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_155() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Zheka")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_156() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".+ryc.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_157() {
+        dpPage
+                .presetFilter("User ID", "245")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("=")
+                .fillValue("245")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_158() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("246")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_159() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("\\d{3}")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_160() {
+        dpPage
+                .presetFilter("User status", "online")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("=")
+                .fillValue("online")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_161() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("offline")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+    @Test
+    public void lwm2m_dp_162() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".{5}e")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true);
+    }
+
+//  tests 163-165 are skipped due to "DeviceSummary" is absent from dropdown list
+
+//  tests 166-168 are skipped due to "SpecVersion" is absent from dropdown list
+
+//  tests 169-171 are skipped due to "HardwareVersion" is absent from dropdown list
+
+//  tests 172-174 are skipped due to "SoftwareVersion" is absent from dropdown list
+
+//  tests 175-177 are skipped due to "ProvisioningCode" is absent from dropdown list
+
+//  tests 178 is skipped due to Inform radiobutton and "DeviceSummary" option are absent
+
+
+
+    @Test  //bug: depends on test with 2 conditions (178)
+    public void lwm2m_dp_179() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("lwm2m_dp_162")
+                .editConditionButton()
+                .globalButtons(NEXT)
+                .selectFilterItem(1)
+                .deleteFilter()
+                .okButtonPopUp()
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "lwm2m_dp_162");
+    }
+
+    @Test  //depends on 162
+    public void lwm2m_dp_180() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("lwm2m_dp_162")
+                .editConditionButton()
+                .globalButtons(DELETE_CONDITION)
+                .okButtonPopUp()
+                .assertButtonIsActive(false, "btnEditView_btn")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "lwm2m_dp_162");
+    }
+
+    @Test
+    public void lwm2m_dp_181() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .setParameter("Device", 1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test  //bug: "Perform device..." checkbox is absent
+    public void lwm2m_dp_182() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .setParameter("Device", 1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test  //bug: "Apply for..." checkbox is absent
+    public void lwm2m_dp_183() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .setParameter("Device", 1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .applyForNewDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
     }
 
 

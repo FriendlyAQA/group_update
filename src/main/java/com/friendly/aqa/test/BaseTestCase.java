@@ -97,24 +97,24 @@ public abstract class BaseTestCase {
         List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));
         WebElement okBtn = BasePage.getDriver().findElement(By.id("btnOk_btn"));
         BasePage.setImplicitlyWait(0);
-        String warn = "Unexpected popup detected after test '" + testName + "'. The window has been closed.";
+//        String warn = "Unexpected popup detected after test '" + testName + "'. The window has been closed.";
         while (okBtn.isDisplayed()) {
             okBtn.click();
-            logger.warn(warn);
+//            logger.warn(warn);
             loginPage.waitForUpdate();
         }
         while (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
             popupList.get(0).click();
-            logger.warn(warn);
+//            logger.warn(warn);
             loginPage.waitForUpdate();
         }
         if (popup2List.size() > 0 && popup2List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide2('cancel');");
-            logger.warn(warn);
+//            logger.warn(warn);
         }
         if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide('cancel');");
-            logger.warn(warn);
+//            logger.warn(warn);
         }
         BasePage.switchToFrame(DESKTOP);
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));

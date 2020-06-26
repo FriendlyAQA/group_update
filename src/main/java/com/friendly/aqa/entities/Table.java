@@ -128,6 +128,19 @@ public class Table {
         return -1;
     }
 
+    public boolean hasAsymmetry() {
+        if (textTable.length <= 1) {
+            return false;
+        }
+        int length = textTable[0].length;
+        for (int i = 1; i < textTable.length; i++) {
+            if (textTable[i].length != length) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Integer> getRowsWithText(String text) {
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {

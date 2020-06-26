@@ -4,6 +4,7 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
@@ -195,7 +196,6 @@ public class DeviceProfilePage extends BasePage {
             try {
                 start = new Table("tblTree").getCellText(0, 0);
             } catch (StaleElementReferenceException e) {
-//                System.out.println("StaleElementReferenceException!!!");
                 start = new Table("tblTree").getCellText(0, 0);
             }
             tabTable.clickOn(tab);
@@ -207,7 +207,7 @@ public class DeviceProfilePage extends BasePage {
                         break;
                     }
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("DPP:210 - StaleElementReferenceException handled");
+                    System.out.println("DPP:209 - StaleElementReferenceException handled");
                 }
             } while (System.currentTimeMillis() - from < 10000);
         }
@@ -251,7 +251,7 @@ public class DeviceProfilePage extends BasePage {
         if (options.contains(testName)) {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
-            System.out.println("DPP:254 - Condition name already exists! Check existing profile... " + collisionProfileId);
+            System.out.println("DPP:253 - Condition name already exists! Check existing profile... " + collisionProfileId);
             deleteProfileByApiRequest(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
@@ -459,22 +459,16 @@ public class DeviceProfilePage extends BasePage {
             }
             String value = "";
             if (input != null) {
-                System.out.println("input != null");
                 if (input.getAttribute("type").equals("text")) {
-                    System.out.println("input.getAttribute(\"type\").equals(\"text\")");
                     String currentValue = input.getAttribute("value");
                     if (setValue) {
-                        System.out.println("setValue");
                         String s = generateValue(hint, i + 1);
                         value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
                     }
                 } else if (!setValue) {
-                    System.out.println("!setValue");
                     value = "x";
-                    System.out.println("DPP:474 - checkbox set to X");
                 }
             } else if (select != null) {
-                System.out.println("select != null");
                 String selected = getSelectedValue(select);
                 if (setValue) {
                     for (String opt : getOptionList(select)) {
@@ -803,7 +797,7 @@ public class DeviceProfilePage extends BasePage {
         return assertProfileIsPresent(isExpected, selectedName);
     }
 
-    public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
+    public DeviceProfilePage assertProfileIsPresent1(boolean isExpected, String name) {
         Table table;
         try {
             table = getMainTable();
@@ -819,6 +813,17 @@ public class DeviceProfilePage extends BasePage {
             isFound = false;
         }
         if (isFound != isExpected) {
+            String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
+            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            throw new AssertionError(warn);
+        }
+        return this;
+    }
+
+    public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
+        setDefaultImplicitlyWait();
+        Table table = getMainTable();
+        if (table.contains(name) != isExpected) {
             String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
             logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
@@ -867,7 +872,7 @@ public class DeviceProfilePage extends BasePage {
         try {
             enterIntoGroup(profileName);
         } catch (NoSuchElementException e) {
-            System.out.println("DPP:870 - ***********retry to find OK button...***************");
+            System.out.println("DPP:863 - ***********retry to find OK button...***************");
             okButtonPopUp();
             enterIntoGroup(profileName);
         }
@@ -900,7 +905,7 @@ public class DeviceProfilePage extends BasePage {
             e.printStackTrace();
         }
         if (!response.equals("{\"d\":true}")) {
-            System.out.println("DPP:903 - Profile deleting failed/not found!");
+            System.out.println("DPP:896 - Profile deleting failed/not found!");
         }
     }
 
@@ -1073,7 +1078,7 @@ public class DeviceProfilePage extends BasePage {
         waitForUpdate();
         switchToFrame(SUB_FRAME);
         pause(1000);
-        new Table("tblFirmwares").print();
+//        new Table("tblFirmwares").print();
         clickOnTable("tblFirmwares", 1, 1, 99);
         waitForUpdate();
         return this;
@@ -1181,7 +1186,7 @@ public class DeviceProfilePage extends BasePage {
                     break;
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("DPP:1184 - StaleElementReferenceException handled");
+                System.out.println("DPP:1177 - StaleElementReferenceException handled");
             }
         }
         if (textFound == isExpected) {
@@ -1203,7 +1208,6 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
         Table table = new Table("tblTree");
         List<Integer> rows = table.getRowsWithInput(0);
-        System.out.println("rows:" + rows.size());
         table.clickOn(rows.get(objNum), 0, -1);
         waitForUpdate();
         if (clickOnCheckbox) {
@@ -1401,7 +1405,12 @@ public class DeviceProfilePage extends BasePage {
             descendingSortByCreateColumn();
         }
         switchToFrame(ROOT);
-        getTable("tblLeftMenu").clickOn(item.value);
+        Timer timer = new Timer();
+        Table table = getTable("tblLeftMenu");
+        while (!table.contains(item.value) && !timer.timeout()) {
+            table = getTable("tblLeftMenu");
+        }
+        table.clickOn(item.value);
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;

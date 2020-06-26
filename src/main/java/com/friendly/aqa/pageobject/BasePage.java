@@ -4,6 +4,7 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Timer;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -432,6 +433,7 @@ public abstract class BasePage {
 
     public BasePage selectModel(String modelName) {
         selectComboBox(modelComboBox, modelName);
+        waitForUpdate();
         return this;
     }
 
@@ -1548,16 +1550,19 @@ public abstract class BasePage {
         parametersMonitorMap.forEach((name, monitor) -> {
             boolean isFound = false;
             for (int i = 1; i < table.getTableSize()[0]; i++) {
-                if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInput(i, 2).getAttribute("value"))) {
-                    WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
-                    if (Objects.equals(getSelectedValue(select), monitor.getCondition().toString())) {
-                        isFound = true;
-                        break;
-                    }
+                if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInputText(i, 2))
+                        && monitor.getCondition().toString().equals(getSelectedValue(table.getSelect(i, 1)))) {
+//                    WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
+//                    if (getSelectedValue(select).equals(monitor.getCondition().toString())) {
+                    isFound = true;
+                    break;
                 }
             }
             if (!isFound) {
-                throw new AssertionError(monitor.toString() + " not found on current table!\n" + table.print());
+                String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
+                        + getSelectedValue(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
+                logger.warn(warn);
+                throw new AssertionError("Expected Parameters Monitoring not found on current table!\n" + table.print());
             }
         });
         return this;
@@ -1569,6 +1574,10 @@ public abstract class BasePage {
 
     public BasePage checkAddedTask(String parameter, String value, int shift) {
         Table table = getTable("tblTasks");
+        Timer timer = new Timer();
+        while ((table.getTableSize()[0] == 1 || table.hasAsymmetry()) && !timer.timeout()) {
+            table = getTable("tblTasks");
+        }
         int[] tableSize = table.getTableSize();
         boolean match = false;
         for (int i = 0; i < tableSize[0]; i++) {

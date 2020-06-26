@@ -37,6 +37,6 @@ public class ParametersMonitor {
 
     @Override
     public String toString() {
-        return "ParametersMonitor{" + name + ":" + condition + ":" + value + '}';
+        return "ParametersMonitor{" + name + " | " + condition + " | " + value + '}';
     }
 }
