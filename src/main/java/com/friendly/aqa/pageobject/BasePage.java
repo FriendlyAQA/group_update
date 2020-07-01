@@ -428,11 +428,17 @@ public abstract class BasePage {
 
     public BasePage selectManufacturer(String manufacturer) {
         selectComboBox(manufacturerComboBox, manufacturer);
+        waitForUpdate();
         return this;
     }
 
     public BasePage selectModel(String modelName) {
-        selectComboBox(modelComboBox, modelName);
+        List<String> list = getOptionList(modelComboBox);
+        if (list.size() == 1) {
+            selectComboBox(modelComboBox, list.get(0));
+        } else {
+            selectComboBox(modelComboBox, modelName);
+        }
         waitForUpdate();
         return this;
     }
@@ -1165,18 +1171,21 @@ public abstract class BasePage {
         return this;
     }
 
+    //1
     public void selectAnotherBranch() {
         String branch = getElementText("divPath");
         Table branchTable = new Table("tblTree");
-        String[] column = branchTable.getColumn(0);
-        for (int i = 0; i < column.length; i++) {
-            WebElement cell = branchTable.getCellWebElement(i, 0);
-            List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
-            tagList.get(tagList.size() - 1).click();
-            if (!getElementText("divPath").equals(branch)) {
-                return;
+        for (int i = 0; i < branchTable.getTableSize()[0]; i++) {
+            if (branchTable.getCellWebElement(i, 0).isDisplayed()) {
+                branchTable.clickOn(i, 0, -1);
+                if (!getElementText("divPath").equals(branch)) {
+                    setDefaultImplicitlyWait();
+                    return;
+                }
             }
-            if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
+            setImplicitlyWait(0);
+            List<WebElement> tagList = branchTable.getCellWebElement(i, 0).findElements(By.tagName("img"));
+            if (!tagList.isEmpty() && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
                 tagList.get(0).click();
             }
         }
@@ -1575,7 +1584,8 @@ public abstract class BasePage {
     public BasePage checkAddedTask(String parameter, String value, int shift) {
         Table table = getTable("tblTasks");
         Timer timer = new Timer();
-        while ((table.getTableSize()[0] == 1 || table.hasAsymmetry()) && !timer.timeout()) {
+        while (/*(*/table.getTableSize()[0] == 1 /*|| table.hasAsymmetry())*/ && !timer.timeout()) {
+            System.out.println("marker");
             table = getTable("tblTasks");
         }
         int[] tableSize = table.getTableSize();
@@ -1608,6 +1618,9 @@ public abstract class BasePage {
         }
     }
 
+    public void forceFail() {
+        throw new AssertionError("Test was down manually");
+    }
 
     public enum FrameSwitch {
         ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"),

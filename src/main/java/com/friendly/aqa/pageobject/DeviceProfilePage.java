@@ -157,6 +157,18 @@ public class DeviceProfilePage extends BasePage {
     private WebElement applyForNewDeviceCheckbox;
 
 
+    public DeviceProfilePage setParameter(int amount) {
+        setParameter(null, amount);
+        return this;
+    }
+
+    public DeviceProfilePage setAnyAdvancedParameter() {
+        selectAnotherBranch();
+        setParameter(1);
+        return this;
+    }
+
+
     public DeviceProfilePage performDeviceCheckbox() {
         performDeviceCheckbox.click();
         pause(1000);
@@ -251,7 +263,7 @@ public class DeviceProfilePage extends BasePage {
         if (options.contains(testName)) {
             String filterId = new Select(conditionComboBox).getOptions().get(options.indexOf(testName)).getAttribute("value");
             String collisionProfileId = DataBaseConnector.getValue("SELECT profile_id FROM ftacs.profile_filter WHERE filter_id='" + filterId + "'");
-            System.out.println("DPP:253 - Condition name already exists! Check existing profile... " + collisionProfileId);
+            System.out.println("DPP:253 - Condition name already exists! Checking for existing profile... " + collisionProfileId);
             deleteProfileByApiRequest(collisionProfileId);
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
@@ -445,7 +457,7 @@ public class DeviceProfilePage extends BasePage {
         }
         Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
-        for (int i = 0; i < Math.min(amount, names.length); i++) {
+        for (int i = 0; i < Math.min(Math.abs(amount), names.length); i++) {
             String hint = table.getHint(i + 1);
             WebElement input = null;
             WebElement select = null;
@@ -462,7 +474,7 @@ public class DeviceProfilePage extends BasePage {
                 if (input.getAttribute("type").equals("text")) {
                     String currentValue = input.getAttribute("value");
                     if (setValue) {
-                        String s = generateValue(hint, i + 1);
+                        String s = generateValue(hint, amount < 0 ? (int) (10000 * Math.random()) : i + 1);
                         value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
                     }
                 } else if (!setValue) {
@@ -1154,34 +1166,50 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage checkTargetDevice(boolean isExpected) {
-        String path = new ArrayList<String>(parameterMap.keySet()).get(0);
+        return checkTargetDevice(isExpected, false);
+    }
+
+    public DeviceProfilePage checkTargetDevice(boolean isExpected, boolean advancedView) {
+        String path = new ArrayList<>(parameterMap.keySet()).get(0);
         String[] arr = path.split("\\.");
         String param = arr[arr.length - 1];
         String value = parameterMap.get(path);
-        return checkTargetDevice(isExpected, param, value);
+        return checkTargetDevice(isExpected, param, value, advancedView);
     }
 
     public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
+        return checkTargetDevice(isExpected, parameter, value, false);
+    }
+
+    public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value, boolean advancedView) {
         DeviceUpdatePage dUPage = new DeviceUpdatePage();
         dUPage
                 .topMenu(TopMenu.DEVICE_UPDATE)
-                .enterToDevice()
-                .leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
-        Table tabTable = getTabTable();
-        if (tabTable.contains("Management"))
-            tabTable.clickOn("Management");
-        else {
-            tabTable.clickOn("Device");
+                .enterToDevice();
+        if (advancedView) {
+            dUPage
+                    .globalButtons(DeviceUpdatePage.GlobalButtons.REPROVISION)
+                    .okButtonPopUp()
+                    .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW);
+        } else {
+            dUPage.leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
+            Table tabTable = getTabTable();
+            if (tabTable.contains("Management"))
+                tabTable.clickOn("Management");
+            else {
+                tabTable.clickOn("Device");
+            }
         }
         long start = System.currentTimeMillis();
         boolean textFound = false;
-        while (System.currentTimeMillis() - start < 61000L) {
+        Timer timer = new Timer(61000);
+        while (!timer.timeout()) {
             try {
                 Table table = new Table("tblParamsTable");
                 int row = table.getRowNumberByText(0, parameter);
                 WebElement cell = table.getCellWebElement(row, 1);
                 String text = cell.findElement(By.tagName("input")).getAttribute("value");
-                if (isExpected && text.equals(value)) {
+                if (text.equals(value)) {
                     textFound = true;
                     break;
                 }
@@ -1208,6 +1236,15 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
         Table table = new Table("tblTree");
         List<Integer> rows = table.getRowsWithInput(0);
+        while (rows.size() <= objNum) {
+            List<WebElement> expanders = table.getExpandableRowList();
+            if (expanders.size() == 0) {
+                throw new AssertionError("There are not enough of clickable objects to finish this test case!");
+            }
+            expanders.get(0).click();
+            table = new Table("tblTree");
+            rows = table.getRowsWithInput(0);
+        }
         table.clickOn(rows.get(objNum), 0, -1);
         waitForUpdate();
         if (clickOnCheckbox) {
@@ -1215,6 +1252,10 @@ public class DeviceProfilePage extends BasePage {
             waitForUpdate();
         }
         return this;
+    }
+
+    public DeviceProfilePage clickOn(String id) {
+        return (DeviceProfilePage) super.clickOn(id);
     }
 
 //    public DeviceProfilePage selectTreeObjectCheckbox(int objNum) {

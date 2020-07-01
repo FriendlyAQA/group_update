@@ -204,7 +204,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .selectMainTab("Parameters")
+//                .selectMainTab("Parameters")
                 .setParameter("Device", 1)
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE)
                 .fillName()
@@ -271,7 +271,9 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .assertMainPageIsDisplayed();
+                .assertMainPageIsDisplayed()
+                .selectProfileStatus("All")
+                .assertProfileIsActive(false);
     }
 
     @Test
@@ -388,8 +390,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-//                .assertProfileIsPresent(true, getTestName());
-                .checkTargetDevice(true, "Timezone", "Europe/Odessa");
+                .checkTargetDevice(true);
     }
 
     @Test
@@ -418,7 +419,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
 //                .assertProfileIsPresent(true, getTestName());
-                .checkTargetDevice(false, "Timezone", "Europe/Kyiv");
+                .checkTargetDevice(false);
     }
 
     @Test   // depends on 028

@@ -141,6 +141,16 @@ public class Table {
         return false;
     }
 
+    public List<WebElement> getExpandableRowList() {
+        List<WebElement> imgList = table.findElements(By.tagName("img"));
+        List<WebElement> out = new ArrayList<>();
+        imgList
+                .parallelStream()
+                .filter(el -> el.getAttribute("src").endsWith("expand.png"))
+                .forEach(out::add);
+        return out;
+    }
+
     public List<Integer> getRowsWithText(String text) {
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {

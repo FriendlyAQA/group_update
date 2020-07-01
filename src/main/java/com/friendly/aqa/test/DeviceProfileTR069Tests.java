@@ -269,7 +269,9 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .checkParameter("PeriodicInformInterval, sec", "70")
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .assertMainPageIsDisplayed();
+                .assertMainPageIsDisplayed()
+                .selectProfileStatus("All")
+                .assertProfileIsActive(false);
     }
 
     @Test

@@ -1195,6 +1195,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage marker(String marker) {
+        System.out.println(marker);
+        return this;
+    }
+
     public GroupUpdatePage setAdvancedParameter(String branch, int amount) {
         if (branch == null) {
             selectAnotherBranch();

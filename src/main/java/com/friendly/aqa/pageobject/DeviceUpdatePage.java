@@ -111,6 +111,16 @@ public class DeviceUpdatePage extends BasePage {
         input.sendKeys(value);
     }
 
+    public DeviceUpdatePage globalButtons(GlobalButtons button) {
+        clickGlobalButtons(button);
+        return this;
+    }
+
+    @Override
+    public DeviceUpdatePage okButtonPopUp() {
+        return (DeviceUpdatePage) super.okButtonPopUp();
+    }
+
     public DeviceUpdatePage leftMenu(Left item) {
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
@@ -151,6 +161,7 @@ public class DeviceUpdatePage extends BasePage {
         NEXT("btnNext_btn"),
         PAUSE("btnPause_btn"),
         REFRESH("btnRefresh_btn"),
+        REPROVISION("btnCPEReprovision_btn"),
         PREVIOUS("btnPrev_btn"),
         SAVE("btnSave_btn"),
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
