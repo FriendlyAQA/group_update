@@ -156,6 +156,12 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "cbsendBackupForExisting")
     private WebElement applyForNewDeviceCheckbox;
 
+    @FindBy(id = "rdDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
+    private WebElement sendOnBoardRequestRadioButton;
+
+    @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
+    private WebElement instanceCombobox;
+
 
     public DeviceProfilePage setParameter(int amount) {
         setParameter(null, amount);
@@ -301,6 +307,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage editConditionButton() {
         editConditionButton.click();
+        return this;
+    }
+
+    public DeviceProfilePage sendOnBoardRequestRadioButton() {
+        sendOnBoardRequestRadioButton.click();
         return this;
     }
 
@@ -720,6 +731,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectCondition(int index) {
         new Select(conditionComboBox).selectByIndex(index);
+        return this;
+    }
+
+    public DeviceProfilePage selectInstance(String value) {
+        selectComboBox(instanceCombobox, value);
         return this;
     }
 

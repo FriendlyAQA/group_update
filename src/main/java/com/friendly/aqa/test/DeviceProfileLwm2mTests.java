@@ -3098,7 +3098,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     public void lwm2m_dp_179() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .enterIntoProfile("lwm2m_dp_162")
+                .enterIntoProfile("lwm2m_dp_178")
                 .editConditionButton()
                 .globalButtons(NEXT)
                 .selectFilterItem(1)
@@ -3108,7 +3108,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .assertProfileIsPresent(true, "lwm2m_dp_162");
+                .assertProfileIsPresent(true, "lwm2m_dp_178");
     }
 
     @Test  //depends on 162

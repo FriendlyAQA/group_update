@@ -2,9 +2,11 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.entities.Event;
+import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import static com.friendly.aqa.entities.Condition.*;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_PROFILE;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
@@ -433,7 +435,6 @@ public class DeviceProfileUspTests extends BaseTestCase {
     //  tests 30-32 are skipped due to tab "Parameters" doesn't have (several) subtabs (emul's tree???)
 
 
-
     @Test //bug: default object has overlying expanded objects
     public void usp_dp_033() {
         dpPage
@@ -464,7 +465,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .checkEvents();
     }
 
-    @Test   //bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
+    @Test
+    //bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
     public void usp_dp_035() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -584,7 +586,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Events")
-                .setEvent(new Event("Push!", false, "2", null), true)
+                .setEvent(new Event("Boot!", false, "2", null), true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
                 .setParameter("Longitude", VALUE, "1234")
@@ -597,11 +599,506 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedEventTasks("Push!");
+                .checkAddedEventTasks("Boot!");
     }
 
     @Test
     public void usp_dp_042() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Reboot");
+    }
+
+    @Test
+    public void usp_dp_043() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "4", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Factory reset");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_044() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("0")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 0");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_045() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("1")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 1");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_046() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 3");
+    }
+
+    @Test
+    public void usp_dp_047() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Boot!", false, "4", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Boot!", "Action", "Device reprovision");
+    }
+
+    @Test
+    public void usp_dp_048() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "2", null), true)
+                .addTask("Set parameter value")
+                .clickOn("btnAdvancedView_btn")
+                .setParameter("Longitude", VALUE, "1234")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventTasks("DUStateChange!");
+    }
+
+    @Test
+    public void usp_dp_049() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Reboot");
+    }
+
+    @Test
+    public void usp_dp_050() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "4", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Factory reset");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_051() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("0")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 0");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_052() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("1")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 1");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_053() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 3");
+    }
+
+    @Test
+    public void usp_dp_054() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("DUStateChange!", false, "4", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("DUStateChange!", "Action", "Device reprovision");
+    }
+
+    @Test
+    public void usp_dp_055() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "2", null), true)
+                .addTask("Set parameter value")
+                .clickOn("btnAdvancedView_btn")
+                .setParameter("Longitude", VALUE, "1234")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventTasks("Periodic!");
+    }
+
+    @Test
+    public void usp_dp_056() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "3", null), true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Reboot");
+    }
+
+    @Test
+    public void usp_dp_057() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "4", null), true)
+                .addTask("Action")
+                .factoryResetRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Factory reset");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_058() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("0")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 0");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_059() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("1")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 1");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_060() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 3");
+    }
+
+    @Test
+    public void usp_dp_061() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Periodic!", false, "4", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Periodic!", "Action", "Device reprovision");
+    }
+
+    @Test
+    public void usp_dp_062() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Timer!", false, "2", null), true)
+                .addTask("Set parameter value")
+                .clickOn("btnAdvancedView_btn")
+                .setParameter("Longitude", VALUE, "1234")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventTasks("Timer!");
+    }
+
+    @Test
+    public void usp_dp_063() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
@@ -624,14 +1121,14 @@ public class DeviceProfileUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_dp_043() {
+    public void usp_dp_064() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Events")
-                .setEvent(new Event("TransferComplete!", false, "4", null), true)
+                .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
                 .factoryResetRadioButton()
                 .saveTaskButton()
@@ -643,13 +1140,812 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .checkEvents()
-                .checkAddedEventAction("TransferComplete!", "Action", "Factory reset");
+                .checkAddedEventAction("Timer!", "Action", "Factory reset");
     }
 
-//    @Test
-//    public void usp_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_065() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Timer!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("0")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 0");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_066() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Timer!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("1")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 1");
+    }
+
+    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    public void usp_dp_067() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Timer!", false, "4", null), true)
+                .addTask("Action")
+                .sendOnBoardRequestRadioButton()
+                .selectInstance("3")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 3");
+    }
+
+    @Test
+    public void usp_dp_068() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Events")
+                .setEvent(new Event("Timer!", false, "4", null), true)
+                .addTask("Action")
+                .reprovisionRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandEvents()
+                .checkEvents()
+                .checkAddedEventAction("Timer!", "Action", "Device reprovision");
+    }
+
+    @Test
+    public void usp_dp_069() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(CONTAINS)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_070() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(EQUAL)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_071() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(GREATER)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_072() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(GREATER_EQUAL)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_073() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(LESS)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_074() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(LESS_EQUAL)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_075() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(NOT_EQUAL)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_076() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(STARTS_WITH)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_077() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(VALUE_CHANGE)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test   //bug: Cannot save a profile with edited Monitoring tab settings;
+    public void usp_dp_078() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("usp_dp_077")
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(CONTAINS)
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("usp_dp_077")
+                .selectMainTab("Summary")
+                .expandParametersMonitor()
+                .checkParametersMonitor();
+    }
+
+    @Test
+    public void usp_dp_079() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(VALUE_CHANGE, true)
+                .addTask("Set parameter value")
+                .clickOn("btnAdvancedView_btn")
+                .setParameter("Longitude", VALUE, "1234")
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandParametersMonitor()
+                .checkParametersMonitor()
+                .checkAddedMonitorTasks();
+    }
+
+    @Test
+    public void usp_dp_080() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Monitoring")
+                .setParametersMonitor(VALUE_CHANGE, true)
+                .addTask("Action")
+                .rebootRadioButton()
+                .saveTaskButton()
+                .saveTaskButton()
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Summary")
+                .expandParametersMonitor()
+                .checkParametersMonitor()
+                .checkAddedMonitorAction(null, "Action", "Reboot");
+    }
+
+    @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    public void usp_dp_081() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Download file")
+                .downloadFromListFile("Firmware Image")
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    public void usp_dp_082() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Download file")
+                .downloadManualImageFile("Firmware Image")
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+    @Test      //bug: Dropdown "File type doesn't have any items (bad emul's tree???)   //depends on 82
+    public void usp_dp_083() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("usp_dp_082")
+                .selectMainTab("Download file")
+                .editFileEntry()
+                .downloadFromListFile("Firmware Image")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("usp_dp_082")
+                .selectMainTab("Download file")
+                .checkDownloadFile();
+    }
+
+//  tests 84-86 are skipped due to "Vendor Configuration File" is absent from dropdown list
+
+
+    @Test   //duplicate with 025
+    public void usp_dp_087() {
+        dpPage
+                .presetFilter("Zip", "61000")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test   //duplicate with 026
+    public void usp_dp_088() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("61000")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+//                .selectProfileStatus("Active")
+                .checkTargetDevice(false, true);
+    }
+
+    @Test
+    public void usp_dp_089() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("^6.+$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_090() {
+        dpPage
+                .presetFilter("User location", "USA")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("=")
+                .fillValue("USA")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_091() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Ukraine")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_092() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("location")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("^US.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_093() {
+        dpPage
+                .presetFilter("User tag", "Egorych")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("=")
+                .fillValue("Egorych")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_094() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("Zheka")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_095() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("user_tag")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".+ryc.$")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_096() {
+        dpPage
+                .presetFilter("User ID", "245")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("=")
+                .fillValue("245")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_097() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("246")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_098() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userid")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue("\\d{3}")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_099() {
+        dpPage
+                .presetFilter("User status", "online")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("=")
+                .fillValue("online")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_100() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("!=")
+                .fillValue("offline")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+    @Test
+    public void usp_dp_101() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .globalButtons(NEXT)
+                .addFilter()
+                .selectUserInfoComboBox("userstatus")
+                .selectConditionTypeComboBox("Regexp")
+                .fillValue(".{5}e")
+                .globalButtons(NEXT)
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(-1)
+                .fillName()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .selectProfileStatus("Active")
+                .checkTargetDevice(true, true);
+    }
+
+//  tests 102-104 are skipped due to "DeviceSummary" is absent from dropdown list
+
+//  tests 105-107 are skipped due to "HardwareVersion" is absent from dropdown list
+
+//  tests 108-110 are skipped due to "SoftwareVersion" is absent from dropdown list
+
+//  tests 111 is skipped due to Inform radiobutton and "DeviceSummary" option are absent
+
+
+    @Test  //bug: depends on test with 2 conditions (111)
+    public void usp_dp_112() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("lwm2m_dp_111")
+                .editConditionButton()
+                .globalButtons(NEXT)
+                .selectFilterItem(1)
+                .deleteFilter()
+                .okButtonPopUp()
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "lwm2m_dp_111");
+    }
+
+
+
+    @Test
+    public void usp_dp_999() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .deleteAllProfiles();
+    }
 }
