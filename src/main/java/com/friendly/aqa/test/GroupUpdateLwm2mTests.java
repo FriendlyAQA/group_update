@@ -76,7 +76,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .assertTrue(guPage.isButtonPresent(FINISH))
                 .globalButtons(CANCEL)
                 .waitForUpdate().pause(500)
@@ -86,24 +86,23 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_006() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("IsNull")
+                .selectCompare("IsNull")
                 .globalButtons(NEXT)
                 .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
                 .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
-        setTargetTestName();
     }
 
     @Test
     public void lwm2m_gu_007() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("cust2")
-                .compareSelect("Equal")
+                .selectCompare("Equal")
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -120,8 +119,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
-                .fillName(targetTestName)
+                .createGroupButton()
+                .fillName("lwm2m_gu_006")
                 .globalButtons(NEXT)
                 .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
@@ -134,11 +133,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .selectSendTo(targetTestName)
+                .selectSendTo("lwm2m_gu_006")
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .assertFalse(guPage.isOptionPresent("ddlSend", "lwm2m_gu_006"), "Option 'lwm2m_gu_006' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -177,9 +176,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_012() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -205,14 +204,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);
-        setTargetTestName();
     }
 
     @Test
     public void lwm2m_gu_015() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("lwm2m_gu_014")
                 .globalButtons(EDIT)
                 .globalButtons(NEXT)
                 .immediately()
@@ -222,7 +220,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("lwm2m_gu_014")
                 .checkAddedTasks();
     }
 
@@ -232,14 +230,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate();
-        setTargetTestName();
     }
 
     @Test
     public void lwm2m_gu_017() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("lwm2m_gu_016")
                 .globalButtons(EDIT)
                 .assertFalse(guPage.isInputActive("ddlSend"))
                 .globalButtons(NEXT)
@@ -270,7 +267,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .assertTrue(HttpConnector.sendGetRequest(guPage
-                        .getGuExportLink(targetTestName))
+                        .getGuExportLink("lwm2m_gu_016"))
                         .contains("\"Root.Device.0.UTC Offset\" value=\"+02:00\""));
     }
 
@@ -354,7 +351,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -365,7 +362,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
+                .assertPresenceOfValue("tblTasks", 2, "Factory reset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
@@ -428,7 +425,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -636,9 +633,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_060() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is null")
+                .selectCompare("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -648,9 +645,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_061() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -666,11 +663,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_gu_062() {
-        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
+        DataBaseConnector.createFilterPreconditions(getSerial());
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("On Day")
+                .selectCompare("On Day")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
@@ -690,9 +687,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_063() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prior to")
+                .selectCompare("Prior to")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
@@ -714,9 +711,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_064() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Later than")
+                .selectCompare("Later than")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
@@ -738,9 +735,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_065() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Today")
+                .selectCompare("Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -758,9 +755,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_066() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Before Today")
+                .selectCompare("Before Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -778,9 +775,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_067() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Yesterday")
+                .selectCompare("Yesterday")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -798,9 +795,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_068() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prev 7 days")
+                .selectCompare("Prev 7 days")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -818,9 +815,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_069() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prev X days")
+                .selectCompare("Prev X days")
                 .inputText("txtInt", "9")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -840,9 +837,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_070() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("=")
+                .selectCompare("=")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -862,9 +859,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_071() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("!=")
+                .selectCompare("!=")
                 .inputText("txtText", "123")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -884,9 +881,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_072() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Hardware version")
-                .compareSelect("Starts with")
+                .selectCompare("Starts with")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -898,9 +895,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_073() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Like")
+                .selectCompare("Like")
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -920,9 +917,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_074() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("No like")
+                .selectCompare("No like")
                 .inputText("txtText", "abc")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -942,9 +939,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_075() {
         guPage
                 .presetFilter("mycust03", "")
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Is null")
+                .selectCompare("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -963,9 +960,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_076() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -983,9 +980,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_077() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(CANCEL)
                 .waitForUpdate()
                 .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
@@ -999,7 +996,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
@@ -1770,7 +1767,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_108() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1795,7 +1792,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_109() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1819,7 +1816,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_110() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1844,7 +1841,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_111() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1871,7 +1868,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_112() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1898,7 +1895,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: Test fails if run in Friday :)
     public void lwm2m_gu_113() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2456,7 +2453,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -2481,7 +2478,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2649,7 +2646,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test

@@ -28,7 +28,14 @@ public class DeviceProfilePage extends BasePage {
 
     @Override
     public Table getMainTable() {
-        return getTable("tblItems");
+        try {
+            return getTable("tblItems");
+        } catch (NoSuchElementException e) {
+            setImplicitlyWait(0);
+            okButtonPopUp();
+            setDefaultImplicitlyWait();
+            return getTable("tblItems");
+        }
     }
 
     @Override
@@ -194,42 +201,30 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage selectMainTab(String tab) {//TODO something...
-        new Table(mainTabTable).clickOn(tab);
-        pause(1000);
+        try {
+            new Table(mainTabTable).clickOn(tab);
+            pause(1000);
+        } catch (AssertionError e) {
+            pause(1000);
+            new Table(mainTabTable).clickOn(tab);
+            pause(1000);
+        }
         waitForUpdate();
         return this;
     }
 
+    @Override
     public DeviceProfilePage selectTab(String tab) {
-        return selectTab(tab, getTabTable());
+        return (DeviceProfilePage) super.selectTab(tab);
     }
 
     public DeviceProfilePage selectEventTab(String tab) {
         return selectTab(tab, new Table("tabsEventSettings_tblTabs"));
     }
 
+    @Override
     public DeviceProfilePage selectTab(String tab, Table tabTable) {
-        if (!tab.equals("Management") && !tab.equals("Device")) {
-            String start;
-            try {
-                start = new Table("tblTree").getCellText(0, 0);
-            } catch (StaleElementReferenceException e) {
-                start = new Table("tblTree").getCellText(0, 0);
-            }
-            tabTable.clickOn(tab);
-            long from = System.currentTimeMillis();
-            do {
-                waitForUpdate();
-                try {
-                    if (!new Table("tblTree").getCellText(0, 0).equals(start)) {
-                        break;
-                    }
-                } catch (StaleElementReferenceException e) {
-                    System.out.println("DPP:209 - StaleElementReferenceException handled");
-                }
-            } while (System.currentTimeMillis() - from < 10000);
-        }
-        return this;
+        return (DeviceProfilePage) super.selectTab(tab, tabTable);
     }
 
     public DeviceProfilePage userInfoRadioButton() {
@@ -664,7 +659,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage addTask(String task) {
         switchToFrame(POPUP);
-        waitElementVisibility("btnAddTask_btn", 5);
+        waitUntilElementIsDisplayed("btnAddTask_btn");
         selectComboBox(selectTask, task);
         clickButton(addTaskButton);
         return this;
@@ -860,15 +855,19 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertProfileIsActive(boolean isActive) {
+        return assertProfileIsActive(isActive, selectedName);
+    }
+
+    public DeviceProfilePage assertProfileIsActive(boolean isActive, String profileName) {
         waitForUpdate();
         Table table = getMainTable();
-        int row = table.getRowNumberByText(selectedName);
+        int row = table.getRowNumberByText(profileName);
         int col = table.getColumnNumber(0, "State");
         boolean actualState = table.getCellText(row, col).equals("Active");
         if (actualState == isActive) {
             return this;
         }
-        String warn = "Profile '" + selectedName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!";
+        String warn = "Profile '" + profileName + "' has unexpected state (expected:'" + isActive + "', but found:'" + actualState + "')!";
         logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
@@ -1255,7 +1254,7 @@ public class DeviceProfilePage extends BasePage {
         while (rows.size() <= objNum) {
             List<WebElement> expanders = table.getExpandableRowList();
             if (expanders.size() == 0) {
-                throw new AssertionError("There are not enough of clickable objects to finish this test case!");
+                throw new AssertionError("There are not enough clickable objects to finish this test case!");
             }
             expanders.get(0).click();
             table = new Table("tblTree");

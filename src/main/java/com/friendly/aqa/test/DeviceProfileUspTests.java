@@ -270,7 +270,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false);
+                .assertProfileIsActive(false, getTestName());
     }
 
     @Test
@@ -1940,12 +1940,83 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .assertProfileIsPresent(true, "lwm2m_dp_111");
     }
 
-
-
-    @Test
-    public void usp_dp_999() {
+    @Test  //depends on 101
+    public void usp_dp_113() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .deleteAllProfiles();
+                .enterIntoProfile("usp_dp_101")
+                .editConditionButton()
+                .globalButtons(DELETE_CONDITION)
+                .okButtonPopUp()
+                .assertButtonIsActive(false, "btnEditView_btn")
+                .globalButtons(SAVE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, "usp_dp_101");
     }
+
+    @Test
+    public void usp_dp_114() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test
+    public void usp_dp_115() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+    @Test
+    public void usp_dp_116() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Parameters")
+                .globalButtons(ADVANCED_VIEW)
+                .setParameter(1)
+                .fillName()
+                .fullRequestRadioButton()
+                .applyProvisionRadioButton()
+                .performDeviceCheckbox()
+                .applyForNewDeviceCheckbox()
+                .globalButtons(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .assertProfileIsPresent(true, getTestName());
+    }
+
+
+
+//    @Test
+//    public void usp_dp_999() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .deleteAllProfiles();
+//    }
 }

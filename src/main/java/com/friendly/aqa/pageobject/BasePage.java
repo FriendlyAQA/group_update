@@ -168,6 +168,21 @@ public abstract class BasePage {
     @FindBy(id = "ddlModelName")
     protected WebElement modelComboBox;
 
+    @FindBy(id = "ddlView")
+    protected WebElement filterViewComboBox;
+
+    @FindBy(id = "ddlManuf")
+    protected WebElement filterManufacturerComboBox;
+
+    @FindBy(id = "ddlModel")
+    protected WebElement filterModelNameComboBox;
+
+    @FindBy(id = "btnEditView_btn")
+    protected WebElement editButton;
+
+    @FindBy(id = "btnNewView_btn")
+    protected WebElement newViewButton;
+
     @FindBy(id = "ddlSend")
     protected WebElement sendToComboBox;
 
@@ -519,6 +534,23 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertMainPageIsDisplayed() {
+        try {
+            boolean viewComboBox = filterViewComboBox.isDisplayed() && filterViewComboBox.isEnabled();
+            boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
+            boolean modelNameComboBox = filterModelNameComboBox.isDisplayed() && filterModelNameComboBox.isEnabled();
+            boolean editViewBtn = editButton.isDisplayed() && editButton.isEnabled();
+            boolean newViewBtn = newViewButton.isDisplayed() && newViewButton.isEnabled();
+            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
+            if (viewComboBox && manufacturerComboBox && modelNameComboBox && editViewBtn && newViewBtn && resetViewBtn) {
+                return this;
+            }
+        } catch (NoSuchElementException e) {
+            logger.warn('(' + BaseTestCase.getTestName() + ") - " + e.getMessage());
+        }
+        throw new AssertionError("One or more elements not found on Monitoring tab main page");
+    }
+
     public BasePage assertButtonIsActive(boolean expectedActive, String id) {
         if (isButtonActive(id) == expectedActive) {
             return this;
@@ -552,11 +584,11 @@ public abstract class BasePage {
         return !driver.findElement(By.id(id)).getAttribute("class").equals("button_disabled");
     }
 
-    protected void waitElementVisibility(String id, int timeOut) {
+    protected void waitUntilElementIsDisplayed(String id) {
         WebElement element = driver.findElement(By.id(id));
         new FluentWait<>(driver)
-                .withMessage("Element '#" + id + "' not found/not active")
-                .withTimeout(Duration.ofSeconds(timeOut))
+                .withMessage("Element '#" + id + "' not found")
+                .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.visibilityOf(element));
     }
@@ -577,10 +609,10 @@ public abstract class BasePage {
     }
 
     public BasePage waitForStatus(String status, String testName, int timeout) {
-        long start = System.currentTimeMillis();
+        Timer timer = new Timer(timeout * 1000);
         while (!(getMainTable()).getCellText(testName, "State").equals(status)) {
             globalButtons(REFRESH);
-            if (System.currentTimeMillis() - start > timeout * 1000) {
+            if (timer.timeout()) {
                 throw new AssertionError("Timed out while waiting for status " + status);
             }
         }
@@ -628,6 +660,34 @@ public abstract class BasePage {
 
     public Table getTabTable() {
         return getTable("tabsSettings_tblTabs", null);
+    }
+
+    public BasePage selectTab(String tab) {
+        return selectTab(tab, getTabTable());
+    }
+
+    public BasePage selectTab(String tab, Table tabTable) {
+        if (!tab.equals("Management") && !tab.equals("Device")) {
+            String start;
+            try {
+                start = new Table("tblTree").getCellText(0, 0);
+            } catch (StaleElementReferenceException e) {
+                start = new Table("tblTree").getCellText(0, 0);
+            }
+            tabTable.clickOn(tab);
+            long from = System.currentTimeMillis();
+            do {
+                waitForUpdate();
+                try {
+                    if (!new Table("tblTree").getCellText(0, 0).equals(start)) {
+                        break;
+                    }
+                } catch (StaleElementReferenceException e) {
+                    System.out.println("DPP:209 - StaleElementReferenceException handled");
+                }
+            } while (System.currentTimeMillis() - from < 10000);
+        }
+        return this;
     }
 
     public BasePage waitForUpdate() {   //TODO rework with ExpectedCondition
@@ -996,28 +1056,18 @@ public abstract class BasePage {
         return out;
     }
 
-    public void waitUntilButtonIsEnabled1(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
+    public void waitUntilButtonIsDisplayed(IGlobalButtons button) {
         switchToFrame(BUTTONS);
-        long start = System.currentTimeMillis();
-        long implWait = IMPLICITLY_WAIT * 1000;
-        boolean success = false;
-        while (System.currentTimeMillis() - start < implWait) {
-            List<WebElement> list = driver.findElements(By.id(button.getId()));
-            if (list.size() == 1 && list.get(0).isEnabled()) {
-                success = true;
-                break;
-            }
-//            boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
-        }
-        if (!success) {
-            String warn = "Button '" + button + "' not found/not active";
-            logger.warn(warn);
+        try {
+            waitUntilElementIsDisplayed(button.getId());
+        } catch (AssertionError e) {
+            String warn = "Button '" + button + "' not found";
             throw new AssertionError(warn);
         }
         switchToPreviousFrame();
     }
 
-    public void waitUntilButtonIsEnabled(IGlobalButtons button/*, boolean requiredStateIsEnabled*/) {
+    public void waitUntilButtonIsEnabled(IGlobalButtons button) {
         switchToFrame(BUTTONS);
         try {
             waitUntilElementIsEnabled(button.getId());
@@ -1571,7 +1621,7 @@ public abstract class BasePage {
                 String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
                         + getSelectedValue(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
                 logger.warn(warn);
-                throw new AssertionError("Expected Parameters Monitoring not found on current table!\n" + table.print());
+                throw new AssertionError("Expected Parameters Monitoring not found on current page!\n" + table.print());
             }
         });
         return this;
@@ -1584,8 +1634,7 @@ public abstract class BasePage {
     public BasePage checkAddedTask(String parameter, String value, int shift) {
         Table table = getTable("tblTasks");
         Timer timer = new Timer();
-        while (/*(*/table.getTableSize()[0] == 1 /*|| table.hasAsymmetry())*/ && !timer.timeout()) {
-            System.out.println("marker");
+        while ((table.getTableSize()[0] == 1 || table.getRowLength(1) < 2) && !timer.timeout()) {
             table = getTable("tblTasks");
         }
         int[] tableSize = table.getTableSize();
@@ -1614,7 +1663,7 @@ public abstract class BasePage {
     public void checkAddedTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask(entry.getKey(), entry.getValue());
+            checkAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
         }
     }
 

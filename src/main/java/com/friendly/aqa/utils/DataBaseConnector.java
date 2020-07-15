@@ -204,7 +204,7 @@ public class DataBaseConnector {
         List<String> devices = new ArrayList<>(deviceSet);
         int[] shift = {0, -1, -10};
         try {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < devices.size(); i++) {
                 stmtObj.execute("UPDATE `ftacs`.`cpe` SET `created`='" + CalendarUtil.getDbShiftedDate(shift[i]) + "' WHERE `id`=" + devices.get(i) + ";");
             }
         } catch (SQLException e) {

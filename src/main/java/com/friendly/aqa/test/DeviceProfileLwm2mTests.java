@@ -273,7 +273,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false);
+                .assertProfileIsActive(false, getTestName());
     }
 
     @Test

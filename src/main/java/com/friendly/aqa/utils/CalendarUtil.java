@@ -8,6 +8,7 @@ import java.util.Locale;
 
 public class CalendarUtil {
     private static DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
+    private static DateFormat importGroupDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private static DateFormat fullDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'CET' yyyy", Locale.ENGLISH);
     private static DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     private static DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
@@ -53,6 +54,10 @@ public class CalendarUtil {
 
     static String getFileName() {
         return fileNameFormat.format(new Date());
+    }
+
+    public static String getImportGroupDate() {
+        return importGroupDateFormat.format(new Date());
     }
 
     public static String getTimeStamp() {

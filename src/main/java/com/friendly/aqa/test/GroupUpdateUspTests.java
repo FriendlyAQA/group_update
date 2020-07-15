@@ -68,7 +68,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .assertTrue(guPage.isButtonPresent(FINISH))
                 .globalButtons(CANCEL)
                 .waitForUpdate()
@@ -79,9 +79,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_006() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("IsNull")
+                .selectCompare("IsNull")
                 .globalButtons(NEXT)
                 .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
                 .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
@@ -94,9 +94,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_007() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("cust2")
-                .compareSelect("Equal")
+                .selectCompare("Equal")
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -113,7 +113,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName(targetTestName)
                 .globalButtons(NEXT)
                 .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
@@ -170,9 +170,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_012() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -254,7 +254,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -275,10 +275,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
+                .assertPresenceOfValue("tblTasks", 2, "Factory reset");
     }
 
-    //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
     @Test
     public void usp_gu_027() {
         guPage
@@ -295,7 +294,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("CPEReprovision");
+//                .assertPresenceOfParameter("CPEReprovision")
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -316,7 +316,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+//                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -462,9 +463,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     public void usp_gu_069() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(CANCEL)
                 .waitForUpdate()
                 .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
@@ -478,7 +479,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
@@ -557,7 +558,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -582,10 +583,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
-    //Radio-button  “Reprovision” is not available (V6.0.0 Build 139)
     @Test
     public void usp_gu_125() {
         guPage
@@ -607,7 +607,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("CPEReprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -632,6 +632,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("CPEReprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 }

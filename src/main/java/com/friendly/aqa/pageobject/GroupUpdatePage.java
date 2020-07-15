@@ -3,6 +3,7 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -130,6 +131,7 @@ public class GroupUpdatePage extends BasePage {
         String inputText = new File("import/" + getProtocolPrefix() + "_import_group.xml").getAbsolutePath();
         importGuField.sendKeys(inputText);
         ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
+        waitUntilButtonIsDisplayed(SAVE_AND_ACTIVATE);
         return this;
     }
 
@@ -437,7 +439,7 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.okButtonPopUp();
     }
 
-    public GroupUpdatePage compareSelect(String option) {
+    public GroupUpdatePage selectCompare(String option) {
         selectComboBox(compareSelect, option);
         return this;
     }
@@ -500,7 +502,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage showList() {
-        pause(1000);
+//        pause(1000);
         return clickButton(showListButton);
     }
 
@@ -620,15 +622,21 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage deleteFilterGroups() {
         List<WebElement> optList;
-        List<String> standard = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
-        while ((optList = sendToComboBox.findElements(By.tagName("option"))).size() > 5) {
+        List<String> permanent = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
+        while ((optList = new Select(sendToComboBox).getOptions()).size() > 5) {
             waitForUpdate();
             for (WebElement option : optList) {
                 String value = option.getAttribute("value");
-                if (standard.contains(value)) {
+                if (permanent.contains(value)) {
                     continue;
                 }
-                new Select(sendToComboBox).selectByValue(value);
+                Timer timer = new Timer();
+                while (!timer.timeout()) {
+                    if (isButtonActive(CANCEL)) {
+                        break;
+                    }
+                }
+                selectComboBox(sendToComboBox, value);
                 waitForUpdate();
                 editGroupButton();
                 try {
@@ -663,7 +671,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage createGroup() {
+    public GroupUpdatePage createGroupButton() {
         waitForUpdate();
         createGroupButton.click();
         waitForUpdate();
@@ -882,13 +890,13 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage gotoAddFilter() {
+    public GroupUpdatePage createDeviceGroup() {
         topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName()
                 .pause(1000)
                 .globalButtons(NEXT)
@@ -909,7 +917,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage goToSetPolicies(String tab) {
         goto_("Policy");
         if (tab != null) {
-            getTable("tabsSettings_tblTabs").clickOn(tab);
+            selectTab(tab);
         }
         return this;
     }
@@ -921,7 +929,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage gotoSetParameters(String tab, boolean advancedView) {
         goto_("Set parameter value");
         if (tab != null) {
-            getTable("tabsSettings_tblTabs").clickOn(tab);
+            selectTab(tab);
         }
         if (advancedView) {
             globalButtons(ADVANCED_VIEW);
@@ -942,10 +950,9 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .getTable("tabsSettings_tblTabs")
-                .clickOn(tab);
-        setParameter(2);
-        globalButtons(NEXT)
+                .selectTab(tab)
+                .setParameter(2)
+                .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
@@ -967,9 +974,8 @@ public class GroupUpdatePage extends BasePage {
                 .addNewTask("Policy")
                 .addTaskButton()
                 .waitForUpdate()
-                .getTabTable()
-                .clickOn(tab);
-        setPolicy(3)
+                .selectTab(tab)
+                .setPolicy(3)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -991,9 +997,8 @@ public class GroupUpdatePage extends BasePage {
                 .globalButtons(NEXT)
                 .addNewTask("Get parameter")
                 .addTaskButton()
-                .getTabTable()
-                .clickOn(tab);
-        getParameter(1, column)
+                .selectTab(tab)
+                .getParameter(1, column)
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
@@ -1040,12 +1045,22 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage gotoGetParameter(String tab, boolean advancedView) {
         goto_("Get parameter");
         if (tab != null) {
-            getTable("tabsSettings_tblTabs").clickOn(tab);
+            selectTab(tab);
         }
         if (advancedView) {
             globalButtons(ADVANCED_VIEW);
         }
         return this;
+    }
+
+    @Override
+    public GroupUpdatePage selectTab(String tab) {
+        return (GroupUpdatePage) super.selectTab(tab);
+    }
+
+    @Override
+    public GroupUpdatePage selectTab(String tab, Table tabTable) {
+        return (GroupUpdatePage) super.selectTab(tab, tabTable);
     }
 
     public GroupUpdatePage gotoFileDownload() {
@@ -1080,7 +1095,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage gotoDiagnostic() {
-        return goto_("Diagnostic");
+        return goto_("Diagnostics");
     }
 
     public GroupUpdatePage deleteAll() {

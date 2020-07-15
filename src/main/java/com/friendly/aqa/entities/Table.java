@@ -145,8 +145,9 @@ public class Table {
         List<WebElement> imgList = table.findElements(By.tagName("img"));
         List<WebElement> out = new ArrayList<>();
         imgList
-                .parallelStream()
+                .stream()
                 .filter(el -> el.getAttribute("src").endsWith("expand.png"))
+                .filter(WebElement::isDisplayed)
                 .forEach(out::add);
         return out;
     }

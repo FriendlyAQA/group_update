@@ -30,6 +30,7 @@ public class MonitoringPage extends BasePage {
         return "tr[topmenu='Monitoring']";
     }
 
+    @Override
     public MonitoringPage topMenu(TopMenu value) {
         return (MonitoringPage) super.topMenu(value);
     }
@@ -39,23 +40,8 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    @FindBy(id = "ddlView")
-    private WebElement filterViewComboBox;
-
-    @FindBy(id = "ddlManuf")
-    private WebElement filterManufacturerComboBox;
-
-    @FindBy(id = "ddlModel")
-    private WebElement filterModelNameComboBox;
-
-    @FindBy(id = "btnEditView_btn")
-    private WebElement editButton;
-
     @FindBy(id = "btnAddModel_btn")
     private WebElement addModelButton;
-
-    @FindBy(id = "btnNewView_btn")
-    private WebElement newViewButton;
 
     @FindBy(id = "btnSelectDevices_btn")
     private WebElement selectButton;
@@ -385,6 +371,7 @@ public class MonitoringPage extends BasePage {
         throw new AssertionError("Checking column headers failed!");
     }
 
+    @Override
     public MonitoringPage immediately() {
         if (endDateCheckbox.isSelected()) {
             endDateCheckbox.click();
@@ -392,25 +379,14 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.immediately();
     }
 
+    @Override
     public MonitoringPage scheduledToRadioButton() {
         return (MonitoringPage) super.scheduledToRadioButton();
     }
 
+    @Override
     public MonitoringPage assertMainPageIsDisplayed() {
-        try {
-            boolean viewComboBox = filterViewComboBox.isDisplayed() && filterViewComboBox.isEnabled();
-            boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
-            boolean modelNameComboBox = filterModelNameComboBox.isDisplayed() && filterModelNameComboBox.isEnabled();
-            boolean editViewBtn = editButton.isDisplayed() && editButton.isEnabled();
-            boolean newViewBtn = newViewButton.isDisplayed() && newViewButton.isEnabled();
-            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
-            if (viewComboBox && manufacturerComboBox && modelNameComboBox && editViewBtn && newViewBtn && resetViewBtn) {
-                return this;
-            }
-        } catch (NoSuchElementException e) {
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
-        }
-        throw new AssertionError("One or more elements not found on Monitoring tab main page");
+        return (MonitoringPage) super.assertMainPageIsDisplayed();
     }
 
     public MonitoringPage selectView(String value) {
@@ -484,6 +460,7 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    @Override
     public MonitoringPage selectImportDevicesFile() {
         return (MonitoringPage) super.selectImportDevicesFile();
     }
@@ -585,26 +562,32 @@ public class MonitoringPage extends BasePage {
         throw new AssertionError("Button id='" + id + "' is disabled");
     }
 
+    @Override
     public MonitoringPage assertEquals(String actual, String expected) {
         return (MonitoringPage) super.assertEquals(actual, expected);
     }
 
+    @Override
     public MonitoringPage assertEquals(String actual, String expected, String message) {
         return (MonitoringPage) super.assertEquals(actual, expected, message);
     }
 
+    @Override
     public MonitoringPage assertTrue(boolean condition) {
         return (MonitoringPage) super.assertTrue(condition);
     }
 
+    @Override
     public MonitoringPage assertTrue(boolean condition, String message) {
         return (MonitoringPage) super.assertTrue(condition, message);
     }
 
+    @Override
     public MonitoringPage assertFalse(boolean condition) {
         return (MonitoringPage) super.assertFalse(condition);
     }
 
+    @Override
     public MonitoringPage assertFalse(boolean condition, String message) {
         return (MonitoringPage) super.assertFalse(condition, message);
     }

@@ -269,7 +269,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false);
+                .assertProfileIsActive(false, getTestName());
     }
 
     @Test
@@ -9139,7 +9139,6 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
         dpPage
                 .presetFilter("Zip", "61000")
                 .topMenu(DEVICE_PROFILE)
-//                .deleteProfileIfExists()
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()

@@ -271,7 +271,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false);
+                .assertProfileIsActive(false, getTestName());
     }
 
     @Test

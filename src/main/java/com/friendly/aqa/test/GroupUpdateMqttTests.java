@@ -68,7 +68,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .assertTrue(guPage.isButtonPresent(FINISH))
                 .globalButtons(CANCEL)
                 .waitForUpdate().pause(500)
@@ -78,24 +78,23 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_006() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("IsNull")
+                .selectCompare("IsNull")
                 .globalButtons(NEXT)
                 .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
                 .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .globalButtons(FINISH)
                 .okButtonPopUp()
                 .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
-        setTargetTestName();
     }
 
     @Test
     public void mqtt_gu_007() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("cust2")
-                .compareSelect("Equal")
+                .selectCompare("Equal")
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -112,8 +111,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
-                .fillName(targetTestName)
+                .createGroupButton()
+                .fillName("mqtt_gu_006")
                 .globalButtons(NEXT)
                 .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
@@ -126,11 +125,11 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .selectSendTo(targetTestName)
+                .selectSendTo("mqtt_gu_006")
                 .editGroupButton()
                 .globalButtons(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .assertFalse(guPage.isOptionPresent("ddlSend", "mqtt_gu_006"), "Option 'mqtt_gu_006' is still present on 'Send to' list!\n");
     }
 
     @Test
@@ -169,9 +168,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_012() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -200,7 +199,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_020(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)    //bug? Advanced View button is absent for MQTT!!!
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -209,7 +208,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_021(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -218,7 +217,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_022(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -227,7 +226,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_023(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -236,7 +235,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_024(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -245,7 +244,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_025(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -254,7 +253,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_026(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -263,7 +262,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_027(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -272,7 +271,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_028(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -281,7 +280,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_029(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -290,7 +289,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_030(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -299,7 +298,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_031(){
         guPage
-                .gotoSetParameters(true)
+                .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
                 .nextSaveAndActivate()
                 .checkAddedTasks();
@@ -361,7 +360,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -385,8 +384,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
     }
 
-    //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
-    @Test
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
     public void mqtt_gu_036() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -402,7 +400,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -423,7 +421,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
+                .assertPresenceOfValue("tblTasks", 2, "Device reprovision");
     }
 
     @Test
@@ -571,9 +569,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_075() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(CANCEL)
                 .waitForUpdate()
                 .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
@@ -587,7 +585,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
@@ -666,7 +664,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -691,11 +689,10 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
-    //Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
-    @Test
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
     public void mqtt_gu_140() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -716,7 +713,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -741,6 +738,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 }

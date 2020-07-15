@@ -76,7 +76,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .assertTrue(guPage.isButtonPresent(FINISH))
                 .globalButtons(CANCEL)
                 .waitForUpdate()
@@ -87,9 +87,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_006() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("IsNull")
+                .selectCompare("IsNull")
                 .globalButtons(NEXT)
                 .assertFalse(guPage.isButtonActive("btnDelFilter_btn"))
                 .filterRecordsCheckbox()
@@ -103,9 +103,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_007() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("cust2")
-                .compareSelect("Equal")
+                .selectCompare("Equal")
                 .inputTextField("111")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -122,8 +122,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
-                .fillName(targetTestName)
+                .createGroupButton()
+                .fillName("tr181_gu_006")
                 .globalButtons(NEXT)
                 .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
     }
@@ -179,9 +179,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_012() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -943,13 +943,13 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkAddedTasks();
     }
 
-    @Test
+    @Test   //bug: "Reprovision" RB is absent from Action list;
     public void tr181_gu_094() {
         guPage
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -1654,7 +1654,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .assertResultTableIsAbsent();
     }
 
-    @Test //bug: Result table title and content mismatch
+    @Test //bug: Trace diagnostic is absent from Diagnostic list
     public void tr181_gu_171() {
         guPage
                 .gotoDiagnostic()
@@ -1665,7 +1665,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkAddedTask("Trace diagnostic", "8.8.8.8");
     }
 
-    @Test //bug: TaskDiagnostic task with id=2657 not found, NSLookUp/NSLoopback
+    @Test //bug: NSLookUp diagnostics is absent from Diagnostic list
     public void tr181_gu_172() {
         guPage
                 .gotoDiagnostic()
@@ -1676,56 +1676,55 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .checkAddedTask("NSLookupDiagnostics", "8.8.8.8");
     }
 
-    @Test //bug: Result table title and content mismatch
+    @Test
     public void tr181_gu_173() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("IPPing diagnostic")
+                .selectDiagnostic("IPPing diagnostics")
                 .inputHost("8.8.8.8")
                 .nextSaveAndActivate()
-                .checkAddedTask("IPPing diagnostic", "8.8.8.8");
-    }
-
-    @Test //bug: Result table title and content mismatch
-    public void tr181_gu_174() {
-        guPage
-                .gotoDiagnostic()
-                .selectDiagnostic("Download diagnostic")
-                .nextSaveAndActivate()
-                .checkAddedTask("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
-//                .assertPresenceOfValue("tblTasks", -2, "Download diagnostic");
-    }
-
-    @Test //bug: TaskDiagnostic task with id=1994 not found (analog in BT #9682)
-    public void tr181_gu_175() {
-        guPage
-                .gotoDiagnostic()
-                .selectDiagnostic("Download diagnostic")
-                .addToMonitoringCheckBox()
-                .nextSaveAndActivate()
-                .checkAddedTask("Download diagnostic", "http://127.0.0.1/webdav/Test.cfg");
-    }
-
-    @Test //bug: Result table title and content mismatch
-    public void tr181_gu_176() {
-        guPage
-                .gotoDiagnostic()
-                .selectDiagnostic("Upload diagnostic")
-                .nextSaveAndActivate()
-                .checkAddedTask("Upload diagnostic", "http://127.0.0.1/webdav/");
-    }
-
-    @Test //bug: TaskDiagnostic task with id=1994 not found
-    public void tr181_gu_177() {
-        guPage
-                .gotoDiagnostic()
-                .selectDiagnostic("Upload diagnostic")
-                .addToMonitoringCheckBox()
-                .nextSaveAndActivate()
-                .checkAddedTask("Upload diagnostic", "http://127.0.0.1/webdav/");
+                .checkAddedTask("IPPing diagnostics", "8.8.8.8");
     }
 
     @Test
+    public void tr181_gu_174() {
+        guPage
+                .gotoDiagnostic()
+                .selectDiagnostic("Download diagnostics")
+                .nextSaveAndActivate()
+                .checkAddedTask("Download diagnostics", "http://127.0.0.1/webdav/Test.cfg");
+    }
+
+    @Test
+    public void tr181_gu_175() {
+        guPage
+                .gotoDiagnostic()
+                .selectDiagnostic("Download diagnostics")
+                .addToMonitoringCheckBox()
+                .nextSaveAndActivate()
+                .checkAddedTask("Download diagnostics", "http://127.0.0.1/webdav/Test.cfg");
+    }
+
+    @Test
+    public void tr181_gu_176() {
+        guPage
+                .gotoDiagnostic()
+                .selectDiagnostic("Upload diagnostics")
+                .nextSaveAndActivate()
+                .checkAddedTask("Upload diagnostics", "http://127.0.0.1/webdav/");
+    }
+
+    @Test
+    public void tr181_gu_177() {
+        guPage
+                .gotoDiagnostic()
+                .selectDiagnostic("Upload diagnostics")
+                .addToMonitoringCheckBox()
+                .nextSaveAndActivate()
+                .checkAddedTask("Upload diagnostics", "http://127.0.0.1/webdav/");
+    }
+
+    @Test //bug: Wi-Fi Neighboring diagnostic is absent from Diagnostic list
     public void tr181_gu_178() {
         guPage
                 .gotoDiagnostic()
@@ -1734,7 +1733,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring diagnostic");
     }
 
-    @Test //bug: TaskDiagnostic task with id=1994 not found
+    @Test //bug: Wi-Fi Neighboring diagnostic is absent from Diagnostic list
     public void tr181_gu_179() {
         guPage
                 .gotoDiagnostic()
@@ -1935,7 +1934,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoAction()
                 .factoryResetRadioButton()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -1946,7 +1945,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
@@ -2093,9 +2092,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_208() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is null")
+                .selectCompare("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2105,9 +2104,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_209() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("device_created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2126,9 +2125,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_210() {
         DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("On Day")
+                .selectCompare("On Day")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-10))
                 .globalButtons(NEXT)
@@ -2148,9 +2147,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_211() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prior to")
+                .selectCompare("Prior to")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
@@ -2172,9 +2171,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_212() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Later than")
+                .selectCompare("Later than")
                 .clickOn("calFilterDate_image")
                 .selectDate(CalendarUtil.getShiftedDate(-9))
                 .inputText("txtTimeHour", CalendarUtil.getHours())
@@ -2196,9 +2195,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_213() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Today")
+                .selectCompare("Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2216,9 +2215,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_214() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Before Today")
+                .selectCompare("Before Today")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2236,9 +2235,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_215() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Yesterday")
+                .selectCompare("Yesterday")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2256,9 +2255,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_216() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prev 7 days")
+                .selectCompare("Prev 7 days")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2276,9 +2275,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_217() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Prev X days")
+                .selectCompare("Prev X days")
                 .inputText("txtInt", "9")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2298,9 +2297,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_218() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("=")
+                .selectCompare("=")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2320,9 +2319,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_219() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("!=")
+                .selectCompare("!=")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2342,9 +2341,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_220() {
         guPage
 //                .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Hardware version")
-                .compareSelect("Starts with")
+                .selectCompare("Starts with")
                 .inputText("txtText", testName)
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2356,9 +2355,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_221() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Like")
+                .selectCompare("Like")
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2378,9 +2377,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_222() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("No like")
+                .selectCompare("No like")
                 .inputText("txtText", testName.substring(1, 5))
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
@@ -2400,9 +2399,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_223() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Is null")
+                .selectCompare("Is null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2421,9 +2420,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_224() {
         guPage
                 .presetFilter("mycust03", testName)
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("mycust03")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(NEXT)
                 .globalButtons(FINISH)
                 .okButtonPopUp()
@@ -2441,9 +2440,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_225() {
         guPage
-                .gotoAddFilter()
+                .createDeviceGroup()
                 .selectColumnFilter("Created")
-                .compareSelect("Is not null")
+                .selectCompare("Is not null")
                 .globalButtons(CANCEL)
                 .waitForUpdate()
                 .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
@@ -2457,7 +2456,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .createGroup()
+                .createGroupButton()
                 .fillName()
                 .globalButtons(NEXT)
                 .globalButtons(PREVIOUS)
@@ -3801,7 +3800,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage.setScheduledPolicy("Ethernet");
     }
 
-    @Test
+    @Test   //bug: "Reprovision" RB is absent from Action list;
     public void tr181_gu_294() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -3822,7 +3821,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", 2, "Device Reprovision");
+                .checkAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -4167,16 +4166,16 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .scheduledToRadioButton()
                 .setDelay(10)
                 .globalButtons(NEXT)
-                .addNewTask("diagnostic")
+                .addNewTask("Diagnostics")
                 .addTaskButton()
-                .selectDiagnostic("IPPing diagnostic")
+                .selectDiagnostic("IPPing diagnostics")
                 .inputHost("8.8.8.8")
                 .globalButtons(NEXT)
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", -2, "IPPing diagnostic");
+                .assertPresenceOfValue("tblTasks", -2, "IPPing diagnostics");
 
     }
 
@@ -4410,7 +4409,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Factory Reset");
+                .assertPresenceOfParameter("Factory reset");
     }
 
     @Test
