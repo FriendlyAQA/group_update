@@ -85,18 +85,18 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "fuImport")
     private WebElement importMonField;
 
+    @Override
     public MonitoringPage newViewButton() {
-        newViewButton.click();
-        return this;
+        return (MonitoringPage) super.newViewButton();
     }
 
     public MonitoringPage newGroupButton() {
         return newViewButton();
     }
 
+    @Override
     public MonitoringPage fillName() {
-        nameField.sendKeys(BaseTestCase.getTestName());
-        return this;
+        return (MonitoringPage) super.fillName();
     }
 
     public MonitoringPage fillGroupName() {
@@ -117,20 +117,19 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    @Override
     public MonitoringPage editButton() {
-        editButton.click();
-        waitForUpdate();
-        return this;
+        return (MonitoringPage) super.editButton();
     }
 
     @Override
     public Table getMainTable() {
         try {
-            currentTable = new Table("tbl");
+            savedTable = new Table("tbl");
         } catch (org.openqa.selenium.StaleElementReferenceException e) {
-            currentTable = new Table("tbl");
+            savedTable = new Table("tbl");
         }
-        return currentTable;
+        return savedTable;
     }
 
     @Override
@@ -357,19 +356,19 @@ public class MonitoringPage extends BasePage {
         }
     }
 
-    public void checkViewColumns() {
-        List<String> columnList = getMainTable().getRow(0);
-        columnList.removeIf(s -> s.equals(""));
-        if (parameterSet.size() == columnList.size() && parameterSet.removeAll(columnList) && parameterSet.isEmpty()) {
-            return;
-        }
-        if (!parameterSet.isEmpty()) {
-            StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
-            parameterSet.forEach(sb::append);
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + sb.toString());
-        }
-        throw new AssertionError("Checking column headers failed!");
-    }
+//    public void checkViewColumns() {
+//        List<String> columnList = getMainTable().getRow(0);
+//        columnList.removeIf(s -> s.equals(""));
+//        if (parameterSet.size() == columnList.size() && parameterSet.removeAll(columnList) && parameterSet.isEmpty()) {
+//            return;
+//        }
+//        if (!parameterSet.isEmpty()) {
+//            StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
+//            parameterSet.forEach(sb::append);
+//            logger.warn('(' + BaseTestCase.getTestName() + ')' + sb.toString());
+//        }
+//        throw new AssertionError("Checking column headers failed!");
+//    }
 
     @Override
     public MonitoringPage immediately() {
@@ -389,10 +388,9 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.assertMainPageIsDisplayed();
     }
 
+    @Override
     public MonitoringPage selectView(String value) {
-        selectComboBox(filterViewComboBox, value);
-        waitForUpdate();
-        return this;
+        return (MonitoringPage) super.selectView(value);
     }
 
     public void checkFilteringByManufacturer() {
@@ -436,12 +434,14 @@ public class MonitoringPage extends BasePage {
         throw new AssertionError("Filtering by " + (byManufacturer ? "manufacturer" : "model name") + "failed!");
     }
 
-    public void selectFilterManufacturer(String value) {
-        selectComboBox(filterManufacturerComboBox, value);
+    @Override
+    public MonitoringPage selectFilterManufacturer(String value) {
+        return (MonitoringPage) super.selectFilterManufacturer(value);
     }
 
-    public void selectFilterModelName(String value) {
-        selectComboBox(filterModelNameComboBox, value);
+    @Override
+    public MonitoringPage selectFilterModelName(String value) {
+        return (MonitoringPage) super.selectFilterModelName(value);
     }
 
     public MonitoringPage selectButton() {
@@ -488,14 +488,14 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.selectModel(value);
     }
 
+    @Override
     public MonitoringPage selectColumnFilter(String option) {
-        selectComboBox(selectColumnFilter, option);
-        return this;
+        return (MonitoringPage) super.selectColumnFilter(option);
     }
 
-    public MonitoringPage compareSelect(String option) {
-        selectComboBox(compareSelect, option);
-        return this;
+    @Override
+    public MonitoringPage selectCompare(String option) {
+        return (MonitoringPage) super.selectCompare(option);
     }
 
     public MonitoringPage waitForStatus(String status) {

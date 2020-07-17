@@ -54,7 +54,12 @@ public class Table {
             List<String> cellList = new ArrayList<>();
             Matcher mCell = cell.matcher(mRow.group(2));
             while (mCell.find()) {
-                cellList.add(getCellContent(mCell.group(2).replace("&nbsp;", " ")));
+                cellList.add(getCellContent(mCell.group(2)
+                        .replaceAll("&nbsp;", " ")
+                        .replaceAll("&amp;", "&")
+                        .replaceAll("&lt;", "<")
+                        .replaceAll("&gt;", ">")
+                ));
             }
             try {
                 textTable[i] = cellList.toArray(new String[0]);
@@ -244,7 +249,7 @@ public class Table {
         return getColumn(column, false);
     }
 
-    public String[] getColumn(int column, boolean normalize) {
+    public String[] getColumn(int column, boolean normalize) { //Returns column without header (top row)
         String[] out = new String[textTable.length - 1];
         for (int i = 0; i < textTable.length - 1; i++) {
             out[i] = textTable[i + 1][column];
@@ -256,8 +261,16 @@ public class Table {
                 if (out[i].matches("^\\d/.+")) {
                     sb.insert(0, '0');
                 }
-                out[i] = sb.toString();
+                out[i] = sb.toString().replaceAll("^\\s$", "");
             }
+        }
+        return out;
+    }
+
+    public String[] getWholeColumn(int column) { //Returns column with header
+        String[] out = new String[textTable.length];
+        for (int i = 0; i < textTable.length; i++) {
+            out[i] = textTable[i][column];
         }
         return out;
     }
@@ -342,15 +355,15 @@ public class Table {
 
     public int getRowNumberByText(int columnNum, String text) {
         int rowNum = -1;
-        String[] column = getColumn(columnNum);
+        String[] column = getWholeColumn(columnNum);    // changed from getColumn()
         for (int i = 0; i < column.length; i++) {
             if (column[i].toLowerCase().trim().equals(text.toLowerCase())) {
-                rowNum = i + 1;
+                rowNum = i;
                 break;
             }
         }
         if (rowNum < 0) {
-            String warning = "Text '" + text + "' not found in current table";
+            String warning = "Text '" + text + "' not found in column #" + columnNum + " of current table";
             print();
             LOGGER.warn(warning);
             throw new AssertionError(warning);
@@ -452,5 +465,21 @@ public class Table {
 
     public List<String> getRow(int rowNum) {
         return new ArrayList<>(Arrays.asList(textTable[rowNum]));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Table table1 = (Table) o;
+        return Arrays.deepEquals(textTable, table1.textTable);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(rowsList, table, retryInit);
+        result = 31 * result + Arrays.hashCode(textTable);
+        result = 31 * result + Arrays.hashCode(elementTable);
+        return result;
     }
 }

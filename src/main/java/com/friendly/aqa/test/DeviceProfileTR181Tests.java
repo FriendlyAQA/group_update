@@ -347,9 +347,9 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setParameter("PeriodicInformInterval, sec", "60")
                 .assertHasRedBorder(false, "PeriodicInformInterval, sec")
                 .selectCondition(1)
-                .assertButtonIsActive(true, "btnEditView_btn")
+                .assertButtonIsEnabled(true, "btnEditView_btn")
                 .selectCondition(0)
-                .assertButtonIsActive(false, "btnEditView_btn")
+                .assertButtonIsEnabled(false, "btnEditView_btn")
                 .assertButtonsAreEnabled(true, SAVE, SAVE_AND_ACTIVATE, CANCEL)
                 .globalButtons(CANCEL)
                 .assertProfileIsPresent(false, getTestName());
@@ -9870,7 +9870,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .editConditionButton()
                 .globalButtons(DELETE_CONDITION)
                 .okButtonPopUp()
-                .assertButtonIsActive(false, "btnEditView_btn")
+                .assertButtonIsEnabled(false, "btnEditView_btn")
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, "tr181_dp_462");

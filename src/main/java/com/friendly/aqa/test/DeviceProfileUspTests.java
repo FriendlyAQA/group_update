@@ -2,7 +2,6 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.entities.Event;
-import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -1948,7 +1947,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .editConditionButton()
                 .globalButtons(DELETE_CONDITION)
                 .okButtonPopUp()
-                .assertButtonIsActive(false, "btnEditView_btn")
+                .assertButtonIsEnabled(false, "btnEditView_btn")
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, "usp_dp_101");

@@ -3119,7 +3119,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .editConditionButton()
                 .globalButtons(DELETE_CONDITION)
                 .okButtonPopUp()
-                .assertButtonIsActive(false, "btnEditView_btn")
+                .assertButtonIsEnabled(false, "btnEditView_btn")
                 .globalButtons(SAVE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, "lwm2m_dp_162");

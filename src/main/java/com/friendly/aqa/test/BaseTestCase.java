@@ -26,6 +26,7 @@ import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 public abstract class BaseTestCase {
     private LoginPage loginPage;
     protected DeviceProfilePage dpPage;
+    protected DeviceUpdatePage duPage;
     protected GroupUpdatePage guPage;
     protected MonitoringPage monPage;
     private long start = System.currentTimeMillis();
@@ -64,6 +65,7 @@ public abstract class BaseTestCase {
         testName = method.getName();
         loginPage = getLoginPage();
         dpPage = getDpPage();
+        duPage = getDuPage();
         guPage = getGuPage();
         monPage = getMonPage();
     }
@@ -191,6 +193,13 @@ public abstract class BaseTestCase {
             dpPage = new DeviceProfilePage();
         }
         return dpPage;
+    }
+
+    private DeviceUpdatePage getDuPage() {
+        if (duPage == null) {
+            duPage = new DeviceUpdatePage();
+        }
+        return duPage;
     }
 
     private GroupUpdatePage getGuPage() {

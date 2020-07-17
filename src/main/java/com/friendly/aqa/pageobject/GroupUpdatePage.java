@@ -439,9 +439,9 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.okButtonPopUp();
     }
 
+    @Override
     public GroupUpdatePage selectCompare(String option) {
-        selectComboBox(compareSelect, option);
-        return this;
+        return (GroupUpdatePage) super.selectCompare(option);
     }
 
     public GroupUpdatePage scheduledToRadioButton() {
@@ -615,9 +615,9 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.selectModel();
     }
 
+    @Override
     public GroupUpdatePage selectColumnFilter(String option) {
-        selectComboBox(selectColumnFilter, option);
-        return this;
+        return (GroupUpdatePage) super.selectColumnFilter(option);
     }
 
     public GroupUpdatePage deleteFilterGroups() {

@@ -19,7 +19,7 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
-    private static final Logger logger = Logger.getLogger(MonitoringPage.class);
+    private static final Logger logger = Logger.getLogger(DeviceProfilePage.class);
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -749,8 +749,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage assertButtonIsActive(boolean expectedActive, String id) {
-        return (DeviceProfilePage) super.assertButtonIsActive(expectedActive, id);
+    public DeviceProfilePage assertButtonIsEnabled(boolean expectedActive, String id) {
+        return (DeviceProfilePage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
     public DeviceProfilePage checkParameter(String paramName, String value) {
@@ -877,9 +877,9 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    @Override
     public DeviceProfilePage deleteFilter() {
-        deleteFilterButton.click();
-        return this;
+        return (DeviceProfilePage) super.deleteFilter();
     }
 
     public DeviceProfilePage selectManufacturer() {
