@@ -11,9 +11,9 @@ public class Timer {
         delay = BasePage.IMPLICITLY_WAIT * 1000;
     }
 
-    public Timer(long delay) {
+    public Timer(long delayMillis) {
         start = System.currentTimeMillis();
-        this.delay = delay;
+        this.delay = delayMillis;
     }
 
     public boolean timeout() {

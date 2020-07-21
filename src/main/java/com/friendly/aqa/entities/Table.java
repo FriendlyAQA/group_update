@@ -1,8 +1,10 @@
 package com.friendly.aqa.entities;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -11,25 +13,24 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    //    private static Map<String, String> parameterMap;
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
     private final WebElement table;
-    //    private Properties props;
     private boolean retryInit;
 
     public Table(WebElement table) {
+        long start = System.currentTimeMillis();
         this.table = table;
-//        props = BasePage.getProps();
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
         parseTable();
+        System.out.println("Parsing completed in " + (System.currentTimeMillis() - start) + " ms");
     }
 
     public Table(String id) {
-        this(BasePage.getDriver().findElement(By.id(id)));
+        this(BasePage.findElement(id));
     }
 
     private void parseTable() {
@@ -46,20 +47,19 @@ public class Table {
         Pattern row = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
         Pattern cell = Pattern.compile("<(t[dh]).*?>(.*?)</(\\1)>");
         String tableHtml = table.getAttribute("outerHTML")
-                .replace("\t", "")
-                .replace("\n", "");
+                .replaceAll("\t", "")
+                .replaceAll("\n", "")
+                .replaceAll("&nbsp;", " ")
+                .replaceAll("&amp;", "&")
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">");
         Matcher mRow = row.matcher(tableHtml);
         int i = 0;
         while (mRow.find()) {
             List<String> cellList = new ArrayList<>();
             Matcher mCell = cell.matcher(mRow.group(2));
             while (mCell.find()) {
-                cellList.add(getCellContent(mCell.group(2)
-                        .replaceAll("&nbsp;", " ")
-                        .replaceAll("&amp;", "&")
-                        .replaceAll("&lt;", "<")
-                        .replaceAll("&gt;", ">")
-                ));
+                cellList.add(getCellContent(mCell.group(2)));
             }
             try {
                 textTable[i] = cellList.toArray(new String[0]);

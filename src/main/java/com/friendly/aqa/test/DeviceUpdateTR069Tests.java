@@ -233,39 +233,274 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .createPreconditionsForSorting();
     }
 
-    @Test   //Bug: sorting by
+    @Test
     public void tr069_du_016() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Created")
-                .checkSorting("Firmware")
-                .checkSorting("Latitude")
-                .checkSorting("Longitude")
-                .checkSorting("Manufacturer")
-                .checkSorting("Model name")
-                .checkSorting("mycust03")
-                .checkSorting("mycust04")
-                .checkSorting("mycust05")
-                .checkSorting("mycust06")
-                .checkSorting("mycust07")
-                .checkSorting("mycust08")
-                .checkSorting("mycust09")
-                .checkSorting("mycust10")
-                .checkSorting("OUI")
-                .checkSorting("Phone number")
-                .checkSorting("Protocol type")
-                .checkSorting("Serial")
-                .checkSorting("Status")
-                .checkSorting("Updated")
-                .checkSorting("User ID")
-                .checkSorting("User location")
-                .checkSorting("User login")
+                .checkSorting("Created");
+    }
+
+    @Test
+    public void tr069_du_017() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Firmware");
+    }
+
+    @Test
+    public void tr069_du_018() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Latitude");
+    }
+
+    @Test
+    public void tr069_du_019() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Longitude");
+    }
+
+    @Test
+    public void tr069_du_020() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Manufacturer");
+    }
+
+    @Test
+    public void tr069_du_021() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Model name");
+    }
+
+    @Test
+    public void tr069_du_022() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust03");
+    }
+
+    @Test
+    public void tr069_du_023() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust04");
+    }
+
+    @Test
+    public void tr069_du_024() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust05");
+    }
+
+    @Test
+    public void tr069_du_025() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust06");
+    }
+
+    @Test
+    public void tr069_du_026() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust07");
+    }
+
+    @Test
+    public void tr069_du_027() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust08");
+    }
+
+    @Test
+    public void tr069_du_028() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust09");
+    }
+
+    @Test
+    public void tr069_du_029() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("mycust10");
+    }
+
+    @Test
+    public void tr069_du_030() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("OUI");
+    }
+
+    @Test
+    public void tr069_du_031() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Phone number");
+    }
+
+    @Test   //bug: sorting by 'Protocol type' failed;
+    public void tr069_du_032() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Protocol type");
+    }
+
+    @Test
+    public void tr069_du_033() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Serial");
+    }
+
+    @Test
+    public void tr069_du_034() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Status");
+    }
+
+    @Test
+    public void tr069_du_035() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("Updated");
+    }
+
+    @Test
+    public void tr069_du_036() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("User ID");
+    }
+
+    @Test
+    public void tr069_du_037() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("User location");
+    }
+
+    @Test
+    public void tr069_du_038() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("User login");
+    }
+
+    @Test
+    public void tr069_du_039() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("User name");
+    }
+
+    @Test
+    public void tr069_du_040() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
                 .checkSorting("User name")
-                .checkSorting("User status")
-                .checkSorting("User tag")
+                .checkSorting("User status");
+    }
+
+    @Test
+    public void tr069_du_041() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
+                .checkSorting("User tag");
+    }
+
+    @Test
+    public void tr069_du_043() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterManufacturer("All")
+                .selectFilterModelName("All")
+                .selectView("tr069_du_014")
                 .checkSorting("Zip");
     }
 

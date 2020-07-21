@@ -759,10 +759,19 @@ public abstract class BasePage {
         if (frame != null) {
             switchToFrame(frame);
         }
-        WebElement tableEl = findElement(id);
-        setImplicitlyWait(0);
-        Table table = new Table(tableEl);
-        setDefaultImplicitlyWait();
+        Table table = null;
+        Timer timer = new Timer(30000);
+        while (!timer.timeout()) {
+            try {
+                table = new Table(id);
+                break;
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException handled. Re-parse table...");
+            }
+        }
+        if (table == null) {
+            throw new AssertionError("Web table parsing process failed! (WebElement id = '" + id + "'");
+        }
         return savedTable = table;
     }
 
@@ -1688,28 +1697,45 @@ public abstract class BasePage {
     }
 
     public String getRandomStringValue(int length) {
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < length; i++) {
+//            sb.append((char) (Math.random() * 91 + 32));
+//        }
+//        System.out.println(sb.toString());
+//        return sb.toString().replaceAll("<", " ");
+        String sample = "()*,-./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            sb.append((char) (Math.random() * 91 + 32));
+            sb.append(sample.charAt((int) (Math.random() * 69)));
         }
-        System.out.println(sb.toString());
-        return sb.toString().replaceAll("<", " ");
+        return sb.toString();
     }
 
     public BasePage checkSorting(String column) {
-        waitForUpdate();
-        Table table = getMainTable();
-        int colNum = table.getColumnNumber(0, column);
-        table.clickOn(0, colNum);
+        Table table;
+        int colNum;
+        try {
+            waitForUpdate();
+            table = getMainTable();
+            colNum = table.getColumnNumber(0, column);
+            table.clickOn(0, colNum);
+        } catch (StaleElementReferenceException e) {
+            waitForUpdate();
+            table = getMainTable();
+            colNum = table.getColumnNumber(0, column);
+            table.clickOn(0, colNum);
+        }
+        Timer timer = new Timer(30000);
         for (int i = 0; i < 2; i++) {
             try {
                 waitForUpdate();
                 table = getMainTable();
-                boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
+                WebElement pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
+                boolean descending = pointer.getAttribute("src").endsWith("down.png");
                 String[] arr = table.getColumn(colNum, true);
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
-                Arrays.sort(arr, descending ? Collator.getInstance(Locale.US).reversed() : Collator.getInstance(Locale.US));
+                Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
                 if (!Arrays.deepEquals(arr, arr2)) {
                     System.out.println("Expected:" + Arrays.toString(arr));
                     System.out.println("Found   :" + Arrays.toString(arr2));
@@ -1718,11 +1744,14 @@ public abstract class BasePage {
                     logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                     throw new AssertionError(warn);
                 }
+                System.out.println((descending ? "Descending " : "Ascending ") + "sorting by column '" + column + "' is OK!");
                 if (i < 1) {
                     table.clickOn(0, colNum);
                 }
-            } catch (StaleElementReferenceException e) {
-                i--;
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
+                System.out.println("StaleElementReferenceException | NoSuchElementException e");
+                if (!timer.timeout())
+                    i--;
             }
         }
         return this;

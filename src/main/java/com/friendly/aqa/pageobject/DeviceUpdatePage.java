@@ -29,7 +29,7 @@ public class DeviceUpdatePage extends BasePage {
 
     @Override
     public Table getMainTable() {
-        return new Table("tbl");
+        return getTable("tbl");
     }
 
     @Override
@@ -196,8 +196,11 @@ public class DeviceUpdatePage extends BasePage {
             switchToFrame(POPUP);
             Table userInfoTable = getTable("tblMain", 18, true);
             String[] items = userInfoTable.getWholeColumn(0);
-            for (String item : items) {
-                setUserInfo(userInfoTable, item, getRandomStringValue(10));
+            for (int i = 0; i < items.length; i++) {
+                String item = items[i];
+                if (userInfoTable.getInputText(i, 1).isEmpty()) {
+                    setUserInfo(userInfoTable, item, getRandomStringValue(10));
+                }
             }
             waitUntilElementIsEnabled("btnSaveUsr_btn");
             saveButton.click();
