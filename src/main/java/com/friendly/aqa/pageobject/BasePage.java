@@ -39,6 +39,7 @@ public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
     public static final String BROWSER;
+    public static String mainWindow;
     private static final Logger logger;
     public static FrameSwitch frame;
     private static FrameSwitch previousFrame;
@@ -102,6 +103,7 @@ public abstract class BasePage {
         driver.manage().timeouts().implicitlyWait(IMPLICITLY_WAIT, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get(props.getProperty("ui_url"));
+        mainWindow = driver.getWindowHandle();
     }
 
     public static void setImplicitlyWait(long seconds) {
@@ -145,9 +147,6 @@ public abstract class BasePage {
     @FindBy(id = "spnAlert")
     protected WebElement alertWindow;
 
-    @FindBy(id = "btnAlertOk_btn")
-    protected WebElement okButtonAlertPopUp;
-
     @FindBy(id = "btnAddFilter_btn")
     protected WebElement addFilterButton;
 
@@ -178,6 +177,12 @@ public abstract class BasePage {
 
     @FindBy(id = "btnOk_btn")
     protected WebElement okButtonPopUp;
+
+    @FindBy(id = "btnCancel_btn")
+    protected WebElement cancelButtonPopUp;
+
+    @FindBy(id = "btnAlertOk_btn")
+    protected WebElement okButtonAlertPopUp;
 
     @FindBy(id = "ddlManufacturer")
     protected WebElement manufacturerComboBox;
@@ -649,7 +654,7 @@ public abstract class BasePage {
         } catch (NoSuchElementException e) {
             logger.warn('(' + BaseTestCase.getTestName() + ") - " + e.getMessage());
         }
-        throw new AssertionError("One or more elements not found on Monitoring tab main page");
+        throw new AssertionError("One or more elements not found on main page");
     }
 
     public BasePage assertButtonIsEnabled(boolean expectedActive, String id) {
@@ -863,6 +868,17 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage cancelButtonPopUp() {
+        switchToFrame(ROOT);
+        waitForUpdate();
+        while (cancelButtonPopUp.isDisplayed()) {
+            cancelButtonPopUp.click();
+            waitForUpdate();
+        }
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
     public BasePage assertEqualsAlertMessage(String expectedMessage) {
         switchToFrame(ROOT);
         String out = alertWindow.getText();
@@ -916,6 +932,14 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertTableColumnNumberIs(int number, String tableId) {
+        int actual = getTable(tableId).getTableSize()[1];
+        if (actual != number) {
+            throw new AssertionError("Wrong number of table column! Expected: " + number + ", but found :" + actual);
+        }
+        return this;
+    }
+
     public boolean elementIsAbsent(String id) {
         waitForUpdate();
         setImplicitlyWait(0);
@@ -933,6 +957,11 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertAbsenceOfValue(String tableId, String value) {
+        getTable(tableId).assertAbsenceOfValue(value);
+        return this;
+    }
+
     public void assertPresenceOfParameter(String value) {
         getTable("tblTasks")/*.print()*/.assertPresenceOfParameter(value);
     }
@@ -947,6 +976,16 @@ public abstract class BasePage {
         if (!valueSet.isEmpty()) {
             throw new AssertionError("Options " + valueSet + " not found inside dropdown #" + comboBoxId + "'");
         }
+        return this;
+    }
+
+    public BasePage assertAbsenceOfOptions(String comboBoxId, String... options) {
+        Arrays.asList(options).forEach(opt -> {
+            List<String> actualOptList = getOptionList(findElement(comboBoxId));
+            if (actualOptList.contains(opt)) {
+                throw new AssertionError("Unexpected option (" + opt + ") found inside dropdown #" + comboBoxId);
+            }
+        });
         return this;
     }
 
@@ -1403,7 +1442,7 @@ public abstract class BasePage {
                 break;
             }
         }
-        List<String> columnList = getMainTable().getRow(0);
+        List<String> columnList = new ArrayList<>(Arrays.asList(getMainTable().getRow(0)));
         columnList.removeIf(s -> s.equals(""));
         if (parameterSet.size() == columnList.size() && parameterSet.removeAll(columnList) && parameterSet.isEmpty()) {
             return;
@@ -1937,6 +1976,31 @@ public abstract class BasePage {
 
     public void forceFail() {
         throw new AssertionError("Test is ok, but was down manually");
+    }
+
+    public void assertPageWasRefreshed() {
+        try {
+            savedTable.clickOn(0, 0);
+            throw new AssertionError("Page has not been refreshed!");
+        } catch (StaleElementReferenceException e) {
+            System.out.println("StaleElementReferenceException handled successfully!");
+        }
+    }
+
+    public void switchToNewWindow() {
+        Set<String> windows = driver.getWindowHandles();
+        windows.forEach(window -> {
+            if (!window.equalsIgnoreCase(mainWindow)) {
+                driver.switchTo().window(window);
+            }
+        });
+    }
+
+    public static void closeNewWindow() {
+        if (!driver.getWindowHandle().equalsIgnoreCase(mainWindow)) {
+            driver.close();
+            driver.switchTo().window(mainWindow);
+        }
     }
 
     public enum FrameSwitch {

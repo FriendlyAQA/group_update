@@ -1,6 +1,7 @@
 package com.friendly.aqa.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,11 +16,21 @@ public class CalendarUtil {
     private static DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
     private static DateFormat hours = new SimpleDateFormat("HH");
     private static DateFormat minutes = new SimpleDateFormat("mm");
+    private static DateFormat csvFileFormat = new SimpleDateFormat("M-d-yyyy h-mm-ss a");
+    private static DateFormat csvFileFormat2 = new SimpleDateFormat("M-d-yyyy H-mm-ss");
 
     private static Date getDay(int day) {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, day);
         return cal.getTime();
+    }
+
+    public static Date getDate(String date) throws ParseException {
+        return csvFileFormat2.parse(date);
+    }
+
+    public static String getCsvFileFormat(Date date) {
+        return csvFileFormat.format(date);
     }
 
     public static String[] getDelay(int minutes) {
@@ -64,7 +75,7 @@ public class CalendarUtil {
         return fullDateFormat.format(new Date());
     }
 
-    public static void main(String[] args) {
-        System.out.println(getDbShiftedDate(-29));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(csvFileFormat.format(new Date()));
+//    }
 }

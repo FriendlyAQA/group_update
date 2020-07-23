@@ -2012,10 +2012,10 @@ public class DeviceProfileUspTests extends BaseTestCase {
 
 
 
-//    @Test
-//    public void usp_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
+    @Test
+    public void usp_dp_999() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .deleteAllProfiles();
+    }
 }

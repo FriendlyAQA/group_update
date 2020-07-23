@@ -186,7 +186,7 @@ public class DataBaseConnector {
         return profileId;
     }
 
-    public static String getValue(String query){
+    public static String getValue(String query) {
         try {
             stmtObj.execute(query);
             ResultSet resultSet = stmtObj.getResultSet();
@@ -197,6 +197,10 @@ public class DataBaseConnector {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static String getDeviceId(String serial) {
+        return getValue("SELECT id FROM ftacs.cpe WHERE serial='" + serial + "'");
     }
 
     public static void createFilterPreconditions(String serial) {
@@ -215,7 +219,8 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        createFilterPreconditions("FT001SN000013196121001234");
+        System.out.println(getDeviceId("FT001SN0000500908F2d2158"));
+//        createFilterPreconditions("FT001SN000013196121001234");
         disconnectDb();
     }
 }

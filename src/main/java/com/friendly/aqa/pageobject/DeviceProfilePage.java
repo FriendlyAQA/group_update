@@ -892,6 +892,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectProfileStatus(String status) {
         selectComboBox(filterProfileStatusComboBox, status);
+        waitForUpdate();
         return this;
     }
 
@@ -962,23 +963,39 @@ public class DeviceProfilePage extends BasePage {
 
     private void checkFiltering(int comboBox, String filter) { //0 - Manufacturer; 1 - Model Name; 2 - Profile status.
         Set<String> dbNameSet;
+        Set<String> columnSet = new HashSet<>();
+        Table table = null;
         if (comboBox == 0) {
             selectManufacturer(filter);
             dbNameSet = getDeviceProfileNameSetByManufacturer(filter);
+            if (elementIsPresent("tblItems")) {
+                table = getMainTable();
+                columnSet.addAll(Arrays.asList(table.getColumn("Manufacturer")));
+            }
         } else if (comboBox == 1) {
             selectModel(filter);
             dbNameSet = getDeviceProfileNameSetByModelName(filter);
+            if (elementIsPresent("tblItems")) {
+                table = getMainTable();
+                columnSet.addAll(Arrays.asList(table.getColumn("Model name")));
+            }
         } else {
             selectProfileStatus(filter);
             dbNameSet = getDeviceProfileNameSetByStatus(filter);
+            if (elementIsPresent("tblItems")) {
+                table = getMainTable();
+                columnSet.addAll(Arrays.asList(table.getColumn("State")));
+            }
         }
-        waitForUpdate();
+        if (columnSet.size() > 1) {
+            throw new AssertionError("Filtered column has more than one value!");
+        }
         if (elementIsPresent("btnPager2")) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();
         }
-        String[] names = elementIsPresent("tblSample") ? getMainTable().getColumn("Name") : new String[0];
-        Set<String> webNameSet = new HashSet<>(Arrays.asList(names));
+        String[] names = table == null ? new String[0] : table.getColumn("Name");
+        Set<String> webNameSet = new HashSet<>(Arrays.asList(names)); // TODO: Проверить что элементов не больше 1!!!!
         if (elementIsAbsent("btnPager2")) {
             dbNameSet.removeAll(webNameSet);
             if (dbNameSet.size() == 0) {
@@ -987,6 +1004,7 @@ public class DeviceProfilePage extends BasePage {
         } else if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
             return;
         }
+        System.out.println("!!!:"+webNameSet);
         String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
         logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);

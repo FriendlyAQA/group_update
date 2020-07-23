@@ -91,6 +91,7 @@ public abstract class BaseTestCase {
                 controller.testPassed(testName);
             }
         }
+        BasePage.closeNewWindow();
         BasePage.switchToFrame(ROOT);
 //        Table.flushResults();
         BasePage.flushCollections();

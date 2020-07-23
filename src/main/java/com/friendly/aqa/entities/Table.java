@@ -431,7 +431,7 @@ public class Table {
     }
 
     @SuppressWarnings("unused")
-    public void assertAbsenceOfParameter(String value) {
+    public void assertAbsenceOfValue(String value) {
         for (String[] row : textTable) {
             int length = row.length;
             if (row[length - 2].equals(value)) {
@@ -463,8 +463,8 @@ public class Table {
 //        parameterMap = null;
 //    }
 
-    public List<String> getRow(int rowNum) {
-        return new ArrayList<>(Arrays.asList(textTable[rowNum]));
+    public String[] getRow(int rowNum) {
+        return textTable[rowNum];
     }
 
     @Override

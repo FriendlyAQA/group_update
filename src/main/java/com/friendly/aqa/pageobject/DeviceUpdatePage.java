@@ -3,24 +3,35 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.IGlobalButtons;
 import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 
-import java.time.Duration;
-import java.util.List;
+import java.text.ParseException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
+import static com.friendly.aqa.entities.TopMenu.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
 
 public class DeviceUpdatePage extends BasePage {
     private static final Logger logger = Logger.getLogger(DeviceUpdatePage.class);
+    private Date xmlFileTime;
+    private Date csvFileTime;
 
     @FindBy(id = "btnSaveUsr_btn")
     private WebElement saveButton;
+
+    @FindBy(id = "IsDefaultViewForUser")
+    private WebElement defaultViewCheckbox;
+
+    @FindBy(id = "txtSerial")
+    private WebElement inputSerial;
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -39,6 +50,7 @@ public class DeviceUpdatePage extends BasePage {
 
     @Override
     public DeviceUpdatePage assertMainPageIsDisplayed() {
+        assertElementIsPresent("tbl");
         return (DeviceUpdatePage) super.assertMainPageIsDisplayed();
     }
 
@@ -145,20 +157,75 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.deleteFilter();
     }
 
-    public DeviceUpdatePage selectAnyItem() {
-        return selectItem(getModelName());
+    public DeviceUpdatePage defaultViewForCurrentUserCheckbox() {
+        defaultViewCheckbox.click();
+        return this;
     }
 
-    public DeviceUpdatePage assertDuplicateNameErrorIsDisplayed() {
+    @Override
+    public DeviceUpdatePage resetView() {
+        return (DeviceUpdatePage) super.resetView();
+    }
+
+    public DeviceUpdatePage inputSerial() {
+        inputSerial.sendKeys(getSerial());
+        waitUntilButtonIsEnabled(START);
+        return this;
+    }
+
+    public void assertDuplicateNameErrorIsDisplayed() {
         setImplicitlyWait(0);
         List<WebElement> list = driver.findElements(By.id("lblNameInvalid"));
         setDefaultImplicitlyWait();
         if (list.size() == 1) {
-            return this;
+            return;
         }
         String warn = "Error message 'This name is already in use' not found on current page!";
         logger.warn(warn);
         throw new AssertionError(warn);
+    }
+
+    public void checkFiltering(String filter) {
+        WebElement comboBox = filter.equals("Manufacturer") ? filterManufacturerComboBox : filterModelNameComboBox;
+        List<String> optionList = getOptionList(comboBox);
+        optionList.remove("All");
+        for (String option : optionList) {
+            selectComboBox(comboBox, option);
+            waitForUpdate();
+            Set<String> itemSet = new HashSet<>(Arrays.asList(getMainTable().getColumn(filter)));
+            if (itemSet.size() > 1 || (itemSet.size() == 1 && !itemSet.iterator().next().equals(option))) {
+                throw new AssertionError("Column '" + filter + "' has unexpected content!\n"
+                        + "Expected: " + option + ", but found: " + itemSet);
+            }
+        }
+
+    }
+
+    public void assertChangingView() {
+        selectView("Default");
+        String[] defColumns = getMainTable().getRow(0);
+        List<String> optList = getOptionList(filterViewComboBox);
+        for (String option : optList) {
+            if (option.equals("Default")) {
+                continue;
+            }
+            selectView(option);
+            String[] newColumns = getMainTable().getRow(0);
+            if (!Arrays.deepEquals(newColumns, defColumns)) {
+//                System.out.println(option + ": OK\n" + Arrays.deepToString(defColumns) + "\n" + Arrays.deepToString(newColumns));
+                return;
+            }
+//            System.out.println(option + ": Fail\n" + Arrays.deepToString(defColumns) + "\n" + Arrays.deepToString(newColumns));
+        }
+        throw new AssertionError("View has not been changed! Make sure that you have enough different view for this test case!");
+    }
+
+    public DeviceUpdatePage assertSelectedViewIs(String expectedView) {
+        if (getSelectedValue(filterViewComboBox).toLowerCase().equals(expectedView.toLowerCase())) {
+            return this;
+        }
+        throw new AssertionError("Actual and expected view don't match! Expected: " + expectedView
+                + "; actual: " + getSelectedValue(filterViewComboBox));
     }
 
     public DeviceUpdatePage presetFilter(String parameter, String value) {
@@ -254,12 +321,80 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.okButtonPopUp();
     }
 
+    @Override
+    public DeviceUpdatePage cancelButtonPopUp() {
+        return (DeviceUpdatePage) super.cancelButtonPopUp();
+    }
+
     public DeviceUpdatePage leftMenu(Left item) {
         switchToFrame(ROOT);
         getTable("tblLeftMenu").clickOn(item.value);
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
+    }
+
+    public DeviceUpdatePage selectAnyDevice() { //except target device
+        Table table = getMainTable();
+        String[] serials = table.getColumn("Serial");
+        for (int i = 0; i < serials.length; i++) {
+            String serial = serials[i];
+            if (!getSerial().equals(serial)) {
+                table.clickOn(i + 1, 0);
+                parameterSet = new HashSet<>();
+                parameterSet.add(serial);
+                return this;
+            }
+        }
+        throw new AssertionError("there are no suitable devices to be selected!");
+    }
+
+    public DeviceUpdatePage assertAbsenceOfValue() {
+        return (DeviceUpdatePage) super.assertAbsenceOfValue("tbl", parameterSet.iterator().next());
+    }
+
+    public DeviceUpdatePage assertTraceWindowIsOpened() {
+        switchToNewWindow();
+        assertEquals(findElement("lblTitle").getText(), "Trace of: Serial = " + getSerial()
+                + " / ID = " + DataBaseConnector.getDeviceId(getSerial()));
+        closeNewWindow();
+        return this;
+    }
+
+    public DeviceUpdatePage saveFileName() {
+        switchToFrame(ROOT);
+        String message = findElement("spnAlert").getText();
+        Pattern datePattern = Pattern.compile("Inventory_.+_(.+)\\)\\.");
+        Pattern extPattern = Pattern.compile("\\)\\.([xmlcsv]{3})'");
+        Matcher m = datePattern.matcher(message);
+        Matcher extM = extPattern.matcher(message);
+        if (m.find()) {
+            try {
+                Date date = CalendarUtil.getDate(m.group(1));
+                if (extM.find()) {
+                    System.out.println(extM.group(1));
+                    if (extM.group(1).equals("csv")) {
+                        csvFileTime = date;
+                        System.out.println("saved csv");
+                    } else if (extM.group(1).equals("xml")) {
+                        xmlFileTime = date;
+                        System.out.println("saved xml");
+                    } else {
+                        throw new AssertionError("File extension parsing error!");
+                    }
+                }
+            } catch (ParseException e) {
+                System.out.println("Date parsing error! \n" + message);
+            }
+        }
+        return this;
+    }
+
+    public void checkSavedExport() {
+        switchToFrame(POPUP);
+        Table table = getTable("tbl");
+        table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
+        table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
     }
 
     public enum Left {
@@ -303,6 +438,9 @@ public class DeviceUpdatePage extends BasePage {
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
         SIMPLE_VIEW("btnTabView_btn"),
         SHOW_ON_MAP("btnMap_btn"),
+        SHOW_TRACE("btnShowTrace_btn"),
+        START("btnSendUpdate_btn"),
+        STOP_TRACE("btnStopTrace_btn"),
         STOP("btnStop_btn"),
         STOP_WITH_RESET("btnStopWithReset_btn"),
         TRACE("btnTrace_btn");

@@ -495,7 +495,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_du_043() {
+    public void tr069_du_042() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
@@ -504,5 +504,149 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .checkSorting("Zip");
     }
 
+    @Test
+    public void tr069_du_043() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .assertChangingView();
+    }
+
+    @Test
+    public void tr069_du_044() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectView("tr069_du_014")
+                .editButton()
+                .globalButtons(CANCEL)
+                .assertSelectedViewIs("tr069_du_014");
+    }
+
+    @Test
+    public void tr069_du_045() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectView("tr069_du_014")
+                .editButton()
+                .defaultViewForCurrentUserCheckbox()
+                .globalButtons(FINISH)
+                .okButtonPopUp()
+                .selectView("Default")
+                .topMenu(GROUP_UPDATE)
+                .topMenu(DEVICE_UPDATE)
+                .resetView()
+                .assertSelectedViewIs("tr069_du_014")
+                .selectView("Default")
+                .editButton()
+                .defaultViewForCurrentUserCheckbox()
+                .globalButtons(FINISH)
+                .okButtonPopUp();
+    }
+
+    @Test
+    public void tr069_du_046() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .checkFiltering("Model name");
+    }
+
+    @Test
+    public void tr069_du_047() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .checkFiltering("Manufacturer");
+    }
+
+    @Test
+    public void tr069_du_048() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectView("tr069_du_014")
+                .selectView("Default")
+                .assertTableColumnNumberIs(7, "tbl");
+    }
+
+    @Test
+    public void tr069_du_049() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectView("tr069_du_011")
+                .assertTableColumnNumberIs(2, "tbl");
+    }
+
+    @Test
+    public void tr069_du_050() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectView("tr069_du_014")
+                .editButton()
+                .globalButtons(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertSelectedViewIs("Default")
+                .assertAbsenceOfOptions("ddlView", "tr069_du_014");
+    }
+
+    @Test
+    public void tr069_du_051() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .selectFilterModelName(BasePage.getModelName())
+                .selectAnyDevice()
+                .globalButtons(DELETE)
+                .cancelButtonPopUp()
+                .globalButtons(DELETE)
+                .okButtonPopUp()
+                .assertAbsenceOfValue();
+    }
+
+    @Test
+    public void tr069_du_052() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .saveTable("tbl")
+                .globalButtons(REFRESH)
+                .assertPageWasRefreshed();
+    }
+
+    @Test
+    public void tr069_du_053() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .globalButtons(TRACE)
+                .inputSerial()
+                .globalButtons(START)
+                .okButtonPopUp()
+                .enterToDevice()
+                .globalButtons(SHOW_TRACE)
+                .assertTraceWindowIsOpened()
+                .globalButtons(STOP_TRACE)
+                .okButtonPopUp()/*
+                .leftMenu(LIST)*/;
+    }
+
+    @Test
+    public void tr069_du_054() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .globalButtons(EXPORT_TO_CSV)
+                .saveFileName()
+                .okButtonPopUp();
+    }
+
+    @Test
+    public void tr069_du_055() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .globalButtons(EXPORT_TO_XML)
+                .saveFileName()
+                .okButtonPopUp();
+    }
+
+    @Test   //depends on 54, 55
+    public void tr069_du_056() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .globalButtons(EXPORTS)
+                .checkSavedExport();
+    }
 
 }
