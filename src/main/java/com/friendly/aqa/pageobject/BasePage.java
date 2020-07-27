@@ -359,7 +359,7 @@ public abstract class BasePage {
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
             String warn = value + " type is not supported by current device!";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + '(' + BaseTestCase.getTestName() + ')' + warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -921,13 +921,15 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertElementIsPresent(String id) {
+    public BasePage assertPresenceOfElements(String... ids) {
         waitForUpdate();
-        List<WebElement> list = findElements(id);
-        if (list.size() == 0) {
-            String warn = "Element with id='" + id + "' not found on current page";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + '(' + BaseTestCase.getTestName() + ')' + warn);
-            throw new AssertionError(warn);
+        for (String id : ids) {
+            List<WebElement> list = findElements(id);
+            if (list.size() == 0) {
+                String warn = "Element with id='" + id + "' not found on current page";
+                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
+                throw new AssertionError(warn);
+            }
         }
         return this;
     }
@@ -968,13 +970,12 @@ public abstract class BasePage {
 
     public BasePage assertPresenceOfOptions(String comboBoxId, String... options) {
         WebElement comboBox = findElement(comboBoxId);
-        List<WebElement> optList = comboBox.findElements(By.tagName("option"));
-        Set<String> optSet = new HashSet<>(optList.size());
-        optList.forEach(o -> optSet.add(o.getText()));
-        Set<String> valueSet = new HashSet<>(Arrays.asList(options));
-        valueSet.removeAll(optSet);
-        if (!valueSet.isEmpty()) {
-            throw new AssertionError("Options " + valueSet + " not found inside dropdown #" + comboBoxId + "'");
+        comboBox.click();
+        List<String> actualOptionList = getOptionList(comboBox);
+        Set<String> expectedOptionSet = new HashSet<>(Arrays.asList(options));
+        expectedOptionSet.removeAll(actualOptionList);
+        if (!expectedOptionSet.isEmpty()) {
+            throw new AssertionError("Options :" + expectedOptionSet + " not found inside dropdown #" + comboBoxId + "'");
         }
         return this;
     }
@@ -1213,9 +1214,9 @@ public abstract class BasePage {
     public BasePage checkEvents() {
         if (!eventMap.equals(readEvents())) {
             String warn = "Events comparison error!";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + "expected:" + eventMap);
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + "  actual:" + readEvents());
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + "  actual:" + readEvents());
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -1451,7 +1452,7 @@ public abstract class BasePage {
         if (!parameterSet.isEmpty()) {
             StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
             parameterSet.forEach(sb::append);
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + sb.toString());
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + sb.toString());
         }
         throw new AssertionError("Checking column headers failed!");
     }
@@ -1623,7 +1624,7 @@ public abstract class BasePage {
             groupList = DataBaseConnector.getTaskList();
             if (groupList.isEmpty()) {
                 String warn = "There are no tasks created by '" + BaseTestCase.getTestName() + "' Group Update";
-                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                 throw new AssertionError(warn);
             }
             Set<String> StateSet = new HashSet<>();
@@ -1752,23 +1753,25 @@ public abstract class BasePage {
 
     public BasePage checkSorting(String column) {
         Table table;
-        int colNum;
-        try {
-            waitForUpdate();
-            table = getMainTable();
-            colNum = table.getColumnNumber(0, column);
-            table.clickOn(0, colNum);
-        } catch (StaleElementReferenceException e) {
-            waitForUpdate();
-            table = getMainTable();
-            colNum = table.getColumnNumber(0, column);
-            table.clickOn(0, colNum);
+        int colNum = -1;
+        for (int i = 0; i < 2; i++) {
+            try {
+                waitForUpdate();
+                table = getMainTable();
+                colNum = table.getColumnNumber(0, column);
+                scrollToElement(table.getCellWebElement(0, colNum));
+                table.clickOn(0, colNum);
+                break;
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException catched while sorting by '" + column + "' column");
+            }
         }
         Timer timer = new Timer(30000);
         for (int i = 0; i < 2; i++) {
             try {
                 waitForUpdate();
                 table = getMainTable();
+                scrollToElement(table.getCellWebElement(0, colNum));
                 WebElement pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
                 boolean descending = pointer.getAttribute("src").endsWith("down.png");
                 String[] arr = table.getColumn(colNum, true);
@@ -1780,7 +1783,7 @@ public abstract class BasePage {
                     System.out.println("Found   :" + Arrays.toString(arr2));
                     String warn = "sorting by column '" + column + "' failed!";
                     warn = (descending ? "Descending " : "Ascending ") + warn;
-                    logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                    logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                     throw new AssertionError(warn);
                 }
                 System.out.println((descending ? "Descending " : "Ascending ") + "sorting by column '" + column + "' is OK!");
@@ -1961,7 +1964,7 @@ public abstract class BasePage {
         if (!match) {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
             table.print();
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warning);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warning);
             throw new AssertionError(warning);
         }
         return this;

@@ -27,11 +27,36 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "btnSaveUsr_btn")
     private WebElement saveButton;
 
+    @FindBy(id = "btnCancel_btn")
+    private WebElement cancelButton;
+
+    @FindBy(id = "btnDel_btn")
+    private WebElement deleteButton;
+
+    @FindBy(id = "btnRefresh_btn")
+    private WebElement refreshButton;
+
+    @FindBy(id = "btnClose_btn")
+    private WebElement closeButton;
+
     @FindBy(id = "IsDefaultViewForUser")
     private WebElement defaultViewCheckbox;
 
     @FindBy(id = "txtSerial")
     private WebElement inputSerial;
+
+    @FindBy(id = "ddlSearchOption")
+    private WebElement searchByCombobox;
+
+    @FindBy(id = "ddlColumns1")
+    private WebElement sortByCombobox;
+
+    @FindBy(id = "ddlSort1")
+    private WebElement sortingOrderCombobox;
+
+    @FindBy(id = "btnSearch_btn")
+    private WebElement searchButton;
+
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -50,7 +75,7 @@ public class DeviceUpdatePage extends BasePage {
 
     @Override
     public DeviceUpdatePage assertMainPageIsDisplayed() {
-        assertElementIsPresent("tbl");
+        assertPresenceOfElements("tbl");
         return (DeviceUpdatePage) super.assertMainPageIsDisplayed();
     }
 
@@ -167,9 +192,58 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.resetView();
     }
 
+    @Override
+    public DeviceUpdatePage clickOnTable(String id, int row, int column) {
+        return (DeviceUpdatePage) super.clickOnTable(id, row, column);
+    }
+
+    @Override
+    public DeviceUpdatePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+        return (DeviceUpdatePage) super.assertButtonsAreEnabled(enabled, buttons);
+    }
+
+    @Override
+    public DeviceUpdatePage downButton() {
+        return (DeviceUpdatePage) super.downButton();
+    }
+
+    @Override
+    public DeviceUpdatePage upButton() {
+        return (DeviceUpdatePage) super.upButton();
+    }
+
+    @Override
+    public DeviceUpdatePage topButton() {
+        return (DeviceUpdatePage) super.topButton();
+    }
+
+    @Override
+    public DeviceUpdatePage bottomButton() {
+        return (DeviceUpdatePage) super.bottomButton();
+    }
+
+    public DeviceUpdatePage searchButton() {
+        waitUntilElementIsEnabled("btnSearch_btn");
+        searchButton.click();
+        waitForUpdate();
+        return this;
+    }
+
+    public DeviceUpdatePage lookFor(String value) {
+        inputText("tbDeviceID", value);
+        return this;
+    }
+
     public DeviceUpdatePage inputSerial() {
         inputSerial.sendKeys(getSerial());
         waitUntilButtonIsEnabled(START);
+        return this;
+    }
+
+    public DeviceUpdatePage refreshButton() {
+        switchToFrame(POPUP);
+        refreshButton.click();
+        waitForUpdate();
         return this;
     }
 
@@ -198,7 +272,41 @@ public class DeviceUpdatePage extends BasePage {
                         + "Expected: " + option + ", but found: " + itemSet);
             }
         }
+    }
 
+    public DeviceUpdatePage searchBy(String value) {
+        selectComboBox(searchByCombobox, value);
+        searchByCombobox.click();
+        return this;
+    }
+
+    public DeviceUpdatePage sortByColumn(String value) {
+        selectComboBox(sortByCombobox, value);
+        sortByCombobox.click();
+        return this;
+    }
+
+    public DeviceUpdatePage sortingOrder(String value) {
+        selectComboBox(sortingOrderCombobox, value);
+        sortingOrderCombobox.click();
+        return this;
+    }
+
+    public void assertSortingByColumnIs(String column, Boolean isAscending) {
+        Table table = getMainTable();
+        WebElement cell = table.getCellWebElement(0, table.getColumnNumber(0, column));
+        setImplicitlyWait(0);
+        List<WebElement> img = cell.findElements(By.tagName("img"));
+        setDefaultImplicitlyWait();
+        if (isAscending == null) {
+            if (img.size() != 0) {
+                throw new AssertionError("Unexpected sorting found by column '" + column + "' (Expected: unsorted).");
+            }
+        } else if (img.size() == 0) {
+            throw new AssertionError("No sorting found by column '" + column + "' (Expected: " + (isAscending ? "ascending" : "descending") + ").");
+        } else if (img.get(0).getAttribute("src").endsWith("down.png") == isAscending) {
+            throw new AssertionError("Unexpected sorting type found by column '" + column + "' (Expected: " + (isAscending ? "ascending" : "descending") + ").");
+        }
     }
 
     public void assertChangingView() {
@@ -269,11 +377,15 @@ public class DeviceUpdatePage extends BasePage {
                     setUserInfo(userInfoTable, item, getRandomStringValue(10));
                 }
             }
-            waitUntilElementIsEnabled("btnSaveUsr_btn");
-            saveButton.click();
-            okButtonPopUp();
-            pause(500);
-            waitForUpdate();
+            try {
+                waitUntilElementIsEnabled("btnSaveUsr_btn");
+                saveButton.click();
+                okButtonPopUp();
+                pause(500);
+                waitForUpdate();
+            } catch (AssertionError e) {
+                cancelButton.click(); // in case no one item has been changed
+            }
             topMenu(DEVICE_UPDATE);
             mainTable = getMainTable();
         }
@@ -289,6 +401,14 @@ public class DeviceUpdatePage extends BasePage {
             getTable("tbl").clickOn(getSerial());
         }
         waitForUpdate();
+        return this;
+    }
+
+    public DeviceUpdatePage deselectCheckbox(String id) {
+        WebElement checkbox = findElement(id);
+        if (checkbox.isSelected()) {
+            checkbox.click();
+        }
         return this;
     }
 
@@ -349,8 +469,11 @@ public class DeviceUpdatePage extends BasePage {
         throw new AssertionError("there are no suitable devices to be selected!");
     }
 
-    public DeviceUpdatePage assertAbsenceOfValue() {
-        return (DeviceUpdatePage) super.assertAbsenceOfValue("tbl", parameterSet.iterator().next());
+    public void assertAbsenceOfValue() {
+        String value = parameterSet.iterator().next();
+        if (getTable("tbl").contains(value)) {
+            throw new AssertionError("Value '" + value + "' still present in the table!");
+        }
     }
 
     public DeviceUpdatePage assertTraceWindowIsOpened() {
@@ -397,11 +520,52 @@ public class DeviceUpdatePage extends BasePage {
         table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
     }
 
+    public DeviceUpdatePage deleteExportEntry() {
+        switchToFrame(POPUP);
+        Table table = getTable("tbl");
+        table.clickOn(1, 0);
+        parameterSet = new HashSet<>(1);
+        parameterSet.add(table.getCellText(1, 1));
+        deleteButton.click();
+        return this;
+    }
+
+    public DeviceUpdatePage deleteAllExportEntries() {
+        switchToFrame(POPUP);
+        Table table = getTable("tbl");
+        table.clickOn(0, 0);
+        deleteButton.click();
+        return this;
+    }
+
+    public DeviceUpdatePage assertAbsenceOfDeletedExportItem() {
+        switchToFrame(POPUP);
+        assertAbsenceOfValue();
+        return this;
+    }
+
+    public void assertExportEntryListIsEmpty() {
+        switchToFrame(POPUP);
+        if (!findElement("pager2_lblPagerTotal").getText().equals("No data found")) {
+            throw new AssertionError("List of exports is not empty!");
+        }
+        closeButton.click();
+    }
+
+    public void closeMapWindow() {
+        switchToFrame(ROOT);
+        pause(2000);
+        getTable("tblPopupTitle").clickOn(0, 1);
+        switchToFrame(DESKTOP);
+        enterToDevice();
+        waitForUpdate();
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
         FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
-        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity");
+        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search");
 
         private String value;
 

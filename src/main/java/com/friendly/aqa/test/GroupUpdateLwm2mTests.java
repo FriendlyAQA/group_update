@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
@@ -191,7 +190,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_013() {
         guPage
                 .gotoSetParameters(null)
-                .assertElementIsPresent("tblParamsValue")
+                .assertPresenceOfElements("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -496,7 +495,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .globalButtons(CANCEL)
-                .assertElementIsPresent("tblParameters");
+                .assertPresenceOfElements("tblParameters");
     }
 
     @Test

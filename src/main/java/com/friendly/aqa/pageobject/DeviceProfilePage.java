@@ -1166,8 +1166,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertElementIsPresent(String id) {
-        return (DeviceProfilePage) super.assertElementIsPresent(id);
+    public DeviceProfilePage assertPresenceOfElements(String... ids) {
+        return (DeviceProfilePage) super.assertPresenceOfElements(ids);
     }
 
     @Override

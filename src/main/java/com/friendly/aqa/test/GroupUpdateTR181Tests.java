@@ -194,7 +194,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_013() {
         guPage
                 .gotoSetParameters()
-                .assertElementIsPresent("tblParamsValue")
+                .assertPresenceOfElements("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -1105,7 +1105,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .globalButtons(CANCEL)
-                .assertElementIsPresent("tblParameters");
+                .assertPresenceOfElements("tblParameters");
     }
 
     @Test

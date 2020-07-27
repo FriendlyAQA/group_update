@@ -73,7 +73,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName(targetTestName)
                 .globalButtons(NEXT)
-                .assertElementIsPresent("lblNameInvalid");
+                .assertPresenceOfElements("lblNameInvalid");
     }
 
     @Test
@@ -141,7 +141,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
-                .assertElementIsPresent("lbActivate")
+                .assertPresenceOfElements("lbActivate")
                 .globalButtons(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -264,7 +264,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName(targetTestName)
                 .globalButtons(NEXT)
-                .assertElementIsPresent("lblNameInvalid");
+                .assertPresenceOfElements("lblNameInvalid");
     }
 
     @Test

@@ -338,7 +338,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .globalButtons(CANCEL)
-                .assertElementIsPresent("tblParameters");
+                .assertPresenceOfElements("tblParameters");
     }
 
     @Test

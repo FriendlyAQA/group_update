@@ -661,8 +661,8 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertElementIsPresent(String id) {
-        return (MonitoringPage) super.assertElementIsPresent(id);
+    public MonitoringPage assertPresenceOfElements(String... ids) {
+        return (MonitoringPage) super.assertPresenceOfElements(ids);
     }
 
     public MonitoringPage presetFilter(String parameter, String value) {

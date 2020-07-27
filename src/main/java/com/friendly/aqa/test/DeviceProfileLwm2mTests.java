@@ -225,7 +225,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName(false)
                 .pause(1000)
                 .addDeviceWithoutTemplate()
-                .assertElementIsPresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .globalButtons(CANCEL)

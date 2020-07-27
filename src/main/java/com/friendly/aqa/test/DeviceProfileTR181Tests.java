@@ -221,7 +221,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .fillName()
                 .pause(1000)
                 .addDeviceWithoutTemplate()
-                .assertElementIsPresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .globalButtons(CANCEL)

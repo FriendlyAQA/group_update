@@ -202,7 +202,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .globalButtons(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .assertElementIsPresent("tblParamsValue")
+                .assertPresenceOfElements("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -876,7 +876,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .globalButtons(CANCEL)
-                .assertElementIsPresent("tblParameters");
+                .assertPresenceOfElements("tblParameters");
     }
 
     @Test

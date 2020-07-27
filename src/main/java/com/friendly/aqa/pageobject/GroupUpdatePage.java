@@ -1324,8 +1324,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage assertElementIsPresent(String id) {
-        return (GroupUpdatePage) super.assertElementIsPresent(id);
+    public GroupUpdatePage assertPresenceOfElements(String... ids) {
+        return (GroupUpdatePage) super.assertPresenceOfElements(ids);
     }
 
     @Override
