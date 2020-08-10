@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.Collator;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -135,14 +134,14 @@ public abstract class BasePage {
     @FindBy(id = "imgLogout")
     private WebElement logOutButton;
 
-    @FindBy(tagName = "table")
-    private WebElement buttonTable;
+//    @FindBy(tagName = "table")
+//    private WebElement buttonTable;
 
     @FindBy(id = "txtName")
     protected WebElement nameField;
 
     @FindBy(id = "menuCircularG")
-    private static WebElement spinningWheel;
+    private static WebElement spinner;
 
     @FindBy(id = "spnAlert")
     protected WebElement alertWindow;
@@ -151,7 +150,7 @@ public abstract class BasePage {
     protected WebElement addFilterButton;
 
     @FindBy(id = "btnAddSubFilter_btn")
-    protected WebElement addSubilterButton;
+    protected WebElement addSubFilterButton;
 
     @FindBy(id = "btnDelFilter_btn")
     protected WebElement deleteFilterButton;
@@ -541,7 +540,7 @@ public abstract class BasePage {
     }
 
     public BasePage addSubFilter() {
-        addSubilterButton.click();
+        addSubFilterButton.click();
         return this;
     }
 
@@ -696,10 +695,9 @@ public abstract class BasePage {
         return !findElement(id).getAttribute("class").equals("button_disabled");
     }
 
-    protected void waitUntilElementIsDisplayed(String id) {
-        WebElement element = findElement(id);
+    protected void waitUntilElementIsDisplayed(WebElement element) {
         new FluentWait<>(driver)
-                .withMessage("Element '#" + id + "' not found")
+                .withMessage("Element '#" + element.getAttribute("id") + "' not found")
                 .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.visibilityOf(element));
@@ -740,7 +738,9 @@ public abstract class BasePage {
     }
 
     public BasePage inputText(String id, String text) {
-        findElement(id).sendKeys(text);
+        WebElement el = findElement(id);
+        el.clear();
+        el.sendKeys(text);
         return this;
     }
 
@@ -828,24 +828,33 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage waitForUpdate() {   //TODO rework with ExpectedCondition
+    public BasePage waitForUpdate() {
+        switchToFrame(ROOT);
+        pause(100);
+        new FluentWait<>(driver)
+                .withMessage("Spinner not found")
+                .withTimeout(Duration.ofSeconds(30L))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.invisibilityOfAllElements(spinner));
+        switchToPreviousFrame();
+        return this;
+    }
+
+    @SuppressWarnings("unused")
+    public BasePage waitForUpdate1() {   //TODO rework with ExpectedCondition
         long start = System.currentTimeMillis();
         switchToFrame(ROOT);
         String style;
         do {
-            style = spinningWheel.getAttribute("style");
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            style = spinner.getAttribute("style");
+            pause(100);
         } while (!style.contains("display: none;") || System.currentTimeMillis() > start + 30000);
         switchToPreviousFrame();
         return this;
     }
 
     void leftMenuClick(String value) {
-        for (WebElement we : leftMenuTable.findElements(By.cssSelector(this.getLeftMenuCssSelector()))) {
+        for (WebElement we : leftMenuTable.findElements(By.cssSelector(getLeftMenuCssSelector()))) {
             WebElement item = we.findElement(By.tagName("td"));
             if (item.getText().equals(value)) {
                 item.click();
@@ -934,12 +943,18 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertTableColumnNumberIs(int number, String tableId) {
+    public void assertTableColumnNumberIs(int number, String tableId) {
         int actual = getTable(tableId).getTableSize()[1];
         if (actual != number) {
             throw new AssertionError("Wrong number of table column! Expected: " + number + ", but found :" + actual);
         }
-        return this;
+    }
+
+    protected WebElement waitForClickableOf(WebElement element) {
+        return new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public boolean elementIsAbsent(String id) {
@@ -959,10 +974,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertAbsenceOfValue(String tableId, String value) {
-        getTable(tableId).assertAbsenceOfValue(value);
-        return this;
-    }
+//    public BasePage assertAbsenceOfValue(String tableId, String value) {
+//        getTable(tableId).assertAbsenceOfValue(value);
+//        return this;
+//    }
 
     public void assertPresenceOfParameter(String value) {
         getTable("tblTasks")/*.print()*/.assertPresenceOfParameter(value);
@@ -980,14 +995,13 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertAbsenceOfOptions(String comboBoxId, String... options) {
+    public void assertAbsenceOfOptions(String comboBoxId, String... options) {
         Arrays.asList(options).forEach(opt -> {
             List<String> actualOptList = getOptionList(findElement(comboBoxId));
             if (actualOptList.contains(opt)) {
                 throw new AssertionError("Unexpected option (" + opt + ") found inside dropdown #" + comboBoxId);
             }
         });
-        return this;
     }
 
     public BasePage selectColumnFilter(String option) {
@@ -1124,10 +1138,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage compareTable(String tableId) {
+    public void compareTable(String tableId) {
         Table table = new Table(tableId);
         if (savedTable.equals(table)) {
-            return this;
+            return;
         }
         System.out.println("Table 1:");
         savedTable.print();
@@ -1274,7 +1288,7 @@ public abstract class BasePage {
     public void waitUntilButtonIsDisplayed(IGlobalButtons button) {
         switchToFrame(BUTTONS);
         try {
-            waitUntilElementIsDisplayed(button.getId());
+            waitUntilElementIsDisplayed(findElement(button.getId()));
         } catch (AssertionError e) {
             String warn = "Button '" + button + "' not found";
             throw new AssertionError(warn);
@@ -1699,12 +1713,12 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertColumnHasSeveralValues(String column) {
+    public void assertColumnHasSeveralValues(String column) {
         waitForUpdate();
         String[] col = getMainTable().getColumn(column);
         Set<String> set = new HashSet<>(Arrays.asList(col));
         if (set.size() > 1) {
-            return this;
+            return;
         }
         throw new AssertionError("Column '" + column + "' has 0 or single value!");
     }
@@ -1977,6 +1991,7 @@ public abstract class BasePage {
         }
     }
 
+    @SuppressWarnings("unused")
     public void forceFail() {
         throw new AssertionError("Test is ok, but was down manually");
     }

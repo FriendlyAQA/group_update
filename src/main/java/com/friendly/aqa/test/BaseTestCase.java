@@ -166,6 +166,14 @@ public abstract class BaseTestCase {
         return BasePage.getSerial();
     }
 
+    protected String getPartialSerial(int symbols) {    //negative arg returns last symbols
+        String serial = BasePage.getSerial();
+        if (symbols < 0) {
+            return serial.substring(serial.length() + symbols);
+        }
+        return serial.substring(0, symbols);
+    }
+
     protected int getDeviceAmount() {
         return DataBaseConnector.getDeviceAmount(getSerial());
     }

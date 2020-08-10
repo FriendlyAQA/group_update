@@ -124,6 +124,9 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "btnNewView_btn")
     private WebElement newConditionButton;
 
+    @FindBy(id = "btnAddTask_btn")
+    private WebElement addTaskButton;
+
     @FindBy(id = "rdCust")
     private WebElement userInfoRadioButton;
 
@@ -310,9 +313,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage saveButton() {
+    public void saveButton() {
         clickButton(saveButton);
-        return this;
     }
 
     @Override
@@ -659,7 +661,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage addTask(String task) {
         switchToFrame(POPUP);
-        waitUntilElementIsDisplayed("btnAddTask_btn");
+        waitUntilElementIsDisplayed(addTaskButton);
         selectComboBox(selectTask, task);
         clickButton(addTaskButton);
         return this;
@@ -818,29 +820,6 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage assertProfileIsPresent(boolean isExpected) {
         return assertProfileIsPresent(isExpected, selectedName);
-    }
-
-    public DeviceProfilePage assertProfileIsPresent1(boolean isExpected, String name) {
-        Table table;
-        try {
-            table = getMainTable();
-        } catch (NoSuchElementException e) {
-            okButtonPopUp();
-            table = getMainTable();
-        }
-        int col = table.getColumnNumber(0, "Name");
-        boolean isFound = true;
-        try {
-            table.getRowNumberByText(col, name);
-        } catch (AssertionError e) {
-            isFound = false;
-        }
-        if (isFound != isExpected) {
-            String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-            throw new AssertionError(warn);
-        }
-        return this;
     }
 
     public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
@@ -1233,7 +1212,6 @@ public class DeviceProfilePage extends BasePage {
                 tabTable.clickOn("Device");
             }
         }
-        long start = System.currentTimeMillis();
         boolean textFound = false;
         Timer timer = new Timer(61000);
         while (!timer.timeout()) {

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.TopMenu.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.SEARCH_EXPORT_TO_XML;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
@@ -646,7 +647,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .globalButtons(EXPORTS)
-                .checkSavedExport();
+                .checkSavedExport("csv", "xml");
     }
 
     @Test   //depends on 54, 55
@@ -826,7 +827,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
                 .searchButton()
-                .assertSortingByColumnIs("Created", null);
+                .assertSortingPerformedBy("Created", null);
     }
 
     @Test
@@ -847,7 +848,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
                 .searchButton()
-                .assertSortingByColumnIs("Created", true);
+                .assertSortingPerformedBy("Created", true);
     }
 
     @Test
@@ -868,7 +869,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
                 .searchButton()
-                .assertSortingByColumnIs("Created", false);
+                .assertSortingPerformedBy("Created", false);
     }
 
     @Test
@@ -1280,5 +1281,321 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .defaultViewForCurrentUserCheckbox()
                 .globalButtons(FINISH)
                 .okButtonPopUp();
+    }
+
+    @Test
+    public void tr069_du_101() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .selectView("tr069_du_069")
+                .editButton()
+                .globalButtons(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertSelectedViewIs("Default")
+                .assertAbsenceOfOptions("ddlView", "tr069_du_069");
+    }
+
+    @Test
+    public void tr069_du_102() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Phone number", false);
+    }
+
+    @Test
+    public void tr069_du_103() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Phone number", true);
+    }
+
+    @Test
+    public void tr069_du_104() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("User ID", false);
+    }
+
+    @Test
+    public void tr069_du_105() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("User ID", true);
+    }
+
+    @Test
+    public void tr069_du_106() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Full name", false);
+    }
+
+    @Test
+    public void tr069_du_107() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Full name", true);
+    }
+
+    @Test
+    public void tr069_du_108() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Username", false);
+    }
+
+    @Test
+    public void tr069_du_109() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Username", true);
+    }
+
+    @Test
+    public void tr069_du_110() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("User Tag", false);
+    }
+
+    @Test
+    public void tr069_du_111() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("User Tag", true);
+    }
+
+    @Test
+    public void tr069_du_112() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Serial Number", false);
+    }
+
+    @Test
+    public void tr069_du_113() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("Serial Number", true);
+    }
+
+    @Test
+    public void tr069_du_114() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("IP address", false);
+    }
+
+    @Test
+    public void tr069_du_115() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("IP address", true);
+    }
+
+    @Test
+    public void tr069_du_116() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("MAC address", false);
+    }
+
+    @Test
+    public void tr069_du_117() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("MAC address", true);
+    }
+
+    //skipped: 118-121 due to impossible to validate (E-UTRAN Node B ID, Base Station ID)
+
+    @Test
+    public void tr069_du_122() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("ACS Username", false);
+    }
+
+    @Test
+    public void tr069_du_123() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .validateSearchBy("ACS Username", true);
+    }
+
+    @Test
+    public void tr069_du_124() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getSerial())
+                .deselectCheckbox("rdSearchExactly")
+                .searchButton()
+                .assertTransferToDeviceInfo();
+    }
+
+    @Test
+    public void tr069_du_125() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getSerial())
+                .selectCheckbox("rdSearchExactly")
+                .searchButton()
+                .assertTransferToDeviceInfo();
+    }
+
+    @Test
+    public void tr069_du_126() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getPartialSerial(-4))
+                .deselectCheckbox("rdSearchExactly")
+                .searchButton()
+                .selectAnyDevice()
+                .globalButtons(DELETE)
+                .okButtonPopUp()
+                .assertAbsenceOfValue();
+    }
+
+    @Test
+    public void tr069_du_127() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getPartialSerial(-4))
+                .deselectCheckbox("rdSearchExactly")
+                .searchButton()
+                .saveTable("tbl")
+                .globalButtons(REFRESH)
+                .compareTable("tbl");
+    }
+
+    @Test
+    public void tr069_du_128() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getPartialSerial(-4))
+                .deselectCheckbox("rdSearchExactly")
+                .searchButton()
+                .globalButtons(SEARCH_EXPORT_TO_CSV)
+                .saveFileName()
+                .okButtonPopUp()
+                .leftMenu(LIST)
+                .globalButtons(EXPORTS)
+                .checkSavedExport("csv");
+    }
+
+    @Test
+    public void tr069_du_129() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .lookFor(getPartialSerial(-4))
+                .deselectCheckbox("rdSearchExactly")
+                .searchButton()
+                .globalButtons(SEARCH_EXPORT_TO_XML)
+                .saveFileName()
+                .okButtonPopUp()
+                .leftMenu(LIST)
+                .globalButtons(EXPORTS)
+                .checkSavedExport("xml");
+    }
+
+    @Test
+    public void tr069_du_130() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_INFO)
+                .recheckStatus();
+    }
+
+    @Test
+    public void tr069_du_131() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_INFO)
+                .globalButtons(REBOOT)
+                .cancelButtonPopUp()
+                .globalButtons(REBOOT)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .assertLastActivityIs("Reboot");
+    }
+
+    @Test
+    public void tr069_du_132() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_INFO)
+                .globalButtons(FACTORY_RESET)
+                .cancelButtonPopUp()
+                .globalButtons(FACTORY_RESET)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .assertLastActivityIs("Reset to factory defaults");
+    }
+
+    @Test   //bug: task doesn't created in list
+    public void tr069_du_133() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_INFO)
+                .globalButtons(CREATE_TEMPLATE)
+                .cancelButtonPopUp()
+                .globalButtons(CREATE_TEMPLATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .assertLastActivityIs("Create template");//TODO validate via DB??
+    }
+
+    @Test
+    public void tr069_du_134() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_INFO)
+                .globalButtons(REPROVISION)
+                .cancelButtonPopUp()
+                .globalButtons(REPROVISION)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .assertActivityIsPresent("Profile: set parameter values");
     }
 }

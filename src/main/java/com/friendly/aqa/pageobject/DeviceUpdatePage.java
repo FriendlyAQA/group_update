@@ -9,8 +9,11 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +45,12 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "IsDefaultViewForUser")
     private WebElement defaultViewCheckbox;
 
+    @FindBy(id = "btnReCheck_lnk")
+    private WebElement recheckStatus;
+
+    @FindBy(id = "btnReCheck_img")
+    private WebElement recheckIcon;
+
     @FindBy(id = "txtSerial")
     private WebElement inputSerial;
 
@@ -56,6 +65,9 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "btnSearch_btn")
     private WebElement searchButton;
+
+    @FindBy(id = "rdDelAll")
+    private WebElement deleteAllRButton;
 
 
     @Override
@@ -292,7 +304,7 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public void assertSortingByColumnIs(String column, Boolean isAscending) {
+    public void assertSortingPerformedBy(String column, Boolean isAscending) {
         Table table = getMainTable();
         WebElement cell = table.getCellWebElement(0, table.getColumnNumber(0, column));
         setImplicitlyWait(0);
@@ -412,6 +424,14 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    public DeviceUpdatePage selectCheckbox(String id) {
+        WebElement checkbox = findElement(id);
+        if (!checkbox.isSelected()) {
+            checkbox.click();
+        }
+        return this;
+    }
+
     public void setUserInfo(String paramName, String value) {
         setUserInfo(new Table("tblMain"), paramName, value);
     }
@@ -471,7 +491,12 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertAbsenceOfValue() {
         String value = parameterSet.iterator().next();
-        if (getTable("tbl").contains(value)) {
+        waitForUpdate();
+        if (elementIsPresent("btnPager2") && elementIsPresent("ddlPageSizes")) {
+            selectComboBox(itemsOnPageComboBox, "200");
+            waitForUpdate();
+        }
+        if (getMainTable().contains(value)) {
             throw new AssertionError("Value '" + value + "' still present in the table!");
         }
     }
@@ -481,6 +506,16 @@ public class DeviceUpdatePage extends BasePage {
         assertEquals(findElement("lblTitle").getText(), "Trace of: Serial = " + getSerial()
                 + " / ID = " + DataBaseConnector.getDeviceId(getSerial()));
         closeNewWindow();
+        return this;
+    }
+
+    public DeviceUpdatePage clearDeviceActivity() {
+        leftMenu(Left.DEVICE_ACTIVITY);
+        waitForUpdate1();
+        waitUntilButtonIsDisplayed(DELETE);
+        deleteAllRButton.click();
+        globalButtons(DELETE);
+        okButtonPopUp();
         return this;
     }
 
@@ -495,13 +530,10 @@ public class DeviceUpdatePage extends BasePage {
             try {
                 Date date = CalendarUtil.getDate(m.group(1));
                 if (extM.find()) {
-                    System.out.println(extM.group(1));
                     if (extM.group(1).equals("csv")) {
                         csvFileTime = date;
-                        System.out.println("saved csv");
                     } else if (extM.group(1).equals("xml")) {
                         xmlFileTime = date;
-                        System.out.println("saved xml");
                     } else {
                         throw new AssertionError("File extension parsing error!");
                     }
@@ -513,11 +545,20 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public void checkSavedExport() {
+    public void checkSavedExport(String... extensions) {
         switchToFrame(POPUP);
         Table table = getTable("tbl");
-        table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
-        table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
+        for (String ext : extensions) {
+            if (!ext.equalsIgnoreCase("csv") && !ext.equalsIgnoreCase("xml")) {
+                throw new AssertionError("Unsupported file type!");
+            }
+            if (ext.equalsIgnoreCase("csv")) {
+                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
+            }
+            if (ext.equalsIgnoreCase("xml")) {
+                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
+            }
+        }
     }
 
     public DeviceUpdatePage deleteExportEntry() {
@@ -561,13 +602,113 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
     }
 
+    public void validateSearchBy(String option, boolean exactMatch) {
+        searchBy(option);
+        String[][] opt = {{"Phone number", "telephone"}, {"User ID", "userid"}, {"Full name", "name"}, {"Username", "login_name"}, {"User Tag", "user_tag"},
+                {"Serial Number", "Serial"}, {"IP address", "IP address"}, {"MAC address", "MAC address"}, {"ACS Username", "ACS Username"}};
+        if (exactMatch) {
+            selectCheckbox("rdSearchExactly");
+        } else {
+            deselectCheckbox("rdSearchExactly");
+        }
+        for (String[] strings : opt) {
+            if (option.equalsIgnoreCase(strings[0])) {
+                if (elementIsPresent("pager2_tblPager")) {
+                    selectComboBox(itemsOnPageComboBox, "200");
+                    waitForUpdate();
+                }
+                Map<String, Set<String>> dbDeviceMap = DataBaseConnector.getCustomDeviceInfoByColumn(strings[1], exactMatch);
+                if (dbDeviceMap != null && !dbDeviceMap.isEmpty()) {
+                    String key = dbDeviceMap.keySet().iterator().next();
+                    System.out.println("key:" + key);
+                    lookFor(key);
+                    clickOn("tbDeviceID");
+                    searchButton();
+                    Set<String> set = dbDeviceMap.get(key);
+                    int dbResponseSize = set.size();
+                    String error = "Search by '" + option + "' failed. Expected number of items: " + dbResponseSize + ", but actual: ";
+                    if (dbResponseSize == 1) {
+                        if (elementIsPresent("pager2_lblPagerTotal")) {
+                            throw new AssertionError(error + "0 or more than 1");
+                        }
+                        Table infoTable = getTable("tblDeviceInfo");
+                        String actual = infoTable.getCellText("Serial Number:", 1);
+                        String expected = set.iterator().next();
+                        if (!actual.equalsIgnoreCase(expected)) {
+                            throw new AssertionError("Wrong device found! Expected: " + expected + "; actual: " + actual);
+                        }
+                        leftMenu(Left.SEARCH);
+                    } else {
+                        if (elementIsAbsent("pager2_lblPagerTotal")) {
+                            throw new AssertionError(error + "1");
+                        }
+                        if (!findElement("pager2_lblPagerTotal").getText().equals("Total:")) {
+                            throw new AssertionError(error + "0");
+                        }
+                        Table table = getMainTable();
+                        int tableSize = table.getTableSize()[0] - 1;
+                        if (dbResponseSize != tableSize) {
+                            throw new AssertionError(error + (tableSize));
+                        }
+                        set.removeAll(Arrays.asList(table.getColumn("Serial")));
+                        if (set.size() != 0) {
+                            throw new AssertionError("one or more devices were not found: " + set.toString());
+                        }
+                    }
+                }
+                lookFor("*wrong*");
+                clickOn("tbDeviceID");
+                searchButton();
+                if (elementIsAbsent("pager2_lblPagerTotal") || !findElement("pager2_lblPagerTotal").getText().equalsIgnoreCase("No data found")) {
+                    throw new AssertionError("Unexpected search result! Expected: empty list (No data found)");
+                }
+                return;
+            }
+        }
+    }
+
+    public void assertTransferToDeviceInfo() {
+        if (elementIsPresent("pager2_lblPagerTotal")) {
+            throw new AssertionError("Search failed! Expected: only one device '" + getSerial() + "' found!");
+        }
+        Table infoTable = getTable("tblDeviceInfo");
+        String actual = infoTable.getCellText("Serial Number:", 1);
+        if (!actual.equalsIgnoreCase(getSerial())) {
+            throw new AssertionError("Wrong device found! Expected: " + getSerial() + "; actual: " + actual);
+        }
+    }
+
+    public void recheckStatus() {
+        waitForClickableOf(recheckStatus).click();
+        waitForClickableOf(recheckStatus);
+        new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.invisibilityOf(findElement("divCheckStatusProgress")));
+        assertPresenceOfElements("btnReCheck_img");
+    }
+
+    public void assertLastActivityIs(String activity) {
+        Table table = getTable("tblParameters");
+        if (!table.getCellText(1, 2).equalsIgnoreCase(activity)) {
+            throw new AssertionError("Activity '" + activity + "' not found in the top row of activity list!");
+        }
+    }
+
+    public void assertActivityIsPresent(String activity) {
+        Table table = getTable("tblParameters");
+        if (!table.contains(activity)) {
+            throw new AssertionError("Activity '" + activity + "' not found in the top row of activity list!");
+        }
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
         FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
         DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search");
 
-        private String value;
+        private final String value;
 
         Left(String value) {
             this.value = value;
@@ -583,6 +724,7 @@ public class DeviceUpdatePage extends BasePage {
         ACTIVATE("btnActivate_btn"),
         ADVANCED_VIEW("btnAdvView_btn"),
         CANCEL("btnCancel_btn"),
+        CREATE_TEMPLATE("btnCreateProfile_btn"),
         DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
         DELETE_GROUP("btnDeleteView_btn"),
@@ -591,6 +733,7 @@ public class DeviceUpdatePage extends BasePage {
         EXPORTS("btnCompletedExports_btn"),
         EXPORT_TO_CSV("btnExport_btn"),
         EXPORT_TO_XML("btnExport2XML_btn"),
+        FACTORY_RESET("btnReset_btn"),
         FINISH("btnFinish_btn"),
         GET_CURRENT("UcDeviceSettingsControls1_btnGetCurrent_btn"),
         NEXT("btnNext_btn"),
@@ -598,11 +741,14 @@ public class DeviceUpdatePage extends BasePage {
         REFRESH("btnRefresh_btn"),
         REPROVISION("btnCPEReprovision_btn"),
         PREVIOUS("btnPrev_btn"),
+        REBOOT("btnReboot_btn"),
         SAVE("btnSave_btn"),
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
-        SIMPLE_VIEW("btnTabView_btn"),
+        SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
+        SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
         SHOW_ON_MAP("btnMap_btn"),
         SHOW_TRACE("btnShowTrace_btn"),
+        SIMPLE_VIEW("btnTabView_btn"),
         START("btnSendUpdate_btn"),
         STOP_TRACE("btnStopTrace_btn"),
         STOP("btnStop_btn"),
@@ -613,7 +759,7 @@ public class DeviceUpdatePage extends BasePage {
             this.id = id;
         }
 
-        private String id;
+        private final String id;
 
         public String getId() {
             return id;

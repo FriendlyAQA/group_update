@@ -217,10 +217,100 @@ public class DataBaseConnector {
         System.out.println(devices);
     }
 
+    public static Map<String, Set<String>> getCustomDeviceInfoByColumn(String column, boolean exactMatchOnly) {
+        Map<String, Set<String>> out = new HashMap<>();
+        if (column.equalsIgnoreCase("ACS Username")) {
+            List<String> list = new ArrayList<>(getValueSet("SELECT value FROM `ftacs`.`cpe_parameter` WHERE name_id IN (SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE '%Device.ManagementServer.Username')"));
+            list.removeAll(Collections.singleton(null));
+            list.sort(Comparator.reverseOrder());
+            if (list.isEmpty() || list.get(0).isEmpty()) {
+                return null;
+            }
+            String filter = list.get(0);
+            String request = "SELECT serial FROM `ftacs`.`cpe` WHERE id IN (" +
+                    "SELECT cpe_id FROM `ftacs`.`cpe_parameter` WHERE name_id IN (" +
+                    "SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE '%Device.ManagementServer.Username') and value = '" + filter + "')";
+            out.put(filter, getValueSet(request));
+            return out;
+        }
+        if (column.endsWith("address")) {
+            String ipOrMac = column.startsWith("IP") ? "'InternetGatewayDevice.WANDevice._.WANConnectionDevice._.WANPPPConnection._.ExternalIPAddress' OR name LIKE 'Device.IP.Interface._.IPv4Address._.IPAddress'" : "'%.MACAddress'";
+            List<String> list = new ArrayList<>(getValueSet("SELECT value FROM `ftacs`.`cpe_parameter` WHERE name_id IN (SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE " + ipOrMac + ")"));
+            list.removeAll(Collections.singleton(null));
+            list.sort(Comparator.reverseOrder());
+            if (list.isEmpty() || list.get(0).isEmpty()) {
+                return null;
+            }
+            String suffix, filter;
+            if (!exactMatchOnly && list.get(0).length() > 5) {
+                filter = list.get(0).substring(0, 5);
+                suffix = "LIKE '%" + filter + "%')";
+            } else {
+                filter = list.get(0);
+                suffix = "= '" + filter + "')";
+            }
+            String request = "SELECT serial FROM `ftacs`.`cpe` WHERE id IN (" +
+                    "SELECT cpe_id FROM `ftacs`.`cpe_parameter` WHERE name_id IN (" +
+                    "SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE " + ipOrMac + ") AND value " + suffix;
+            out.put(filter, getValueSet(request));
+            return out;
+        }
+        if (column.equalsIgnoreCase("serial")) {
+            List<String> list = new ArrayList<>(getValueSet("SELECT serial FROM `ftacs`.`cpe`;"));
+            list.removeAll(Collections.singleton(null));
+            list.sort(Comparator.reverseOrder());
+            if (list.isEmpty() || list.get(0).isEmpty()) {
+                return null;
+            }
+            String filter = list.get(0);
+            if (exactMatchOnly) {
+                out.put(filter, new HashSet<>(Collections.singletonList(filter)));
+                return out;
+            }
+            filter = filter.substring(0, 1);
+            out.put(filter, getValueSet("SELECT serial FROM `ftacs`.`cpe` WHERE serial LIKE '" + filter + "%';"));
+            return out;
+        }
+        if (exactMatchOnly) {
+            List<String> list = new ArrayList<>(getValueSet("SELECT " + column + " FROM `ftacs`.`cust_device1`"));
+            list.removeAll(Collections.singleton(null));
+            list.sort(Comparator.reverseOrder());
+            if (list.isEmpty() || list.get(0).isEmpty()) {
+                return null;
+            }
+            String filter = list.get(0);
+            String request = "SELECT serial FROM `ftacs`.`cust_device1` WHERE " + column + " = '" + filter + "';";
+            out.put(filter, getValueSet(request));
+            return out;
+        }
+
+        String match = null;
+        char[] chars = "0123456789abcdefghijklmnopqrstuvwxyz()*,-./".toCharArray();
+        for (char c : chars) {
+            String request = "SELECT serial FROM `ftacs`.`cust_device1` WHERE " + column + " LIKE '%" + c + "%';";
+            Set<String> deviceSet = getValueSet(request);
+            if (deviceSet.size() > 1) {
+                out.put(String.valueOf(c), deviceSet);
+                return out;
+            }
+            if (deviceSet.size() == 1) {
+                match = String.valueOf(c);
+            }
+        }
+        out.put(match, getValueSet("SELECT serial FROM `ftacs`.`cust_device1` WHERE " + column + " LIKE '%" + match + "%';"));
+        return out;
+    }
+
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getDeviceId("FT001SN0000500908F2d2158"));
-//        createFilterPreconditions("FT001SN000013196121001234");
+        long start = System.currentTimeMillis();
+        Map<String, Set<String>> map = getCustomDeviceInfoByColumn("telephone", false);
+        assert map != null;
+        Set<String> set = map.keySet();
+        for (String s : set) {
+            System.out.println(s + ":" + map.get(s));
+        }
+        System.out.println(System.currentTimeMillis() - start);
         disconnectDb();
     }
 }

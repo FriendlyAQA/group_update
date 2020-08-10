@@ -30,6 +30,7 @@ public class CalendarUtil {
     }
 
     public static String getCsvFileFormat(Date date) {
+        System.out.println("date:" + date);
         return csvFileFormat.format(date);
     }
 
