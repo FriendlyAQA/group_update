@@ -640,7 +640,7 @@ public class GroupUpdatePage extends BasePage {
                 waitForUpdate();
                 editGroupButton();
                 try {
-                    globalButtons(DELETE_GROUP);
+                    bottomMenu(DELETE_GROUP);
                 } catch (NoSuchElementException e) {
                     switchToPreviousFrame();
                     executeScript("SelectSendTp();");
@@ -653,7 +653,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage globalButtons(GlobalButtons button) {
+    public GroupUpdatePage bottomMenu(GlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -683,7 +683,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage nextSaveAndActivate(boolean waitForCompleted) {
-        globalButtons(NEXT);
+        bottomMenu(NEXT);
         return saveAndActivate(waitForCompleted);
     }
 
@@ -692,7 +692,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage saveAndActivate(boolean waitForCompleted) {
-        globalButtons(SAVE_AND_ACTIVATE);
+        bottomMenu(SAVE_AND_ACTIVATE);
         okButtonPopUp();
         if (waitForCompleted) {
             waitForStatus("Completed", 30);
@@ -899,7 +899,7 @@ public class GroupUpdatePage extends BasePage {
                 .createGroupButton()
                 .fillName()
                 .pause(1000)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addFilter();
         return this;
     }
@@ -932,7 +932,7 @@ public class GroupUpdatePage extends BasePage {
             selectTab(tab);
         }
         if (advancedView) {
-            globalButtons(ADVANCED_VIEW);
+            bottomMenu(ADVANCED_VIEW);
         }
         return this;
     }
@@ -944,16 +944,16 @@ public class GroupUpdatePage extends BasePage {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .scheduledToRadioButton()
                 .setDelay(10)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .selectTab(tab)
                 .setParameter(2)
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup();
@@ -967,17 +967,17 @@ public class GroupUpdatePage extends BasePage {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .scheduledToRadioButton()
                 .setDelay(10)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addNewTask("Policy")
                 .addTaskButton()
                 .waitForUpdate()
                 .selectTab(tab)
                 .setPolicy(3)
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
@@ -991,16 +991,16 @@ public class GroupUpdatePage extends BasePage {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .scheduledToRadioButton()
                 .setDelay(10)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addNewTask("Get parameter")
                 .addTaskButton()
                 .selectTab(tab)
                 .getParameter(1, column)
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
@@ -1014,16 +1014,16 @@ public class GroupUpdatePage extends BasePage {
                 .selectModel()
                 .fillName()
                 .selectSendTo()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .scheduledToRadioButton()
                 .setDelay(10)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
                 .customRpcRadioButton()
                 .selectMethod(method)
-                .globalButtons(NEXT)
-                .globalButtons(SAVE)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
@@ -1048,7 +1048,7 @@ public class GroupUpdatePage extends BasePage {
             selectTab(tab);
         }
         if (advancedView) {
-            globalButtons(ADVANCED_VIEW);
+            bottomMenu(ADVANCED_VIEW);
         }
         return this;
     }
@@ -1082,9 +1082,9 @@ public class GroupUpdatePage extends BasePage {
                 .selectModel()
                 .fillName(BaseTestCase.getTestName())
                 .selectSendTo()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .immediately()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addNewTask(taskName)
                 .addTaskButton();
         return this;
@@ -1103,7 +1103,7 @@ public class GroupUpdatePage extends BasePage {
         while (noDataFound.size() == 0) {
             switchToFrame(DESKTOP);
             getMainTable().clickOn(0, 0);
-            globalButtons(DELETE)
+            bottomMenu(DELETE)
                     .okButtonPopUp();
         }
         return this;

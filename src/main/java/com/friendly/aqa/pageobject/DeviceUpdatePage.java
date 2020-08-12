@@ -5,8 +5,10 @@ import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.entities.TopMenu;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -68,6 +70,18 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "rdDelAll")
     private WebElement deleteAllRButton;
+
+    @FindBy(id = "btnClearAll_btn")
+    private WebElement clearAllRButton;
+
+    @FindBy(id = "lblReplaceCpeHeader")
+    private WebElement replaceHeader;
+
+    @FindBy(id = "btnEditUserInfo_lnk")
+    private WebElement editAccountInfoLink;
+
+    @FindBy(id = "pager2_lblPagerTotal")
+    private WebElement pager;
 
 
     @Override
@@ -362,7 +376,7 @@ public class DeviceUpdatePage extends BasePage {
                 System.out.println("filter does not exist, go to create new one");
             }
         }
-        clickOn("btnEditUserInfo_lnk");
+        editAccountInfoLink.click();
         switchToFrame(POPUP);
         WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
         setUserInfo(parameter, value);
@@ -379,38 +393,85 @@ public class DeviceUpdatePage extends BasePage {
         String[] serials = mainTable.getColumn("Serial");
         for (String serial : serials) {
             mainTable.clickOn(serial);
-            clickOn("btnEditUserInfo_lnk");
-            switchToFrame(POPUP);
-            Table userInfoTable = getTable("tblMain", 18, true);
-            String[] items = userInfoTable.getWholeColumn(0);
-            for (int i = 0; i < items.length; i++) {
-                String item = items[i];
-                if (userInfoTable.getInputText(i, 1).isEmpty()) {
-                    setUserInfo(userInfoTable, item, getRandomStringValue(10));
-                }
-            }
-            try {
-                waitUntilElementIsEnabled("btnSaveUsr_btn");
-                saveButton.click();
-                okButtonPopUp();
-                pause(500);
-                waitForUpdate();
-            } catch (AssertionError e) {
-                cancelButton.click(); // in case no one item has been changed
-            }
+            setAllUserInfo();
             topMenu(DEVICE_UPDATE);
             mainTable = getMainTable();
         }
     }
 
-    public DeviceUpdatePage enterToDevice() {
+    public DeviceUpdatePage setAllUserInfo() {
+        editAccountInfoLink.click();
+        switchToFrame(POPUP);
+        Table userInfoTable = getTable("tblMain", 18, true);
+        String[] items = userInfoTable.getWholeColumn(0);
+        for (int i = 0; i < items.length; i++) {
+            String item = items[i];
+            if (userInfoTable.getInputText(i, 1).isEmpty()) {
+                setUserInfo(userInfoTable, item, getRandomStringValue(10));
+            }
+        }
         try {
-            getMainTable().clickOn(getSerial());
+            waitUntilElementIsEnabled("btnSaveUsr_btn");
+            saveButton.click();
+            okButtonPopUp();
+            pause(500);
+            waitForUpdate();
+        } catch (AssertionError e) {
+            cancelButton.click(); // in case no one item has been changed
+        } finally {
+            switchToFrame(DESKTOP);
+        }
+        return this;
+    }
+
+    public DeviceUpdatePage enterToDevice() {
+        return enterToDevice(getSerial(), getMainTable());
+    }
+
+    public DeviceUpdatePage editAccountInfoLink() {
+        editAccountInfoLink.click();
+        return this;
+    }
+
+    public DeviceUpdatePage clearUserInfo() {
+        switchToFrame(POPUP);
+        clearAllRButton.click();
+        okButtonPopUp();
+        return this;
+    }
+
+    public void assertAccountInfoIsClear() {
+        Timer timer = new Timer();
+        while (!timer.timeout()) {
+            Table table = getTable("tblUserInfo");
+            if (table.getTableSize()[0] == 0) {
+                return;
+            }
+        }
+        throw new AssertionError("Account info is not empty!");
+    }
+
+    public DeviceUpdatePage enterToAnyDevice() {
+        Table table = getMainTable();
+        String[] serials = table.getColumn("Serial");
+        for (String serial : serials) {
+            if (!getSerial().equals(serial)) {
+                parameterSet = new HashSet<>();
+                parameterSet.add(serial);
+                return enterToDevice(serial, getMainTable());
+            }
+        }
+        throw new AssertionError("there are no suitable devices to be selected!");
+    }
+
+    public DeviceUpdatePage enterToDevice(String serial, Table table) {
+        try {
+            table.clickOn(serial);
             pause(500);
         } catch (AssertionError e) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();
-            getTable("tbl").clickOn(getSerial());
+            getMainTable().clickOn(serial);
         }
         waitForUpdate();
         return this;
@@ -451,14 +512,43 @@ public class DeviceUpdatePage extends BasePage {
         input.sendKeys(value);
     }
 
-    public DeviceUpdatePage globalButtons(GlobalButtons button) {
+    public DeviceUpdatePage bottomMenu(GlobalButtons button) {
         clickGlobalButtons(button);
+        return this;
+    }
+
+    public DeviceUpdatePage setParameter(String parameter, String value) {
+        waitForUpdate();
+        Table table = getTable("tblParamsTable");
+        int rowNum = table.getRowNumberByText(parameter);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(rowNum);
+        WebElement paramCell = table.getCellWebElement(rowNum, 1);
+//        if (props.getProperty("browser").equals("edge")) {
+//            scrollToElement(paramCell);
+//        }
+        if (value != null) {
+            waitForUpdate();
+            WebElement input = paramCell.findElement(By.tagName("input"));
+            input.clear();
+            input.sendKeys(value);
+        }
+        parameterMap.put(hint, value);
+        if (!BROWSER.equals("edge")) {
+            table.clickOn(0, 0);
+        }
         return this;
     }
 
     @Override
     public DeviceUpdatePage okButtonPopUp() {
         return (DeviceUpdatePage) super.okButtonPopUp();
+    }
+
+    public DeviceUpdatePage selectTab(String tab) {
+        return (DeviceUpdatePage) super.selectTab(tab);
     }
 
     @Override
@@ -492,10 +582,7 @@ public class DeviceUpdatePage extends BasePage {
     public void assertAbsenceOfValue() {
         String value = parameterSet.iterator().next();
         waitForUpdate();
-        if (elementIsPresent("btnPager2") && elementIsPresent("ddlPageSizes")) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
-        }
+        verifySinglePage();
         if (getMainTable().contains(value)) {
             throw new AssertionError("Value '" + value + "' still present in the table!");
         }
@@ -511,10 +598,13 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage clearDeviceActivity() {
         leftMenu(Left.DEVICE_ACTIVITY);
-        waitForUpdate1();
-        waitUntilButtonIsDisplayed(DELETE);
+        waitForUpdate();
+        if (pager.getText().equals("No records found")) {
+            return this;
+        }
+        waitUntilButtonIsDisplayed(REFRESH);
         deleteAllRButton.click();
-        globalButtons(DELETE);
+        bottomMenu(DELETE);
         okButtonPopUp();
         return this;
     }
@@ -587,7 +677,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertExportEntryListIsEmpty() {
         switchToFrame(POPUP);
-        if (!findElement("pager2_lblPagerTotal").getText().equals("No data found")) {
+        if (!pager.getText().equals("No data found")) {
             throw new AssertionError("List of exports is not empty!");
         }
         closeButton.click();
@@ -642,7 +732,7 @@ public class DeviceUpdatePage extends BasePage {
                         if (elementIsAbsent("pager2_lblPagerTotal")) {
                             throw new AssertionError(error + "1");
                         }
-                        if (!findElement("pager2_lblPagerTotal").getText().equals("Total:")) {
+                        if (!pager.getText().equals("Total:")) {
                             throw new AssertionError(error + "0");
                         }
                         Table table = getMainTable();
@@ -659,7 +749,7 @@ public class DeviceUpdatePage extends BasePage {
                 lookFor("*wrong*");
                 clickOn("tbDeviceID");
                 searchButton();
-                if (elementIsAbsent("pager2_lblPagerTotal") || !findElement("pager2_lblPagerTotal").getText().equalsIgnoreCase("No data found")) {
+                if (elementIsAbsent("pager2_lblPagerTotal") || !pager.getText().equalsIgnoreCase("No data found")) {
                     throw new AssertionError("Unexpected search result! Expected: empty list (No data found)");
                 }
                 return;
@@ -702,6 +792,104 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
+    private void assertWindowIsOpened(String validText) {
+        switchToFrame(POPUP);
+        new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT * 2))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.textToBePresentInElementValue(By.id("txtResponse"), validText));
+        closeButton.click();
+        switchToPreviousFrame();
+    }
+
+    public void assertPingWindowIsOpened() {
+        assertWindowIsOpened("Ping statistics for");
+    }
+
+    public void assertTracerouteWindowIsOpened() {
+        assertWindowIsOpened("Trace complete");
+    }
+
+    public void assertReplaceWindowIsOpened() {
+        switchToFrame(POPUP);
+        assertPresenceOfElements("lblReplaceCpeHeader");
+        cancelButton.click();
+        switchToPreviousFrame();
+    }
+
+    private void deviceInfoFakeLink(String link) {
+        Table table = getTable("tblDeviceInfo");
+        int row = table.getRowNumberByText(0, link);
+        table.clickOn(row, 1, 0);
+    }
+
+    public DeviceUpdatePage listOfMethods() {
+        deviceInfoFakeLink("List of methods:");
+        return this;
+    }
+
+    public DeviceUpdatePage networkMap() {
+        deviceInfoFakeLink("Network map:");
+        return this;
+    }
+
+    public DeviceUpdatePage assertMapIsPresent() {
+        switchToFrame(POPUP);
+        assertPresenceOfElements("tblBig");
+        switchToPreviousFrame();
+        return this;
+    }
+
+    public DeviceUpdatePage assertMethodIsPresent(String methodName) {
+        switchToFrame(POPUP);
+        Table table = getTable("tblFunctions");
+        table.assertPresenceOfValue(0, methodName);
+        switchToPreviousFrame();
+        return this;
+    }
+
+    public void validateAbsenceTaskWithValue(String value) {
+        String[] col = getTable("tblParameters").getColumn("Value");
+        if (Arrays.asList(col).contains(value)) {
+            throw new AssertionError("Task with value '" + value + "' is present in the list!");
+        }
+    }
+
+    public DeviceUpdatePage validateTasks() {
+        verifySinglePage();
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
+        }
+        return this;
+    }
+
+    public void validateProvisionTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
+        }
+    }
+
+    public DeviceUpdatePage storePath() {
+        waitForUpdate();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String path = getElementText("divPath") + '.';
+        parameterMap.put("Get parameter attributes", path);
+        parameterMap.put("Get parameter values", path);
+        parameterMap.put("Get parameter names", path);
+        return this;
+    }
+
+    public void validateGeneratedGets() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+        }
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
@@ -722,6 +910,7 @@ public class DeviceUpdatePage extends BasePage {
     public enum GlobalButtons implements IGlobalButtons {
 
         ACTIVATE("btnActivate_btn"),
+        ADD_TO_PROVISION("addToProvision"),
         ADVANCED_VIEW("btnAdvView_btn"),
         CANCEL("btnCancel_btn"),
         CREATE_TEMPLATE("btnCreateProfile_btn"),
@@ -730,6 +919,7 @@ public class DeviceUpdatePage extends BasePage {
         DELETE_GROUP("btnDeleteView_btn"),
         DUPLICATE("btnDuplicate_btn"),
         EDIT("btnEdit_btn"),
+        EDIT_SETTINGS("UcDeviceSettingsControls1_btnChange_btn"),
         EXPORTS("btnCompletedExports_btn"),
         EXPORT_TO_CSV("btnExport_btn"),
         EXPORT_TO_XML("btnExport2XML_btn"),
@@ -739,21 +929,27 @@ public class DeviceUpdatePage extends BasePage {
         NEXT("btnNext_btn"),
         PAUSE("btnPause_btn"),
         REFRESH("btnRefresh_btn"),
+        REPLACE("btnReplaceCpe_btn"),
         REPROVISION("btnCPEReprovision_btn"),
+        PING("btnPing_btn"),
         PREVIOUS("btnPrev_btn"),
         REBOOT("btnReboot_btn"),
         SAVE("btnSave_btn"),
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
         SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
         SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
+        SEND_UPDATE("UcDeviceSettingsControls1_btnSendUpdate_btn"),
         SHOW_ON_MAP("btnMap_btn"),
         SHOW_TRACE("btnShowTrace_btn"),
         SIMPLE_VIEW("btnTabView_btn"),
         START("btnSendUpdate_btn"),
+        START_TRACE("btnSetTrace_btn"),
         STOP_TRACE("btnStopTrace_btn"),
         STOP("btnStop_btn"),
         STOP_WITH_RESET("btnStopWithReset_btn"),
-        TRACE("btnTrace_btn");
+        TRACE("btnTrace_btn"),
+        TRACE_ROUTE("btnTracert_btn"),
+        WAIT_UNTIL_CONNECT("rbWait");
 
         GlobalButtons(String id) {
             this.id = id;
@@ -766,4 +962,100 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
+
+    private void setParameter(Table table, String paramName, String value) {
+        int row = table.getRowNumberByText(paramName);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String hint = table.getHint(row);
+        WebElement input = null;
+        WebElement select = null;
+        setImplicitlyWait(0);
+        List<WebElement> inputList = table.getCellWebElement(row, 1).findElements(By.tagName("input"));
+        if (inputList.size() > 0) {
+            input = inputList.get(0);
+        } else {
+            List<WebElement> selectList = table.getCellWebElement(row, 1).findElements(By.tagName("select"));
+            if (selectList.size() > 0) {
+                select = selectList.get(0);
+            }
+        }
+        setDefaultImplicitlyWait();
+        if (input != null && input.isEnabled()) {
+            if (input.getAttribute("type").equals("checkbox")) {
+                input.click();
+            } else if (!input.getAttribute("value").equals(value)) {
+                input.clear();
+                input.sendKeys(value + " ");
+                waitForUpdate();
+                input.sendKeys(Keys.BACK_SPACE);
+                waitForUpdate();
+            }
+            parameterMap.put(hint, value);
+        } else if (select != null && select.isEnabled()) {
+            selectComboBox(select, value);
+            parameterMap.put(hint, value);
+        }
+    }
+
+    public DeviceUpdatePage setParameter(String tab, int amount) {
+        if (tab != null) {
+            waitForUpdate();
+            selectTab(tab);
+        }
+        Table table = new Table("tblParamsTable");
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < Math.min(Math.abs(amount), names.length); i++) {
+            String hint = table.getHint(i + 1);
+            WebElement input = null;
+            WebElement select = null;
+            setImplicitlyWait(0);
+            List<WebElement> inputList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("input"));
+            if (inputList.size() > 0) {
+                if (!inputList.get(0).isEnabled()) {
+                    amount++;
+                    continue;
+                }
+                input = inputList.get(0);
+            } else {
+                List<WebElement> selectList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("select"));
+                if (selectList.size() > 0) {
+                    if (!selectList.get(0).isEnabled()) {
+                        amount++;
+                        continue;
+                    }
+                    select = selectList.get(0);
+                }
+            }
+            setDefaultImplicitlyWait();
+            String value = "";
+            if (input != null) {
+                if (input.getAttribute("type").equals("text")) {
+                    if (names[i].equalsIgnoreCase("password") || names[i].equalsIgnoreCase("KeyPassphrase")) {
+                        value = "*****";
+                    } else {
+                        String currentValue = input.getAttribute("value");
+                        String s = generateValue(hint, amount < 0 ? (int) (10000 * Math.random()) : i + 1);
+                        value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
+                    }
+                } else {
+                    value = input.isSelected() ? "0" : "1";
+                }
+            } else if (select != null) {
+                String selected = getSelectedValue(select);
+                value = selected;
+                for (String opt : getOptionList(select)) {
+                    if (!opt.equals(selected)) {
+                        value = opt;
+                        break;
+                    }
+                }
+            }
+            setParameter(table, names[i], value);
+            table.clickOn(i, 2);
+            waitForUpdate();
+        }
+        return this;
+    }
 }

@@ -49,8 +49,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertTableHasContent(String id) {
-        return (DeviceProfilePage) super.assertTableHasContent(id);
+    public DeviceProfilePage assertTableHasContent(String tableId) {
+        return (DeviceProfilePage) super.assertTableHasContent(tableId);
     }
 
     @Override
@@ -83,7 +83,6 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "frmSubFrame")
     private WebElement subFrame;
-
 
     @FindBy(id = "ddlModelName")
     private WebElement filterModelNameComboBox;
@@ -172,11 +171,6 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
     private WebElement instanceCombobox;
 
-
-    public DeviceProfilePage setParameter(int amount) {
-        setParameter(null, amount);
-        return this;
-    }
 
     public DeviceProfilePage setAnyAdvancedParameter() {
         selectAnotherBranch();
@@ -272,7 +266,7 @@ public class DeviceProfilePage extends BasePage {
             selectComboBox(conditionComboBox, testName);
             editConditionButton();
             inputText(testName, DELETE_CONDITION);
-            globalButtons(DELETE_CONDITION);
+            bottomMenu(DELETE_CONDITION);
             okButtonPopUp();
         }
         waitForUpdate();
@@ -452,6 +446,11 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    public DeviceProfilePage setParameter(int amount) {
+        setParameter(null, amount);
+        return this;
+    }
+
     public DeviceProfilePage setParameter(String tab, int amount) {
         return setParameter(tab, amount, true);
     }
@@ -469,14 +468,25 @@ public class DeviceProfilePage extends BasePage {
             String hint = table.getHint(i + 1);
             WebElement input = null;
             WebElement select = null;
-            setImplicitlyWait(1);
-            try {
-                input = table.getInput(i + 1, 1);
-            } catch (NoSuchElementException e) {
-                select = table.getSelect(i + 1, 1);
-            } finally {
-                setDefaultImplicitlyWait();
+            setImplicitlyWait(0);
+            List<WebElement> inputList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("input"));
+            if (inputList.size() > 0) {
+                input = inputList.get(0);
+            } else {
+                List<WebElement> selectList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("select"));
+                if (selectList.size() > 0) {
+                    select = selectList.get(0);
+                }
             }
+//            setImplicitlyWait(1);
+//            try {
+//                input = table.getInput(i + 1, 1);
+//            } catch (NoSuchElementException e) {
+//                select = table.getSelect(i + 1, 1);
+//            } finally {
+//                setDefaultImplicitlyWait();
+//            }
+            setDefaultImplicitlyWait();
             String value = "";
             if (input != null) {
                 if (input.getAttribute("type").equals("text")) {
@@ -617,7 +627,7 @@ public class DeviceProfilePage extends BasePage {
         int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        super.checkAddedTask(parameter, value, 1);
+        super.checkAddedTask("tblTasks", parameter, value, 1);
     }
 
     @Override
@@ -983,7 +993,7 @@ public class DeviceProfilePage extends BasePage {
         } else if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
             return;
         }
-        System.out.println("!!!:"+webNameSet);
+        System.out.println("!!!:" + webNameSet);
         String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
         logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
@@ -1200,7 +1210,7 @@ public class DeviceProfilePage extends BasePage {
                 .enterToDevice();
         if (advancedView) {
             dUPage
-                    .globalButtons(DeviceUpdatePage.GlobalButtons.REPROVISION)
+                    .bottomMenu(DeviceUpdatePage.GlobalButtons.REPROVISION)
                     .okButtonPopUp()
                     .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW);
         } else {
@@ -1297,7 +1307,7 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage globalButtons(GlobalButtons button) {
+    public DeviceProfilePage bottomMenu(GlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }

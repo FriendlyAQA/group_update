@@ -2,6 +2,7 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -46,10 +47,10 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
-                .globalButtons(NEXT)
-                .globalButtons(CANCEL)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
                 .assertButtonsAreEnabled(false, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH, TRACE, EXPORT_TO_CSV, EXPORT_TO_XML, EXPORTS, SHOW_ON_MAP);
@@ -61,7 +62,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName("Default")
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .assertDuplicateNameErrorIsDisplayed();
     }
 
@@ -71,13 +72,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertInputHasText("txtName", getTestName())
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 1)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 1)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, -2);
     }
@@ -88,14 +89,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 1)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .setViewColumns(1, 1)
                 .setViewColumns(2, 2)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, 1, -3);
     }
@@ -106,13 +107,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(2, 2)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .setViewColumns(3, 4)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2, 3, 4)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, 1, -5);
     }
@@ -123,14 +124,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 2)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .downButton()
                 .saveTable("tbl")
-                .globalButtons(PREVIOUS)
-                .globalButtons(NEXT)
+                .bottomMenu(PREVIOUS)
+                .bottomMenu(NEXT)
                 .compareTable("tbl");
     }
 
@@ -140,9 +141,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 3)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
                 .downButton()
@@ -161,19 +162,19 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns("Model name")
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("Model name")
                 .selectCompare("=")
                 .selectFilterModelName(BasePage.getModelName())
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .clickOnTable("tblTree", 0, 0, 1)
-                .globalButtons(CANCEL)
-                .globalButtons(FINISH)
+                .bottomMenu(CANCEL)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .validateViewColumns();
     }
@@ -184,15 +185,15 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("tr069_du_011")
                 .editButton()
-                .globalButtons(NEXT)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
                 .clickOnTable("tblTree", 0, 0, 1)
                 .addSubFilter()
                 .selectColumnFilter("Created")
                 .andRadioButton()
                 .selectCompare("Is not null")
-                .globalButtons(NEXT)
-                .globalButtons(FINISH)
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertColumnHasSingleValue("Model name", BasePage.getModelName());
     }
@@ -203,12 +204,12 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("tr069_du_011")
                 .editButton()
-                .globalButtons(NEXT)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
                 .deleteFilter()
                 .okButtonPopUp()
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertColumnHasSeveralValues("Model name");
     }
@@ -219,9 +220,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 99)
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .validateViewColumns();
     }
@@ -518,7 +519,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("tr069_du_014")
                 .editButton()
-                .globalButtons(CANCEL)
+                .bottomMenu(CANCEL)
                 .assertSelectedViewIs("tr069_du_014");
     }
 
@@ -529,7 +530,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectView("tr069_du_014")
                 .editButton()
                 .defaultViewForCurrentUserCheckbox()
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectView("Default")
                 .topMenu(GROUP_UPDATE)
@@ -539,7 +540,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectView("Default")
                 .editButton()
                 .defaultViewForCurrentUserCheckbox()
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp();
     }
 
@@ -580,7 +581,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("tr069_du_014")
                 .editButton()
-                .globalButtons(DELETE_GROUP)
+                .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "tr069_du_014");
@@ -592,9 +593,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterModelName(BasePage.getModelName())
                 .selectAnyDevice()
-                .globalButtons(DELETE)
+                .bottomMenu(DELETE)
                 .cancelButtonPopUp()
-                .globalButtons(DELETE)
+                .bottomMenu(DELETE)
                 .okButtonPopUp()
                 .assertAbsenceOfValue();
     }
@@ -604,7 +605,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .saveTable("tbl")
-                .globalButtons(REFRESH)
+                .bottomMenu(REFRESH)
                 .assertPageWasRefreshed();
     }
 
@@ -612,14 +613,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_053() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(TRACE)
+                .bottomMenu(TRACE)
                 .inputSerial()
-                .globalButtons(START)
+                .bottomMenu(START)
                 .okButtonPopUp()
                 .enterToDevice()
-                .globalButtons(SHOW_TRACE)
+                .bottomMenu(SHOW_TRACE)
                 .assertTraceWindowIsOpened()
-                .globalButtons(STOP_TRACE)
+                .bottomMenu(STOP_TRACE)
                 .okButtonPopUp()/*
                 .leftMenu(LIST)*/;
     }
@@ -628,7 +629,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_054() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(EXPORT_TO_CSV)
+                .bottomMenu(EXPORT_TO_CSV)
                 .saveFileName()
                 .okButtonPopUp();
     }
@@ -637,7 +638,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_055() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(EXPORT_TO_XML)
+                .bottomMenu(EXPORT_TO_XML)
                 .saveFileName()
                 .okButtonPopUp();
     }
@@ -646,7 +647,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_056() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(EXPORTS)
+                .bottomMenu(EXPORTS)
                 .checkSavedExport("csv", "xml");
     }
 
@@ -654,7 +655,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_057() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(EXPORTS)
+                .bottomMenu(EXPORTS)
                 .deleteExportEntry()
                 .okButtonPopUp()
                 .refreshButton()
@@ -668,7 +669,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_058() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .globalButtons(SHOW_ON_MAP)
+                .bottomMenu(SHOW_ON_MAP)
                 .closeMapWindow();
     }
 
@@ -690,11 +691,11 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertInputHasText("txtName", getTestName())
-                .globalButtons(NEXT)
-                .globalButtons(CANCEL)
+                .bottomMenu(NEXT)
+                .bottomMenu(CANCEL)
                 .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
 
@@ -705,7 +706,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName("Default")
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .assertDuplicateNameErrorIsDisplayed();
     }
 
@@ -716,13 +717,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertInputHasText("txtName", getTestName())
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 1)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 1)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, -2);
     }
@@ -734,14 +735,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 1)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .setViewColumns(1, 1)
                 .setViewColumns(2, 2)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, 1, -3);
     }
@@ -753,13 +754,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(2, 2)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .setViewColumns(3, 4)
-                .globalButtons(NEXT)
-                .globalButtons(PREVIOUS)
+                .bottomMenu(NEXT)
+                .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2, 3, 4)
                 .assertCheckboxesAreSelected("tblFilter", false, 1, 1, -5);
     }
@@ -771,14 +772,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 2)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .downButton()
                 .saveTable("tbl")
-                .globalButtons(PREVIOUS)
-                .globalButtons(NEXT)
+                .bottomMenu(PREVIOUS)
+                .bottomMenu(NEXT)
                 .compareTable("tbl");
     }
 
@@ -789,9 +790,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 3)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
                 .downButton()
@@ -802,7 +803,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
                 .topButton()
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
                 .lookFor(getSerial())
@@ -817,12 +818,12 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 99)
-                .globalButtons(NEXT)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
                 .sortByColumn("Created")
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
@@ -837,13 +838,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 99)
-                .globalButtons(NEXT)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
                 .sortByColumn("Created")
                 .sortingOrder("Ascending")
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
@@ -858,13 +859,13 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 99)
-                .globalButtons(NEXT)
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
                 .sortByColumn("Created")
                 .sortingOrder("Descending")
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
@@ -879,9 +880,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .newViewButton()
                 .fillName()
-                .globalButtons(NEXT)
+                .bottomMenu(NEXT)
                 .setViewColumns(1, 99)
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
                 .lookFor(getSerial().substring(0, 3))
@@ -1256,7 +1257,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("tr069_du_070")
                 .editButton()
-                .globalButtons(CANCEL)
+                .bottomMenu(CANCEL)
                 .assertSelectedViewIs("tr069_du_070");
     }
 
@@ -1268,7 +1269,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectView("tr069_du_070")
                 .editButton()
                 .defaultViewForCurrentUserCheckbox()
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectView("Default")
                 .topMenu(GROUP_UPDATE)
@@ -1279,7 +1280,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectView("Default")
                 .editButton()
                 .defaultViewForCurrentUserCheckbox()
-                .globalButtons(FINISH)
+                .bottomMenu(FINISH)
                 .okButtonPopUp();
     }
 
@@ -1290,7 +1291,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("tr069_du_069")
                 .editButton()
-                .globalButtons(DELETE_GROUP)
+                .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "tr069_du_069");
@@ -1476,7 +1477,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
                 .selectAnyDevice()
-                .globalButtons(DELETE)
+                .bottomMenu(DELETE)
                 .okButtonPopUp()
                 .assertAbsenceOfValue();
     }
@@ -1491,7 +1492,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
                 .saveTable("tbl")
-                .globalButtons(REFRESH)
+                .bottomMenu(REFRESH)
                 .compareTable("tbl");
     }
 
@@ -1504,11 +1505,11 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getPartialSerial(-4))
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
-                .globalButtons(SEARCH_EXPORT_TO_CSV)
+                .bottomMenu(SEARCH_EXPORT_TO_CSV)
                 .saveFileName()
                 .okButtonPopUp()
                 .leftMenu(LIST)
-                .globalButtons(EXPORTS)
+                .bottomMenu(EXPORTS)
                 .checkSavedExport("csv");
     }
 
@@ -1521,11 +1522,11 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getPartialSerial(-4))
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
-                .globalButtons(SEARCH_EXPORT_TO_XML)
+                .bottomMenu(SEARCH_EXPORT_TO_XML)
                 .saveFileName()
                 .okButtonPopUp()
                 .leftMenu(LIST)
-                .globalButtons(EXPORTS)
+                .bottomMenu(EXPORTS)
                 .checkSavedExport("xml");
     }
 
@@ -1544,9 +1545,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DEVICE_INFO)
-                .globalButtons(REBOOT)
+                .bottomMenu(REBOOT)
                 .cancelButtonPopUp()
-                .globalButtons(REBOOT)
+                .bottomMenu(REBOOT)
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
@@ -1559,9 +1560,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DEVICE_INFO)
-                .globalButtons(FACTORY_RESET)
+                .bottomMenu(FACTORY_RESET)
                 .cancelButtonPopUp()
-                .globalButtons(FACTORY_RESET)
+                .bottomMenu(FACTORY_RESET)
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
@@ -1574,9 +1575,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DEVICE_INFO)
-                .globalButtons(CREATE_TEMPLATE)
+                .bottomMenu(CREATE_TEMPLATE)
                 .cancelButtonPopUp()
-                .globalButtons(CREATE_TEMPLATE)
+                .bottomMenu(CREATE_TEMPLATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
@@ -1590,12 +1591,698 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
-                .globalButtons(REPROVISION)
+                .bottomMenu(REPROVISION)
                 .cancelButtonPopUp()
-                .globalButtons(REPROVISION)
+                .bottomMenu(REPROVISION)
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .assertActivityIsPresent("Profile: set parameter values");
+    }
+
+    @Test
+    public void tr069_du_135() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .bottomMenu(START_TRACE)
+                .okButtonPopUp()
+                .bottomMenu(SHOW_TRACE)
+                .assertTraceWindowIsOpened()
+                .bottomMenu(SHOW_TRACE)
+                .assertTraceWindowIsOpened();
+    }
+
+    //skipped: 136 (functional implemented in 135)
+
+
+    @Test
+    public void tr069_du_137() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .bottomMenu(PING)
+                .assertPingWindowIsOpened();
+    }
+
+    @Test
+    public void tr069_du_138() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .bottomMenu(TRACE_ROUTE)
+                .assertTracerouteWindowIsOpened();
+    }
+
+    @Test
+    public void tr069_du_139() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .bottomMenu(REPLACE)
+                .assertReplaceWindowIsOpened();
+    }
+
+    @Test
+    public void tr069_du_140() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToAnyDevice()
+                .bottomMenu(DELETE)
+                .cancelButtonPopUp()
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .assertAbsenceOfValue();
+    }
+
+    @Test
+    public void tr069_du_141() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .setAllUserInfo()
+                .editAccountInfoLink()
+                .clearUserInfo()
+                .assertAccountInfoIsClear();
+    }
+
+    @Test
+    public void tr069_du_142() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .listOfMethods()
+                .assertMethodIsPresent("SetParameterValues")
+                .closePopup();
+    }
+
+    @Test
+    public void tr069_du_143() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .networkMap()
+                .assertMapIsPresent()
+                .closePopup();
+    }
+
+    @Test
+    public void tr069_du_144() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformInterval, sec", "61")
+                .bottomMenu(SEND_UPDATE)
+                .cancelButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateAbsenceTaskWithValue("61");
+    }
+
+    @Test
+    public void tr069_du_145() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_146() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformInterval, sec", "61")
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_147() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformInterval, sec", "62")  //cannot set all params on Management tab due to the possibility of device disconnecting;
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_148() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_149() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_150() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .storePath()
+                .bottomMenu(GET_CURRENT)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateGeneratedGets();
+    }
+
+    @Test
+    public void tr069_du_151() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Information", 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_152() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Information", 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_153() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Information", 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_154() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+//                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Information", 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_155() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Time", 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_156() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Time", 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_157() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Time", 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_158() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+//                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("Time", 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_159() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("DSL settings", 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_160() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("DSL settings", 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_161() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("DSL settings", 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_162() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("DSL settings", 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_163() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("WAN", 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_164() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("WAN", 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_165() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("WAN", 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_166() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("WAN", 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    //skipped: 167, 168 due to "add/delete object" buttons are absent
+
+    @Test
+    public void tr069_du_169() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("LAN", 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_170() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("LAN", 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_171() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("LAN", 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_172() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .pause(1000)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("LAN", 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_173() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("Wireless")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_174() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("Wireless")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_175() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("Wireless")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_176() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("Wireless")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_177() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("VoIP settings")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 1)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_178() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("VoIP settings")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 2)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_179() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("VoIP settings")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 99)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_180() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .selectTab("VoIP settings")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter(null, 1)
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
     }
 }

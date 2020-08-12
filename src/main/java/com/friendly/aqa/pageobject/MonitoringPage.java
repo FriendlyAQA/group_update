@@ -35,7 +35,7 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.topMenu(value);
     }
 
-    public MonitoringPage globalButtons(GlobalButtons button) {
+    public MonitoringPage bottomMenu(GlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -224,7 +224,7 @@ public class MonitoringPage extends BasePage {
         waitForUpdate();
         hint1 = getParamTable().clickOn(param1, 1, 0).getHint(param1);
         immediately();
-        globalButtons(SAVE);
+        bottomMenu(SAVE);
         okButtonPopUp();
         enterIntoGroup();
         getTable("tblModels").clickOn(devices[0]);
@@ -288,7 +288,7 @@ public class MonitoringPage extends BasePage {
         if (advancedView) {
             if (isButtonActive(ADVANCED_VIEW)) {
                 getTabTable().clickOn("Management");
-                globalButtons(ADVANCED_VIEW);
+                bottomMenu(ADVANCED_VIEW);
                 waitForUpdate();
             }
             selectBranch(tab);
@@ -544,8 +544,8 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertTableHasContent(String id) {
-        return (MonitoringPage) super.assertTableHasContent(id);
+    public MonitoringPage assertTableHasContent(String tableId) {
+        return (MonitoringPage) super.assertTableHasContent(tableId);
     }
 
     public MonitoringPage cancelIndividualSelection() {

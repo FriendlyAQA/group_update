@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
+    private final static Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp).*?>(.*?)</(\\1)>");
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
@@ -20,13 +21,13 @@ public class Table {
     private boolean retryInit;
 
     public Table(WebElement table) {
-        long start = System.currentTimeMillis();
+//        long start = System.currentTimeMillis();
         this.table = table;
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
         parseTable();
-        System.out.println("Parsing completed in " + (System.currentTimeMillis() - start) + " ms");
+//        System.out.println("Parsing completed in " + (System.currentTimeMillis() - start) + " ms");
     }
 
     public Table(String id) {
@@ -85,8 +86,8 @@ public class Table {
 
     private static String getCellContent(String input) {
         String out = input;
-        Pattern p = Pattern.compile("<(div|span|a).*?>(.*?)</(\\1)>");
-        Matcher m = p.matcher(input);
+//        Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp).*?>(.*?)</(\\1)>");
+        Matcher m = cellTextPattern.matcher(input);
         while (m.find()) {
             out = getCellContent(m.group(2));
         }

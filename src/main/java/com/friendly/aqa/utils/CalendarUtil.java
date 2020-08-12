@@ -76,7 +76,7 @@ public class CalendarUtil {
         return fullDateFormat.format(new Date());
     }
 
-//    public static void main(String[] args) {
-//        System.out.println(csvFileFormat.format(new Date()));
-//    }
+    public static void main(String[] args) {
+        System.out.println(getDbShiftedDate(0));
+    }
 }

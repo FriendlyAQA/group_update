@@ -713,7 +713,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage globalButtons(IGlobalButtons button) {
+    public BasePage bottomMenu(IGlobalButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -721,7 +721,7 @@ public abstract class BasePage {
     public BasePage waitForStatus(String status, String testName, int timeout) {
         Timer timer = new Timer(timeout * 1000);
         while (!(getMainTable()).getCellText(testName, "State").equals(status)) {
-            globalButtons(REFRESH);
+            bottomMenu(REFRESH);
             if (timer.timeout()) {
                 throw new AssertionError("Timed out while waiting for status " + status);
             }
@@ -742,6 +742,10 @@ public abstract class BasePage {
         el.clear();
         el.sendKeys(text);
         return this;
+    }
+
+    public void closePopup() {
+        executeScript("PopupHide('cancel');");
     }
 
     public BasePage selectCompare(String option) {
@@ -828,7 +832,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage waitForUpdate() {
+    @SuppressWarnings("unused")
+    public BasePage waitForUpdate1() {
         switchToFrame(ROOT);
         pause(100);
         new FluentWait<>(driver)
@@ -840,15 +845,17 @@ public abstract class BasePage {
         return this;
     }
 
-    @SuppressWarnings("unused")
-    public BasePage waitForUpdate1() {   //TODO rework with ExpectedCondition
-        long start = System.currentTimeMillis();
+    public BasePage waitForUpdate() {   //TODO rework with ExpectedCondition
+        Timer timer = new Timer(30000);
         switchToFrame(ROOT);
         String style;
         do {
-            style = spinner.getAttribute("style");
             pause(100);
-        } while (!style.contains("display: none;") || System.currentTimeMillis() > start + 30000);
+            style = spinner.getAttribute("style");
+            if (style.contains("display: none;")) {
+                break;
+            }
+        } while (!timer.timeout());
         switchToPreviousFrame();
         return this;
     }
@@ -972,6 +979,13 @@ public abstract class BasePage {
     public BasePage assertPresenceOfValue(String tableId, int column, String value) {
         getTable(tableId).assertPresenceOfValue(column, value);
         return this;
+    }
+
+    protected void verifySinglePage() {
+        if (elementIsPresent("btnPager2") && elementIsPresent("ddlPageSizes")) {
+            selectComboBox(itemsOnPageComboBox, "200");
+            waitForUpdate();
+        }
     }
 
 //    public BasePage assertAbsenceOfValue(String tableId, String value) {
@@ -1334,8 +1348,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertTableHasContent(String id) {
-        Table table = getTable(id);
+    public BasePage assertTableHasContent(String tableId) {
+        Table table = getTable(tableId);
         if (table.getTableSize()[0] == 0) {
             throw new AssertionError("Unexpected table content (expected: not empty table)");
         }
@@ -1412,7 +1426,7 @@ public abstract class BasePage {
         return findElement(id).getAttribute(attr);
     }
 
-    public static String getElementText(String id) {
+    public String getElementText(String id) {
         return driver.findElement(By.id(id)).getText();
     }
 
@@ -1952,18 +1966,18 @@ public abstract class BasePage {
     }
 
     public BasePage checkAddedTask(String parameter, String value) {
-        return checkAddedTask(parameter, value, 0);
+        return checkAddedTask("tblTasks", parameter, value, 0);
     }
 
-    public BasePage checkAddedTask(String parameter, String value, int shift) {
-        Table table = getTable("tblTasks");
+    public BasePage checkAddedTask(String tableId, String parameter, String value, int shift) {
+        waitForUpdate();
+        Table table = getTable(tableId);
         Timer timer = new Timer();
         while ((table.getTableSize()[0] == 1 || table.getRowLength(1) < 2) && !timer.timeout()) {
-            table = getTable("tblTasks");
+            table = getTable(tableId);
         }
-        int[] tableSize = table.getTableSize();
         boolean match = false;
-        for (int i = 0; i < tableSize[0]; i++) {
+        for (int i = 0; i < table.getTableSize()[0]; i++) {
             try {
                 int length = table.getRowLength(i);
                 if (table.getCellText(i, length - 2 - shift).toLowerCase().equals(parameter.toLowerCase())
@@ -1978,6 +1992,7 @@ public abstract class BasePage {
         if (!match) {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
             table.print();
+            scrollTo(table.getCellWebElement(table.getTableSize()[0] - 1, 0));
             logger.warn('(' + BaseTestCase.getTestName() + ") " + warning);
             throw new AssertionError(warning);
         }
