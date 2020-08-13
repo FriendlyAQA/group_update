@@ -2,9 +2,12 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.pageobject.DeviceUpdatePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static com.friendly.aqa.entities.TopMenu.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
@@ -2285,4 +2288,170 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
+
+    @Test
+    public void tr069_du_181() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .validateObjectTree();
+    }
+
+    @Test
+    public void tr069_du_182() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_183() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks();
+    }
+
+    @Test
+    public void tr069_du_184() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionTasks();
+    }
+
+    @Test
+    public void tr069_du_185() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .bottomMenu(EDIT_TREE)
+                .selectTreeObject(true, 0)
+                .bottomMenu(STORE_TREE)
+                .okButtonPopUp();   //is validation needed??? How???
+    }
+
+    @Test
+    public void tr069_du_186() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .bottomMenu(EDIT_TREE)
+                .bottomMenu(CLEAR_TREE)
+                .bottomMenu(STORE_TREE)
+                .okButtonPopUp();   //is validation needed??? How???
+    }
+
+    @Test
+    public void tr069_du_187() throws IOException {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .bottomMenu(SAVE_PARAMETERS)
+                .validateCsvFile();
+    }
+
+    @Test
+    public void tr069_du_188() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Firmware Image")
+                .selectFromListRadioButton()
+                .selectFileName()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateFileTasks();
+    }
+
+    @Test
+    public void tr069_du_189() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Firmware Image")
+                .fillUrl()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateFileTasks();
+    }
+
+    @Test
+    public void tr069_du_190() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Vendor Configuration File")
+                .selectFromListRadioButton()
+                .selectFileName()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateFileTasks();
+    }
+
+    @Test
+    public void tr069_du_191() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Vendor Configuration File")
+                .fillUrl()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateFileTasks();
+    }
+
+    //skipped: 192 - cannot select File name dropdown;
 }

@@ -5,6 +5,7 @@ import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.entities.TopMenu;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -14,14 +15,18 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.Duration;
 import java.util.*;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.entities.TopMenu.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
 
 public class DeviceUpdatePage extends BasePage {
@@ -79,6 +84,12 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "btnEditUserInfo_lnk")
     private WebElement editAccountInfoLink;
+
+    @FindBy(id = "hlCollapseAll")
+    private WebElement collapseLink;
+
+    @FindBy(id = "hlExpandAll")
+    private WebElement expandLink;
 
     @FindBy(id = "pager2_lblPagerTotal")
     private WebElement pager;
@@ -247,6 +258,26 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage bottomButton() {
         return (DeviceUpdatePage) super.bottomButton();
     }
+
+    @Override
+    public DeviceUpdatePage selectDownloadFileType(String type) {
+        setImplicitlyWait(0);
+        List<WebElement> list = findElements("UcFirmware1_ddlFileType");
+        if (!list.isEmpty() && !list.get(0).isDisplayed()) {
+            bottomMenu(ADD);
+        }
+        return (DeviceUpdatePage) super.selectDownloadFileType(type);
+    }
+
+    @Override
+    public DeviceUpdatePage selectFromListRadioButton() {
+        return (DeviceUpdatePage) super.selectFromListRadioButton();
+    }
+
+//    @Override
+//    public DeviceUpdatePage manualRadioButton() {
+//        return (DeviceUpdatePage) super.manualRadioButton();
+//    }
 
     public DeviceUpdatePage searchButton() {
         waitUntilElementIsEnabled("btnSearch_btn");
@@ -848,127 +879,13 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public void validateAbsenceTaskWithValue(String value) {
-        String[] col = getTable("tblParameters").getColumn("Value");
-        if (Arrays.asList(col).contains(value)) {
-            throw new AssertionError("Task with value '" + value + "' is present in the list!");
-        }
-    }
-
-    public DeviceUpdatePage validateTasks() {
-        verifySinglePage();
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
-        }
-        return this;
-    }
-
-    public void validateProvisionTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
-        }
-    }
-
-    public DeviceUpdatePage storePath() {
-        waitForUpdate();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String path = getElementText("divPath") + '.';
-        parameterMap.put("Get parameter attributes", path);
-        parameterMap.put("Get parameter values", path);
-        parameterMap.put("Get parameter names", path);
-        return this;
-    }
-
-    public void validateGeneratedGets() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
-        }
-    }
-
-    public enum Left {
-        LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
-        PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
-        FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
-        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search");
-
-        private final String value;
-
-        Left(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
-    public enum GlobalButtons implements IGlobalButtons {
-
-        ACTIVATE("btnActivate_btn"),
-        ADD_TO_PROVISION("addToProvision"),
-        ADVANCED_VIEW("btnAdvView_btn"),
-        CANCEL("btnCancel_btn"),
-        CREATE_TEMPLATE("btnCreateProfile_btn"),
-        DEACTIVATE("btnDeactivate_btn"),
-        DELETE("btnDelete_btn"),
-        DELETE_GROUP("btnDeleteView_btn"),
-        DUPLICATE("btnDuplicate_btn"),
-        EDIT("btnEdit_btn"),
-        EDIT_SETTINGS("UcDeviceSettingsControls1_btnChange_btn"),
-        EXPORTS("btnCompletedExports_btn"),
-        EXPORT_TO_CSV("btnExport_btn"),
-        EXPORT_TO_XML("btnExport2XML_btn"),
-        FACTORY_RESET("btnReset_btn"),
-        FINISH("btnFinish_btn"),
-        GET_CURRENT("UcDeviceSettingsControls1_btnGetCurrent_btn"),
-        NEXT("btnNext_btn"),
-        PAUSE("btnPause_btn"),
-        REFRESH("btnRefresh_btn"),
-        REPLACE("btnReplaceCpe_btn"),
-        REPROVISION("btnCPEReprovision_btn"),
-        PING("btnPing_btn"),
-        PREVIOUS("btnPrev_btn"),
-        REBOOT("btnReboot_btn"),
-        SAVE("btnSave_btn"),
-        SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
-        SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
-        SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
-        SEND_UPDATE("UcDeviceSettingsControls1_btnSendUpdate_btn"),
-        SHOW_ON_MAP("btnMap_btn"),
-        SHOW_TRACE("btnShowTrace_btn"),
-        SIMPLE_VIEW("btnTabView_btn"),
-        START("btnSendUpdate_btn"),
-        START_TRACE("btnSetTrace_btn"),
-        STOP_TRACE("btnStopTrace_btn"),
-        STOP("btnStop_btn"),
-        STOP_WITH_RESET("btnStopWithReset_btn"),
-        TRACE("btnTrace_btn"),
-        TRACE_ROUTE("btnTracert_btn"),
-        WAIT_UNTIL_CONNECT("rbWait");
-
-        GlobalButtons(String id) {
-            this.id = id;
-        }
-
-        private final String id;
-
-        public String getId() {
-            return id;
-        }
-    }
-
-
     private void setParameter(Table table, String paramName, String value) {
         int row = table.getRowNumberByText(paramName);
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
         String hint = table.getHint(row);
+        parameterMap.put(hint, value);
         WebElement input = null;
         WebElement select = null;
         setImplicitlyWait(0);
@@ -985,6 +902,12 @@ public class DeviceUpdatePage extends BasePage {
         if (input != null && input.isEnabled()) {
             if (input.getAttribute("type").equals("checkbox")) {
                 input.click();
+            } else if (input.getAttribute("value").equals("*****")) {
+                input.clear();
+                input.sendKeys("" + (int) (Math.random() * 1000000));
+                waitForUpdate();
+                input.sendKeys(Keys.BACK_SPACE);
+                waitForUpdate();
             } else if (!input.getAttribute("value").equals(value)) {
                 input.clear();
                 input.sendKeys(value + " ");
@@ -992,10 +915,8 @@ public class DeviceUpdatePage extends BasePage {
                 input.sendKeys(Keys.BACK_SPACE);
                 waitForUpdate();
             }
-            parameterMap.put(hint, value);
         } else if (select != null && select.isEnabled()) {
             selectComboBox(select, value);
-            parameterMap.put(hint, value);
         }
     }
 
@@ -1057,5 +978,241 @@ public class DeviceUpdatePage extends BasePage {
             waitForUpdate();
         }
         return this;
+    }
+
+    public void validateAbsenceTaskWithValue(String value) {
+        String[] col = getTable("tblParameters").getColumn("Value");
+        if (Arrays.asList(col).contains(value)) {
+            throw new AssertionError("Task with value '" + value + "' is present in the list!");
+        }
+    }
+
+    public DeviceUpdatePage validateTasks() {
+        verifySinglePage();
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
+        }
+        return this;
+    }
+
+    public void validateProvisionTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
+        }
+    }
+
+    public void validateFileTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+        }
+    }
+
+    @Override
+    public DeviceUpdatePage selectBranch(String branch) {
+        return (DeviceUpdatePage) super.selectBranch(branch);
+    }
+
+    @Override
+    public DeviceUpdatePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
+        return (DeviceUpdatePage) super.selectTreeObject(clickOnCheckbox, objNum);
+    }
+
+    public DeviceUpdatePage selectFileName() {
+        waitForUpdate();
+        List<String> optList = getOptionList(fileNameComboBox);
+        String lastOpt = optList.get(optList.size() - 1);
+        selectComboBox(fileNameComboBox, lastOpt);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        parameterMap.put("Download", props.getProperty("upload_url") + '/' + lastOpt);
+        return this;
+    }
+
+    @Override
+    public DeviceUpdatePage fillUrl() {
+        fromListRadioButton.click();
+        List<String> optList = getOptionList(fileNameComboBox);
+        String lastOpt = optList.get(optList.size() - 1);
+        manualRadioButton();
+        String value = props.getProperty("upload_url") + '/' + lastOpt;
+        urlField.sendKeys(value);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        parameterMap.put("Download", value);
+        return this;
+    }
+
+    public void validateObjectTree() {
+        Timer timer = new Timer();
+        Table table = getTable("tblTree");
+        int defaultExpanded = table.getVisibleRowsNumber();
+        if (defaultExpanded < 2) {
+            throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
+        }
+        collapseLink.click();
+        table = getTable("tblTree");
+        if (table.getVisibleRowsNumber() != 1) {
+            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
+        }
+        setImplicitlyWait(0);
+        List<WebElement> images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
+        if (!images.isEmpty()) {
+            if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
+                throw new AssertionError("Expected top node icon is 'PLUS'!");
+            }
+        }
+        expandLink.click();
+        table = getTable("tblTree");
+        int allExpanded = table.getVisibleRowsNumber();
+        if (allExpanded < defaultExpanded) {
+            throw new AssertionError("Expanded objects number is less than default expanded tree it has" + defaultExpanded);
+        }
+        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
+        if (!images.isEmpty()) {
+            if (!images.get(0).getAttribute("src").endsWith("collapse.png")) {
+                throw new AssertionError("Expected top node icon is 'MINUS'!");
+            }
+        }
+        table.clickOn(0, 0, 0);
+        table = getTable("tblTree");
+        if (table.getVisibleRowsNumber() != 1) {
+            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
+        }
+        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
+        if (!images.isEmpty()) {
+            if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
+                throw new AssertionError("Expected top node icon is 'PLUS'!");
+            }
+        }
+        table.clickOn(0, 0, 0);
+        table = getTable("tblTree");
+        if (table.getVisibleRowsNumber() != allExpanded) {
+            throw new AssertionError("Expanded objects number is less than previous expanded tree it has" + defaultExpanded);
+        }
+        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
+        if (!images.isEmpty()) {
+            if (!images.get(0).getAttribute("src").endsWith("collapse.png")) {
+                throw new AssertionError("Expected top node icon is 'MINUS'!");
+            }
+        }
+        System.out.println(timer.stop() + "ms");
+    }
+
+    public void validateCsvFile() throws IOException {
+        Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        pause(1000);
+        if (robot != null) {
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+        }
+        if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/ExportParams.aspx?fileType=csv").contains(getModelName())) {
+            throw new AssertionError("Model Name not found in downloaded csv file!");
+        }
+    }
+
+    public DeviceUpdatePage storePath() {
+        waitForUpdate();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String path = getElementText("divPath") + '.';
+        parameterMap.put("Get parameter attributes", path);
+        parameterMap.put("Get parameter values", path);
+        parameterMap.put("Get parameter names", path);
+        return this;
+    }
+
+    public void validateGeneratedGets() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+        }
+    }
+
+    public enum Left {
+        LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
+        PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
+        FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
+        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search");
+
+        private final String value;
+
+        Left(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    public enum GlobalButtons implements IGlobalButtons {
+
+        ACTIVATE("btnActivate_btn"),
+        ADD("btnAdd_btn"),
+        ADD_TO_PROVISION("addToProvision"),
+        ADVANCED_VIEW("btnAdvView_btn"),
+        CANCEL("btnCancel_btn"),
+        CLEAR_TREE("UcDeviceSettingsControls1_btnClearTree_btn"),
+        CREATE_TEMPLATE("btnCreateProfile_btn"),
+        DEACTIVATE("btnDeactivate_btn"),
+        DELETE("btnDelete_btn"),
+        DELETE_GROUP("btnDeleteView_btn"),
+        DUPLICATE("btnDuplicate_btn"),
+        EDIT("btnEdit_btn"),
+        EDIT_SETTINGS("UcDeviceSettingsControls1_btnChange_btn"),
+        EDIT_TREE("UcDeviceSettingsControls1_btnEditTree_btn"),
+        EXPORTS("btnCompletedExports_btn"),
+        EXPORT_TO_CSV("btnExport_btn"),
+        EXPORT_TO_XML("btnExport2XML_btn"),
+        FACTORY_RESET("btnReset_btn"),
+        FINISH("btnFinish_btn"),
+        GET_CURRENT("UcDeviceSettingsControls1_btnGetCurrent_btn"),
+        NEXT("btnNext_btn"),
+        PAUSE("btnPause_btn"),
+        REFRESH("btnRefresh_btn"),
+        REPLACE("btnReplaceCpe_btn"),
+        REPROVISION("btnCPEReprovision_btn"),
+        PING("btnPing_btn"),
+        PREVIOUS("btnPrev_btn"),
+        REBOOT("btnReboot_btn"),
+        SAVE("btnSave_btn"),
+        SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
+        SAVE_PARAMETERS("UcDeviceSettingsControls1_btnSaveParameters_btn"),
+        SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
+        SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
+        SEND_UPDATE("UcDeviceSettingsControls1_btnSendUpdate_btn"),
+        SHOW_ON_MAP("btnMap_btn"),
+        SHOW_TRACE("btnShowTrace_btn"),
+        SIMPLE_VIEW("btnTabView_btn"),
+        START("btnSendUpdate_btn"),
+        START_TRACE("btnSetTrace_btn"),
+        STOP_TRACE("btnStopTrace_btn"),
+        STOP("btnStop_btn"),
+        STOP_WITH_RESET("btnStopWithReset_btn"),
+        STORE_TREE("UcDeviceSettingsControls1_btnSendTree_btn"),
+        TRACE("btnTrace_btn"),
+        TRACE_ROUTE("btnTracert_btn"),
+        WAIT_UNTIL_CONNECT("rbWait");
+
+        GlobalButtons(String id) {
+            this.id = id;
+        }
+
+        private final String id;
+
+        public String getId() {
+            return id;
+        }
     }
 }

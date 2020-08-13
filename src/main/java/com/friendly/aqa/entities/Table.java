@@ -468,6 +468,10 @@ public class Table {
         return textTable[rowNum];
     }
 
+    public int getVisibleRowsNumber() {
+        return (int) rowsList.stream().filter(WebElement::isDisplayed).count();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

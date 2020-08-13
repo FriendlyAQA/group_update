@@ -19,4 +19,8 @@ public class Timer {
     public boolean timeout() {
         return System.currentTimeMillis() - start > delay;
     }
+
+    public int stop() {
+        return (int) (System.currentTimeMillis() - start);
+    }
 }

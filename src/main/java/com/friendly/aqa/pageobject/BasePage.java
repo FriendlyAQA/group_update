@@ -1485,6 +1485,27 @@ public abstract class BasePage {
         throw new AssertionError("Checking column headers failed!");
     }
 
+    public BasePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
+        Table table = new Table("tblTree");
+        List<Integer> rows = table.getRowsWithInput(0);
+        while (rows.size() <= objNum) {
+            List<WebElement> expanders = table.getExpandableRowList();
+            if (expanders.size() == 0) {
+                throw new AssertionError("There are not enough clickable objects to finish this test case!");
+            }
+            expanders.get(0).click();
+            table = new Table("tblTree");
+            rows = table.getRowsWithInput(0);
+        }
+        table.clickOn(rows.get(objNum), 0, -1);
+        waitForUpdate();
+        if (clickOnCheckbox) {
+            table.clickOn(rows.get(objNum), 0, -2);
+            waitForUpdate();
+        }
+        return this;
+    }
+
     public BasePage selectBranch(String branch) {
         waitForUpdate();
         List<String> nodeList = new ArrayList<>();
