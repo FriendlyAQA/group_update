@@ -29,6 +29,10 @@ public class CalendarUtil {
         return csvFileFormat2.parse(date);
     }
 
+    public static String getDateByPattern(String pattern) {
+        return new SimpleDateFormat(pattern).format(new Date());
+    }
+
     public static String getCsvFileFormat(Date date) {
         System.out.println("date:" + date);
         return csvFileFormat.format(date);

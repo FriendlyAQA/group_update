@@ -295,6 +295,10 @@ public class Table {
         return textTable[row][column];
     }
 
+    public String getCellText(int row, String columnHeader) {
+        return getCellText(row, getColumnNumber(0, columnHeader));
+    }
+
     public void assertStartsWith(int row, int column, String expectedText) {
         if (column < 0) {
             column = textTable[row].length + column;
@@ -407,6 +411,18 @@ public class Table {
         return false;
     }
 
+    public int textCellMatches(String regex) {
+        for (int i = 0; i < textTable.length; i++) {
+            String[] rows = textTable[i];
+            for (String cell : rows) {
+                if (cell.toLowerCase().matches(regex)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
     public void assertPresenceOfParameter(String value) {
         for (String[] row : textTable) {
             int length = row.length;
@@ -470,6 +486,18 @@ public class Table {
 
     public int getVisibleRowsNumber() {
         return (int) rowsList.stream().filter(WebElement::isDisplayed).count();
+    }
+
+    public List<String> getNotEmptyContentList() {
+        List<String> out = new ArrayList<>();
+        for (String[] rows : textTable) {
+            for (String cell : rows) {
+                if (!cell.isEmpty()) {
+                    out.add(cell);
+                }
+            }
+        }
+        return out;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.IGlobalButtons;
 import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 public class DeviceUpdatePage extends BasePage {
     private static final Logger logger = Logger.getLogger(DeviceUpdatePage.class);
@@ -61,6 +63,24 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "txtSerial")
     private WebElement inputSerial;
 
+    @FindBy(id = "Description")
+    private WebElement portDescription;
+
+    @FindBy(id = "RemoteIp")
+    private WebElement remoteHost;
+
+    @FindBy(id = "InternalIp")
+    private WebElement computerIp;
+
+    @FindBy(id = "RemotePort")
+    private WebElement extPort;
+
+    @FindBy(id = "InternalPort")
+    private WebElement intPort;
+
+    @FindBy(id = "Protocol")
+    private WebElement protocol;
+
     @FindBy(id = "ddlSearchOption")
     private WebElement searchByCombobox;
 
@@ -70,6 +90,9 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "ddlSort1")
     private WebElement sortingOrderCombobox;
 
+    @FindBy(id = "ddlDiagType")
+    private WebElement diagnosticCombobox;
+
     @FindBy(id = "btnSearch_btn")
     private WebElement searchButton;
 
@@ -78,6 +101,12 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "btnClearAll_btn")
     private WebElement clearAllRButton;
+
+    @FindBy(id = "rdTarget")
+    private WebElement defaultUploadRButton;
+
+    @FindBy(id = "rdUrl")
+    private WebElement manualUrlRButton;
 
     @FindBy(id = "lblReplaceCpeHeader")
     private WebElement replaceHeader;
@@ -93,6 +122,9 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "pager2_lblPagerTotal")
     private WebElement pager;
+
+    @FindBy(id = "lblNoReprovisionFound")
+    private WebElement noProvision;
 
 
     @Override
@@ -117,11 +149,6 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public DeviceUpdatePage selectItem(String text) {
-        return (DeviceUpdatePage) super.selectItem(text);
-    }
-
-    @Override
     public DeviceUpdatePage pause(int millis) {
         return (DeviceUpdatePage) super.pause(millis);
     }
@@ -136,6 +163,20 @@ public class DeviceUpdatePage extends BasePage {
             }
         }
         waitForUpdate();
+        return this;
+    }
+
+    public DeviceUpdatePage selectPort() {
+        Table table = getTable("tblParameters");
+        int row = table.textCellMatches("^tr069_du.+");
+        if (row < 0) {
+            throw new AssertionError("There's no suitable port to select!");
+        }
+        table.clickOn(row, 0, 0);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        parameterMap.put(table.getCellText(row, "Internal port"), table.getCellText(row, "Protocol"));
         return this;
     }
 
@@ -270,6 +311,17 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
+    public DeviceUpdatePage selectUploadFileType(String type) {
+        waitForUpdate();
+        setImplicitlyWait(0);
+        List<WebElement> list = findElements("ddlFileType");
+        if (list.isEmpty() || !list.get(0).isDisplayed()) {
+            bottomMenu(ADD);
+        }
+        return (DeviceUpdatePage) super.selectUploadFileType(type);
+    }
+
+    @Override
     public DeviceUpdatePage selectFromListRadioButton() {
         return (DeviceUpdatePage) super.selectFromListRadioButton();
     }
@@ -386,11 +438,11 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage assertSelectedViewIs(String expectedView) {
-        if (getSelectedValue(filterViewComboBox).toLowerCase().equals(expectedView.toLowerCase())) {
+        if (getSelectedOption(filterViewComboBox).toLowerCase().equals(expectedView.toLowerCase())) {
             return this;
         }
         throw new AssertionError("Actual and expected view don't match! Expected: " + expectedView
-                + "; actual: " + getSelectedValue(filterViewComboBox));
+                + "; actual: " + getSelectedOption(filterViewComboBox));
     }
 
     public DeviceUpdatePage presetFilter(String parameter, String value) {
@@ -628,7 +680,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage clearDeviceActivity() {
-        leftMenu(Left.DEVICE_ACTIVITY);
+        leftMenu(DEVICE_ACTIVITY);
         waitForUpdate();
         if (pager.getText().equals("No records found")) {
             return this;
@@ -638,6 +690,30 @@ public class DeviceUpdatePage extends BasePage {
         bottomMenu(DELETE);
         okButtonPopUp();
         return this;
+    }
+
+    public DeviceUpdatePage clearProvisionManager() {
+        leftMenu(PROVISION_MANAGER);
+        waitForUpdate();
+        if (noProvision.getText().equals("There is no provision data to display")) {
+            return this;
+        }
+        bottomMenu(EDIT);
+        waitUntilButtonIsDisplayed(CANCEL);
+        Table tabTable = null;
+        while (!(tabTable = getTable("tabsMain_tblTabs")).isEmpty()) {
+            tabTable.clickOn(tabTable.getNotEmptyContentList().get(0));
+            waitForUpdate();
+            Table table = getTable("tblItems");
+            table.clickOn(0, 0, 0);
+            bottomMenu(DELETE);
+            okButtonPopUp();
+            waitForUpdate();
+            if (noProvision.getText().equals("There is no provision data to display")) {
+                return this;
+            }
+        }
+        throw new AssertionError("Unexpected Provision Manager behavior");
     }
 
     public DeviceUpdatePage saveFileName() {
@@ -964,7 +1040,7 @@ public class DeviceUpdatePage extends BasePage {
                     value = input.isSelected() ? "0" : "1";
                 }
             } else if (select != null) {
-                String selected = getSelectedValue(select);
+                String selected = getSelectedOption(select);
                 value = selected;
                 for (String opt : getOptionList(select)) {
                     if (!opt.equals(selected)) {
@@ -1003,10 +1079,43 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
-    public void validateFileTasks() {
+    public void validateProvisionDownloadTasks() {
+        Table tabTable = getTable("tabsMain_tblTabs");
+        if (!tabTable.getNotEmptyContentList().contains("Download file")) {
+            throw new AssertionError("Download file tab not found!");
+        }
+        tabTable.clickOn("Download file");
+        Table table = getTable("tblItems");
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            if (!table.contains(entry.getValue())) {
+                table.print();
+                throw new AssertionError("Item '" + entry.getValue() + "' not found on current table!");
+            }
+        }
+    }
+
+    public DeviceUpdatePage validateDownloadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+        }
+        return this;
+    }
+
+    public void validateUploadFileTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        label:
+        for (Map.Entry<String, String> entry : entrySet) {
+            Table table = getTable("tblParameters");
+            List<Integer> list = table.getRowsWithText(entry.getKey());
+            for (int i : list) {
+                System.out.println("text: " + table.getCellText(i, "Parameter name"));
+                if (table.getCellText(i, "Parameter name").matches(entry.getValue())) {
+                    continue label;
+                }
+            }
+            throw new AssertionError("Cannot find entry that matches the regex '" + entry.getValue() + "'");
         }
     }
 
@@ -1032,6 +1141,19 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    public DeviceUpdatePage defaultUploadRadioButton() {
+        defaultUploadRButton.click();
+        waitForUpdate();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String url = "^" + props.getProperty("upload_url") + '/' + DataBaseConnector.getGroupId(getSerial())
+                + '_' + getSerial() + '_' + CalendarUtil.getDateByPattern("yyyy.MM.dd") + '_' + ".+\\."
+                + (getSelectedOption(selectUploadFileTypeComboBox).startsWith("Vendor Conf") ? "cfg$" : "log$");
+        parameterMap.put("Upload", url);
+        return this;
+    }
+
     @Override
     public DeviceUpdatePage fillUrl() {
         fromListRadioButton.click();
@@ -1044,6 +1166,22 @@ public class DeviceUpdatePage extends BasePage {
             parameterMap = new HashMap<>();
         }
         parameterMap.put("Download", value);
+        return this;
+    }
+
+    @Override
+    public DeviceUpdatePage fillUploadUrl() {
+        super.fillUploadUrl();
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        parameterMap.put("Upload", props.getProperty("upload_url"));
+        return this;
+    }
+
+    public DeviceUpdatePage manualUrlRButton() {
+        manualUrlRButton.click();
+        waitForUpdate();
         return this;
     }
 
@@ -1120,16 +1258,16 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
-    public DeviceUpdatePage storePath() {
+    public DeviceUpdatePage storePath(String path) {
         waitForUpdate();
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
-        String path = getElementText("divPath") + '.';
         parameterMap.put("Get parameter attributes", path);
         parameterMap.put("Get parameter values", path);
         parameterMap.put("Get parameter names", path);
         return this;
+        //InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1.
     }
 
     public void validateGeneratedGets() {
@@ -1139,11 +1277,146 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
+    public DeviceUpdatePage storePath() {
+        return storePath(getElementText("divPath") + '.');
+    }
+
+    public DeviceUpdatePage storePortMappingPath() {
+        return storePath("InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1.");
+    }
+
+    public DeviceUpdatePage fillAddPortFields(String protocol) {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        String desc = BaseTestCase.getTestName();
+        String intIp = "192.168.1.111";
+        String extIp = "255.255.255.255";
+        String intPort = String.valueOf((int) (Math.random() * 65536));
+        String extPort = String.valueOf((int) (Math.random() * 65536));
+        inputText2(remoteHost, extIp);
+        parameterMap.put("Remote host", extIp);
+        inputText(this.extPort, extPort);
+        parameterMap.put("External port", extPort);
+        inputText(this.intPort, intPort);
+        parameterMap.put("Internal port", intPort);
+        inputText2(computerIp, intIp);
+        parameterMap.put("Internal client", intIp);
+        selectComboBox(this.protocol, protocol);
+        parameterMap.put("Protocol", protocol);
+        inputText2(portDescription, desc);
+        parameterMap.put("Description", desc);
+        pause(1000);
+        return this;
+    }
+
+    public void validatePortCreating() {
+        Timer timer = new Timer(150000);
+        verifySinglePage();
+        List<String[]> tasks = new ArrayList<>(2);
+        String[] example = {"", parameterMap.get("Description"), parameterMap.get("Internal client"), parameterMap.get("Internal port"),
+                "", parameterMap.get("Remote host"), parameterMap.get("External port")};
+        if (parameterMap.get("Protocol").contains("TCP")) {
+            example[4] = "TCP";
+            tasks.add(example.clone());
+        }
+        if (parameterMap.get("Protocol").contains("UDP")) {
+            example[4] = "UDP";
+            tasks.add(example);
+        }
+        while (!timer.timeout()) {
+            int success = 0;
+            Table table = getTable("tblParameters");
+            List<Integer> rows = table.getRowsWithText(parameterMap.get("Description"));
+            for (String[] task : tasks) {
+                for (int row : rows) {
+                    if (Arrays.deepEquals(table.getRow(row), task)) {
+                        success++;
+                        break;
+                    }
+                }
+            }
+            if (success == tasks.size()) {
+                return;
+            }
+            pause(1000);
+        }
+        throw new AssertionError("One or more port mapping item not found!");
+    }
+
+    public void verifyPortDeletion() {
+        String targetPort = parameterMap.keySet().iterator().next();
+        String targetProtocol = parameterMap.get(targetPort);
+        verifySinglePage();
+        Timer timer = new Timer(60000);
+        while (!timer.timeout()) {
+            boolean fail = false;
+            Table table = getTable("tblParameters");
+            String[] ports = table.getColumn("Internal port");
+            String[] protocols = table.getColumn("Protocol");
+            for (int i = 0; i < ports.length; i++) {
+                String port = ports[i];
+                String protocol = protocols[i];
+                if (targetPort.equals(port) && targetProtocol.equals(protocol)) {
+                    fail = true;
+                    break;
+                }
+            }
+            if (!fail) {
+                return;
+            }
+            pause(1000);
+        }
+    }
+
+    public DeviceUpdatePage createDiagnostic(String diagType) {
+        try {
+            selectComboBox(diagnosticCombobox, diagType);
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            throw new AssertionError("Current device doesn't support " + diagType + "!");
+        }
+        waitForUpdate();
+        setImplicitlyWait(0);
+        List<WebElement> hostList = findElements("txtHost");
+        List<WebElement> dnsList = findElements("txtDnsServer");
+        if (hostList.size() > 0) {
+            inputText(hostList.get(0), "8.8.8.8 ");
+        }
+        if (dnsList.size() > 0) {
+            inputText(dnsList.get(0), "8.8.8.8 ");
+        }
+        setDefaultImplicitlyWait();
+        parameterSet = new HashSet<>(1);
+        parameterSet.add(diagType);
+        return this;
+    }
+
+    public void validateDiagnosticCreation() {
+        Table table = getTable("tblParameters");
+        String diagnostic = parameterSet.iterator().next();
+        if (!table.contains(diagnostic)) {
+            throw new AssertionError(diagnostic + " not found!");
+        }
+    }
+
+    public DeviceUpdatePage deleteAllDiagnostics() {
+        setImplicitlyWait(1);
+        List<WebElement> pageList = findElements("pager2_lblPagerTotal");
+        if (!pageList.isEmpty()) {
+            Table table = getTable("tblParameters");
+            table.clickOn(0, 0, 0);
+            bottomMenu(DELETE);
+            okButtonPopUp();
+        }
+        setDefaultImplicitlyWait();
+        return this;
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
         FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
-        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search");
+        DEVICE_HISTORY("Device History"), DEVICE_ACTIVITY("Device Activity"), SEARCH("Search"), PORT_MAPPING("Port Mapping");
 
         private final String value;
 
@@ -1160,6 +1433,7 @@ public class DeviceUpdatePage extends BasePage {
 
         ACTIVATE("btnActivate_btn"),
         ADD("btnAdd_btn"),
+        ADD_PORT("btnAdd_btn"),
         ADD_TO_PROVISION("addToProvision"),
         ADVANCED_VIEW("btnAdvView_btn"),
         CANCEL("btnCancel_btn"),
@@ -1177,7 +1451,8 @@ public class DeviceUpdatePage extends BasePage {
         EXPORT_TO_XML("btnExport2XML_btn"),
         FACTORY_RESET("btnReset_btn"),
         FINISH("btnFinish_btn"),
-        GET_CURRENT("UcDeviceSettingsControls1_btnGetCurrent_btn"),
+        GET_CURRENT_SETTINGS("UcDeviceSettingsControls1_btnGetCurrent_btn"),
+        GET_CURRENT_PORTS("btnGetCurrent_btn"),
         NEXT("btnNext_btn"),
         PAUSE("btnPause_btn"),
         REFRESH("btnRefresh_btn"),

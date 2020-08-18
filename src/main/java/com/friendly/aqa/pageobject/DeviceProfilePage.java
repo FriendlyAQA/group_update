@@ -499,7 +499,7 @@ public class DeviceProfilePage extends BasePage {
                     value = "x";
                 }
             } else if (select != null) {
-                String selected = getSelectedValue(select);
+                String selected = getSelectedOption(select);
                 if (setValue) {
                     for (String opt : getOptionList(select)) {
                         if (!opt.equals(selected)) {
@@ -542,7 +542,7 @@ public class DeviceProfilePage extends BasePage {
             if (table.getCellWebElement(i + 1, 1).findElements(By.tagName("input")).size() > 0) {
                 parameterMap.put(names[i], table.getInputText(i + 1, 1));
             } else {
-                parameterMap.put(names[i], getSelectedValue(table.getSelect(i + 1, 1)));
+                parameterMap.put(names[i], getSelectedOption(table.getSelect(i + 1, 1)));
             }
         }
         setDefaultImplicitlyWait();
@@ -651,8 +651,8 @@ public class DeviceProfilePage extends BasePage {
             String name = names[i - 1];
             WebElement notifySelect = table.getSelect(i, 1);
             WebElement accessSelect = table.getSelect(i, 2);
-            String notification = notifySelect == null ? "" : getSelectedValue(notifySelect);
-            String access = accessSelect == null ? "" : getSelectedValue(accessSelect);
+            String notification = notifySelect == null ? "" : getSelectedOption(notifySelect);
+            String access = accessSelect == null ? "" : getSelectedOption(accessSelect);
             if ((notification.equals("Default") || notification.isEmpty()) && (access.equals("Default") || access.isEmpty())) {
                 continue;
             }
@@ -792,7 +792,7 @@ public class DeviceProfilePage extends BasePage {
             if (cell.findElements(By.tagName("input")).size() > 0) {
                 actual = table.getInputText(i + 1, 1);
             } else {
-                actual = getSelectedValue(cell.findElement(By.tagName("select")));
+                actual = getSelectedOption(cell.findElement(By.tagName("select")));
             }
             setDefaultImplicitlyWait();
             String expected = parameterMap.get(paramName);

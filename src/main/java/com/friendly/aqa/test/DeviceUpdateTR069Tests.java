@@ -1799,7 +1799,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .storePath()
-                .bottomMenu(GET_CURRENT)
+                .bottomMenu(GET_CURRENT_SETTINGS)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateGeneratedGets();
@@ -2401,7 +2401,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateFileTasks();
+                .validateDownloadFileTasks();
     }
 
     @Test
@@ -2417,7 +2417,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateFileTasks();
+                .validateDownloadFileTasks();
     }
 
     @Test
@@ -2434,7 +2434,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateFileTasks();
+                .validateDownloadFileTasks();
     }
 
     @Test
@@ -2450,8 +2450,324 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateFileTasks();
+                .validateDownloadFileTasks();
     }
 
     //skipped: 192 - cannot select File name dropdown;
+
+
+    @Test
+    public void tr069_du_193() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Vendor Configuration File")
+                .selectFromListRadioButton()
+                .selectFileName()
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateDownloadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_194() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .clearProvisionManager()
+                .leftMenu(FILE_DOWNLOAD)
+                .selectDownloadFileType("Vendor Configuration File")
+                .selectFromListRadioButton()
+                .selectFileName()
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateDownloadFileTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionDownloadTasks();
+    }
+
+    @Test
+    public void tr069_du_195() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Configuration File")
+                .defaultUploadRadioButton()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateUploadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_196() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Configuration File")
+                .manualUrlRButton()
+                .fillUploadUrl()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateDownloadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_197() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Log File")
+                .defaultUploadRadioButton()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateUploadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_198() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Log File")
+                .manualUrlRButton()
+                .fillUploadUrl()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateDownloadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_199() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Configuration File")
+                .defaultUploadRadioButton()
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateUploadFileTasks();
+    }
+
+    @Test
+    public void tr069_du_200() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(PORT_MAPPING)
+                .storePortMappingPath()
+                .bottomMenu(GET_CURRENT_PORTS)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateGeneratedGets();
+    }
+
+    @Test
+    public void tr069_du_201() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+//                .clearDeviceActivity()
+                .leftMenu(PORT_MAPPING)
+                .bottomMenu(ADD_PORT)
+                .fillAddPortFields("TCP/UDP")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validatePortCreating();
+    }
+
+    @Test
+    public void tr069_du_202() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PORT_MAPPING)
+                .bottomMenu(ADD_PORT)
+                .fillAddPortFields("TCP/UDP")
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validatePortCreating();
+    }
+
+    @Test
+    public void tr069_du_203() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PORT_MAPPING)
+                .bottomMenu(ADD_PORT)
+                .fillAddPortFields("TCP/UDP")
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validatePortCreating();
+    }
+
+    @Test
+    public void tr069_du_204() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PORT_MAPPING)
+                .bottomMenu(ADD_PORT)
+                .fillAddPortFields("TCP")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validatePortCreating();
+    }
+
+    @Test
+    public void tr069_du_205() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PORT_MAPPING)
+                .bottomMenu(ADD_PORT)
+                .fillAddPortFields("UDP")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validatePortCreating();
+    }
+
+    @Test
+    public void tr069_du_206() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PORT_MAPPING)
+                .selectPort()
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .verifyPortDeletion();
+    }
+
+    @Test   //bug: 	MP252 doesn't support Trace diagnostic
+    public void tr069_du_207() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("Trace diagnostic")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test
+    public void tr069_du_208() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("IPPing diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support download Diagnostic
+    public void tr069_du_209() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("Download diagnostic")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support Upload diagnostics
+    public void tr069_du_210() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("Upload diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support NSLoopback diagnostics
+    public void tr069_du_211() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("NSLoopback diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support Wi-Fi neighboring diagnostics
+    public void tr069_du_212() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("Wi-Fi neighboring diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support DSL diagnostics
+    public void tr069_du_213() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("DSL diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
+
+    @Test   //bug: 	MP252 doesn't support NSlookup diagnostics
+    public void tr069_du_214() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_DIAGNOSTIC)
+                .deleteAllDiagnostics()
+                .createDiagnostic("NSlookup diagnostics")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .validateDiagnosticCreation();
+    }
 }

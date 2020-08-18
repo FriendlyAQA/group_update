@@ -97,10 +97,10 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
-                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName)
+                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName)
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
-                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
+                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("Default")
-                .assertEquals(monPage.getSelectedValue("ddlView"), "Default");
+                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
     }
 
     @Test
@@ -116,7 +116,7 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView(targetTestName)
-                .assertEquals(monPage.getSelectedValue("ddlView"), targetTestName);
+                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedValue("ddlView"), "Default");
+                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
     }
 
     @Test
@@ -224,7 +224,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedValue("ddlSend"), testName);
+                .assertEquals(monPage.getSelectedOption("ddlSend"), testName);
         setTargetTestName();
     }
 
@@ -938,7 +938,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView(targetTestName)
                 .resetView()
-                .assertEquals(monPage.getSelectedValue("ddlView"), "Default", "View reset does not occur");
+                .assertEquals(monPage.getSelectedOption("ddlView"), "Default", "View reset does not occur");
     }
 
     @Test
@@ -990,7 +990,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedValue("ddlSend"), testName)
+                .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
                 .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()

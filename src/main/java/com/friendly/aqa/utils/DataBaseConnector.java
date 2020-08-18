@@ -313,4 +313,9 @@ public class DataBaseConnector {
         System.out.println(System.currentTimeMillis() - start);
         disconnectDb();
     }
+
+    public static String getGroupId(String serial) {
+        return getValue("SELECT group_id FROM `ftacs`.`product_class` WHERE id IN (" +
+                "SELECT product_class_id FROM `ftacs`.`cpe` WHERE SERIAL = 'FT001SN0000100908F2d2158');");
+    }
 }

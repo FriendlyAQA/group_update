@@ -86,7 +86,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedValue("ddlSend"));
+                .assertEquals(testName, guPage.getSelectedOption("ddlSend"));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedValue("ddlSend"), "Created group isn't selected!\n")
+                .assertEquals(testName, guPage.getSelectedOption("ddlSend"), "Created group isn't selected!\n")
                 .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
     }
 

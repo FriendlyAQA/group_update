@@ -444,20 +444,20 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage selectDownloadFileType(String type) {
+    private BasePage selectFileType(String type, WebElement combobox) {
         selectComboBox(new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(5))
+                .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                 .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.elementToBeClickable(selectDownloadFileTypeComboBox)), type);
+                .until(ExpectedConditions.elementToBeClickable(combobox)), type);
         return this;
     }
 
+    public BasePage selectDownloadFileType(String type) {
+        return selectFileType(type, selectDownloadFileTypeComboBox);
+    }
+
     public BasePage selectUploadFileType(String type) {
-        selectComboBox(new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(5))
-                .pollingEvery(Duration.ofMillis(100))
-                .until(ExpectedConditions.elementToBeClickable(selectUploadFileTypeComboBox)), type);
-        return this;
+        return selectFileType(type, selectUploadFileTypeComboBox);
     }
 
     public BasePage manualRadioButton() {
@@ -737,11 +737,22 @@ public abstract class BasePage {
         ((JavascriptExecutor) getDriver()).executeScript(script);
     }
 
-    public BasePage inputText(String id, String text) {
-        WebElement el = findElement(id);
+    public BasePage inputText(WebElement el, String text) {
         el.clear();
         el.sendKeys(text);
         return this;
+    }
+
+    public BasePage inputText2(WebElement el, String text) {
+        el.clear();
+        el.sendKeys(text + " ");
+        el.sendKeys(Keys.BACK_SPACE);
+        waitForUpdate();
+        return this;
+    }
+
+    public BasePage inputText(String id, String text) {
+        return inputText(findElement(id), text);
     }
 
     public void closePopup() {
@@ -1098,11 +1109,11 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
-    public String getSelectedValue(String comboBoxId) {
-        return getSelectedValue(findElement(comboBoxId));
+    public String getSelectedOption(String comboBoxId) {
+        return getSelectedOption(findElement(comboBoxId));
     }
 
-    public String getSelectedValue(WebElement comboBox) {
+    public String getSelectedOption(WebElement comboBox) {
         List<WebElement> optList = comboBox.findElements(By.tagName("option"));
         for (WebElement el : optList) {
             if (el.getAttribute("selected") != null) {
@@ -1121,14 +1132,14 @@ public abstract class BasePage {
         setImplicitlyWait(0);
         Map<String, Event> map = new HashMap<>();
         for (int i = 1; i < table.getTableSize()[0]; i++) { //Very slow performance!!!
-            String countOfEvents = getSelectedValue(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
+            String countOfEvents = getSelectedOption(table.getCellWebElement(i, 2).findElement(By.tagName("select")));
             if (countOfEvents.isEmpty()) {
                 continue;
             }
             boolean onEachEvent = table.getInput(i, 1).isSelected();
             List<WebElement> selectList = table.getCellWebElement(i, 3).findElements(By.tagName("select"));
-            String num = getSelectedValue(selectList.get(0));
-            String units = getSelectedValue(selectList.get(1));
+            String num = getSelectedOption(selectList.get(0));
+            String units = getSelectedOption(selectList.get(1));
             String name = table.getCellText(i, 0);
             map.put(name, new Event(name, onEachEvent, countOfEvents, num + ":" + units));
 //            if (table.getInput(i, 1).isSelected()) {
@@ -1200,7 +1211,7 @@ public abstract class BasePage {
                 selectComboBox(select, event.getCountOfEvents());
             }
         } else {
-            event.setCountOfEvents(getSelectedValue(select));
+            event.setCountOfEvents(getSelectedOption(select));
         }
         List<WebElement> selectList = table.getCellWebElement(rowNum, 3).findElements(By.tagName("select"));
         if (event.getDuration() != null) {
@@ -1209,11 +1220,11 @@ public abstract class BasePage {
                 selectComboBox(selectList.get(1), event.getDuration().split(":")[1]);
             }
         } else {
-            String num = getSelectedValue(selectList.get(0));
-            String units = getSelectedValue(selectList.get(1));
+            String num = getSelectedOption(selectList.get(0));
+            String units = getSelectedOption(selectList.get(1));
             event.setDuration(num + ":" + units);
         }
-        if (Objects.requireNonNull(getSelectedValue(select)).isEmpty()) {
+        if (Objects.requireNonNull(getSelectedOption(select)).isEmpty()) {
             eventMap.remove(event.getName());
         } else {
             eventMap.put(event.getName(), event);
@@ -1969,7 +1980,7 @@ public abstract class BasePage {
             boolean isFound = false;
             for (int i = 1; i < table.getTableSize()[0]; i++) {
                 if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInputText(i, 2))
-                        && monitor.getCondition().toString().equals(getSelectedValue(table.getSelect(i, 1)))) {
+                        && monitor.getCondition().toString().equals(getSelectedOption(table.getSelect(i, 1)))) {
 //                    WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
 //                    if (getSelectedValue(select).equals(monitor.getCondition().toString())) {
                     isFound = true;
@@ -1978,7 +1989,7 @@ public abstract class BasePage {
             }
             if (!isFound) {
                 String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
-                        + getSelectedValue(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
+                        + getSelectedOption(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
                 logger.warn(warn);
                 throw new AssertionError("Expected Parameters Monitoring not found on current page!\n" + table.print());
             }
