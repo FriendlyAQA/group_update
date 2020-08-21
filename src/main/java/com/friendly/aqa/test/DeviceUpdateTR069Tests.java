@@ -17,6 +17,11 @@ import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 @Listeners(UniversalVideoListener.class)
 public class DeviceUpdateTR069Tests extends BaseTestCase {
 
+    /*
+    Preconditions:
+    1. Before run you should delete all view and custom view (Search) with name like 'tr069_du_011', 'tr069_du_067' (starts with tr069_) etc.;
+    2. Devices (emul) must run.
+    */
     @Test
     public void tr069_du_001() {
         duPage
@@ -919,11 +924,12 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .selectView("tr069_du_070")
+//                .selectView("tr069_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-                .searchButton()
+                .selectView("tr069_du_070")
+//                .searchButton()
                 .checkSorting("Firmware");
     }
 
@@ -1166,11 +1172,12 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .selectView("tr069_du_070")
+//                .selectView("tr069_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-                .searchButton()
+                .selectView("tr069_du_070")
+//                .searchButton()
                 .checkSorting("User ID");
     }
 
@@ -1244,16 +1251,15 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .selectView("tr069_du_070") //comment it
+                .selectView("tr069_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-//                .selectView("tr069_du_070") //uncomment it to get around view bug
                 .searchButton()
                 .checkSorting("Zip");
     }
 
-    @Test   //bug: after Cancel view doesn't return to previous selected view, but Default is selected.
+    @Test   //bug: after 'Cancel' view doesn't return to previous selected view, Default is selected instead.
     public void tr069_du_099() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1777,6 +1783,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
+                .clearProvisionManager()
                 .leftMenu(DEVICE_SETTINGS)
                 .pause(1000)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1928,7 +1935,6 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
-//                .pause(1000)
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter("Time", 1)
                 .bottomMenu(ADD_TO_PROVISION)
@@ -2480,7 +2486,6 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .clearProvisionManager()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
                 .selectFromListRadioButton()
@@ -2769,5 +2774,381 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
+    }
+
+    @Test
+    public void tr069_du_215() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("AddObject")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_216() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("DeleteObject")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_217() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("Download")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_218() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("FactoryReset")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_219() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetParameterAttributes")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_220() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetParameterNames")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_221() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetParameterValues")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_222() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetRPCMethods")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_223() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("Reboot")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_224() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("SetParameterAttributes")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_225() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("SetParameterValues")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .assertTableHasContent("tblParameters");    //extra spaces obstruct correctly request validation.
+    }
+
+    @Test
+    public void tr069_du_226() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("Upload")
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_227() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetParameterValues")
+                .bottomMenu(WAIT_UNTIL_CONNECT)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_228() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(CUSTOM_RPC)
+                .selectMethod("GetParameterValues")
+                .bottomMenu(ADD_TO_PROVISION)
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .leftMenu(DEVICE_ACTIVITY)
+                .validateCustomRpcTasks()
+                .leftMenu(PROVISION_MANAGER)
+                .validateProvisionRpcTasks();
+    }
+
+    @Test
+    public void tr069_du_229() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(CUSTOM_RPC)
+                .selectRPC()
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .verifyRpcDeletion();
+    }
+
+    @Test
+    public void tr069_du_230() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_HISTORY)
+                .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
+                .assertTableHasContent("tblItems")
+                .bottomMenu(REFRESH)
+                .assertTableHasContent("tblItems")
+                .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image");
+    }
+
+    @Test
+    public void tr069_du_231() throws IOException {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_HISTORY)
+                .bottomMenu(SAVE)
+                .validateHistoryFile();
+    }
+
+    @Test
+    public void tr069_du_232() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(DEVICE_HISTORY)
+                .pause(1000)
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .assertTableIsEmpty("tblItems");
+    }
+
+    @Test
+    public void tr069_du_233() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .editParameterValue()
+                .validateEditedProvision();
+    }
+
+    @Test
+    public void tr069_du_234() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .editParameterPriority()
+                .validateEditedProvision();
+    }
+
+    @Test
+    public void tr069_du_235() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .selectProvision("Parameters")
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .validateProvisionDeletion();
+    }
+
+    @Test   //depends on 228
+    public void tr069_du_236() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .editProvisionRequest()
+                .bottomMenu(START)
+                .validateEditedRequest();
+    }
+
+    @Test   //depends on 228
+    public void tr069_du_237() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .editPriority("RPC")
+                .validateEditedProvision();
+    }
+
+    @Test   //depends on 228
+    public void tr069_du_238() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .selectProvision("RPC")
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .validateProvisionDeletion();
+    }
+
+    //skipped:229 - cannot change object path;
+
+    @Test   //depends on 203
+    public void tr069_du_240() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .editPriority("Objects")
+                .validateEditedProvision();
+    }
+
+    @Test   //depends on 203
+    public void tr069_du_241() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .selectProvision("Objects")
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .validateProvisionDeletion();
+    }
+
+    @Test   //depends on 194
+    public void tr069_du_242() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .editProvisionFileUrl()
+                .bottomMenu(START)
+                .validateEditedProvision();
+    }
+
+    @Test   //depends on 194
+    public void tr069_du_243() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .editProvisionFilePriority()
+                .bottomMenu(START)
+                .validateEditedProvision();
+    }
+
+    @Test   //depends on 194
+    public void tr069_du_244() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .leftMenu(PROVISION_MANAGER)
+                .bottomMenu(EDIT)
+                .selectProvision("Download file")
+                .bottomMenu(DELETE)
+                .okButtonPopUp()
+                .validateProvisionDeletion();
     }
 }

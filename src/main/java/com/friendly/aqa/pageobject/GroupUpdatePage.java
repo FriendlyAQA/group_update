@@ -197,8 +197,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public Table getMainTable() {
-        return getTable("tblParameters");
+    public String getMainTableId() {
+        return "tblParameters";
     }
 
     @Override

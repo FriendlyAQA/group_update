@@ -12,7 +12,7 @@ public class LoginPage extends BasePage {
     }
 
     @Override
-    public Table getMainTable() {
+    public String  getMainTableId() {
         return null;
     }
 

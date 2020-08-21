@@ -123,13 +123,14 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public Table getMainTable() {
-        try {
-            savedTable = new Table("tbl");
-        } catch (org.openqa.selenium.StaleElementReferenceException e) {
-            savedTable = new Table("tbl");
-        }
-        return savedTable;
+    public String getMainTableId() {
+        return "tbl";
+//        try {
+//            savedTable = new Table("tbl");
+//        } catch (org.openqa.selenium.StaleElementReferenceException e) {
+//            savedTable = new Table("tbl");
+//        }
+//        return savedTable;
     }
 
     @Override

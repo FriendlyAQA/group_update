@@ -19,10 +19,12 @@ public class Table {
     private WebElement[][] elementTable;
     private final WebElement table;
     private boolean retryInit;
+    private String tableId;
 
     public Table(WebElement table) {
 //        long start = System.currentTimeMillis();
         this.table = table;
+        tableId = table.getAttribute("id");
         rowsList = table.findElements(By.tagName("tr"));
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
@@ -186,12 +188,18 @@ public class Table {
         return out;
     }
 
-    public Table clickOn(String text) {
+    public void clickOn(String text) {
+        clickOn(text, false);
+    }
+
+    public void clickOn(String text, boolean retry) {
         List<String> debugList = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().trim().equals(text.toLowerCase())) {
-                    return clickOn(i, j, 99);
+                    /*return */
+                    clickOn(i, j, 99);
+                    return;
                 } else {
                     debugList.add(textTable[i][j].toLowerCase());
                 }
@@ -201,7 +209,13 @@ public class Table {
         LOGGER.warn(warning);
         print();
         System.out.println("text '" + text.toLowerCase() + "' not equals with:" + debugList.toString());
-        throw new AssertionError(warning);
+        if (!retry) {
+            System.out.println("try to find once more time...");
+            pause(1000);
+            new Table(tableId).clickOn(text, true);
+        } else {
+            throw new AssertionError(warning);
+        }
     }
 
     public int[] getTableSize() {

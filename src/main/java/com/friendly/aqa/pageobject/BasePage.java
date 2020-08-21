@@ -1,6 +1,7 @@
 package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.entities.*;
+import com.friendly.aqa.entities.Event;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
@@ -20,12 +21,15 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -123,7 +127,11 @@ public abstract class BasePage {
 
     abstract protected String getLeftMenuCssSelector();
 
-    public abstract Table getMainTable();
+    protected abstract String getMainTableId();
+
+    public Table getMainTable() {
+        return getTable(getMainTableId());
+    }
 
     @FindBy(id = "tblTopMenu")
     private WebElement topMenuTable;
@@ -134,8 +142,8 @@ public abstract class BasePage {
     @FindBy(id = "imgLogout")
     private WebElement logOutButton;
 
-//    @FindBy(tagName = "table")
-//    private WebElement buttonTable;
+    @FindBy(id = "tabsMain_tblTabs")
+    protected WebElement mainTabTable;
 
     @FindBy(id = "txtName")
     protected WebElement nameField;
@@ -743,12 +751,12 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage inputText2(WebElement el, String text) {
+    public void inputText2(WebElement el, String text) {
         el.clear();
         el.sendKeys(text + " ");
+        waitForUpdate();
         el.sendKeys(Keys.BACK_SPACE);
         waitForUpdate();
-        return this;
     }
 
     public BasePage inputText(String id, String text) {
@@ -817,6 +825,12 @@ public abstract class BasePage {
 
     public BasePage selectTab(String tab) {
         return selectTab(tab, getTabTable());
+    }
+
+    public BasePage selectMainTab(String tab) {
+        new Table(mainTabTable).clickOn(tab);
+        waitForUpdate();
+        return this;
     }
 
     public BasePage selectTab(String tab, Table tabTable) {
@@ -1093,7 +1107,7 @@ public abstract class BasePage {
         for (int i = 0; i < 3; i++) {
             try {
                 new FluentWait<>(driver)
-                        .withMessage("Button " + button + " not found/not active")
+                        .withMessage("Button " + button + " was not active")
                         .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())))
@@ -1370,6 +1384,35 @@ public abstract class BasePage {
     public BasePage enterIntoGroup(String groupName) {
         getMainTable().clickOn(groupName);
         waitForUpdate();
+        return this;
+    }
+
+    protected void pressEsc() {
+        Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        pause(1000);
+        if (robot != null) {
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            pause(100);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+        }
+    }
+
+    public BasePage assertElementsArePresent(String... elementsId) {
+        switchToFrame(DESKTOP);
+        setDefaultImplicitlyWait();
+        for (String el : elementsId) {
+            List<WebElement> list = findElements(el);
+            if (list.size() != 1 || !list.get(0).isDisplayed()) {
+                switchToPreviousFrame();
+                throw new AssertionError("Element " + el + " not found");
+            }
+        }
+        switchToPreviousFrame();
         return this;
     }
 
@@ -1803,12 +1846,21 @@ public abstract class BasePage {
 //        }
 //        System.out.println(sb.toString());
 //        return sb.toString().replaceAll("<", " ");
-        String sample = "()*,-./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String sample = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            sb.append(sample.charAt((int) (Math.random() * 69)));
+            sb.append(sample.charAt((int) (Math.random() * 62)));
         }
         return sb.toString();
+    }
+
+    protected WebElement findElementByText(String text) {
+        return driver.findElement(By.xpath("//*[text() = '" + text + "']"));
+    }
+
+    protected WebElement findElementByText(String outerElementId, String text) {
+        List<WebElement> list = driver.findElements(By.xpath("//*[text() = '" + text + "']"));
+        return list.get(list.size() - 1);
     }
 
     public BasePage checkSorting(String column) {
@@ -1832,7 +1884,16 @@ public abstract class BasePage {
                 waitForUpdate();
                 table = getMainTable();
                 scrollToElement(table.getCellWebElement(0, colNum));
-                WebElement pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
+                WebElement pointer;
+                try {
+                    pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
+                } catch (NoSuchElementException e) {
+                    System.out.println("NoSuchElementException e");
+                    if (!timer.timeout())
+                        i--;
+                    table.clickOn(0, colNum);//!
+                    continue;
+                }
                 boolean descending = pointer.getAttribute("src").endsWith("down.png");
                 String[] arr = table.getColumn(colNum, true);
                 arr = toLowerCase(arr);
@@ -1850,8 +1911,8 @@ public abstract class BasePage {
                 if (i < 1) {
                     table.clickOn(0, colNum);
                 }
-            } catch (StaleElementReferenceException | NoSuchElementException e) {
-                System.out.println("StaleElementReferenceException | NoSuchElementException e");
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException");
                 if (!timer.timeout())
                     i--;
             }

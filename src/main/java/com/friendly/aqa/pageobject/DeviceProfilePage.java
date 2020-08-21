@@ -27,15 +27,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public Table getMainTable() {
-        try {
-            return getTable("tblItems");
-        } catch (NoSuchElementException e) {
-            setImplicitlyWait(0);
-            okButtonPopUp();
-            setDefaultImplicitlyWait();
-            return getTable("tblItems");
-        }
+    public String getMainTableId() {
+        return "tblItems";
     }
 
     @Override
@@ -140,9 +133,6 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "btnCancel_btn")
     private WebElement cancelButton;
-
-    @FindBy(id = "tabsMain_tblTabs")
-    private WebElement mainTabTable;
 
     @FindBy(id = "tblParameters")
     private WebElement paramTable;

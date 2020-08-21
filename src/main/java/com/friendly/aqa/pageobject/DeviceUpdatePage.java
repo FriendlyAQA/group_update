@@ -133,8 +133,8 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public Table getMainTable() {
-        return getTable("tbl");
+    public String getMainTableId() {
+        return "tbl";
     }
 
     @Override
@@ -177,6 +177,26 @@ public class DeviceUpdatePage extends BasePage {
             parameterMap = new HashMap<>();
         }
         parameterMap.put(table.getCellText(row, "Internal port"), table.getCellText(row, "Protocol"));
+        return this;
+    }
+
+    public DeviceUpdatePage selectRPC() {
+        Table table = getTable("tblParameters");
+        table.clickOn(1, 0, 0);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        parameterMap.put(table.getCellText(1, "Parameter name"), table.getCellText(1, "Request"));
+        return this;
+    }
+
+    public DeviceUpdatePage selectProvision(String tab) {
+        getTable("tabsMain_tblTabs").clickOn(tab);
+        waitForUpdate();
+        Table table = getTable("tblItems");
+        table.clickOn(1, 0, 0);
+        parameterMap = new HashMap<>();
+        parameterMap.put(tab, table.getCellText(1, "Updated"));
         return this;
     }
 
@@ -307,6 +327,7 @@ public class DeviceUpdatePage extends BasePage {
         if (!list.isEmpty() && !list.get(0).isDisplayed()) {
             bottomMenu(ADD);
         }
+        setDefaultImplicitlyWait();
         return (DeviceUpdatePage) super.selectDownloadFileType(type);
     }
 
@@ -318,6 +339,7 @@ public class DeviceUpdatePage extends BasePage {
         if (list.isEmpty() || !list.get(0).isDisplayed()) {
             bottomMenu(ADD);
         }
+        setDefaultImplicitlyWait();
         return (DeviceUpdatePage) super.selectUploadFileType(type);
     }
 
@@ -344,8 +366,8 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage inputSerial() {
+        waitUntilButtonIsEnabled(CANCEL);    //!replaced top
         inputSerial.sendKeys(getSerial());
-        waitUntilButtonIsEnabled(START);
         return this;
     }
 
@@ -507,10 +529,6 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public DeviceUpdatePage enterToDevice() {
-        return enterToDevice(getSerial(), getMainTable());
-    }
-
     public DeviceUpdatePage editAccountInfoLink() {
         editAccountInfoLink.click();
         return this;
@@ -557,7 +575,12 @@ public class DeviceUpdatePage extends BasePage {
             getMainTable().clickOn(serial);
         }
         waitForUpdate();
+        waitUntilButtonIsDisplayed(REPROVISION);
         return this;
+    }
+
+    public DeviceUpdatePage enterToDevice() {
+        return enterToDevice(getSerial(), getMainTable());
     }
 
     public DeviceUpdatePage deselectCheckbox(String id) {
@@ -601,7 +624,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage setParameter(String parameter, String value) {
-        waitForUpdate();
+        waitUntilButtonIsEnabled(GET_CURRENT_SETTINGS); //!
         Table table = getTable("tblParamsTable");
         int rowNum = table.getRowNumberByText(parameter);
         if (parameterMap == null) {
@@ -609,9 +632,6 @@ public class DeviceUpdatePage extends BasePage {
         }
         String hint = table.getHint(rowNum);
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
-//        if (props.getProperty("browser").equals("edge")) {
-//            scrollToElement(paramCell);
-//        }
         if (value != null) {
             waitForUpdate();
             WebElement input = paramCell.findElement(By.tagName("input"));
@@ -630,7 +650,9 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.okButtonPopUp();
     }
 
+    @Override
     public DeviceUpdatePage selectTab(String tab) {
+        waitUntilButtonIsDisplayed(GET_CURRENT_SETTINGS);
         return (DeviceUpdatePage) super.selectTab(tab);
     }
 
@@ -700,7 +722,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         bottomMenu(EDIT);
         waitUntilButtonIsDisplayed(CANCEL);
-        Table tabTable = null;
+        Table tabTable;
         while (!(tabTable = getTable("tabsMain_tblTabs")).isEmpty()) {
             tabTable.clickOn(tabTable.getNotEmptyContentList().get(0));
             waitForUpdate();
@@ -771,6 +793,8 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage deleteAllExportEntries() {
         switchToFrame(POPUP);
         Table table = getTable("tbl");
+        parameterSet = new HashSet<>(1);
+        parameterSet.add(getSelectedOption("ddlDates"));
         table.clickOn(0, 0);
         deleteButton.click();
         return this;
@@ -784,7 +808,8 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertExportEntryListIsEmpty() {
         switchToFrame(POPUP);
-        if (!pager.getText().equals("No data found")) {
+        if (!pager.getText().equals("No data found") &&
+                getOptionList(findElement("ddlDates")).contains(parameterSet.iterator().next())) {//TODO getStoredParameter()
             throw new AssertionError("List of exports is not empty!");
         }
         closeButton.click();
@@ -893,9 +918,10 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void assertActivityIsPresent(String activity) {
+        verifySinglePage(); //!
         Table table = getTable("tblParameters");
         if (!table.contains(activity)) {
-            throw new AssertionError("Activity '" + activity + "' not found in the top row of activity list!");
+            throw new AssertionError("Activity '" + activity + "' is absent from activity list!");
         }
     }
 
@@ -1080,11 +1106,19 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateProvisionDownloadTasks() {
+        validateProvisionTasks("Download file");
+    }
+
+    public void validateProvisionRpcTasks() {
+        validateProvisionTasks("RPC");
+    }
+
+    private void validateProvisionTasks(String tab) {
         Table tabTable = getTable("tabsMain_tblTabs");
-        if (!tabTable.getNotEmptyContentList().contains("Download file")) {
-            throw new AssertionError("Download file tab not found!");
+        if (!tabTable.getNotEmptyContentList().contains(tab)) {
+            throw new AssertionError(tab + " tab not found!");
         }
-        tabTable.clickOn("Download file");
+        tabTable.clickOn(tab);
         Table table = getTable("tblItems");
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
@@ -1093,6 +1127,10 @@ public class DeviceUpdatePage extends BasePage {
                 throw new AssertionError("Item '" + entry.getValue() + "' not found on current table!");
             }
         }
+    }
+
+    public DeviceUpdatePage validateCustomRpcTasks() {
+        return validateDownloadFileTasks();
     }
 
     public DeviceUpdatePage validateDownloadFileTasks() {
@@ -1228,6 +1266,7 @@ public class DeviceUpdatePage extends BasePage {
             }
         }
         table.clickOn(0, 0, 0);
+        pause(1000);//!
         table = getTable("tblTree");
         if (table.getVisibleRowsNumber() != allExpanded) {
             throw new AssertionError("Expanded objects number is less than previous expanded tree it has" + defaultExpanded);
@@ -1242,19 +1281,18 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateCsvFile() throws IOException {
-        Robot robot = null;
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-        pause(1000);
-        if (robot != null) {
-            robot.keyPress(KeyEvent.VK_ESCAPE);
-            robot.keyRelease(KeyEvent.VK_ESCAPE);
-        }
+        pressEsc();
         if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/ExportParams.aspx?fileType=csv").contains(getModelName())) {
             throw new AssertionError("Model Name not found in downloaded csv file!");
+        }
+    }
+
+    public void validateHistoryFile() throws IOException {
+        String header = "Device History from " + findElement("calTo_textBox").getAttribute("value");
+        pressEsc();
+        System.out.println(HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx"));
+        if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx").contains(header)) {
+            throw new AssertionError("Text '" + header + "' not found in downloaded history file!");
         }
     }
 
@@ -1345,6 +1383,17 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void verifyPortDeletion() {
+        verifyItemDeletion("Internal port", "Protocol");
+    }
+
+    public void verifyRpcDeletion() {
+        if (getTable("tblParameters").getCellText(0, 0).equals("Method name")) {
+            return;
+        }
+        verifyItemDeletion("Parameter name", "Request");
+    }
+
+    public void verifyItemDeletion(String keyColumn, String valueColumn) {
         String targetPort = parameterMap.keySet().iterator().next();
         String targetProtocol = parameterMap.get(targetPort);
         verifySinglePage();
@@ -1352,8 +1401,8 @@ public class DeviceUpdatePage extends BasePage {
         while (!timer.timeout()) {
             boolean fail = false;
             Table table = getTable("tblParameters");
-            String[] ports = table.getColumn("Internal port");
-            String[] protocols = table.getColumn("Protocol");
+            String[] ports = table.getColumn(keyColumn);
+            String[] protocols = table.getColumn(valueColumn);
             for (int i = 0; i < ports.length; i++) {
                 String port = ports[i];
                 String protocol = protocols[i];
@@ -1412,6 +1461,162 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
+    public DeviceUpdatePage selectMethod(String methodName) {
+        if (elementIsAbsent("ddlMethods")) {
+            bottomMenu(ADD);
+        }
+        waitUntilButtonIsEnabled(CANCEL);
+        super.selectMethod(methodName);
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>(1);
+        }
+        waitForUpdate();
+        parameterMap.put("Custom RPC", getElementText("txtRequest").replaceAll("\n", ""));
+        return this;
+    }
+
+    public DeviceUpdatePage editParameterValue() {
+        String oldValue = editParameter()[0];
+        String newValue = oldValue.equals("0") ? "1" : "0";
+        Table table = getTable("tblItems");
+        int colNum = table.getColumnNumber(0, "Value");
+        WebElement input = table.getInput(1, colNum);
+        input.clear();
+        input.sendKeys(newValue);
+        parameterMap = new HashMap<>(1);
+        parameterMap.put("Value", newValue);
+        bottomMenu(START);
+        return this;
+    }
+
+    public DeviceUpdatePage editParameterPriority() {
+        String oldValue = editParameter()[1];
+        Table table = getTable("tblItems");
+        int colNum = table.getColumnNumber(0, "Priority");
+        WebElement select = table.getSelect(1, colNum);
+        selectNewPriority(select, oldValue);
+        bottomMenu(START);
+        return this;
+    }
+
+    public String[] editParameter() {
+        getTable("tabsMain_tblTabs").clickOn("Parameters");
+        waitForUpdate();
+        Table table = getTable("tblItems");
+        String[] out = {table.getCellText(1, "Value"), table.getCellText(1, "Priority")};
+        bottomMenu(EDIT);
+        return out;
+    }
+
+    public void validateEditedProvision() {
+        pause(500);
+        Table table = getTable("tblItems");
+        String columnHeader = parameterMap.keySet().iterator().next();
+        String actual = table.getCellText(1, columnHeader);
+        String expected = parameterMap.get(columnHeader);
+        if (!actual.equals(expected)) {
+            throw new AssertionError("Unexpected item record at column '" + columnHeader + "'. Expected: " + expected + "; actual: " + actual);
+        }
+    }
+
+    public void validateProvisionDeletion() {
+        waitForUpdate();
+        String tab = parameterMap.keySet().iterator().next();
+        String value = parameterMap.get(tab);
+        Table tabTable = getTable("tabsMain_tblTabs");
+        if (!tabTable.contains(tab)) {
+            return;
+        }
+        tabTable.clickOn(tab);
+        waitForUpdate();
+        String[] column = getTable("tblItems").getColumn("Updated");
+        if (Arrays.asList(column).contains(value)) {
+            throw new AssertionError("Deleted provision is still present in the list!");
+        }
+    }
+
+    public DeviceUpdatePage editProvisionRequest() {    //!
+        getTable("tabsMain_tblTabs").clickOn("RPC");
+        waitForUpdate();
+        Table table = getTable("tblItems");
+        String originalText = table.getCellText(1, "Request");
+        String modifiedText = originalText.replaceAll("GetParameterValues", "GetParameterAttributes").replaceAll("Model", "");
+        bottomMenu(EDIT);
+        table = getTable("tblItems");
+        WebElement requestCell = table.getCellWebElement(1, table.getColumnNumber(0, "Request"));
+        WebElement textArea = requestCell.findElement(By.tagName("textarea"));
+        textArea.clear();
+        textArea.sendKeys(modifiedText);
+        parameterMap = new HashMap<>(1);
+        parameterMap.put("Request", modifiedText);
+        return this;
+    }
+
+    public void validateEditedRequest() {
+        String actual = getTable("tblItems").getCellText(1, "Request");
+        String expected = parameterMap.entrySet().iterator().next().getValue();
+        if (!actual.equals(expected)) {
+            throw new AssertionError("Request validation failed!\nExpected: " + expected + "\nactual  : " + actual);
+        }
+    }
+
+    public DeviceUpdatePage editPriority(String tab) {
+        selectMainTab(tab);
+        Table table = getTable("tblItems");
+        if (tab.equals("Objects")) {
+            table.clickOn(1, 1);
+            waitForUpdate();
+            table = getTable("tblItems");
+        }
+        int colNum = table.getColumnNumber(0, "Priority");
+        WebElement select = table.getSelect(1, colNum);
+        String oldValue = getSelectedOption(select);
+        selectNewPriority(select, oldValue);
+        bottomMenu(START);
+        return this;
+    }
+
+    private void selectNewPriority(WebElement select, String oldOption) {
+        List<String> list = getOptionList(select);
+        for (String option : list) {
+            if (option.equals(oldOption)) {
+                continue;
+            }
+            selectComboBox(select, option);
+            parameterMap = new HashMap<>(1);
+            parameterMap.put("Priority", option);
+            break;
+        }
+    }
+
+    public DeviceUpdatePage editProvisionFileUrl() {
+        selectMainTab("Download file");
+        String oldUrl = getTable("tblItems").getCellText(1, "URL");
+        String newUrl = oldUrl.replaceAll("//(\\d+\\.){3}\\d+", "//8.8.8.8");
+        bottomMenu(EDIT);
+        getTable("tblItems").clickOn(1, 1);
+        waitForUpdate();
+        manualRadioButton.click();
+        waitForUpdate();
+        inputText2(urlField, newUrl);
+        bottomMenu(OK);
+        parameterMap = new HashMap<>(1);
+        parameterMap.put("URL", newUrl);
+        return this;
+    }
+
+    public DeviceUpdatePage editProvisionFilePriority() {
+        selectMainTab("Download file");
+        bottomMenu(EDIT);
+        getTable("tblItems").clickOn(1, 1);
+        WebElement select = findElement("UcFirmware1_ddlPriority");
+        String oldPriority = getSelectedOption(select);
+        selectNewPriority(select, oldPriority);
+        bottomMenu(OK);
+        return this;
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
@@ -1454,6 +1659,7 @@ public class DeviceUpdatePage extends BasePage {
         GET_CURRENT_SETTINGS("UcDeviceSettingsControls1_btnGetCurrent_btn"),
         GET_CURRENT_PORTS("btnGetCurrent_btn"),
         NEXT("btnNext_btn"),
+        OK("btnSave1_btn"),
         PAUSE("btnPause_btn"),
         REFRESH("btnRefresh_btn"),
         REPLACE("btnReplaceCpe_btn"),
