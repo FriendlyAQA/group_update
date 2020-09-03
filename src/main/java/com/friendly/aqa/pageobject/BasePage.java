@@ -149,7 +149,7 @@ public abstract class BasePage {
     protected WebElement nameField;
 
     @FindBy(id = "menuCircularG")
-    private static WebElement spinner;
+    protected static WebElement spinner;
 
     @FindBy(id = "spnAlert")
     protected WebElement alertWindow;
@@ -1101,9 +1101,10 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
-    void clickGlobalButtons(IGlobalButtons button) {
+    void clickGlobalButtons(IGlobalButtons button) {    //TODO refactor
         waitForUpdate();
         switchToFrame(BUTTONS);
+        setDefaultImplicitlyWait();
         for (int i = 0; i < 3; i++) {
             try {
                 new FluentWait<>(driver)
@@ -1112,6 +1113,7 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())))
                         .click();
+                pause(200);
                 waitForUpdate();
                 return;
             } catch (StaleElementReferenceException e) {
@@ -1578,9 +1580,9 @@ public abstract class BasePage {
             List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
             if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
                 tagList.get(0).click();
-            } else {
-                tagList.get(tagList.size() - 1).click();
             }
+            tagList.get(tagList.size() - 1).click();    //edited 03.09.2020 due to tr181_du_194 failed
+            System.out.println("click on " + branch);
         }
         waitForUpdate();
         return this;
@@ -1606,20 +1608,21 @@ public abstract class BasePage {
         }
     }
 
-    String generateValue(String parameter, int index) {
-        String value = "1";
+    String generateValue(String parameter, String oldValue) {
+        String value;
+        int generatedValue = (int) (Math.random() * 1000);
         String paramType = DataBaseConnector.getValueType(parameter).toLowerCase();
         switch (paramType) {
             case "string":
-                value = "value" + index;
+                value = "value" + generatedValue;
                 break;
             case "int":
             case "integer":
             case "unsignedint":
-                value = "" + index;
+                value = "" + generatedValue;
                 break;
             case "datetime":
-                value = "2019-10-27T02:00:0";
+                value = CalendarUtil.getDbShiftedDate(0);   //"2019-10-27T02:00:0";
                 break;
             case "opaque":
                 value = " ";
@@ -1628,6 +1631,20 @@ public abstract class BasePage {
                 value = CalendarUtil.getTimeStamp();
                 break;
             case "boolean":
+                switch (oldValue) {
+                    case "false":
+                        value = "true";
+                        break;
+                    case "true":
+                        value = "false";
+                        break;
+                    case "1":
+                        value = "0";
+                        break;
+                    default:
+                        value = "1";
+                        break;
+                }
                 break;
             default:
                 throw new AssertionError("Unsupported data type:" + paramType);
@@ -2023,7 +2040,7 @@ public abstract class BasePage {
     public BasePage setParametersMonitor(Condition condition, boolean addTask) {
         Table table = new Table("tblParamsMonitoring");
         String name = table.getColumn(0)[0];
-        String value = generateValue(table.getHint(1), 1);
+        String value = generateValue(table.getHint(1), "1");
         setParametersMonitor(table, name, condition, value);
         if (addTask) {
             table.clickOn(1, 3);
@@ -2073,10 +2090,18 @@ public abstract class BasePage {
         for (int i = 0; i < table.getTableSize()[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2 - shift).toLowerCase().equals(parameter.toLowerCase())
-                        && table.getCellText(i, length - 1 - shift).toLowerCase().equals(value.toLowerCase())) {
-                    match = true;
-                    break;
+                if (table.getCellText(i, length - 2 - shift).toLowerCase().equals(parameter.toLowerCase())) {
+                    if (table.getCellText(i, length - 1 - shift).toLowerCase().equals(value.toLowerCase())) {
+                        match = true;
+                        break;
+                    }
+                    if (value.equals("0") || value.equals("1")) {
+                        String alternateValue = value.equals("0") ? "false" : "true";
+                        if (table.getCellText(i, length - 1 - shift).equals(alternateValue)) {
+                            match = true;
+                            break;
+                        }
+                    }
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println(e.getMessage());

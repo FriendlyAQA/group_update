@@ -303,19 +303,12 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        long start = System.currentTimeMillis();
-        Map<String, Set<String>> map = getCustomDeviceInfoByColumn("telephone", false);
-        assert map != null;
-        Set<String> set = map.keySet();
-        for (String s : set) {
-            System.out.println(s + ":" + map.get(s));
-        }
-        System.out.println(System.currentTimeMillis() - start);
+        System.out.println(getGroupId("FT001SN000013196121001484"));
         disconnectDb();
     }
 
     public static String getGroupId(String serial) {
         return getValue("SELECT group_id FROM `ftacs`.`product_class` WHERE id IN (" +
-                "SELECT product_class_id FROM `ftacs`.`cpe` WHERE SERIAL = 'FT001SN0000100908F2d2158');");
+                "SELECT product_class_id FROM `ftacs`.`cpe` WHERE SERIAL = '" + serial + "');");
     }
 }

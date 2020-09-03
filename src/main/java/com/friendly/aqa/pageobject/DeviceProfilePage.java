@@ -482,8 +482,7 @@ public class DeviceProfilePage extends BasePage {
                 if (input.getAttribute("type").equals("text")) {
                     String currentValue = input.getAttribute("value");
                     if (setValue) {
-                        String s = generateValue(hint, amount < 0 ? (int) (10000 * Math.random()) : i + 1);
-                        value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
+                        value = generateValue(hint, currentValue);
                     }
                 } else if (!setValue) {
                     value = "x";

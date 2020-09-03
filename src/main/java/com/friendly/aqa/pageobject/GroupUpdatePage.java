@@ -1175,7 +1175,7 @@ public class GroupUpdatePage extends BasePage {
             String attr = optionList.get(1).getAttribute("value");
             if (attr.equals("sendEmpty")) {
                 option = ParameterType.VALUE;
-                String val = generateValue(hint, i);
+                String val = generateValue(hint, "1");
                 if (val != null) {
                     value = val;
                 }

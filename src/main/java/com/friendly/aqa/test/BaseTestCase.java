@@ -3,6 +3,7 @@ package com.friendly.aqa.test;
 import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
+import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -164,6 +165,10 @@ public abstract class BaseTestCase {
 
     protected String getSerial() {
         return BasePage.getSerial();
+    }
+
+    protected static String now() {
+        return CalendarUtil.getDbShiftedDate(0);
     }
 
     protected String getPartialSerial(int symbols) {    //negative arg returns last symbols

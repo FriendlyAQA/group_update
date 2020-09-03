@@ -9,9 +9,7 @@ import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -619,6 +617,9 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage bottomMenu(GlobalButtons button) {
+        if (button == EDIT_SETTINGS) {
+            pause(1000); //!
+        }
         clickGlobalButtons(button);
         return this;
     }
@@ -663,7 +664,11 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage leftMenu(Left item) {
         switchToFrame(ROOT);
-        getTable("tblLeftMenu").clickOn(item.value);
+        try {
+            getTable("tblLeftMenu").clickOn(item.value);
+        } catch (ElementNotInteractableException e) {
+            throw new AssertionError("Left menu item '" + item + "' not found on current page!");
+        }
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
@@ -1001,7 +1006,7 @@ public class DeviceUpdatePage extends BasePage {
             }
         }
         setDefaultImplicitlyWait();
-        if (input != null && input.isEnabled()) {
+        if (input != null && input.isDisplayed() && input.isEnabled()) {
             if (input.getAttribute("type").equals("checkbox")) {
                 input.click();
             } else if (input.getAttribute("value").equals("*****")) {
@@ -1029,7 +1034,12 @@ public class DeviceUpdatePage extends BasePage {
         }
         Table table = new Table("tblParamsTable");
         String[] names = table.getColumn(0);
-        for (int i = 0; i < Math.min(Math.abs(amount), names.length); i++) {
+        int alterAmount = amount;
+        boolean actionPerformed = false;
+        for (int i = 0; i < Math.min(Math.abs(alterAmount), names.length); i++) {
+            if (table.getVisibleRowsNumber() == 0) {
+                break;
+            }
             String hint = table.getHint(i + 1);
             WebElement input = null;
             WebElement select = null;
@@ -1037,7 +1047,7 @@ public class DeviceUpdatePage extends BasePage {
             List<WebElement> inputList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("input"));
             if (inputList.size() > 0) {
                 if (!inputList.get(0).isEnabled()) {
-                    amount++;
+                    alterAmount++;
                     continue;
                 }
                 input = inputList.get(0);
@@ -1045,7 +1055,7 @@ public class DeviceUpdatePage extends BasePage {
                 List<WebElement> selectList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("select"));
                 if (selectList.size() > 0) {
                     if (!selectList.get(0).isEnabled()) {
-                        amount++;
+                        alterAmount++;
                         continue;
                     }
                     select = selectList.get(0);
@@ -1059,8 +1069,13 @@ public class DeviceUpdatePage extends BasePage {
                         value = "*****";
                     } else {
                         String currentValue = input.getAttribute("value");
-                        String s = generateValue(hint, amount < 0 ? (int) (10000 * Math.random()) : i + 1);
-                        value = s.equals(currentValue) ? generateValue(hint, i + 20) : s;
+                        if (currentValue.equals("false")) {
+                            value = "true";
+                        } else if (currentValue.equals("true")) {
+                            value = "false";
+                        } else {
+                            value = generateValue(hint, currentValue);
+                        }
                     }
                 } else {
                     value = input.isSelected() ? "0" : "1";
@@ -1075,11 +1090,38 @@ public class DeviceUpdatePage extends BasePage {
                     }
                 }
             }
+            System.out.println("setParameter:" + names[i] + ":" + value);
             setParameter(table, names[i], value);
             table.clickOn(i, 2);
+            actionPerformed = true;
             waitForUpdate();
         }
+        if (!actionPerformed) {
+            selectNextNode();
+            setParameter(null, amount);
+        }
         return this;
+    }
+
+    private void selectNextNode() {
+        Table nodeTable = getTable("tblTree");
+        int pointer = 0;
+        for (int i = 0; i < nodeTable.getTableSize()[0]; i++) {
+//            System.out.println(nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style"));
+            if (nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style").replaceAll(" ", "").contains("font-weight:bold;")) {
+                pointer = i;
+                break;
+            }
+        }
+        for (int i = pointer + 1; i < nodeTable.getTableSize()[0]; i++) {
+            if (nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("class").endsWith("disable")) {
+                continue;
+            }
+            nodeTable.clickOn(i, 0, 0);
+            System.out.println("click on row:" + i);
+            break;
+        }
+        waitForUpdate();
     }
 
     public void validateAbsenceTaskWithValue(String value) {
@@ -1143,14 +1185,13 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateUploadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        label:
         for (Map.Entry<String, String> entry : entrySet) {
             Table table = getTable("tblParameters");
             List<Integer> list = table.getRowsWithText(entry.getKey());
             for (int i : list) {
                 System.out.println("text: " + table.getCellText(i, "Parameter name"));
                 if (table.getCellText(i, "Parameter name").matches(entry.getValue())) {
-                    continue label;
+                    return;
                 }
             }
             throw new AssertionError("Cannot find entry that matches the regex '" + entry.getValue() + "'");
@@ -1230,6 +1271,7 @@ public class DeviceUpdatePage extends BasePage {
         if (defaultExpanded < 2) {
             throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
         }
+        waitForUpdate();
         collapseLink.click();
         table = getTable("tblTree");
         if (table.getVisibleRowsNumber() != 1) {
@@ -1242,11 +1284,12 @@ public class DeviceUpdatePage extends BasePage {
                 throw new AssertionError("Expected top node icon is 'PLUS'!");
             }
         }
+        waitForUpdate();
         expandLink.click();
         table = getTable("tblTree");
         int allExpanded = table.getVisibleRowsNumber();
         if (allExpanded < defaultExpanded) {
-            throw new AssertionError("Expanded objects number is less than default expanded tree it has" + defaultExpanded);
+            throw new AssertionError("Expanded objects number is less than default expanded tree (" + allExpanded + "<" + defaultExpanded + ")");
         }
         images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
         if (!images.isEmpty()) {
@@ -1254,6 +1297,7 @@ public class DeviceUpdatePage extends BasePage {
                 throw new AssertionError("Expected top node icon is 'MINUS'!");
             }
         }
+        waitForUpdate();
         table.clickOn(0, 0, 0);
         table = getTable("tblTree");
         if (table.getVisibleRowsNumber() != 1) {
@@ -1264,12 +1308,16 @@ public class DeviceUpdatePage extends BasePage {
             if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
                 throw new AssertionError("Expected top node icon is 'PLUS'!");
             }
+            System.out.println("inside");
         }
-        table.clickOn(0, 0, 0);
-        pause(1000);//!
+        System.out.println(table.getCellWebElement(0, 0).getAttribute("innerHTML"));
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style.border='3px solid red'", images.get(0));
+        waitForUpdate();
+        images.get(0).click();
         table = getTable("tblTree");
-        if (table.getVisibleRowsNumber() != allExpanded) {
-            throw new AssertionError("Expanded objects number is less than previous expanded tree it has" + defaultExpanded);
+        int currentRows = table.getVisibleRowsNumber();
+        if (currentRows != allExpanded) {
+            throw new AssertionError("Expanded objects number is not equals than previous expanded tree (" + currentRows + "/" + allExpanded + ")");
         }
         images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
         if (!images.isEmpty()) {
@@ -1278,6 +1326,71 @@ public class DeviceUpdatePage extends BasePage {
             }
         }
         System.out.println(timer.stop() + "ms");
+    }
+
+    public void validateObjectTree1() {
+        Timer timer = new Timer();
+        WebElement table = findElement("tblTree");
+        String rootExpanderId = table.findElement(By.tagName("img")).getAttribute("id");
+        long defaultExpanded = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
+        if (defaultExpanded < 2) {
+            throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
+        }
+        collapseLink.click();
+        waitForSpinner(11);
+        waitForUpdate();
+        table = findElement("tblTree");
+        if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
+            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
+        }
+        setImplicitlyWait(0);
+        if (!findElement(rootExpanderId).getAttribute("src").endsWith("expand.png")) {
+            throw new AssertionError("Expected top node icon is 'PLUS'!");
+        }
+        expandLink.click();
+        waitForSpinner(11);
+        waitForUpdate();
+        table = findElement("tblTree");
+        long allExpanded = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
+        if (allExpanded < defaultExpanded) {
+            throw new AssertionError("Expanded objects number is less than default expanded tree (" + defaultExpanded + ")");
+        }
+        if (!findElement(rootExpanderId).getAttribute("src").endsWith("collapse.png")) {
+            throw new AssertionError("Expected top node icon is 'MINUS'!");
+        }
+        findElement(rootExpanderId).click();
+        waitForSpinner(11);
+        waitForUpdate();
+        table = findElement("tblTree");
+        if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
+            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
+        }
+        if (!findElement(rootExpanderId).getAttribute("src").endsWith("expand.png")) {
+            throw new AssertionError("Expected top node icon is 'PLUS'!");
+        }
+//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style.border='3px solid red'", findElement(rootExpanderId));
+        findElement(rootExpanderId).click();
+        waitForSpinner(11);
+        waitForUpdate();
+        table = findElement("tblTree");
+        long currentRows = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
+        if (currentRows != allExpanded) {
+            throw new AssertionError("Expanded objects number is not equals than previous expanded tree (" + currentRows + "/" + allExpanded + ")");
+        }
+        if (!findElement(rootExpanderId).getAttribute("src").endsWith("collapse.png")) {
+            throw new AssertionError("Expected top node icon is 'MINUS'!");
+        }
+        System.out.println(timer.stop() + "ms");
+    }
+
+    private void waitForSpinner(int timeoutSec) {
+        switchToFrame(ROOT);
+        new FluentWait<>(driver)
+                .withMessage("Spinner not found")
+                .withTimeout(Duration.ofSeconds(timeoutSec))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.visibilityOf(spinner));
+        switchToPreviousFrame();
     }
 
     public void validateCsvFile() throws IOException {
@@ -1452,6 +1565,7 @@ public class DeviceUpdatePage extends BasePage {
         setImplicitlyWait(1);
         List<WebElement> pageList = findElements("pager2_lblPagerTotal");
         if (!pageList.isEmpty()) {
+            waitUntilButtonIsDisplayed(DELETE);
             Table table = getTable("tblParameters");
             table.clickOn(0, 0, 0);
             bottomMenu(DELETE);

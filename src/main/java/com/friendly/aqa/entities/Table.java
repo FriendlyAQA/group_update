@@ -337,12 +337,21 @@ public class Table {
     }
 
     public WebElement getInput(int row, int column) {
-        return elementTable[row][column].findElement(By.tagName("input"));
+        if (isEmpty()) {
+            throw new AssertionError("Table is empty!");
+        }
+        try {
+            return elementTable[row][column].findElement(By.tagName("input"));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            print();
+            throw new AssertionError("Cell " + row + ":" + column + " not found!");
+        }
     }
 
     public WebElement getSelect(int row, int column) {
         BasePage.setImplicitlyWait(0);
         List<WebElement> list = elementTable[row][column].findElements(By.tagName("select"));
+        BasePage.setDefaultImplicitlyWait();
         if (list.isEmpty()) {
             return null;
         }
@@ -499,7 +508,7 @@ public class Table {
     }
 
     public int getVisibleRowsNumber() {
-        return (int) rowsList.stream().filter(WebElement::isDisplayed).count();
+        return (int) rowsList.parallelStream().filter(WebElement::isDisplayed).count();
     }
 
     public List<String> getNotEmptyContentList() {

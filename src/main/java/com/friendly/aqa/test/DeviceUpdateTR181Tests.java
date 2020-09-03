@@ -1579,7 +1579,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .assertLastActivityIs("Reset to factory defaults");
     }
 
-    @Test   //bug: task doesn't created in list
+    @Test   //bug: task doesn't display in list
     public void tr181_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1719,7 +1719,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -1736,7 +1736,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter("PeriodicInformInterval, sec", "61")
-                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -1753,7 +1753,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter("PeriodicInformInterval, sec", "62")  //cannot set all params on Management tab due to the possibility of device disconnecting;
-                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -1769,7 +1769,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(WAIT_UNTIL_CONNECT)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -1788,7 +1788,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(DEVICE_SETTINGS)
                 .pause(1000)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("PeriodicInformTime", CalendarUtil.getDbShiftedDate(0))
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2226,7 +2226,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv4", 1)
+                .setParameter("DHCPv6", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2242,7 +2242,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv4", 2)
+                .setParameter("DHCPv6", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2258,7 +2258,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv4", 99)
+                .setParameter("DHCPv6", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2274,7 +2274,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv4", 1)
+                .setParameter("DHCPv6", 1)
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2293,7 +2293,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv6", 1)
+                .setParameter("DNS", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2325,7 +2325,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv6", 99)
+                .setParameter("DNS", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2341,7 +2341,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DHCPv6", 1)
+                .setParameter("DNS", 1)
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2360,7 +2360,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DNS", 1)
+                .setParameter("Users", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2376,7 +2376,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DNS", 2)
+                .setParameter("Users", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2392,7 +2392,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DNS", 99)
+                .setParameter("Users", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2408,7 +2408,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("DNS", 1)
+                .setParameter("Users", 1)
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2427,7 +2427,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Users", 1)
+                .setParameter("Ethernet", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2443,7 +2443,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Users", 2)
+                .setParameter("Ethernet", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2459,7 +2459,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Users", 99)
+                .setParameter("Ethernet", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2475,7 +2475,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Users", 1)
+                .setParameter("Ethernet", 1)
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2491,15 +2491,8 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
-                .clearDeviceActivity()
-                .leftMenu(DEVICE_SETTINGS)
-                .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Ethernet", 1)
-                .bottomMenu(SEND_UPDATE)
-                .okButtonPopUp()
-                .okButtonPopUp()
-                .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .validateObjectTree(); // use .validateObjectTree1() instead if failed!
     }
 
     @Test
@@ -2508,9 +2501,10 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DEVICE_SETTINGS)
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Ethernet", 2)
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2524,9 +2518,11 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DEVICE_SETTINGS)
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Ethernet", 99)
+                .setParameter("PeriodicInformTime", now())
+                .bottomMenu(WAIT_UNTIL_CONNECT)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2540,9 +2536,10 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DEVICE_SETTINGS)
+                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .selectBranch("ManagementServer")
                 .bottomMenu(EDIT_SETTINGS)
-                .setParameter("Ethernet", 1)
+                .setParameter("PeriodicInformTime", now())
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
@@ -2779,14 +2776,14 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(PORT_MAPPING)
-                .storePortMappingPath()
+                .storePath("Device.NAT.PortMapping.")
                 .bottomMenu(GET_CURRENT_PORTS)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateGeneratedGets();
     }
 
-    @Test
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
     public void tr181_du_213() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2800,7 +2797,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
     public void tr181_du_214() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2814,7 +2811,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
     public void tr181_du_215() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2828,7 +2825,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
     public void tr181_du_216() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2841,7 +2838,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
     public void tr181_du_217() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2854,7 +2851,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test
+    @Test   //bug: at least one from 213-217 testcases must pass (all failed due to bug)
     public void tr181_du_218() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2866,14 +2863,14 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .verifyPortDeletion();
     }
 
-    @Test   //bug: 	MP252 doesn't support Trace diagnostic
+    @Test   //bug: "An unexpected occurrence happened. Log file updated." after pressing 'Create'
     public void tr181_du_219() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("Trace diagnostic")
+                .createDiagnostic("Trace diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
@@ -2892,20 +2889,20 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support download Diagnostic
+    @Test
     public void tr181_du_221() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("Download diagnostic")
+                .createDiagnostic("Download diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support Upload diagnostics
+    @Test
     public void tr181_du_222() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2918,7 +2915,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support Wi-Fi neighboring diagnostics
+    @Test   //bug: "An unexpected occurrence happened. Log file updated." after pressing 'Create'
     public void tr181_du_223() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2938,7 +2935,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .enterToDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("NSlookup diagnostics")
+                .createDiagnostic("NSLoopback diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
@@ -3224,7 +3221,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    @Test   //depends on 228
+    @Test   //depends on 238
     public void tr181_du_246() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3235,7 +3232,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedRequest();
     }
 
-    @Test   //depends on 228
+    @Test   //depends on 238
     public void tr181_du_247() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3246,7 +3243,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //depends on 228
+    @Test   //depends on 238
     public void tr181_du_248() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3261,7 +3258,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
 
     //skipped:229 - cannot change object path;
 
-    @Test   //depends on 203
+    @Test   //depends on 215
     public void tr181_du_250() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3272,7 +3269,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //depends on 203
+    @Test   //depends on 215
     public void tr181_du_251() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3285,7 +3282,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    @Test   //depends on 194
+    @Test   //depends on 206
     public void tr181_du_252() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3296,7 +3293,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //depends on 194
+    @Test   //depends on 206
     public void tr181_du_253() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3307,7 +3304,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //depends on 194
+    @Test   //depends on 206
     public void tr181_du_254() {
         duPage
                 .topMenu(DEVICE_UPDATE)
