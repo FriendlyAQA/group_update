@@ -617,10 +617,14 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage bottomMenu(GlobalButtons button) {
+        return bottomMenu(button, IMPLICITLY_WAIT);
+    }
+
+    public DeviceUpdatePage bottomMenu(GlobalButtons button, long timeout) {
         if (button == EDIT_SETTINGS) {
             pause(1000); //!
         }
-        clickGlobalButtons(button);
+        clickGlobalButtons1(button, timeout);
         return this;
     }
 
@@ -988,6 +992,7 @@ public class DeviceUpdatePage extends BasePage {
 
     private void setParameter(Table table, String paramName, String value) {
         int row = table.getRowNumberByText(paramName);
+        int colNum = table.getColumnNumber(0, "Parameter value");
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
@@ -996,11 +1001,11 @@ public class DeviceUpdatePage extends BasePage {
         WebElement input = null;
         WebElement select = null;
         setImplicitlyWait(0);
-        List<WebElement> inputList = table.getCellWebElement(row, 1).findElements(By.tagName("input"));
+        List<WebElement> inputList = table.getCellWebElement(row, colNum).findElements(By.tagName("input"));
         if (inputList.size() > 0) {
             input = inputList.get(0);
         } else {
-            List<WebElement> selectList = table.getCellWebElement(row, 1).findElements(By.tagName("select"));
+            List<WebElement> selectList = table.getCellWebElement(row, colNum).findElements(By.tagName("select"));
             if (selectList.size() > 0) {
                 select = selectList.get(0);
             }
@@ -1033,7 +1038,8 @@ public class DeviceUpdatePage extends BasePage {
             selectTab(tab);
         }
         Table table = new Table("tblParamsTable");
-        String[] names = table.getColumn(0);
+        String[] names = table.getColumn("Parameter name");
+        int valueColNum = table.getColumnNumber(0, "Parameter value");
         int alterAmount = amount;
         boolean actionPerformed = false;
         for (int i = 0; i < Math.min(Math.abs(alterAmount), names.length); i++) {
@@ -1044,7 +1050,7 @@ public class DeviceUpdatePage extends BasePage {
             WebElement input = null;
             WebElement select = null;
             setImplicitlyWait(0);
-            List<WebElement> inputList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("input"));
+            List<WebElement> inputList = table.getCellWebElement(i + 1, valueColNum).findElements(By.tagName("input"));
             if (inputList.size() > 0) {
                 if (!inputList.get(0).isEnabled()) {
                     alterAmount++;
@@ -1052,7 +1058,7 @@ public class DeviceUpdatePage extends BasePage {
                 }
                 input = inputList.get(0);
             } else {
-                List<WebElement> selectList = table.getCellWebElement(i + 1, 1).findElements(By.tagName("select"));
+                List<WebElement> selectList = table.getCellWebElement(i + 1, valueColNum).findElements(By.tagName("select"));
                 if (selectList.size() > 0) {
                     if (!selectList.get(0).isEnabled()) {
                         alterAmount++;
@@ -1113,13 +1119,20 @@ public class DeviceUpdatePage extends BasePage {
                 break;
             }
         }
+        boolean success = false;
         for (int i = pointer + 1; i < nodeTable.getTableSize()[0]; i++) {
             if (nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("class").endsWith("disable")) {
                 continue;
             }
             nodeTable.clickOn(i, 0, 0);
+            success = true;
             System.out.println("click on row:" + i);
             break;
+        }
+        if (!success) {
+            String warn = "There are no clickable objects!";
+            logger.warn(warn);
+            throw new AssertionError(warn);
         }
         waitForUpdate();
     }
@@ -1129,6 +1142,16 @@ public class DeviceUpdatePage extends BasePage {
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
         }
+    }
+
+    public void validateAbsenceTaskWithValue() {
+        String[] col = getTable("tblParameters").getColumn("Value");
+        String value = parameterMap.values().iterator().next();
+        if (Arrays.asList(col).contains(value)) {
+            throw new AssertionError("Task with value '" + value + "' is present in the list!");
+        }
+        System.out.println(Arrays.asList(col));
+        System.out.println("find: " + value);
     }
 
     public DeviceUpdatePage validateTasks() {
@@ -1235,6 +1258,7 @@ public class DeviceUpdatePage extends BasePage {
 
     @Override
     public DeviceUpdatePage fillUrl() {
+        waitUntilButtonIsDisplayed(ADD_TO_PROVISION);
         fromListRadioButton.click();
         List<String> optList = getOptionList(fileNameComboBox);
         String lastOpt = optList.get(optList.size() - 1);
@@ -1388,7 +1412,7 @@ public class DeviceUpdatePage extends BasePage {
         new FluentWait<>(driver)
                 .withMessage("Spinner not found")
                 .withTimeout(Duration.ofSeconds(timeoutSec))
-                .pollingEvery(Duration.ofMillis(100))
+                .pollingEvery(Duration.ofMillis(50))
                 .until(ExpectedConditions.visibilityOf(spinner));
         switchToPreviousFrame();
     }
@@ -1532,6 +1556,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage createDiagnostic(String diagType) {
+        waitUntilButtonIsDisplayed(ADD_TO_PROVISION);//!
         try {
             selectComboBox(diagnosticCombobox, diagType);
         } catch (org.openqa.selenium.NoSuchElementException e) {
@@ -1564,6 +1589,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage deleteAllDiagnostics() {
         setImplicitlyWait(1);
         List<WebElement> pageList = findElements("pager2_lblPagerTotal");
+        setDefaultImplicitlyWait();
         if (!pageList.isEmpty()) {
             waitUntilButtonIsDisplayed(DELETE);
             Table table = getTable("tblParameters");
@@ -1571,7 +1597,6 @@ public class DeviceUpdatePage extends BasePage {
             bottomMenu(DELETE);
             okButtonPopUp();
         }
-        setDefaultImplicitlyWait();
         return this;
     }
 
@@ -1638,6 +1663,9 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         String tab = parameterMap.keySet().iterator().next();
         String value = parameterMap.get(tab);
+        if (elementIsAbsent("tabsMain_tblTabs")) {
+            return;
+        }
         Table tabTable = getTable("tabsMain_tblTabs");
         if (!tabTable.contains(tab)) {
             return;
@@ -1724,6 +1752,7 @@ public class DeviceUpdatePage extends BasePage {
         selectMainTab("Download file");
         bottomMenu(EDIT);
         getTable("tblItems").clickOn(1, 1);
+        waitForUpdate();
         WebElement select = findElement("UcFirmware1_ddlPriority");
         String oldPriority = getSelectedOption(select);
         selectNewPriority(select, oldPriority);

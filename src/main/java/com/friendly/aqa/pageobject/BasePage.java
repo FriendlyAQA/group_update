@@ -45,7 +45,7 @@ public abstract class BasePage {
     public static String mainWindow;
     private static final Logger logger;
     public static FrameSwitch frame;
-    private static FrameSwitch previousFrame;
+    public static FrameSwitch previousFrame;
     protected Table savedTable;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
@@ -764,6 +764,7 @@ public abstract class BasePage {
     }
 
     public void closePopup() {
+        switchToFrame(ROOT);
         executeScript("PopupHide('cancel');");
     }
 
@@ -850,7 +851,7 @@ public abstract class BasePage {
                         break;
                     }
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("DPP:209 - StaleElementReferenceException handled");
+                    System.out.println("BP:854 - StaleElementReferenceException handled");
                 }
             } while (System.currentTimeMillis() - from < 10000);
         }
@@ -882,6 +883,7 @@ public abstract class BasePage {
             }
         } while (!timer.timeout());
         switchToPreviousFrame();
+        previousFrame = frame;  //to avoid traces of switching to ROOT frame
         return this;
     }
 
@@ -1103,7 +1105,7 @@ public abstract class BasePage {
 
     void clickGlobalButtons(IGlobalButtons button) {    //TODO refactor
         waitForUpdate();
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
         for (int i = 0; i < 3; i++) {
             try {
@@ -1124,6 +1126,50 @@ public abstract class BasePage {
         }
         throw new AssertionError("cannot click button!");
     }
+
+    void clickGlobalButtons1(IGlobalButtons button) {
+        clickGlobalButtons1(button, IMPLICITLY_WAIT);
+    }
+
+    void clickGlobalButtons1(IGlobalButtons button, long timeout) {
+        waitForUpdate();
+        switchToFrame(BOTTOM_MENU);
+        setImplicitlyWait(timeout);
+        Timer timer = new Timer(timeout);
+        exit:
+        while (!timer.timeout()) {
+            List<WebElement> list = driver.findElements(By.tagName("input"));
+            if (!list.isEmpty()) {
+                for (WebElement el : list) {
+                    try {
+                        if (el.isDisplayed()) {
+                            break exit;
+                        }
+                    } catch (StaleElementReferenceException e) {
+                        System.out.println("StaleElementReferenceException ignored");
+                    }
+                }
+            }
+        }
+        WebElement buttonElement;
+        try {
+            new FluentWait<>(driver)
+                    .withTimeout(Duration.ofSeconds(timeout))
+                    .pollingEvery(Duration.ofMillis(100))
+                    .until(ExpectedConditions.elementToBeClickable(buttonElement = findElement(button.getId())));
+        }catch (StaleElementReferenceException e){
+            new FluentWait<>(driver)
+                    .withMessage("Button " + button + " is not active")
+                    .withTimeout(Duration.ofSeconds(timeout))
+                    .pollingEvery(Duration.ofMillis(100))
+                    .until(ExpectedConditions.elementToBeClickable(buttonElement = findElement(button.getId())));
+        }
+        pause(500);
+        buttonElement.click();
+        waitForUpdate();
+        switchToFrame(DESKTOP);
+    }
+
 
     public String getSelectedOption(String comboBoxId) {
         return getSelectedOption(findElement(comboBoxId));
@@ -1257,7 +1303,7 @@ public abstract class BasePage {
         String[] names = table.getColumn(0);
         if (names.length == 0) {
             String warn = "No one events was found!";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         for (int i = 0; i < Math.min(amount, names.length); i++) {
@@ -1312,14 +1358,14 @@ public abstract class BasePage {
     }
 
     public boolean isButtonPresent(GlobalButtons button) {
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         boolean out = findElements(button.getId()).size() == 1;
         switchToPreviousFrame();
         return out;
     }
 
     public boolean isButtonActive(IGlobalButtons button) {
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         List<WebElement> list = findElements(button.getId());
         boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
         switchToPreviousFrame();
@@ -1327,22 +1373,23 @@ public abstract class BasePage {
     }
 
     public void waitUntilButtonIsDisplayed(IGlobalButtons button) {
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         try {
             waitUntilElementIsDisplayed(findElement(button.getId()));
-        } catch (AssertionError e) {
-            String warn = "Button '" + button + "' not found";
-            throw new AssertionError(warn);
+        } catch (StaleElementReferenceException e) {
+            waitForUpdate();
+            waitUntilElementIsDisplayed(findElement(button.getId()));
         }
-        switchToPreviousFrame();
+        switchToFrame(DESKTOP);
     }
 
     public void waitUntilButtonIsEnabled(IGlobalButtons button) {
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         try {
             waitUntilElementIsEnabled(button.getId());
         } catch (AssertionError e) {
             String warn = "Button '" + button + "' not found/not active";
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         switchToPreviousFrame();
@@ -1362,7 +1409,7 @@ public abstract class BasePage {
         }
         if (!success) {
             String warn = "Element with id='" + id + "' not found/not active";
-            logger.warn(warn);
+            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
     }
@@ -1419,7 +1466,7 @@ public abstract class BasePage {
     }
 
     protected BasePage assertButtonsArePresent(IGlobalButtons... buttons) {
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
         for (IGlobalButtons button : buttons) {
             List<WebElement> list = findElements(button.getId());
@@ -1435,7 +1482,7 @@ public abstract class BasePage {
     public BasePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
         waitForUpdate();
         assertButtonsArePresent(buttons);
-        switchToFrame(BUTTONS);
+        switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
         for (IGlobalButtons button : buttons) {
             WebElement btn = findElement(button.getId());
@@ -1582,13 +1629,11 @@ public abstract class BasePage {
                 tagList.get(0).click();
             }
             tagList.get(tagList.size() - 1).click();    //edited 03.09.2020 due to tr181_du_194 failed
-            System.out.println("click on " + branch);
         }
         waitForUpdate();
         return this;
     }
 
-    //1
     public void selectAnotherBranch() {
         String branch = getElementText("divPath");
         Table branchTable = new Table("tblTree");
@@ -2068,7 +2113,7 @@ public abstract class BasePage {
             if (!isFound) {
                 String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
                         + getSelectedOption(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
-                logger.warn(warn);
+                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                 throw new AssertionError("Expected Parameters Monitoring not found on current page!\n" + table.print());
             }
         });
@@ -2155,7 +2200,7 @@ public abstract class BasePage {
     }
 
     public enum FrameSwitch {
-        ROOT(null), DESKTOP("frmDesktop"), BUTTONS("frmButtons"),
+        ROOT(null), DESKTOP("frmDesktop"), BOTTOM_MENU("frmButtons"),
         CONDITIONS("frmPopup2"), POPUP("frmPopup"), SUB_FRAME("frmSubFrame");
 
         FrameSwitch(String frameId) {

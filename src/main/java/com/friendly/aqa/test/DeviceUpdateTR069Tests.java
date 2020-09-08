@@ -19,8 +19,11 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
 
     /*
     Preconditions:
-    1. Before run you should delete all view and custom view (Search) with name like 'tr069_du_011', 'tr069_du_067' (starts with tr069_) etc.;
-    2. Devices (emul) must run.
+    1. Before run you should delete all view and custom view (Search) with name like 'lwm2m_du_011', 'lwm2m_du_067' (starts with lwm2m_) etc.;
+    2. Devices (emul) must run;
+    3. Trace for target device must be stopped (lwm2m_du_135);
+    4. At least one active profile for target device must exist (lwm2m_du_134);
+    5. All files for Download and Upload tasks must be added to server.
     */
     @Test
     public void tr069_du_001() {

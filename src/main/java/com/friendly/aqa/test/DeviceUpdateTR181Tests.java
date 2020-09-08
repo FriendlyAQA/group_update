@@ -20,8 +20,11 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
 
     /*
     Preconditions:
-    1. Before test run you should delete all view and custom view (Search) with name like 'tr181_du_011', 'tr181_du_067' (starts with tr181_) etc.;
-    2. Devices (emul) must run.
+    1. Before run you should delete all view and custom view (Search) with name like 'lwm2m_du_011', 'lwm2m_du_067' (starts with lwm2m_) etc.;
+    2. Devices (emul) must run;
+    3. Trace for target device must be stopped (lwm2m_du_135);
+    4. At least one active profile for target device must exist (lwm2m_du_134);
+    5. All files for Download and Upload tasks must be added to server.
     */
     @Test
     public void tr181_du_001() {
@@ -893,8 +896,8 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .setViewColumns(1, 99)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .searchBy("Serial Number")
-                .lookFor(getSerial().substring(0, 3))
+                .lookFor(getSerial().substring(0, 3))//!
+                .searchBy("Serial Number")//!
                 .searchButton()
                 .validateViewColumns();
     }
@@ -2492,7 +2495,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
-                .validateObjectTree(); // use .validateObjectTree1() instead if failed!
+                .validateObjectTree1(); // use .validateObjectTree1() instead if failed!
     }
 
     @Test
@@ -2769,7 +2772,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateUploadFileTasks();
     }
 
-    @Test
+    @Test   //bug: tab "port mapping" not found
     public void tr181_du_212() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2783,7 +2786,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateGeneratedGets();
     }
 
-    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_213() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2797,7 +2800,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_214() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2811,7 +2814,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_215() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2825,7 +2828,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_216() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2838,7 +2841,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_217() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2851,7 +2854,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validatePortCreating();
     }
 
-    @Test   //bug: at least one from 213-217 testcases must pass (all failed due to bug)
+    @Test   //bug: 'Description' and 'Protocol' fields are empty after saving or  tab "port mapping" not found
     public void tr181_du_218() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2928,7 +2931,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support NSlookup diagnostics
+    @Test
     public void tr181_du_224() {
         duPage
                 .topMenu(DEVICE_UPDATE)

@@ -412,7 +412,8 @@ public class Table {
     }
 
     public String getHint(int row) {
-        return elementTable[row][0].findElement(By.tagName("span")).getAttribute("hintbody");
+        int colNum = getColumnNumber(0, "Parameter name");
+        return elementTable[row][colNum].findElement(By.tagName("span")).getAttribute("hintbody");
     }
 
 //    @SuppressWarnings("unused")
