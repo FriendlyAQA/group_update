@@ -136,13 +136,13 @@ public class Table {
         return -1;
     }
 
-    public boolean hasAsymmetry() {
-        if (textTable.length <= 1) {
+    public boolean isAsymmetric() {
+        if (elementTable.length <= 1) {
             return false;
         }
-        int length = textTable[0].length;
-        for (int i = 1; i < textTable.length; i++) {
-            if (textTable[i].length != length) {
+        int length = elementTable[0].length;
+        for (int i = 1; i < elementTable.length; i++) {
+            if (elementTable[i].length != length) {
                 return true;
             }
         }
@@ -341,10 +341,11 @@ public class Table {
             throw new AssertionError("Table is empty!");
         }
         try {
+            BasePage.scrollToElement(rowsList.get(row));
             return elementTable[row][column].findElement(By.tagName("input"));
         } catch (ArrayIndexOutOfBoundsException e) {
             print();
-            throw new AssertionError("Cell " + row + ":" + column + " not found!");
+            throw new AssertionError("Cell " + row + ":" + column + " not found!\n" + e.getMessage());
         }
     }
 

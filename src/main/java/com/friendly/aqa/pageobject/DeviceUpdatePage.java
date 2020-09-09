@@ -617,14 +617,10 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage bottomMenu(GlobalButtons button) {
-        return bottomMenu(button, IMPLICITLY_WAIT);
-    }
-
-    public DeviceUpdatePage bottomMenu(GlobalButtons button, long timeout) {
         if (button == EDIT_SETTINGS) {
             pause(1000); //!
         }
-        clickGlobalButtons1(button, timeout);
+        clickGlobalButtons1(button);
         return this;
     }
 
@@ -679,6 +675,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage selectAnyDevice() { //except target device
+        waitForBottomMenuIsDownloaded();//!
         Table table = getMainTable();
         String[] serials = table.getColumn("Serial");
         for (int i = 0; i < serials.length; i++) {
@@ -1098,7 +1095,7 @@ public class DeviceUpdatePage extends BasePage {
             }
             System.out.println("setParameter:" + names[i] + ":" + value);
             setParameter(table, names[i], value);
-            table.clickOn(i, 2);
+            table.clickOn(i, -1);
             actionPerformed = true;
             waitForUpdate();
         }
@@ -1757,6 +1754,20 @@ public class DeviceUpdatePage extends BasePage {
         String oldPriority = getSelectedOption(select);
         selectNewPriority(select, oldPriority);
         bottomMenu(OK);
+        return this;
+    }
+
+    public DeviceUpdatePage clickIfPresent(IGlobalButtons button) {
+        waitForUpdate();
+        waitForBottomMenuIsDownloaded();
+        switchToFrame(BOTTOM_MENU);
+        List<WebElement> list = findElements(button.getId());
+        if (!list.isEmpty() && list.get(0).isDisplayed()) {
+            list.get(0).click();
+            okButtonPopUp();
+        }
+        waitForUpdate();
+        switchToFrame(DESKTOP);
         return this;
     }
 

@@ -809,13 +809,14 @@ public abstract class BasePage {
     }
 
     public Table getTable(String id, int expectedRowsNumber, boolean checkAsymmetry) {
-        Table table = new Table(id);
+        Table table = getTable(id);
         Timer timer = new Timer();
         while (!timer.timeout()) {
-            if (table.getTableSize()[0] == expectedRowsNumber && (!checkAsymmetry || !table.hasAsymmetry())) {
+            if (table.getTableSize()[0] == expectedRowsNumber && (!checkAsymmetry || !table.isAsymmetric())) {
                 return table;
             }
-            table = new Table(id);
+            waitForUpdate();
+            table = getTable(id);
         }
         throw new AssertionError("Table rows number != " + expectedRowsNumber);
     }
@@ -856,6 +857,11 @@ public abstract class BasePage {
             } while (System.currentTimeMillis() - from < 10000);
         }
         return this;
+    }
+
+    public WebElement showPointer(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
+        return element;
     }
 
     @SuppressWarnings("unused")
@@ -1128,14 +1134,23 @@ public abstract class BasePage {
     }
 
     void clickGlobalButtons1(IGlobalButtons button) {
-        clickGlobalButtons1(button, IMPLICITLY_WAIT);
+        waitForBottomMenuIsDownloaded();
+        switchToFrame(BOTTOM_MENU);
+        new FluentWait<>(driver)
+                .ignoring(StaleElementReferenceException.class)//!
+                .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
+                .pollingEvery(Duration.ofMillis(100))
+                .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())));
+        pause(500);
+        showPointer(findElement(button.getId())).click();
+        waitForUpdate();
+        switchToFrame(DESKTOP);
     }
 
-    void clickGlobalButtons1(IGlobalButtons button, long timeout) {
+    protected void waitForBottomMenuIsDownloaded() {
         waitForUpdate();
         switchToFrame(BOTTOM_MENU);
-        setImplicitlyWait(timeout);
-        Timer timer = new Timer(timeout);
+        Timer timer = new Timer();
         exit:
         while (!timer.timeout()) {
             List<WebElement> list = driver.findElements(By.tagName("input"));
@@ -1151,25 +1166,8 @@ public abstract class BasePage {
                 }
             }
         }
-        WebElement buttonElement;
-        try {
-            new FluentWait<>(driver)
-                    .withTimeout(Duration.ofSeconds(timeout))
-                    .pollingEvery(Duration.ofMillis(100))
-                    .until(ExpectedConditions.elementToBeClickable(buttonElement = findElement(button.getId())));
-        }catch (StaleElementReferenceException e){
-            new FluentWait<>(driver)
-                    .withMessage("Button " + button + " is not active")
-                    .withTimeout(Duration.ofSeconds(timeout))
-                    .pollingEvery(Duration.ofMillis(100))
-                    .until(ExpectedConditions.elementToBeClickable(buttonElement = findElement(button.getId())));
-        }
-        pause(500);
-        buttonElement.click();
-        waitForUpdate();
-        switchToFrame(DESKTOP);
+        switchToPreviousFrame();
     }
-
 
     public String getSelectedOption(String comboBoxId) {
         return getSelectedOption(findElement(comboBoxId));

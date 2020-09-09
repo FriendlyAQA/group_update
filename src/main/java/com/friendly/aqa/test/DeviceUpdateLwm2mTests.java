@@ -630,9 +630,9 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterToDevice()
                 .bottomMenu(SHOW_TRACE)
-                .assertTraceWindowIsOpened()
+                .assertTraceWindowIsOpened()/*
                 .bottomMenu(STOP_TRACE, 60)
-                .okButtonPopUp()/*
+                .okButtonPopUp()
                 .leftMenu(LIST)*/;
     }
 
@@ -1462,7 +1462,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .searchBy("Serial Number")
                 .lookFor(getSerial())
-                .deselectCheckbox("rdSearchExactly")
+                .selectCheckbox("rdSearchExactly")
                 .searchButton()
                 .assertTransferToDeviceInfo();
     }
@@ -1617,6 +1617,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
+                .clickIfPresent(STOP_TRACE)
                 .bottomMenu(START_TRACE)
                 .okButtonPopUp()
                 .bottomMenu(SHOW_TRACE)
