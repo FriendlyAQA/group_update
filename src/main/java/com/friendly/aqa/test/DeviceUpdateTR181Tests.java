@@ -3,7 +3,6 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.pageobject.DeviceUpdatePage;
-import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -55,6 +54,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
     public void tr181_du_004() {
         duPage
                 .topMenu(DEVICE_UPDATE)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
@@ -593,7 +593,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("tr181_du_014")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "tr181_du_014");
@@ -631,9 +631,9 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterToDevice()
                 .bottomMenu(SHOW_TRACE)
-                .assertTraceWindowIsOpened()
+                .assertTraceWindowIsOpened()/*
                 .bottomMenu(STOP_TRACE)
-                .okButtonPopUp()/*
+                .okButtonPopUp()
                 .leftMenu(LIST)*/;
     }
 
@@ -800,6 +800,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
@@ -1304,7 +1305,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("tr181_du_069")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "tr181_du_069");
@@ -1618,6 +1619,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
+                .clickIfPresent(STOP_TRACE)
                 .bottomMenu(START_TRACE)
                 .okButtonPopUp()
                 .bottomMenu(SHOW_TRACE)
@@ -3261,7 +3263,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
 
     //skipped:229 - cannot change object path;
 
-    @Test   //depends on 215
+    @Test   //bug: depends on 215
     public void tr181_du_250() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -3272,7 +3274,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //depends on 215
+    @Test   //bug: depends on 215
     public void tr181_du_251() {
         duPage
                 .topMenu(DEVICE_UPDATE)

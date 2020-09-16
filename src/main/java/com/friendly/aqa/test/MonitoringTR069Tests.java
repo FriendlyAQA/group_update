@@ -36,6 +36,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
+                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -1447,10 +1448,11 @@ public class MonitoringTR069Tests extends BaseTestCase {
         setTargetTestName();
         monPage
                 .topMenu(MONITORING)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(0, 100)
+                .setViewColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()

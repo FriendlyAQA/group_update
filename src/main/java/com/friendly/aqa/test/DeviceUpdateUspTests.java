@@ -54,6 +54,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_004() {
         duPage
                 .topMenu(DEVICE_UPDATE)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
@@ -592,7 +593,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("usp_du_014")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "usp_du_014");
@@ -700,6 +701,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
@@ -1304,7 +1306,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("usp_du_069")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "usp_du_069");

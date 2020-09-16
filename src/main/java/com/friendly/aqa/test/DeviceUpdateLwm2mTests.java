@@ -592,7 +592,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("lwm2m_du_014")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "lwm2m_du_014");
@@ -1303,7 +1303,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("lwm2m_du_069")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "lwm2m_du_069");

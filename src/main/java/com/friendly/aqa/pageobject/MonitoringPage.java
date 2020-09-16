@@ -58,17 +58,14 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "cbDateTo")
     private WebElement endDateCheckbox;
 
-    @FindBy(id = "tbName")
-    private WebElement nameField;
+//    @FindBy(id = "tbName")
+//    private WebElement nameField;
 
     @FindBy(id = "txtName")
     private WebElement customViewNameField;
 
     @FindBy(id = "tblDataParams")
     private WebElement paramTable;
-
-//    @FindBy(id = "tblFilter")
-//    private WebElement viewColumnTable;
 
     @FindBy(id = "tbTimeToHour")
     private WebElement endDateHours;
@@ -125,12 +122,6 @@ public class MonitoringPage extends BasePage {
     @Override
     public String getMainTableId() {
         return "tbl";
-//        try {
-//            savedTable = new Table("tbl");
-//        } catch (org.openqa.selenium.StaleElementReferenceException e) {
-//            savedTable = new Table("tbl");
-//        }
-//        return savedTable;
     }
 
     @Override
@@ -323,21 +314,10 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    @Override
     public MonitoringPage setViewColumns(int startParam, int endParam) {
-        Table table = getTable("tblFilter");
-        int size = table.getTableSize()[0] - 1;
-        endParam = Math.min(size, endParam);
-        startParam = Math.min(startParam, endParam);
-        parameterSet = new HashSet<>(Arrays.asList(table.getColumn(0)));
-        for (int i = startParam; i <= endParam; i++) {
-            table.clickOn(i, 1);
-        }
-        return this;
+        return (MonitoringPage) super.setViewColumns(startParam, endParam);
     }
-
-//    public void checkResults() {
-//        checkResults(BaseTestCase.getTestName());
-//    }
 
     public void checkAddedTasks() {
         getTabTable().clickOn("Summary");
@@ -356,20 +336,6 @@ public class MonitoringPage extends BasePage {
             throw new AssertionError(unexpected.append("not found on the 'Summary' tab!").toString());
         }
     }
-
-//    public void checkViewColumns() {
-//        List<String> columnList = getMainTable().getRow(0);
-//        columnList.removeIf(s -> s.equals(""));
-//        if (parameterSet.size() == columnList.size() && parameterSet.removeAll(columnList) && parameterSet.isEmpty()) {
-//            return;
-//        }
-//        if (!parameterSet.isEmpty()) {
-//            StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
-//            parameterSet.forEach(sb::append);
-//            logger.warn('(' + BaseTestCase.getTestName() + ')' + sb.toString());
-//        }
-//        throw new AssertionError("Checking column headers failed!");
-//    }
 
     @Override
     public MonitoringPage immediately() {
@@ -657,7 +623,7 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage pause(int millis) {
+    public MonitoringPage pause(long millis) {
         return (MonitoringPage) super.pause(millis);
     }
 
@@ -685,6 +651,11 @@ public class MonitoringPage extends BasePage {
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
+    }
+
+    @Override
+    public MonitoringPage deleteAllCustomViews() {
+        return (MonitoringPage) super.deleteAllCustomViews();
     }
 
     public MonitoringPage fillCustomViewName() {

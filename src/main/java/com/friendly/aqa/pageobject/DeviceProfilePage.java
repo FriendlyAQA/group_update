@@ -1139,7 +1139,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage pause(int millis) {
+    public DeviceProfilePage pause(long millis) {
         return (DeviceProfilePage) super.pause(millis);
     }
 
@@ -1245,7 +1245,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
         Table table = new Table("tblTree");
-        List<Integer> rows = table.getRowsWithInput(0);
+        List<Integer> rows = table.getVisibleRowsWithInput(0);
         while (rows.size() <= objNum) {
             List<WebElement> expanders = table.getExpandableRowList();
             if (expanders.size() == 0) {
@@ -1253,7 +1253,7 @@ public class DeviceProfilePage extends BasePage {
             }
             expanders.get(0).click();
             table = new Table("tblTree");
-            rows = table.getRowsWithInput(0);
+            rows = table.getVisibleRowsWithInput(0);
         }
         table.clickOn(rows.get(objNum), 0, -1);
         waitForUpdate();

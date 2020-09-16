@@ -54,6 +54,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_004() {
         duPage
                 .topMenu(DEVICE_UPDATE)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
@@ -592,7 +593,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("mqtt_du_014")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "mqtt_du_014");
@@ -700,6 +701,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
@@ -1304,7 +1306,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .selectView("mqtt_du_069")
                 .editButton()
-                .bottomMenu(DELETE_GROUP)
+                .bottomMenu(DELETE_VIEW)
                 .okButtonPopUp()
                 .assertSelectedViewIs("Default")
                 .assertAbsenceOfOptions("ddlView", "mqtt_du_069");
@@ -1690,7 +1692,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .closePopup();
     }
 
-    //skipped due to Device Settings tabs don't contain suitable fields to edit
+    //skipped due to device Settings tabs don't contain suitable fields to edit
 
 //    @Test
 //    public void mqtt_du_143() {

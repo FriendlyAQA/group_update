@@ -235,7 +235,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage pause(int millis) {
+    public GroupUpdatePage pause(long millis) {
         return (GroupUpdatePage) super.pause(millis);
     }
 
@@ -460,44 +460,14 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage itemsOnPage(String number) {
         waitForUpdate();
         try {
-            if (new Select(itemsOnPageComboBox).getFirstSelectedOption().getText().equals(number)) {
+            if (getSelectedOption(itemsOnPageComboBox).equals(number)) {
                 return this;
             }
         } catch (NoSuchElementException e) {
             logger.info("Select 'Items/page' not found");
             return this;
         }
-        int index;
-        switch (number) {
-            case "7":
-                index = 0;
-                break;
-            case "10":
-                index = 1;
-                break;
-            case "20":
-                index = 3;
-                break;
-            case "30":
-                index = 4;
-                break;
-            case "50":
-                index = 5;
-                break;
-            case "100":
-                index = 6;
-                break;
-            case "200":
-                index = 7;
-                break;
-            default:
-                index = 2;
-        }
-        if (props.getProperty("browser").equals("edge")) {
-            scrollTo(itemsOnPageComboBox);
-        }
-        new Select(itemsOnPageComboBox).selectByIndex(index);
-
+        selectComboBox(itemsOnPageComboBox, number);
         return this;
     }
 
@@ -831,11 +801,11 @@ public class GroupUpdatePage extends BasePage {
             pause(500);
         }
         Table table = getMainTable();
-        boolean man = new Select(manufacturerComboBox).getFirstSelectedOption().getText().equals("All");
-        boolean model = new Select(modelComboBox).getFirstSelectedOption().getText().equals("All");
-        boolean status = new Select(updStatusComboBox).getFirstSelectedOption().getText().equals("All");
+        boolean man = getSelectedOption(manufacturerComboBox).equals("All");
+        boolean model = getSelectedOption(modelComboBox).equals("All");
+        boolean status = getSelectedOption(updStatusComboBox).equals("All");
         String[] arr = table.getColumn("Created");
-        String[] arr2 = Arrays.copyOf(arr, arr.length);
+        String[] arr2 = arr.clone();
         Arrays.sort(arr, Comparator.reverseOrder());
         boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
         if (!(man && model && status && sortedByCreated)) {

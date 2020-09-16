@@ -147,7 +147,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public DeviceUpdatePage pause(int millis) {
+    public DeviceUpdatePage pause(long millis) {
         return (DeviceUpdatePage) super.pause(millis);
     }
 
@@ -513,17 +513,15 @@ public class DeviceUpdatePage extends BasePage {
                 setUserInfo(userInfoTable, item, getRandomStringValue(10));
             }
         }
-        try {
-            waitUntilElementIsEnabled("btnSaveUsr_btn");
+        pause(500);
+        if (isButtonActive("btnSaveUsr_btn")) {
             saveButton.click();
             okButtonPopUp();
-            pause(500);
-            waitForUpdate();
-        } catch (AssertionError e) {
-            cancelButton.click(); // in case no one item has been changed
-        } finally {
-            switchToFrame(DESKTOP);
+        } else {
+            cancelButton.click();
         }
+        waitForUpdate();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -534,7 +532,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage clearUserInfo() {
         switchToFrame(POPUP);
-        clearAllRButton.click();
+        showPointer(clearAllRButton).click();
         okButtonPopUp();
         return this;
     }
@@ -788,11 +786,12 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage deleteExportEntry() {
         switchToFrame(POPUP);
+        waitUntilElementIsDisplayed(deleteButton);
         Table table = getTable("tbl");
         table.clickOn(1, 0);
         parameterSet = new HashSet<>(1);
         parameterSet.add(table.getCellText(1, 1));
-        deleteButton.click();
+        showPointer(deleteButton).click();
         return this;
     }
 
@@ -988,21 +987,21 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     private void setParameter(Table table, String paramName, String value) {
-        int row = table.getRowNumberByText(paramName);
+        int rowNum = table.getRowNumberByText(paramName);
         int colNum = table.getColumnNumber(0, "Parameter value");
         if (parameterMap == null) {
             parameterMap = new HashMap<>();
         }
-        String hint = table.getHint(row);
+        String hint = table.getHint(rowNum);
         parameterMap.put(hint, value);
         WebElement input = null;
         WebElement select = null;
         setImplicitlyWait(0);
-        List<WebElement> inputList = table.getCellWebElement(row, colNum).findElements(By.tagName("input"));
+        List<WebElement> inputList = table.getCellWebElement(rowNum, colNum).findElements(By.tagName("input"));
         if (inputList.size() > 0) {
             input = inputList.get(0);
         } else {
-            List<WebElement> selectList = table.getCellWebElement(row, colNum).findElements(By.tagName("select"));
+            List<WebElement> selectList = table.getCellWebElement(rowNum, colNum).findElements(By.tagName("select"));
             if (selectList.size() > 0) {
                 select = selectList.get(0);
             }
@@ -1027,6 +1026,8 @@ public class DeviceUpdatePage extends BasePage {
         } else if (select != null && select.isEnabled()) {
             selectComboBox(select, value);
         }
+        table.clickOn(rowNum - 1, colNum);
+        table.clickOn(rowNum, colNum);
     }
 
     public DeviceUpdatePage setParameter(String tab, int amount) {
@@ -1037,9 +1038,9 @@ public class DeviceUpdatePage extends BasePage {
         Table table = new Table("tblParamsTable");
         String[] names = table.getColumn("Parameter name");
         int valueColNum = table.getColumnNumber(0, "Parameter value");
-        int alterAmount = amount;
+        int localAmount = amount;
         boolean actionPerformed = false;
-        for (int i = 0; i < Math.min(Math.abs(alterAmount), names.length); i++) {
+        for (int i = 0; i < Math.min(Math.abs(localAmount), names.length); i++) {
             if (table.getVisibleRowsNumber() == 0) {
                 break;
             }
@@ -1050,7 +1051,7 @@ public class DeviceUpdatePage extends BasePage {
             List<WebElement> inputList = table.getCellWebElement(i + 1, valueColNum).findElements(By.tagName("input"));
             if (inputList.size() > 0) {
                 if (!inputList.get(0).isEnabled()) {
-                    alterAmount++;
+                    localAmount++;
                     continue;
                 }
                 input = inputList.get(0);
@@ -1058,7 +1059,7 @@ public class DeviceUpdatePage extends BasePage {
                 List<WebElement> selectList = table.getCellWebElement(i + 1, valueColNum).findElements(By.tagName("select"));
                 if (selectList.size() > 0) {
                     if (!selectList.get(0).isEnabled()) {
-                        alterAmount++;
+                        localAmount++;
                         continue;
                     }
                     select = selectList.get(0);
@@ -1095,7 +1096,7 @@ public class DeviceUpdatePage extends BasePage {
             }
             System.out.println("setParameter:" + names[i] + ":" + value);
             setParameter(table, names[i], value);
-            table.clickOn(i, -1);
+//            table.clickOn(i, -1);
             actionPerformed = true;
             waitForUpdate();
         }
@@ -1409,7 +1410,7 @@ public class DeviceUpdatePage extends BasePage {
         new FluentWait<>(driver)
                 .withMessage("Spinner not found")
                 .withTimeout(Duration.ofSeconds(timeoutSec))
-                .pollingEvery(Duration.ofMillis(50))
+                .pollingEvery(Duration.ofMillis(10))
                 .until(ExpectedConditions.visibilityOf(spinner));
         switchToPreviousFrame();
     }
@@ -1771,6 +1772,11 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
+    public DeviceUpdatePage deleteAllCustomViews() {
+        return (DeviceUpdatePage) super.deleteAllCustomViews();
+    }
+
     public enum Left {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
@@ -1800,7 +1806,7 @@ public class DeviceUpdatePage extends BasePage {
         CREATE_TEMPLATE("btnCreateProfile_btn"),
         DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
-        DELETE_GROUP("btnDeleteView_btn"),
+        DELETE_VIEW("btnDeleteView_btn"),
         DUPLICATE("btnDuplicate_btn"),
         EDIT("btnEdit_btn"),
         EDIT_SETTINGS("UcDeviceSettingsControls1_btnChange_btn"),

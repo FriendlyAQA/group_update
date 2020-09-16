@@ -361,6 +361,22 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage deleteAllCustomViews() {
+        waitForUpdate();
+        List<String> optList = getOptionList(filterViewComboBox);
+        for (String opt : optList) {
+            if (opt.matches(".{3,5}_\\w{2}_\\d{3}")) {
+                selectComboBox(filterViewComboBox, opt);
+                waitForUpdate();
+                editButton.click();
+                bottomMenu(DeviceUpdatePage.GlobalButtons.DELETE_VIEW);
+                okButtonPopUp();
+                waitForUpdate();
+            }
+        }
+        return this;
+    }
+
     public BasePage selectDiagnostic(String value) {
         try {
             selectComboBox(diagnosticTypeComboBox, value);
@@ -844,8 +860,8 @@ public abstract class BasePage {
                 start = new Table("tblTree").getCellText(0, 0);
             }
             tabTable.clickOn(tab);
-            long from = System.currentTimeMillis();
-            do {
+            Timer timer = new Timer(10000);
+            while (!timer.timeout()) {
                 waitForUpdate();
                 try {
                     if (!new Table("tblTree").getCellText(0, 0).equals(start)) {
@@ -854,7 +870,7 @@ public abstract class BasePage {
                 } catch (StaleElementReferenceException e) {
                     System.out.println("BP:854 - StaleElementReferenceException handled");
                 }
-            } while (System.currentTimeMillis() - from < 10000);
+            }
         }
         return this;
     }
@@ -906,7 +922,7 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (okButtonPopUp.isDisplayed()) {
-            okButtonPopUp.click();
+            showPointer(okButtonPopUp).click();
             waitForUpdate();
         }
         while (okButtonAlertPopUp.isDisplayed()) {
@@ -921,7 +937,7 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (cancelButtonPopUp.isDisplayed()) {
-            cancelButtonPopUp.click();
+            showPointer(cancelButtonPopUp).click();
             waitForUpdate();
         }
         switchToFrame(DESKTOP);
@@ -1073,7 +1089,7 @@ public abstract class BasePage {
 
     public BasePage clickOn(String id) {
         waitForUpdate();
-        findElement(id).click();
+        scrollToElement(findElement(id)).click();
         return this;
     }
 
@@ -1161,11 +1177,12 @@ public abstract class BasePage {
                             break exit;
                         }
                     } catch (StaleElementReferenceException e) {
-                        System.out.println("StaleElementReferenceException ignored");
+                        System.out.print(".");
                     }
                 }
             }
         }
+        System.out.println();
         switchToPreviousFrame();
     }
 
@@ -1394,10 +1411,9 @@ public abstract class BasePage {
     }
 
     public void waitUntilElementIsEnabled(String id) {
-        long start = System.currentTimeMillis();
-        long implWait = IMPLICITLY_WAIT * 1000;
+        Timer timer = new Timer();
         boolean success = false;
-        while (System.currentTimeMillis() - start < implWait) {
+        while (!timer.timeout()) {
             List<WebElement> list = findElements(id);
             if (list.size() == 1 && list.get(0).isEnabled()) {
                 success = true;
@@ -1531,8 +1547,9 @@ public abstract class BasePage {
         return driver.findElement(By.id(id)).getText();
     }
 
-    public static void scrollToElement(WebElement element) {
+    public static WebElement scrollToElement(WebElement element) {
         ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        return element;
     }
 
     public static String getProtocolPrefix() {
@@ -1566,29 +1583,29 @@ public abstract class BasePage {
     }
 
     public void validateViewColumns() {
-        Timer timer = new Timer();
-        while (!timer.timeout()) {
-            if (isButtonActive("btnEditView_btn")) {
-                break;
-            }
-        }
+        waitUntilElementIsDisplayed(editButton);
         List<String> columnList = new ArrayList<>(Arrays.asList(getMainTable().getRow(0)));
         columnList.removeIf(s -> s.equals(""));
         if (parameterSet.size() == columnList.size() && parameterSet.removeAll(columnList) && parameterSet.isEmpty()) {
             return;
         }
-        System.out.println("paramSize:" + parameterSet.size() + "columnList.size:" + columnList.size() + "parameterSet.isEmpty:" + parameterSet.isEmpty());
         if (!parameterSet.isEmpty()) {
-            StringBuilder sb = new StringBuilder("Below columns have not been applied to the view:");
-            parameterSet.forEach(sb::append);
+            parameterSet.removeAll(columnList);
+            StringBuilder sb = new StringBuilder("Below columns have not been applied to the view: ");
+            parameterSet.forEach(param -> sb.append("'").append(param).append("'; "));
             logger.warn('(' + BaseTestCase.getTestName() + ") " + sb.toString());
         }
         throw new AssertionError("Checking column headers failed!");
     }
 
     public BasePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
+        Timer timer = new Timer();
         Table table = new Table("tblTree");
-        List<Integer> rows = table.getRowsWithInput(0);
+        System.out.println("Size:" + table.getTableSize()[0]);
+        System.out.println("1:" + timer.stop());
+        List<Integer> rows = table.getVisibleRowsWithInput1(0);
+        System.out.println("inputs:" + rows.size());
+        System.out.println("2:" + timer.stop());
         while (rows.size() <= objNum) {
             List<WebElement> expanders = table.getExpandableRowList();
             if (expanders.size() == 0) {
@@ -1596,7 +1613,7 @@ public abstract class BasePage {
             }
             expanders.get(0).click();
             table = new Table("tblTree");
-            rows = table.getRowsWithInput(0);
+            rows = table.getVisibleRowsWithInput(0);
         }
         table.clickOn(rows.get(objNum), 0, -1);
         waitForUpdate();
@@ -1748,7 +1765,7 @@ public abstract class BasePage {
         parametersMonitorMap = null;
     }
 
-    public BasePage pause(int millis) {
+    public BasePage pause(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -1802,11 +1819,7 @@ public abstract class BasePage {
             }
             long timeout;
             if ((timeout = 1000 - System.currentTimeMillis() + start) > 0) {
-                try {
-                    Thread.sleep(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                pause(timeout);
             }
         }
         logger.info("All tasks created. One or more tasks remains in pending state");
@@ -1931,7 +1944,6 @@ public abstract class BasePage {
                 waitForUpdate();
                 table = getMainTable();
                 colNum = table.getColumnNumber(0, column);
-                scrollToElement(table.getCellWebElement(0, colNum));
                 table.clickOn(0, colNum);
                 break;
             } catch (StaleElementReferenceException e) {
@@ -1948,7 +1960,7 @@ public abstract class BasePage {
                 try {
                     pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
                 } catch (NoSuchElementException e) {
-                    System.out.println("NoSuchElementException e");
+                    System.out.println("Sorting arrow not found!");
                     if (!timer.timeout())
                         i--;
                     table.clickOn(0, colNum);//!
@@ -1972,7 +1984,7 @@ public abstract class BasePage {
                     table.clickOn(0, colNum);
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("StaleElementReferenceException");
+                System.out.println("StaleElementReferenceException handled");
                 if (!timer.timeout())
                     i--;
             }

@@ -105,13 +105,13 @@ public class Table {
             column += textTable[row].length;
         }
         if (tagNum == 99) {
-            elementTable[row][column].click();
+            BasePage.scrollToElement(elementTable[row][column]).click();
         } else {
             List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input | child::select"));
             if (tagNum < 0) {
                 tagNum += tagList.size();
             }
-            tagList.get(tagNum).click();
+            BasePage.scrollToElement(tagList.get(tagNum)).click();
         }
         return this;
     }
@@ -173,7 +173,7 @@ public class Table {
         return out;
     }
 
-    public List<Integer> getRowsWithInput(int column) {
+    public List<Integer> getVisibleRowsWithInput(int column) {
         BasePage.setImplicitlyWait(0);
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < elementTable.length; i++) {
@@ -184,6 +184,21 @@ public class Table {
                 }
             }
         }
+        BasePage.setDefaultImplicitlyWait();
+        return out;
+    }
+
+    public List<Integer> getVisibleRowsWithInput1(int column) {
+        BasePage.setImplicitlyWait(0);
+        List<Integer> out = new ArrayList<>();
+        List<WebElement> cellList = new ArrayList<>();
+        for (WebElement[] cells : elementTable) {
+            cellList.add(cells[column]);
+        }
+        cellList.parallelStream()
+                .filter(WebElement::isDisplayed)
+                .filter(e -> e.findElements(By.tagName("input")).size() > 0)
+                .forEach(e -> out.add(cellList.indexOf(e)));
         BasePage.setDefaultImplicitlyWait();
         return out;
     }
