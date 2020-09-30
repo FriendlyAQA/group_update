@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MonitorGroup>
-  <Name>tr069_mo_090</Name>
-  <Description />
-  <DateFrom>02/28/2021 13:40:00</DateFrom>
-  <DateTo>03/06/2021 13:30:00</DateTo>
-  <PerformEvery>60</PerformEvery>
-  <Location>0</Location>
-  <ChildMonirorings>
-    <MonitorParam>
-      <ProductGroup>
-        <Manufacturer>AudioCodes</Manufacturer>
-        <ModelName>MP252</ModelName>
-        <ProtocolId>TR069</ProtocolId>
-      </ProductGroup>
-      <applyForNew>true</applyForNew>
-      <Params>
-        <Param>
-          <FullName>InternetGatewayDevice.DeviceInfo.UpTime</FullName>
-        </Param>
-        <Param>
-          <FullName>InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.Enable</FullName>
-        </Param>
-        <Param>
-          <FullName>InternetGatewayDevice.Services.VoiceService.1.VoiceProfile.1.Name</FullName>
-        </Param>
-      </Params>
-    </MonitorParam>
-  </ChildMonirorings>
+	<Name>tr069_mo_090</Name>
+	<Description>imported_monitor</Description>
+	<DateFrom>01/01/1</DateFrom>
+	<DateTo>null</DateTo>
+	<PerformEvery>60</PerformEvery>
+	<Location>0</Location>
+	<ChildMonirorings>
+		<MonitorParam>
+			<ProductGroup>
+				<Manufacturer>AudioCodes</Manufacturer>
+				<ModelName>MP252</ModelName>
+				<ProtocolId>TR069</ProtocolId>
+			</ProductGroup>
+			<applyForNew>true</applyForNew>
+			<Params>
+				<Param>
+					<FullName>InternetGatewayDevice.DeviceInfo.UpTime</FullName>
+				</Param>
+			</Params>
+		</MonitorParam>
+	</ChildMonirorings>
 </MonitorGroup>

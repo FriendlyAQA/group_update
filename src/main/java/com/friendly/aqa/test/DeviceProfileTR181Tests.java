@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static com.friendly.aqa.entities.Condition.*;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_PROFILE;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.BottomButtons.*;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.NEW;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 
@@ -48,33 +48,33 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer("All")
                 .selectModel("All")
                 .selectProfileStatus("All")
-                .checkSorting("Manufacturer")
-                .checkSorting("Model name")
-                .checkSorting("Name")
-                .checkSorting("Created")
+                .validateSorting("Manufacturer")
+                .validateSorting("Model name")
+                .validateSorting("Name")
+                .validateSorting("Created")
 //                .checkSorting("Creator")
-                .checkSorting("Version");
+                .validateSorting("Version");
     }
 
     @Test
     public void tr181_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByStatus();
+                .validateFilteringByStatus();
     }
 
     @Test
     public void tr181_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void tr181_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
@@ -264,7 +264,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
 //                .selectBranch("ManagementServer")
                 .setParameter("PeriodicInformInterval, sec", "70")
                 .bottomMenu(SIMPLE_VIEW)
-                .checkParameter("PeriodicInformInterval, sec", "70")
+                .validateParameter("PeriodicInformInterval, sec", "70")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
@@ -399,7 +399,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test
@@ -428,7 +428,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(false, "PeriodicInformInterval, sec", "62");
+                .validateTargetDevice(false, "PeriodicInformInterval, sec", "62");
     }
 
     @Test   // depends on 028
@@ -458,7 +458,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -474,7 +474,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -490,7 +490,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -506,7 +506,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -522,7 +522,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -538,7 +538,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -554,7 +554,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -570,7 +570,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -586,7 +586,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -602,7 +602,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -618,7 +618,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -634,7 +634,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -650,7 +650,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -666,7 +666,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -682,7 +682,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -698,7 +698,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -714,7 +714,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -730,7 +730,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -746,7 +746,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -762,7 +762,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -778,7 +778,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -794,7 +794,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -810,7 +810,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -826,7 +826,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -842,7 +842,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -858,7 +858,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -874,7 +874,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -890,7 +890,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -906,7 +906,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -922,7 +922,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -938,7 +938,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -954,7 +954,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -970,7 +970,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -982,7 +982,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .enterIntoProfile("tr181_dp_062")
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1051,7 +1051,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1069,7 +1069,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1087,7 +1087,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1105,7 +1105,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1123,7 +1123,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1141,7 +1141,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1159,7 +1159,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1177,7 +1177,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1195,7 +1195,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1213,7 +1213,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1231,7 +1231,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1250,7 +1250,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1268,7 +1268,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1286,7 +1286,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1304,7 +1304,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1322,7 +1322,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1340,7 +1340,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1358,7 +1358,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1376,7 +1376,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1394,7 +1394,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1412,7 +1412,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1430,7 +1430,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1449,7 +1449,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1467,7 +1467,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1485,7 +1485,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1503,7 +1503,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1521,7 +1521,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1539,7 +1539,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1557,7 +1557,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1575,7 +1575,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1593,7 +1593,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1611,7 +1611,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1629,7 +1629,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
-                .checkParameters();
+                .validateParameters();
     }
 
     @Test
@@ -1641,7 +1641,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectModel()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
-                .checkObjectTree();
+                .validateObjectTree();
     }
 
     @Test
@@ -1660,7 +1660,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1685,7 +1685,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1704,7 +1704,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1724,7 +1724,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1743,7 +1743,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1762,7 +1762,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test   //bug: editing profile events causes an erase of all events.
@@ -1778,7 +1778,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile("tr181_dp_106")
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -1801,8 +1801,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("1 BOOT");
+                .validateEvents()
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1829,8 +1829,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -1853,8 +1853,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("1 BOOT", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("1 BOOT", "Action", "Reboot");
     }
 
     @Test
@@ -1877,8 +1877,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("1 BOOT", "Action", "Factory reset");
+                .validateEvents()
+                .validateAddedEventAction("1 BOOT", "Action", "Factory reset");
     }
 
     @Test//bug: reprovision RB is missing;
@@ -1901,8 +1901,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("1 BOOT", "Action", "Device Reprovision");
+                .validateEvents()
+                .validateAddedEventAction("1 BOOT", "Action", "Device Reprovision");
     }
 
     @Test
@@ -1926,8 +1926,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "GetRPCMethods");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -1951,8 +1951,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "SetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -1976,8 +1976,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "GetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -2001,8 +2001,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "GetParameterNames");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -2026,8 +2026,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -2051,8 +2051,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -2076,8 +2076,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "AddObject");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2101,8 +2101,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "DeleteObject");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2126,8 +2126,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "Download");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "Download");
     }
 
     @Test
@@ -2151,8 +2151,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "Reboot");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -2176,8 +2176,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "FactoryReset");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2201,8 +2201,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Custom RPC", "Upload");
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Custom RPC", "Upload");
     }
 
     @Test
@@ -2225,8 +2225,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("2 PERIODIC");
+                .validateEvents()
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2253,8 +2253,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -2277,8 +2277,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("2 PERIODIC", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("2 PERIODIC", "Action", "Reboot");
     }
 
     @Test
@@ -2301,8 +2301,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("2 PERIODIC", "Action", "Factory Reset");
+                .validateEvents()
+                .validateAddedEventAction("2 PERIODIC", "Action", "Factory Reset");
     }
 
     @Test//bug: reprovision RB is missing;
@@ -2325,8 +2325,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("2 PERIODIC", "Action", "Device Reprovision");
+                .validateEvents()
+                .validateAddedEventAction("2 PERIODIC", "Action", "Device Reprovision");
     }
 
     @Test
@@ -2350,8 +2350,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -2375,8 +2375,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -2400,8 +2400,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -2425,8 +2425,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -2450,8 +2450,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -2475,8 +2475,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -2500,8 +2500,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "AddObject");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2525,8 +2525,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "DeleteObject");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2550,8 +2550,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "Download");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Download");
     }
 
     @Test
@@ -2575,8 +2575,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "Reboot");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -2600,8 +2600,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "FactoryReset");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -2625,8 +2625,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Custom RPC", "Upload");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Upload");
     }
 
     @Test
@@ -2649,8 +2649,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("4 VALUE CHANGE");
+                .validateEvents()
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2677,8 +2677,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -2701,8 +2701,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("4 VALUE CHANGE", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Reboot");
     }
 
     @Test
@@ -2725,8 +2725,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("4 VALUE CHANGE", "Action", "Factory Reset");
+                .validateEvents()
+                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Factory Reset");
     }
 
     @Test//bug: reprovision RB is missing;
@@ -2749,8 +2749,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("4 VALUE CHANGE", "Action", "Device Reprovision");
+                .validateEvents()
+                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Device Reprovision");
     }
 
     @Test
@@ -2774,8 +2774,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -2799,8 +2799,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -2824,8 +2824,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -2849,8 +2849,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -2874,8 +2874,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -2899,8 +2899,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -2924,8 +2924,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -2949,8 +2949,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -2974,8 +2974,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Download");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Download");
     }
 
     @Test
@@ -2999,8 +2999,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -3024,8 +3024,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -3049,8 +3049,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Upload");
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Upload");
     }
 
     @Test
@@ -3073,8 +3073,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3101,8 +3101,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -3125,8 +3125,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("6 CONNECTION REQUEST", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Reboot");
     }
 
     @Test
@@ -3149,8 +3149,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("6 CONNECTION REQUEST", "Action", "Factory Reset");
+                .validateEvents()
+                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Factory Reset");
     }
 
     @Test//bug: reprovision RB is missing;
@@ -3173,8 +3173,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("6 CONNECTION REQUEST", "Action", "Device Reprovision");
+                .validateEvents()
+                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Device Reprovision");
     }
 
     @Test
@@ -3198,8 +3198,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
     }
 
     @Test
@@ -3223,8 +3223,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
     }
 
     @Test
@@ -3248,8 +3248,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
     }
 
     @Test
@@ -3273,8 +3273,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
     }
 
     @Test
@@ -3298,8 +3298,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
     }
 
     @Test
@@ -3323,8 +3323,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
     }
 
     @Test
@@ -3348,8 +3348,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
     }
 
     @Test
@@ -3373,8 +3373,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
     }
 
     @Test
@@ -3398,8 +3398,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
     }
 
     @Test
@@ -3423,8 +3423,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
     }
 
     @Test
@@ -3448,8 +3448,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
     }
 
     @Test
@@ -3473,8 +3473,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
     }
 
     @Test
@@ -3497,8 +3497,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3521,8 +3521,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3545,8 +3545,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3569,8 +3569,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3594,8 +3594,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3619,8 +3619,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3644,8 +3644,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3669,8 +3669,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3694,8 +3694,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3719,8 +3719,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3744,8 +3744,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3769,8 +3769,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3794,8 +3794,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3819,8 +3819,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3844,8 +3844,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3869,8 +3869,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3894,8 +3894,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3919,8 +3919,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3944,8 +3944,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3969,8 +3969,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3994,8 +3994,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4019,8 +4019,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4044,8 +4044,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4069,8 +4069,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4094,8 +4094,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4119,8 +4119,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4144,8 +4144,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4169,8 +4169,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4194,8 +4194,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4219,8 +4219,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4244,8 +4244,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4269,8 +4269,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4294,8 +4294,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4319,8 +4319,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4344,8 +4344,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4369,8 +4369,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4394,8 +4394,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4419,8 +4419,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4444,8 +4444,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4469,8 +4469,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4494,8 +4494,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4519,8 +4519,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4544,8 +4544,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4569,8 +4569,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4595,8 +4595,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateEvents()
+                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4621,8 +4621,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4647,8 +4647,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateEvents()
+                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4673,8 +4673,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateEvents()
+                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -4698,8 +4698,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4723,8 +4723,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4748,8 +4748,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4773,8 +4773,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4798,8 +4798,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4823,8 +4823,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4848,8 +4848,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4873,8 +4873,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4898,8 +4898,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4923,8 +4923,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4948,8 +4948,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4973,8 +4973,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4998,8 +4998,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5023,8 +5023,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5048,8 +5048,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5073,8 +5073,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5098,8 +5098,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5123,8 +5123,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5148,8 +5148,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5173,8 +5173,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5198,8 +5198,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5223,8 +5223,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5248,8 +5248,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5273,8 +5273,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5298,8 +5298,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5323,8 +5323,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5348,8 +5348,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5373,8 +5373,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5398,8 +5398,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5423,8 +5423,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5448,8 +5448,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5473,8 +5473,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5498,8 +5498,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5523,8 +5523,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5548,8 +5548,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5573,8 +5573,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5598,8 +5598,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5623,8 +5623,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5648,8 +5648,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5673,8 +5673,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5698,8 +5698,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5723,8 +5723,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test   //Bug: Parameter name isn't displayed into result table;
@@ -5748,8 +5748,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5773,8 +5773,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("6 CONNECTION REQUEST");
+                .validateEvents()
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5795,8 +5795,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Backup");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Backup");
     }
 
     @Test//bug: editing profile events causes an erase of all events.
@@ -5836,8 +5836,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Restore");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Restore");
     }
 
     @Test//bug: editing profile events causes an erase of all events.
@@ -5881,8 +5881,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Trace diagnostic", "8.8.8.8");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Trace diagnostic", "8.8.8.8");
     }
 
     @Test
@@ -5905,8 +5905,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Diagnostics");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Diagnostics");
     }
 
     @Test
@@ -5929,8 +5929,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Diagnostics");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Diagnostics");
     }
 
     @Test//bug: there's no such diagnostic
@@ -5953,8 +5953,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostic", " ");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostic", " ");
     }
 
     @Test
@@ -5979,8 +5979,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8");
     }
 
     @Test//bug: there's no such diagnostic
@@ -6005,8 +6005,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTask("2 PERIODIC", "NSLoopback diagnostics", "127.0.0.1");
+                .validateEvents()
+                .validateAddedEventTask("2 PERIODIC", "NSLoopback diagnostics", "127.0.0.1");
     }
 
     @Test
@@ -6025,7 +6025,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6044,7 +6044,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6063,7 +6063,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6082,7 +6082,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6101,7 +6101,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6120,7 +6120,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6139,7 +6139,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6158,7 +6158,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6177,7 +6177,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6196,7 +6196,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6215,7 +6215,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6234,7 +6234,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6253,7 +6253,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6272,7 +6272,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6291,7 +6291,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6310,7 +6310,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6329,7 +6329,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6348,7 +6348,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6367,7 +6367,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6386,7 +6386,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6405,7 +6405,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6424,7 +6424,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6443,7 +6443,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6462,7 +6462,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6481,7 +6481,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6500,7 +6500,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6519,7 +6519,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6538,7 +6538,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6557,7 +6557,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6576,7 +6576,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6595,7 +6595,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6614,7 +6614,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6633,7 +6633,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6652,7 +6652,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6671,7 +6671,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6690,7 +6690,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6709,7 +6709,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6728,7 +6728,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6747,7 +6747,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6766,7 +6766,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6785,7 +6785,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6804,7 +6804,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6823,7 +6823,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6842,7 +6842,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6861,7 +6861,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6880,7 +6880,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6899,7 +6899,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6918,7 +6918,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6937,7 +6937,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6956,7 +6956,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6975,7 +6975,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -6994,7 +6994,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7013,7 +7013,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7032,7 +7032,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7051,7 +7051,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7070,7 +7070,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7089,7 +7089,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7108,7 +7108,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7127,7 +7127,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7146,7 +7146,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7165,7 +7165,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7184,7 +7184,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7203,7 +7203,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7222,7 +7222,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7241,7 +7241,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7260,7 +7260,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7279,7 +7279,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7298,7 +7298,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7317,7 +7317,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7336,7 +7336,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7355,7 +7355,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7374,7 +7374,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7393,7 +7393,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7412,7 +7412,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7431,7 +7431,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7450,7 +7450,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7469,7 +7469,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7488,7 +7488,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7507,7 +7507,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7526,7 +7526,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7545,7 +7545,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7564,7 +7564,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7583,7 +7583,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7602,7 +7602,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7621,7 +7621,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7640,7 +7640,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7659,7 +7659,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7678,7 +7678,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7697,7 +7697,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7716,7 +7716,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7735,7 +7735,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7754,7 +7754,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7773,7 +7773,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7792,7 +7792,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7811,7 +7811,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7830,7 +7830,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7849,7 +7849,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7868,7 +7868,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7887,7 +7887,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7903,7 +7903,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile("tr181_dp_376")
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -7927,8 +7927,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTasks();
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -7956,8 +7956,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
     }
 
     @Test
@@ -7981,8 +7981,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorAction(null, "Action", "Reboot");
+                .validateParametersMonitor()
+                .validateAddedMonitorAction(null, "Action", "Reboot");
     }
 
     @Test
@@ -8006,8 +8006,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTasks();
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -8033,8 +8033,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTask("Vendor Configuration File", props.getProperty("upload_url"));
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("upload_url"));
     }
 
     @Test
@@ -8059,8 +8059,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTasks();
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -8082,8 +8082,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTask("Backup");
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Backup");
     }
 
     @Test
@@ -8105,8 +8105,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTask("Restore");
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Restore");
     }
 
     @Test//bug: there's no such diagnostic
@@ -8132,8 +8132,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTask("Trace diagnostics", "8.8.8.8");
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Trace diagnostics", "8.8.8.8");
     }
 
     @Test
@@ -8153,7 +8153,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8173,7 +8173,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8193,7 +8193,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8213,7 +8213,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8233,7 +8233,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8253,7 +8253,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8273,7 +8273,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8293,7 +8293,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8313,7 +8313,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8333,7 +8333,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8353,7 +8353,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8373,7 +8373,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8393,7 +8393,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8413,7 +8413,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8433,7 +8433,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8453,7 +8453,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8473,7 +8473,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8493,7 +8493,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8513,7 +8513,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8533,7 +8533,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8553,7 +8553,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8573,7 +8573,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8593,7 +8593,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8613,7 +8613,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8633,7 +8633,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8653,7 +8653,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8673,7 +8673,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8693,7 +8693,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8713,7 +8713,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8733,7 +8733,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8753,7 +8753,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8773,7 +8773,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8793,7 +8793,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8813,7 +8813,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8833,7 +8833,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8853,7 +8853,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8873,7 +8873,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8893,7 +8893,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8913,7 +8913,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8933,7 +8933,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8953,7 +8953,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8973,7 +8973,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -8993,7 +8993,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -9013,7 +9013,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test//depends on 430
@@ -9029,7 +9029,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .enterIntoProfile("tr181_dp_430")
                 .selectMainTab("Summary")
                 .expandPolicy()
-                .checkPolicy();
+                .validatePolicy();
     }
 
     @Test
@@ -9047,7 +9047,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test
@@ -9065,7 +9065,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test//depends on 433
@@ -9080,7 +9080,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile("tr181_dp_433")
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test
@@ -9098,7 +9098,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test
@@ -9116,7 +9116,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test
@@ -9131,7 +9131,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile("tr181_dp_436")
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test
@@ -9160,7 +9160,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test   //depends on 438
@@ -9188,7 +9188,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(false, "PeriodicInformInterval, sec", "62");
+                .validateTargetDevice(false, "PeriodicInformInterval, sec", "62");
     }
 
     @Test   //depends on 438
@@ -9216,7 +9216,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "63");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "63");
     }
 
     @Test
@@ -9245,7 +9245,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "64");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "64");
     }
 
     @Test   //depends on 441
@@ -9273,7 +9273,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "65");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "65");
     }
 
     @Test   //depends on 441
@@ -9301,7 +9301,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "66");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "66");
     }
 
     @Test
@@ -9330,7 +9330,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "67");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "67");
     }
 
     @Test   //depends on 444
@@ -9358,7 +9358,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "68");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "68");
     }
 
     @Test   //depends on 444
@@ -9386,7 +9386,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "69");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "69");
     }
 
     @Test
@@ -9415,7 +9415,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "70");
     }
 
     @Test   //depends on 447
@@ -9443,7 +9443,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "71");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "71");
     }
 
     @Test   //depends on 447
@@ -9471,7 +9471,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "72");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "72");
     }
 
     @Test
@@ -9500,7 +9500,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "60");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "60");
     }
 
     @Test   //depends on 450
@@ -9528,7 +9528,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test   //depends on 450
@@ -9556,7 +9556,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "62");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "62");
     }
 
     @Test//bug: Parameter Device.DeviceSummary not found;
@@ -9584,7 +9584,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "63");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "63");
     }
 
     @Test//bug: Parameter Device.DeviceSummary not found;
@@ -9612,7 +9612,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "64");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "64");
     }
 
     @Test//bug: Parameter Device.DeviceSummary not found;
@@ -9640,7 +9640,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "65");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "65");
     }
 
     @Test
@@ -9668,7 +9668,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "66");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "66");
     }
 
     @Test
@@ -9696,7 +9696,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "67");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "67");
     }
 
     @Test
@@ -9724,7 +9724,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "68");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "68");
     }
 
     @Test
@@ -9752,7 +9752,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "69");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "69");
     }
 
     @Test
@@ -9780,7 +9780,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "70");
     }
 
     @Test
@@ -9808,7 +9808,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "71");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "71");
     }
 
     @Test
@@ -9842,7 +9842,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .checkTargetDevice(true, "PeriodicInformInterval, sec", "72");
+                .validateTargetDevice(true, "PeriodicInformInterval, sec", "72");
     }
 
     @Test  //depends on 462

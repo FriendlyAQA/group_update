@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.BottomButtons.*;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
@@ -468,14 +468,6 @@ public class DeviceProfilePage extends BasePage {
                     select = selectList.get(0);
                 }
             }
-//            setImplicitlyWait(1);
-//            try {
-//                input = table.getInput(i + 1, 1);
-//            } catch (NoSuchElementException e) {
-//                select = table.getSelect(i + 1, 1);
-//            } finally {
-//                setDefaultImplicitlyWait();
-//            }
             setDefaultImplicitlyWait();
             String value = "";
             if (input != null) {
@@ -542,55 +534,55 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
     }
 
-    private void checkAddedTasks(Table table, String eventName) {
+    private void validateAddedTasks(Table table, String eventName) {
         pause(1000);
         int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         try {
-            super.checkAddedTasks();
+            super.validateAddedTasks();
         } catch (AssertionError e) {
             pause(1000);
-            super.checkAddedTasks();
+            super.validateAddedTasks();
         }
         cancelButton.click();
     }
 
-    public void checkAddedMonitorTasks() {
-        checkAddedTasks(new Table("tblParamsMonitoring"), null);
+    public void validateAddedMonitorTasks() {
+        validateAddedTasks(new Table("tblParamsMonitoring"), null);
     }
 
-    public void checkAddedEventTasks(String eventName) {
-        checkAddedTasks(new Table("tblEvents"), eventName);
+    public void validateAddedEventTasks(String eventName) {
+        validateAddedTasks(new Table("tblEvents"), eventName);
     }
 
-    public void checkAddedMonitorTask(String parameter, String value) {
-        checkAddedTask(new Table("tblParamsMonitoring"), null, parameter, value);
+    public void validateAddedMonitorTask(String parameter, String value) {
+        validateAddedTask(new Table("tblParamsMonitoring"), null, parameter, value);
     }
 
-    public void checkAddedEventTask(String eventName, String parameter, String value) {
-        checkAddedTask(new Table("tblEvents"), eventName, parameter, value);
+    public void validateAddedEventTask(String eventName, String parameter, String value) {
+        validateAddedTask(new Table("tblEvents"), eventName, parameter, value);
     }
 
-    private void checkAddedTask(Table table, String name, String parameter, String value) {
+    private void validateAddedTask(Table table, String name, String parameter, String value) {
         int row = name == null ? 1 : table.getRowNumberByText(name);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        super.checkAddedTask(parameter, value);
+        super.validateAddedTask(parameter, value);
         cancelButton.click();
     }
 
-    public void checkAddedEventTask(String eventName, String taskName) {
+    public void validateAddedEventTask(String eventName, String taskName) {
         pause(1000);
-        checkAddedTask(new Table("tblEvents"), eventName, taskName);
+        validateAddedTask(new Table("tblEvents"), eventName, taskName);
     }
 
-    public void checkAddedMonitorTask(String taskName) {
+    public void validateAddedMonitorTask(String taskName) {
         pause(1000);
-        checkAddedTask(new Table("tblParamsMonitoring"), null, taskName);
+        validateAddedTask(new Table("tblParamsMonitoring"), null, taskName);
     }
 
-    private void checkAddedTask(Table table, String name, String taskName) {
+    private void validateAddedTask(Table table, String name, String taskName) {
         pause(1000);
         int row = name == null ? 1 : table.getRowNumberByText(name);
         table.clickOn(row, -1);
@@ -604,32 +596,32 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public void checkAddedEventAction(String eventName, String parameter, String value) {
-        checkAddedAction(new Table("tblEvents"), eventName, parameter, value);
+    public void validateAddedEventAction(String eventName, String parameter, String value) {
+        validateAddedAction(new Table("tblEvents"), eventName, parameter, value);
     }
 
-    public void checkAddedMonitorAction(String eventName, String parameter, String value) {
-        checkAddedAction(new Table("tblParamsMonitoring"), eventName, parameter, value);
+    public void validateAddedMonitorAction(String eventName, String parameter, String value) {
+        validateAddedAction(new Table("tblParamsMonitoring"), eventName, parameter, value);
     }
 
-    private void checkAddedAction(Table table, String eventName, String parameter, String value) {
+    private void validateAddedAction(Table table, String eventName, String parameter, String value) {
         int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        super.checkAddedTask("tblTasks", parameter, value, 1);
+        super.validateAddedTask("tblTasks", parameter, value, 1);
     }
 
     @Override
-    public DeviceProfilePage checkParametersMonitor() {
-        return (DeviceProfilePage) super.checkParametersMonitor();
+    public DeviceProfilePage validateParametersMonitor() {
+        return (DeviceProfilePage) super.validateParametersMonitor();
     }
 
     @Override
-    public DeviceProfilePage checkEvents() {
-        return (DeviceProfilePage) super.checkEvents();
+    public DeviceProfilePage validateEvents() {
+        return (DeviceProfilePage) super.validateEvents();
     }
 
-    public void checkPolicy() {
+    public void validatePolicy() {
         Table table = new Table("tblPolicy");
         String[] names = table.getColumn(0);
         List<String> notifyList = Arrays.asList("Default", "Off", "Passive", "Active");
@@ -717,7 +709,7 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public void checkDownloadFile() {
+    public void validateDownloadFile() {
         switchToFrame(SUB_FRAME);
         Table table = new Table("tblFirmwares");
         String fileType = new ArrayList<>(parameterMap.keySet()).get(0);
@@ -754,7 +746,7 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
-    public DeviceProfilePage checkParameter(String paramName, String value) {
+    public DeviceProfilePage validateParameter(String paramName, String value) {
         waitForUpdate();
         Table paramTbl = new Table(paramTable);
         int row = paramTbl.getRowsWithText(paramName).get(0);
@@ -769,7 +761,7 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError(warn);
     }
 
-    public void checkParameters() {
+    public void validateParameters() {
         waitForUpdate();
         Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
@@ -876,11 +868,12 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage enterIntoProfile(String profileName) {
         try {
-            enterIntoGroup(profileName);
+            enterIntoItem(profileName);
         } catch (NoSuchElementException e) {
-            System.out.println("DPP:863 - ***********retry to find OK button...***************");
+            System.out.println("DPP:873 - ***********retry to find OK button...***************");
+            logger.warn("DPP:873 - ***********retry to find OK button...***************");
             okButtonPopUp();
-            enterIntoGroup(profileName);
+            enterIntoItem(profileName);
         }
         return this;
     }
@@ -915,31 +908,31 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public void checkFilteringByManufacturer() {
+    public void validateFilteringByManufacturer() {
         List<String> optionList = getOptionList(filterManufacturerComboBox);
         optionList.remove("All");
         selectModel("All");
         selectProfileStatus("All");
-        optionList.forEach(option -> checkFiltering(0, option));
+        optionList.forEach(option -> validateFiltering(0, option));
     }
 
-    public void checkFilteringByModelName() {
+    public void validateFilteringByModelName() {
         List<String> optionList = getOptionList(filterModelNameComboBox);
         optionList.remove("All");
         selectManufacturer("All");
         selectProfileStatus("All");
-        optionList.forEach(option -> checkFiltering(1, option));
+        optionList.forEach(option -> validateFiltering(1, option));
     }
 
-    public void checkFilteringByStatus() {
+    public void validateFilteringByStatus() {
         List<String> optionList = getOptionList(filterProfileStatusComboBox);
         optionList.remove("All");
         selectManufacturer("All");
         selectModel("All");
-        optionList.forEach(option -> checkFiltering(2, option));
+        optionList.forEach(option -> validateFiltering(2, option));
     }
 
-    private void checkFiltering(int comboBox, String filter) { //0 - Manufacturer; 1 - Model Name; 2 - Profile status.
+    private void validateFiltering(int comboBox, String filter) { //0 - Manufacturer; 1 - Model Name; 2 - Profile status.
         Set<String> dbNameSet;
         Set<String> columnSet = new HashSet<>();
         Table table = null;
@@ -1038,7 +1031,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+    public DeviceProfilePage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         return (DeviceProfilePage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
@@ -1116,7 +1109,7 @@ public class DeviceProfilePage extends BasePage {
         return inputText(BaseTestCase.getTestName(), NEXT);
     }
 
-    private DeviceProfilePage inputText(String text, GlobalButtons targetButton) {
+    private DeviceProfilePage inputText(String text, BottomButtons targetButton) {
         for (int i = 0; i < 10; i++) {
             nameField.clear();
             nameField.sendKeys(text + " ");
@@ -1176,30 +1169,30 @@ public class DeviceProfilePage extends BasePage {
         throw new AssertionError(warn);
     }
 
-    public DeviceProfilePage checkTargetDevice(boolean isExpected) {
-        return checkTargetDevice(isExpected, false);
+    public DeviceProfilePage validateTargetDevice(boolean isExpected) {
+        return validateTargetDevice(isExpected, false);
     }
 
-    public DeviceProfilePage checkTargetDevice(boolean isExpected, boolean advancedView) {
+    public DeviceProfilePage validateTargetDevice(boolean isExpected, boolean advancedView) {
         String path = new ArrayList<>(parameterMap.keySet()).get(0);
         String[] arr = path.split("\\.");
         String param = arr[arr.length - 1];
         String value = parameterMap.get(path);
-        return checkTargetDevice(isExpected, param, value, advancedView);
+        return validateTargetDevice(isExpected, param, value, advancedView);
     }
 
-    public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value) {
-        return checkTargetDevice(isExpected, parameter, value, false);
+    public DeviceProfilePage validateTargetDevice(boolean isExpected, String parameter, String value) {
+        return validateTargetDevice(isExpected, parameter, value, false);
     }
 
-    public DeviceProfilePage checkTargetDevice(boolean isExpected, String parameter, String value, boolean advancedView) {
+    public DeviceProfilePage validateTargetDevice(boolean isExpected, String parameter, String value, boolean advancedView) {
         DeviceUpdatePage dUPage = new DeviceUpdatePage();
         dUPage
                 .topMenu(TopMenu.DEVICE_UPDATE)
                 .enterToDevice();
         if (advancedView) {
             dUPage
-                    .bottomMenu(DeviceUpdatePage.GlobalButtons.REPROVISION)
+                    .bottomMenu(DeviceUpdatePage.BottomButtons.REPROVISION)
                     .okButtonPopUp()
                     .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW);
         } else {
@@ -1243,25 +1236,9 @@ public class DeviceProfilePage extends BasePage {
         return selectTreeObject(clickOnCheckbox, 1);
     }
 
+    @Override
     public DeviceProfilePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
-        Table table = new Table("tblTree");
-        List<Integer> rows = table.getVisibleRowsWithInput(0);
-        while (rows.size() <= objNum) {
-            List<WebElement> expanders = table.getExpandableRowList();
-            if (expanders.size() == 0) {
-                throw new AssertionError("There are not enough clickable objects to finish this test case!");
-            }
-            expanders.get(0).click();
-            table = new Table("tblTree");
-            rows = table.getVisibleRowsWithInput(0);
-        }
-        table.clickOn(rows.get(objNum), 0, -1);
-        waitForUpdate();
-        if (clickOnCheckbox) {
-            table.clickOn(rows.get(objNum), 0, -2);
-            waitForUpdate();
-        }
-        return this;
+        return (DeviceProfilePage) super.selectTreeObject(clickOnCheckbox, objNum);
     }
 
     public DeviceProfilePage clickOn(String id) {
@@ -1296,7 +1273,7 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage bottomMenu(GlobalButtons button) {
+    public DeviceProfilePage bottomMenu(BottomButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -1494,7 +1471,7 @@ public class DeviceProfilePage extends BasePage {
         }
     }
 
-    public enum GlobalButtons implements IGlobalButtons {
+    public enum BottomButtons implements IBottomButtons {
 
         ACTIVATE("btnActivate_btn"),
         ADVANCED_VIEW("btnAdvView_btn"),
@@ -1515,7 +1492,7 @@ public class DeviceProfilePage extends BasePage {
         STOP("btnStop_btn"),
         STOP_WITH_RESET("btnStopWithReset_btn");
 
-        GlobalButtons(String id) {
+        BottomButtons(String id) {
             this.id = id;
         }
 

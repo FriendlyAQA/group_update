@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MonitorGroup>
-  <Name>tr181_mo_108</Name>
-  <Description />
-  <DateFrom>01/01/1</DateFrom>
-  <DateTo>03/17/2020 18:47:00</DateTo>
-  <PerformEvery>60</PerformEvery>
-  <Location>0</Location>
-  <ChildMonirorings>
-    <MonitorParam>
-      <ProductGroup>
-        <Manufacturer>TP-Link</Manufacturer>
-        <ModelName>HC220-G1</ModelName>
-        <ProtocolId>TR069</ProtocolId>
-      </ProductGroup>
-      <applyForNew>true</applyForNew>
-      <Params>
-        <Param>
-          <FullName>Device.DeviceInfo.UpTime</FullName>
-        </Param>
-      </Params>
-    </MonitorParam>
-  </ChildMonirorings>
+	<Name>tr181_mo_108</Name>
+	<Description>imported_monitor</Description>
+	<DateFrom>01/01/1</DateFrom>
+	<DateTo>null</DateTo>
+	<PerformEvery>60</PerformEvery>
+	<Location>0</Location>
+	<ChildMonirorings>
+		<MonitorParam>
+			<ProductGroup>
+				<Manufacturer>TP-Link</Manufacturer>
+				<ModelName>HC220-G1</ModelName>
+				<ProtocolId>TR069</ProtocolId>
+			</ProductGroup>
+			<applyForNew>true</applyForNew>
+			<Params>
+				<Param>
+					<FullName>Device.DeviceInfo.Manufacturer</FullName>
+				</Param>
+			</Params>
+		</MonitorParam>
+	</ChildMonirorings>
 </MonitorGroup>

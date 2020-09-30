@@ -6,6 +6,7 @@ import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.Timer;
+import com.friendly.aqa.utils.XmlWriter;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.friendly.aqa.entities.GlobalButtons.REFRESH;
+import static com.friendly.aqa.entities.BottomButtons.REFRESH;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
 
@@ -362,14 +363,18 @@ public abstract class BasePage {
     }
 
     public BasePage deleteAllCustomViews() {
+        return deleteAll(filterViewComboBox);
+    }
+
+    public BasePage deleteAll(WebElement element) {
         waitForUpdate();
-        List<String> optList = getOptionList(filterViewComboBox);
+        List<String> optList = getOptionList(element);
         for (String opt : optList) {
-            if (opt.matches(".{3,5}_\\w{2}_\\d{3}")) {
-                selectComboBox(filterViewComboBox, opt);
+            if (opt.matches(".{3,5}_\\w{2}_\\d{3}(_\\d)?")) {
+                selectComboBox(element, opt);
                 waitForUpdate();
                 editButton.click();
-                bottomMenu(DeviceUpdatePage.GlobalButtons.DELETE_VIEW);
+                bottomMenu(DeviceUpdatePage.BottomButtons.DELETE_VIEW);
                 okButtonPopUp();
                 waitForUpdate();
             }
@@ -596,7 +601,7 @@ public abstract class BasePage {
         waitForUpdate();
         List<WebElement> options = comboBox.findElements(By.tagName("option"));
         for (WebElement option : options) {
-            if (option.getText().toLowerCase().equals(value.toLowerCase())) {
+            if (option.getText().equalsIgnoreCase(value)) {
                 new Select(comboBox).selectByValue(option.getAttribute("value"));
                 return;
             }
@@ -604,20 +609,13 @@ public abstract class BasePage {
         new Select(comboBox).selectByValue(value);
     }
 
-    public boolean isCheckboxSelected(WebElement checkbox) {
-        if (!checkbox.getAttribute("type").equals("checkbox")) {
-            throw new AssertionError(" The WebElement #'" + checkbox.getAttribute("id") + "' is not a checkbox!");
-        }
-        return checkbox.isSelected();
-    }
-
     public BasePage assertCheckboxIsSelected(String id, boolean expectedState) {
-        assertTrue(isCheckboxSelected(findElement(id)) == expectedState, "The checkbox #" + id + " has unexpected state!");
+        assertTrue(findElement(id).isSelected() == expectedState, "The checkbox #" + id + " has unexpected state!");
         return this;
     }
 
     public BasePage assertCheckboxIsSelected(WebElement checkbox, boolean expectedState) {
-        assertTrue(isCheckboxSelected(checkbox) == expectedState, "The checkbox #" + checkbox.getAttribute("id") + " has unexpected state!");
+        assertTrue(checkbox.isSelected() == expectedState, "The checkbox #" + checkbox.getAttribute("id") + " has unexpected state!");
         return this;
     }
 
@@ -626,12 +624,12 @@ public abstract class BasePage {
         for (int row : rows) {
             if (row < 0) {
                 for (int i = Math.abs(row); i < table.getTableSize()[0]; i++) {
-                    assertTrue(isCheckboxSelected(table.getInput(i, column)) == expectedState,
+                    assertTrue(table.getInput(i, column).isSelected() == expectedState,
                             "The checkbox in table cell " + i + ":" + column + " has unexpected state!");
                 }
                 break;
             }
-            assertTrue(isCheckboxSelected(table.getInput(row, column)) == expectedState,
+            assertTrue(table.getInput(row, column).isSelected() == expectedState,
                     "The checkbox in table cell " + row + ":" + column + " has unexpected state!");
         }
         return this;
@@ -689,6 +687,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectImportDevicesFile() {
+        XmlWriter.createImportCpeFile();
         switchToFrame(DESKTOP);
         driver.switchTo().frame(importFrame);
         String inputText = new File("import/" + getProtocolPrefix() + "_import_cpe.xml").getAbsolutePath();
@@ -708,7 +707,7 @@ public abstract class BasePage {
         WebElement comboBox = findElement(comboBoxId);
         List<WebElement> options = comboBox.findElements(By.tagName("option"));
         for (WebElement option : options) {
-            if (option.getText().toLowerCase().equals(text.toLowerCase())) {
+            if (option.getText().equalsIgnoreCase(text)) {
                 return true;
             }
         }
@@ -737,7 +736,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage bottomMenu(IGlobalButtons button) {
+    public BasePage bottomMenu(IBottomButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -795,6 +794,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectShiftedDate(String id, int value) {
+        switchToFrame(DESKTOP);
         executeScript("CalendarPopup_FindCalendar('" + id + "').SelectDate('" + CalendarUtil.getShiftedDate(value) + "')");
         return this;
     }
@@ -868,10 +868,11 @@ public abstract class BasePage {
                         break;
                     }
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("BP:854 - StaleElementReferenceException handled");
+                    System.out.println("BP:871 - StaleElementReferenceException handled (selectTab)");
                 }
             }
         }
+        waitForUpdate();
         return this;
     }
 
@@ -918,15 +919,29 @@ public abstract class BasePage {
         }
     }
 
+    public BasePage leftMenu(ILeft item) {
+        switchToFrame(ROOT);
+        try {
+            Table table = getTable("tblLeftMenu");
+            List<Integer> list = table.getRowsWithText(item.getValue());
+            table.clickOn(list.get(0), 0);
+        } catch (ElementNotInteractableException | IndexOutOfBoundsException e) {
+            throw new AssertionError("Left menu item '" + item + "' not found on current page!");
+        }
+        waitForUpdate();
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
     public BasePage okButtonPopUp() {
         switchToFrame(ROOT);
         waitForUpdate();
-        while (okButtonPopUp.isDisplayed()) {
-            showPointer(okButtonPopUp).click();
-            waitForUpdate();
-        }
         while (okButtonAlertPopUp.isDisplayed()) {
             okButtonAlertPopUp.click();
+            waitForUpdate();
+        }
+        while (okButtonPopUp.isDisplayed()) {
+            showPointer(okButtonPopUp).click();
             waitForUpdate();
         }
         switchToFrame(DESKTOP);
@@ -947,8 +962,8 @@ public abstract class BasePage {
     public BasePage assertEqualsAlertMessage(String expectedMessage) {
         switchToFrame(ROOT);
         String out = alertWindow.getText();
-        okButtonAlertPopUp.click();
-        switchToPreviousFrame();
+        okButtonPopUp();
+        switchToFrame(DESKTOP);
         Assert.assertEquals(out, expectedMessage);
         return this;
     }
@@ -1080,8 +1095,8 @@ public abstract class BasePage {
         getTable(tabId).assertEndsWith(row, column, expectedText);
     }
 
-    public void assertCellMatches(String tabId, int row, int column, String regex) {
-        String s = getTable(tabId).getCellText(row, column);
+    public void assertCellMatches(String tabLeId, int row, int column, String regex) {
+        String s = getTable(tabLeId).getCellText(row, column);
         if (!s.matches(regex)) {
             throw new AssertionError("Table cell text doesn't match regex!");
         }
@@ -1125,7 +1140,7 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
-    void clickGlobalButtons(IGlobalButtons button) {    //TODO refactor
+    void clickGlobalButtons(IBottomButtons button) {    //TODO refactor
         waitForUpdate();
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
@@ -1149,7 +1164,7 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
-    void clickGlobalButtons1(IGlobalButtons button) {
+    void clickGlobalButtons1(IBottomButtons button) {
         waitForBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
         new FluentWait<>(driver)
@@ -1327,7 +1342,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage checkEvents() {
+    public BasePage validateEvents() {
         if (!eventMap.equals(readEvents())) {
             String warn = "Events comparison error!";
             logger.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
@@ -1346,7 +1361,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public void checkObjectTree() {
+    public void validateObjectTree() {
         Table table = new Table("tblTree");
         List<Integer> plusList = new ArrayList<>();
         List<Integer> minusList = new ArrayList<>();
@@ -1372,14 +1387,14 @@ public abstract class BasePage {
         return attr == null || !attr.equals("true");
     }
 
-    public boolean isButtonPresent(GlobalButtons button) {
+    public boolean isButtonPresent(BottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         boolean out = findElements(button.getId()).size() == 1;
         switchToPreviousFrame();
         return out;
     }
 
-    public boolean isButtonActive(IGlobalButtons button) {
+    public boolean isButtonActive(IBottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         List<WebElement> list = findElements(button.getId());
         boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
@@ -1387,7 +1402,7 @@ public abstract class BasePage {
         return out;
     }
 
-    public void waitUntilButtonIsDisplayed(IGlobalButtons button) {
+    public void waitUntilButtonIsDisplayed(IBottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         try {
             waitUntilElementIsDisplayed(findElement(button.getId()));
@@ -1398,7 +1413,7 @@ public abstract class BasePage {
         switchToFrame(DESKTOP);
     }
 
-    public void waitUntilButtonIsEnabled(IGlobalButtons button) {
+    public void waitUntilButtonIsEnabled(IBottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         try {
             waitUntilElementIsEnabled(button.getId());
@@ -1444,8 +1459,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage enterIntoGroup(String groupName) {
-        getMainTable().clickOn(groupName);
+    public BasePage enterIntoItem(String itemName) {
+        getMainTable().clickOn(itemName);
         waitForUpdate();
         return this;
     }
@@ -1479,10 +1494,10 @@ public abstract class BasePage {
         return this;
     }
 
-    protected BasePage assertButtonsArePresent(IGlobalButtons... buttons) {
+    protected BasePage assertButtonsArePresent(IBottomButtons... buttons) {
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
-        for (IGlobalButtons button : buttons) {
+        for (IBottomButtons button : buttons) {
             List<WebElement> list = findElements(button.getId());
             if (list.size() != 1 || !list.get(0).isDisplayed()) {
                 switchToPreviousFrame();
@@ -1493,12 +1508,12 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+    public BasePage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         waitForUpdate();
         assertButtonsArePresent(buttons);
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
-        for (IGlobalButtons button : buttons) {
+        for (IBottomButtons button : buttons) {
             WebElement btn = findElement(button.getId());
             if (btn.getAttribute("class").equals("button_disabled") == enabled) {
                 switchToPreviousFrame();
@@ -1599,13 +1614,8 @@ public abstract class BasePage {
     }
 
     public BasePage selectTreeObject(boolean clickOnCheckbox, int objNum) {
-        Timer timer = new Timer();
         Table table = new Table("tblTree");
-        System.out.println("Size:" + table.getTableSize()[0]);
-        System.out.println("1:" + timer.stop());
-        List<Integer> rows = table.getVisibleRowsWithInput1(0);
-        System.out.println("inputs:" + rows.size());
-        System.out.println("2:" + timer.stop());
+        List<Integer> rows = table.getVisibleRowsWithInput(0);
         while (rows.size() <= objNum) {
             List<WebElement> expanders = table.getExpandableRowList();
             if (expanders.size() == 0) {
@@ -1912,13 +1922,20 @@ public abstract class BasePage {
         throw new AssertionError(el + " id='" + id + "' is not selected!");
     }
 
+    public BasePage assertSelectedViewIs(String expectedView) {
+        return assertSelectedOptionIs("ddlView", expectedView);
+    }
+
+    public BasePage assertSelectedOptionIs(String comboboxId, String option) {
+        String actual = getSelectedOption(findElement(comboboxId));
+        if (actual.equalsIgnoreCase(option)) {
+            return this;
+        }
+        throw new AssertionError("Actual selected option and expected one don't match! Expected: " + option
+                + "; actual: " + actual);
+    }
+
     public String getRandomStringValue(int length) {
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < length; i++) {
-//            sb.append((char) (Math.random() * 91 + 32));
-//        }
-//        System.out.println(sb.toString());
-//        return sb.toString().replaceAll("<", " ");
         String sample = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -1936,7 +1953,7 @@ public abstract class BasePage {
         return list.get(list.size() - 1);
     }
 
-    public BasePage checkSorting(String column) {
+    public BasePage validateSorting(String column) {
         Table table;
         int colNum = -1;
         for (int i = 0; i < 2; i++) {
@@ -1947,7 +1964,7 @@ public abstract class BasePage {
                 table.clickOn(0, colNum);
                 break;
             } catch (StaleElementReferenceException e) {
-                System.out.println("StaleElementReferenceException catched while sorting by '" + column + "' column");
+                System.out.println("StaleElementReferenceException caught while sorting by '" + column + "' column");
             }
         }
         Timer timer = new Timer(30000);
@@ -2103,7 +2120,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage checkParametersMonitor() {
+    public BasePage validateParametersMonitor() {
         Table table = new Table("tblParamsMonitoring");
         String[] names = table.getColumn(0);
         if (parametersMonitorMap.size() != names.length) {
@@ -2130,11 +2147,11 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage checkAddedTask(String parameter, String value) {
-        return checkAddedTask("tblTasks", parameter, value, 0);
+    public BasePage validateAddedTask(String parameter, String value) {
+        return validateAddedTask("tblTasks", parameter, value, 0);
     }
 
-    public BasePage checkAddedTask(String tableId, String parameter, String value, int shift) {
+    public BasePage validateAddedTask(String tableId, String parameter, String value, int shift) {
         waitForUpdate();
         Table table = getTable(tableId);
         Timer timer = new Timer();
@@ -2145,8 +2162,8 @@ public abstract class BasePage {
         for (int i = 0; i < table.getTableSize()[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2 - shift).toLowerCase().equals(parameter.toLowerCase())) {
-                    if (table.getCellText(i, length - 1 - shift).toLowerCase().equals(value.toLowerCase())) {
+                if (table.getCellText(i, length - 2 - shift).equalsIgnoreCase(parameter)) {
+                    if (table.getCellText(i, length - 1 - shift).equalsIgnoreCase(value)) {
                         match = true;
                         break;
                     }
@@ -2172,10 +2189,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public void checkAddedTasks() {
+    public void validateAddedTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
+            validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
         }
     }
 
@@ -2189,7 +2206,7 @@ public abstract class BasePage {
             savedTable.clickOn(0, 0);
             throw new AssertionError("Page has not been refreshed!");
         } catch (StaleElementReferenceException e) {
-            System.out.println("StaleElementReferenceException handled successfully!");
+            System.out.println("page has been refreshed successfully");
         }
     }
 

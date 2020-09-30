@@ -3,14 +3,21 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.MONITORING;
+
+/*
+Preconditions:
+* Each tested manufacturer MUST have at least 2 registered models;
+* Devices (emuls) MAY NOT run;
+*/
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringMqttTests extends BaseTestCase {
@@ -36,6 +43,8 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
+                .deleteAllMonitors()
+                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -59,11 +68,10 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed();
-        setTargetTestName();
     }
 
     @Test
@@ -71,7 +79,7 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .newViewButton()
-                .fillViewName(targetTestName)
+                .fillViewName("mqtt_mo_004")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -80,7 +88,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     public void mqtt_mo_006() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("mqtt_mo_004")
                 .editButton()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
@@ -90,17 +98,17 @@ public class MonitoringMqttTests extends BaseTestCase {
     public void mqtt_mo_007() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("mqtt_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName)
+                .assertSelectedViewIs("mqtt_mo_004")
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .assertSelectedViewIs("mqtt_mo_004");
     }
 
     @Test
@@ -108,32 +116,32 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("Default")
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
     public void mqtt_mo_009() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .selectView("mqtt_mo_004")
+                .assertSelectedViewIs("mqtt_mo_004");
     }
 
     @Test
     public void mqtt_mo_010() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("mqtt_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectView(targetTestName)
+                .selectView("mqtt_mo_004")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -153,7 +161,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
-                .assertFalse(monPage.isButtonActive("btnAddModel_btn"));
+                .assertButtonIsEnabled(false, "btnAddModel_btn");
     }
 
     @Test
@@ -163,12 +171,14 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .addDeviceWithoutTemplate()
+                .addModelButton()
+                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .immediately()
-                .clickOnTable("tblDataParams", 1, 1, 0)
+                .setSingleParameter()
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL, ADVANCED_VIEW);
     }
 
@@ -180,8 +190,8 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .assertTableHasContent("tabsSettings_tblTabs")
+                .addModelButton()
+                .selectTab("Management")
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
@@ -196,11 +206,12 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
+                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertEquals(monPage.getAttributeById("tbName", "value"), testName);
+                .assertInputHasText("tbName", testName);
     }
 
     @Test
@@ -211,7 +222,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -219,13 +230,12 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName);
-        setTargetTestName();
+                .assertSelectedOptionIs("ddlSend", testName);
     }
 
     @Test
@@ -236,7 +246,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
                 .fillGroupName()
@@ -258,10 +268,10 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
-                .fillGroupName(targetTestName)
+                .fillGroupName("mqtt_mo_016")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -274,9 +284,9 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
-                .selectSendTo(targetTestName)
+                .selectSendTo("mqtt_mo_016")
                 .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
     }
 
@@ -288,7 +298,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
@@ -302,10 +312,10 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonIsActive("btnSelectDevices_btn")
+                .assertButtonIsEnabled(true, "btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()
@@ -321,7 +331,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
@@ -329,19 +339,19 @@ public class MonitoringMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group.
-        monPage                     //is dependent on #016
+    public void mqtt_mo_023() {//is dependent on #016
+        monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .selectSendTo(targetTestName)
+                .addModelButton()
+                .selectSendTo("mqtt_mo_016")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "mqtt_mo_016");
     }
 
     @Test
@@ -352,7 +362,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
@@ -365,7 +375,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 1)
@@ -373,22 +383,21 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_026() {    //is dependent on #025
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_025")
                 .immediately()
                 .setParameters("Management", 2, 2)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Not active", "mqtt_mo_025")
+                .enterIntoMonitoring("mqtt_mo_025")
+                .validateAddedTasks();
     }
 
     @Test
@@ -399,7 +408,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 7)
@@ -407,21 +416,20 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_028() {    //is dependent on #027
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_027")
                 .setParameters("Information", 8, 8)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_027")
+                .enterIntoMonitoring("mqtt_mo_027")
+                .validateAddedTasks();
     }
 
     @Test
@@ -437,7 +445,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
@@ -445,34 +453,33 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_031() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_030")
                 .setParameters("Management", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_030")
+                .enterIntoMonitoring("mqtt_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_032() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_030")
                 .setParameters("Management", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_030")
+                .enterIntoMonitoring("mqtt_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
@@ -483,7 +490,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 0)
@@ -491,34 +498,33 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_034() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_033")
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_033")
+                .enterIntoMonitoring("mqtt_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_035() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_033")
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_033")
+                .enterIntoMonitoring("mqtt_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
@@ -529,29 +535,28 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
-                .setParameters("Management", 0, 0)
+                .setParameters("Management", 0, 1)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
-    public void mqtt_mo_037() {    //is dependent on #054
+    public void mqtt_mo_037() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_036")
                 .setParameters("Management", 0, 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "mqtt_mo_036")
+                .enterIntoMonitoring("mqtt_mo_036")
+                .validateAddedTasks();
     }
 
     @Test
@@ -562,7 +567,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
@@ -575,38 +580,37 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_039() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("mqtt_mo_038")
                 .bottomMenu(STOP)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "mqtt_mo_038");
     }
 
     @Test
     public void mqtt_mo_040() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("mqtt_mo_038")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName);
+                .waitForStatus("Running", "mqtt_mo_038");
     }
 
     @Test
     public void mqtt_mo_041() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("mqtt_mo_038")
                 .bottomMenu(STOP_WITH_RESET)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "mqtt_mo_038");
     }
 
     @Test
@@ -617,19 +621,20 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .clickOn("calDateTo")
                 .selectShiftedDate("calDateTo", 0)
                 .setEndDateDelay(-10)
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past")
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past")
                 .selectShiftedDate("calDateTo", 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past");
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past");
     }
 
     @Test
@@ -640,20 +645,20 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 100)
                 .setParameters("Information", 0, 0)
-                .setParameters("Connectivity monitoring", 0, 0)
+//                .setParameters("Connectivity monitoring", 0, 0)
                 .selectShiftedDate("calDateTo", 0)
                 .setEndDateDelay(2)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
-                .waitForStatus("Completed", 120)
+                .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -664,7 +669,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setAdvancedParameters("Device.ManagementServer", 0, 100)
@@ -672,7 +677,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -683,7 +688,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -693,36 +698,35 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
-    public void mqtt_mo_046() {    //is dependent on #063
+    public void mqtt_mo_046() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_045")
                 .scheduledToRadioButton()
                 .setParameters("Management", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "mqtt_mo_045")
+                .enterIntoMonitoring("mqtt_mo_045")
+                .validateAddedTasks();
     }
 
     @Test
-    public void mqtt_mo_047() {    //is dependent on #063
+    public void mqtt_mo_047() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_045")
                 .scheduledToRadioButton()
                 .setParameters("Management", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "mqtt_mo_045")
+                .enterIntoMonitoring("mqtt_mo_045")
+                .validateAddedTasks();
     }
 
     @Test
@@ -733,7 +737,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -743,36 +747,35 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_049() {    //is dependent on #066
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_048")
                 .scheduledToRadioButton()
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "mqtt_mo_048")
+                .enterIntoMonitoring("mqtt_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_050() {    //is dependent on #066
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("mqtt_mo_048")
                 .scheduledToRadioButton()
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "mqtt_mo_048")
+                .enterIntoMonitoring("mqtt_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
@@ -783,7 +786,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -798,19 +801,18 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void mqtt_mo_052() {
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("mqtt_mo_051")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
                 .bottomMenu(REFRESH)
-                .waitForStatus("Scheduled", targetTestName);
+                .waitForStatus("Scheduled", "mqtt_mo_051");
     }
 
     @Test
@@ -821,12 +823,13 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("All")
                 .scheduledToRadioButton()
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Activation date can't be scheduled to past");
+                .assertEqualsAlertMessage("Activation date can't be scheduled to the past");
     }
 
     @Test
@@ -851,25 +854,25 @@ public class MonitoringMqttTests extends BaseTestCase {
     public void mqtt_mo_056() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
     public void mqtt_mo_057() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void mqtt_mo_058() {
-        setTargetTestName();
         monPage
                 .topMenu(MONITORING)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(0, 100)
+                .setViewColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -880,65 +883,65 @@ public class MonitoringMqttTests extends BaseTestCase {
     public void mqtt_mo_059() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Created");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Created");
     }
 
     @Test
     public void mqtt_mo_060() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date from");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Date from");
     }
 
     @Test
     public void mqtt_mo_061() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date to");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Date to");
     }
 
     @Test
     public void mqtt_mo_062() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Description");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Description");
     }
 
     @Test
     public void mqtt_mo_063() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Name");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Name");
     }
 
     @Test
     public void mqtt_mo_064() {    //Bug: Unclear sorting algorithm by "State" column
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("State");
+                .selectView("mqtt_mo_058")
+                .validateSorting("State");
     }
 
     @Test
     public void mqtt_mo_065() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Updated");
+                .selectView("mqtt_mo_058")
+                .validateSorting("Updated");
     }
 
     @Test
     public void mqtt_mo_066() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("mqtt_mo_058")
                 .resetView()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default", "View reset does not occur");
+                .assertSelectedOptionIs("ddlView", "Default");
     }
 
     @Test
@@ -949,7 +952,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(true);
@@ -963,10 +966,104 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(false);
+    }
+
+    @Test
+    public void mqtt_mo_069() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .deleteAllGroups()
+                .newGroupButton()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .bottomMenu(CANCEL)
+                .assertInputHasText("tbName", testName);
+    }
+
+    @Test
+    public void mqtt_mo_070() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertSelectedOptionIs("ddlSend", testName);
+    }
+
+    @Test
+    public void mqtt_mo_071() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE);
+    }
+
+    @Test
+    public void mqtt_mo_072() {    //is dependent on #070
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName("mqtt_mo_070")
+                .bottomMenu(NEXT)
+                .assertPresenceOfElements("lblNameInvalid");
+    }
+
+    @Test
+    public void mqtt_mo_073() {//is dependent on #106
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .selectSendTo("mqtt_mo_070")
+                .editButton()
+                .bottomMenu(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertAbsenceOfOptions("ddlSend", "mqtt_mo_070");
     }
 
     @Test
@@ -977,7 +1074,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -992,6 +1089,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5);
@@ -999,13 +1097,14 @@ public class MonitoringMqttTests extends BaseTestCase {
 
     @Test
     public void mqtt_mo_075() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1016,6 +1115,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1029,7 +1129,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1040,6 +1140,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1053,7 +1154,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1066,6 +1167,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1079,7 +1181,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1090,6 +1192,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1103,7 +1206,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1114,6 +1217,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1127,7 +1231,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1138,6 +1242,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1151,7 +1256,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1162,6 +1267,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1175,7 +1281,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1187,6 +1293,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1201,7 +1308,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1213,6 +1320,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1227,7 +1335,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1239,12 +1347,13 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
     }
 
-    @Test
+    @Test   // bug: failed due to device does not have MAC address
     public void mqtt_mo_085() {
         monPage
                 .topMenu(MONITORING)
@@ -1252,14 +1361,14 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("MAC address")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .partOfMacAddress()
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1275,7 +1384,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1287,6 +1396,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1301,7 +1411,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1313,6 +1423,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1321,13 +1432,13 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_088() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", "")
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1338,6 +1449,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1352,7 +1464,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1363,6 +1475,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1377,7 +1490,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1388,6 +1501,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1399,6 +1513,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1412,7 +1527,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1423,6 +1538,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1434,6 +1550,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");

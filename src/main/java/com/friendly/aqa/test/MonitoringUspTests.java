@@ -3,14 +3,21 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.MONITORING;
+
+/*
+Preconditions:
+* Each tested manufacturer MUST have at least 2 registered models;
+* Devices (emuls) MAY NOT run;
+*/
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringUspTests extends BaseTestCase {
@@ -36,6 +43,8 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
+                .deleteAllMonitors()
+                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -59,11 +68,10 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed();
-        setTargetTestName();
     }
 
     @Test
@@ -71,7 +79,7 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .newViewButton()
-                .fillViewName(targetTestName)
+                .fillViewName("usp_mo_004")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -80,7 +88,7 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_006() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("usp_mo_004")
                 .editButton()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
@@ -90,17 +98,17 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_007() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("usp_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName)
+                .assertSelectedViewIs("usp_mo_004")
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .assertSelectedViewIs("usp_mo_004");
     }
 
     @Test
@@ -108,32 +116,32 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("Default")
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
     public void usp_mo_009() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .selectView("usp_mo_004")
+                .assertSelectedViewIs("usp_mo_004");
     }
 
     @Test
     public void usp_mo_010() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("usp_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectView(targetTestName)
+                .selectView("usp_mo_004")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -153,7 +161,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
-                .assertFalse(monPage.isButtonActive("btnAddModel_btn"));
+                .assertButtonIsEnabled(false, "btnAddModel_btn");
     }
 
     @Test
@@ -163,12 +171,14 @@ public class MonitoringUspTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .addDeviceWithoutTemplate()
+                .addModelButton()
+                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .immediately()
-                .clickOnTable("tblDataParams", 1, 1, 0)
+                .setSingleParameter()
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL, ADVANCED_VIEW);
     }
 
@@ -180,8 +190,8 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .assertTableHasContent("tabsSettings_tblTabs")
+                .addModelButton()
+                .selectTab("Management")
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
@@ -196,11 +206,12 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
+                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertEquals(monPage.getAttributeById("tbName", "value"), testName);
+                .assertInputHasText("tbName", testName);
     }
 
     @Test
@@ -211,7 +222,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -219,13 +230,12 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName);
-        setTargetTestName();
+                .assertSelectedOptionIs("ddlSend", testName);
     }
 
     @Test
@@ -236,7 +246,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
                 .fillGroupName()
@@ -258,10 +268,10 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
-                .fillGroupName(targetTestName)
+                .fillGroupName("usp_mo_016")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -274,9 +284,9 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
-                .selectSendTo(targetTestName)
+                .selectSendTo("usp_mo_016")
                 .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
     }
 
@@ -288,7 +298,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
@@ -302,15 +312,15 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonIsActive("btnSelectDevices_btn")
+                .assertButtonIsEnabled(true, "btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
+                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
     }
 
     @Test
@@ -321,27 +331,27 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
+                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
     }
 
     @Test
-    public void usp_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group.
-        monPage                     //is dependent on #016
+    public void usp_mo_023() {//is dependent on #016
+        monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .selectSendTo(targetTestName)
+                .addModelButton()
+                .selectSendTo("usp_mo_016")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "usp_mo_016");
     }
 
     @Test
@@ -352,7 +362,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
@@ -365,7 +375,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 1)
@@ -373,22 +383,21 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_026() {    //is dependent on #025
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_025")
                 .immediately()
                 .setParameters("Information", 2, 2)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Not active", "usp_mo_025")
+                .enterIntoMonitoring("usp_mo_025")
+                .validateAddedTasks();
     }
 
     @Test
@@ -399,7 +408,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 7)
@@ -407,21 +416,20 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_028() {    //is dependent on #027
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_027")
                 .setParameters("Information", 8, 8)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "usp_mo_027")
+                .enterIntoMonitoring("usp_mo_027")
+                .validateAddedTasks();
     }
 
     @Test
@@ -437,7 +445,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 0)
@@ -445,34 +453,33 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_031() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_030")
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "usp_mo_030")
+                .enterIntoMonitoring("usp_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_032() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_030")
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "usp_mo_030")
+                .enterIntoMonitoring("usp_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
@@ -483,29 +490,28 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
-                .setParameters("Information", 0, 0)
+                .setParameters("Information", 0, 1)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
-    public void usp_mo_034() {    //is dependent on #054
+    public void usp_mo_034() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_033")
                 .setParameters("Information", 0, 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "usp_mo_033")
+                .enterIntoMonitoring("usp_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
@@ -516,7 +522,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 0)
@@ -529,38 +535,37 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_036() {    //is dependent on #035
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("usp_mo_035")
                 .bottomMenu(STOP)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "usp_mo_035");
     }
 
     @Test
     public void usp_mo_037() {    //is dependent on #035
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("usp_mo_035")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName);
+                .waitForStatus("Running", "usp_mo_035");
     }
 
     @Test
     public void usp_mo_038() {    //is dependent on #035
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("usp_mo_035")
                 .bottomMenu(STOP_WITH_RESET)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "usp_mo_035");
     }
 
     @Test
@@ -571,19 +576,20 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .clickOn("calDateTo")
                 .selectShiftedDate("calDateTo", 0)
                 .setEndDateDelay(-10)
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past")
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past")
                 .selectShiftedDate("calDateTo", 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past");
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past");
     }
 
     @Test
@@ -594,20 +600,19 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 100)
-                .setParameters("Information", 0, 0)
-                .setParameters("Connectivity monitoring", 0, 0)
+                .setParameters("Management", 0, 0)
                 .selectShiftedDate("calDateTo", 0)
                 .setEndDateDelay(2)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
-                .waitForStatus("Completed", 120)
+                .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -618,7 +623,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setAdvancedParameters("Device.ManagementServer", 0, 100)
@@ -626,7 +631,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -637,7 +642,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -647,36 +652,35 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_043() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_042")
                 .scheduledToRadioButton()
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "usp_mo_042")
+                .enterIntoMonitoring("usp_mo_042")
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_044() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("usp_mo_042")
                 .scheduledToRadioButton()
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "usp_mo_042")
+                .enterIntoMonitoring("usp_mo_042")
+                .validateAddedTasks();
     }
 
     @Test
@@ -687,7 +691,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -702,19 +706,18 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void usp_mo_046() {
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("usp_mo_045")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
                 .bottomMenu(REFRESH)
-                .waitForStatus("Scheduled", targetTestName);
+                .waitForStatus("Scheduled", "usp_mo_045");
     }
 
     @Test
@@ -725,12 +728,13 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("All")
                 .scheduledToRadioButton()
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Activation date can't be scheduled to past");
+                .assertEqualsAlertMessage("Activation date can't be scheduled to the past");
     }
 
     @Test
@@ -755,25 +759,25 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_050() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
     public void usp_mo_051() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void usp_mo_052() {
-        setTargetTestName();
         monPage
                 .topMenu(MONITORING)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(0, 100)
+                .setViewColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -784,65 +788,65 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_053() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Created");
+                .selectView("usp_mo_052")
+                .validateSorting("Created");
     }
 
     @Test
     public void usp_mo_054() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date from");
+                .selectView("usp_mo_052")
+                .validateSorting("Date from");
     }
 
     @Test
     public void usp_mo_055() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date to");
+                .selectView("usp_mo_052")
+                .validateSorting("Date to");
     }
 
     @Test
     public void usp_mo_056() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Description");
+                .selectView("usp_mo_052")
+                .validateSorting("Description");
     }
 
     @Test
     public void usp_mo_057() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Name");
+                .selectView("usp_mo_052")
+                .validateSorting("Name");
     }
 
     @Test
     public void usp_mo_058() {    //Bug: Unclear sorting algorithm by "State" column
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("State");
+                .selectView("usp_mo_052")
+                .validateSorting("State");
     }
 
     @Test
     public void usp_mo_059() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Updated");
+                .selectView("usp_mo_052")
+                .validateSorting("Updated");
     }
 
     @Test
     public void usp_mo_060() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("usp_mo_052")
                 .resetView()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default", "View reset does not occur");
+                .assertSelectedOptionIs("ddlView", "Default");
     }
 
     @Test
@@ -853,7 +857,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(true);
@@ -867,10 +871,104 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(false);
+    }
+
+    @Test
+    public void usp_mo_063() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .deleteAllGroups()
+                .newGroupButton()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .bottomMenu(CANCEL)
+                .assertInputHasText("tbName", testName);
+    }
+
+    @Test
+    public void usp_mo_064() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertSelectedOptionIs("ddlSend", testName);
+    }
+
+    @Test
+    public void usp_mo_065() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE);
+    }
+
+    @Test
+    public void usp_mo_066() {    //is dependent on #064
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName("usp_mo_064")
+                .bottomMenu(NEXT)
+                .assertPresenceOfElements("lblNameInvalid");
+    }
+
+    @Test
+    public void usp_mo_067() {//is dependent on #064
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .selectSendTo("usp_mo_064")
+                .editButton()
+                .bottomMenu(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertAbsenceOfOptions("ddlSend", "usp_mo_064");
     }
 
     @Test
@@ -881,7 +979,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -896,6 +994,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5);
@@ -903,13 +1002,14 @@ public class MonitoringUspTests extends BaseTestCase {
 
     @Test
     public void usp_mo_069() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -920,6 +1020,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -933,7 +1034,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -944,6 +1045,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -957,7 +1059,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -970,6 +1072,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -983,7 +1086,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -994,6 +1097,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1007,7 +1111,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1018,6 +1122,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1031,7 +1136,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1042,6 +1147,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1055,7 +1161,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1066,6 +1172,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1079,7 +1186,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1091,6 +1198,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1105,7 +1213,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1117,6 +1225,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1131,7 +1240,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1143,12 +1252,13 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
     }
 
-    @Test
+    @Test   // bug: failed due to device does not have MAC address
     public void usp_mo_079() {
         monPage
                 .topMenu(MONITORING)
@@ -1156,14 +1266,14 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("MAC address")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .partOfMacAddress()
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1179,7 +1289,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1191,6 +1301,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1205,7 +1316,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1217,6 +1328,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1225,13 +1337,13 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_082() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", "")
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1242,6 +1354,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1256,7 +1369,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1267,6 +1380,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1281,7 +1395,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1292,6 +1406,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1303,6 +1418,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1316,7 +1432,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1327,6 +1443,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1338,6 +1455,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");

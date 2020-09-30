@@ -1,6 +1,6 @@
 package com.friendly.aqa.entities;
 
-public enum GlobalButtons implements IGlobalButtons {
+public enum BottomButtons implements IBottomButtons {
 
     ACTIVATE("btnActivate_btn"),
     ADVANCED_VIEW("btnAdvancedView_btn"),
@@ -21,7 +21,7 @@ public enum GlobalButtons implements IGlobalButtons {
     STOP("btnStop_btn"),
     STOP_WITH_RESET("btnStopWithReset_btn");
 
-    GlobalButtons(String id) {
+    BottomButtons(String id) {
         this.id = id;
     }
 

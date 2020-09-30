@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 import static com.friendly.aqa.entities.TopMenu.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.SEARCH_EXPORT_TO_XML;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.SEARCH_EXPORT_TO_XML;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
@@ -253,7 +253,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Created");
+                .validateSorting("Created");
     }
 
     @Test
@@ -263,7 +263,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Firmware");
+                .validateSorting("Firmware");
     }
 
     @Test
@@ -273,7 +273,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Latitude");
+                .validateSorting("Latitude");
     }
 
     @Test
@@ -283,7 +283,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Longitude");
+                .validateSorting("Longitude");
     }
 
     @Test
@@ -293,7 +293,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Manufacturer");
+                .validateSorting("Manufacturer");
     }
 
     @Test
@@ -303,7 +303,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Model name");
+                .validateSorting("Model name");
     }
 
     @Test
@@ -313,7 +313,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust03");
+                .validateSorting("mycust03");
     }
 
     @Test
@@ -323,7 +323,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust04");
+                .validateSorting("mycust04");
     }
 
     @Test
@@ -333,7 +333,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust05");
+                .validateSorting("mycust05");
     }
 
     @Test
@@ -343,7 +343,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust06");
+                .validateSorting("mycust06");
     }
 
     @Test
@@ -353,7 +353,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust07");
+                .validateSorting("mycust07");
     }
 
     @Test
@@ -363,7 +363,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust08");
+                .validateSorting("mycust08");
     }
 
     @Test
@@ -373,7 +373,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust09");
+                .validateSorting("mycust09");
     }
 
     @Test
@@ -383,7 +383,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("mycust10");
+                .validateSorting("mycust10");
     }
 
     @Test
@@ -393,7 +393,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("OUI");
+                .validateSorting("OUI");
     }
 
     @Test
@@ -403,7 +403,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Phone number");
+                .validateSorting("Phone number");
     }
 
     @Test   //bug: sorting by 'Protocol type' failed;
@@ -413,7 +413,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Protocol type");
+                .validateSorting("Protocol type");
     }
 
     @Test
@@ -423,7 +423,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Serial");
+                .validateSorting("Serial");
     }
 
     @Test
@@ -433,7 +433,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Status");
+                .validateSorting("Status");
     }
 
     @Test
@@ -443,7 +443,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Updated");
+                .validateSorting("Updated");
     }
 
     @Test
@@ -453,7 +453,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User ID");
+                .validateSorting("User ID");
     }
 
     @Test
@@ -463,7 +463,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User location");
+                .validateSorting("User location");
     }
 
     @Test
@@ -473,7 +473,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User login");
+                .validateSorting("User login");
     }
 
     @Test
@@ -483,7 +483,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User name");
+                .validateSorting("User name");
     }
 
     @Test
@@ -493,8 +493,8 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User name")
-                .checkSorting("User status");
+                .validateSorting("User name")
+                .validateSorting("User status");
     }
 
     @Test
@@ -504,7 +504,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("User tag");
+                .validateSorting("User tag");
     }
 
     @Test
@@ -514,7 +514,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .checkSorting("Zip");
+                .validateSorting("Zip");
     }
 
     @Test
@@ -559,14 +559,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_046() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .checkFiltering("Model name");
+                .validateFiltering("Model name");
     }
 
     @Test
     public void tr069_du_047() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .checkFiltering("Manufacturer");
+                .validateFiltering("Manufacturer");
     }
 
     @Test
@@ -659,7 +659,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .bottomMenu(EXPORTS)
-                .checkSavedExport("csv", "xml");
+                .validateSavedExport("csv", "xml");
     }
 
     @Test   //depends on 54, 55
@@ -920,7 +920,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Created");
+                .validateSorting("Created");
     }
 
     @Test
@@ -934,7 +934,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getSerial().substring(0, 1))
                 .selectView("tr069_du_070")
 //                .searchButton()
-                .checkSorting("Firmware");
+                .validateSorting("Firmware");
     }
 
     @Test
@@ -947,7 +947,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Latitude");
+                .validateSorting("Latitude");
     }
 
     @Test
@@ -960,7 +960,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Longitude");
+                .validateSorting("Longitude");
     }
 
     @Test
@@ -973,7 +973,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Manufacturer");
+                .validateSorting("Manufacturer");
     }
 
     @Test
@@ -986,7 +986,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Model name");
+                .validateSorting("Model name");
     }
 
     @Test
@@ -999,7 +999,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust03");
+                .validateSorting("mycust03");
     }
 
     @Test
@@ -1012,7 +1012,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust04");
+                .validateSorting("mycust04");
     }
 
     @Test
@@ -1025,7 +1025,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust05");
+                .validateSorting("mycust05");
     }
 
     @Test
@@ -1038,7 +1038,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust06");
+                .validateSorting("mycust06");
     }
 
     @Test
@@ -1051,7 +1051,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust07");
+                .validateSorting("mycust07");
     }
 
     @Test
@@ -1064,7 +1064,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust08");
+                .validateSorting("mycust08");
     }
 
     @Test
@@ -1077,7 +1077,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust09");
+                .validateSorting("mycust09");
     }
 
     @Test
@@ -1090,7 +1090,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("mycust10");
+                .validateSorting("mycust10");
     }
 
     @Test
@@ -1103,7 +1103,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("OUI");
+                .validateSorting("OUI");
     }
 
     @Test
@@ -1116,7 +1116,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Phone number");
+                .validateSorting("Phone number");
     }
 
     @Test   //bug: sorting by 'Protocol type' failed;
@@ -1129,7 +1129,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Protocol type");
+                .validateSorting("Protocol type");
     }
 
     @Test
@@ -1142,7 +1142,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Serial");
+                .validateSorting("Serial");
     }
 
     @Test   //Bug: column "Status" is absent from search view settings list; (bug in STD?)
@@ -1155,7 +1155,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getSerial().substring(0, 1))
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
-                .checkSorting("Status");
+                .validateSorting("Status");
     }
 
     @Test
@@ -1168,7 +1168,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Updated");
+                .validateSorting("Updated");
     }
 
     @Test
@@ -1182,7 +1182,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getSerial().substring(0, 1))
                 .selectView("tr069_du_070")
 //                .searchButton()
-                .checkSorting("User ID");
+                .validateSorting("User ID");
     }
 
     @Test
@@ -1195,7 +1195,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("User location");
+                .validateSorting("User location");
     }
 
     @Test
@@ -1208,7 +1208,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("User login");
+                .validateSorting("User login");
     }
 
     @Test
@@ -1221,7 +1221,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("User name");
+                .validateSorting("User name");
     }
 
     @Test
@@ -1234,7 +1234,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("User status");
+                .validateSorting("User status");
     }
 
     @Test
@@ -1247,7 +1247,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("User tag");
+                .validateSorting("User tag");
     }
 
     @Test
@@ -1260,7 +1260,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .checkSorting("Zip");
+                .validateSorting("Zip");
     }
 
     @Test   //bug: after 'Cancel' view doesn't return to previous selected view, Default is selected instead.
@@ -1523,7 +1523,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .leftMenu(LIST)
                 .bottomMenu(EXPORTS)
-                .checkSavedExport("csv");
+                .validateSavedExport("csv");
     }
 
     @Test
@@ -1540,7 +1540,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .leftMenu(LIST)
                 .bottomMenu(EXPORTS)
-                .checkSavedExport("xml");
+                .validateSavedExport("xml");
     }
 
     @Test

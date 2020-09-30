@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
@@ -152,7 +152,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void mqtt_gu_011() {
-        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -202,7 +201,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)    //bug? Advanced View button is absent for MQTT!!!
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -211,7 +210,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -220,7 +219,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -229,7 +228,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -238,7 +237,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -247,7 +246,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -256,7 +255,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -265,7 +264,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -274,7 +273,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -283,7 +282,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -292,7 +291,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -301,7 +300,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .gotoSetParameters(/*true*/)
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -400,7 +399,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .addTaskButton()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -473,50 +472,50 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     public void mqtt_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Manufacturer");
+                .validateSorting("Manufacturer");
     }
 
     @Test
     public void mqtt_gu_045() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Model");
+                .validateSorting("Model");
     }
 
     @Test
     public void mqtt_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name");
+                .validateSorting("Name");
     }
 
     @Test
     public void mqtt_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name")
-                .checkSorting("Created");
+                .validateSorting("Name")
+                .validateSorting("Created");
     }
 
     @Test
     public void mqtt_gu_048() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Creator");
+                .validateSorting("Creator");
     }
 
     @Test
     public void mqtt_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Updated");
+                .validateSorting("Updated");
     }
 
     @Test
     public void mqtt_gu_050() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Activated");
+                .validateSorting("Activated");
     }
 
     @Test
@@ -713,7 +712,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -738,6 +737,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 }

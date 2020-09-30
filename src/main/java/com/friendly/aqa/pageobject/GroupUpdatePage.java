@@ -19,7 +19,7 @@ import java.time.Duration;
 import java.util.*;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 
@@ -623,7 +623,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage bottomMenu(GlobalButtons button) {
+    public GroupUpdatePage bottomMenu(BottomButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -927,7 +927,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup();
-        checkAddedTasks();
+        validateAddedTasks();
     }
 
     public void setScheduledPolicy(String tab) {
@@ -951,7 +951,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     public void getScheduledParameter(String tab, int column) {
@@ -974,7 +974,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     public void scheduledCallCustomRPC(String method) {
@@ -997,7 +997,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Custom RPC", method);
+                .validateAddedTask("Custom RPC", method);
     }
 
     public GroupUpdatePage gotoSetParameters(String tab) {
@@ -1265,8 +1265,8 @@ public class GroupUpdatePage extends BasePage {
 //        clickOn(0, 0);
     }
 
-    public GroupUpdatePage checkAddedTask(String parameter, String value) {
-        return (GroupUpdatePage) super.checkAddedTask(parameter, value);
+    public GroupUpdatePage validateAddedTask(String parameter, String value) {
+        return (GroupUpdatePage) super.validateAddedTask(parameter, value);
     }
 
     public GroupUpdatePage readTasksFromDb() {
@@ -1285,7 +1285,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage enterIntoGroup(String groupName) {
-        getMainTable().clickOn(groupName);
+        enterIntoItem(groupName);
         return this;
     }
 
@@ -1299,12 +1299,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+    public GroupUpdatePage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         return (GroupUpdatePage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
-    public GroupUpdatePage assertButtonsArePresent(IGlobalButtons... buttons) {
+    public GroupUpdatePage assertButtonsArePresent(IBottomButtons... buttons) {
         return (GroupUpdatePage) super.assertButtonsArePresent(buttons);
     }
 

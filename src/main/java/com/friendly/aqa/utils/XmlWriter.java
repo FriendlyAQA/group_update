@@ -1,6 +1,7 @@
 package com.friendly.aqa.utils;
 
 import com.friendly.aqa.gui.Controller;
+import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedWriter;
@@ -86,6 +87,44 @@ public class XmlWriter {
                 .append("\t\t<RepeatCount>0</RepeatCount>\n").append("\t\t<FailOnly>false</FailOnly>\n")
                 .append("\t\t<RepeatEvery>0</RepeatEvery>\n").append("\t\t<Expression />\n")
                 .append("\t\t<RandomCount>0</RandomCount>\n").append("\t</Reactivation>\n").append("</Update>");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
+            writer.write(sb.toString());
+        } catch (IOException e) {
+            logger.warn(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void createImportMonitorFile() {
+        String pathName = "import/" + getProtocolPrefix() + "_import_monitor.xml";
+        String[] deviceArr = DataBaseConnector.getDevice(getSerial());
+        String protocol = getProtocolPrefix().toUpperCase();
+        String parameter;
+        switch (protocol) {
+            case "TR069":
+                parameter = "InternetGatewayDevice.DeviceInfo.UpTime";
+                break;
+            case "LWM2M":
+                parameter = "Root.Device.0.Timezone";
+                break;
+            default:
+                parameter = "Device.DeviceInfo.Manufacturer";
+                break;
+        }
+        if (protocol.equals("TR181")) {
+            protocol = "TR069";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n").append("<MonitorGroup>\n").append("\t<Name>")
+                .append(BaseTestCase.getTestName()).append("</Name>\n").append("\t<Description>imported_monitor</Description>\n")
+                .append("\t<DateFrom>01/01/1</DateFrom>\n").append("\t<DateTo>null</DateTo>\n").append("\t<PerformEvery>60</PerformEvery>\n")
+                .append("\t<Location>0</Location>\n").append("\t<ChildMonirorings>\n").append("\t\t<MonitorParam>\n")
+                .append("\t\t\t<ProductGroup>\n").append("\t\t\t\t<Manufacturer>").append(deviceArr[0])
+                .append("</Manufacturer>\n\t\t\t\t<ModelName>").append(deviceArr[1]).append("</ModelName>\n\t\t\t\t<ProtocolId>")
+                .append(protocol).append("</ProtocolId>\n").append("\t\t\t</ProductGroup>\n").append("\t\t\t<applyForNew>true</applyForNew>\n")
+                .append("\t\t\t<Params>\n").append("\t\t\t\t<Param>\n").append("\t\t\t\t\t<FullName>" + parameter + "</FullName>\n")
+                .append("\t\t\t\t</Param>\n").append("\t\t\t</Params>\n").append("\t\t</MonitorParam>\n").append("\t</ChildMonirorings>\n")
+                .append("</MonitorGroup>\n");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
             writer.write(sb.toString());
         } catch (IOException e) {

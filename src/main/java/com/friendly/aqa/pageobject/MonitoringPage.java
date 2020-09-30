@@ -1,11 +1,10 @@
 package com.friendly.aqa.pageobject;
 
-import com.friendly.aqa.entities.GlobalButtons;
-import com.friendly.aqa.entities.IGlobalButtons;
-import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.entities.Table;
+import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.XmlWriter;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,14 +15,13 @@ import org.openqa.selenium.support.FindBy;
 import java.io.File;
 import java.util.*;
 
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.entities.GlobalButtons.ADVANCED_VIEW;
-import static com.friendly.aqa.entities.GlobalButtons.SAVE;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByManufacturer;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByModelName;
 
 public class MonitoringPage extends BasePage {
-    private static Logger logger = Logger.getLogger(MonitoringPage.class);
+    private static final Logger LOGGER = Logger.getLogger(MonitoringPage.class);
 
     @Override
     protected String getLeftMenuCssSelector() {
@@ -35,7 +33,7 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.topMenu(value);
     }
 
-    public MonitoringPage bottomMenu(GlobalButtons button) {
+    public MonitoringPage bottomMenu(BottomButtons button) {
         clickGlobalButtons(button);
         return this;
     }
@@ -58,8 +56,8 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "cbDateTo")
     private WebElement endDateCheckbox;
 
-//    @FindBy(id = "tbName")
-//    private WebElement nameField;
+    @FindBy(id = "tbName")
+    private WebElement nameField;
 
     @FindBy(id = "txtName")
     private WebElement customViewNameField;
@@ -93,7 +91,8 @@ public class MonitoringPage extends BasePage {
 
     @Override
     public MonitoringPage fillName() {
-        return (MonitoringPage) super.fillName();
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
     }
 
     public MonitoringPage fillGroupName() {
@@ -149,16 +148,19 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.selectItem(groupName);
     }
 
-    @Override
-    public MonitoringPage enterIntoGroup(String groupName) {
-        return (MonitoringPage) super.enterIntoGroup(groupName);
+    public MonitoringPage enterIntoMonitoring(String itemName) {
+        return (MonitoringPage) super.enterIntoItem(itemName);
     }
 
     public MonitoringPage enterIntoGroup() {
-        return enterIntoGroup(BaseTestCase.getTestName());
+        return enterIntoMonitoring(BaseTestCase.getTestName());
     }
 
-    public MonitoringPage addModel() {
+    public MonitoringPage deleteAllGroups() {
+        return (MonitoringPage) deleteAll(sendToComboBox);
+    }
+
+    public MonitoringPage addModelButton() {
         addModelButton.click();
         waitForUpdate();
         return this;
@@ -173,7 +175,7 @@ public class MonitoringPage extends BasePage {
         setImplicitlyWait(0);
         for (String item : list) {
             selectModel(item);
-            addModel();
+            addModelButton();
             switchToFrame(ROOT);
             waitForUpdate();
             if (!okButtonAlertPopUp.isDisplayed()) {
@@ -189,68 +191,67 @@ public class MonitoringPage extends BasePage {
     }
 
     public void setParametersFor2Devices(boolean theSameParameter) {
-        int param1 = 0, param2 = -1;
-        String hint1, hint2;
+        int param0 = 0, param1 = -1;
+        Set<String> tabSet1 = new HashSet<>(getTabTable().getNotEmptyContentList());
         Table devTable = getTable("tblModels");
-        String[] devices = {devTable.getCellText(0, 0), devTable.getCellText(1, 0)};
+        String[] devices = devTable.getWholeColumn(0);
         devTable.clickOn(0, 0);
-        String[] dev1 = getParamTable().getColumn(0);
         waitForUpdate();
-        devTable.clickOn(1, 0);
-        String[] dev2 = getParamTable().getColumn(0);
+        Set<String> tabSet0 = new HashSet<>(getTabTable().getNotEmptyContentList());
+        tabSet0.retainAll(tabSet1);
+        tabSet0.remove("Summary");
+        tabSet0.removeIf(cell -> cell.startsWith("Devices:"));
+        getTabTable().clickOn(tabSet0.iterator().next());
+        waitForUpdate();
+        String[] dev0 = getParamTable().getColumn(0);
+        waitForUpdate();
+        if (tabSet0.isEmpty()){
+            throw new AssertionError("Cannot find suitable (the same) tab for both devices!");
+        }
+        devTable.clickOn(1,0);
+        String[] dev1 = getParamTable().getColumn(0);
         out:
-        for (int i = 0; i < dev1.length; i++) {
-            param1 = i + 1;
-            for (int j = 0; j < dev2.length; j++) {
-                if (dev1[i].equals(dev2[j]) == theSameParameter) {
-                    param2 = j + 1;
+        for (int i = 0; i < dev0.length; i++) {
+            param0 = i + 1;
+            for (int j = 0; j < dev1.length; j++) {
+                if (dev0[i].equals(dev1[j]) == theSameParameter) {
+                    param1 = j + 1;
                     break out;
                 }
             }
         }
-        if (param2 < 0) {
+        if (param1 < 0) {
             throw new AssertionError("Cannot find suitable parameters!");
         }
-        hint2 = getParamTable().clickOn(param2, 1, 0).getHint(param2);
+        String hint2 = getParamTable().clickOn(param1, 1, 0).getHint(param1);
         getTable("tblModels").clickOn(0, 0);
         waitForUpdate();
-        hint1 = getParamTable().clickOn(param1, 1, 0).getHint(param1);
+        String hint1 = getParamTable().clickOn(param0, 1, 0).getHint(param0);
         immediately();
         bottomMenu(SAVE);
         okButtonPopUp();
         enterIntoGroup();
-        getTable("tblModels").clickOn(devices[0]);
-        getTabTable().clickOn("Summary");
+        checkDevice(devices[0], hint1);
+        checkDevice(devices[1], hint2);
+    }
+
+    private void checkDevice(String device, String hint) {
+        getTable("tblModels").clickOn(device);
+        selectTab("Summary");
         waitForUpdate();
-        dev1 = getParamTable().getColumn(0);
-        if (dev1.length != 2) {
+        String[] devParams = getParamTable().getColumn(0);
+        if (getParamTable().getVisibleRowsWithInput(1).size() != 1) {
             throw new AssertionError("Unexpected number of parameters!");
         }
         boolean success = false;
-        for (int i = 0; i < 2; i++) {
-            if (dev1[i].equals(hint1)) {
+        for (String value : devParams) {
+            if (value.equals(hint)) {
                 success = true;
                 break;
             }
         }
         if (!success) {
-            throw new AssertionError("Parameter " + hint1 + " not found!");
-        }
-        getTable("tblModels").clickOn(devices[1]);
-        waitForUpdate();
-        dev2 = getParamTable().getColumn(0);
-        if (dev2.length != 2) {
-            throw new AssertionError("Unexpected number of parameters!");
-        }
-        success = false;
-        for (int i = 0; i < 2; i++) {
-            if (dev2[i].equals(hint2)) {
-                success = true;
-                break;
-            }
-        }
-        if (!success) {
-            throw new AssertionError("Parameter " + hint2 + " not found!");
+            throw new AssertionError("Parameter " + hint + " not found!");
         }
     }
 
@@ -264,7 +265,7 @@ public class MonitoringPage extends BasePage {
 
     private MonitoringPage setParameters(boolean advancedView, String tab, int startParam, int endParam) {
         if (parameterSet == null) {
-            getTabTable().clickOn("Summary");
+            selectTab("Summary");
             waitForUpdate();
             String[] params = new String[0];
             try {
@@ -279,7 +280,7 @@ public class MonitoringPage extends BasePage {
         }
         if (advancedView) {
             if (isButtonActive(ADVANCED_VIEW)) {
-                getTabTable().clickOn("Management");
+                getTabTable().clickOn(1, 1);
                 bottomMenu(ADVANCED_VIEW);
                 waitForUpdate();
             }
@@ -315,12 +316,18 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
+    public MonitoringPage selectTab(String tab) {
+        getTabTable().clickOn(tab);
+        return this;
+    }
+
+    @Override
     public MonitoringPage setViewColumns(int startParam, int endParam) {
         return (MonitoringPage) super.setViewColumns(startParam, endParam);
     }
 
-    public void checkAddedTasks() {
-        getTabTable().clickOn("Summary");
+    public void validateAddedTasks() {
+        selectTab("Summary");
         waitForUpdate();
         String[] params = getParamTable().getColumn(0);
         for (String param : params) {
@@ -360,19 +367,19 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.selectView(value);
     }
 
-    public void checkFilteringByManufacturer() {
+    public void validateFilteringByManufacturer() {
         List<String> optionList = getOptionList(filterManufacturerComboBox);
         optionList.remove("All");
-        optionList.forEach(option -> checkMonitoringFiltering(true, option));
+        optionList.forEach(option -> validateMonitoringFiltering(true, option));
     }
 
-    public void checkFilteringByModelName() {
+    public void validateFilteringByModelName() {
         List<String> optionList = getOptionList(filterModelNameComboBox);
         optionList.remove("All");
-        optionList.forEach(option -> checkMonitoringFiltering(false, option));
+        optionList.forEach(option -> validateMonitoringFiltering(false, option));
     }
 
-    private void checkMonitoringFiltering(boolean byManufacturer, String filter) {
+    private void validateMonitoringFiltering(boolean byManufacturer, String filter) {
         Set<String> dbNameSet;
         if (byManufacturer) {
             selectFilterManufacturer(filter);
@@ -393,12 +400,18 @@ public class MonitoringPage extends BasePage {
             if (dbNameSet.size() == 0) {
                 return;
             }
-        } else {
-            if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
-                return;
-            }
+        } else if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
+            return;
         }
         throw new AssertionError("Filtering by " + (byManufacturer ? "manufacturer" : "model name") + "failed!");
+    }
+
+    public void validateDevicesAmount() {
+        validateDevicesAmount(DataBaseConnector.getDeviceAmount(getSerial()));
+    }
+
+    public void validateDevicesAmount(int amount) {
+        assertCellEndsWith("tabsSettings_tblTabs", 1, -2, String.valueOf(amount));
     }
 
     @Override
@@ -486,12 +499,12 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+    public MonitoringPage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         return (MonitoringPage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
-    public MonitoringPage assertButtonsArePresent(IGlobalButtons... buttons) {
+    public MonitoringPage assertButtonsArePresent(IBottomButtons... buttons) {
         return (MonitoringPage) super.assertButtonsArePresent(buttons);
     }
 
@@ -520,6 +533,11 @@ public class MonitoringPage extends BasePage {
         cancelIndividualButton.click();
         switchToPreviousFrame();
         return this;
+    }
+
+    @Override
+    public MonitoringPage assertButtonIsEnabled(boolean expectedActive, String id) {
+        return (MonitoringPage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
     public MonitoringPage assertButtonIsActive(String id) {
@@ -563,11 +581,10 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.fillName();
     }
 
+    @Override
     public MonitoringPage addDeviceWithoutTemplate() {
-        super.addDeviceWithoutTemplate();
-        addModel();
-        assertEqualsAlertMessage("Template for this model doesn't exist");
-        return this;
+        return (MonitoringPage) super.addDeviceWithoutTemplate();
+
     }
 
     public MonitoringPage fillViewName(String name) {
@@ -594,8 +611,16 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.inputText(id, text);
     }
 
+    @Override
+    public MonitoringPage assertSelectedViewIs(String expectedView) {
+        return (MonitoringPage) super.assertSelectedViewIs(expectedView);
+    }
+
     public MonitoringPage setEndDateDelay(int minutes) {
         String[] time = CalendarUtil.getDelay(minutes);
+        if (!endDateCheckbox.isSelected()) {
+            endDateCheckbox.click();
+        }
         endDateHours.clear();
         endDateHours.sendKeys(time[0]);
         endDateMinutes.clear();
@@ -638,19 +663,16 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage selectImportGuFile() {
+        XmlWriter.createImportMonitorFile();
         switchToFrame(DESKTOP);
-        String inputText = new File(getImportMonitorFile()).getAbsolutePath();
+        String inputText = new File("import/" + getProtocolPrefix() + "_import_monitor.xml").getAbsolutePath();
         importMonField.sendKeys(inputText);
         ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
     }
 
     public MonitoringPage leftMenu(Left item) {
-        switchToFrame(ROOT);
-        leftMenuClick(item.getValue());
-        waitForUpdate();
-        switchToFrame(DESKTOP);
-        return this;
+        return (MonitoringPage) super.leftMenu(item);
     }
 
     @Override
@@ -663,9 +685,25 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    public enum Left {
+    public MonitoringPage partOfMacAddress() {
+        inputText("txtText", DataBaseConnector.getMacAddress().substring(0, 8));
+        return this;
+    }
+
+    public MonitoringPage deleteAllMonitors() {
+        if (elementIsPresent("btnPager2")) {
+            selectComboBox(itemsOnPageComboBox, "200");
+            waitForUpdate();
+        }
+        getMainTable().clickOn(0, 0);
+        bottomMenu(DELETE);
+        okButtonPopUp();
+        return this;
+    }
+
+    public enum Left implements ILeft {
         /*VIEW("View"),*/ IMPORT("Import"), NEW("New");
-        private String value;
+        private final String value;
 
         Left(String value) {
             this.value = value;

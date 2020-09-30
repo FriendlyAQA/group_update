@@ -3,6 +3,7 @@ package com.friendly.aqa.utils;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
+import org.testng.asserts.Assertion;
 
 import java.sql.*;
 import java.util.*;
@@ -158,18 +159,10 @@ public class DataBaseConnector {
     }
 
     public static int getDeviceAmount(String serial) {
-        int amount = 0;
-        try {
-            stmtObj.execute("SELECT * FROM ftacs.cpe WHERE product_class_id IN (" +
-                    "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')");
-            ResultSet resultSet = stmtObj.getResultSet();
-            while (resultSet.next()) {
-                amount++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return amount;
+        return getValueSet("SELECT serial FROM ftacs.cpe WHERE product_class_id IN (" +
+                "SELECT id FROM ftacs.product_class WHERE model IN (" +
+                "SELECT model FROM ftacs.product_class WHERE id IN (" +
+                "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')));").size();
     }
 
     public static int getDeviceProfileIdByName(String name) {
@@ -208,7 +201,7 @@ public class DataBaseConnector {
         List<String> devices = new ArrayList<>(deviceSet);
         int[] shift = {0, -1, -10};
         try {
-            for (int i = 0; i < devices.size(); i++) {
+            for (int i = 0; i < Math.min(devices.size(), shift.length); i++) {
                 stmtObj.execute("UPDATE `ftacs`.`cpe` SET `created`='" + CalendarUtil.getDbShiftedDate(shift[i]) + "' WHERE `id`=" + devices.get(i) + ";");
             }
         } catch (SQLException e) {
@@ -301,9 +294,20 @@ public class DataBaseConnector {
         return out;
     }
 
+    public static String getMacAddress() {
+        Set<String> set = getValueSet("SELECT value FROM `ftacs`.`cpe_parameter` WHERE name_id IN (SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE '%.MACAddress') AND cpe_id = '" + getDeviceId(BasePage.getSerial()) + "';");
+        set.removeIf(String::isEmpty);
+        if (set.isEmpty()) {
+            throw new AssertionError("Device doesn't have MAC address!");
+        }
+        return set.iterator().next();
+    }
+
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getGroupId("FT001SN000013196121001484"));
+        Set<String> set = getValueSet("SELECT value FROM `ftacs`.`cpe_parameter` WHERE name_id IN (SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE '%.MACAddress') AND cpe_id = '" + getDeviceId(BasePage.getSerial()) + "';");
+        set.removeIf(String::isEmpty);
+        System.out.println(set.iterator().next());
         disconnectDb();
     }
 

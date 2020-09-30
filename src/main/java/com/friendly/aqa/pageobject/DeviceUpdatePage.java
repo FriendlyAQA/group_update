@@ -1,6 +1,7 @@
 package com.friendly.aqa.pageobject;
 
-import com.friendly.aqa.entities.IGlobalButtons;
+import com.friendly.aqa.entities.IBottomButtons;
+import com.friendly.aqa.entities.ILeft;
 import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.entities.TopMenu;
 import com.friendly.aqa.test.BaseTestCase;
@@ -14,8 +15,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.Duration;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.GlobalButtons.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 public class DeviceUpdatePage extends BasePage {
@@ -294,7 +293,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public DeviceUpdatePage assertButtonsAreEnabled(boolean enabled, IGlobalButtons... buttons) {
+    public DeviceUpdatePage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         return (DeviceUpdatePage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
@@ -388,7 +387,7 @@ public class DeviceUpdatePage extends BasePage {
         throw new AssertionError(warn);
     }
 
-    public void checkFiltering(String filter) {
+    public void validateFiltering(String filter) {
         WebElement comboBox = filter.equals("Manufacturer") ? filterManufacturerComboBox : filterModelNameComboBox;
         List<String> optionList = getOptionList(comboBox);
         optionList.remove("All");
@@ -434,7 +433,7 @@ public class DeviceUpdatePage extends BasePage {
         } else if (img.size() == 0) {
             throw new AssertionError("No sorting found by column '" + column + "' (Expected: " + (isAscending ? "ascending" : "descending") + ").");
         } else if (img.get(0).getAttribute("src").endsWith("down.png") == isAscending) {
-            throw new AssertionError("Unexpected sorting type found by column '" + column + "' (Expected: " + (isAscending ? "ascending" : "descending") + ").");
+            throw new AssertionError("Unexpected sorting order by column '" + column + "' (Expected: " + (isAscending ? "ascending" : "descending") + ").");
         }
     }
 
@@ -449,20 +448,15 @@ public class DeviceUpdatePage extends BasePage {
             selectView(option);
             String[] newColumns = getMainTable().getRow(0);
             if (!Arrays.deepEquals(newColumns, defColumns)) {
-//                System.out.println(option + ": OK\n" + Arrays.deepToString(defColumns) + "\n" + Arrays.deepToString(newColumns));
                 return;
             }
-//            System.out.println(option + ": Fail\n" + Arrays.deepToString(defColumns) + "\n" + Arrays.deepToString(newColumns));
         }
         throw new AssertionError("View has not been changed! Make sure that you have enough different view for this test case!");
     }
 
+    @Override
     public DeviceUpdatePage assertSelectedViewIs(String expectedView) {
-        if (getSelectedOption(filterViewComboBox).toLowerCase().equals(expectedView.toLowerCase())) {
-            return this;
-        }
-        throw new AssertionError("Actual and expected view don't match! Expected: " + expectedView
-                + "; actual: " + getSelectedOption(filterViewComboBox));
+        return (DeviceUpdatePage) super.assertSelectedViewIs(expectedView);
     }
 
     public DeviceUpdatePage presetFilter(String parameter, String value) {
@@ -483,10 +477,15 @@ public class DeviceUpdatePage extends BasePage {
         switchToFrame(POPUP);
         WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
         setUserInfo(parameter, value);
-        waitUntilElementIsEnabled("btnSaveUsr_btn");
-        saveButton.click();
-        okButtonPopUp();
         pause(500);
+        if (isButtonActive("btnSaveUsr_btn")) {
+            saveButton.click();
+            okButtonPopUp();
+        } else {
+            cancelButton.click();
+        }
+        waitForUpdate();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -562,17 +561,26 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage enterToDevice(String serial, Table table) {
-        try {
-            table.clickOn(serial);
-            pause(500);
-        } catch (AssertionError e) {
+        if (!table.contains(serial)){
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();
-            getMainTable().clickOn(serial);
+            table = getMainTable();
         }
+        table.clickOn(serial);
         waitForUpdate();
         waitUntilButtonIsDisplayed(REPROVISION);
         return this;
+//        try {
+//            table.clickOn(serial);
+//            pause(500);
+//        } catch (AssertionError e) {
+//            selectComboBox(itemsOnPageComboBox, "200");
+//            waitForUpdate();
+//            getMainTable().clickOn(serial);
+//        }
+//        waitForUpdate();
+//        waitUntilButtonIsDisplayed(REPROVISION);
+//        return this;
     }
 
     public DeviceUpdatePage enterToDevice() {
@@ -614,7 +622,7 @@ public class DeviceUpdatePage extends BasePage {
         input.sendKeys(value);
     }
 
-    public DeviceUpdatePage bottomMenu(GlobalButtons button) {
+    public DeviceUpdatePage bottomMenu(BottomButtons button) {
         if (button == EDIT_SETTINGS) {
             pause(1000); //!
         }
@@ -768,7 +776,7 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public void checkSavedExport(String... extensions) {
+    public void validateSavedExport(String... extensions) {
         switchToFrame(POPUP);
         Table table = getTable("tbl");
         for (String ext : extensions) {
@@ -1156,7 +1164,7 @@ public class DeviceUpdatePage extends BasePage {
         verifySinglePage();
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
+            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
         }
         return this;
     }
@@ -1164,7 +1172,7 @@ public class DeviceUpdatePage extends BasePage {
     public void validateProvisionTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
+            validateAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
         }
     }
 
@@ -1199,7 +1207,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage validateDownloadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
         }
         return this;
     }
@@ -1446,7 +1454,7 @@ public class DeviceUpdatePage extends BasePage {
     public void validateGeneratedGets() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            checkAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
         }
     }
 
@@ -1758,7 +1766,7 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public DeviceUpdatePage clickIfPresent(IGlobalButtons button) {
+    public DeviceUpdatePage clickIfPresent(IBottomButtons button) {
         waitForUpdate();
         waitForBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
@@ -1777,7 +1785,7 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.deleteAllCustomViews();
     }
 
-    public enum Left {
+    public enum Left implements ILeft {
         LIST("List"), DEVICE_INFO("Device Info"), DEVICE_SETTINGS("Device Settings"), ADVANCED_VIEW("Advanced View"),
         PROVISION_MANAGER("Provision Manager"), DEVICE_MONITORING("Device Monitoring"), FILE_DOWNLOAD("File Download"),
         FILE_UPLOAD("File Upload"), DEVICE_DIAGNOSTIC("Device Diagnostics"), CUSTOM_RPC("Custom RPC"),
@@ -1794,7 +1802,7 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
-    public enum GlobalButtons implements IGlobalButtons {
+    public enum BottomButtons implements IBottomButtons {
 
         ACTIVATE("btnActivate_btn"),
         ADD("btnAdd_btn"),
@@ -1846,7 +1854,7 @@ public class DeviceUpdatePage extends BasePage {
         TRACE_ROUTE("btnTracert_btn"),
         WAIT_UNTIL_CONNECT("rbWait");
 
-        GlobalButtons(String id) {
+        BottomButtons(String id) {
             this.id = id;
         }
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
@@ -159,7 +159,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void lwm2m_gu_011() {
-        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -220,7 +219,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .enterIntoGroup("lwm2m_gu_014")
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -276,7 +275,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters(null)
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -285,7 +284,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters(null)
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -294,7 +293,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters(null)
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -303,7 +302,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters("Server")
                 .setAllParameters()
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -312,7 +311,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters("Server")
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -321,7 +320,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters("Server")
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -424,7 +423,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoAction()
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -434,7 +433,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .setAllParameters()
                 .setAnyAdvancedParameter()
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -443,7 +442,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters(null, true)
                 .setParameter(1)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -452,7 +451,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .gotoSetParameters(null, true)
                 .setParameter(2)
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -474,7 +473,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .setParameter(1)
                 .nextSaveAndActivate(false)
                 .assertOnlineDevices()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -526,50 +525,50 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Manufacturer");
+                .validateSorting("Manufacturer");
     }
 
     @Test
     public void lwm2m_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Model");
+                .validateSorting("Model");
     }
 
     @Test
     public void lwm2m_gu_048() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name");
+                .validateSorting("Name");
     }
 
     @Test
     public void lwm2m_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name")
-                .checkSorting("Created");
+                .validateSorting("Name")
+                .validateSorting("Created");
     }
 
     @Test
     public void lwm2m_gu_050() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Creator");
+                .validateSorting("Creator");
     }
 
     @Test
     public void lwm2m_gu_051() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Updated");
+                .validateSorting("Updated");
     }
 
     @Test
     public void lwm2m_gu_052() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Activated");
+                .validateSorting("Activated");
     }
 
     @Test
@@ -598,7 +597,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -657,7 +656,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -680,7 +679,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -704,7 +703,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -728,7 +727,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -748,7 +747,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -768,7 +767,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -788,7 +787,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -808,7 +807,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -829,7 +828,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -851,7 +850,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -873,7 +872,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -909,7 +908,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -931,7 +930,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -952,7 +951,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -973,7 +972,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("UTC Offset", VALUE, "+02:00")
                 .nextSaveAndActivate()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1025,7 +1024,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1050,7 +1049,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1075,7 +1074,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1101,7 +1100,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1127,7 +1126,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1154,7 +1153,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1179,7 +1178,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1205,7 +1204,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1231,7 +1230,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1258,7 +1257,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1283,7 +1282,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1309,7 +1308,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1335,7 +1334,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1362,7 +1361,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1388,7 +1387,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1415,7 +1414,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1439,7 +1438,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1465,7 +1464,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1492,7 +1491,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1518,7 +1517,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1546,7 +1545,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1574,7 +1573,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1601,7 +1600,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1627,7 +1626,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1654,7 +1653,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1680,7 +1679,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1708,7 +1707,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1736,7 +1735,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1763,7 +1762,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1788,7 +1787,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1812,7 +1811,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1837,7 +1836,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1864,7 +1863,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1891,7 +1890,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)
@@ -1917,7 +1916,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1943,7 +1942,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1970,7 +1969,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -1996,7 +1995,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2024,7 +2023,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2052,7 +2051,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2079,7 +2078,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2104,7 +2103,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2130,7 +2129,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2157,7 +2156,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2184,7 +2183,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2210,7 +2209,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2234,7 +2233,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2259,7 +2258,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2283,7 +2282,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2307,7 +2306,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2331,7 +2330,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2355,7 +2354,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2379,7 +2378,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2645,7 +2644,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -2671,7 +2670,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2697,7 +2696,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -2723,6 +2722,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 }

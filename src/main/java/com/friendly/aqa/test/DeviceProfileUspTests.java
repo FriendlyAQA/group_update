@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 import static com.friendly.aqa.entities.Condition.*;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_PROFILE;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.*;
-import static com.friendly.aqa.pageobject.DeviceProfilePage.GlobalButtons.CANCEL;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.BottomButtons.*;
+import static com.friendly.aqa.pageobject.DeviceProfilePage.BottomButtons.CANCEL;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.NEW;
 import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 
@@ -48,33 +48,33 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectManufacturer("All")
                 .selectModel("All")
                 .selectProfileStatus("All")
-                .checkSorting("Manufacturer")
-                .checkSorting("Model name")
-                .checkSorting("Name")
-                .checkSorting("Created")
+                .validateSorting("Manufacturer")
+                .validateSorting("Model name")
+                .validateSorting("Name")
+                .validateSorting("Created")
 //                .checkSorting("Creator")
-                .checkSorting("Version");
+                .validateSorting("Version");
     }
 
     @Test
     public void usp_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByStatus();
+                .validateFilteringByStatus();
     }
 
     @Test
     public void usp_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void usp_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
@@ -351,7 +351,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -378,7 +378,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(false, true);
+                .validateTargetDevice(false, true);
     }
 
     @Test   // depends on 026
@@ -443,7 +443,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectModel()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
-                .checkObjectTree();
+                .validateObjectTree();
     }
 
     @Test
@@ -461,7 +461,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -485,7 +485,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -503,7 +503,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -522,7 +522,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -540,7 +540,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -558,7 +558,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test   //bug: editing profile events causes an erase of all events.
@@ -574,7 +574,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile("usp_dp_039")
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents();
+                .validateEvents();
     }
 
     @Test
@@ -597,8 +597,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("Boot!");
+                .validateEvents()
+                .validateAddedEventTasks("Boot!");
     }
 
     @Test
@@ -620,8 +620,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Reboot");
     }
 
     @Test
@@ -643,8 +643,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Factory reset");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Factory reset");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -667,8 +667,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 0");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 0");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -691,8 +691,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 1");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 1");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -715,8 +715,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Onboard request - instance 3");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 3");
     }
 
     @Test
@@ -738,8 +738,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Boot!", "Action", "Device reprovision");
+                .validateEvents()
+                .validateAddedEventAction("Boot!", "Action", "Device reprovision");
     }
 
     @Test
@@ -762,8 +762,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("DUStateChange!");
+                .validateEvents()
+                .validateAddedEventTasks("DUStateChange!");
     }
 
     @Test
@@ -785,8 +785,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Reboot");
     }
 
     @Test
@@ -808,8 +808,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Factory reset");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Factory reset");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -832,8 +832,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 0");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 0");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -856,8 +856,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 1");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 1");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -880,8 +880,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 3");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 3");
     }
 
     @Test
@@ -903,8 +903,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("DUStateChange!", "Action", "Device reprovision");
+                .validateEvents()
+                .validateAddedEventAction("DUStateChange!", "Action", "Device reprovision");
     }
 
     @Test
@@ -927,8 +927,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("Periodic!");
+                .validateEvents()
+                .validateAddedEventTasks("Periodic!");
     }
 
     @Test
@@ -950,8 +950,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Reboot");
     }
 
     @Test
@@ -973,8 +973,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Factory reset");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Factory reset");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -997,8 +997,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 0");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 0");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -1021,8 +1021,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 1");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 1");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -1045,8 +1045,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Onboard request - instance 3");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 3");
     }
 
     @Test
@@ -1068,8 +1068,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Periodic!", "Action", "Device reprovision");
+                .validateEvents()
+                .validateAddedEventAction("Periodic!", "Action", "Device reprovision");
     }
 
     @Test
@@ -1092,8 +1092,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventTasks("Timer!");
+                .validateEvents()
+                .validateAddedEventTasks("Timer!");
     }
 
     @Test
@@ -1115,8 +1115,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Reboot");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Reboot");
     }
 
     @Test
@@ -1138,8 +1138,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Factory reset");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Factory reset");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -1162,8 +1162,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 0");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 0");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -1186,8 +1186,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 1");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 1");
     }
 
     @Test   //bug: Save button doesn't work with several RB on 'Action' page;
@@ -1210,8 +1210,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Onboard request - instance 3");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 3");
     }
 
     @Test
@@ -1233,8 +1233,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandEvents()
-                .checkEvents()
-                .checkAddedEventAction("Timer!", "Action", "Device reprovision");
+                .validateEvents()
+                .validateAddedEventAction("Timer!", "Action", "Device reprovision");
     }
 
     @Test
@@ -1251,7 +1251,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1268,7 +1268,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1285,7 +1285,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1302,7 +1302,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1319,7 +1319,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1336,7 +1336,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1353,7 +1353,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1370,7 +1370,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1387,7 +1387,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test   //bug: Cannot save a profile with edited Monitoring tab settings;
@@ -1402,7 +1402,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile("usp_dp_077")
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor();
+                .validateParametersMonitor();
     }
 
     @Test
@@ -1425,8 +1425,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorTasks();
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -1448,8 +1448,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .enterIntoProfile()
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
-                .checkParametersMonitor()
-                .checkAddedMonitorAction(null, "Action", "Reboot");
+                .validateParametersMonitor()
+                .validateAddedMonitorAction(null, "Action", "Reboot");
     }
 
     @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
@@ -1466,7 +1466,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
@@ -1483,7 +1483,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile()
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
     @Test      //bug: Dropdown "File type doesn't have any items (bad emul's tree???)   //depends on 82
@@ -1498,7 +1498,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .enterIntoProfile("usp_dp_082")
                 .selectMainTab("Download file")
-                .checkDownloadFile();
+                .validateDownloadFile();
     }
 
 //  tests 84-86 are skipped due to "Vendor Configuration File" is absent from dropdown list
@@ -1529,7 +1529,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test   //duplicate with 026
@@ -1556,7 +1556,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
 //                .selectProfileStatus("Active")
-                .checkTargetDevice(false, true);
+                .validateTargetDevice(false, true);
     }
 
     @Test
@@ -1582,7 +1582,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1610,7 +1610,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1637,7 +1637,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1664,7 +1664,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1692,7 +1692,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1719,7 +1719,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1746,7 +1746,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1774,7 +1774,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1801,7 +1801,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1828,7 +1828,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1856,7 +1856,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1883,7 +1883,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
     @Test
@@ -1910,7 +1910,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .checkTargetDevice(true, true);
+                .validateTargetDevice(true, true);
     }
 
 //  tests 102-104 are skipped due to "DeviceSummary" is absent from dropdown list

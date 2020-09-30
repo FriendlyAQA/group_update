@@ -3,14 +3,21 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.MONITORING;
+
+/*
+Preconditions:
+* Each tested manufacturer MUST have at least 2 registered models;
+* Devices (emuls) MAY NOT run;
+*/
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringTR069Tests extends BaseTestCase {
@@ -36,6 +43,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
+                .deleteAllMonitors()
                 .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
@@ -60,11 +68,10 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed();
-        setTargetTestName();
     }
 
     @Test
@@ -72,7 +79,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .newViewButton()
-                .fillViewName(targetTestName)
+                .fillViewName("tr069_mo_004")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -81,7 +88,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_006() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("tr069_mo_004")
                 .editButton()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
@@ -91,17 +98,17 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_007() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("tr069_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName)
+                .assertSelectedViewIs("tr069_mo_004")
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .assertSelectedViewIs("tr069_mo_004");
     }
 
     @Test
@@ -109,32 +116,32 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("Default")
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
     public void tr069_mo_009() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .selectView("tr069_mo_004")
+                .assertSelectedViewIs("tr069_mo_004");
     }
 
     @Test
     public void tr069_mo_010() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("tr069_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectView(targetTestName)
+                .selectView("tr069_mo_004")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -154,7 +161,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
-                .assertFalse(monPage.isButtonActive("btnAddModel_btn"));
+                .assertButtonIsEnabled(false, "btnAddModel_btn");
     }
 
     @Test
@@ -164,12 +171,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .addDeviceWithoutTemplate()
+                .addModelButton()
+                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .immediately()
-                .clickOnTable("tblDataParams", 1, 1, 0)
+                .selectTab("Management")
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL, ADVANCED_VIEW);
     }
 
@@ -181,8 +190,8 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .assertTableHasContent("tabsSettings_tblTabs")
+                .addModelButton()
+                .selectTab("Management")
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
@@ -197,11 +206,12 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
+                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertEquals(monPage.getAttributeById("tbName", "value"), testName);
+                .assertInputHasText("tbName", testName);
     }
 
     @Test
@@ -212,7 +222,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -220,13 +230,12 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName);
-        setTargetTestName();
+                .assertSelectedOptionIs("ddlSend", testName);
     }
 
     @Test
@@ -237,7 +246,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
                 .fillGroupName()
@@ -259,10 +268,10 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
-                .fillGroupName(targetTestName)
+                .fillGroupName("tr069_mo_016")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -275,9 +284,9 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
-                .selectSendTo(targetTestName)
+                .selectSendTo("tr069_mo_016")
                 .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
     }
 
@@ -289,7 +298,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
@@ -303,10 +312,10 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonIsActive("btnSelectDevices_btn")
+                .assertButtonIsEnabled(true, "btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()
@@ -322,7 +331,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
@@ -330,19 +339,19 @@ public class MonitoringTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group.
-        monPage                     //is dependent on #016
+    public void tr069_mo_023() {//is dependent on #016
+        monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .selectSendTo(targetTestName)
+                .addModelButton()
+                .selectSendTo("tr069_mo_016")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "tr069_mo_016");
     }
 
     @Test
@@ -353,7 +362,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
@@ -366,7 +375,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 1)
@@ -374,22 +383,21 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_026() {    //is dependent on #025
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_025")
                 .immediately()
                 .setParameters("Management", 2, 2)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Not active", "tr069_mo_025")
+                .enterIntoMonitoring("tr069_mo_025")
+                .validateAddedTasks();
     }
 
     @Test
@@ -400,7 +408,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 7)
@@ -408,21 +416,20 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_028() {    //is dependent on #027
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_027")
                 .setParameters("Information", 8, 8)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_027")
+                .enterIntoMonitoring("tr069_mo_027")
+                .validateAddedTasks();
     }
 
     @Test
@@ -438,7 +445,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
@@ -446,34 +453,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_031() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_030")
                 .setParameters("Management", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_030")
+                .enterIntoMonitoring("tr069_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_032() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_030")
                 .setParameters("Management", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_030")
+                .enterIntoMonitoring("tr069_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
@@ -484,7 +490,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Information", 0, 0)
@@ -492,34 +498,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_034() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_033")
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_033")
+                .enterIntoMonitoring("tr069_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_035() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_033")
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_033")
+                .enterIntoMonitoring("tr069_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
@@ -530,7 +535,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Time", 0, 0)
@@ -538,34 +543,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_037() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_036")
                 .setParameters("Time", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_036")
+                .enterIntoMonitoring("tr069_mo_036")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_038() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_036")
                 .setParameters("Time", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_036")
+                .enterIntoMonitoring("tr069_mo_036")
+                .validateAddedTasks();
     }
 
     @Test
@@ -576,7 +580,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("DSL settings", 0, 0)
@@ -584,34 +588,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_040() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_039")
                 .setParameters("DSL settings", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_039")
+                .enterIntoMonitoring("tr069_mo_039")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_041() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_039")
                 .setParameters("DSL settings", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_039")
+                .enterIntoMonitoring("tr069_mo_039")
+                .validateAddedTasks();
     }
 
     @Test
@@ -622,7 +625,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("WAN", 0, 0)
@@ -630,34 +633,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_043() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_042")
                 .setParameters("WAN", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_042")
+                .enterIntoMonitoring("tr069_mo_042")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_044() {    //is dependent on #042
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_042")
                 .setParameters("WAN", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_042")
+                .enterIntoMonitoring("tr069_mo_042")
+                .validateAddedTasks();
     }
 
     @Test
@@ -668,7 +670,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("LAN", 0, 0)
@@ -676,34 +678,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_046() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_045")
                 .setParameters("LAN", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_045")
+                .enterIntoMonitoring("tr069_mo_045")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_047() {    //is dependent on #045
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_045")
                 .setParameters("LAN", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_045")
+                .enterIntoMonitoring("tr069_mo_045")
+                .validateAddedTasks();
     }
 
     @Test
@@ -714,7 +715,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Wireless", 0, 0)
@@ -722,34 +723,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_049() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_048")
                 .setParameters("Wireless", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_048")
+                .enterIntoMonitoring("tr069_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_050() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_048")
                 .setParameters("Wireless", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_048")
+                .enterIntoMonitoring("tr069_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
@@ -760,7 +760,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("VoIP settings", 0, 0)
@@ -768,34 +768,33 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_052() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_051")
                 .setParameters("VoIP settings", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_051")
+                .enterIntoMonitoring("tr069_mo_051")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_053() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_051")
                 .setParameters("VoIP settings", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_051")
+                .enterIntoMonitoring("tr069_mo_051")
+                .validateAddedTasks();
     }
 
     @Test
@@ -806,7 +805,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
@@ -814,21 +813,20 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_055() {    //is dependent on #054
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_054")
                 .setParameters("Management", 0, 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "tr069_mo_054")
+                .enterIntoMonitoring("tr069_mo_054")
+                .validateAddedTasks();
     }
 
     @Test
@@ -839,7 +837,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 0)
@@ -852,38 +850,37 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_057() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("tr069_mo_056")
                 .bottomMenu(STOP)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "tr069_mo_056");
     }
 
     @Test
     public void tr069_mo_058() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("tr069_mo_056")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName);
+                .waitForStatus("Running", "tr069_mo_056");
     }
 
     @Test
     public void tr069_mo_059() {    //is dependent on #056
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("tr069_mo_056")
                 .bottomMenu(STOP_WITH_RESET)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "tr069_mo_056");
     }
 
     @Test
@@ -894,7 +891,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .clickOn("calDateTo")
@@ -902,11 +899,11 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .setEndDateDelay(-10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past")
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past")
                 .selectShiftedDate("calDateTo", 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past");
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past");
     }
 
     @Test
@@ -917,7 +914,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Management", 0, 100)
@@ -929,13 +926,13 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .setParameters("Wireless", 0, 0)
                 .setParameters("VoIP settings", 0, 0)
                 .selectShiftedDate("calDateTo", 0)
-                .setEndDateDelay(2)
+                .setEndDateDelay(2).setEndDateDelay(2)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
-                .waitForStatus("Completed", 120)
+                .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -946,7 +943,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setAdvancedParameters("InternetGatewayDevice.ManagementServer", 0, 100)
@@ -954,7 +951,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -965,7 +962,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -975,36 +972,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_064() {    //is dependent on #063
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_063")
                 .scheduledToRadioButton()
                 .setParameters("Management", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_063")
+                .enterIntoMonitoring("tr069_mo_063")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_065() {    //is dependent on #063
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_063")
                 .scheduledToRadioButton()
                 .setParameters("Management", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_063")
+                .enterIntoMonitoring("tr069_mo_063")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1015,7 +1011,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1025,36 +1021,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_067() {    //is dependent on #066
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_066")
                 .scheduledToRadioButton()
                 .setParameters("Information", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_066")
+                .enterIntoMonitoring("tr069_mo_066")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_068() {    //is dependent on #066
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_066")
                 .scheduledToRadioButton()
                 .setParameters("Information", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_066")
+                .enterIntoMonitoring("tr069_mo_066")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1065,7 +1060,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1075,36 +1070,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_070() {    //is dependent on #069
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_069")
                 .scheduledToRadioButton()
                 .setParameters("Time", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_069")
+                .enterIntoMonitoring("tr069_mo_069")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_071() {    //is dependent on #069
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_069")
                 .scheduledToRadioButton()
                 .setParameters("Time", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_069")
+                .enterIntoMonitoring("tr069_mo_069")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1115,7 +1109,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1125,36 +1119,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_073() {    //is dependent on #072
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_072")
                 .scheduledToRadioButton()
                 .setParameters("DSL settings", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_072")
+                .enterIntoMonitoring("tr069_mo_072")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_074() {    //is dependent on #072
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_072")
                 .scheduledToRadioButton()
                 .setParameters("DSL settings", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_072")
+                .enterIntoMonitoring("tr069_mo_072")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1165,7 +1158,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1175,36 +1168,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_076() {    //is dependent on #075
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_075")
                 .scheduledToRadioButton()
                 .setParameters("WAN", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_075")
+                .enterIntoMonitoring("tr069_mo_075")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_077() {    //is dependent on #075
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_075")
                 .scheduledToRadioButton()
                 .setParameters("WAN", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_075")
+                .enterIntoMonitoring("tr069_mo_075")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1215,7 +1207,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1225,36 +1217,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_079() {    //is dependent on #078
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_078")
                 .scheduledToRadioButton()
                 .setParameters("LAN", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_078")
+                .enterIntoMonitoring("tr069_mo_078")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_080() {    //is dependent on #078
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_078")
                 .scheduledToRadioButton()
                 .setParameters("LAN", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_078")
+                .enterIntoMonitoring("tr069_mo_078")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1265,7 +1256,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1275,36 +1266,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_082() {    //is dependent on #081
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_081")
                 .scheduledToRadioButton()
                 .setParameters("Wireless", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_081")
+                .enterIntoMonitoring("tr069_mo_081")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_083() {    //is dependent on #081
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_081")
                 .scheduledToRadioButton()
                 .setParameters("Wireless", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_081")
+                .enterIntoMonitoring("tr069_mo_081")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1315,7 +1305,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1325,36 +1315,35 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_085() {    //is dependent on #084
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_084")
                 .scheduledToRadioButton()
                 .setParameters("VoIP settings", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_084")
+                .enterIntoMonitoring("tr069_mo_084")
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_086() {    //is dependent on #084
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("tr069_mo_084")
                 .scheduledToRadioButton()
                 .setParameters("VoIP settings", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "tr069_mo_084")
+                .enterIntoMonitoring("tr069_mo_084")
+                .validateAddedTasks();
     }
 
     @Test
@@ -1365,7 +1354,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -1380,19 +1369,18 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void tr069_mo_088() {
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("tr069_mo_087")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
                 .bottomMenu(REFRESH)
-                .waitForStatus("Scheduled", targetTestName);
+                .waitForStatus("Scheduled", "tr069_mo_087");
     }
 
     @Test
@@ -1403,12 +1391,12 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("All")
                 .scheduledToRadioButton()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Activation date can't be scheduled to past");
+                .assertEqualsAlertMessage("Activation date can't be scheduled to the past");
     }
 
     @Test
@@ -1433,19 +1421,18 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_092() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
     public void tr069_mo_093() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void tr069_mo_094() {
-        setTargetTestName();
         monPage
                 .topMenu(MONITORING)
                 .deleteAllCustomViews()
@@ -1463,65 +1450,65 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_095() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Created");
+                .selectView("tr069_mo_094")
+                .validateSorting("Created");
     }
 
     @Test
     public void tr069_mo_096() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date from");
+                .selectView("tr069_mo_094")
+                .validateSorting("Date from");
     }
 
     @Test
     public void tr069_mo_097() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date to");
+                .selectView("tr069_mo_094")
+                .validateSorting("Date to");
     }
 
     @Test
     public void tr069_mo_098() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Description");
+                .selectView("tr069_mo_094")
+                .validateSorting("Description");
     }
 
     @Test
     public void tr069_mo_099() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Name");
+                .selectView("tr069_mo_094")
+                .validateSorting("Name");
     }
 
     @Test
     public void tr069_mo_100() {    //Bug: Unclear sorting algorithm by "State" column
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("State");
+                .selectView("tr069_mo_094")
+                .validateSorting("State");
     }
 
     @Test
     public void tr069_mo_101() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Updated");
+                .selectView("tr069_mo_094")
+                .validateSorting("Updated");
     }
 
     @Test
     public void tr069_mo_102() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("tr069_mo_094")
                 .resetView()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default", "View reset does not occur");
+                .assertSelectedOptionIs("ddlView", "Default");
     }
 
     @Test
@@ -1532,7 +1519,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(true);
@@ -1546,10 +1533,104 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(false);
+    }
+
+    @Test
+    public void tr069_mo_105() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .deleteAllGroups()
+                .newGroupButton()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .bottomMenu(CANCEL)
+                .assertInputHasText("tbName", testName);
+    }
+
+    @Test
+    public void tr069_mo_106() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertSelectedOptionIs("ddlSend", testName);
+    }
+
+    @Test
+    public void tr069_mo_107() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE);
+    }
+
+    @Test
+    public void tr069_mo_108() {    //is dependent on #106
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName("tr069_mo_106")
+                .bottomMenu(NEXT)
+                .assertPresenceOfElements("lblNameInvalid");
+    }
+
+    @Test
+    public void tr069_mo_109() {//is dependent on #106
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .selectSendTo("tr069_mo_106")
+                .editButton()
+                .bottomMenu(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertAbsenceOfOptions("ddlSend", "tr069_mo_106");
     }
 
     @Test
@@ -1560,7 +1641,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1568,12 +1649,9 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
-                .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
+                .assertSelectedOptionIs("ddlSend", testName)
                 .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -1582,13 +1660,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_mo_111() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1612,7 +1691,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1636,7 +1715,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1662,7 +1741,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1686,7 +1765,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1710,7 +1789,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1734,7 +1813,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1758,7 +1837,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1784,7 +1863,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1810,7 +1889,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1835,14 +1914,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("MAC address")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .partOfMacAddress()
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1858,7 +1937,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1884,7 +1963,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1910,7 +1989,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1935,7 +2014,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1960,7 +2039,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1995,7 +2074,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)

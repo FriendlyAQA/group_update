@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.NOT_EQUAL;
@@ -154,7 +154,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
     @Test
     //Doesn't work with Edge
     public void usp_gu_011() {
-        XmlWriter.createImportCpeFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -295,7 +294,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .reprovisionRadioButton()
                 .nextSaveAndActivate()
 //                .assertPresenceOfParameter("CPEReprovision")
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -317,7 +316,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
 //                .assertPresenceOfValue("tblTasks", 2, "CPEReprovision");
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -369,50 +368,50 @@ public class GroupUpdateUspTests extends BaseTestCase {
     public void usp_gu_038() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Manufacturer");
+                .validateSorting("Manufacturer");
     }
 
     @Test
     public void usp_gu_039() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Model");
+                .validateSorting("Model");
     }
 
     @Test
     public void usp_gu_040() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name");
+                .validateSorting("Name");
     }
 
     @Test
     public void usp_gu_041() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Name")
-                .checkSorting("Created");
+                .validateSorting("Name")
+                .validateSorting("Created");
     }
 
     @Test
     public void usp_gu_042() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Creator");
+                .validateSorting("Creator");
     }
 
     @Test
     public void usp_gu_043() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Updated");
+                .validateSorting("Updated");
     }
 
     @Test
     public void usp_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkSorting("Activated");
+                .validateSorting("Activated");
     }
 
     @Test
@@ -607,7 +606,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
     @Test
@@ -632,6 +631,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .checkAddedTask("Device reprovision", "CPEReprovision");
+                .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 }

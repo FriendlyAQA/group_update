@@ -1,5 +1,5 @@
 package com.friendly.aqa.entities;
 
-public interface IGlobalButtons {
+public interface IBottomButtons {
     public String getId();
 }

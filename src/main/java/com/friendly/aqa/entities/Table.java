@@ -163,32 +163,35 @@ public class Table {
     public List<Integer> getRowsWithText(String text) {
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {
+            if (!rowsList.get(i).isDisplayed()) {
+                continue;
+            }
             String[] row = textTable[i];
             for (String cell : row) {
-                if (cell.toLowerCase().equals(text.toLowerCase())) {
+                if (cell.equalsIgnoreCase(text)) {
                     out.add(i);
                 }
             }
         }
         return out;
     }
+
+//    public List<Integer> getVisibleRowsWithInput(int column) {
+//        BasePage.setImplicitlyWait(0);
+//        List<Integer> out = new ArrayList<>();
+//        for (int i = 0; i < elementTable.length; i++) {
+//            if (elementTable[i][column].isDisplayed()) {
+//                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
+//                if (!list.isEmpty()) {
+//                    out.add(i);
+//                }
+//            }
+//        }
+//        BasePage.setDefaultImplicitlyWait();
+//        return out;
+//    }
 
     public List<Integer> getVisibleRowsWithInput(int column) {
-        BasePage.setImplicitlyWait(0);
-        List<Integer> out = new ArrayList<>();
-        for (int i = 0; i < elementTable.length; i++) {
-            if (elementTable[i][column].isDisplayed()) {
-                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
-                if (!list.isEmpty()) {
-                    out.add(i);
-                }
-            }
-        }
-        BasePage.setDefaultImplicitlyWait();
-        return out;
-    }
-
-    public List<Integer> getVisibleRowsWithInput1(int column) {
         BasePage.setImplicitlyWait(0);
         List<Integer> out = new ArrayList<>();
         List<WebElement> cellList = new ArrayList<>();
@@ -198,6 +201,7 @@ public class Table {
         cellList.parallelStream()
                 .filter(WebElement::isDisplayed)
                 .filter(e -> e.findElements(By.tagName("input")).size() > 0)
+                .filter(e -> e.findElement(By.tagName("input")).isEnabled())
                 .forEach(e -> out.add(cellList.indexOf(e)));
         BasePage.setDefaultImplicitlyWait();
         return out;
@@ -418,7 +422,7 @@ public class Table {
     public int getRowNumberByText(String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
-                if (textTable[i][j].toLowerCase().equals(text.toLowerCase())) {
+                if (textTable[i][j].equalsIgnoreCase(text)) {
                     return i;
                 }
             }
@@ -443,7 +447,7 @@ public class Table {
     public boolean contains(String value) {
         for (String[] rows : textTable) {
             for (String cell : rows) {
-                if (cell.toLowerCase().equals(value.toLowerCase())) {
+                if (cell.equalsIgnoreCase(value)) {
                     return true;
                 }
             }
@@ -501,7 +505,7 @@ public class Table {
     public Table assertPresenceOfValue(int column, String value) {
         for (String[] row : textTable) {
             int cellNum = column < 0 ? row.length + column : column;
-            if (row[cellNum].toLowerCase().equals((value).toLowerCase())) {
+            if (row[cellNum].equalsIgnoreCase((value))) {
                 return this;
             }
         }

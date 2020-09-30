@@ -3,14 +3,21 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.entities.GlobalButtons.*;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.MONITORING;
+
+/*
+Preconditions:
+* Each tested manufacturer MUST have at least 2 registered models;
+* Devices (emuls) MAY NOT run;
+*/
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringLwm2mTests extends BaseTestCase {
@@ -36,6 +43,8 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
+                .deleteAllMonitors()
+                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -59,11 +68,10 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed();
-        setTargetTestName();
     }
 
     @Test
@@ -71,7 +79,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .newViewButton()
-                .fillViewName(targetTestName)
+                .fillViewName("lwm2m_mo_004")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -80,7 +88,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_006() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("lwm2m_mo_004")
                 .editButton()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
@@ -90,17 +98,17 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_007() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("lwm2m_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName)
+                .assertSelectedViewIs("lwm2m_mo_004")
                 .topMenu(GROUP_UPDATE)
                 .topMenu(MONITORING)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .assertSelectedViewIs("lwm2m_mo_004");
     }
 
     @Test
@@ -108,32 +116,32 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("Default")
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
     public void lwm2m_mo_009() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .assertEquals(monPage.getSelectedOption("ddlView"), targetTestName);
+                .selectView("lwm2m_mo_004")
+                .assertSelectedViewIs("lwm2m_mo_004");
     }
 
     @Test
     public void lwm2m_mo_010() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("lwm2m_mo_004")
                 .editButton()
                 .forPublicCheckbox()
                 .forUserCheckbox()
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectView(targetTestName)
+                .selectView("lwm2m_mo_004")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -153,7 +161,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
-                .assertFalse(monPage.isButtonActive("btnAddModel_btn"));
+                .assertButtonIsEnabled(false, "btnAddModel_btn");
     }
 
     @Test
@@ -163,9 +171,11 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .fillName()
                 .addDeviceWithoutTemplate()
+                .addModelButton()
+                .assertEqualsAlertMessage("Template for this model doesn't exist")
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .immediately()
                 .setSingleParameter()
@@ -180,9 +190,8 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .assertTableHasContent("tabsSettings_tblTabs")
-                .setSingleParameter()
+                .addModelButton()
+                .selectTab("Device")
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
@@ -197,11 +206,12 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
+                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertEquals(monPage.getAttributeById("tbName", "value"), testName);
+                .assertInputHasText("tbName", testName);
     }
 
     @Test
@@ -212,7 +222,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -220,13 +230,12 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName);
-        setTargetTestName();
+                .assertSelectedOptionIs("ddlSend", testName);
     }
 
     @Test
@@ -237,7 +246,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
                 .fillGroupName()
@@ -259,10 +268,10 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .newGroupButton()
-                .fillGroupName(targetTestName)
+                .fillGroupName("lwm2m_mo_016")
                 .bottomMenu(NEXT)
                 .assertPresenceOfElements("lblNameInvalid");
     }
@@ -275,9 +284,9 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
-                .selectSendTo(targetTestName)
+                .selectSendTo("lwm2m_mo_016")
                 .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
     }
 
@@ -289,7 +298,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
@@ -303,15 +312,15 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("Individual")
-                .assertButtonIsActive("btnSelectDevices_btn")
+                .assertButtonIsEnabled(true, "btnSelectDevices_btn")
                 .selectButton()
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
+                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
     }
 
     @Test
@@ -322,27 +331,27 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
                 .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
     }
 
-//    @Test
-    public void lwm2m_mo_023() {    //Bug: 'Delete Group' button doesn't delete device group, but DELETE DEFAULT VIEW!!!
-        monPage                     //is dependent on #016
+    @Test
+    public void lwm2m_mo_023() {//is dependent on #016
+        monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
-                .selectSendTo(targetTestName)
+                .addModelButton()
+                .selectSendTo("lwm2m_mo_016")
                 .editButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "lwm2m_mo_016");
     }
 
     @Test
@@ -353,7 +362,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
@@ -366,7 +375,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Device", 0, 1)
@@ -374,22 +383,21 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_026() {    //is dependent on #025
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_025")
                 .immediately()
                 .setParameters("Device", 2, 2)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Not active", "lwm2m_mo_025")
+                .enterIntoMonitoring("lwm2m_mo_025")
+                .validateAddedTasks();
     }
 
     @Test
@@ -400,7 +408,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Server", 0, 7)
@@ -408,21 +416,20 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_028() {    //is dependent on #027
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_027")
                 .setParameters("Server", 8, 8)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_027")
+                .enterIntoMonitoring("lwm2m_mo_027")
+                .validateAddedTasks();
     }
 
     @Test
@@ -438,7 +445,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Device", 0, 0)
@@ -446,34 +453,33 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_031() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_030")
                 .setParameters("Device", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_030")
+                .enterIntoMonitoring("lwm2m_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_032() {    //is dependent on #030
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_030")
                 .setParameters("Device", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_030")
+                .enterIntoMonitoring("lwm2m_mo_030")
+                .validateAddedTasks();
     }
 
     @Test
@@ -484,7 +490,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Server", 0, 0)
@@ -492,34 +498,33 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_034() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_033")
                 .setParameters("Server", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_033")
+                .enterIntoMonitoring("lwm2m_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_035() {    //is dependent on #033
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_033")
                 .setParameters("Server", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_033")
+                .enterIntoMonitoring("lwm2m_mo_033")
+                .validateAddedTasks();
     }
 
     @Test
@@ -530,7 +535,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Connectivity monitoring", 0, 0)
@@ -538,34 +543,33 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_037() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_036")
                 .setParameters("Connectivity monitoring", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_036")
+                .enterIntoMonitoring("lwm2m_mo_036")
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_038() {    //is dependent on #036
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_036")
                 .setParameters("Connectivity monitoring", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_036")
+                .enterIntoMonitoring("lwm2m_mo_036")
+                .validateAddedTasks();
     }
 
     @Test
@@ -576,29 +580,28 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
-                .setParameters("Device", 0, 0)
+                .setParameters("Device", 0, 1)
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_040() {    //is dependent on #039
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_039")
                 .setParameters("Device", 0, 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Running", "lwm2m_mo_039")
+                .enterIntoMonitoring("lwm2m_mo_039")
+                .validateAddedTasks();
     }
 
     @Test
@@ -609,7 +612,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Device", 0, 0)
@@ -622,38 +625,37 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_042() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("lwm2m_mo_041")
                 .bottomMenu(STOP)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "lwm2m_mo_041");
     }
 
     @Test
     public void lwm2m_mo_043() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("lwm2m_mo_041")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
-                .waitForStatus("Running", targetTestName);
+                .waitForStatus("Running", "lwm2m_mo_041");
     }
 
     @Test
     public void lwm2m_mo_044() {    //is dependent on #041
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("lwm2m_mo_041")
                 .bottomMenu(STOP_WITH_RESET)
                 .okButtonPopUp()
-                .waitForStatus("Not active", targetTestName);
+                .waitForStatus("Not active", "lwm2m_mo_041");
     }
 
     @Test
@@ -664,19 +666,20 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .clickOn("calDateTo")
                 .selectShiftedDate("calDateTo", 0)
                 .setEndDateDelay(-10)
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past")
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past")
                 .selectShiftedDate("calDateTo", 0)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Finish date can't scheduled to past");
+                .assertEqualsAlertMessage("Ending date can't be scheduled to the past");
     }
 
     @Test
@@ -687,7 +690,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setParameters("Device", 0, 100)
@@ -698,9 +701,9 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running")
-                .waitForStatus("Completed", 120)
+                .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -711,7 +714,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .immediately()
                 .selectSendTo("All")
                 .setAdvancedParameters("Root.ManagementServer", 0, 100)
@@ -719,7 +722,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .checkAddedTasks();
+                .validateAddedTasks();
     }
 
     @Test
@@ -730,7 +733,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -740,36 +743,35 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
-    public void lwm2m_mo_049() {    //is dependent on #063
+    public void lwm2m_mo_049() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_048")
                 .scheduledToRadioButton()
                 .setParameters("Device", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_048")
+                .enterIntoMonitoring("lwm2m_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
-    public void lwm2m_mo_050() {    //is dependent on #063
+    public void lwm2m_mo_050() {    //is dependent on #048
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_048")
                 .scheduledToRadioButton()
                 .setParameters("Device", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_048")
+                .enterIntoMonitoring("lwm2m_mo_048")
+                .validateAddedTasks();
     }
 
     @Test
@@ -780,7 +782,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -790,36 +792,35 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
-    public void lwm2m_mo_052() {    //is dependent on #066
+    public void lwm2m_mo_052() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_051")
                 .scheduledToRadioButton()
                 .setParameters("Server", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_051")
+                .enterIntoMonitoring("lwm2m_mo_051")
+                .validateAddedTasks();
     }
 
     @Test
-    public void lwm2m_mo_053() {    //is dependent on #066
+    public void lwm2m_mo_053() {    //is dependent on #051
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_051")
                 .scheduledToRadioButton()
                 .setParameters("Server", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_051")
+                .enterIntoMonitoring("lwm2m_mo_051")
+                .validateAddedTasks();
     }
 
     @Test
@@ -830,7 +831,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -840,36 +841,35 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_055() {    //is dependent on #069
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_054")
                 .scheduledToRadioButton()
                 .setParameters("Connectivity monitoring", 1, 3)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_054")
+                .enterIntoMonitoring("lwm2m_mo_054")
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_056() {    //is dependent on #069
         monPage
                 .topMenu(MONITORING)
-                .enterIntoGroup(targetTestName)
+                .enterIntoMonitoring("lwm2m_mo_054")
                 .scheduledToRadioButton()
                 .setParameters("Connectivity monitoring", 4, 100)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Scheduled", targetTestName)
-                .enterIntoGroup(targetTestName)
-                .checkAddedTasks();
+                .waitForStatus("Scheduled", "lwm2m_mo_054")
+                .enterIntoMonitoring("lwm2m_mo_054")
+                .validateAddedTasks();
     }
 
     @Test
@@ -880,7 +880,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .scheduledToRadioButton()
                 .selectShiftedDate("calDateFrom", 0)
                 .setScheduledDelay(10)
@@ -895,19 +895,18 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .checkAddedTasks();
-        setTargetTestName();
+                .validateAddedTasks();
     }
 
     @Test
     public void lwm2m_mo_058() {
         monPage
                 .topMenu(MONITORING)
-                .selectItem(targetTestName)
+                .selectItem("lwm2m_mo_057")
                 .bottomMenu(ACTIVATE)
                 .okButtonPopUp()
                 .bottomMenu(REFRESH)
-                .waitForStatus("Scheduled", targetTestName);
+                .waitForStatus("Scheduled", "lwm2m_mo_057");
     }
 
     @Test
@@ -918,12 +917,13 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo("All")
                 .scheduledToRadioButton()
+                .setSingleParameter()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .assertEqualsAlertMessage("Activation date can't be scheduled to past");
+                .assertEqualsAlertMessage("Activation date can't be scheduled to the past");
     }
 
     @Test
@@ -948,25 +948,25 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_062() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByManufacturer();
+                .validateFilteringByManufacturer();
     }
 
     @Test
     public void lwm2m_mo_063() {
         monPage
                 .topMenu(MONITORING)
-                .checkFilteringByModelName();
+                .validateFilteringByModelName();
     }
 
     @Test
     public void lwm2m_mo_064() {
-        setTargetTestName();
         monPage
                 .topMenu(MONITORING)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(0, 100)
+                .setViewColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -977,65 +977,65 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_065() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Created");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Created");
     }
 
     @Test
     public void lwm2m_mo_066() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date from");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Date from");
     }
 
     @Test
     public void lwm2m_mo_067() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Date to");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Date to");
     }
 
     @Test
     public void lwm2m_mo_068() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Description");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Description");
     }
 
     @Test
     public void lwm2m_mo_069() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Name");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Name");
     }
 
     @Test
     public void lwm2m_mo_070() {    //Bug: Unclear sorting algorithm by "State" column
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("State");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("State");
     }
 
     @Test
     public void lwm2m_mo_071() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
-                .checkSorting("Updated");
+                .selectView("lwm2m_mo_064")
+                .validateSorting("Updated");
     }
 
     @Test
     public void lwm2m_mo_072() {
         monPage
                 .topMenu(MONITORING)
-                .selectView(targetTestName)
+                .selectView("lwm2m_mo_064")
                 .resetView()
-                .assertEquals(monPage.getSelectedOption("ddlView"), "Default", "View reset does not occur");
+                .assertSelectedOptionIs("ddlView", "Default");
     }
 
     @Test
@@ -1046,7 +1046,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(true);
@@ -1060,10 +1060,104 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .selectSendTo()
                 .addAnotherModel()
                 .setParametersFor2Devices(false);
+    }
+
+    @Test
+    public void lwm2m_mo_075() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .deleteAllGroups()
+                .newGroupButton()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
+                .bottomMenu(CANCEL)
+                .assertInputHasText("tbName", testName);
+    }
+
+    @Test
+    public void lwm2m_mo_076() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertSelectedOptionIs("ddlSend", testName);
+    }
+
+    @Test
+    public void lwm2m_mo_077() {
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE, SAVE);
+    }
+
+    @Test
+    public void lwm2m_mo_078() {    //is dependent on #76
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .immediately()
+                .newGroupButton()
+                .fillGroupName("lwm2m_mo_076")
+                .bottomMenu(NEXT)
+                .assertPresenceOfElements("lblNameInvalid");
+    }
+
+    @Test
+    public void lwm2m_mo_079() {//is dependent on #76
+        monPage
+                .topMenu(MONITORING)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .selectSendTo("lwm2m_mo_076")
+                .editButton()
+                .bottomMenu(DELETE_GROUP)
+                .okButtonPopUp()
+                .assertAbsenceOfOptions("ddlSend", "lwm2m_mo_076");
     }
 
     @Test
@@ -1074,7 +1168,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1089,6 +1183,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5);
@@ -1096,13 +1191,14 @@ public class MonitoringLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_mo_081() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1113,6 +1209,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1126,7 +1223,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1137,6 +1234,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1150,7 +1248,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1163,6 +1261,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1176,7 +1275,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1187,6 +1286,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1200,7 +1300,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1211,6 +1311,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1224,7 +1325,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1235,6 +1336,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1248,7 +1350,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1259,6 +1361,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1272,7 +1375,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1284,6 +1387,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1298,7 +1402,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1310,6 +1414,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1324,7 +1429,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1336,12 +1441,13 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
     }
 
-    @Test
+    @Test   // bug: failed due to device does not have MAC address
     public void lwm2m_mo_091() {
         monPage
                 .topMenu(MONITORING)
@@ -1349,14 +1455,14 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .selectColumnFilter("Description")
+                .selectColumnFilter("MAC address")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .partOfMacAddress()
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1372,7 +1478,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1399,7 +1505,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1411,6 +1517,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1419,13 +1526,13 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_094() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", "")
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1436,6 +1543,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1450,7 +1558,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1461,6 +1569,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1475,7 +1584,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1486,6 +1595,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1497,6 +1607,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
@@ -1510,7 +1621,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectManufacturer()
                 .selectModel()
-                .addModel()
+                .addModelButton()
                 .newGroupButton()
                 .fillGroupName()
                 .bottomMenu(NEXT)
@@ -1521,6 +1632,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectManufacturer()
+                .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
                 .fillGroupName(testName + "_1")
@@ -1532,6 +1644,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .immediately()
+                .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running");
