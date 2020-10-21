@@ -11,13 +11,13 @@
 			<ProductGroup>
 				<Manufacturer>TP-Link</Manufacturer>
 				<ModelName>HC220-G1</ModelName>
-				<ProtocolId>TR069</ProtocolId>
+				<ProtocolType>TR069</ProtocolType>
 			</ProductGroup>
 			<applyForNew>true</applyForNew>
 			<Params>
 				<Param>
 					<FullName>Device.DeviceInfo.Manufacturer</FullName>
-				</Param>
+					<isTemporary>false</isTemporary>				</Param>
 			</Params>
 		</MonitorParam>
 	</ChildMonirorings>

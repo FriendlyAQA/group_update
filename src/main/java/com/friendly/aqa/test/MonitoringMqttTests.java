@@ -17,10 +17,16 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
 * Devices (emuls) MAY NOT run;
+* At least 3 devices with different serials MUST BE registered for current model name;
 */
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringMqttTests extends BaseTestCase {
+
+    @Test
+    public void mqtt_mo_000() {
+        monPage.createPreconditions();
+    }
 
     @Test
     public void mqtt_mo_001() {
@@ -43,14 +49,14 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
-                .deleteAllMonitors()
-                .deleteAllCustomViews()
+//                .deleteAllMonitors()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
-                .assertButtonsAreEnabled(false, ACTIVATE, STOP, STOP_WITH_RESET, DELETE)
+                .assertButtonsAreEnabled(false, ACTIVATE, STOP, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH);
     }
 
@@ -207,7 +213,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -603,15 +609,15 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .waitForStatus("Running", "mqtt_mo_038");
     }
 
-    @Test
-    public void mqtt_mo_041() {    //is dependent on #056
-        monPage
-                .topMenu(MONITORING)
-                .selectItem("mqtt_mo_038")
-                .bottomMenu(STOP_WITH_RESET)
-                .okButtonPopUp()
-                .waitForStatus("Not active", "mqtt_mo_038");
-    }
+//    @Test
+//    public void mqtt_mo_041() {    //is dependent on #056
+//        monPage
+//                .topMenu(MONITORING)
+//                .selectItem("mqtt_mo_038")
+//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
+//                .okButtonPopUp()
+//                .waitForStatus("Not active", "mqtt_mo_038");
+//    }
 
     @Test
     public void mqtt_mo_042() {
@@ -868,7 +874,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     public void mqtt_mo_058() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllCustomViews()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -981,7 +987,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

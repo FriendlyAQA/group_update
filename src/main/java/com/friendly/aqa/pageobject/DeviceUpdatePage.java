@@ -462,15 +462,22 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage presetFilter(String parameter, String value) {
         topMenu(DEVICE_UPDATE);
         enterToDevice();
-        Table table = new Table("tblUserInfo");
-        if (!table.isEmpty()) {
+        for (int i = 0; i < 2; i++) {
             try {
-                int rowNum = table.getRowNumberByText(parameter);
-                if (rowNum >= 0 && table.getCellText(rowNum, 1).equals(value)) {
-                    return this;
+                Table table = new Table("tblUserInfo");
+                if (!table.isEmpty()) {
+                    try {
+                        int rowNum = table.getRowNumberByText(0, parameter);
+                        if (table.getCellText(rowNum, 1).equals(value)) {
+                            return this;
+                        }
+                    } catch (AssertionError e) {
+                        System.out.println("filter does not exist, going to create new one");
+                        break;
+                    }
                 }
-            } catch (AssertionError e) {
-                System.out.println("filter does not exist, go to create new one");
+            } catch (StaleElementReferenceException e) {
+                System.out.println(e.getClass().getSimpleName() + " handled");
             }
         }
         editAccountInfoLink.click();
@@ -561,7 +568,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage enterToDevice(String serial, Table table) {
-        if (!table.contains(serial)){
+        if (!table.contains(serial)) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();
             table = getMainTable();
@@ -626,7 +633,7 @@ public class DeviceUpdatePage extends BasePage {
         if (button == EDIT_SETTINGS) {
             pause(1000); //!
         }
-        clickGlobalButtons1(button);
+        clickBottomButton(button);
         return this;
     }
 
@@ -668,20 +675,26 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.cancelButtonPopUp();
     }
 
-    public DeviceUpdatePage leftMenu(Left item) {
-        switchToFrame(ROOT);
-        try {
-            getTable("tblLeftMenu").clickOn(item.value);
-        } catch (ElementNotInteractableException e) {
-            throw new AssertionError("Left menu item '" + item + "' not found on current page!");
-        }
-        waitForUpdate();
-        switchToFrame(DESKTOP);
-        return this;
+
+    @Override
+    public DeviceUpdatePage leftMenu(ILeft item) {
+        return (DeviceUpdatePage) super.leftMenu(item);
     }
 
+//    public DeviceUpdatePage leftMenu(Left item) {
+//        switchToFrame(ROOT);
+//        try {
+//            getTable("tblLeftMenu").clickOn(item.value);
+//        } catch (ElementNotInteractableException e) {
+//            throw new AssertionError("Left menu item '" + item + "' not found on current page!");
+//        }
+//        waitForUpdate();
+//        switchToFrame(DESKTOP);
+//        return this;
+//    }
+
     public DeviceUpdatePage selectAnyDevice() { //except target device
-        waitForBottomMenuIsDownloaded();//!
+        waitUntilBottomMenuIsDownloaded();//!
         Table table = getMainTable();
         String[] serials = table.getColumn("Serial");
         for (int i = 0; i < serials.length; i++) {
@@ -839,7 +852,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateSearchBy(String option, boolean exactMatch) {
         searchBy(option);
-        String[][] opt = {{"Phone number", "telephone"}, {"User ID", "userid"}, {"Full name", "name"}, {"Username", "login_name"}, {"User Tag", "user_tag"},
+        String[][] opt = {{"Phone number", "telephone"}, {"User ID", "userid"}, {"User name", "name"}, {"User login", "login_name"}, {"User Tag", "user_tag"},
                 {"Serial Number", "Serial"}, {"IP address", "IP address"}, {"MAC address", "MAC address"}, {"ACS Username", "ACS Username"}};
         if (exactMatch) {
             selectCheckbox("rdSearchExactly");
@@ -924,7 +937,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void assertLastActivityIs(String activity) {
-        Table table = getTable("tblParameters");
+        Table table = getTable("tbl");
         if (!table.getCellText(1, 2).equalsIgnoreCase(activity)) {
             throw new AssertionError("Activity '" + activity + "' not found in the top row of activity list!");
         }
@@ -932,7 +945,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertActivityIsPresent(String activity) {
         verifySinglePage(); //!
-        Table table = getTable("tblParameters");
+        Table table = getTable("tbl");
         if (!table.contains(activity)) {
             throw new AssertionError("Activity '" + activity + "' is absent from activity list!");
         }
@@ -1048,7 +1061,7 @@ public class DeviceUpdatePage extends BasePage {
         int valueColNum = table.getColumnNumber(0, "Parameter value");
         int localAmount = amount;
         boolean actionPerformed = false;
-        for (int i = 0; i < Math.min(Math.abs(localAmount), names.length); i++) {
+        for (int i = 0; i < Math.min(localAmount, names.length); i++) {
             if (table.getVisibleRowsNumber() == 0) {
                 break;
             }
@@ -1077,18 +1090,18 @@ public class DeviceUpdatePage extends BasePage {
             String value = "";
             if (input != null) {
                 if (input.getAttribute("type").equals("text")) {
-                    if (names[i].equalsIgnoreCase("password") || names[i].equalsIgnoreCase("KeyPassphrase")) {
-                        value = "*****";
+//                    if (names[i].equalsIgnoreCase("password") || names[i].equalsIgnoreCase("KeyPassphrase")) {
+//                        value = "*****";
+//                    } else {
+                    String currentValue = input.getAttribute("value");
+                    if (currentValue.equals("false")) {
+                        value = "true";
+                    } else if (currentValue.equals("true")) {
+                        value = "false";
                     } else {
-                        String currentValue = input.getAttribute("value");
-                        if (currentValue.equals("false")) {
-                            value = "true";
-                        } else if (currentValue.equals("true")) {
-                            value = "false";
-                        } else {
-                            value = generateValue(hint, currentValue);
-                        }
+                        value = generateValue(hint, currentValue);
                     }
+//                    }
                 } else {
                     value = input.isSelected() ? "0" : "1";
                 }
@@ -1101,7 +1114,9 @@ public class DeviceUpdatePage extends BasePage {
                         break;
                     }
                 }
-            }
+            } else if (++localAmount < names.length) {
+                continue;
+            } else break;
             System.out.println("setParameter:" + names[i] + ":" + value);
             setParameter(table, names[i], value);
 //            table.clickOn(i, -1);
@@ -1119,9 +1134,12 @@ public class DeviceUpdatePage extends BasePage {
         Table nodeTable = getTable("tblTree");
         int pointer = 0;
         for (int i = 0; i < nodeTable.getTableSize()[0]; i++) {
-//            System.out.println(nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style"));
-            if (nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style").replaceAll(" ", "").contains("font-weight:bold;")) {
+//            System.out.println(i + ":" + nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style"));
+//            System.out.println(i + "webElement:" + nodeTable.getCellWebElement(i, 0).getTagName());
+//            System.out.println(i + ":" + nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("outerHTML"));
+            if (nodeTable.getCellWebElement(i, 0).getAttribute("outerHTML").contains("bold;")) {
                 pointer = i;
+//                System.out.println("pointer=" + i);
                 break;
             }
         }
@@ -1131,8 +1149,10 @@ public class DeviceUpdatePage extends BasePage {
                 continue;
             }
             nodeTable.clickOn(i, 0, 0);
+            nodeTable.clickOn(i, 0, -1);
             success = true;
-            System.out.println("click on row:" + i);
+//            System.out.println("click on row:" + i);
+            waitForUpdate();
             break;
         }
         if (!success) {
@@ -1144,14 +1164,14 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateAbsenceTaskWithValue(String value) {
-        String[] col = getTable("tblParameters").getColumn("Value");
+        String[] col = getTable("tbl").getColumn("Value");
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
         }
     }
 
     public void validateAbsenceTaskWithValue() {
-        String[] col = getTable("tblParameters").getColumn("Value");
+        String[] col = getTable("tbl").getColumn("Value");
         String value = parameterMap.values().iterator().next();
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
@@ -1163,8 +1183,23 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage validateTasks() {
         verifySinglePage();
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Table table = getTable("tbl");
+        out:
         for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 6);
+//            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 6);
+            String parameter = entry.getKey();
+            if (!table.contains(parameter)) {
+                throw new AssertionError("Parameter '" + entry.getKey() + "' not found!");
+            }
+            List<Integer> rows = table.getRowsWithText(parameter);
+            for (int row : rows) {
+                int col = table.getColumnNumber(row, parameter);
+                if (table.getCellText(row, col + 1).equalsIgnoreCase(entry.getValue())) {
+                    continue out;
+                }
+            }
+            scrollTo(findElement("pager2_lblPagerTotal"));
+            throw new AssertionError("Pair '" + parameter + ":" + entry.getValue() + "' not found!");
         }
         return this;
     }
@@ -1207,7 +1242,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage validateDownloadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
         }
         return this;
     }
@@ -1215,7 +1250,7 @@ public class DeviceUpdatePage extends BasePage {
     public void validateUploadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            Table table = getTable("tblParameters");
+            Table table = getTable("tbl");
             List<Integer> list = table.getRowsWithText(entry.getKey());
             for (int i : list) {
                 System.out.println("text: " + table.getCellText(i, "Parameter name"));
@@ -1454,7 +1489,7 @@ public class DeviceUpdatePage extends BasePage {
     public void validateGeneratedGets() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tblParameters", entry.getKey(), entry.getValue(), 7);
+            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
         }
     }
 
@@ -1768,7 +1803,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage clickIfPresent(IBottomButtons button) {
         waitForUpdate();
-        waitForBottomMenuIsDownloaded();
+        waitUntilBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
         List<WebElement> list = findElements(button.getId());
         if (!list.isEmpty() && list.get(0).isDisplayed()) {

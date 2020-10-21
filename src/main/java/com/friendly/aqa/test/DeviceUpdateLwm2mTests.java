@@ -416,7 +416,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //bug: Serials with underlines cause incorrect sorting
     public void lwm2m_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -443,7 +443,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("lwm2m_du_014")
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -690,7 +690,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
                 .assertPresenceOfOptions("ddlView", "Default")
-                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "Full name", "Username"
+                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
                         , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
                 .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
@@ -817,9 +817,9 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
-                .lookFor(getSerial())
+                .lookFor(getSerial().substring(0, 3))
                 .searchButton()
-                .assertPresenceOfElements("tblDeviceInfo");
+                .assertPresenceOfElements("tbl");// TODO validate columns order
     }
 
     @Test
@@ -834,6 +834,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(NEXT)
                 .sortByColumn("Created")
+                .sortingOrder("Unsorted")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
@@ -1131,7 +1132,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //bug: Serials with underlines cause incorrect sorting
     public void lwm2m_du_089() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1144,7 +1145,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateSorting("Serial");
     }
 
-    @Test   //Bug: column "Status" is absent from search view settings list; (bug in STD?)
+    @Test
     public void lwm2m_du_090() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1167,7 +1168,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -1346,7 +1347,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", false);
+                .validateSearchBy("User name", false);
     }
 
     @Test
@@ -1354,7 +1355,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", true);
+                .validateSearchBy("User name", true);
     }
 
     @Test
@@ -1362,7 +1363,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", false);
+                .validateSearchBy("User login", false);
     }
 
     @Test
@@ -1370,7 +1371,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", true);
+                .validateSearchBy("User login", true);
     }
 
     @Test
@@ -1715,6 +1716,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Device", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1731,6 +1733,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Device", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1747,6 +1750,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Device", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1764,6 +1768,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(WAIT_UNTIL_CONNECT)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1783,6 +1788,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks()
@@ -1815,6 +1821,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Server", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1831,6 +1838,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Server", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1847,6 +1855,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Server", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1866,6 +1875,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks()
@@ -1884,6 +1894,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Connectivity monitoring", 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1900,6 +1911,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Connectivity monitoring", 2)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1916,6 +1928,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter("Connectivity monitoring", 99)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1935,6 +1948,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks()
@@ -1963,6 +1977,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .setParameter(null, 1)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1981,6 +1996,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(WAIT_UNTIL_CONNECT)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks();
@@ -1999,6 +2015,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(ADD_TO_PROVISION)
                 .bottomMenu(SEND_UPDATE)
                 .okButtonPopUp()
+                .pause(1000)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateTasks()

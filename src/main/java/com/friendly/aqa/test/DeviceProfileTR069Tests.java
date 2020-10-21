@@ -22,7 +22,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems");
+                .assertTableHasContent("tblItems")
+                .createPreconditions();
     }
 
     @Test
@@ -160,7 +161,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Not Active")
-                .assertProfileIsActive(false);
+                .assertMentionedProfileStateIs("Not active");
     }
 
     @Test
@@ -174,7 +175,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .assertProfileIsActive(true);
+                .assertMentionedProfileStateIs("Active");
     }
 
     @Test//swapped with 17
@@ -264,14 +265,14 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectTab("Management")
                 .bottomMenu(ADVANCED_VIEW)
 //                .selectBranch("ManagementServer")
-                .setParameter("PeriodicInformInterval, sec", "70")
+                .setParameter("PeriodicInformInterval, sec", "61")
                 .bottomMenu(SIMPLE_VIEW)
-                .validateParameter("PeriodicInformInterval, sec", "70")
+                .validateParameter("PeriodicInformInterval, sec", "61")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false, getTestName());
+                .assertCurrentProfileStateIs("Not active");
     }
 
     @Test
@@ -401,7 +402,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
 //                .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test
@@ -430,7 +431,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(false, "PeriodicInformInterval, sec", "62");
+                .validateApplyingProfile(false, "PeriodicInformInterval, sec", "62");
     }
 
     @Test   // depends on 028
@@ -839,7 +840,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .fillName()
                 .setDefaultPeriodic(false)
                 .selectMainTab("Download file")
-                .downloadManualImageFile("Firmware Image")
+                .downloadManually("Firmware Image")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, testName);
@@ -1312,7 +1313,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test
-//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes
+//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes instead
     public void tr069_dp_081() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1414,16 +1415,16 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test   //bug: editing profile events causes an erase of all events.
-    public void tr069_dp_086() {
+    public void tr069_dp_086() {    //depends on #085
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .enterIntoProfile("tr069_dp_85")
+                .enterIntoProfile("tr069_dp_085")
                 .selectMainTab("Events")
                 .disableAllEvents()
                 .setEvent(new Event("2 PERIODIC", null, "5", null))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .enterIntoProfile("tr069_dp_85")
+                .enterIntoProfile("tr069_dp_085")
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents();
@@ -1493,7 +1494,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1517,7 +1518,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1541,7 +1542,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1565,7 +1566,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1590,7 +1591,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1615,7 +1616,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1640,7 +1641,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1665,7 +1666,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1690,7 +1691,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1715,7 +1716,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("AddObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1740,7 +1741,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1765,7 +1766,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1790,7 +1791,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1815,7 +1816,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1840,7 +1841,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1917,7 +1918,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1941,7 +1942,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1965,7 +1966,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1989,7 +1990,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2014,7 +2015,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2039,7 +2040,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2064,7 +2065,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2089,7 +2090,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2114,7 +2115,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2139,7 +2140,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("AddObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2164,7 +2165,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2189,7 +2190,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2214,7 +2215,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2239,7 +2240,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2264,7 +2265,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2341,7 +2342,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2365,7 +2366,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2389,7 +2390,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2413,7 +2414,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2438,7 +2439,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2463,7 +2464,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2488,7 +2489,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2513,7 +2514,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2538,7 +2539,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2563,7 +2564,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("AddObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2588,7 +2589,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2613,7 +2614,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2638,7 +2639,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2663,7 +2664,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2688,7 +2689,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2765,7 +2766,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2789,7 +2790,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2813,7 +2814,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2837,7 +2838,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2862,7 +2863,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2887,7 +2888,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2912,7 +2913,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2937,7 +2938,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2962,7 +2963,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -2987,7 +2988,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("AddObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3012,7 +3013,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3037,7 +3038,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3062,7 +3063,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3087,7 +3088,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3112,7 +3113,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -6508,7 +6509,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectEventTab("Management")
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -7355,7 +7356,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .fillName()
                 .setDefaultPeriodic(false)
                 .selectMainTab("Download file")
-                .downloadManualImageFile("Firmware Image")
+                .downloadManually("Firmware Image")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
@@ -7406,7 +7407,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .fillName()
                 .setDefaultPeriodic(false)
                 .selectMainTab("Download file")
-                .downloadManualImageFile("Vendor Configuration File")
+                .downloadManually("Vendor Configuration File")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .enterIntoProfile()
@@ -7455,7 +7456,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test   //depends on 354
@@ -7483,7 +7484,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(false, "PeriodicInformInterval, sec", "62");
+                .validateApplyingProfile(false, "PeriodicInformInterval, sec", "62");
     }
 
     @Test   //depends on 354
@@ -7511,7 +7512,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "63");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "63");
     }
 
     @Test
@@ -7540,7 +7541,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "64");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "64");
     }
 
     @Test   //depends on 357
@@ -7568,7 +7569,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "65");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "65");
     }
 
     @Test   //depends on 357
@@ -7596,7 +7597,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "66");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "66");
     }
 
     @Test
@@ -7625,7 +7626,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "67");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "67");
     }
 
     @Test   //depends on 360
@@ -7653,7 +7654,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "68");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "68");
     }
 
     @Test   //depends on 360
@@ -7681,7 +7682,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "69");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "69");
     }
 
     @Test
@@ -7710,7 +7711,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "70");
     }
 
     @Test   //depends on 363
@@ -7738,7 +7739,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "71");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "71");
     }
 
     @Test   //depends on 363
@@ -7766,7 +7767,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "72");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "72");
     }
 
     @Test
@@ -7795,7 +7796,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "60");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "60");
     }
 
     @Test   //depends on 366
@@ -7823,7 +7824,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "61");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "61");
     }
 
     @Test   //depends on 366
@@ -7851,10 +7852,10 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "62");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "62");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in device tree!
+    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
     public void tr069_dp_369() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7879,10 +7880,10 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "63");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "63");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in device tree!
+    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
     public void tr069_dp_370() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7907,10 +7908,10 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "64");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "64");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in device tree!
+    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
     public void tr069_dp_371() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7935,7 +7936,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "65");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "65");
     }
 
     @Test
@@ -7963,7 +7964,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "63");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "63");
     }
 
     @Test
@@ -7991,7 +7992,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "64");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "64");
     }
 
     @Test
@@ -8019,7 +8020,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "65");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "65");
     }
 
     @Test
@@ -8047,7 +8048,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "66");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "66");
     }
 
     @Test
@@ -8075,7 +8076,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "67");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "67");
     }
 
     @Test
@@ -8103,7 +8104,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "68");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "68");
     }
 
     @Test
@@ -8131,7 +8132,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "69");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "69");
     }
 
     @Test
@@ -8159,7 +8160,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "70");
     }
 
     @Test
@@ -8187,7 +8188,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "71");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "71");
     }
 
     @Test
@@ -8215,7 +8216,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "69");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "69");
     }
 
     @Test
@@ -8243,7 +8244,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "70");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "70");
     }
 
     @Test
@@ -8271,7 +8272,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "71");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "71");
     }
 
     @Test
@@ -8305,7 +8306,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateTargetDevice(true, "PeriodicInformInterval, sec", "72");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "72");
     }
 
     @Test  //depends on 384

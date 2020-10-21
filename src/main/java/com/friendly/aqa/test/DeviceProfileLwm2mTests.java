@@ -22,7 +22,8 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems");
+                .assertTableHasContent("tblItems")
+                .createPreconditions();
     }
 
     @Test
@@ -160,7 +161,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Not Active")
-                .assertProfileIsActive(false);
+                .assertMentionedProfileStateIs("Not active");
     }
 
     @Test
@@ -174,7 +175,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .assertProfileIsActive(true);
+                .assertMentionedProfileStateIs("Active");
     }
 
     @Test//swapped with 17
@@ -273,7 +274,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false, getTestName());
+                .assertCurrentProfileStateIs("Not active");
     }
 
     @Test
@@ -390,7 +391,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -419,7 +420,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
 //                .assertProfileIsPresent(true, getTestName());
-                .validateTargetDevice(false);
+                .validateApplyingProfile(false);
     }
 
     @Test   // depends on 028
@@ -524,7 +525,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test//depends on 036
+    @Test//depends on 035
     public void lwm2m_dp_036() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -806,7 +807,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     }
 
     @Test   //bug: editing profile events causes an erase of all events.
-    public void lwm2m_dp_052() {
+    public void lwm2m_dp_052() {//depends on 051
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("lwm2m_dp_051")
@@ -854,7 +855,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -877,7 +878,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "4", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -946,7 +947,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "7", null), true)
                 .addTask("Action")
-                .resetErrors()
+                .selectAction("Reset errors")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -969,7 +970,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "8", null), true)
                 .addTask("Action")
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -992,7 +993,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "9", null), true)
                 .addTask("Action")
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1015,7 +1016,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "10", null), true)
                 .addTask("Action")
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1025,7 +1026,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Start or reset");
+                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
@@ -1038,7 +1039,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "11", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1084,7 +1085,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "13", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1107,7 +1108,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "14", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1176,7 +1177,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "17", null), true)
                 .addTask("Action")
-                .resetErrors()
+                .selectAction("Reset errors")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1199,7 +1200,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "18", null), true)
                 .addTask("Action")
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1222,7 +1223,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "19", null), true)
                 .addTask("Action")
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1245,7 +1246,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "20", null), true)
                 .addTask("Action")
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1255,7 +1256,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Start or reset");
+                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
@@ -1268,7 +1269,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "21", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1314,7 +1315,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "23", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1337,7 +1338,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "24", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1406,7 +1407,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "27", null), true)
                 .addTask("Action")
-                .resetErrors()
+                .selectAction("Reset errors")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1429,7 +1430,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "28", null), true)
                 .addTask("Action")
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1452,7 +1453,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "29", null), true)
                 .addTask("Action")
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1475,7 +1476,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "30", null), true)
                 .addTask("Action")
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1485,7 +1486,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Start or reset");
+                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
@@ -1498,7 +1499,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "31", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1544,7 +1545,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "33", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1567,7 +1568,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "34", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1636,7 +1637,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "37", null), true)
                 .addTask("Action")
-                .resetErrors()
+                .selectAction("Reset errors")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1659,7 +1660,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "38", null), true)
                 .addTask("Action")
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1682,7 +1683,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "39", null), true)
                 .addTask("Action")
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1705,7 +1706,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "40", null), true)
                 .addTask("Action")
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1715,7 +1716,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UPDATE REQUEST", "Action", "Start or reset");
+                .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
@@ -1728,7 +1729,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "41", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -2228,7 +2229,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     }
 
     @Test   //bug: Cannot save a profile with edited Monitoring tab settings;
-    public void lwm2m_dp_120() {
+    public void lwm2m_dp_120() {//depends on 119
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("lwm2m_dp_119")
@@ -2278,7 +2279,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectEventTab("Device")
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -2520,7 +2521,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     }
 
     @Test   //bug: Tab "Policy" is absent; depends on 134
-    public void lwm2m_dp_135() {
+    public void lwm2m_dp_135() {//depends on 134
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("lwm2m_dp_134")
@@ -2560,7 +2561,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Download file")
-                .downloadManualImageFile("Firmware Image")
+                .downloadManually("Firmware Image")
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -2603,7 +2604,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test   //bug: cannot upload "Resource Definition" file on server as precondition;
+    @Test
     public void lwm2m_dp_143() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2611,7 +2612,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Download file")
-                .downloadManualImageFile("LWM2M Resource Definition")
+                .downloadManually("LWM2M Resource Definition")
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -2620,8 +2621,8 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test      //bug: cannot upload "Resource Definition" file on server as precondition; depends on 143
-    public void lwm2m_dp_144() {
+    @Test      //bug: cannot upload "Resource Definition" file on server as precondition;
+    public void lwm2m_dp_144() {//depends on 143
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("lwm2m_dp_143")
@@ -2660,7 +2661,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Download file")
-                .downloadManualImageFile("LWM2M PSK Credentials")
+                .downloadManually("LWM2M PSK Credentials")
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -2708,7 +2709,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true, "Timezone", "Europe/Kyiv");
+                .validateApplyingProfile(true, "Timezone", "Europe/Kyiv");
     }
 
     @Test
@@ -2734,7 +2735,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(false, "Timezone", "Europe/Kharkiv");
+                .validateApplyingProfile(false, "Timezone", "Europe/Kharkiv");
     }
 
     @Test
@@ -2761,7 +2762,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2788,7 +2789,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2814,7 +2815,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2840,7 +2841,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2867,7 +2868,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2893,7 +2894,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2919,7 +2920,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2946,7 +2947,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2972,7 +2973,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -2998,7 +2999,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -3025,7 +3026,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -3051,7 +3052,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
     @Test
@@ -3077,7 +3078,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true);
+                .validateApplyingProfile(true);
     }
 
 //  tests 163-165 are skipped due to "DeviceSummary" is absent from dropdown list
@@ -3091,7 +3092,6 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
 //  tests 175-177 are skipped due to "ProvisioningCode" is absent from dropdown list
 
 //  tests 178 is skipped due to Inform radiobutton and "DeviceSummary" option are absent
-
 
 
     @Test  //bug: depends on test with 2 conditions (178)
@@ -3175,7 +3175,6 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName());
     }
-
 
 //    @Test
 //    public void lwm2m_dp_999() {

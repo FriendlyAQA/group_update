@@ -1,10 +1,9 @@
 package com.friendly.aqa.entities;
 
 import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -19,7 +18,7 @@ public class Table {
     private WebElement[][] elementTable;
     private final WebElement table;
     private boolean retryInit;
-    private String tableId;
+    private final String tableId;
 
     public Table(WebElement table) {
 //        long start = System.currentTimeMillis();
@@ -92,26 +91,40 @@ public class Table {
         Matcher m = cellTextPattern.matcher(input);
         while (m.find()) {
             out = getCellContent(m.group(2));
+            if (!out.replaceAll(" ", "").isEmpty() && !out.startsWith("<")) {   // experimental!!!
+                break;                                                                           // remove if
+            }                                                                                    // parsing fails!!!
         }
-        if (out.startsWith("<input")) {
+        if (out.startsWith("<input") || out.startsWith("<select")) {
             return "";
         } else {
             return out;
         }
     }
 
-    public Table clickOn(int row, int column, int tagNum) { //TODO: rewrite negative tagNum
+    public Table clickOn(int row, int column, int tagNum) {
         if (column < 0) {
             column += textTable[row].length;
         }
         if (tagNum == 99) {
-            BasePage.scrollToElement(elementTable[row][column]).click();
+            try {
+                BasePage.scrollToElement(elementTable[row][column]).click();
+            } catch (ElementNotInteractableException e) {
+                throw new AssertionError("Element <" + elementTable[row][column].getTagName() + "> is present," +
+                        " but not interactable (hidden?) on a page!");
+            }
         } else {
             List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input | child::select"));
             if (tagNum < 0) {
                 tagNum += tagList.size();
             }
-            BasePage.scrollToElement(tagList.get(tagNum)).click();
+            try {
+                BasePage.scrollToElement(tagList.get(tagNum)).click();
+            } catch (ElementNotInteractableException e) {
+                throw new AssertionError("Element <" + tagList.get(tagNum) + "> is present," +
+                        " but not interactable (hidden?) on a page!");
+            }
+
         }
         return this;
     }
@@ -204,6 +217,7 @@ public class Table {
                 .filter(e -> e.findElement(By.tagName("input")).isEnabled())
                 .forEach(e -> out.add(cellList.indexOf(e)));
         BasePage.setDefaultImplicitlyWait();
+        out.sort(Comparator.naturalOrder());
         return out;
     }
 
@@ -212,22 +226,22 @@ public class Table {
     }
 
     public void clickOn(String text, boolean retry) {
-        List<String> debugList = new ArrayList<>();
+//        List<String> debugList = new ArrayList<>();
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].toLowerCase().trim().equals(text.toLowerCase())) {
                     /*return */
                     clickOn(i, j, 99);
                     return;
-                } else {
+                } /*else {
                     debugList.add(textTable[i][j].toLowerCase());
-                }
+                }*/
             }
         }
         String warning = "Text '" + text + "' not found in current table";
         LOGGER.warn(warning);
         print();
-        System.out.println("text '" + text.toLowerCase() + "' not equals with:" + debugList.toString());
+//        System.out.println("text '" + text.toLowerCase() + "' not equals with:" + debugList.toString());
         if (!retry) {
             System.out.println("try to find once more time...");
             pause(1000);
@@ -289,11 +303,11 @@ public class Table {
             out[i] = textTable[i + 1][column];
             if (normalize) {
                 StringBuilder sb = new StringBuilder(out[i]);
-                if (out[i].matches("\\d+/\\d/.+")) {
-                    sb.insert(2, '0');
-                }
                 if (out[i].matches("^\\d/.+")) {
                     sb.insert(0, '0');
+                }
+                if (out[i].matches("^\\d{2}/\\d/.+")) {
+                    sb.insert(3, '0');
                 }
                 out[i] = sb.toString().replaceAll("^\\s$", "");
             }
@@ -391,7 +405,7 @@ public class Table {
     public String getInputText(int row, int column) {
         WebElement input = getInput(row, column);
         if (input.getAttribute("type").equals("text")) {
-            return getInput(row, column).getAttribute("value");
+            return getInput(row, column).getAttribute("value").trim();
         } else {
             return "";
         }
@@ -413,6 +427,9 @@ public class Table {
         if (rowNum < 0) {
             String warning = "Text '" + text + "' not found in column #" + columnNum + " of current table";
             print();
+            for (WebElement[] row : elementTable) {
+                BasePage.scrollToElement(row[columnNum]);
+            }
             LOGGER.warn(warning);
             throw new AssertionError(warning);
         }
@@ -422,18 +439,26 @@ public class Table {
     public int getRowNumberByText(String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
-                if (textTable[i][j].equalsIgnoreCase(text)) {
+                if (textTable[i][j].equalsIgnoreCase(text) && elementTable[i][j].isDisplayed()) {
                     return i;
                 }
             }
         }
         print();
-        throw new AssertionError("Text '" + text + "' not found on page!");
+        for (WebElement[] row : elementTable) {
+            BasePage.scrollToElement(row[0]);
+        }
+        throw new AssertionError("Text '" + text + "' not found in table!");
     }
 
     public String getHint(int row) {
         int colNum = getColumnNumber(0, "Parameter name");
-        return elementTable[row][colNum].findElement(By.tagName("span")).getAttribute("hintbody");
+        WebElement span = elementTable[row][colNum].findElement(By.tagName("span"));
+        String hint = span.getAttribute("hintbody");
+        if (hint == null) {
+            hint = span.getAttribute("tiptext");
+        }
+        return hint;
     }
 
 //    @SuppressWarnings("unused")

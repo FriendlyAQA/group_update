@@ -17,10 +17,16 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
 * Devices (emuls) MAY NOT run;
+* At least 3 devices with different serials MUST BE registered for current model name;
 */
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringTR069Tests extends BaseTestCase {
+
+    @Test
+    public void tr069_mo_000() {
+        monPage.createPreconditions();
+    }
 
     @Test
     public void tr069_mo_001() {
@@ -43,14 +49,14 @@ public class MonitoringTR069Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
-                .deleteAllMonitors()
-                .deleteAllCustomViews()
+//                .deleteAllMonitors()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
-                .assertButtonsAreEnabled(false, ACTIVATE, STOP, STOP_WITH_RESET, DELETE)
+                .assertButtonsAreEnabled(false, ACTIVATE, STOP, /*STOP_WITH_RESET,*/ DELETE)
                 .assertButtonsAreEnabled(true, REFRESH);
     }
 
@@ -207,7 +213,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -873,15 +879,15 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .waitForStatus("Running", "tr069_mo_056");
     }
 
-    @Test
-    public void tr069_mo_059() {    //is dependent on #056
-        monPage
-                .topMenu(MONITORING)
-                .selectItem("tr069_mo_056")
-                .bottomMenu(STOP_WITH_RESET)
-                .okButtonPopUp()
-                .waitForStatus("Not active", "tr069_mo_056");
-    }
+//    @Test
+//    public void tr069_mo_059() {    //is dependent on #056
+//        monPage
+//                .topMenu(MONITORING)
+//                .selectItem("tr069_mo_056")
+//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
+//                .okButtonPopUp()
+//                .waitForStatus("Not active", "tr069_mo_056");
+//    }
 
     @Test
     public void tr069_mo_060() {
@@ -1435,7 +1441,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_094() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllCustomViews()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -1548,7 +1554,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

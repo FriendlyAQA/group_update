@@ -15,7 +15,7 @@ import static com.friendly.aqa.pageobject.BasePage.getProtocolPrefix;
 import static com.friendly.aqa.pageobject.BasePage.getSerial;
 
 public class XmlWriter {
-    private static Logger logger = Logger.getLogger(XmlWriter.class);
+    private static final Logger logger = Logger.getLogger(XmlWriter.class);
 
     public static void createTestngConfig(Set<Controller.TabTask> testSuite) {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -120,11 +120,11 @@ public class XmlWriter {
                 .append("\t<DateFrom>01/01/1</DateFrom>\n").append("\t<DateTo>null</DateTo>\n").append("\t<PerformEvery>60</PerformEvery>\n")
                 .append("\t<Location>0</Location>\n").append("\t<ChildMonirorings>\n").append("\t\t<MonitorParam>\n")
                 .append("\t\t\t<ProductGroup>\n").append("\t\t\t\t<Manufacturer>").append(deviceArr[0])
-                .append("</Manufacturer>\n\t\t\t\t<ModelName>").append(deviceArr[1]).append("</ModelName>\n\t\t\t\t<ProtocolId>")
-                .append(protocol).append("</ProtocolId>\n").append("\t\t\t</ProductGroup>\n").append("\t\t\t<applyForNew>true</applyForNew>\n")
-                .append("\t\t\t<Params>\n").append("\t\t\t\t<Param>\n").append("\t\t\t\t\t<FullName>" + parameter + "</FullName>\n")
-                .append("\t\t\t\t</Param>\n").append("\t\t\t</Params>\n").append("\t\t</MonitorParam>\n").append("\t</ChildMonirorings>\n")
-                .append("</MonitorGroup>\n");
+                .append("</Manufacturer>\n\t\t\t\t<ModelName>").append(deviceArr[1]).append("</ModelName>\n\t\t\t\t<ProtocolType>")
+                .append(protocol).append("</ProtocolType>\n").append("\t\t\t</ProductGroup>\n").append("\t\t\t<applyForNew>true</applyForNew>\n")
+                .append("\t\t\t<Params>\n").append("\t\t\t\t<Param>\n").append("\t\t\t\t\t<FullName>").append(parameter).append("</FullName>\n")
+                .append("\t\t\t\t\t<isTemporary>false</isTemporary>").append("\t\t\t\t</Param>\n").append("\t\t\t</Params>\n")
+                .append("\t\t</MonitorParam>\n").append("\t</ChildMonirorings>\n").append("</MonitorGroup>\n");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
             writer.write(sb.toString());
         } catch (IOException e) {

@@ -17,10 +17,16 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
 * Devices (emuls) MAY NOT run;
+* At least 3 devices with different serials MUST BE registered for current model name;
 */
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringUspTests extends BaseTestCase {
+
+    @Test
+    public void usp_mo_000() {
+        monPage.createPreconditions();
+    }
 
     @Test
     public void usp_mo_001() {
@@ -43,14 +49,14 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
-                .deleteAllMonitors()
-                .deleteAllCustomViews()
+//                .deleteAllMonitors()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
-                .assertButtonsAreEnabled(false, ACTIVATE, STOP, STOP_WITH_RESET, DELETE)
+                .assertButtonsAreEnabled(false, ACTIVATE, STOP/*, STOP_WITH_RESET*/, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH);
     }
 
@@ -207,7 +213,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -558,15 +564,15 @@ public class MonitoringUspTests extends BaseTestCase {
                 .waitForStatus("Running", "usp_mo_035");
     }
 
-    @Test
-    public void usp_mo_038() {    //is dependent on #035
-        monPage
-                .topMenu(MONITORING)
-                .selectItem("usp_mo_035")
-                .bottomMenu(STOP_WITH_RESET)
-                .okButtonPopUp()
-                .waitForStatus("Not active", "usp_mo_035");
-    }
+//    @Test
+//    public void usp_mo_038() {    //is dependent on #035
+//        monPage
+//                .topMenu(MONITORING)
+//                .selectItem("usp_mo_035")
+//                .bottomMenu(STOP_WITH_RESET)
+//                .okButtonPopUp()
+//                .waitForStatus("Not active", "usp_mo_035");
+//    }
 
     @Test
     public void usp_mo_039() {
@@ -773,7 +779,7 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_052() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllCustomViews()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -886,7 +892,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

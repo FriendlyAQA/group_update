@@ -21,8 +21,8 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'usp_du_011', 'usp_du_067' (starts with usp_) etc.;
     2. Devices (emul) must run, (emul restart);
-    3. Trace for target device must be stopped (usp_du_135);
-    4. At least one active profile for target device must exist (usp_du_134);
+    3. At least one active profile for target device must exist (usp_du_134);
+    4. Trace for target device must be stopped (usp_du_135);
     5. All files for Download tasks must be added to server.
     */
     @Test
@@ -444,7 +444,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("usp_du_014")
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -691,7 +691,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
                 .assertPresenceOfOptions("ddlView", "Default")
-                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "Full name", "Username"
+                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
                         , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
                 .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
@@ -1170,7 +1170,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -1349,7 +1349,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", false);
+                .validateSearchBy("User name", false);
     }
 
     @Test
@@ -1357,7 +1357,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", true);
+                .validateSearchBy("User name", true);
     }
 
     @Test
@@ -1365,7 +1365,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", false);
+                .validateSearchBy("User login", false);
     }
 
     @Test
@@ -1373,7 +1373,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", true);
+                .validateSearchBy("User login", true);
     }
 
     @Test
@@ -1825,7 +1825,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
-                .selectBranch("Device.DemoLocation.1")
+                .selectBranch("Device.Location.1")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(SEND_UPDATE)
@@ -1842,7 +1842,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
-                .selectBranch("Device.DemoLocation.1")
+                .selectBranch("Device.Location.1")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(WAIT_UNTIL_CONNECT)
@@ -1860,7 +1860,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .enterToDevice()
                 .clearDeviceActivity()
                 .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
-                .selectBranch("Device.DemoLocation.1")
+                .selectBranch("Device.DeviceInfo.FirmwareImage.0")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(ADD_TO_PROVISION)

@@ -20,7 +20,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems");
+                .assertTableHasContent("tblItems")
+                .createPreconditions();
     }
 
     @Test
@@ -52,7 +53,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateSorting("Model name")
                 .validateSorting("Name")
                 .validateSorting("Created")
-//                .checkSorting("Creator")
+                .validateSorting("Creator")
                 .validateSorting("Version");
     }
 
@@ -158,7 +159,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Not Active")
-                .assertProfileIsActive(false);
+                .assertMentionedProfileStateIs("Not active");
     }
 
     @Test
@@ -172,7 +173,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .assertProfileIsActive(true);
+                .assertMentionedProfileStateIs("Active");
     }
 
     @Test//swapped with 17
@@ -207,7 +208,6 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setParameter(null, 1)
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE)
                 .fillName()
-                .pause(1000)
                 .assertButtonsAreEnabled(true, SAVE_AND_ACTIVATE, SAVE, CANCEL)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
@@ -222,7 +222,6 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName(false)
-                .pause(1000)
                 .addDeviceWithoutTemplate()
                 .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
@@ -269,7 +268,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertMainPageIsDisplayed()
                 .selectProfileStatus("All")
-                .assertProfileIsActive(false, getTestName());
+                .assertCurrentProfileStateIs("Not active");
     }
 
     @Test
@@ -346,12 +345,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -373,12 +373,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(false, true);
+                .validateApplyingProfile(false, true);
     }
 
     @Test   // depends on 026
@@ -561,7 +562,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateEvents();
     }
 
-    @Test   //bug: editing profile events causes an erase of all events.
+    @Test
     public void usp_dp_040() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -588,6 +589,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setEvent(new Event("Boot!", false, "2", null), true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
+                .selectBranch("Device.Location.1")
                 .setParameter("Longitude", VALUE, "1234")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -611,7 +613,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -634,7 +636,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -647,7 +649,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Boot!", "Action", "Factory reset");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_044() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -657,8 +659,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("0")
+                .selectAction("Onboard request", "0")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -671,7 +672,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 0");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void usp_dp_045() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -681,8 +682,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("1")
+                .selectAction("Onboard request", "1")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -695,7 +695,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 1");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_046() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -705,8 +705,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("3")
+                .selectAction("Onboard request", "3")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -729,7 +728,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -753,6 +752,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setEvent(new Event("DUStateChange!", false, "2", null), true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
+                .selectBranch("Device.Location.1")
                 .setParameter("Longitude", VALUE, "1234")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -776,7 +776,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -799,7 +799,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -812,7 +812,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("DUStateChange!", "Action", "Factory reset");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_051() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -822,8 +822,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("0")
+                .selectAction("Onboard request", "0")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -836,7 +835,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 0");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void usp_dp_052() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -846,8 +845,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("1")
+                .selectAction("Onboard request", "1")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -860,7 +858,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 1");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_053() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -870,8 +868,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("3")
+                .selectAction("Onboard request", "3")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -894,7 +891,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -918,6 +915,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setEvent(new Event("Periodic!", false, "2", null), true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
+                .selectBranch("Device.Location.1")
                 .setParameter("Longitude", VALUE, "1234")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -941,7 +939,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -964,7 +962,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -977,7 +975,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Periodic!", "Action", "Factory reset");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_058() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -987,8 +985,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("0")
+                .selectAction("Onboard request", "0")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1001,7 +998,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 0");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void usp_dp_059() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1011,8 +1008,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("1")
+                .selectAction("Onboard request", "1")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1025,7 +1021,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 1");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_060() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1035,8 +1031,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("3")
+                .selectAction("Onboard request", "3")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1059,7 +1054,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1083,6 +1078,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setEvent(new Event("Timer!", false, "2", null), true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
+                .selectBranch("Device.Location.1")
                 .setParameter("Longitude", VALUE, "1234")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1106,7 +1102,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "3", null), true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1129,7 +1125,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1142,7 +1138,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Timer!", "Action", "Factory reset");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_065() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1152,8 +1148,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("0")
+                .selectAction("Onboard request", "0")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1166,7 +1161,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 0");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void usp_dp_066() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1176,8 +1171,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("1")
+                .selectAction("Onboard request", "1")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1190,7 +1184,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 1");
     }
 
-    @Test   //bug: Save button doesn't work with several RB on 'Action' page;
+    @Test   //bug: device may not have that instance
     public void usp_dp_067() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1200,8 +1194,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .sendOnBoardRequestRadioButton()
-                .selectInstance("3")
+                .selectAction("Onboard request", "3")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1224,7 +1217,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1416,6 +1409,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Set parameter value")
                 .clickOn("btnAdvancedView_btn")
+                .selectBranch("Device.Location.1")
                 .setParameter("Longitude", VALUE, "1234")
                 .saveTaskButton()
                 .saveTaskButton()
@@ -1439,7 +1433,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Monitoring")
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Action")
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1452,7 +1446,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateAddedMonitorAction(null, "Action", "Reboot");
     }
 
-    @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    @Test
     public void usp_dp_081() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1469,7 +1463,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test   //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    @Test
     public void usp_dp_082() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1477,7 +1471,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .selectMainTab("Download file")
-                .downloadManualImageFile("Firmware Image")
+                .downloadManually("Firmware Image")
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
@@ -1524,12 +1518,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test   //duplicate with 026
@@ -1551,12 +1546,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
 //                .selectProfileStatus("Active")
-                .validateTargetDevice(false, true);
+                .validateApplyingProfile(false, true);
     }
 
     @Test
@@ -1578,11 +1574,12 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1605,12 +1602,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1632,12 +1630,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1659,12 +1658,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1687,12 +1687,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1714,12 +1715,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1741,12 +1743,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1769,12 +1772,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1796,12 +1800,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1823,12 +1828,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1851,12 +1857,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1878,12 +1885,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
     @Test
@@ -1905,12 +1913,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
+                .selectBranch("Device.Location.1")
                 .setParameter(-1)
                 .fillName()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
-                .validateTargetDevice(true, true);
+                .validateApplyingProfile(true, true);
     }
 
 //  tests 102-104 are skipped due to "DeviceSummary" is absent from dropdown list
@@ -2008,14 +2017,5 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName());
-    }
-
-
-
-    @Test
-    public void usp_dp_999() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .deleteAllProfiles();
     }
 }

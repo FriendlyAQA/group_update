@@ -16,7 +16,9 @@ import java.io.File;
 import java.util.*;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
+import static com.friendly.aqa.entities.TopMenu.MONITORING;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+import static com.friendly.aqa.pageobject.MonitoringPage.Left.NEW;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByManufacturer;
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByModelName;
 
@@ -34,7 +36,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage bottomMenu(BottomButtons button) {
-        clickGlobalButtons(button);
+        clickBottomButton(button);
         return this;
     }
 
@@ -148,6 +150,18 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.selectItem(groupName);
     }
 
+    public void createPreconditions() {
+        topMenu(MONITORING)
+                .deleteAllMonitors()
+                .deleteAllCustomViews()
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .deleteAllGroups();
+    }
+
     public MonitoringPage enterIntoMonitoring(String itemName) {
         return (MonitoringPage) super.enterIntoItem(itemName);
     }
@@ -161,9 +175,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage addModelButton() {
-        addModelButton.click();
-        waitForUpdate();
-        return this;
+        return (MonitoringPage) clickButton(addModelButton);
     }
 
     public MonitoringPage addAnotherModel() {
@@ -191,7 +203,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public void setParametersFor2Devices(boolean theSameParameter) {
-        int param0 = 0, param1 = -1;
+        int params0 = 0, params1 = 0;
         Set<String> tabSet1 = new HashSet<>(getTabTable().getNotEmptyContentList());
         Table devTable = getTable("tblModels");
         String[] devices = devTable.getWholeColumn(0);
@@ -201,32 +213,38 @@ public class MonitoringPage extends BasePage {
         tabSet0.retainAll(tabSet1);
         tabSet0.remove("Summary");
         tabSet0.removeIf(cell -> cell.startsWith("Devices:"));
-        getTabTable().clickOn(tabSet0.iterator().next());
-        waitForUpdate();
-        String[] dev0 = getParamTable().getColumn(0);
-        waitForUpdate();
-        if (tabSet0.isEmpty()){
+        Iterator<String> tabIterator = tabSet0.iterator();
+        if (tabSet0.isEmpty()) {
             throw new AssertionError("Cannot find suitable (the same) tab for both devices!");
         }
-        devTable.clickOn(1,0);
-        String[] dev1 = getParamTable().getColumn(0);
         out:
-        for (int i = 0; i < dev0.length; i++) {
-            param0 = i + 1;
-            for (int j = 0; j < dev1.length; j++) {
-                if (dev0[i].equals(dev1[j]) == theSameParameter) {
-                    param1 = j + 1;
-                    break out;
+        while (tabIterator.hasNext()) {
+            getTabTable().clickOn(tabIterator.next());
+            waitForUpdate();
+            String[] dev0 = getParamTable().getColumn(0);
+            waitForUpdate();
+            devTable.clickOn(1, 0);
+            waitForUpdate();
+            String[] dev1 = getParamTable().getColumn(0);
+            for (int i = 0; i < dev0.length; i++) {
+                params0 = i + 1;
+                for (int j = 0; j < dev1.length; j++) {
+                    if (dev0[i].equals(dev1[j]) == theSameParameter) {
+                        params1 = j + 1;
+                        break out;
+                    }
                 }
             }
+            if (/*params1 < 0 && */!tabIterator.hasNext()) {
+                throw new AssertionError("Cannot find suitable parameters!");
+            }
+            devTable.clickOn(0, 0);
+            waitForUpdate();
         }
-        if (param1 < 0) {
-            throw new AssertionError("Cannot find suitable parameters!");
-        }
-        String hint2 = getParamTable().clickOn(param1, 1, 0).getHint(param1);
+        String hint2 = getParamTable().clickOn(params1, 1, 0).getHint(params1);
         getTable("tblModels").clickOn(0, 0);
         waitForUpdate();
-        String hint1 = getParamTable().clickOn(param0, 1, 0).getHint(param0);
+        String hint1 = getParamTable().clickOn(params0, 1, 0).getHint(params0);
         immediately();
         bottomMenu(SAVE);
         okButtonPopUp();
@@ -691,6 +709,9 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage deleteAllMonitors() {
+        if (getMainTable().isEmpty()) {
+            return this;
+        }
         if (elementIsPresent("btnPager2")) {
             selectComboBox(itemsOnPageComboBox, "200");
             waitForUpdate();

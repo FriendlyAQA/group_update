@@ -11,13 +11,13 @@
 			<ProductGroup>
 				<Manufacturer>AudioCodes</Manufacturer>
 				<ModelName>MP252</ModelName>
-				<ProtocolId>TR069</ProtocolId>
+				<ProtocolType>TR069</ProtocolType>
 			</ProductGroup>
 			<applyForNew>true</applyForNew>
 			<Params>
 				<Param>
 					<FullName>InternetGatewayDevice.DeviceInfo.UpTime</FullName>
-				</Param>
+					<isTemporary>false</isTemporary>				</Param>
 			</Params>
 		</MonitorParam>
 	</ChildMonirorings>

@@ -22,8 +22,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     1. Before run you should delete all view and custom view (Search) with name like 'mqtt_du_011', 'mqtt_du_067' (starts with mqtt_) etc.;
     2. Devices (emul) must run, (emul restart);
     3. Trace for target device must be stopped (mqtt_du_135);
-    4. At least one active profile for target device must exist (mqtt_du_134);
-    5. All files for Download tasks must be added to server.
+    4. All files for Download tasks must be added to server.
     */
     @Test
     public void mqtt_du_001() {
@@ -417,7 +416,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //bug: Serials with underlines cause incorrect sorting
     public void mqtt_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -444,7 +443,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("mqtt_du_014")
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -691,7 +690,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
                 .assertPresenceOfOptions("ddlView", "Default")
-                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "Full name", "Username"
+                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
                         , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
                 .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
@@ -1134,7 +1133,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //bug: Serials with underlines cause incorrect sorting
     public void mqtt_du_089() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1147,7 +1146,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateSorting("Serial");
     }
 
-    @Test   //Bug: column "Status" is absent from search view settings list; (bug in STD?)
+    @Test
     public void mqtt_du_090() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1170,7 +1169,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -1349,7 +1348,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", false);
+                .validateSearchBy("User name", false);
     }
 
     @Test
@@ -1357,7 +1356,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", true);
+                .validateSearchBy("User name", true);
     }
 
     @Test
@@ -1365,7 +1364,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", false);
+                .validateSearchBy("User login", false);
     }
 
     @Test
@@ -1373,7 +1372,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", true);
+                .validateSearchBy("User login", true);
     }
 
     @Test

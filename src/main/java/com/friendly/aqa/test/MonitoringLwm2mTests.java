@@ -17,10 +17,16 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
 * Devices (emuls) MAY NOT run;
+* At least 3 devices with different serials MUST BE registered for current model name;
 */
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringLwm2mTests extends BaseTestCase {
+
+    @Test
+    public void lwm2m_mo_000() {
+        monPage.createPreconditions();
+    }
 
     @Test
     public void lwm2m_mo_001() {
@@ -43,14 +49,12 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
-                .deleteAllMonitors()
-                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
-                .assertButtonsAreEnabled(false, ACTIVATE, STOP, STOP_WITH_RESET, DELETE)
+                .assertButtonsAreEnabled(false, ACTIVATE, STOP, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH);
     }
 
@@ -207,7 +211,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -648,15 +652,15 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .waitForStatus("Running", "lwm2m_mo_041");
     }
 
-    @Test
-    public void lwm2m_mo_044() {    //is dependent on #041
-        monPage
-                .topMenu(MONITORING)
-                .selectItem("lwm2m_mo_041")
-                .bottomMenu(STOP_WITH_RESET)
-                .okButtonPopUp()
-                .waitForStatus("Not active", "lwm2m_mo_041");
-    }
+//    @Test
+//    public void lwm2m_mo_044() {    //is dependent on #041
+//        monPage
+//                .topMenu(MONITORING)
+//                .selectItem("lwm2m_mo_041")
+//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
+//                .okButtonPopUp()
+//                .waitForStatus("Not active", "lwm2m_mo_041");
+//    }
 
     @Test
     public void lwm2m_mo_045() {
@@ -962,7 +966,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_064() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllCustomViews()
+//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -1075,7 +1079,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()
+//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -1191,7 +1195,6 @@ public class MonitoringLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_mo_081() {
-        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)

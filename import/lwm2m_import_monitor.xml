@@ -11,13 +11,13 @@
 			<ProductGroup>
 				<Manufacturer>Friendly</Manufacturer>
 				<ModelName>Friendly LWM2M hub</ModelName>
-				<ProtocolId>LWM2M</ProtocolId>
+				<ProtocolType>LWM2M</ProtocolType>
 			</ProductGroup>
 			<applyForNew>true</applyForNew>
 			<Params>
 				<Param>
 					<FullName>Root.Device.0.Timezone</FullName>
-				</Param>
+					<isTemporary>false</isTemporary>				</Param>
 			</Params>
 		</MonitorParam>
 	</ChildMonirorings>

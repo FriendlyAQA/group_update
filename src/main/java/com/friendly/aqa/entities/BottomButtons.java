@@ -19,7 +19,7 @@ public enum BottomButtons implements IBottomButtons {
     SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
     SIMPLE_VIEW("btnView_btn"),
     STOP("btnStop_btn"),
-    STOP_WITH_RESET("btnStopWithReset_btn");
+    /*STOP_WITH_RESET("btnStopWithReset_btn")*/;  //this button is no longer displayed (BT item #9766)
 
     BottomButtons(String id) {
         this.id = id;

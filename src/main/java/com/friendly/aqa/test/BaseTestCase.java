@@ -6,6 +6,7 @@ import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -40,6 +41,7 @@ public abstract class BaseTestCase {
     static {
         props = BasePage.getProps();
         logger = Logger.getLogger(BaseTestCase.class);
+        PropertyConfigurator.configure("resources/log4j.properties");   //for launch without Controller from Idea
         System.setProperty("video.folder", "video");
         System.setProperty("video.mode", "ALL");
     }
@@ -80,6 +82,7 @@ public abstract class BaseTestCase {
             try {
                 BasePage.takeScreenshot("screenshots/" + result.getName() + ".png");
                 logger.error(result.getName() + " - FAILED");
+                logger.error(result.getThrowable()/*.getMessage()*/);    //!!????
                 if (controller != null) {
                     controller.testFailed(testName);
                 }

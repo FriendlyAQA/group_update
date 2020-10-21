@@ -20,8 +20,8 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'lwm2m_du_011', 'lwm2m_du_067' (starts with lwm2m_) etc.;
     2. Devices (emul) must run;
-    3. Trace for target device must be stopped (lwm2m_du_135);
-    4. At least one active profile for target device must exist (lwm2m_du_134);
+    3. Trace for target device must be stopped (tr069_du_135);
+    4. At least one active profile for target device must exist (tr069_du_134);
     5. All files for Download and Upload tasks must be added to server.
     */
     @Test
@@ -246,7 +246,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .createPreconditionsForSorting();
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_016() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -256,7 +256,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Created");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_017() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -266,7 +266,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Firmware");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_018() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -276,7 +276,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Latitude");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_019() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -286,7 +286,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Longitude");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_020() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -296,7 +296,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Manufacturer");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_021() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -306,7 +306,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Model name");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_022() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -316,7 +316,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust03");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_023() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -326,7 +326,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust04");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_024() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -336,7 +336,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust05");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_025() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -346,7 +346,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust06");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_026() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -356,7 +356,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust07");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_027() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -366,7 +366,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust08");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_028() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -376,7 +376,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust09");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_029() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -386,7 +386,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("mycust10");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_030() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -396,7 +396,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("OUI");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_031() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -407,7 +407,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     }
 
     @Test   //bug: sorting by 'Protocol type' failed;
-    public void tr069_du_032() {
+    public void tr069_du_032() {   //depends on 14
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
@@ -416,7 +416,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -426,7 +426,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Serial");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_034() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -436,17 +436,17 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Status");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_035() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
                 .selectView("tr069_du_014")
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_036() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -456,7 +456,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User ID");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_037() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -466,7 +466,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User location");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_038() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -476,7 +476,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User login");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_039() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -486,7 +486,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User name");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_040() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -497,7 +497,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User status");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_041() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -507,7 +507,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("User tag");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_042() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -524,7 +524,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .assertChangingView();
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_044() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -534,7 +534,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .assertSelectedViewIs("tr069_du_014");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_045() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -569,7 +569,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateFiltering("Manufacturer");
     }
 
-    @Test
+    @Test   //depends on 14
     public void tr069_du_048() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -578,7 +578,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .assertTableColumnNumberIs(7, "tbl");
     }
 
-    @Test
+    @Test   //depends on 11
     public void tr069_du_049() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -690,7 +690,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
                 .assertPresenceOfOptions("ddlView", "Default")
-                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "Full name", "Username"
+                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
                         , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
                 .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
@@ -1168,7 +1168,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
                 .searchButton()
-                .validateSorting("Updated");
+                .validateSorting("Last connection");
     }
 
     @Test
@@ -1347,7 +1347,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", false);
+                .validateSearchBy("User name", false);
     }
 
     @Test
@@ -1355,7 +1355,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Full name", true);
+                .validateSearchBy("User name", true);
     }
 
     @Test
@@ -1363,7 +1363,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", false);
+                .validateSearchBy("User login", false);
     }
 
     @Test
@@ -1371,7 +1371,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .validateSearchBy("Username", true);
+                .validateSearchBy("User login", true);
     }
 
     @Test
@@ -2547,6 +2547,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .defaultUploadRadioButton()
                 .bottomMenu(START)
                 .okButtonPopUp()
+                .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateUploadFileTasks();
     }
@@ -2562,6 +2563,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .manualUrlRButton()
                 .fillUploadUrl()
                 .bottomMenu(START)
+                .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
                 .validateDownloadFileTasks();
@@ -2932,7 +2934,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .assertTableHasContent("tblParameters");    //extra spaces obstruct correctly request validation.
+                .assertTableHasContent("tbl");    //extra spaces obstruct correctly request validation.
     }
 
     @Test

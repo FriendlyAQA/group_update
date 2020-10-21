@@ -255,10 +255,10 @@ public abstract class BasePage {
     @FindBy(id = "tbUrl")
     protected WebElement uploadUrlField;
 
-    @FindBy(id = "UcFirmware1_tbLogin")
+    @FindBy(id = "UcFirmware1_tbLo_gin")
     protected WebElement userNameField;
 
-    @FindBy(id = "UcFirmware1_tbPass")
+    @FindBy(id = "UcFirmware1_tbPa_ss")
     protected WebElement passwordField;
 
     @FindBy(id = "ddlTasks")
@@ -285,7 +285,7 @@ public abstract class BasePage {
     @FindBy(id = "rdUrlUpload")
     protected WebElement manuallyUrlRadioButton;
 
-    @FindBy(id = "tbLogin")
+    @FindBy(id = "tbLo_gin")
     protected WebElement userNameUploadField;
 
     @FindBy(id = "ddlDiagnostics")
@@ -358,8 +358,7 @@ public abstract class BasePage {
     }
 
     public BasePage newViewButton() {
-        newViewButton.click();
-        return this;
+        return clickButton(newViewButton);
     }
 
     public BasePage deleteAllCustomViews() {
@@ -387,7 +386,6 @@ public abstract class BasePage {
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
             String warn = value + " type is not supported by current device!";
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -409,7 +407,28 @@ public abstract class BasePage {
 
     public BasePage rebootRadioButton() {
         waitForUpdate();
-        rebootRadioButton.click();
+        Table table = getTable("tblActions");
+        table.getInput(table.getRowNumberByText("Reboot"), 1).click();
+        return this;
+    }
+
+    public BasePage selectAction(String action) {
+        return selectAction(action, null);
+    }
+
+    public BasePage selectAction(String action, String instance) {
+        waitForUpdate();
+        Table table = getTable("tblActions");
+        int row = table.getRowNumberByText(action);
+        table.getInput(row, 1).click();
+        WebElement select = table.getSelect(row, 0);
+        if (select != null) {
+            if (instance == null) {
+                List<String> options = getOptionList(select);
+                instance = options.get(options.size() - 1);
+            }
+            selectComboBox(select, instance);
+        }
         return this;
     }
 
@@ -425,22 +444,20 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage resetErrors() {//
+    public BasePage resetErrors() {
         waitForUpdate();
         resetErrors.click();
         return this;
     }
 
-    public BasePage disableRadiobutton() {//
+    public BasePage disableRadiobutton() {
         waitForUpdate();
         disableRadiobutton.click();
         return this;
     }
 
     public BasePage editButton() {
-        editButton.click();
-        waitForUpdate();
-        return this;
+        return clickButton(editButton);
     }
 
     public BasePage radioRegistrationUpdateTrigger() {//
@@ -564,13 +581,11 @@ public abstract class BasePage {
     }
 
     public BasePage addFilter() {
-        addFilterButton.click();
-        return this;
+        return clickButton(addFilterButton);
     }
 
     public BasePage addSubFilter() {
-        addSubFilterButton.click();
-        return this;
+        return clickButton(addSubFilterButton);
     }
 
     public BasePage immediately() {
@@ -619,7 +634,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertCheckboxesAreSelected(String tableId, boolean expectedState, int column, int... rows) {
+    public BasePage assertCheckboxesAreSelected(String tableId, boolean expectedState, int column, int... rows) {//negative row = from |row| till end of table
         Table table = new Table(tableId);
         for (int row : rows) {
             if (row < 0) {
@@ -636,8 +651,7 @@ public abstract class BasePage {
     }
 
     public BasePage deleteFilter() {
-        deleteFilterButton.click();
-        return this;
+        return clickButton(deleteFilterButton);
     }
 
     public BasePage getParameter(int row, int column) {
@@ -737,7 +751,7 @@ public abstract class BasePage {
     }
 
     public BasePage bottomMenu(IBottomButtons button) {
-        clickGlobalButtons(button);
+        clickBottomButton(button);
         return this;
     }
 
@@ -878,6 +892,17 @@ public abstract class BasePage {
 
     public WebElement showPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
+        new Thread(() -> {
+            try {
+                pause(200);
+                setImplicitlyWait(0);
+                ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px'", element);
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
+//                System.out.println(e.getClass().getSimpleName());
+            } finally {
+                setDefaultImplicitlyWait();
+            }
+        }).start();
         return element;
     }
 
@@ -910,21 +935,23 @@ public abstract class BasePage {
         return this;
     }
 
-    void leftMenuClick(String value) {
-        for (WebElement we : leftMenuTable.findElements(By.cssSelector(getLeftMenuCssSelector()))) {
-            WebElement item = we.findElement(By.tagName("td"));
-            if (item.getText().equals(value)) {
-                item.click();
-            }
-        }
-    }
+//    void leftMenuClick(String value) {
+//        for (WebElement we : leftMenuTable.findElements(By.cssSelector(getLeftMenuCssSelector()))) {
+//            WebElement item = we.findElement(By.tagName("td"));
+//            if (item.getText().equals(value)) {
+////                item.click();
+//                clickButton(item);
+//            }
+//        }
+//    }
 
     public BasePage leftMenu(ILeft item) {
         switchToFrame(ROOT);
         try {
             Table table = getTable("tblLeftMenu");
             List<Integer> list = table.getRowsWithText(item.getValue());
-            table.clickOn(list.get(0), 0);
+//            table.clickOn(list.get(0), 0);
+            showPointer(table.getCellWebElement(list.get(0), 0)).click();
         } catch (ElementNotInteractableException | IndexOutOfBoundsException e) {
             throw new AssertionError("Left menu item '" + item + "' not found on current page!");
         }
@@ -937,7 +964,7 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (okButtonAlertPopUp.isDisplayed()) {
-            okButtonAlertPopUp.click();
+            showPointer(okButtonAlertPopUp).click();
             waitForUpdate();
         }
         while (okButtonPopUp.isDisplayed()) {
@@ -982,23 +1009,19 @@ public abstract class BasePage {
     }
 
     public BasePage upButton() {
-        upButton.click();
-        return this;
+        return clickButton(upButton);
     }
 
     public BasePage downButton() {
-        downButton.click();
-        return this;
+        return clickButton(downButton);
     }
 
     public BasePage topButton() {
-        topButton.click();
-        return this;
+        return clickButton(topButton);
     }
 
     public BasePage bottomButton() {
-        bottomButton.click();
-        return this;
+        return clickButton(bottomButton);
     }
 
     public BasePage assertPresenceOfElements(String... ids) {
@@ -1007,7 +1030,6 @@ public abstract class BasePage {
             List<WebElement> list = findElements(id);
             if (list.size() == 0) {
                 String warn = "Element with id='" + id + "' not found on current page";
-                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                 throw new AssertionError(warn);
             }
         }
@@ -1123,14 +1145,14 @@ public abstract class BasePage {
 
     public BasePage clickButton(WebElement button) {
         waitForUpdate();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             try {
                 new FluentWait<>(driver)
-                        .withMessage("Button '" + button + "' not found/not active")
+                        .withMessage("Button '#" + button.getAttribute("id") + "' not found/not active")
                         .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
-                        .until(ExpectedConditions.elementToBeClickable(button))
-                        .click();
+                        .until(ExpectedConditions.elementToBeClickable(button));
+                showPointer(button).click();
                 waitForUpdate();
                 return this;
             } catch (StaleElementReferenceException e) {
@@ -1140,7 +1162,7 @@ public abstract class BasePage {
         throw new AssertionError("cannot click button!");
     }
 
-    void clickGlobalButtons(IBottomButtons button) {    //TODO refactor
+    void clickBottomButton(IBottomButtons button) {    //TODO refactor
         waitForUpdate();
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
@@ -1148,24 +1170,24 @@ public abstract class BasePage {
             try {
                 new FluentWait<>(driver)
                         .withMessage("Button " + button + " was not active")
-                        .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
+                        .withTimeout(Duration.ofSeconds(2))
                         .pollingEvery(Duration.ofMillis(100))
-                        .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())))
-                        .click();
+                        .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())));
                 pause(200);
+                showPointer(findElement(button.getId())).click();
                 waitForUpdate();
                 return;
-            } catch (StaleElementReferenceException e) {
-                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+            } catch (StaleElementReferenceException | NoSuchElementException e) {
+                logger.info("Button " + button + " click failed. Try again...(" + (i + 1) + " attempt)");
             } finally {
                 switchToFrame(DESKTOP);
             }
         }
-        throw new AssertionError("cannot click button!");
+        throw new AssertionError("Cannot click button " + button);
     }
 
-    void clickGlobalButtons1(IBottomButtons button) {
-        waitForBottomMenuIsDownloaded();
+    void clickBottomButton1(IBottomButtons button) {
+        waitUntilBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
         new FluentWait<>(driver)
                 .ignoring(StaleElementReferenceException.class)//!
@@ -1178,7 +1200,7 @@ public abstract class BasePage {
         switchToFrame(DESKTOP);
     }
 
-    protected void waitForBottomMenuIsDownloaded() {
+    protected void waitUntilBottomMenuIsDownloaded() {
         waitForUpdate();
         switchToFrame(BOTTOM_MENU);
         Timer timer = new Timer();
@@ -1333,7 +1355,6 @@ public abstract class BasePage {
         String[] names = table.getColumn(0);
         if (names.length == 0) {
             String warn = "No one events was found!";
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         for (int i = 0; i < Math.min(amount, names.length); i++) {
@@ -1347,7 +1368,6 @@ public abstract class BasePage {
             String warn = "Events comparison error!";
             logger.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
             logger.warn('(' + BaseTestCase.getTestName() + ") " + "  actual:" + readEvents());
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -1367,7 +1387,7 @@ public abstract class BasePage {
         List<Integer> minusList = new ArrayList<>();
         setImplicitlyWait(0);
         for (int i = 0; i < table.getTableSize()[0]; i++) {
-            List<WebElement> images = table.getCellWebElement(i, 0).findElements(By.tagName("img"));
+            List<WebElement> images = scrollToElement(table.getCellWebElement(i, 0)).findElements(By.tagName("img"));
             if (!images.isEmpty()) {
                 if (images.get(0).getAttribute("src").endsWith("collapse.png")) {
                     minusList.add(i);
@@ -1378,7 +1398,9 @@ public abstract class BasePage {
         }
         setDefaultImplicitlyWait();
         if (plusList.isEmpty() || minusList.size() != 1 || minusList.get(0) != 0) {
-            throw new AssertionError("Object tree looks like corrupt...");
+            throw new AssertionError("Object tree looks like broken...\n" +
+                    "plusList.isEmpty:" + plusList.isEmpty() + "; minusList.size:" + minusList.size() +
+                    "; minusList.get(0):" + minusList.get(0));
         }
     }
 
@@ -1419,7 +1441,6 @@ public abstract class BasePage {
             waitUntilElementIsEnabled(button.getId());
         } catch (AssertionError e) {
             String warn = "Button '" + button + "' not found/not active";
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
         switchToPreviousFrame();
@@ -1438,7 +1459,6 @@ public abstract class BasePage {
         }
         if (!success) {
             String warn = "Element with id='" + id + "' not found/not active";
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
             throw new AssertionError(warn);
         }
     }
@@ -1635,6 +1655,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectBranch(String branch) {
+//        System.out.println(branch);
         waitForUpdate();
         List<String> nodeList = new ArrayList<>();
         Pattern p = Pattern.compile("(.+?(\\.\\d+)?)(\\.|$)");
@@ -1651,6 +1672,7 @@ public abstract class BasePage {
             WebElement cell = branchTable.getCellWebElement(rowNum, 0);
             List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
             if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
+//                System.out.println("click on node:" + node);
                 tagList.get(0).click();
             }
             tagList.get(tagList.size() - 1).click();    //edited 03.09.2020 due to tr181_du_194 failed
@@ -1724,9 +1746,9 @@ public abstract class BasePage {
 
     public void setPolicy(Table table, String policyName, IPolicy notification, IPolicy accessList) {
         int rowNum = table.getRowNumberByText(0, policyName);
-        if (rowNum < 0) {
-            throw new AssertionError("Policy name '" + policyName + "' not found");
-        }
+//        if (rowNum < 0) {
+//            throw new AssertionError("Policy name '" + policyName + "' not found");
+//        }
         WebElement notificationCell = table.getCellWebElement(rowNum, 1);
         WebElement accessListCell = table.getCellWebElement(rowNum, 2);
         if (BROWSER.equals("edge")) {
@@ -1814,7 +1836,6 @@ public abstract class BasePage {
             groupList = DataBaseConnector.getTaskList();
             if (groupList.isEmpty()) {
                 String warn = "There are no tasks created by '" + BaseTestCase.getTestName() + "' Group Update";
-                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                 throw new AssertionError(warn);
             }
             Set<String> StateSet = new HashSet<>();
@@ -1948,7 +1969,7 @@ public abstract class BasePage {
         return driver.findElement(By.xpath("//*[text() = '" + text + "']"));
     }
 
-    protected WebElement findElementByText(String outerElementId, String text) {
+    protected WebElement findElementByText(String parentElementId, String text) {
         List<WebElement> list = driver.findElements(By.xpath("//*[text() = '" + text + "']"));
         return list.get(list.size() - 1);
     }
@@ -1978,8 +1999,9 @@ public abstract class BasePage {
                     pointer = table.getCellWebElement(0, colNum).findElement(By.tagName("img"));
                 } catch (NoSuchElementException e) {
                     System.out.println("Sorting arrow not found!");
-                    if (!timer.timeout())
+                    if (!timer.timeout()) {
                         i--;
+                    }
                     table.clickOn(0, colNum);//!
                     continue;
                 }
@@ -1993,7 +2015,6 @@ public abstract class BasePage {
                     System.out.println("Found   :" + Arrays.toString(arr2));
                     String warn = "sorting by column '" + column + "' failed!";
                     warn = (descending ? "Descending " : "Ascending ") + warn;
-                    logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                     throw new AssertionError(warn);
                 }
                 System.out.println((descending ? "Descending " : "Ascending ") + "sorting by column '" + column + "' is OK!");
@@ -2140,7 +2161,6 @@ public abstract class BasePage {
             if (!isFound) {
                 String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
                         + getSelectedOption(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
-                logger.warn('(' + BaseTestCase.getTestName() + ") " + warn);
                 throw new AssertionError("Expected Parameters Monitoring not found on current page!\n" + table.print());
             }
         });
@@ -2176,14 +2196,13 @@ public abstract class BasePage {
                     }
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(e.getMessage());
+                System.out.println("ArrayIndexOutOfBoundsException:" + e.getMessage());
             }
         }
         if (!match) {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
             table.print();
             scrollTo(table.getCellWebElement(table.getTableSize()[0] - 1, 0));
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + warning);
             throw new AssertionError(warning);
         }
         return this;

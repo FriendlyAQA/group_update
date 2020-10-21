@@ -134,6 +134,7 @@ public class DataBaseConnector {
 
     public static Set<String> getDeviceProfileNameSetByStatus(String status) {
         String query = "SELECT name FROM ftacs.profile WHERE is_active='" + (status.equals("Active") ? "1" : "0") + "'";
+        System.out.println(query);
         return getValueSet(query);
     }
 
@@ -305,9 +306,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        Set<String> set = getValueSet("SELECT value FROM `ftacs`.`cpe_parameter` WHERE name_id IN (SELECT id FROM `ftacs`.`cpe_parameter_name` WHERE name LIKE '%.MACAddress') AND cpe_id = '" + getDeviceId(BasePage.getSerial()) + "';");
-        set.removeIf(String::isEmpty);
-        System.out.println(set.iterator().next());
+        System.out.println("'"+getValue("SELECT id from ftacs.profile WHERE name = 'usp_dp_031';")+"'");
         disconnectDb();
     }
 

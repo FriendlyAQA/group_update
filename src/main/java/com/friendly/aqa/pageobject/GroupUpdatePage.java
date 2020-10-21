@@ -624,7 +624,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage bottomMenu(BottomButtons button) {
-        clickGlobalButtons(button);
+        clickBottomButton(button);
         return this;
     }
 
@@ -634,11 +634,12 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage leftMenu(Left item) {
-        switchToFrame(ROOT);
-        leftMenuClick(item.getValue());
-        waitForUpdate();
-        switchToFrame(DESKTOP);
-        return this;
+//        switchToFrame(ROOT);
+//        leftMenuClick(item.getValue());
+//        waitForUpdate();
+//        switchToFrame(DESKTOP);
+//        return this;
+        return (GroupUpdatePage) super.leftMenu(item);
     }
 
     public GroupUpdatePage createGroupButton() {
@@ -1314,7 +1315,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
 
-    public enum Left {
+    public enum Left implements ILeft {
         VIEW("View"), IMPORT("Import"), NEW("New");
         private String value;
 
