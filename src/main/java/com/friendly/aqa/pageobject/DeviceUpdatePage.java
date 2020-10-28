@@ -123,11 +123,8 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "lblNoReprovisionFound")
     private WebElement noProvision;
 
-
-    @Override
-    protected String getLeftMenuCssSelector() {
-        return null;
-    }
+    @FindBy(id = "tbl")
+    private WebElement mainTable;
 
     @Override
     public String getMainTableId() {
@@ -139,10 +136,10 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.topMenu(value);
     }
 
-    @Override
     public DeviceUpdatePage assertMainPageIsDisplayed() {
-        assertPresenceOfElements("tbl");
-        return (DeviceUpdatePage) super.assertMainPageIsDisplayed();
+        assertElementsAreEnabled(mainTable, filterViewComboBox, filterManufacturerComboBox, filterModelNameComboBox,
+                editButton, newViewButton, resetViewButton);
+        return this;
     }
 
     @Override
@@ -170,20 +167,14 @@ public class DeviceUpdatePage extends BasePage {
             throw new AssertionError("There's no suitable port to select!");
         }
         table.clickOn(row, 0, 0);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put(table.getCellText(row, "Internal port"), table.getCellText(row, "Protocol"));
+        getParameterMap().put(table.getCellText(row, "Internal port"), table.getCellText(row, "Protocol"));
         return this;
     }
 
     public DeviceUpdatePage selectRPC() {
         Table table = getTable("tblParameters");
         table.clickOn(1, 0, 0);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put(table.getCellText(1, "Parameter name"), table.getCellText(1, "Request"));
+        getParameterMap().put(table.getCellText(1, "Parameter name"), table.getCellText(1, "Request"));
         return this;
     }
 
@@ -223,8 +214,8 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public DeviceUpdatePage setViewColumns(int startParam, int endParam) {
-        return (DeviceUpdatePage) super.setViewColumns(startParam, endParam);
+    public DeviceUpdatePage setVisibleColumns(int startParam, int endParam) {
+        return (DeviceUpdatePage) super.setVisibleColumns(startParam, endParam);
     }
 
     @Override
@@ -467,7 +458,7 @@ public class DeviceUpdatePage extends BasePage {
                 Table table = new Table("tblUserInfo");
                 if (!table.isEmpty()) {
                     try {
-                        int rowNum = table.getRowNumberByText(0, parameter);
+                        int rowNum = table.getFirstRowWithText(0, parameter);
                         if (table.getCellText(rowNum, 1).equals(value)) {
                             return this;
                         }
@@ -569,8 +560,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage enterToDevice(String serial, Table table) {
         if (!table.contains(serial)) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
+            itemsOnPage("200");
             table = getMainTable();
         }
         table.clickOn(serial);
@@ -594,20 +584,16 @@ public class DeviceUpdatePage extends BasePage {
         return enterToDevice(getSerial(), getMainTable());
     }
 
+    @Override
     public DeviceUpdatePage deselectCheckbox(String id) {
         WebElement checkbox = findElement(id);
-        if (checkbox.isSelected()) {
-            checkbox.click();
-        }
-        return this;
+        return (DeviceUpdatePage) forceCheckboxState(false, checkbox);
     }
 
+    @Override
     public DeviceUpdatePage selectCheckbox(String id) {
         WebElement checkbox = findElement(id);
-        if (!checkbox.isSelected()) {
-            checkbox.click();
-        }
-        return this;
+        return (DeviceUpdatePage) forceCheckboxState(false, checkbox);
     }
 
     public void setUserInfo(String paramName, String value) {
@@ -615,7 +601,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void setUserInfo(Table table, String paramName, String value) {
-        int rowNum = table.getRowNumberByText(0, paramName);
+        int rowNum = table.getFirstRowWithText(0, paramName);
         if (rowNum < 0) {
             throw new AssertionError("Parameter name '" + paramName + "' not found");
         }
@@ -640,11 +626,8 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage setParameter(String parameter, String value) {
         waitUntilButtonIsEnabled(GET_CURRENT_SETTINGS); //!
         Table table = getTable("tblParamsTable");
-        int rowNum = table.getRowNumberByText(parameter);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = table.getHint(rowNum);
+        int rowNum = table.getFirstRowWithText(parameter);
+        String hint = table.getHint(parameter);
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
         if (value != null) {
             waitForUpdate();
@@ -652,7 +635,7 @@ public class DeviceUpdatePage extends BasePage {
             input.clear();
             input.sendKeys(value);
         }
-        parameterMap.put(hint, value);
+        getParameterMap().put(hint, value);
         if (!BROWSER.equals("edge")) {
             table.clickOn(0, 0);
         }
@@ -861,10 +844,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         for (String[] strings : opt) {
             if (option.equalsIgnoreCase(strings[0])) {
-                if (elementIsPresent("pager2_tblPager")) {
-                    selectComboBox(itemsOnPageComboBox, "200");
-                    waitForUpdate();
-                }
+                itemsOnPage("200");
                 Map<String, Set<String>> dbDeviceMap = DataBaseConnector.getCustomDeviceInfoByColumn(strings[1], exactMatch);
                 if (dbDeviceMap != null && !dbDeviceMap.isEmpty()) {
                     String key = dbDeviceMap.keySet().iterator().next();
@@ -933,7 +913,7 @@ public class DeviceUpdatePage extends BasePage {
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.invisibilityOf(findElement("divCheckStatusProgress")));
-        assertPresenceOfElements("btnReCheck_img");
+        assertElementsArePresent("btnReCheck_img");
     }
 
     public void assertLastActivityIs(String activity) {
@@ -971,14 +951,14 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertReplaceWindowIsOpened() {
         switchToFrame(POPUP);
-        assertPresenceOfElements("lblReplaceCpeHeader");
+        assertElementsArePresent("lblReplaceCpeHeader");
         cancelButton.click();
         switchToPreviousFrame();
     }
 
     private void deviceInfoFakeLink(String link) {
         Table table = getTable("tblDeviceInfo");
-        int row = table.getRowNumberByText(0, link);
+        int row = table.getFirstRowWithText(0, link);
         table.clickOn(row, 1, 0);
     }
 
@@ -994,7 +974,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage assertMapIsPresent() {
         switchToFrame(POPUP);
-        assertPresenceOfElements("tblBig");
+        assertElementsArePresent("tblBig");
         switchToPreviousFrame();
         return this;
     }
@@ -1008,13 +988,10 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     private void setParameter(Table table, String paramName, String value) {
-        int rowNum = table.getRowNumberByText(paramName);
+        int rowNum = table.getFirstRowWithText(paramName);
         int colNum = table.getColumnNumber(0, "Parameter value");
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = table.getHint(rowNum);
-        parameterMap.put(hint, value);
+        String hint = table.getHint(paramName);
+        getParameterMap().put(hint, value);
         WebElement input = null;
         WebElement select = null;
         setImplicitlyWait(0);
@@ -1087,7 +1064,7 @@ public class DeviceUpdatePage extends BasePage {
                 }
             }
             setDefaultImplicitlyWait();
-            String value = "";
+            String value;
             if (input != null) {
                 if (input.getAttribute("type").equals("text")) {
 //                    if (names[i].equalsIgnoreCase("password") || names[i].equalsIgnoreCase("KeyPassphrase")) {
@@ -1205,10 +1182,11 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateProvisionTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
-        }
+        validateTasks("tblItems", 4);
+//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            validateAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
+//        }
     }
 
     public void validateProvisionDownloadTasks() {
@@ -1240,11 +1218,12 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage validateDownloadFileTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
-        }
-        return this;
+        return (DeviceUpdatePage) validateTasks("tbl", 7);
+//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
+//        }
+//        return this;
     }
 
     public void validateUploadFileTasks() {
@@ -1273,53 +1252,45 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage selectFileName() {
-        waitForUpdate();
-        List<String> optList = getOptionList(fileNameComboBox);
-        String lastOpt = optList.get(optList.size() - 1);
-        selectComboBox(fileNameComboBox, lastOpt);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put("Download", props.getProperty("upload_url") + '/' + lastOpt);
-        return this;
+        return (DeviceUpdatePage) super.selectFileName("Download");
     }
 
     public DeviceUpdatePage defaultUploadRadioButton() {
         defaultUploadRButton.click();
         waitForUpdate();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String url = "^" + props.getProperty("upload_url") + '/' + DataBaseConnector.getGroupId(getSerial())
+        String url = "^" + props.getProperty("file_server") + DataBaseConnector.getGroupId(getSerial())
                 + '_' + getSerial() + '_' + CalendarUtil.getDateByPattern("yyyy.MM.dd") + '_' + ".+\\."
                 + (getSelectedOption(selectUploadFileTypeComboBox).startsWith("Vendor Conf") ? "cfg$" : "log$");
-        parameterMap.put("Upload", url);
+        getParameterMap().put("Upload", url);
         return this;
     }
 
     @Override
-    public DeviceUpdatePage fillUrl() {
+    public DeviceUpdatePage fillDownloadUrl() {
         waitUntilButtonIsDisplayed(ADD_TO_PROVISION);
-        fromListRadioButton.click();
-        List<String> optList = getOptionList(fileNameComboBox);
-        String lastOpt = optList.get(optList.size() - 1);
-        manualRadioButton();
-        String value = props.getProperty("upload_url") + '/' + lastOpt;
-        urlField.sendKeys(value);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put("Download", value);
-        return this;
+//        fromListRadioButton.click();
+//        List<String> optList = getOptionList(fileNameComboBox);
+//        String lastOpt = optList.get(optList.size() - 1);
+//        manuallyDownloadRadioButton();
+//        String value = props.getProperty("upload_url") + '/' + lastOpt;
+//        urlField.sendKeys(value);
+//        if (parameterMap == null) {
+//            parameterMap = new HashMap<>();
+//        }
+//        parameterMap.put("Download", value);
+//        return this;
+        return (DeviceUpdatePage) super.fillDownloadUrl();
     }
 
     @Override
     public DeviceUpdatePage fillUploadUrl() {
         super.fillUploadUrl();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put("Upload", props.getProperty("upload_url"));
+//        if (parameterMap == null) {
+//            parameterMap = new HashMap<>();
+//        }
+//        String path = props.getProperty("file_server");
+//        path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
+//        parameterMap.put("Upload", path);
         return this;
     }
 
@@ -1476,21 +1447,19 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage storePath(String path) {
         waitForUpdate();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        parameterMap.put("Get parameter attributes", path);
-        parameterMap.put("Get parameter values", path);
-        parameterMap.put("Get parameter names", path);
+        getParameterMap().put("Get parameter attributes", path);
+        getParameterMap().put("Get parameter values", path);
+        getParameterMap().put("Get parameter names", path);
         return this;
         //InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1.
     }
 
     public void validateGeneratedGets() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
-        }
+        validateTasks("tbl", 7);
+//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
+//        }
     }
 
     public DeviceUpdatePage storePath() {
@@ -1502,26 +1471,23 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage fillAddPortFields(String protocol) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         String desc = BaseTestCase.getTestName();
         String intIp = "192.168.1.111";
         String extIp = "255.255.255.255";
         String intPort = String.valueOf((int) (Math.random() * 65536));
         String extPort = String.valueOf((int) (Math.random() * 65536));
         inputText2(remoteHost, extIp);
-        parameterMap.put("Remote host", extIp);
+        getParameterMap().put("Remote host", extIp);
         inputText(this.extPort, extPort);
-        parameterMap.put("External port", extPort);
+        getParameterMap().put("External port", extPort);
         inputText(this.intPort, intPort);
-        parameterMap.put("Internal port", intPort);
+        getParameterMap().put("Internal port", intPort);
         inputText2(computerIp, intIp);
-        parameterMap.put("Internal client", intIp);
+        getParameterMap().put("Internal client", intIp);
         selectComboBox(this.protocol, protocol);
-        parameterMap.put("Protocol", protocol);
+        getParameterMap().put("Protocol", protocol);
         inputText2(portDescription, desc);
-        parameterMap.put("Description", desc);
+        getParameterMap().put("Description", desc);
         pause(1000);
         return this;
     }
@@ -1780,7 +1746,7 @@ public class DeviceUpdatePage extends BasePage {
         bottomMenu(EDIT);
         getTable("tblItems").clickOn(1, 1);
         waitForUpdate();
-        manualRadioButton.click();
+        manuallyDownloadRadioButton.click();
         waitForUpdate();
         inputText2(urlField, newUrl);
         bottomMenu(OK);

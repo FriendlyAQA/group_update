@@ -1,6 +1,7 @@
 package com.friendly.aqa.entities;
 
 import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
@@ -19,9 +20,11 @@ public class Table {
     private final WebElement table;
     private boolean retryInit;
     private final String tableId;
+    Timer timer;
+
 
     public Table(WebElement table) {
-//        long start = System.currentTimeMillis();
+        timer = new Timer();
         this.table = table;
         tableId = table.getAttribute("id");
         rowsList = table.findElements(By.tagName("tr"));
@@ -87,7 +90,6 @@ public class Table {
 
     private static String getCellContent(String input) {
         String out = input;
-//        Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp).*?>(.*?)</(\\1)>");
         Matcher m = cellTextPattern.matcher(input);
         while (m.find()) {
             out = getCellContent(m.group(2));
@@ -133,9 +135,35 @@ public class Table {
         clickOn(row, column, 99);
     }
 
-    public Table clickOn(String text, int column) {
-        clickOn(getRowNumberByText(column, text), column);
+    public Table clickOn(String firstRowWithText, int column) {
+        clickOn(getFirstRowWithText(firstRowWithText), column);
         return this;
+    }
+
+    public void clickOn(String text) {
+        clickOn(text, false);
+        System.out.println("Clicked1:" + timer.stop());
+    }
+
+    public void clickOn(String text, boolean retry) {
+        for (int i = 0; i < textTable.length; i++) {
+            for (int j = 0; j < textTable[i].length; j++) {
+                if (textTable[i][j].trim().equalsIgnoreCase(text)) {
+                    clickOn(i, j, 99);
+                    return;
+                }
+            }
+        }
+        String warning = "Text '" + text + "' not found in current table";
+        LOGGER.warn(warning);
+        print();
+        if (!retry) {
+            System.out.println("try to find once more time...");
+            pause(1000);
+            new Table(tableId).clickOn(text, true);
+        } else {
+            throw new AssertionError(warning);
+        }
     }
 
     public int getColumnNumber(int row, String text) {
@@ -189,68 +217,6 @@ public class Table {
         return out;
     }
 
-//    public List<Integer> getVisibleRowsWithInput(int column) {
-//        BasePage.setImplicitlyWait(0);
-//        List<Integer> out = new ArrayList<>();
-//        for (int i = 0; i < elementTable.length; i++) {
-//            if (elementTable[i][column].isDisplayed()) {
-//                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
-//                if (!list.isEmpty()) {
-//                    out.add(i);
-//                }
-//            }
-//        }
-//        BasePage.setDefaultImplicitlyWait();
-//        return out;
-//    }
-
-    public List<Integer> getVisibleRowsWithInput(int column) {
-        BasePage.setImplicitlyWait(0);
-        List<Integer> out = new ArrayList<>();
-        List<WebElement> cellList = new ArrayList<>();
-        for (WebElement[] cells : elementTable) {
-            cellList.add(cells[column]);
-        }
-        cellList.parallelStream()
-                .filter(WebElement::isDisplayed)
-                .filter(e -> e.findElements(By.tagName("input")).size() > 0)
-                .filter(e -> e.findElement(By.tagName("input")).isEnabled())
-                .forEach(e -> out.add(cellList.indexOf(e)));
-        BasePage.setDefaultImplicitlyWait();
-        out.sort(Comparator.naturalOrder());
-        return out;
-    }
-
-    public void clickOn(String text) {
-        clickOn(text, false);
-    }
-
-    public void clickOn(String text, boolean retry) {
-//        List<String> debugList = new ArrayList<>();
-        for (int i = 0; i < textTable.length; i++) {
-            for (int j = 0; j < textTable[i].length; j++) {
-                if (textTable[i][j].toLowerCase().trim().equals(text.toLowerCase())) {
-                    /*return */
-                    clickOn(i, j, 99);
-                    return;
-                } /*else {
-                    debugList.add(textTable[i][j].toLowerCase());
-                }*/
-            }
-        }
-        String warning = "Text '" + text + "' not found in current table";
-        LOGGER.warn(warning);
-        print();
-//        System.out.println("text '" + text.toLowerCase() + "' not equals with:" + debugList.toString());
-        if (!retry) {
-            System.out.println("try to find once more time...");
-            pause(1000);
-            new Table(tableId).clickOn(text, true);
-        } else {
-            throw new AssertionError(warning);
-        }
-    }
-
     public int[] getTableSize() {
         int maxCellRow = 0;
         for (String[] row : textTable) {
@@ -263,7 +229,6 @@ public class Table {
         return textTable[row].length;
     }
 
-    //    @SuppressWarnings("unused")
     public Table print() {
         int maxCells = getTableSize()[1];
         int[] size = new int[maxCells];
@@ -327,12 +292,12 @@ public class Table {
         return getColumn(getColumnNumber(0, column));
     }
 
-    public String getCellText(String searchText, int resultColumn) {
-        return textTable[getRowNumberByText(searchText)][resultColumn];
+    public String getCellText(String fromRowWithText, int targetColumn) {
+        return textTable[getFirstRowWithText(fromRowWithText)][targetColumn];
     }
 
-    public String getCellText(String searchText, String columnHeader) {
-        return textTable[getRowNumberByText(searchText)][getColumnNumber(0, columnHeader)];
+    public String getCellText(String fromRowWithText, String columnHeader) {
+        return textTable[getFirstRowWithText(fromRowWithText)][getColumnNumber(0, columnHeader)];
     }
 
     public String getCellText(int row, int column) {
@@ -382,6 +347,10 @@ public class Table {
         }
     }
 
+    public WebElement getInput(String fromRowWithText, int column) {
+        return getInput(getFirstRowWithText(fromRowWithText), column);
+    }
+
     public WebElement getSelect(int row, int column) {
         BasePage.setImplicitlyWait(0);
         List<WebElement> list = elementTable[row][column].findElements(By.tagName("select"));
@@ -390,6 +359,10 @@ public class Table {
             return null;
         }
         return list.get(0);
+    }
+
+    public WebElement getSelect(String fromRowWithText, int column) {
+        return getSelect(getFirstRowWithText(fromRowWithText), column);
     }
 
     public List<Integer> getRowsWithSelectList(int column) {
@@ -415,28 +388,26 @@ public class Table {
         return elementTable.length == 0;
     }
 
-    public int getRowNumberByText(int columnNum, String text) {
+    public int getFirstRowWithText(int columnNum, String text) {
         int rowNum = -1;
         String[] column = getWholeColumn(columnNum);    // changed from getColumn()
         for (int i = 0; i < column.length; i++) {
-            if (column[i].toLowerCase().trim().equals(text.toLowerCase())) {
+            if (column[i].trim().equalsIgnoreCase(text)) {
                 rowNum = i;
                 break;
             }
         }
         if (rowNum < 0) {
-            String warning = "Text '" + text + "' not found in column #" + columnNum + " of current table";
             print();
             for (WebElement[] row : elementTable) {
                 BasePage.scrollToElement(row[columnNum]);
             }
-            LOGGER.warn(warning);
-            throw new AssertionError(warning);
+            throw new AssertionError("Text '" + text + "' not found in column #" + columnNum + " of current table");
         }
         return rowNum;
     }
 
-    public int getRowNumberByText(String text) {
+    public int getFirstRowWithText(String text) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].equalsIgnoreCase(text) && elementTable[i][j].isDisplayed()) {
@@ -461,13 +432,9 @@ public class Table {
         return hint;
     }
 
-//    @SuppressWarnings("unused")
-//    public void printResults() {
-//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-//        for (Map.Entry<String, String> entry : entrySet) {
-//            System.out.println(entry.getKey() + ":" + entry.getValue());
-//        }
-//    }
+    public String getHint(String parameter) {
+        return getHint(getFirstRowWithText(parameter));
+    }
 
     public boolean contains(String value) {
         for (String[] rows : textTable) {
@@ -537,18 +504,6 @@ public class Table {
         throw new AssertionError("Specified column '" + column + "' does not contain value '" + value + "'");
     }
 
-//    @SuppressWarnings("unused")
-//    public Table assertAbsenceOfValue(int column, String value) {
-//        if (getRowNumberByText(column, value) >= 0) {
-//            throw new AssertionError("Specified column '" + column + "' contains value '" + value + "', but MUST NOT!");
-//        }
-//        return this;
-//    }
-//
-//    public static void flushResults() {
-//        parameterMap = null;
-//    }
-
     public String[] getRow(int rowNum) {
         return textTable[rowNum];
     }
@@ -568,6 +523,38 @@ public class Table {
         }
         return out;
     }
+
+    public List<Integer> getVisibleRowsWithInput(int column) {
+        BasePage.setImplicitlyWait(0);
+        List<Integer> out = new ArrayList<>();
+        List<WebElement> cellList = new ArrayList<>();
+        for (WebElement[] cells : elementTable) {
+            cellList.add(cells[column]);
+        }
+        cellList.parallelStream()
+                .filter(WebElement::isDisplayed)
+                .filter(e -> e.findElements(By.tagName("input")).size() > 0)
+                .filter(e -> e.findElement(By.tagName("input")).isEnabled())
+                .forEach(e -> out.add(cellList.indexOf(e)));
+        BasePage.setDefaultImplicitlyWait();
+        out.sort(Comparator.naturalOrder());
+        return out;
+    }
+
+//    public List<Integer> getVisibleRowsWithInput(int column) {
+//        BasePage.setImplicitlyWait(0);
+//        List<Integer> out = new ArrayList<>();
+//        for (int i = 0; i < elementTable.length; i++) {
+//            if (elementTable[i][column].isDisplayed()) {
+//                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
+//                if (!list.isEmpty()) {
+//                    out.add(i);
+//                }
+//            }
+//        }
+//        BasePage.setDefaultImplicitlyWait();
+//        return out;
+//    }
 
     @Override
     public boolean equals(Object o) {

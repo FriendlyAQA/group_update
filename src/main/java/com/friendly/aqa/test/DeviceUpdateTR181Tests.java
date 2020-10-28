@@ -88,7 +88,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .assertInputHasText("txtName", getTestName())
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 1)
+                .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 1)
@@ -102,11 +102,11 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 1)
+                .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .setViewColumns(1, 1)
-                .setViewColumns(2, 2)
+                .setVisibleColumns(1, 1)
+                .setVisibleColumns(2, 2)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2)
@@ -120,10 +120,10 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(2, 2)
+                .setVisibleColumns(2, 2)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .setViewColumns(3, 4)
+                .setVisibleColumns(3, 4)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2, 3, 4)
@@ -137,7 +137,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 2)
+                .setVisibleColumns(1, 2)
                 .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .downButton()
@@ -154,7 +154,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 3)
+                .setVisibleColumns(1, 3)
                 .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
@@ -175,7 +175,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns("Model name")
+                .setVisibleColumns("Model name")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("Model name")
@@ -233,7 +233,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .validateViewColumns();
@@ -693,7 +693,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .assertPresenceOfOptions("ddlView", "Default")
                 .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
                         , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
-                .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
+                .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
 
     @Test
@@ -708,7 +708,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .assertInputHasText("txtName", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
-                .assertPresenceOfElements("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
+                .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
 
     @Test
@@ -733,7 +733,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .assertInputHasText("txtName", getTestName())
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 1)
+                .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 1)
@@ -748,11 +748,11 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 1)
+                .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .setViewColumns(1, 1)
-                .setViewColumns(2, 2)
+                .setVisibleColumns(1, 1)
+                .setVisibleColumns(2, 2)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2)
@@ -767,10 +767,10 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(2, 2)
+                .setVisibleColumns(2, 2)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .setViewColumns(3, 4)
+                .setVisibleColumns(3, 4)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .assertCheckboxesAreSelected("tblFilter", true, 1, 2, 3, 4)
@@ -785,7 +785,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 2)
+                .setVisibleColumns(1, 2)
                 .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .downButton()
@@ -804,7 +804,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 3)
+                .setVisibleColumns(1, 3)
                 .bottomMenu(NEXT)
                 .clickOnTable("tbl", 1, 0)
                 .assertButtonsAreEnabled(true, PREVIOUS, NEXT, FINISH, CANCEL)
@@ -821,7 +821,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .searchBy("Serial Number")
                 .lookFor(getSerial())
                 .searchButton()
-                .assertPresenceOfElements("tblDeviceInfo");
+                .assertElementsArePresent("tblDeviceInfo");
     }
 
     @Test
@@ -832,7 +832,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(NEXT)
                 .sortByColumn("Created")
@@ -852,7 +852,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(NEXT)
                 .sortByColumn("Created")
@@ -873,7 +873,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(NEXT)
                 .sortByColumn("Created")
@@ -894,7 +894,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .lookFor(getSerial().substring(0, 3))//!
@@ -2614,7 +2614,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
-                .fillUrl()
+                .fillDownloadUrl()
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2647,7 +2647,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
-                .fillUrl()
+                .fillDownloadUrl()
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -3322,5 +3322,23 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
                 .validateProvisionDeletion();
+    }
+
+    @Test
+    public void tr181_du_999(){
+        duPage
+                .topMenu(GROUP_UPDATE)
+//                .itemsOnPage("200")
+                .getTable2("tblParameters")
+                .clickOn2("lwm2m_gu_014");
+        duPage.pause(3000);
+//        duPage
+//                .waitForUpdate()
+//                .waitForUpdate()
+//                .leftMenu(DEVICE_ACTIVITY)
+//                .itemsOnPage("200")
+////                .waitForUpdate()
+//                .getTable2("tbl")
+//                .print();
     }
 }

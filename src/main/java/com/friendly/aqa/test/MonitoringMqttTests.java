@@ -87,7 +87,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName("mqtt_mo_004")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
-                .assertPresenceOfElements("lbActivate")
+                .assertElementsArePresent("lbActivate")
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -241,7 +241,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -279,7 +279,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("mqtt_mo_016")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -843,7 +843,7 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
-                .selectImportGuFile()
+                .selectImportMonitorFile()
                 .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
@@ -878,7 +878,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -947,7 +947,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("mqtt_mo_058")
                 .resetView()
-                .assertSelectedOptionIs("ddlView", "Default");
+                .assertSelectedViewIs( "Default");
     }
 
     @Test
@@ -1015,7 +1015,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -1053,7 +1053,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("mqtt_mo_070")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test

@@ -4,12 +4,9 @@ import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
@@ -65,7 +62,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fillName()
                 .selectSendTo()
                 .showList()
-                .assertTrue(guPage.serialNumberTableIsPresent());
+                .assertDevicesArePresent();
     }
 
     @Test
@@ -77,11 +74,9 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .createGroupButton()
-                .assertTrue(guPage.isButtonPresent(FINISH))
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .pause(500)
-                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .assertInputHasText("txtName", testName);
     }
 
     @Test
@@ -91,13 +86,12 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
                 .filterRecordsCheckbox()
-                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"));
-        setTargetTestName();
+                .validateSelectedGroup();
     }
 
     @Test
@@ -110,12 +104,12 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"), "Created group isn't selected!\n")
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .validateSelectedGroup()
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
-    public void tr181_gu_008() {
+    public void tr181_gu_008() {//depends on 006
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -125,22 +119,22 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .createGroupButton()
                 .fillName("tr181_gu_006")
                 .bottomMenu(NEXT)
-                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
-    public void tr181_gu_009() {
+    public void tr181_gu_009() {//depends on 006
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .selectSendTo(targetTestName)
+                .selectSendTo("tr181_gu_006")
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "tr181_gu_006");
     }
 
     @Test
@@ -193,7 +187,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_013() {
         guPage
                 .gotoSetParameters()
-                .assertPresenceOfElements("tblParamsValue")
+                .assertElementsArePresent("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -206,14 +200,13 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);
-        setTargetTestName();
     }
 
     @Test
     public void tr181_gu_015() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("tr181_gu_014")
                 .bottomMenu(EDIT)
                 .bottomMenu(NEXT)
                 .immediately()
@@ -223,7 +216,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("tr181_gu_014")
                 .validateAddedTasks();
     }
 
@@ -233,18 +226,17 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoSetParameters()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate();
-        setTargetTestName();
     }
 
     @Test
-    public void tr181_gu_017() {
+    public void tr181_gu_017() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup(targetTestName)
+                .enterIntoGroup("tr181_gu_016")
                 .bottomMenu(EDIT)
-                .assertFalse(guPage.isInputActive("ddlSend"))
+                .assertInputIsDisabled("ddlSend")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isInputActive("lrbImmediately"))
+                .assertInputIsDisabled("lrbImmediately")
                 .bottomMenu(NEXT)
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
@@ -267,12 +259,10 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr181_gu_019() throws IOException {
+    public void tr181_gu_019() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
-                .assertTrue(HttpConnector.sendGetRequest(guPage
-                        .getGuExportLink("tr181_gu_016"))
-                        .contains("\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\""));
+                .checkExportLink();
     }
 
     @Test
@@ -942,11 +932,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .validateAddedTasks();
     }
 
-    @Test   //bug: "Reprovision" RB is absent from Action list;
+    @Test
     public void tr181_gu_094() {
         guPage
                 .gotoAction()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .nextSaveAndActivate()
                 .validateAddedTask("Device reprovision", "CPEReprovision");
     }
@@ -955,7 +945,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_095() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "GetRPCMethods");
@@ -965,7 +955,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_096() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "GetParameterNames");
@@ -975,7 +965,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_097() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "GetParameterAttributes");
@@ -985,7 +975,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_098() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "GetParameterValues");
@@ -995,7 +985,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_099() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "SetParameterValues");
@@ -1005,7 +995,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_100() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "SetParameterAttributes");
@@ -1015,7 +1005,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_101() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("AddObject")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "AddObject");
@@ -1025,7 +1015,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_102() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "DeleteObject");
@@ -1095,7 +1085,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectSendTo()
                 .showList()
                 .assertPresenceOfValue("tblDevices", 0, getSerial());
-//                .assertElementIsPresent("lblTitle1");
     }
 
     @Test
@@ -1104,7 +1093,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .bottomMenu(CANCEL)
-                .assertPresenceOfElements("tblParameters");
+                .assertElementsArePresent("tblParameters");
     }
 
     @Test
@@ -1174,7 +1163,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .validateSorting("Updated");
     }
 
-    @Test   //reported bug #9389
+    @Test
     public void tr181_gu_118() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -1196,8 +1185,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .enterIntoGroup("Manufacturer")
                 .checkResetView()
                 .leftMenu(VIEW)
-                .itemsOnPage("10")
-                .pause(5000);
+                .itemsOnPage("10");
     }
 
     @Test
@@ -1699,7 +1687,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download diagnostics")
-                .addToMonitoringCheckBox()
+//                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .validateAddedTask("Download diagnostics", "http://127.0.0.1/webdav/Test.cfg");
     }
@@ -1718,7 +1706,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Upload diagnostics")
-                .addToMonitoringCheckBox()
+//                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .validateAddedTask("Upload diagnostics", "http://127.0.0.1/webdav/");
     }
@@ -1737,7 +1725,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Wi-Fi Neighboring diagnostic")
-                .addToMonitoringCheckBox()
+//                .addToMonitoringCheckBox()
                 .nextSaveAndActivate()
                 .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring diagnostic");
     }
@@ -1760,12 +1748,12 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoFileDownload()
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
+                .fillUsername()
+                .fillPassword()
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -1773,12 +1761,12 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoFileDownload()
                 .selectDownloadFileType("Firmware Image")
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl(/*BasePage.getProps().getProperty("ftp_image_file_url")*/)
+//                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
+//                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
                 .nextSaveAndActivate()
-                .validateAddedTask("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+                .validateDownloadFileTasks();
     }
 
     @Test
@@ -1786,10 +1774,10 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoFileDownload()
                 .selectDownloadFileType("Vendor Configuration File")
-                .fromListRadioButton()
-                .selectFileName(1)
+                .selectFromListRadioButton()
+                .selectFileName("Vendor Configuration File")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", 2, "Vendor Configuration File");
+                .validateDownloadFileTasks();
     }
 
     @Test
@@ -1797,45 +1785,45 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .gotoFileDownload()
                 .selectDownloadFileType("Firmware Image")
-                .fromListRadioButton()
-                .selectFileName(1)
+                .selectFromListRadioButton()
+                .selectFileName("Firmware Image")
                 .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", 2, "Firmware Image");
+                .validateDownloadFileTasks();
     }
 
     @Test
     public void tr181_gu_185() {
         guPage
                 .gotoFileUpload()
-                .selectUploadFileType(1)
-                .manuallyUrlRadioButton()
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl()
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
     public void tr181_gu_186() {
         guPage
                 .gotoFileUpload()
-                .selectUploadFileType(2)
-                .manuallyUrlRadioButton()
+                .selectUploadFileType("Vendor Log File")
+                .manuallyUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .fillUploadUrl()
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
     public void tr181_gu_187() {
         guPage
                 .gotoFileUpload()
-                .selectUploadFileType(1)
+                .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -1853,11 +1841,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Upload file")
                 .addTaskButton()
-                .selectUploadFileType(1)
+                .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -1875,33 +1863,33 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Upload file")
                 .addTaskButton()
-                .selectUploadFileType(2)
+                .selectUploadFileType("Vendor Log File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
     public void tr181_gu_190() {
         guPage
                 .gotoFileUpload()
-                .selectUploadFileType(2)
+                .selectUploadFileType("Vendor Log File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .nextSaveAndActivate()
-                .validateAddedTask("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
     public void tr181_gu_191() {
         guPage
                 .gotoFileUpload()
-                .selectUploadFileType(1)
+                .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
                 .bottomMenu(NEXT)
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"))
+                .validateAddedTasks()
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
@@ -1911,7 +1899,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_192() {
         guPage
                 .gotoAction()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reboot");
     }
@@ -1920,7 +1908,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_193() {
         guPage
                 .gotoAction()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
@@ -1931,7 +1919,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_194() {
         guPage
                 .gotoAction()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Factory reset");
     }
@@ -1940,7 +1928,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_195() {
         guPage
                 .gotoAction()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
                 .saveAndActivate(false)
@@ -1951,7 +1939,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_196() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "Reboot");
@@ -1961,7 +1949,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_197() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
@@ -1973,7 +1961,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_198() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .nextSaveAndActivate()
                 .validateAddedTask("Custom RPC", "Download");
@@ -1983,7 +1971,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_199() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
@@ -1995,7 +1983,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_200() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2014,7 +2002,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_201() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
@@ -2038,7 +2026,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -2052,7 +2040,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     public void tr181_gu_203() {
         guPage
                 .gotoAction()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
@@ -2097,7 +2085,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -2109,7 +2097,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2117,7 +2105,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2132,7 +2120,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2156,7 +2144,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2180,7 +2168,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Later than'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2200,7 +2188,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2220,7 +2208,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2240,7 +2228,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2260,7 +2248,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2281,7 +2269,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2303,7 +2291,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2325,7 +2313,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2347,7 +2335,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .assertElementsAreAbsent("lblNoSelectedCpes");
     }
 
     @Test
@@ -2361,7 +2349,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2383,7 +2371,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2404,7 +2392,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2425,7 +2413,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -2444,7 +2432,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .assertElementsAreAbsent("lblHead");
     }
 
     @Test
@@ -2461,7 +2449,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .assertElementsAreAbsent("ddlSend");
     }
 
     @Test
@@ -3799,7 +3787,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage.setScheduledPolicy("Ethernet");
     }
 
-    @Test   //bug: "Reprovision" RB is absent from Action list;
+    @Test
     public void tr181_gu_294() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -3814,7 +3802,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -4194,16 +4182,16 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addNewTask("Download file")
                 .addTaskButton()
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_config_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
+                .fillUsername()
+                .fillPassword()
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("ftp_config_file_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -4222,16 +4210,16 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addNewTask("Download file")
                 .addTaskButton()
                 .selectDownloadFileType("Firmware Image")
-                .manualRadioButton()
-                .fillUrl(BasePage.getProps().getProperty("ftp_image_file_url"))
-                .fillUserName(BasePage.getProps().getProperty("ftp_user"))
-                .fillPassword(BasePage.getProps().getProperty("ftp_password"))
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
+                .fillUsername()
+                .fillPassword()
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Firmware Image", BasePage.getProps().getProperty("ftp_image_file_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -4301,15 +4289,15 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Upload file")
                 .addTaskButton()
-                .selectUploadFileType(1)
-                .manuallyUrlRadioButton()
+                .selectUploadFileType("Vendor Configuration File")
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -4327,15 +4315,15 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Upload file")
                 .addTaskButton()
-                .selectUploadFileType(2)
-                .manuallyUrlRadioButton()
+                .selectUploadFileType("Vendor Log File")
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Vendor Log File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -4353,14 +4341,14 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Upload file")
                 .addTaskButton()
-                .selectUploadFileType(1)
+                .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Vendor Configuration File", BasePage.getProps().getProperty("upload_url"));
+                .validateAddedTasks();
     }
 
     @Test
@@ -4378,7 +4366,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -4402,7 +4390,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -4426,7 +4414,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Reboot")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
@@ -4451,7 +4439,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Download")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
@@ -4476,7 +4464,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("Upload")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
@@ -4501,7 +4489,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)

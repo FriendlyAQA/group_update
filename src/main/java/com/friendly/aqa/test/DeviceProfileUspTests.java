@@ -223,7 +223,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectModel()
                 .fillName(false)
                 .addDeviceWithoutTemplate()
-                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertElementsArePresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .bottomMenu(CANCEL)

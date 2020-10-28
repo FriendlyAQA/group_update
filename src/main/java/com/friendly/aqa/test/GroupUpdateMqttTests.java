@@ -19,7 +19,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
         guPage
                 .deleteAll()
                 .topMenu(GROUP_UPDATE)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -43,7 +42,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .fillName()
                 .deleteFilterGroups()
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -57,7 +55,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo()
                 .showList()
-                .assertTrue(guPage.serialNumberTableIsPresent());
+                .assertDevicesArePresent();
     }
 
     @Test
@@ -69,10 +67,9 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .createGroupButton()
-                .assertTrue(guPage.isButtonPresent(FINISH))
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .waitForUpdate().pause(500)
-                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .assertInputHasText("txtName", testName);
     }
 
     @Test
@@ -82,11 +79,12 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
-                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"));
+                .validateSelectedGroup();
     }
 
     @Test
@@ -99,8 +97,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"), "Created group isn't selected!\n")
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .validateSelectedGroup()
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -114,7 +112,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .createGroupButton()
                 .fillName("mqtt_gu_006")
                 .bottomMenu(NEXT)
-                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -129,7 +127,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", "mqtt_gu_006"), "Option 'mqtt_gu_006' is still present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "mqtt_gu_006");
     }
 
     @Test
@@ -142,10 +140,8 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(true, NEXT)
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(false, NEXT);
     }
 
@@ -317,7 +313,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reboot");
     }
@@ -336,7 +332,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
@@ -357,7 +353,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Factory reset");
     }
@@ -376,14 +372,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
                 .assertPresenceOfValue("tblTasks", 2, "Factory Reset");
     }
 
-    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 156)
     public void mqtt_gu_036() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -397,12 +393,12 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .nextSaveAndActivate()
                 .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
-    @Test
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 156)
     public void mqtt_gu_037() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -416,7 +412,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .saveAndActivate(false)
@@ -441,7 +437,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .bottomMenu(CANCEL)
-                .assertPresenceOfElements("tblParameters");
+                .assertElementsArePresent("tblParameters");
     }
 
     @Test
@@ -533,8 +529,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .enterIntoGroup("Manufacturer")
                 .checkResetView()
                 .leftMenu(VIEW)
-                .itemsOnPage("10")
-                .pause(5000);
+                .itemsOnPage("10");
     }
 
     @Test
@@ -572,8 +567,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .assertElementsArePresent("lblHead");
     }
 
     @Test
@@ -589,8 +583,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", testName);
     }
 
     @Test
@@ -608,7 +601,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -632,7 +625,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .bottomMenu(SAVE)
@@ -657,7 +650,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -681,7 +674,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .bottomMenu(SAVE)
@@ -691,7 +684,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .assertPresenceOfParameter("Factory reset");
     }
 
-    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 139)
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 156)
     public void mqtt_gu_140() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -706,7 +699,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -715,7 +708,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .validateAddedTask("Device reprovision", "CPEReprovision");
     }
 
-    @Test
+    @Test    //bug: Radiobutton  “Reprovision” is not available (V6.0.0 Build 156)
     public void mqtt_gu_141() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -730,7 +723,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Client ID", EQUAL, "mqtt_demo")
                 .bottomMenu(SAVE)

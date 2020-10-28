@@ -19,12 +19,7 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.BottomButtons.*;
 import static com.friendly.aqa.utils.DataBaseConnector.*;
 
 public class DeviceProfilePage extends BasePage {
-    private static final Logger logger = Logger.getLogger(DeviceProfilePage.class);
-
-    @Override
-    protected String getLeftMenuCssSelector() {
-        return "tr[topmenu='Update Group']";
-    }
+    private static final Logger LOGGER = Logger.getLogger(DeviceProfilePage.class);
 
     @Override
     public String getMainTableId() {
@@ -74,9 +69,6 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlManufacturer")
     private WebElement filterManufacturerComboBox;
 
-    @FindBy(id = "frmSubFrame")
-    private WebElement subFrame;
-
     @FindBy(id = "ddlModelName")
     private WebElement filterModelNameComboBox;
 
@@ -110,12 +102,6 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "rdNoReprovision")
     private WebElement dontApplyProvisionRadioButton;
 
-    @FindBy(id = "rd8")
-    private WebElement minAndMaxRadioButton;
-
-    @FindBy(id = "rd10")
-    private WebElement cumulativeEnergyButton;
-
     @FindBy(id = "btnNewView_btn")
     private WebElement newConditionButton;
 
@@ -139,15 +125,6 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "tblParameters")
     private WebElement paramTable;
-
-    @FindBy(id = "tblEvents")
-    private WebElement eventsTable;
-
-    @FindBy(id = "tblParamsMonitoring")
-    private WebElement monitorTable;
-
-    @FindBy(id = "tblPolicy")
-    private WebElement policyTable;
 
     @FindBy(id = "txtValue")
     private WebElement valueInputField;
@@ -192,11 +169,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectMainTab(String tab) {//TODO something...
         try {
-            new Table(mainTabTable).clickOn(tab);
+            new Table("tabsMain_tblTabs").clickOn(tab);
             pause(1000);
         } catch (AssertionError e) {
             pause(1000);
-            new Table(mainTabTable).clickOn(tab);
+            new Table("tabsMain_tblTabs").clickOn(tab);
             pause(1000);
         }
         waitForUpdate();
@@ -287,23 +264,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage minAndMaxRadioButton() {
-        minAndMaxRadioButton.click();
-        return this;
-    }
-
-    public DeviceProfilePage cumulativeEnergyButton() {
-        cumulativeEnergyButton.click();
-        return this;
-    }
-
     public DeviceProfilePage editConditionButton() {
         editConditionButton.click();
-        return this;
-    }
-
-    public DeviceProfilePage sendOnBoardRequestRadioButton() {
-        sendOnBoardRequestRadioButton.click();
         return this;
     }
 
@@ -340,26 +302,6 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage setParametersMonitor(Condition condition, boolean addTask) {
         return (DeviceProfilePage) super.setParametersMonitor(condition, addTask);
-    }
-
-    @Override
-    public DeviceProfilePage resetErrors() {//
-        return (DeviceProfilePage) super.resetErrors();
-    }
-
-    @Override
-    public DeviceProfilePage disableRadiobutton() {//
-        return (DeviceProfilePage) super.disableRadiobutton();
-    }
-
-    @Override
-    public DeviceProfilePage radioRegistrationUpdateTrigger() {//
-        return (DeviceProfilePage) super.radioRegistrationUpdateTrigger();
-    }
-
-    @Override
-    public DeviceProfilePage radioStartOrReset() {//
-        return (DeviceProfilePage) super.radioStartOrReset();
     }
 
     public DeviceProfilePage createPreconditions() {
@@ -403,7 +345,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage editTask(String eventName) {
         Table table = new Table("tblEvents");
-        table.clickOn(table.getRowNumberByText(0, eventName), 4);
+        table.clickOn(table.getFirstRowWithText(0, eventName), 4);
         return this;
     }
 
@@ -423,11 +365,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setDefaultPeriodic() {
-        return setParameter(new Table(paramTable), "Device.ManagementServer.PeriodicInformInterval", "60", true);
+        return setParameter(new Table("tblParameters"), "Device.ManagementServer.PeriodicInformInterval", "60", true);
     }
 
     public DeviceProfilePage setDefaultPeriodic(boolean addToCheck) {
-        Table table = new Table(paramTable);
+        Table table = new Table("tblParameters");
         String[] names = table.getColumn(0);
         for (String name : names) {
             if (name.endsWith("PeriodicInformInterval")) {
@@ -438,19 +380,12 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setParameter(String paramName, String value) {
-        return setParameter(new Table(paramTable), paramName, value, true);
+        return setParameter(new Table("tblParameters"), paramName, value, true);
     }
 
     private DeviceProfilePage setParameter(Table table, String paramName, String value, boolean addToCheck) {
-        int row = table.getRowNumberByText(paramName);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        WebElement box = table.getInput(row, 0);
-        if (!box.isSelected()) {
-            box.click();
-            waitForUpdate();
-        }
+        int row = table.getFirstRowWithText(paramName);
+        forceCheckboxState(true, table.getInput(row, 0));
         String hint = table.getHint(row);
         WebElement input = null;
         WebElement select = null;
@@ -480,7 +415,7 @@ public class DeviceProfilePage extends BasePage {
             selectComboBox(select, value);
         }
         if (addToCheck) {
-            parameterMap.put(hint, value);
+            getParameterMap().put(hint, value);
         }
         return this;
     }
@@ -501,7 +436,7 @@ public class DeviceProfilePage extends BasePage {
             selectMainTab("Parameters");
             selectTab(tab);
         }
-        Table table = new Table(paramTable);
+        Table table = new Table("tblParameters");
         String[] names = table.getColumn(0);
         for (int i = 0; i < Math.min(Math.abs(amount), names.length); i++) {
             String hint = table.getHint(i + 1);
@@ -560,19 +495,16 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage addSummaryParameters() {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         waitForUpdate();
         selectMainTab("Summary");
-        Table table = new Table(paramTable);
+        Table table = new Table("tblParameters");
         String[] names = table.getColumn(0);
         setImplicitlyWait(0);
         for (int i = 0; i < names.length; i++) {
             if (table.getCellWebElement(i + 1, 1).findElements(By.tagName("input")).size() > 0) {
-                parameterMap.put(names[i], table.getInputText(i + 1, 1));
+                getParameterMap().put(names[i], table.getInputText(i + 1, 1));
             } else {
-                parameterMap.put(names[i], getSelectedOption(table.getSelect(i + 1, 1)));
+                getParameterMap().put(names[i], getSelectedOption(table.getSelect(i + 1, 1)));
             }
         }
         setDefaultImplicitlyWait();
@@ -585,7 +517,7 @@ public class DeviceProfilePage extends BasePage {
 
     private void validateAddedTasks(Table table, String eventName) {
         pause(1000);
-        int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
+        int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         try {
@@ -601,12 +533,12 @@ public class DeviceProfilePage extends BasePage {
         validateAddedTasks(new Table("tblParamsMonitoring"), null);
     }
 
-    public void validateAddedEventTasks(String eventName) {
-        validateAddedTasks(new Table("tblEvents"), eventName);
-    }
-
     public void validateAddedMonitorTask(String parameter, String value) {
         validateAddedTask(new Table("tblParamsMonitoring"), null, parameter, value);
+    }
+
+    public void validateAddedEventTasks(String eventName) {
+        validateAddedTasks(new Table("tblEvents"), eventName);
     }
 
     public void validateAddedEventTask(String eventName, String parameter, String value) {
@@ -614,7 +546,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     private void validateAddedTask(Table table, String name, String parameter, String value) {
-        int row = name == null ? 1 : table.getRowNumberByText(name);
+        int row = name == null ? 1 : table.getFirstRowWithText(name);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         super.validateAddedTask(parameter, value);
@@ -633,7 +565,7 @@ public class DeviceProfilePage extends BasePage {
 
     private void validateAddedTask(Table table, String name, String taskName) {
         pause(1000);
-        int row = name == null ? 1 : table.getRowNumberByText(name);
+        int row = name == null ? 1 : table.getFirstRowWithText(name);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         table = new Table("tblTasks");
@@ -654,7 +586,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     private void validateAddedAction(Table table, String eventName, String parameter, String value) {
-        int row = eventName == null ? 1 : table.getRowNumberByText(eventName);
+        int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
         super.validateAddedTask("tblTasks", parameter, value, 1);
@@ -720,19 +652,16 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         String warn = "Task is still present on page!";
-        logger.error(warn);
+        LOGGER.error(warn);
         throw new AssertionError(warn);
     }
 
     public DeviceProfilePage downloadManually(String fileType) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         switchToFrame(SUB_FRAME);
         selectDownloadFileType(fileType);
         waitForUpdate();
-        manualRadioButton();
-        fillUrl();
+        manuallyDownloadRadioButton();
+        fillDownloadUrl();
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
             selectComboBox(deliveryComboBox, "Push");
         }
@@ -740,14 +669,11 @@ public class DeviceProfilePage extends BasePage {
 //        fillPassword();
         saveButton();
         switchToPreviousFrame();
-        parameterMap.put(fileType, getProps().getProperty("ftp_config_file_url"));
+        getParameterMap().put(fileType, getProps().getProperty("file_server"));
         return this;
     }
 
     public DeviceProfilePage downloadFromListFile(String fileType) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         switchToFrame(SUB_FRAME);
         selectDownloadFileType(fileType);
         waitForUpdate();
@@ -763,7 +689,7 @@ public class DeviceProfilePage extends BasePage {
         }
         saveButton();
         switchToPreviousFrame();
-        parameterMap.put(fileType, lastOpt);
+        getParameterMap().put(fileType, lastOpt);
         return this;
     }
 
@@ -807,7 +733,7 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage validateParameter(String paramName, String value) {
         waitForUpdate();
         waitUntilButtonIsDisplayed(ADVANCED_VIEW);
-        Table paramTbl = new Table(paramTable);
+        Table paramTbl = new Table("tblParameters");
         int row = paramTbl.getRowsWithText(paramName).get(0);
         WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
         String actual = input.getAttribute("value");
@@ -816,13 +742,13 @@ public class DeviceProfilePage extends BasePage {
         }
         String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
                 "expected to find '" + value + "', but find '" + actual + "')";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
     public void validateParameters() {
         waitForUpdate();
-        Table table = new Table(paramTable);
+        Table table = new Table("tblParameters");
         String[] names = table.getColumn(0);
         for (int i = 0; i < names.length; i++) {
             String paramName = names[i];
@@ -841,27 +767,15 @@ public class DeviceProfilePage extends BasePage {
             } else {
                 String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
                         "expected to find '" + expected + "', but find '" + actual + "')";
-                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
         }
     }
 
     public DeviceProfilePage assertMainPageIsDisplayed() {
-        try {
-            boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
-            boolean modelNameComboBox = filterModelNameComboBox.isDisplayed() && filterModelNameComboBox.isEnabled();
-            boolean viewComboBox = filterProfileStatusComboBox.isDisplayed() && filterProfileStatusComboBox.isEnabled();
-            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
-            if (viewComboBox && manufacturerComboBox && modelNameComboBox && resetViewBtn) {
-                return this;
-            }
-        } catch (NoSuchElementException e) {
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
-        }
-        String warn = "One or more elements not found on Device Profile tab main page";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-        throw new AssertionError(warn);
+        assertElementsAreEnabled(filterManufacturerComboBox, filterModelNameComboBox, filterProfileStatusComboBox, resetViewButton);
+        return this;
     }
 
     public DeviceProfilePage addDeviceWithoutTemplate() {
@@ -877,7 +791,7 @@ public class DeviceProfilePage extends BasePage {
         Table table = getMainTable();
         if (table.contains(name) != isExpected) {
             String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -893,10 +807,8 @@ public class DeviceProfilePage extends BasePage {
 
     private DeviceProfilePage assertProfileStateIs(String state, String profileName) {
         waitForUpdate();
-        Table table = getMainTableWithText(profileName, "Created");
-        int col = table.getColumnNumber(0, "State");
-        int row = table.getRowNumberByText(profileName);
-        assertEquals(table.getCellText(row, col), state, "Profile '" + profileName + "' has unexpected state;");
+        Table table = getMainTableWithText(profileName);
+        assertEquals(table.getCellText(profileName, "State"), state, "Profile '" + profileName + "' has unexpected state;");
         return this;
     }
 
@@ -924,10 +836,10 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    private Table getMainTableWithText(String text, String sortedColumn) {
+    private Table getMainTableWithText(String text) {
         Table table = getMainTable();
         if (!table.contains(text)) {
-            table.clickOn(sortedColumn);
+            table.clickOn("Created");
             waitForUpdate();
             table = getMainTable();
             if (!table.contains(text)) {
@@ -939,7 +851,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage enterIntoProfile(String profileName) {
-        Table table = getMainTableWithText(profileName, "Created");
+        Table table = getMainTableWithText(profileName);
         table.clickOn(profileName);
         waitForUpdate();
         return this;
@@ -1034,8 +946,7 @@ public class DeviceProfilePage extends BasePage {
             throw new AssertionError("Filtered column has more than one value!");
         }
         if (elementIsPresent("btnPager2")) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
+            itemsOnPage("200");
             table = getMainTable();
         }
         String[] names = table == null ? new String[0] : table.getColumn("Name");
@@ -1048,7 +959,7 @@ public class DeviceProfilePage extends BasePage {
         }
         System.out.println("!!!:" + webNameSet);
         String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -1059,7 +970,7 @@ public class DeviceProfilePage extends BasePage {
         modelList.retainAll(activeList);
         if (modelList.size() < 1) {
             String warn = "There is no active custom profile to export for current device!";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         int row = modelList.get(0);
@@ -1071,7 +982,7 @@ public class DeviceProfilePage extends BasePage {
             assertTrue(HttpConnector.sendGetRequest(link).contains("<Name>" + item + "</Name>"));
         } catch (IOException e) {
             String warn = "Download export file failed!";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
     }
@@ -1135,21 +1046,6 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage selectAction(String action, String instance) {
         return (DeviceProfilePage) super.selectAction(action, instance);
-    }
-
-    @Override
-    public DeviceProfilePage factoryResetRadioButton() {
-        return (DeviceProfilePage) super.factoryResetRadioButton();
-    }
-
-    @Override
-    public DeviceProfilePage reprovisionRadioButton() {
-        return (DeviceProfilePage) super.reprovisionRadioButton();
-    }
-
-    @Override
-    public DeviceProfilePage customRpcRadioButton() {
-        return (DeviceProfilePage) super.customRpcRadioButton();
     }
 
     @Override
@@ -1221,8 +1117,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertPresenceOfElements(String... ids) {
-        return (DeviceProfilePage) super.assertPresenceOfElements(ids);
+    public DeviceProfilePage assertElementsArePresent(String... elementsId) {
+        return (DeviceProfilePage) super.assertElementsArePresent(elementsId);
     }
 
     @Override
@@ -1231,25 +1127,25 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertHasRedBorder(boolean expectedRed, String paramName) {
-        Table table = new Table(paramTable);
+        Table table = new Table("tblParameters");
         int row = table.getRowsWithText(paramName).get(0);
         WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
         if (input.getAttribute("style").endsWith("rgb(255, 74, 74);") == expectedRed) {
             return this;
         }
         String warn = "Input field for parameter '" + paramName + "' doesn't have red border!";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
     public DeviceProfilePage assertAddTaskButtonIsActive(String eventName, boolean expectedActive) {
         Table table = new Table("tblEvents");
-        WebElement input = table.getInput(table.getRowNumberByText(eventName), 4);
+        WebElement input = table.getInput(eventName, 4);
         if (input.isEnabled() == expectedActive) {
             return this;
         }
         String warn = "Button 'Add task' has unexpected state (disabled)";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -1290,7 +1186,6 @@ public class DeviceProfilePage extends BasePage {
             dUPage
                     .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
                     .selectBranch(path.substring(0, path.indexOf(parameter)));
-            ;
         } else {
             dUPage.leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
             Table tabTable = getTabTable();
@@ -1305,7 +1200,7 @@ public class DeviceProfilePage extends BasePage {
         while (!timer.timeout()) {
             try {
                 Table table = new Table("tblParamsTable");
-                int row = table.getRowNumberByText(0, parameter);
+                int row = table.getFirstRowWithText(0, parameter);
                 WebElement cell = table.getCellWebElement(row, 1);
                 String text = cell.findElement(By.tagName("input")).getAttribute("value");
                 if (text.equals(value)) {
@@ -1320,7 +1215,7 @@ public class DeviceProfilePage extends BasePage {
             return this;
         }
         String warn = isExpected ? "Profile has not been applied to the device, but MUST!" : "Profile has been applied to the device, but MUST NOT!";
-        logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
 
@@ -1362,7 +1257,7 @@ public class DeviceProfilePage extends BasePage {
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             if (table.getInput(i, 0).isSelected() != expectedState) {
                 String warn = "One or more parameter has unexpected state!";
-                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
         }
@@ -1390,13 +1285,13 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage manuallyUrlRadioButton() {
-        return (DeviceProfilePage) super.manuallyUrlRadioButton();
+    public DeviceProfilePage manuallyUploadRadioButton() {
+        return (DeviceProfilePage) super.manuallyUploadRadioButton();
     }
 
     @Override
-    public DeviceProfilePage manualRadioButton() {
-        return (DeviceProfilePage) super.manualRadioButton();
+    public DeviceProfilePage manuallyDownloadRadioButton() {
+        return (DeviceProfilePage) super.manuallyDownloadRadioButton();
     }
 
     @Override
@@ -1405,8 +1300,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage fillUrl() {
-        return (DeviceProfilePage) super.fillUrl();
+    public DeviceProfilePage fillDownloadUrl() {
+        return (DeviceProfilePage) super.fillDownloadUrl();
     }
 
     @Override
@@ -1444,9 +1339,6 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setPolicy(Table table, int scenario) {
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         int shift = 1;
         if (scenario == 1) {
             List<Integer> rowsList = table.getRowsWithSelectList(2);
@@ -1513,10 +1405,10 @@ public class DeviceProfilePage extends BasePage {
             }
             if (result.isEmpty()) {
                 String warn = "Cannot complete test on current tab for this device!";
-                logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
-            parameterMap.put(table.getHint(i), result);
+            getParameterMap().put(table.getHint(i), result);
         }
         return this;
     }
@@ -1524,37 +1416,6 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage leftMenu(ILeft item) {
         return (DeviceProfilePage) super.leftMenu(item);
-    }
-
-//    public DeviceProfilePage leftMenu(Left item) {
-//        switchToFrame(DESKTOP);
-//        if (elementIsPresent("btnPager2")) {
-//            descendingSortByCreateColumn();
-//        }
-//        switchToFrame(ROOT);
-//        Timer timer = new Timer();
-//        Table table = getTable("tblLeftMenu");
-//        while (!table.contains(item.value) && !timer.timeout()) {
-//            table = getTable("tblLeftMenu");
-//        }
-//        table.clickOn(item.value);
-//        waitForUpdate();
-//        switchToFrame(DESKTOP);
-//        return this;
-//    }
-
-    private void descendingSortByCreateColumn() {
-        Table table = new Table("tblItems");
-        int colNum = table.getColumnNumber(0, "Created");
-        boolean descending = table.getCellWebElement(0, colNum).findElement(By.tagName("img")).getAttribute("src").endsWith("down.png");
-        if (!descending) {
-            table.clickOn(0, colNum);
-        }
-    }
-
-    public DeviceProfilePage marker(String marker) {
-        System.out.println("marker " + marker);
-        return this;
     }
 
     public enum Left implements ILeft {

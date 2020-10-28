@@ -226,7 +226,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName(false)
                 .pause(1000)
                 .addDeviceWithoutTemplate()
-                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertElementsArePresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .bottomMenu(CANCEL)
@@ -265,7 +265,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Parameters")
                 .selectTab("Device")
                 .bottomMenu(ADVANCED_VIEW)
-//                .selectBranch("ManagementServer")
+                .selectBranch("Root.Device.0")
                 .setParameter("Timezone", "Europe/Kharkov")
                 .bottomMenu(SIMPLE_VIEW)
                 .validateParameter("Timezone", "Europe/Kharkov")
@@ -901,7 +901,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "5", null), true)
                 .addTask("Action")
-                .minAndMaxRadioButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -911,7 +911,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.IPSO_Humidity.i.Reset Min and Max Measured Values - instance 0");
+                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test//bug: Save button doesn't work with several RB on 'Action' page;
@@ -924,7 +924,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "6", null), true)
                 .addTask("Action")
-                .cumulativeEnergyButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1131,7 +1131,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "15", null), true)
                 .addTask("Action")
-                .minAndMaxRadioButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1141,7 +1141,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.IPSO_Humidity.i.Reset Min and Max Measured Values - instance 0");
+                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test//bug: Save button doesn't work with several RB on 'Action' page;
@@ -1154,7 +1154,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "16", null), true)
                 .addTask("Action")
-                .cumulativeEnergyButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1361,7 +1361,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "25", null), true)
                 .addTask("Action")
-                .minAndMaxRadioButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1371,7 +1371,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.IPSO_Humidity.i.Reset Min and Max Measured Values - instance 0");
+                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test//bug: Save button doesn't work with several RB on 'Action' page;
@@ -1384,7 +1384,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "26", null), true)
                 .addTask("Action")
-                .cumulativeEnergyButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1591,7 +1591,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "35", null), true)
                 .addTask("Action")
-                .minAndMaxRadioButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1601,7 +1601,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.IPSO_Humidity.i.Reset Min and Max Measured Values - instance 0");
+                .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test//bug: Save button doesn't work with several RB on 'Action' page;
@@ -1614,7 +1614,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "36", null), true)
                 .addTask("Action")
-                .cumulativeEnergyButton()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()

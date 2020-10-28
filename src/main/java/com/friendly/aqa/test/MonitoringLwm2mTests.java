@@ -3,7 +3,6 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -85,7 +84,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName("lwm2m_mo_004")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -153,7 +152,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
-                .assertPresenceOfElements("lbActivate")
+                .assertElementsArePresent("lbActivate")
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -239,7 +238,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -277,7 +276,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("lwm2m_mo_016")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -935,7 +934,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
-                .selectImportGuFile()
+                .selectImportMonitorFile()
                 .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
@@ -970,7 +969,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1039,7 +1038,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("lwm2m_mo_064")
                 .resetView()
-                .assertSelectedOptionIs("ddlView", "Default");
+                .assertSelectedViewIs( "Default");
     }
 
     @Test
@@ -1107,7 +1106,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -1145,7 +1144,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("lwm2m_mo_076")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test

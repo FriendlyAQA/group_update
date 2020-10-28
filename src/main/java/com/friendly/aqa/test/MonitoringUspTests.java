@@ -87,7 +87,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName("usp_mo_004")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
-                .assertPresenceOfElements("lbActivate")
+                .assertElementsArePresent("lbActivate")
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -241,7 +241,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -279,7 +279,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("usp_mo_016")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -748,7 +748,7 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
-                .selectImportGuFile()
+                .selectImportMonitorFile()
                 .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
@@ -783,7 +783,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -852,7 +852,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("usp_mo_052")
                 .resetView()
-                .assertSelectedOptionIs("ddlView", "Default");
+                .assertSelectedViewIs( "Default");
     }
 
     @Test
@@ -920,7 +920,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -958,7 +958,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("usp_mo_064")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test

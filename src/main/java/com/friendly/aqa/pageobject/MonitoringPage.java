@@ -5,7 +5,6 @@ import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.XmlWriter;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -23,12 +22,7 @@ import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByManufa
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByModelName;
 
 public class MonitoringPage extends BasePage {
-    private static final Logger LOGGER = Logger.getLogger(MonitoringPage.class);
-
-    @Override
-    protected String getLeftMenuCssSelector() {
-        return "tr[topmenu='Monitoring']";
-    }
+//    private static final Logger LOGGER = Logger.getLogger(MonitoringPage.class);
 
     @Override
     public MonitoringPage topMenu(TopMenu value) {
@@ -63,9 +57,6 @@ public class MonitoringPage extends BasePage {
 
     @FindBy(id = "txtName")
     private WebElement customViewNameField;
-
-    @FindBy(id = "tblDataParams")
-    private WebElement paramTable;
 
     @FindBy(id = "tbTimeToHour")
     private WebElement endDateHours;
@@ -340,11 +331,12 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage setViewColumns(int startParam, int endParam) {
-        return (MonitoringPage) super.setViewColumns(startParam, endParam);
+    public MonitoringPage setVisibleColumns(int startParam, int endParam) {
+        return (MonitoringPage) super.setVisibleColumns(startParam, endParam);
     }
 
-    public void validateAddedTasks() {
+    @Override
+    public MonitoringPage validateAddedTasks() {
         selectTab("Summary");
         waitForUpdate();
         String[] params = getParamTable().getColumn(0);
@@ -360,6 +352,7 @@ public class MonitoringPage extends BasePage {
             }
             throw new AssertionError(unexpected.append("not found on the 'Summary' tab!").toString());
         }
+        return this;
     }
 
     @Override
@@ -375,9 +368,9 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.scheduledToRadioButton();
     }
 
-    @Override
     public MonitoringPage assertMainPageIsDisplayed() {
-        return (MonitoringPage) super.assertMainPageIsDisplayed();
+        assertElementsAreEnabled(filterViewComboBox, filterManufacturerComboBox, filterModelNameComboBox, editButton, newViewButton, resetViewButton);
+        return this;
     }
 
     @Override
@@ -408,9 +401,8 @@ public class MonitoringPage extends BasePage {
         }
         waitForUpdate();
         if (elementIsPresent("btnPager2")) {
-            selectComboBox(itemsOnPageComboBox, "200");
+            itemsOnPage("200");
         }
-        waitForUpdate();
         String[] names = elementIsPresent("tblSample") ? getMainTable().getColumn("Name") : new String[0];
         Set<String> webNameSet = new HashSet<>(Arrays.asList(names));
         if (elementIsAbsent("btnPager2")) {
@@ -473,7 +465,7 @@ public class MonitoringPage extends BasePage {
     }
 
     private Table getParamTable() {
-        return new Table(this.paramTable);
+        return new Table("tblDataParams");
     }
 
     @Override
@@ -671,8 +663,8 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertPresenceOfElements(String... ids) {
-        return (MonitoringPage) super.assertPresenceOfElements(ids);
+    public MonitoringPage assertElementsArePresent(String... elementsId) {
+        return (MonitoringPage) super.assertElementsArePresent(elementsId);
     }
 
     public MonitoringPage presetFilter(String parameter, String value) {
@@ -680,7 +672,7 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    public MonitoringPage selectImportGuFile() {
+    public MonitoringPage selectImportMonitorFile() {
         XmlWriter.createImportMonitorFile();
         switchToFrame(DESKTOP);
         String inputText = new File("import/" + getProtocolPrefix() + "_import_monitor.xml").getAbsolutePath();
@@ -713,8 +705,7 @@ public class MonitoringPage extends BasePage {
             return this;
         }
         if (elementIsPresent("btnPager2")) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
+            itemsOnPage("200");
         }
         getMainTable().clickOn(0, 0);
         bottomMenu(DELETE);

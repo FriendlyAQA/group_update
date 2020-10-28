@@ -224,7 +224,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .fillName()
                 .pause(1000)
                 .addDeviceWithoutTemplate()
-                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertElementsArePresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .bottomMenu(CANCEL)
@@ -1467,8 +1467,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -1479,7 +1479,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("1 BOOT"/*, "Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -1891,8 +1891,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -1903,7 +1903,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("2 PERIODIC"/*, "Vendor Configuration File", props.getProperty("ftp_config_file_url")*/);
     }
 
     @Test
@@ -2315,8 +2315,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -2327,7 +2327,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("4 VALUE CHANGE"/*, "Vendor Configuration File", props.getProperty("ftp_config_file_url")*/);
     }
 
     @Test
@@ -2739,8 +2739,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -2751,7 +2751,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("6 CONNECTION REQUEST"/*, "Vendor Configuration File", props.getProperty("ftp_config_file_url")*/);
     }
 
     @Test
@@ -3935,7 +3935,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3945,7 +3945,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("1 BOOT"/*, "Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -3961,7 +3961,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3971,7 +3971,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("2 PERIODIC"/*, "Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -3987,7 +3987,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -3997,7 +3997,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("4 VALUE CHANGE"/*, "Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -4013,7 +4013,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -4023,7 +4023,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("6 CONNECTION REQUEST"/*, "Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -4849,7 +4849,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test//bug: editing profile events causes an erase of all events.
-    public void tr069_dp_224() {
+    public void tr069_dp_224() {//depends on 223
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("tr069_dp_223")
@@ -4890,7 +4890,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test//bug: editing profile events causes an erase of all events.
-    public void tr069_dp_226() {
+    public void tr069_dp_226() {//depends on 225
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("tr069_dp_225")
@@ -6427,7 +6427,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_dp_305() {
+    public void tr069_dp_305() {//depends on 304
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("tr069_dp_304")
@@ -6481,8 +6481,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -6493,7 +6493,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -6560,7 +6560,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -6570,7 +6570,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedMonitorTasks(/*"Vendor Configuration File", props.getProperty("file_server")*/);
     }
 
     @Test
@@ -6658,7 +6658,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectEventTab("Management")
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Diagnostics")
-                .selectDiagnostic("Trace diagnostics")
+                .selectDiagnostic(/*"Trace diagnostics"*/"IPPing diagnostics")
                 .inputHost("8.8.8.8")
                 .inputNumOfRepetitions("3")
                 .saveTaskButton()
@@ -6669,7 +6669,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .validateAddedMonitorTask("Trace diagnostics", "8.8.8.8");
+                .validateAddedMonitorTask(/*"Trace diagnostics"*/"IPPing diagnostics", "8.8.8.8");
     }
 
     @Test

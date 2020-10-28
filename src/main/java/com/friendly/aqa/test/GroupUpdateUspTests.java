@@ -57,7 +57,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo()
                 .showList()
-                .assertTrue(guPage.serialNumberTableIsPresent());
+                .assertDevicesArePresent();
     }
 
     @Test
@@ -69,11 +69,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .createGroupButton()
-                .assertTrue(guPage.isButtonPresent(FINISH))
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .pause(500)
-                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .assertInputHasText("txtName", testName);
     }
 
     @Test
@@ -83,12 +81,12 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
-                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"));
-        setTargetTestName();
+                .validateSelectedGroup();
     }
 
     @Test
@@ -101,8 +99,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"), "Created group isn't selected!\n")
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .validateSelectedGroup()
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -114,9 +112,9 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .createGroupButton()
-                .fillName(targetTestName)
+                .fillName("usp_gu_006")
                 .bottomMenu(NEXT)
-                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -127,11 +125,11 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .selectSendTo(targetTestName)
+                .selectSendTo("usp_gu_006")
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", targetTestName), "Option '" + targetTestName + "' is still present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "usp_gu_006");
     }
 
     @Test
@@ -211,7 +209,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reboot");
     }
@@ -230,7 +228,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
@@ -251,7 +249,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Factory reset");
     }
@@ -270,7 +268,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
@@ -291,7 +289,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .nextSaveAndActivate()
 //                .assertPresenceOfParameter("CPEReprovision")
                 .validateAddedTask("Device reprovision", "CPEReprovision");
@@ -311,7 +309,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .saveAndActivate(false)
@@ -337,7 +335,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .bottomMenu(CANCEL)
-                .assertPresenceOfElements("tblParameters");
+                .assertElementsArePresent("tblParameters");
     }
 
     @Test
@@ -467,7 +465,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .assertElementsArePresent("lblHead");
     }
 
     @Test
@@ -484,7 +482,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", testName);
     }
 
     @Test
@@ -502,7 +500,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -526,7 +524,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .bottomMenu(SAVE)
@@ -551,7 +549,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -575,7 +573,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .bottomMenu(SAVE)
@@ -600,7 +598,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -624,7 +622,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "NodeAddr", NOT_EQUAL, "127.0.0.1")
                 .bottomMenu(SAVE)

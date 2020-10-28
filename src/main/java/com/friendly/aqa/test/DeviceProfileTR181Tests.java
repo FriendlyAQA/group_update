@@ -222,7 +222,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .fillName()
                 .pause(1000)
                 .addDeviceWithoutTemplate()
-                .assertPresenceOfElements("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
+                .assertElementsArePresent("lblTemplateNotFound")  //button "Cancel" is absent (STD contradiction)
                 .selectManufacturer()
                 .selectModel()
                 .bottomMenu(CANCEL)
@@ -1766,8 +1766,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateEvents();
     }
 
-    @Test   //bug: editing profile events causes an erase of all events.
-    public void tr181_dp_107() {
+    @Test
+    public void tr181_dp_107() {//depends on 106
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("tr181_dp_106")
@@ -1819,8 +1819,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -1831,7 +1831,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1882,7 +1882,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventAction("1 BOOT", "Action", "Factory reset");
     }
 
-    @Test//bug: reprovision RB is missing;
+    @Test
     public void tr181_dp_112() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2243,8 +2243,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -2255,7 +2255,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2306,7 +2306,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventAction("2 PERIODIC", "Action", "Factory Reset");
     }
 
-    @Test//bug: reprovision RB is missing;
+    @Test
     public void tr181_dp_129() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2667,8 +2667,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -2679,7 +2679,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2730,7 +2730,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventAction("4 VALUE CHANGE", "Action", "Factory Reset");
     }
 
-    @Test//bug: reprovision RB is missing;
+    @Test
     public void tr181_dp_146() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3091,8 +3091,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -3103,7 +3103,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3154,7 +3154,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Factory Reset");
     }
 
-    @Test//bug: reprovision RB is missing;
+    @Test
     public void tr181_dp_163() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -4587,7 +4587,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("1 BOOT", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -4597,7 +4597,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -4613,7 +4613,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -4623,7 +4623,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -4639,7 +4639,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("4 VALUE CHANGE", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -4649,7 +4649,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -4665,7 +4665,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", false, "3", null), true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -4675,7 +4675,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -5800,7 +5800,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "Backup");
     }
 
-    @Test//bug: editing profile events causes an erase of all events.
+    @Test
     public void tr181_dp_269() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5841,7 +5841,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "Restore");
     }
 
-    @Test//bug: editing profile events causes an erase of all events.
+    @Test
     public void tr181_dp_271() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7946,8 +7946,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Download file")
                 .selectDownloadFileType("Vendor Configuration File")
-                .manualRadioButton()
-                .fillUrl()
+                .manuallyDownloadRadioButton()
+                .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
                 .saveTaskButton()
@@ -7958,7 +7958,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("ftp_config_file_url"));
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -8025,7 +8025,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .setParametersMonitor(VALUE_CHANGE, true)
                 .addTask("Upload file")
                 .selectUploadFileType("Vendor Configuration File")
-                .manuallyUrlRadioButton()
+                .manuallyUploadRadioButton()
                 .fillUploadUrl()
                 .saveTaskButton()
                 .saveTaskButton()
@@ -8035,7 +8035,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .validateAddedMonitorTask("Vendor Configuration File", props.getProperty("upload_url"));
+                .validateAddedMonitorTasks();
     }
 
     @Test
@@ -8110,7 +8110,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedMonitorTask("Restore");
     }
 
-    @Test//bug: there's no such diagnostic
+    @Test
     public void tr181_dp_386() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

@@ -87,7 +87,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillViewName("tr181_mo_004")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -155,7 +155,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
-                .assertPresenceOfElements("lbActivate")
+                .assertElementsArePresent("lbActivate")
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -241,7 +241,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -279,7 +279,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("tr181_mo_016")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -1695,7 +1695,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
-                .selectImportGuFile()
+                .selectImportMonitorFile()
                 .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
     }
 
@@ -1730,7 +1730,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
-                .setViewColumns(1, 99)
+                .setVisibleColumns(1, 99)
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1799,7 +1799,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("tr181_mo_112")
                 .resetView()
-                .assertSelectedOptionIs("ddlView", "Default");
+                .assertSelectedViewIs( "Default");
     }
 
     @Test
@@ -1867,7 +1867,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName);
+                .validateSelectedGroup();
     }
 
     @Test
@@ -1905,7 +1905,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newGroupButton()
                 .fillGroupName("tr181_mo_124")
                 .bottomMenu(NEXT)
-                .assertPresenceOfElements("lblNameInvalid");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
@@ -1942,7 +1942,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertSelectedOptionIs("ddlSend", testName)
+                .validateSelectedGroup()
                 .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()

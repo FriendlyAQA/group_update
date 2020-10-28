@@ -3,7 +3,7 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.Timer;
+import com.friendly.aqa.utils.HttpConnector;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -15,25 +15,23 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.entities.BottomButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.CONDITIONS;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.ADD;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 public class GroupUpdatePage extends BasePage {
-    private static Logger logger = Logger.getLogger(GroupUpdatePage.class);
+    private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
 
     public GroupUpdatePage() {
         super();
         switchToFrame(DESKTOP);
-    }
-
-    @Override
-    protected String getLeftMenuCssSelector() {
-        return "tr[topmenu='Update Group']";
     }
 
     @FindBy(name = "ddlUpdateStatus")
@@ -114,9 +112,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "tbName")
     private WebElement descriptionFileUploadField;
 
-    @FindBy(id = "rdDefaultUpload")
-    private WebElement defaultUploadRadioButton;
-
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
     }
@@ -172,18 +167,8 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage assertMainPageIsDisplayed() {
-        try {
-            boolean update = updStatusComboBox.isDisplayed() && updStatusComboBox.isEnabled();
-            boolean manuf = manufacturerComboBox.isDisplayed() && manufacturerComboBox.isEnabled();
-            boolean model = modelComboBox.isDisplayed() && modelComboBox.isEnabled();
-            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
-            if (update && manuf && model && resetViewBtn) {
-                return this;
-            }
-        } catch (NoSuchElementException e) {
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + e.getMessage());
-        }
-        throw new AssertionError("One or more elements not found on Group Update tab main page");
+        assertElementsAreEnabled(updStatusComboBox, manufacturerComboBox, modelComboBox, resetViewButton);
+        return this;
     }
 
     public GroupUpdatePage presetFilter(String parameter, String value) {
@@ -225,6 +210,7 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.clickButton(button);
     }
 
+    @Override
     public GroupUpdatePage selectDate(String date) {
         return (GroupUpdatePage) super.selectDate(date);
     }
@@ -249,6 +235,29 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.selectItem(groupName);
     }
 
+    @Override
+    public GroupUpdatePage assertButtonIsEnabled(boolean expectedActive, String id) {
+        return (GroupUpdatePage) super.assertButtonIsEnabled(expectedActive, id);
+    }
+
+    public GroupUpdatePage assertInputIsDisabled(String id) {
+        assertFalse(findElement(id).isEnabled(), "Unexpected state of element #'" + id + "' (must be grayed out);");
+        return this;
+    }
+
+    public void checkExportLink() {
+        String fragment = BaseTestCase.getTestName().startsWith("lwm2m")
+                ? "\"Root.Device.0.UTC Offset\" value=\"+02:00\""
+                : "\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
+        try {
+            assertTrue(HttpConnector.sendGetRequest(
+                    getGuExportLink("tr069_gu_016"))
+                    .contains(fragment));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void checkIsCalendarClickable() {
         boolean exception = false, repeat = false;
         setImplicitlyWait(0);
@@ -261,15 +270,15 @@ public class GroupUpdatePage extends BasePage {
                 if (attr != null) {
                     setDefaultImplicitlyWait();
                     if (!repeat) {
-                        logger.info("First day of month in Sunday. Test case 19 is not effective");
+                        LOGGER.info("First day of month in Sunday. Test case 19 is not effective");
                     }
                     if (exception) {
-                        logger.info("An exception was caught while checking grayed-out dates");
+                        LOGGER.info("An exception was caught while checking grayed-out dates");
                     }
                     try {
                         cell.click();
                     } catch (ElementNotInteractableException e) {
-                        logger.info("An exception was caught when click on current date");
+                        LOGGER.info("An exception was caught when click on current date");
                     }
                     return;
                 }
@@ -291,6 +300,18 @@ public class GroupUpdatePage extends BasePage {
 
     public void timeMinutesSelect(String value) {
         new Select(timeMinutesSelect).selectByValue(value);
+    }
+
+    public GroupUpdatePage selectFileName(String fileType) {
+        return (GroupUpdatePage) super.selectFileName(fileType);
+    }
+
+    public GroupUpdatePage validateDownloadFileTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            validateAddedTask("tblTasks", entry.getKey(), entry.getValue(), 0);
+        }
+        return this;
     }
 
     public GroupUpdatePage selectFileName(int index) {
@@ -349,61 +370,14 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage manualRadioButton() {
-        waitForUpdate();
-        manualRadioButton.click();
-        return this;
-    }
-
-    public GroupUpdatePage manuallyUrlRadioButton() {
-        return (GroupUpdatePage) super.manuallyUrlRadioButton();
+    @Override
+    public GroupUpdatePage manuallyDownloadRadioButton() {
+        return (GroupUpdatePage) super.manuallyDownloadRadioButton();
     }
 
     @Override
-    public GroupUpdatePage rebootRadioButton() {
-        return (GroupUpdatePage) super.rebootRadioButton();
-    }
-
-    @Override
-    public GroupUpdatePage factoryResetRadioButton() {
-        return (GroupUpdatePage) super.factoryResetRadioButton();
-    }
-
-    public GroupUpdatePage resetMinMaxValues() {
-        waitForUpdate();
-        resetMinMaxValues.click();
-        return this;
-    }
-
-    public GroupUpdatePage resetCumulativeEnergy() {
-        waitForUpdate();
-        resetCumulativeEnergy.click();
-        return this;
-    }
-
-    @Override
-    public GroupUpdatePage resetErrors() {//
-        return (GroupUpdatePage) super.resetErrors();
-    }
-
-    @Override
-    public GroupUpdatePage disableRadiobutton() {//
-        return (GroupUpdatePage) super.disableRadiobutton();
-    }
-
-    @Override
-    public GroupUpdatePage radioRegistrationUpdateTrigger() {//
-        return (GroupUpdatePage) super.radioRegistrationUpdateTrigger();
-    }
-
-    @Override
-    public GroupUpdatePage radioStartOrReset() {//
-        return (GroupUpdatePage) super.radioStartOrReset();
-    }
-
-    @Override
-    public GroupUpdatePage reprovisionRadioButton() {
-        return (GroupUpdatePage) super.reprovisionRadioButton();
+    public GroupUpdatePage manuallyUploadRadioButton() {
+        return (GroupUpdatePage) super.manuallyUploadRadioButton();
     }
 
     public GroupUpdatePage editGroupButton() {
@@ -412,15 +386,24 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    @Override
-    public GroupUpdatePage customRpcRadioButton() {
-        return (GroupUpdatePage) super.customRpcRadioButton();
-    }
-
     public GroupUpdatePage defaultUploadRadioButton() {
+        String fileType = getSelectedOption(selectUploadFileTypeComboBox);
+        String path = props.getProperty("file_server");
+        path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
+        getParameterMap().put(fileType, path);
         waitForUpdate();
         defaultUploadRadioButton.click();
         return this;
+    }
+
+    @Override
+    public GroupUpdatePage selectFromListRadioButton() {
+        return (GroupUpdatePage) super.selectFromListRadioButton();
+    }
+
+    @Override
+    public GroupUpdatePage validateAddedTasks() {
+        return (GroupUpdatePage) super.validateAddedTasks();
     }
 
     public GroupUpdatePage fromListRadioButton() {
@@ -457,18 +440,9 @@ public class GroupUpdatePage extends BasePage {
         return driver.findElement(By.id(id)).isDisplayed();
     }
 
+    @Override
     public GroupUpdatePage itemsOnPage(String number) {
-        waitForUpdate();
-        try {
-            if (getSelectedOption(itemsOnPageComboBox).equals(number)) {
-                return this;
-            }
-        } catch (NoSuchElementException e) {
-            logger.info("Select 'Items/page' not found");
-            return this;
-        }
-        selectComboBox(itemsOnPageComboBox, number);
-        return this;
+        return (GroupUpdatePage) super.itemsOnPage(number);
     }
 
     public GroupUpdatePage showList() {
@@ -492,9 +466,9 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.fillName();
     }
 
-    public GroupUpdatePage fillUrl(String url) {
-        urlField.sendKeys(url);
-        return this;
+    @Override
+    public GroupUpdatePage fillDownloadUrl() {
+        return (GroupUpdatePage) super.fillDownloadUrl();
     }
 
     public GroupUpdatePage fillDescriptionUploadFile(String desc) {
@@ -507,6 +481,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.fillUploadUrl();
     }
 
+    @Override
+    public GroupUpdatePage fillUsername() {
+        return (GroupUpdatePage) super.fillUsername();
+    }
+
     public GroupUpdatePage fillUserName(String userName) {
         userNameField.sendKeys(userName);
         return this;
@@ -515,6 +494,11 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage fillPassword(String password) {
         passwordField.sendKeys(password);
         return this;
+    }
+
+    @Override
+    public GroupUpdatePage fillPassword() {
+        return (GroupUpdatePage) super.fillPassword();
     }
 
     public GroupUpdatePage inputTextField(String text) {
@@ -591,36 +575,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage deleteFilterGroups() {
-        List<WebElement> optList;
-        List<String> permanent = new ArrayList<>(Arrays.asList("NotSet", "All", "Individual", "Random", "Import"));
-        while ((optList = new Select(sendToComboBox).getOptions()).size() > 5) {
-            waitForUpdate();
-            for (WebElement option : optList) {
-                String value = option.getAttribute("value");
-                if (permanent.contains(value)) {
-                    continue;
-                }
-                Timer timer = new Timer();
-                while (!timer.timeout()) {
-                    if (isButtonActive(CANCEL)) {
-                        break;
-                    }
-                }
-                selectComboBox(sendToComboBox, value);
-                waitForUpdate();
-                editGroupButton();
-                try {
-                    bottomMenu(DELETE_GROUP);
-                } catch (NoSuchElementException e) {
-                    switchToPreviousFrame();
-                    executeScript("SelectSendTp();");
-                    System.out.println("Execution script forced");
-                }
-                okButtonPopUp();
-                break;
-            }
-        }
-        return this;
+        return (GroupUpdatePage) deleteAll(sendToComboBox);
     }
 
     public GroupUpdatePage bottomMenu(BottomButtons button) {
@@ -634,11 +589,6 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage leftMenu(Left item) {
-//        switchToFrame(ROOT);
-//        leftMenuClick(item.getValue());
-//        waitForUpdate();
-//        switchToFrame(DESKTOP);
-//        return this;
         return (GroupUpdatePage) super.leftMenu(item);
     }
 
@@ -708,7 +658,7 @@ public class GroupUpdatePage extends BasePage {
             table = getMainTable();
             itemsOnPage("200");
         } catch (NoSuchElementException e) {
-            logger.info("List '" + option + "' is empty. Nothing to filter");
+            LOGGER.info("List '" + option + "' is empty. Nothing to filter");
             return this;
         }
         String[] arr = table.getColumn(dropdown);
@@ -719,7 +669,7 @@ public class GroupUpdatePage extends BasePage {
         }
         if (set.size() != 1 && !set.contains(option)) {
             String warn = "Filtering failed on dropdown '" + dropdown + "'";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             itemsOnPage("10");
             throw new AssertionError(warn);
         }
@@ -759,6 +709,11 @@ public class GroupUpdatePage extends BasePage {
 //        return this;
 //    }
 
+    @Override
+    public GroupUpdatePage selectAction(String action) {
+        return (GroupUpdatePage) super.selectAction(action);
+    }
+
     public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Conditions condition, String value) {
         WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
         button.click();
@@ -777,7 +732,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public void setCondition(Table table, String conditionName, Conditions condition, String value) {
-        int rowNum = table.getRowNumberByText(0, conditionName);
+        int rowNum = table.getFirstRowWithText(0, conditionName);
         if (rowNum < 0) {
             throw new AssertionError("Condition name '" + conditionName + "' not found");
         }
@@ -811,7 +766,7 @@ public class GroupUpdatePage extends BasePage {
         boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
         if (!(man && model && status && sortedByCreated)) {
             String warn = "\"Reset View\" check failed";
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
         }
         return this;
@@ -821,14 +776,29 @@ public class GroupUpdatePage extends BasePage {
         return serialNumberTableList.size() != 0;
     }
 
+    public void assertDevicesArePresent() {
+        assertElementsArePresent("tblDevices");
+    }
+
     public GroupUpdatePage selectFileType(int index) {
         new Select(selectDownloadFileTypeComboBox).selectByIndex(index);
         return this;
     }
 
-    public GroupUpdatePage selectDownloadFileType(String option) {
-        selectComboBox(selectDownloadFileTypeComboBox, option);
-        return this;
+    @Override
+    public GroupUpdatePage selectDownloadFileType(String type) {
+        setImplicitlyWait(0);
+        List<WebElement> list = findElements("UcFirmware1_ddlFileType");
+        if (!list.isEmpty() && !list.get(0).isDisplayed()) {
+            bottomMenu(ADD);
+        }
+        setDefaultImplicitlyWait();
+        return (GroupUpdatePage) super.selectDownloadFileType(type);
+    }
+
+    @Override
+    public GroupUpdatePage selectUploadFileType(String type) {
+        return (GroupUpdatePage) super.selectUploadFileType(type);
     }
 
     public GroupUpdatePage selectUploadFileType(int index) {
@@ -991,7 +961,7 @@ public class GroupUpdatePage extends BasePage {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .customRpcRadioButton()
+                .selectAction("Custom RPC")
                 .selectMethod(method)
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
@@ -1181,11 +1151,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage marker(String marker) {
-        System.out.println(marker);
-        return this;
-    }
-
     public GroupUpdatePage setAdvancedParameter(String branch, int amount) {
         if (branch == null) {
             selectAnotherBranch();
@@ -1198,14 +1163,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage setAllPolicies() {
         Table table = getParamTable();
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         String[] names = table.getColumn(0);
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             setPolicy(table, names[i - 1], Policy.ACTIVE, Policy.ALL);
             String hint = table.getHint(i);
-            parameterMap.put(hint, "Notification=Active Access=All");
+            getParameterMap().put(hint, "Notification=Active Access=All");
         }
         return this;
     }
@@ -1216,20 +1178,17 @@ public class GroupUpdatePage extends BasePage {
         String[] names = table.getColumn(0);
         int counter = (scenario == 0 || scenario >= length) ? length : scenario + 1;
         if (scenario >= length) {
-            logger.warn('(' + BaseTestCase.getTestName() + ')' + "Number of parameters on current tab is not enough to execute this testcase");
-        }
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + "Number of parameters on current tab is not enough to execute this testcase");
         }
         if (scenario == 1) {
             setPolicy(table, names[0], null, Policy.ACS_ONLY);
             String hint = table.getHint(1);
-            parameterMap.put(hint, "Access=AcsOnly");
+            getParameterMap().put(hint, "Access=AcsOnly");
         } else if (scenario == 2) {
             for (int i = 1; i < counter; i++) {
                 setPolicy(table, names[i - 1], Policy.OFF, null);
                 String hint = table.getHint(i);
-                parameterMap.put(hint, "Notification=Off ");
+                getParameterMap().put(hint, "Notification=Off ");
             }
         } else {
             Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
@@ -1239,17 +1198,14 @@ public class GroupUpdatePage extends BasePage {
                 String hint = table.getHint(i);
                 String name = names[i - 1];
                 setPolicy(table, name, notify[i], access[i]);
-                parameterMap.put(hint, results[i]);
+                getParameterMap().put(hint, results[i]);
             }
         }
         return this;
     }
 
     public void setPolicy(Table table, String policyName, Policy notification, Policy accessList) {
-        int rowNum = table.getRowNumberByText(0, policyName);
-        if (rowNum < 0) {
-            throw new AssertionError("Policy name '" + policyName + "' not found");
-        }
+        int rowNum = table.getFirstRowWithText(0, policyName);
         WebElement notificationCell = table.getCellWebElement(rowNum, 1);
         WebElement accessListCell = table.getCellWebElement(rowNum, 2);
         if (BROWSER.equals("edge")) {
@@ -1263,7 +1219,6 @@ public class GroupUpdatePage extends BasePage {
             new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.getOption());
         }
         waitForUpdate();
-//        clickOn(0, 0);
     }
 
     public GroupUpdatePage validateAddedTask(String parameter, String value) {
@@ -1295,8 +1250,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage assertPresenceOfElements(String... ids) {
-        return (GroupUpdatePage) super.assertPresenceOfElements(ids);
+    public GroupUpdatePage assertElementsArePresent(String... elementsId) {
+        return (GroupUpdatePage) super.assertElementsArePresent(elementsId);
+    }
+
+    @Override
+    public GroupUpdatePage assertElementsAreAbsent(String... elementsId) {
+        return (GroupUpdatePage) super.assertElementsAreAbsent(elementsId);
     }
 
     @Override
@@ -1317,7 +1277,7 @@ public class GroupUpdatePage extends BasePage {
 
     public enum Left implements ILeft {
         VIEW("View"), IMPORT("Import"), NEW("New");
-        private String value;
+        private final String value;
 
         Left(String value) {
             this.value = value;
@@ -1336,7 +1296,7 @@ public class GroupUpdatePage extends BasePage {
         ACS_ONLY("1"),
         ALL("2");
 
-        private String option;
+        private final String option;
 
         public String getOption() {
             return option;

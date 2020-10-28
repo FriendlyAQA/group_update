@@ -3,12 +3,9 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
 import static com.friendly.aqa.pageobject.BasePage.getModelName;
@@ -64,7 +61,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo()
                 .showList()
-                .assertTrue(guPage.serialNumberTableIsPresent());
+                .assertDevicesArePresent();
     }
 
     @Test
@@ -76,10 +73,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .createGroupButton()
-                .assertTrue(guPage.isButtonPresent(FINISH))
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .waitForUpdate().pause(500)
-                .assertEquals(guPage.getAttributeById("txtName", "value"), testName);
+                .assertInputHasText("txtName", testName);
     }
 
     @Test
@@ -89,11 +85,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("device_created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isButtonActive("btnDelFilter_btn")).filterRecordsCheckbox()
-                .assertTrue(guPage.isButtonActive("btnDelFilter_btn"))
+                .assertButtonIsEnabled(false, "btnDelFilter_btn")
+                .filterRecordsCheckbox()
+                .assertButtonIsEnabled(true, "btnDelFilter_btn")
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"));
+                .validateSelectedGroup();
     }
 
     @Test
@@ -106,12 +103,12 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(testName, guPage.getSelectedOption("ddlSend"), "Created group isn't selected!\n")
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Warning 'No devices selected' isn't displayed!\n");
+                .validateSelectedGroup()
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
-    public void lwm2m_gu_008() {
+    public void lwm2m_gu_008() {//depends on 006
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -121,11 +118,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createGroupButton()
                 .fillName("lwm2m_gu_006")
                 .bottomMenu(NEXT)
-                .assertTrue(guPage.isElementDisplayed("lblNameInvalid"), "Warning 'This name is already in use' isn't displayed!\n");
+                .assertElementsArePresent("lblNameInvalid");
     }
 
     @Test
-    public void lwm2m_gu_009() {
+    public void lwm2m_gu_009() {//depends on 006
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(NEW)
@@ -136,7 +133,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
                 .okButtonPopUp()
-                .assertFalse(guPage.isOptionPresent("ddlSend", "lwm2m_gu_006"), "Option 'lwm2m_gu_006' is still present on 'Send to' list!\n");
+                .assertAbsenceOfOptions("ddlSend", "usp_gu_006");
     }
 
     @Test
@@ -189,7 +186,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_013() {
         guPage
                 .gotoSetParameters(null)
-                .assertPresenceOfElements("tblParamsValue")
+                .assertElementsArePresent("tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -231,14 +228,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_017() {
+    public void lwm2m_gu_017() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
                 .enterIntoGroup("lwm2m_gu_016")
                 .bottomMenu(EDIT)
-                .assertFalse(guPage.isInputActive("ddlSend"))
+                .assertInputIsDisabled("ddlSend")
                 .bottomMenu(NEXT)
-                .assertFalse(guPage.isInputActive("lrbImmediately"))
+                .assertInputIsDisabled("lrbImmediately")
                 .bottomMenu(NEXT)
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
@@ -261,12 +258,10 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     }
 
     @Test
-    public void lwm2m_gu_019() throws IOException {
+    public void lwm2m_gu_019() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
-                .assertTrue(HttpConnector.sendGetRequest(guPage
-                        .getGuExportLink("lwm2m_gu_016"))
-                        .contains("\"Root.Device.0.UTC Offset\" value=\"+02:00\""));
+                .checkExportLink();
     }
 
     @Test
@@ -327,7 +322,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_026() {
         guPage
                 .gotoAction()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reboot");
     }
@@ -336,7 +331,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_027() {
         guPage
                 .gotoAction()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
@@ -347,7 +342,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_028() {
         guPage
                 .gotoAction()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Factory reset");
     }
@@ -356,7 +351,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_029() {
         guPage
                 .gotoAction()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .saveAndActivate(false)
@@ -367,25 +362,26 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_030() {
         guPage
                 .gotoAction()
-                .resetMinMaxValues()
+                .selectAction("Root.IPSO_Temperature.i.Reset Min and Max Measured Values")
+//                .resetMinMaxValues()
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reset Min and Max Measured Values");
+                .assertPresenceOfParameter("Root.IPSO_Temperature.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
     public void lwm2m_gu_031() {
         guPage
                 .gotoAction()
-                .resetCumulativeEnergy()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reset Cumulative energy");
+                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Completed'
     public void lwm2m_gu_032() {
         guPage
                 .gotoAction()
-                .resetErrors()
+                .selectAction("Reset errors")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Reset errors");
     }
@@ -394,7 +390,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_033() {
         guPage
                 .gotoAction()
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Disable");
     }
@@ -403,7 +399,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_034() {
         guPage
                 .gotoAction()
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .nextSaveAndActivate()
                 .assertPresenceOfParameter("Registration update trigger");
     }
@@ -412,16 +408,16 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_035() {
         guPage
                 .gotoAction()
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .nextSaveAndActivate()
-                .assertPresenceOfParameter("Start or reset");
+                .assertPresenceOfParameter("Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
     public void lwm2m_gu_036() {
         guPage
                 .gotoAction()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .nextSaveAndActivate()
                 .validateAddedTask("Device reprovision", "CPEReprovision");
     }
@@ -494,7 +490,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .bottomMenu(CANCEL)
-                .assertPresenceOfElements("tblParameters");
+                .assertElementsArePresent("tblParameters");
     }
 
     @Test
@@ -637,7 +633,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -649,7 +645,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Is not null'!\n").bottomMenu(NEXT)
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
@@ -671,7 +668,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - On Day'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -695,7 +692,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prior to'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -719,7 +716,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Later than'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -739,7 +736,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Today'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -759,7 +756,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Before Today'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -779,7 +776,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Yesterday'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -799,7 +796,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev 7 days'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -820,7 +817,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'Created - Prev X days'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -842,7 +839,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - equals'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -864,7 +861,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - not equals'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -886,7 +883,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertTrue(guPage.isElementDisplayed("lblNoSelectedCpes"), "Cannot find label'No devices selected'!\n");
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -900,7 +897,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Like'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -922,7 +919,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - No like'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -943,7 +940,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is null'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -964,7 +961,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertFalse(guPage.isElementDisplayed("lblNoSelectedCpes"), "No devices selected by filter 'mycust03 - Is not null'!\n")
+                .assertElementsAreAbsent("lblNoSelectedCpes")
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(NEXT)
@@ -983,7 +980,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertTrue(guPage.isElementDisplayed("lblHead"), "Filter creation didn't cancel properly!\n");
+                .assertElementsArePresent("lblHead");
     }
 
     @Test
@@ -1000,7 +997,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
                 .waitForUpdate()
-                .assertFalse(guPage.isOptionPresent("ddlSend", testName), "Option '" + testName + "' is present on 'Send to' list!\n");
+                .assertElementsAreAbsent("ddlSend");
     }
 
     @Test
@@ -2396,7 +2393,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -2420,7 +2417,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .rebootRadioButton()
+                .selectAction("Reboot")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
                 .bottomMenu(SAVE)
@@ -2445,7 +2442,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -2469,7 +2466,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .factoryResetRadioButton()
+                .selectAction("Factory reset")
                 .bottomMenu(NEXT)
                 .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
                 .bottomMenu(SAVE)
@@ -2479,7 +2476,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertPresenceOfParameter("Factory reset");
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_136() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -2494,13 +2491,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .resetMinMaxValues()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Reset Min and Max Measured Values");
+                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2518,13 +2515,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .resetCumulativeEnergy()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Reset Cumulative energy");
+                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0");
     }
 
     @Test // bug: group state is 'Not active' instead of 'Scheduled'
@@ -2542,7 +2539,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .resetErrors()
+                .selectAction("Reset errors")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -2566,7 +2563,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .disableRadiobutton()
+                .selectAction("Disable")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -2590,7 +2587,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .radioRegistrationUpdateTrigger()
+                .selectAction("Registration update trigger")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
@@ -2614,13 +2611,13 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .radioStartOrReset()
+                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .assertPresenceOfParameter("Start or reset");
+                .assertPresenceOfParameter("Root.Connectivity Statistics.i.StartOrReset - instance 0");
     }
 
     @Test
@@ -2638,7 +2635,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
-                .reprovisionRadioButton()
+                .selectAction("Device reprovision")
                 .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()

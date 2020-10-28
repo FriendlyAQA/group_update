@@ -44,7 +44,7 @@ public abstract class BasePage {
     static Properties props;
     public static final String BROWSER;
     public static String mainWindow;
-    private static final Logger logger;
+    private static final Logger LOGGER;
     public static FrameSwitch frame;
     public static FrameSwitch previousFrame;
     protected Table savedTable;
@@ -57,7 +57,7 @@ public abstract class BasePage {
 
     static {
         initProperties();
-        logger = Logger.getLogger(BasePage.class);
+        LOGGER = Logger.getLogger(BasePage.class);
         BROWSER = props.getProperty("browser");
         IMPLICITLY_WAIT = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         frame = ROOT;
@@ -85,23 +85,23 @@ public abstract class BasePage {
             case "chrome":
                 System.setProperty("webdriver.chrome.driver", props.getProperty("chrome_driver_path"));
                 driver = new ChromeDriver();
-                logger.info("Chrome driver is running");
+                LOGGER.info("Chrome driver is running");
                 break;
             case "ie":
                 System.setProperty("webdriver.ie.driver", props.getProperty("ie_driver_path"));
                 driver = new InternetExplorerDriver();
-                logger.info("IE driver is running");
+                LOGGER.info("IE driver is running");
                 break;
             case "edge":
                 System.setProperty("webdriver.edge.driver", props.getProperty("edge_driver_path"));
                 driver = new EdgeDriver();
-                logger.info("Edge driver is running");
+                LOGGER.info("Edge driver is running");
                 break;
             default:
             case "firefox":
                 System.setProperty("webdriver.gecko.driver", props.getProperty("firefox_driver_path"));
                 driver = new FirefoxDriver();
-                logger.info("Firefox driver is running");
+                LOGGER.info("Firefox driver is running");
         }
 //        long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         driver.manage().timeouts().implicitlyWait(IMPLICITLY_WAIT, TimeUnit.SECONDS);
@@ -126,25 +126,14 @@ public abstract class BasePage {
         return props;
     }
 
-    abstract protected String getLeftMenuCssSelector();
-
     protected abstract String getMainTableId();
 
     public Table getMainTable() {
         return getTable(getMainTableId());
     }
 
-    @FindBy(id = "tblTopMenu")
-    private WebElement topMenuTable;
-
-    @FindBy(id = "tblLeftMenu")
-    private WebElement leftMenuTable;
-
     @FindBy(id = "imgLogout")
     private WebElement logOutButton;
-
-    @FindBy(id = "tabsMain_tblTabs")
-    protected WebElement mainTabTable;
 
     @FindBy(id = "txtName")
     protected WebElement nameField;
@@ -175,7 +164,6 @@ public abstract class BasePage {
 
     @FindBy(id = "btnBottom_btn")
     protected WebElement bottomButton;
-
 
     @FindBy(id = "ddlColumns")
     protected WebElement selectColumnFilter;
@@ -216,6 +204,9 @@ public abstract class BasePage {
     @FindBy(id = "ddlSend")
     protected WebElement sendToComboBox;
 
+    @FindBy(id = "rdDefaultUpload")
+    protected WebElement defaultUploadRadioButton;
+
     @FindBy(id = "lrbImmediately")
     protected WebElement immediatelyRadioButton;
 
@@ -244,7 +235,10 @@ public abstract class BasePage {
     protected WebElement selectUploadFileTypeComboBox;
 
     @FindBy(id = "UcFirmware1_rdUrl")
-    protected WebElement manualRadioButton;
+    protected WebElement manuallyDownloadRadioButton;
+
+    @FindBy(id = "rdUrlUpload")
+    protected WebElement manuallyUploadRadioButton;
 
     @FindBy(id = "UcFirmware1_rdTarget")
     protected WebElement fromListRadioButton;
@@ -267,23 +261,8 @@ public abstract class BasePage {
     @FindBy(id = "btnAddTask_btn")
     protected WebElement addTaskButton;
 
-    @FindBy(id = "rdReboot")
-    protected WebElement rebootRadioButton;
-
-    @FindBy(id = "rdFactoryReset")
-    protected WebElement factoryResetRadioButton;
-
-    @FindBy(id = "rdCPEReprovision")
-    protected WebElement reprovisionRadioButton;
-
-    @FindBy(id = "rdCustomRPC")
-    protected WebElement customRpcRadioButton;
-
     @FindBy(id = "ddlMethods")
     protected WebElement selectMethodComboBox;
-
-    @FindBy(id = "rdUrlUpload")
-    protected WebElement manuallyUrlRadioButton;
 
     @FindBy(id = "tbLo_gin")
     protected WebElement userNameUploadField;
@@ -303,33 +282,32 @@ public abstract class BasePage {
     @FindBy(id = "UcFirmware1_ddlFileName")
     protected WebElement fileNameComboBox;
 
-    @FindBy(id = "rdReset Min and Max Measured Values")
-    protected WebElement resetMinMaxValues;
-
-    @FindBy(id = "rdReset Cumulative energy")
-    protected WebElement resetCumulativeEnergy;
-
-    @FindBy(id = "rdResetErrors")
-    protected WebElement resetErrors;
-
-    @FindBy(id = "rdDisable")
-    protected WebElement disableRadiobutton;
-
-    @FindBy(id = "rdRegistrationUpdateTrigger")
-    protected WebElement radioRegistrationUpdateTrigger;
-
-    @FindBy(id = "rdStartOrReset")
-    protected WebElement radioStartOrReset;
-
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
         logOutButton.click();
     }
 
-    public BasePage manuallyUrlRadioButton() {
+    public BasePage itemsOnPage(String number) {
+        if (elementIsPresent("ddlPageSizes")) {
+            selectComboBox(itemsOnPageComboBox, number);
+            waitForUpdate();
+        } else {
+            LOGGER.info("Combobox 'Items/page' not found");
+        }
+        return this;
+    }
+
+    public BasePage manuallyUploadRadioButton() {
         waitForUpdate();
-        manuallyUrlRadioButton.click();
+        manuallyUploadRadioButton.click();
+        return this;
+    }
+
+    public BasePage manuallyDownloadRadioButton() {
+        waitForUpdate();
+        manuallyDownloadRadioButton.click();
+//        waitForUpdate();
         return this;
     }
 
@@ -408,7 +386,7 @@ public abstract class BasePage {
     public BasePage rebootRadioButton() {
         waitForUpdate();
         Table table = getTable("tblActions");
-        table.getInput(table.getRowNumberByText("Reboot"), 1).click();
+        table.getInput("Reboot", 1).click();
         return this;
     }
 
@@ -419,9 +397,8 @@ public abstract class BasePage {
     public BasePage selectAction(String action, String instance) {
         waitForUpdate();
         Table table = getTable("tblActions");
-        int row = table.getRowNumberByText(action);
-        table.getInput(row, 1).click();
-        WebElement select = table.getSelect(row, 0);
+        table.getInput(action, 1).click();
+        WebElement select = table.getSelect(action, 0);
         if (select != null) {
             if (instance == null) {
                 List<String> options = getOptionList(select);
@@ -432,56 +409,19 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage factoryResetRadioButton() {
-        waitForUpdate();
-        factoryResetRadioButton.click();
-        return this;
-    }
-
-    public BasePage reprovisionRadioButton() {
-        waitForUpdate();
-        reprovisionRadioButton.click();
-        return this;
-    }
-
-    public BasePage resetErrors() {
-        waitForUpdate();
-        resetErrors.click();
-        return this;
-    }
-
-    public BasePage disableRadiobutton() {
-        waitForUpdate();
-        disableRadiobutton.click();
-        return this;
-    }
-
     public BasePage editButton() {
         return clickButton(editButton);
     }
 
-    public BasePage radioRegistrationUpdateTrigger() {//
-        waitForUpdate();
-        radioRegistrationUpdateTrigger.click();
-        return this;
-    }
-
-    public BasePage radioStartOrReset() {//
-        waitForUpdate();
-        radioStartOrReset.click();
-        return this;
-    }
-
     public BasePage fillUploadUrl() {
         uploadUrlField.clear();
-        uploadUrlField.sendKeys(props.getProperty("upload_url"));
-        userNameUploadField.click();
-        return this;
-    }
-
-    public BasePage customRpcRadioButton() {
+        String path = props.getProperty("file_server");
+        uploadUrlField.sendKeys(path);
         waitForUpdate();
-        customRpcRadioButton.click();
+        userNameUploadField.click();
+        String fileType = BaseTestCase.getTestName().contains("_du") ? "Upload" : getSelectedOption(selectUploadFileTypeComboBox);
+        path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
+        getParameterMap().put(fileType, path);
         return this;
     }
 
@@ -506,29 +446,56 @@ public abstract class BasePage {
         return selectFileType(type, selectUploadFileTypeComboBox);
     }
 
-    public BasePage manualRadioButton() {
-        manualRadioButton.click();
-        waitForUpdate();
-        return this;
-    }
-
     public BasePage selectFromListRadioButton() {
         fromListRadioButton.click();
         return this;
     }
 
-    public BasePage fillUrl() {
-        urlField.sendKeys(getProps().getProperty("ftp_config_file_url"));
+    public BasePage fillDownloadUrl() {
+//        urlField.sendKeys(getProps().getProperty("ftp_config_file_url"));
+//        return this;
+        fromListRadioButton.click();
+        List<String> optList = getOptionList(fileNameComboBox);
+        String lastOpt = optList.get(optList.size() - 1);
+        String fileType = BaseTestCase.getTestName().contains("_du") ? "Download" : getSelectedOption(selectDownloadFileTypeComboBox);
+        manuallyDownloadRadioButton();
+        String value = props.getProperty("file_server") + lastOpt;
+        getParameterMap().put(fileType, value);
+        urlField.sendKeys(value);
+        return this;
+    }
+
+    public BasePage selectFileName(String parameter) {
+        waitForUpdate();
+        List<String> optList = getOptionList(fileNameComboBox);
+        String lastOpt = optList.get(optList.size() - 1);
+        selectComboBox(fileNameComboBox, lastOpt);
+        getParameterMap().put(parameter, props.getProperty("file_server") + lastOpt);
         return this;
     }
 
     public BasePage fillUsername() {
-        userNameField.sendKeys(BasePage.getProps().getProperty("ftp_user"));
+        userNameField.sendKeys(getProps().getProperty("ftp_user"));
         return this;
     }
 
     public BasePage fillPassword() {
-        passwordField.sendKeys(BasePage.getProps().getProperty("ftp_password"));
+        passwordField.sendKeys(getProps().getProperty("ftp_password"));
+        return this;
+    }
+
+    protected Map<String, String> getParameterMap() {
+        if (parameterMap == null) {
+            parameterMap = new HashMap<>();
+        }
+        return parameterMap;
+    }
+
+    public BasePage validateTasks(String tableId, int shift) {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            validateAddedTask(tableId, entry.getKey(), entry.getValue(), shift);
+        }
         return this;
     }
 
@@ -624,6 +591,23 @@ public abstract class BasePage {
         new Select(comboBox).selectByValue(value);
     }
 
+    public BasePage deselectCheckbox(String id) {
+        WebElement checkbox = findElement(id);
+        return forceCheckboxState(false, checkbox);
+    }
+
+    public BasePage selectCheckbox(String id) {
+        WebElement checkbox = findElement(id);
+        return forceCheckboxState(true, checkbox);
+    }
+
+    protected BasePage forceCheckboxState(boolean setSelected, WebElement checkbox) {
+        if (setSelected != checkbox.isSelected()) {
+            checkbox.click();
+        }
+        return this;
+    }
+
     public BasePage assertCheckboxIsSelected(String id, boolean expectedState) {
         assertTrue(findElement(id).isSelected() == expectedState, "The checkbox #" + id + " has unexpected state!");
         return this;
@@ -654,11 +638,8 @@ public abstract class BasePage {
         return clickButton(deleteFilterButton);
     }
 
-    public BasePage getParameter(int row, int column) {
+    public BasePage getParameter(int row, int column) {//column = 0 - All, 1 - names, 2 - values, 3 - attributes;
         Table table = new Table("tblParamsValue");
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
         String hint = table.getHint(row);
         String values;
         if (column < 1) {
@@ -671,25 +652,8 @@ public abstract class BasePage {
             values = valuesArr[column];
             table.clickOn(row, column, 0);
         }
-        parameterMap.put(hint, values);
+        getParameterMap().put(hint, values);
         return this;
-    }
-
-    public BasePage assertMainPageIsDisplayed() {
-        try {
-            boolean viewComboBox = filterViewComboBox.isDisplayed() && filterViewComboBox.isEnabled();
-            boolean manufacturerComboBox = filterManufacturerComboBox.isDisplayed() && filterManufacturerComboBox.isEnabled();
-            boolean modelNameComboBox = filterModelNameComboBox.isDisplayed() && filterModelNameComboBox.isEnabled();
-            boolean editViewBtn = editButton.isDisplayed() && editButton.isEnabled();
-            boolean newViewBtn = newViewButton.isDisplayed() && newViewButton.isEnabled();
-            boolean resetViewBtn = resetViewButton.isDisplayed() && resetViewButton.isEnabled();
-            if (viewComboBox && manufacturerComboBox && modelNameComboBox && editViewBtn && newViewBtn && resetViewBtn) {
-                return this;
-            }
-        } catch (NoSuchElementException e) {
-            logger.warn('(' + BaseTestCase.getTestName() + ") - " + e.getMessage());
-        }
-        throw new AssertionError("One or more elements not found on main page");
     }
 
     public BasePage assertButtonIsEnabled(boolean expectedActive, String id) {
@@ -860,7 +824,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectMainTab(String tab) {
-        new Table(mainTabTable).clickOn(tab);
+        new Table("tabsMain_tblTabs").clickOn(tab);
         waitForUpdate();
         return this;
     }
@@ -998,13 +962,9 @@ public abstract class BasePage {
     public BasePage topMenu(TopMenu value) {
         waitForUpdate();
         switchToFrame(ROOT);
-        for (WebElement btn : topMenuTable.findElements(By.tagName("td"))) {
-            if (btn.getText().equals(value.getItem())) {
-                btn.click();
-            }
-        }
-        switchToFrame(DESKTOP);
+        getTable("tblTopMenu").clickOn(value.getItem());
         waitForUpdate();
+        switchToFrame(DESKTOP);
         return this;
     }
 
@@ -1024,13 +984,36 @@ public abstract class BasePage {
         return clickButton(bottomButton);
     }
 
-    public BasePage assertPresenceOfElements(String... ids) {
+    public BasePage assertElementsAreAbsent(String... elementsId) {
         waitForUpdate();
-        for (String id : ids) {
+        setImplicitlyWait(0);
+        for (String id : elementsId) {
             List<WebElement> list = findElements(id);
-            if (list.size() == 0) {
-                String warn = "Element with id='" + id + "' not found on current page";
-                throw new AssertionError(warn);
+            if (list.size() != 0 && list.get(0).isDisplayed()) {
+                throw new AssertionError("Element with id='" + id + "' is found on current page");
+            }
+        }
+        return this;
+    }
+
+    public BasePage assertElementsArePresent(String... elementsId) {
+        switchToFrame(DESKTOP);
+        setDefaultImplicitlyWait();
+        for (String el : elementsId) {
+            List<WebElement> list = findElements(el);
+            if (list.size() != 1 || !list.get(0).isDisplayed()) {
+                switchToPreviousFrame();
+                throw new AssertionError("Element #" + el + " not found");
+            }
+        }
+        switchToPreviousFrame();
+        return this;
+    }
+
+    public BasePage assertElementsAreEnabled(WebElement... elements) {
+        for (WebElement element : elements) {
+            if (!element.isDisplayed() || !element.isEnabled()) {
+                throw new AssertionError("Element #" + element.getAttribute("id") + " is not found / not active!");
             }
         }
         return this;
@@ -1068,9 +1051,8 @@ public abstract class BasePage {
     }
 
     protected void verifySinglePage() {
-        if (elementIsPresent("btnPager2") && elementIsPresent("ddlPageSizes")) {
-            selectComboBox(itemsOnPageComboBox, "200");
-            waitForUpdate();
+        if (elementIsPresent("btnPager2")) {
+            itemsOnPage("200");
         }
     }
 
@@ -1156,7 +1138,7 @@ public abstract class BasePage {
                 waitForUpdate();
                 return this;
             } catch (StaleElementReferenceException e) {
-                logger.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
+                LOGGER.info("Button click failed. Retrying..." + (i + 1) + "time(s)");
             }
         }
         throw new AssertionError("cannot click button!");
@@ -1178,7 +1160,7 @@ public abstract class BasePage {
                 waitForUpdate();
                 return;
             } catch (StaleElementReferenceException | NoSuchElementException e) {
-                logger.info("Button " + button + " click failed. Try again...(" + (i + 1) + " attempt)");
+                LOGGER.info("Button " + button + " click failed. Try again...(" + (i + 1) + " attempt)");
             } finally {
                 switchToFrame(DESKTOP);
             }
@@ -1186,6 +1168,7 @@ public abstract class BasePage {
         throw new AssertionError("Cannot click button " + button);
     }
 
+    @SuppressWarnings("unused")
     void clickBottomButton1(IBottomButtons button) {
         waitUntilBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
@@ -1310,8 +1293,8 @@ public abstract class BasePage {
             waitForUpdate();
             table = new Table("tblEvents");
         }
-        int rowNum = table.getRowNumberByText(0, event.getName());
-        WebElement input = table.getInput(rowNum, 1);
+        int rowNum = table.getFirstRowWithText(0, event.getName());
+        WebElement input = table.getInput(event.getName(), 1);
         if (event.isOnEachEvent() != null) {
             if (event.isOnEachEvent() != input.isSelected()) {
                 input.click();
@@ -1364,12 +1347,13 @@ public abstract class BasePage {
     }
 
     public BasePage validateEvents() {
-        if (!eventMap.equals(readEvents())) {
-            String warn = "Events comparison error!";
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + "  actual:" + readEvents());
-            throw new AssertionError(warn);
-        }
+        assertEquals(eventMap, readEvents(), "Events comparison error!");
+//        if (!eventMap.equals(readEvents())) {
+//            String warn = "Events comparison error!";
+//            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
+//            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + "  actual:" + readEvents());
+//            throw new AssertionError(warn);
+//        }
         return this;
     }
 
@@ -1402,11 +1386,6 @@ public abstract class BasePage {
                     "plusList.isEmpty:" + plusList.isEmpty() + "; minusList.size:" + minusList.size() +
                     "; minusList.get(0):" + minusList.get(0));
         }
-    }
-
-    public boolean isInputActive(String id) {
-        String attr = getAttributeById(id, "disabled");
-        return attr == null || !attr.equals("true");
     }
 
     public boolean isButtonPresent(BottomButtons button) {
@@ -1500,20 +1479,6 @@ public abstract class BasePage {
         }
     }
 
-    public BasePage assertElementsArePresent(String... elementsId) {
-        switchToFrame(DESKTOP);
-        setDefaultImplicitlyWait();
-        for (String el : elementsId) {
-            List<WebElement> list = findElements(el);
-            if (list.size() != 1 || !list.get(0).isDisplayed()) {
-                switchToPreviousFrame();
-                throw new AssertionError("Element " + el + " not found");
-            }
-        }
-        switchToPreviousFrame();
-        return this;
-    }
-
     protected BasePage assertButtonsArePresent(IBottomButtons... buttons) {
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
@@ -1554,6 +1519,11 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage assertEquals(Object actual, Object expected, String message) {
+        Assert.assertEquals(actual, expected, message);
+        return this;
+    }
+
     public BasePage assertTrue(boolean condition) {
         Assert.assertTrue(condition);
         return this;
@@ -1574,10 +1544,6 @@ public abstract class BasePage {
         return this;
     }
 
-    public String getAttributeById(String id, String attr) {
-        return findElement(id).getAttribute(attr);
-    }
-
     public String getElementText(String id) {
         return driver.findElement(By.id(id)).getText();
     }
@@ -1596,7 +1562,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setViewColumns(int startParam, int endParam) {
+    public BasePage setVisibleColumns(int startParam, int endParam) {
         Table table = getTable("tblFilter");
         int size = table.getTableSize()[0] - 1;
         endParam = Math.min(size, endParam);
@@ -1609,10 +1575,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setViewColumns(String paramName) {
+    public BasePage setVisibleColumns(String paramName) {
         Table table = getTable("tblFilter");
         parameterSet = new HashSet<>();
-        table.clickOn(paramName, 0);
+        table.clickOn(paramName);
         parameterSet.add(paramName);
         return this;
     }
@@ -1628,7 +1594,7 @@ public abstract class BasePage {
             parameterSet.removeAll(columnList);
             StringBuilder sb = new StringBuilder("Below columns have not been applied to the view: ");
             parameterSet.forEach(param -> sb.append("'").append(param).append("'; "));
-            logger.warn('(' + BaseTestCase.getTestName() + ") " + sb.toString());
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + sb.toString());
         }
         throw new AssertionError("Checking column headers failed!");
     }
@@ -1668,7 +1634,7 @@ public abstract class BasePage {
         }
         Table branchTable = new Table("tblTree");
         for (String node : nodeList) {
-            int rowNum = branchTable.getRowNumberByText(node);
+            int rowNum = branchTable.getFirstRowWithText(node);
             WebElement cell = branchTable.getCellWebElement(rowNum, 0);
             List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
             if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
@@ -1744,30 +1710,9 @@ public abstract class BasePage {
         return value;
     }
 
-    public void setPolicy(Table table, String policyName, IPolicy notification, IPolicy accessList) {
-        int rowNum = table.getRowNumberByText(0, policyName);
-//        if (rowNum < 0) {
-//            throw new AssertionError("Policy name '" + policyName + "' not found");
-//        }
-        WebElement notificationCell = table.getCellWebElement(rowNum, 1);
-        WebElement accessListCell = table.getCellWebElement(rowNum, 2);
-        if (BROWSER.equals("edge")) {
-            scrollToElement(notificationCell);
-        }
-        if (notification != null) {
-            new Select(notificationCell.findElement(By.tagName("select"))).selectByValue(notification.getOption());
-        }
-        waitForUpdate();
-        if (accessList != null) {
-            new Select(accessListCell.findElement(By.tagName("select"))).selectByValue(accessList.getOption());
-        }
-        waitForUpdate();
-//        clickOn(0, 0);
-    }
-
-    public static String getImportMonitorFile() {
-        return props.getProperty(getProtocolPrefix() + "_import_monitor");
-    }
+//    public static String getImportMonitorFile() {
+//        return props.getProperty(getProtocolPrefix() + "_import_monitor");
+//    }
 
     public static String getSerial() {
         return props.getProperty(getProtocolPrefix() + "_cpe_serial");
@@ -1844,7 +1789,7 @@ public abstract class BasePage {
             }
             if (!StateSet.contains("1")) {
                 if (StateSet.size() != 1 || !StateSet.contains("2")) {
-                    logger.info("All tasks created. One or more tasks failed or rejected");
+                    LOGGER.info("All tasks created. One or more tasks failed or rejected");
                 }
                 return this;
             }
@@ -1853,7 +1798,7 @@ public abstract class BasePage {
                 pause(timeout);
             }
         }
-        logger.info("All tasks created. One or more tasks remains in pending state");
+        LOGGER.info("All tasks created. One or more tasks remains in pending state");
         return this;
     }
 
@@ -1922,7 +1867,7 @@ public abstract class BasePage {
 
     public BasePage assertItemIsSelected(String text) {
         Table table = getMainTable();
-        WebElement cell = table.getCellWebElement(table.getRowNumberByText(text), 0);
+        WebElement cell = table.getCellWebElement(table.getFirstRowWithText(text), 0);
         List<WebElement> checkBoxList = cell.findElements(By.tagName("input"));
         if (checkBoxList.size() > 0) {
             if (!checkBoxList.get(0).isSelected()) {
@@ -1947,6 +1892,10 @@ public abstract class BasePage {
         return assertSelectedOptionIs("ddlView", expectedView);
     }
 
+    public BasePage validateSelectedGroup() {
+        return assertSelectedOptionIs("ddlSend", BaseTestCase.getTestName());
+    }
+
     public BasePage assertSelectedOptionIs(String comboboxId, String option) {
         String actual = getSelectedOption(findElement(comboboxId));
         if (actual.equalsIgnoreCase(option)) {
@@ -1963,15 +1912,6 @@ public abstract class BasePage {
             sb.append(sample.charAt((int) (Math.random() * 62)));
         }
         return sb.toString();
-    }
-
-    protected WebElement findElementByText(String text) {
-        return driver.findElement(By.xpath("//*[text() = '" + text + "']"));
-    }
-
-    protected WebElement findElementByText(String parentElementId, String text) {
-        List<WebElement> list = driver.findElements(By.xpath("//*[text() = '" + text + "']"));
-        return list.get(list.size() - 1);
     }
 
     public BasePage validateSorting(String column) {
@@ -2074,11 +2014,8 @@ public abstract class BasePage {
 
     public BasePage setParameter(Table table, String paramName, ParameterType option, String value) {
 //        Table table = new Table("tblParamsValue");
-        int rowNum = table.getRowNumberByText(paramName);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>();
-        }
-        String hint = table.getHint(rowNum);
+        int rowNum = table.getFirstRowWithText(paramName);
+        String hint = table.getHint(paramName);
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
         if (props.getProperty("browser").equals("edge")) {
             scrollToElement(paramCell);
@@ -2090,7 +2027,7 @@ public abstract class BasePage {
             input.clear();
             input.sendKeys(value);
         }
-        parameterMap.put(hint, value);
+        getParameterMap().put(hint, value);
         if (!BROWSER.equals("edge")) {
             table.clickOn(0, 0);
         }
@@ -2159,9 +2096,10 @@ public abstract class BasePage {
                 }
             }
             if (!isFound) {
-                String warn = "Expected: " + monitor + "\n  Actual: " + "ParametersMonitor{" + table.getHint(1) + " | "
-                        + getSelectedOption(table.getSelect(1, 1)) + " | " + table.getInputText(1, 2) + '}';
-                throw new AssertionError("Expected Parameters Monitoring not found on current page!\n" + table.print());
+                String warn = "Expected Parameters Monitoring not found on current page!\nExpected: " + monitor + "\n  Actual: "
+                        + "ParametersMonitor{" + table.getHint(1) + " | " + getSelectedOption(table.getSelect(1, 1))
+                        + " | " + table.getInputText(1, 2) + '}';
+                throw new AssertionError(warn);
             }
         });
         return this;
@@ -2208,11 +2146,12 @@ public abstract class BasePage {
         return this;
     }
 
-    public void validateAddedTasks() {
+    public BasePage validateAddedTasks() {
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
         }
+        return this;
     }
 
     @SuppressWarnings("unused")
@@ -2255,6 +2194,21 @@ public abstract class BasePage {
 
         String frameId;
     }
+
+    public Table2 getTable2(String id) {
+//        pause(3000);
+//        System.out.println("frame:" + frame);
+        return new Table2(id);
+    }
+
+//    protected WebElement findElementByText(String text) {
+//        return driver.findElement(By.xpath("//*[text() = '" + text + "']"));
+//    }
+//
+//    protected WebElement findElementByText(String parentElementId, String text) {
+//        List<WebElement> list = driver.findElements(By.xpath("//*[text() = '" + text + "']"));
+//        return list.get(list.size() - 1);
+//    }
 }
 
 
