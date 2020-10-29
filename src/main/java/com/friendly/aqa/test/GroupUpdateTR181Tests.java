@@ -24,7 +24,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
         guPage
                 .deleteAll()
                 .topMenu(GROUP_UPDATE)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -48,7 +47,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fillName()
                 .deleteFilterGroups()
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -147,10 +145,8 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(true, NEXT)
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(false, NEXT);
     }
 
@@ -2128,7 +2124,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2152,7 +2148,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2176,7 +2172,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2196,7 +2192,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2216,7 +2212,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2236,7 +2232,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2256,7 +2252,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2277,7 +2273,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2299,7 +2295,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2321,13 +2317,13 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
     public void tr181_gu_220() {
         guPage
-//                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", testName)
                 .createDeviceGroup()
                 .selectColumnFilter("Hardware version")
                 .selectCompare("Starts with")
@@ -2335,7 +2331,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes");
+                .assertElementsArePresent("lblNoSelectedCpes");
     }
 
     @Test
@@ -2357,7 +2353,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2379,7 +2375,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2400,7 +2396,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2421,7 +2417,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .nextSaveAndActivate()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2431,8 +2427,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertElementsAreAbsent("lblHead");
+                .assertElementsArePresent("lblHead");
     }
 
     @Test
@@ -2448,8 +2443,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertElementsAreAbsent("ddlSend");
+                .assertAbsenceOfOptions("ddlSend", testName);
     }
 
     @Test
@@ -2473,7 +2467,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2498,7 +2492,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2523,7 +2517,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2549,7 +2543,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2575,7 +2569,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2602,7 +2596,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2627,7 +2621,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2653,7 +2647,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2679,7 +2673,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2706,7 +2700,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2731,7 +2725,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2757,7 +2751,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2783,7 +2777,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2810,7 +2804,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2836,7 +2830,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2863,7 +2857,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2887,7 +2881,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2913,7 +2907,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2940,7 +2934,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2966,7 +2960,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2994,7 +2988,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3022,7 +3016,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3049,7 +3043,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3075,7 +3069,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3102,7 +3096,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3128,7 +3122,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3156,7 +3150,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3184,7 +3178,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3211,7 +3205,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3236,7 +3230,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3260,7 +3254,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3285,7 +3279,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3312,7 +3306,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3339,7 +3333,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3365,7 +3359,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3391,7 +3385,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3418,7 +3412,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3444,7 +3438,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3472,7 +3466,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3500,7 +3494,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3527,7 +3521,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3552,7 +3546,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3578,7 +3572,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3605,7 +3599,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3632,7 +3626,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3658,7 +3652,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Device.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test

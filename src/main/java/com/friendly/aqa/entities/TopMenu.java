@@ -11,7 +11,7 @@ public enum TopMenu {
     FILE_MANAGEMENT("File Management"),
     SETTINGS("Settings");
 
-    private String item;
+    private final String item;
 
     TopMenu(String item) {
         this.item = item;

@@ -142,7 +142,7 @@ public class Table {
 
     public void clickOn(String text) {
         clickOn(text, false);
-        System.out.println("Clicked1:" + timer.stop());
+//        System.out.println("Clicked1:" + timer.stop());
     }
 
     public void clickOn(String text, boolean retry) {

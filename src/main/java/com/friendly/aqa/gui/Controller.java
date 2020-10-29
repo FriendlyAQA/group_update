@@ -426,10 +426,13 @@ public class Controller implements WindowListener, Runnable {
         view.getRunEntireCheckBox().setEnabled(!isSelected);
         for (int i = 0; i < 8; i++) {
             if (isSelected) {
-                view.setEnabled(false, enableTabCheckboxes[i], runSpecifiedFields[i], excludeSpecificFields[i], runSpecifiedButtons[i], excludeSpecificButtons[i]);
+                view.setEnabled(false, enableTabCheckboxes[i], runSpecifiedFields[i], excludeSpecificFields[i]
+                        , runSpecifiedButtons[i], excludeSpecificButtons[i]);
             } else {
                 if (enableTabCheckboxes[i].isSelected()) {
-                    view.setEnabled(true, enableTabCheckboxes[i], runSpecifiedButtons[i].isSelected() ? runSpecifiedFields[i] : excludeSpecificFields[i], runSpecifiedButtons[i], excludeSpecificButtons[i]);
+                    view.setEnabled(true, enableTabCheckboxes[i], runSpecifiedButtons[i].isSelected()
+                            ? runSpecifiedFields[i]
+                            : excludeSpecificFields[i], runSpecifiedButtons[i], excludeSpecificButtons[i]);
                 }
             }
         }

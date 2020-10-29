@@ -911,12 +911,18 @@ public abstract class BasePage {
 
     public BasePage leftMenu(ILeft item) {
         switchToFrame(ROOT);
+        Timer timer = new Timer();
         try {
-            Table table = getTable("tblLeftMenu");
-            List<Integer> list = table.getRowsWithText(item.getValue());
+            Table table;
+            List<Integer> list;
+            do {
+                table = getTable("tblLeftMenu");
+                list = table.getRowsWithText(item.getValue());
+            } while (list.size() == 0 && !timer.timeout());
 //            table.clickOn(list.get(0), 0);
             showPointer(table.getCellWebElement(list.get(0), 0)).click();
         } catch (ElementNotInteractableException | IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
             throw new AssertionError("Left menu item '" + item + "' not found on current page!");
         }
         waitForUpdate();

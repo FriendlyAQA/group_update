@@ -23,7 +23,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .deleteAll()
                 .topMenu(GROUP_UPDATE)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -47,7 +46,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .deleteFilterGroups()
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -146,10 +144,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(true, NEXT)
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(false, NEXT);
     }
 
@@ -1965,7 +1961,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertElementsArePresent("lblHead");
     }
 
@@ -1982,8 +1977,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertElementsAreAbsent("ddlSend");
+                .assertAbsenceOfOptions("ddlSend", testName);
     }
 
     @Test
@@ -2032,7 +2026,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2057,7 +2051,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2083,7 +2077,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2109,7 +2103,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2136,7 +2130,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2161,7 +2155,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2187,7 +2181,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2213,7 +2207,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2240,7 +2234,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2266,7 +2260,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2292,7 +2286,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2319,7 +2313,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2345,7 +2339,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2372,7 +2366,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2396,7 +2390,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2422,7 +2416,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2449,7 +2443,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2475,7 +2469,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2503,7 +2497,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2531,7 +2525,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2558,7 +2552,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2584,7 +2578,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2611,7 +2605,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2637,7 +2631,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2665,7 +2659,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2693,7 +2687,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2720,7 +2714,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2745,7 +2739,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2769,7 +2763,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2794,7 +2788,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2821,7 +2815,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2848,7 +2842,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2874,7 +2868,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2900,7 +2894,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2927,7 +2921,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2953,7 +2947,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -2981,7 +2975,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3009,7 +3003,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3036,7 +3030,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3061,7 +3055,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3087,7 +3081,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3114,7 +3108,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3141,7 +3135,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test
@@ -3167,7 +3161,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60");
+                .validateAddedTasks();
     }
 
     @Test

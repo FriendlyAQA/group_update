@@ -3,6 +3,7 @@ package com.friendly.aqa.entities;
 public enum BottomButtons implements IBottomButtons {
 
     ACTIVATE("btnActivate_btn"),
+    ADD("btnAdd_btn"),
     ADVANCED_VIEW("btnAdvancedView_btn"),
     CANCEL("btnCancel_btn"),
     DEACTIVATE("btnDeactivate_btn"),
@@ -25,7 +26,7 @@ public enum BottomButtons implements IBottomButtons {
         this.id = id;
     }
 
-    private String id;
+    private final String id;
 
     public String getId() {
         return id;

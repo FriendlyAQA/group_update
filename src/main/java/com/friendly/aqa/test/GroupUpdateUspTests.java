@@ -19,7 +19,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
         guPage
                 .deleteAll()
                 .topMenu(GROUP_UPDATE)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -43,7 +42,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .deleteFilterGroups()
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -142,10 +140,8 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(true, NEXT)
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(false, NEXT);
     }
 
@@ -464,7 +460,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertElementsArePresent("lblHead");
     }
 
@@ -481,7 +476,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertAbsenceOfOptions("ddlSend", testName);
     }
 

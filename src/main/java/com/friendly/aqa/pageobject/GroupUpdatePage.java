@@ -23,8 +23,8 @@ import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.CONDITIONS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.ADD;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
+//import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.ADD;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 public class GroupUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
@@ -248,11 +248,11 @@ public class GroupUpdatePage extends BasePage {
     public void checkExportLink() {
         String fragment = BaseTestCase.getTestName().startsWith("lwm2m")
                 ? "\"Root.Device.0.UTC Offset\" value=\"+02:00\""
-                : "\"Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
+                : "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
         try {
             assertTrue(HttpConnector.sendGetRequest(
                     getGuExportLink("tr069_gu_016"))
-                    .contains(fragment));
+                    .contains(fragment), "File export failed or file has unexpected content!");
         } catch (IOException e) {
             e.printStackTrace();
         }

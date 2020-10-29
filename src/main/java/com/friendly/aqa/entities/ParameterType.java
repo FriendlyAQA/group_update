@@ -9,7 +9,7 @@ public enum ParameterType {
     NULL(""),
     CUSTOM(null);
 
-    private String option;
+    private final String option;
 
     public String getOption() {
         return option;

@@ -23,7 +23,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .deleteAll()
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -47,7 +46,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .deleteFilterGroups()
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertMainPageIsDisplayed();
     }
 
@@ -146,10 +144,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(true, NEXT)
                 .clickOnTable("tblDevices", 1, 0)
-                .waitForUpdate()
                 .assertButtonsAreEnabled(false, NEXT);
     }
 
@@ -979,7 +975,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
                 .assertElementsArePresent("lblHead");
     }
 
@@ -996,8 +991,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .waitForUpdate()
-                .assertElementsAreAbsent("ddlSend");
+                .assertAbsenceOfOptions("ddlSend", testName);
     }
 
     @Test
