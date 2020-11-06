@@ -73,7 +73,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("txtName", testName);
+                .assertInputHasText("txtName", getTestName());
     }
 
     @Test
@@ -173,7 +173,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectSendTo(testName)
+                .selectSendTo(getTestName())
                 .showList()
                 .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
@@ -827,11 +827,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_070() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -849,7 +849,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_071() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
@@ -871,11 +871,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_072() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("Hardware version")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -885,11 +885,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_073() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -907,7 +907,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_074() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
@@ -950,7 +950,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_076() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Is not null")
@@ -991,7 +991,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .assertAbsenceOfOptions("ddlSend", testName);
+                .assertAbsenceOfOptions("ddlSend", getTestName());
     }
 
     @Test

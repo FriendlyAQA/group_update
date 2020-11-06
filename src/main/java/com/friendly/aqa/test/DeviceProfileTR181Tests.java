@@ -1033,7 +1033,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .downloadManually("Firmware Image")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .assertProfileIsPresent(true, testName);
+                .assertProfileIsPresent(true, getTestName());
     }
 
     @Test

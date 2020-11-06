@@ -13,18 +13,18 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    private final static Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp).*?>(.*?)</(\\1)>");
+    private final static Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp|label).*?>(.*?)</(\\1)>");
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
     private final WebElement table;
     private boolean retryInit;
     private final String tableId;
-    Timer timer;
+    Timer timer2;
 
 
     public Table(WebElement table) {
-        timer = new Timer();
+        timer2 = new Timer();
         this.table = table;
         tableId = table.getAttribute("id");
         rowsList = table.findElements(By.tagName("tr"));
@@ -85,6 +85,7 @@ public class Table {
             }
             i++;
         }
+//        System.out.println("element table parsed: " + timer2.stop());
         BasePage.setDefaultImplicitlyWait();
     }
 
@@ -110,7 +111,9 @@ public class Table {
         }
         if (tagNum == 99) {
             try {
+//                System.out.println("marker2: " + timer2.stop());
                 BasePage.scrollToElement(elementTable[row][column]).click();
+//                System.out.println("Clicked1:" + timer2.stop());
             } catch (ElementNotInteractableException e) {
                 throw new AssertionError("Element <" + elementTable[row][column].getTagName() + "> is present," +
                         " but not interactable (hidden?) on a page!");
@@ -142,10 +145,9 @@ public class Table {
 
     public void clickOn(String text) {
         clickOn(text, false);
-//        System.out.println("Clicked1:" + timer.stop());
     }
 
-    public void clickOn(String text, boolean retry) {
+    public void clickOn(String text, boolean secondAttempt) {
         for (int i = 0; i < textTable.length; i++) {
             for (int j = 0; j < textTable[i].length; j++) {
                 if (textTable[i][j].trim().equalsIgnoreCase(text)) {
@@ -157,7 +159,7 @@ public class Table {
         String warning = "Text '" + text + "' not found in current table";
         LOGGER.warn(warning);
         print();
-        if (!retry) {
+        if (!secondAttempt) {
             System.out.println("try to find once more time...");
             pause(1000);
             new Table(tableId).clickOn(text, true);

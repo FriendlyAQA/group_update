@@ -42,18 +42,18 @@ import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 public abstract class BasePage {
     static WebDriver driver;
     static Properties props;
-    public static final String BROWSER;
-    public static String mainWindow;
+    public static final long IMPLICITLY_WAIT;
     private static final Logger LOGGER;
-    public static FrameSwitch frame;
-    public static FrameSwitch previousFrame;
-    protected Table savedTable;
+    protected static final String BROWSER;
     protected static Set<String> parameterSet;
     protected static Map<String, String> parameterMap;
     protected static Map<String, Event> eventMap;
-    protected static Map<String, ParametersMonitor> parametersMonitorMap;
+    private static String mainWindow;
+    private static FrameSwitch frame;
+    private static FrameSwitch previousFrame;
+    private Table savedTable;
+    private ParametersMonitor parametersMonitor;
     protected String selectedName;
-    public static final long IMPLICITLY_WAIT;
 
     static {
         initProperties();
@@ -103,7 +103,6 @@ public abstract class BasePage {
                 driver = new FirefoxDriver();
                 LOGGER.info("Firefox driver is running");
         }
-//        long implWait = Long.parseLong(props.getProperty("driver_implicitly_wait"));
         driver.manage().timeouts().implicitlyWait(IMPLICITLY_WAIT, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get(props.getProperty("ui_url"));
@@ -126,7 +125,9 @@ public abstract class BasePage {
         return props;
     }
 
-    protected abstract String getMainTableId();
+    public String getMainTableId() {
+        return "tbl";
+    }
 
     public Table getMainTable() {
         return getTable(getMainTableId());
@@ -381,6 +382,11 @@ public abstract class BasePage {
 
     public static WebElement findElement(String byId) {
         return driver.findElement(By.id(byId));
+    }
+
+    public BasePage assertMainPageIsDisplayed() {
+        assertElementsAreEnabled(filterViewComboBox, filterManufacturerComboBox, filterModelNameComboBox, editButton, newViewButton, resetViewButton);
+        return this;
     }
 
     public BasePage rebootRadioButton() {
@@ -824,7 +830,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectMainTab(String tab) {
-        new Table("tabsMain_tblTabs").clickOn(tab);
+        getTable("tabsMain_tblTabs").clickOn(tab);
         waitForUpdate();
         return this;
     }
@@ -1230,8 +1236,8 @@ public abstract class BasePage {
         return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + DataBaseConnector.getGroupUpdateId(groupName);
     }
 
-    public Map<String, Event> readEvents() {
-        Table table = new Table("tblEvents");
+    public Map<String, Event> readEvents(String tableId) {
+        Table table = new Table(tableId);
         setImplicitlyWait(0);
         Map<String, Event> map = new HashMap<>();
         for (int i = 1; i < table.getTableSize()[0]; i++) { //Very slow performance!!!
@@ -1282,9 +1288,9 @@ public abstract class BasePage {
         return setEvent(event, new Table("tblEvents"), addTask);
     }
 
-    public BasePage setEvent(Event event) {
-        return setEvent(event, new Table("tblEvents"));
-    }
+//    public BasePage setEvent(Event event) {
+//        return setEvent(event, new Table("tblEvents"));
+//    }
 
     public BasePage setEvent(Event event, Table table) {
         return setEvent(event, table, false);
@@ -1294,11 +1300,11 @@ public abstract class BasePage {
         if (eventMap == null) {
             eventMap = new HashMap<>();
         }
-        if (table.getTableSize()[0] < 2) {
-            pause(1000);
-            waitForUpdate();
-            table = new Table("tblEvents");
-        }
+//        if (table.getTableSize()[0] < 2) {
+//            pause(1000);
+//            waitForUpdate();
+//            table = new Table("tblEvents");
+//        }
         int rowNum = table.getFirstRowWithText(0, event.getName());
         WebElement input = table.getInput(event.getName(), 1);
         if (event.isOnEachEvent() != null) {
@@ -1349,17 +1355,6 @@ public abstract class BasePage {
         for (int i = 0; i < Math.min(amount, names.length); i++) {
             setEvent(new Event(names[i], example.isOnEachEvent(), example.getCountOfEvents(), example.getDuration()), table);
         }
-        return this;
-    }
-
-    public BasePage validateEvents() {
-        assertEquals(eventMap, readEvents(), "Events comparison error!");
-//        if (!eventMap.equals(readEvents())) {
-//            String warn = "Events comparison error!";
-//            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + "expected:" + eventMap);
-//            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + "  actual:" + readEvents());
-//            throw new AssertionError(warn);
-//        }
         return this;
     }
 
@@ -1464,6 +1459,20 @@ public abstract class BasePage {
         return this;
     }
 
+    protected Table getMainTableWithText(String text, String sortedColumn) {
+        Table table = getMainTable();
+        if (!table.contains(text)) {
+            table.clickOn(sortedColumn);
+            waitForUpdate();
+            table = getMainTable();
+            if (!table.contains(text)) {
+                verifySinglePage();
+                table = getMainTable();
+            }
+        }
+        return table;
+    }
+
     public BasePage enterIntoItem(String itemName) {
         getMainTable().clickOn(itemName);
         waitForUpdate();
@@ -1565,6 +1574,11 @@ public abstract class BasePage {
 
     public BasePage assertInputHasText(String inputId, String text) {
         assertEquals(findElement(inputId).getAttribute("value"), text);
+        return this;
+    }
+
+    public BasePage expandEvents() {
+        findElement("imgSpoilerEvents").click();
         return this;
     }
 
@@ -1745,7 +1759,7 @@ public abstract class BasePage {
         parameterSet = null;
         parameterMap = null;
         eventMap = null;
-        parametersMonitorMap = null;
+//        parametersMonitorMap = null;
     }
 
     public BasePage pause(long millis) {
@@ -2041,14 +2055,13 @@ public abstract class BasePage {
     }
 
     public BasePage setParametersMonitor(Table table, String name, Condition condition, String value) {
-        if (parametersMonitorMap == null) {
-            parametersMonitorMap = new HashMap<>();
-        }
+//        if (parametersMonitorMap == null) {
+//            parametersMonitorMap = new HashMap<>();
+//        }
         ParametersMonitor monitor = new ParametersMonitor(null, condition, value);
         String[] names = table.getColumn(0);
         for (int i = 0; i < names.length; i++) {
-            String nm = names[i];
-            if (nm.equals(name) || table.getHint(i + 1).equals(name)) {
+            if (names[i].equals(name) || table.getHint(i + 1).equals(name)) {
                 WebElement select = table.getCellWebElement(i + 1, 1).findElement(By.tagName("select"));
                 selectComboBox(select, condition.toString());
                 waitForUpdate();
@@ -2063,7 +2076,8 @@ public abstract class BasePage {
                     monitor.setValue("");
                 }
                 monitor.setName(table.getHint(i + 1));
-                parametersMonitorMap.put(monitor.getName(), monitor);
+                parametersMonitor = monitor;
+//                parametersMonitorMap.put(monitor.getName(), monitor);
             }
         }
         return this;
@@ -2086,29 +2100,14 @@ public abstract class BasePage {
 
     public BasePage validateParametersMonitor() {
         Table table = new Table("tblParamsMonitoring");
-        String[] names = table.getColumn(0);
-        if (parametersMonitorMap.size() != names.length) {
-            throw new AssertionError("Expected number of Parameters Monitor is " + parametersMonitorMap.size() + ", but found: " + names.length);
+        if (parametersMonitor.getName().equals(table.getHint(1)) && parametersMonitor.getValue().equals(table.getInputText(1, 2))
+                && parametersMonitor.getCondition().toString().equals(getSelectedOption(table.getSelect(1, 1)))) {
+            return this;
         }
-        parametersMonitorMap.forEach((name, monitor) -> {
-            boolean isFound = false;
-            for (int i = 1; i < table.getTableSize()[0]; i++) {
-                if (name.equals(table.getHint(i)) && monitor.getValue().equals(table.getInputText(i, 2))
-                        && monitor.getCondition().toString().equals(getSelectedOption(table.getSelect(i, 1)))) {
-//                    WebElement select = table.getCellWebElement(i, 1).findElement(By.tagName("select"));
-//                    if (getSelectedValue(select).equals(monitor.getCondition().toString())) {
-                    isFound = true;
-                    break;
-                }
-            }
-            if (!isFound) {
-                String warn = "Expected Parameters Monitoring not found on current page!\nExpected: " + monitor + "\n  Actual: "
-                        + "ParametersMonitor{" + table.getHint(1) + " | " + getSelectedOption(table.getSelect(1, 1))
-                        + " | " + table.getInputText(1, 2) + '}';
-                throw new AssertionError(warn);
-            }
-        });
-        return this;
+        String warn = "Expected Parameters Monitoring not found on current page!\nExpected: " + parametersMonitor + "\n  Actual: "
+                + "ParametersMonitor{" + table.getHint(1) + " | " + getSelectedOption(table.getSelect(1, 1))
+                + " | " + table.getInputText(1, 2) + '}';
+        throw new AssertionError(warn);
     }
 
     public BasePage validateAddedTask(String parameter, String value) {

@@ -3327,11 +3327,17 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_du_999(){
         duPage
-                .topMenu(GROUP_UPDATE)
-//                .itemsOnPage("200")
-                .getTable2("tblParameters")
-                .clickOn2("lwm2m_gu_014");
-        duPage.pause(3000);
+                .topMenu(DEVICE_UPDATE)
+                .leftMenu(SEARCH)
+                .searchBy("Serial Number")
+                .deselectCheckbox("rdSearchExactly")
+                .lookFor("1")
+                .searchButton()
+                .selectView("mqtt_du_070")
+                .itemsOnPage("200")
+                .getTable2("tbl")
+                .clickOn("lwm2m_gu_076");
+//        duPage.pause(3000);
 //        duPage
 //                .waitForUpdate()
 //                .waitForUpdate()

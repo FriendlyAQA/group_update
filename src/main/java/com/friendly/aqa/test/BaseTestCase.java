@@ -1,10 +1,10 @@
 package com.friendly.aqa.test;
 
-import com.friendly.aqa.entities.Table;
 import com.friendly.aqa.gui.Controller;
 import com.friendly.aqa.pageobject.*;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.DiscManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
@@ -31,8 +31,9 @@ public abstract class BaseTestCase {
     protected DeviceUpdatePage duPage;
     protected GroupUpdatePage guPage;
     protected MonitoringPage monPage;
-    private long start = System.currentTimeMillis();
-    protected static String testName, targetTestName;
+    protected EventsPage evPage;
+    private final long start = System.currentTimeMillis();
+    protected static String testName;
     static Properties props;
     static Logger logger;
     private static boolean isInterrupted;
@@ -71,6 +72,7 @@ public abstract class BaseTestCase {
         duPage = getDuPage();
         guPage = getGuPage();
         monPage = getMonPage();
+        evPage = getEvPage();
     }
 
     @AfterMethod
@@ -139,6 +141,7 @@ public abstract class BaseTestCase {
     @AfterSuite
     public void tearDownMethod() {
         DataBaseConnector.disconnectDb();
+        DiscManager.stopReading();
         loginPage.logOut();
         try {
             Thread.sleep(500);
@@ -190,10 +193,6 @@ public abstract class BaseTestCase {
         isInterrupted = interrupt;
     }
 
-    protected void setTargetTestName() {
-        targetTestName = testName;
-    }
-
     public static String getTestName() {
         return testName;
     }
@@ -231,6 +230,13 @@ public abstract class BaseTestCase {
             monPage = new MonitoringPage();
         }
         return monPage;
+    }
+
+    private EventsPage getEvPage() {
+        if (evPage == null) {
+            evPage = new EventsPage();
+        }
+        return evPage;
     }
 }
 

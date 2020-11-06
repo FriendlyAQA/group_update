@@ -74,7 +74,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("txtName", testName);
+                .assertInputHasText("txtName", getTestName());
     }
 
     @Test
@@ -174,7 +174,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectSendTo(testName)
+                .selectSendTo(getTestName())
                 .showList()
                 .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
@@ -2279,11 +2279,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_218() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2301,11 +2301,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_219() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2323,11 +2323,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_220() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("Hardware version")
                 .selectCompare("Starts with")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2337,11 +2337,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_221() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2359,11 +2359,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_222() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2381,7 +2381,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_223() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Is null")
@@ -2402,7 +2402,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
     @Test
     public void tr181_gu_224() {
         guPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Is not null")
@@ -2443,7 +2443,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .assertAbsenceOfOptions("ddlSend", testName);
+                .assertAbsenceOfOptions("ddlSend", getTestName());
     }
 
     @Test

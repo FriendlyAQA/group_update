@@ -418,6 +418,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage okButtonPopUp() {
         return (GroupUpdatePage) super.okButtonPopUp();
     }
@@ -431,6 +432,7 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.scheduledToRadioButton();
     }
 
+    @Override
     public GroupUpdatePage immediately() {
         return (GroupUpdatePage) super.immediately();
     }
@@ -738,7 +740,7 @@ public class GroupUpdatePage extends BasePage {
         }
         WebElement conditionCell = table.getCellWebElement(rowNum, 1);
         WebElement valueCell = table.getCellWebElement(rowNum, 2);
-        if (BasePage.BROWSER.equals("edge")) {
+        if (BROWSER.equals("edge")) {
             BasePage.scrollToElement(conditionCell);
         }
         if (condition != null) {

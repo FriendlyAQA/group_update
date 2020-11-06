@@ -127,18 +127,13 @@ public class DeviceUpdatePage extends BasePage {
     private WebElement mainTable;
 
     @Override
-    public String getMainTableId() {
-        return "tbl";
-    }
-
-    @Override
     public DeviceUpdatePage topMenu(TopMenu value) {
         return (DeviceUpdatePage) super.topMenu(value);
     }
 
     public DeviceUpdatePage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(mainTable, filterViewComboBox, filterManufacturerComboBox, filterModelNameComboBox,
-                editButton, newViewButton, resetViewButton);
+        super.assertMainPageIsDisplayed();
+        assertElementsAreEnabled(mainTable);
         return this;
     }
 

@@ -1,5 +1,7 @@
 package com.friendly.aqa.entities;
 
+import com.friendly.aqa.pageobject.BasePage;
+
 import java.util.Objects;
 
 public class Event {
@@ -41,6 +43,35 @@ public class Event {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getRegex() {
+        String serial = BasePage.getSerial();
+        String duration;
+        String countOfEvents;
+        if (onEachEvent != null && onEachEvent) {
+            duration = "1";
+            countOfEvents = "1";
+        } else {
+            if (this.countOfEvents == null) {
+                countOfEvents = "1";
+            } else {
+                countOfEvents = this.countOfEvents;
+            }
+            if (this.duration == null) {
+                duration = "1";
+            } else {
+                String[] d = this.duration.split(":");
+                if (d[1].equalsIgnoreCase("hours")) {
+                    duration = String.valueOf(Integer.parseInt(d[0]) * 60);
+                } else {
+                    duration = d[0];
+                }
+            }
+        }
+        return "^<soapenv:Envelope.+?<ftacs:CPEEventMonitorResult>.+?<serialNumber>" + serial + "</serialNumber>.+?<eventCode>"
+                + name + "</eventCode><quantityFromMonitor>" + countOfEvents + "</quantityFromMonitor>.+?<duration>"
+                + duration + "</duration>.+?</ftacs:CPEEventMonitorResult></soapenv:Body></soapenv:Envelope>$";
     }
 
     @Override

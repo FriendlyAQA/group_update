@@ -217,7 +217,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -991,7 +991,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -1093,7 +1093,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
+                .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())
                 .immediately()
                 .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1308,7 +1308,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_083() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1321,7 +1321,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1335,7 +1335,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_084() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1348,7 +1348,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1384,7 +1384,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_086() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1397,7 +1397,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1411,7 +1411,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_087() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1424,7 +1424,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1464,7 +1464,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_089() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1490,7 +1490,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     @Test
     public void mqtt_mo_090() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1510,7 +1510,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust03")
@@ -1547,7 +1547,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust04")

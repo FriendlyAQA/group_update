@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.concurrent.*;
 
 public class HttpConnector {
-    private static Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
+    private static final Logger logger = org.apache.log4j.Logger.getLogger(HttpConnector.class);
 
     public static String sendGetRequest(String url) throws IOException {
         Map<String, String> requestProperty = getRequestProperty();
@@ -27,7 +27,7 @@ public class HttpConnector {
         return sendRequest(url, "POST", requestProperty, postParameters);
     }
 
-    public static String sendRequest(String url, String requestMethod, Map<String, String> requestProperty, String postParameters) throws IOException {
+    private static String sendRequest(String url, String requestMethod, Map<String, String> requestProperty, String postParameters) throws IOException {
         URL urlObject = new URL(url);
         boolean requestMethodIsPost = (requestMethod != null && postParameters != null && requestMethod.equals("POST"));
         HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();

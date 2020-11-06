@@ -217,7 +217,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -896,7 +896,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -998,7 +998,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
+                .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())
                 .immediately()
                 .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1213,7 +1213,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_077() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1226,7 +1226,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1240,7 +1240,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_078() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1253,7 +1253,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1289,7 +1289,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_080() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1302,7 +1302,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1316,7 +1316,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_081() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1329,7 +1329,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1369,7 +1369,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_083() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1395,7 +1395,7 @@ public class MonitoringUspTests extends BaseTestCase {
     @Test
     public void usp_mo_084() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1415,7 +1415,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust03")
@@ -1452,7 +1452,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust04")

@@ -69,7 +69,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("txtName", testName);
+                .assertInputHasText("txtName", getTestName());
     }
 
     @Test
@@ -169,7 +169,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .selectSendTo(testName)
+                .selectSendTo(getTestName())
                 .showList()
                 .assertPresenceOfValue("tblDevices", 0, getSerial());
     }
@@ -476,7 +476,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
-                .assertAbsenceOfOptions("ddlSend", testName);
+                .assertAbsenceOfOptions("ddlSend", getTestName());
     }
 
     @Test

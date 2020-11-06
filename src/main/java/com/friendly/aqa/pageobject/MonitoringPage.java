@@ -112,11 +112,6 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public String getMainTableId() {
-        return "tbl";
-    }
-
-    @Override
     public MonitoringPage clickOnTable(String id, int row, int column) {
         return (MonitoringPage) super.clickOnTable(id, row, column);
     }
@@ -366,11 +361,6 @@ public class MonitoringPage extends BasePage {
     @Override
     public MonitoringPage scheduledToRadioButton() {
         return (MonitoringPage) super.scheduledToRadioButton();
-    }
-
-    public MonitoringPage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(filterViewComboBox, filterManufacturerComboBox, filterModelNameComboBox, editButton, newViewButton, resetViewButton);
-        return this;
     }
 
     @Override

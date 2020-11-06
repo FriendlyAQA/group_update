@@ -273,9 +273,8 @@ public class DeviceProfilePage extends BasePage {
         clickButton(saveButton);
     }
 
-    @Override
     public DeviceProfilePage setEvent(Event event) {
-        return (DeviceProfilePage) super.setEvent(event);
+        return (DeviceProfilePage) setEvent(event, new Table("tblEvents"));
     }
 
     @Override
@@ -349,9 +348,9 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    @Override
     public DeviceProfilePage expandEvents() {
-        driver.findElement(By.id("imgSpoilerEvents")).click();
-        return this;
+        return (DeviceProfilePage) super.expandEvents();
     }
 
     public DeviceProfilePage expandParametersMonitor() {
@@ -597,9 +596,9 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.validateParametersMonitor();
     }
 
-    @Override
     public DeviceProfilePage validateEvents() {
-        return (DeviceProfilePage) super.validateEvents();
+        assertEquals(readEvents("tblEvents"), eventMap, "Events comparison error!");
+        return this;
     }
 
     public void validatePolicy() {
@@ -837,17 +836,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     private Table getMainTableWithText(String text) {
-        Table table = getMainTable();
-        if (!table.contains(text)) {
-            table.clickOn("Created");
-            waitForUpdate();
-            table = getMainTable();
-            if (!table.contains(text)) {
-                verifySinglePage();
-                table = getMainTable();
-            }
-        }
-        return table;
+        return getMainTableWithText(text, "Created");
     }
 
     public DeviceProfilePage enterIntoProfile(String profileName) {
@@ -1264,7 +1253,8 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage bottomMenu(BottomButtons button) {
+    @Override
+    public DeviceProfilePage bottomMenu(IBottomButtons button) {
         clickBottomButton(button);
         return this;
     }

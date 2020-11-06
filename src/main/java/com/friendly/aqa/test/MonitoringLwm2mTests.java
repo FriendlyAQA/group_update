@@ -214,7 +214,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -1082,7 +1082,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -1184,7 +1184,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertEquals(monPage.getSelectedOption("ddlSend"), testName)
+                .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())
                 .immediately()
                 .setSingleParameter()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -1398,7 +1398,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_089() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1411,7 +1411,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1425,7 +1425,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_090() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1438,7 +1438,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1474,7 +1474,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_092() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1487,7 +1487,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1501,7 +1501,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_093() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1514,7 +1514,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1554,7 +1554,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_095() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1580,7 +1580,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_mo_096() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1600,7 +1600,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust03")
@@ -1637,7 +1637,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .setSingleParameter()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust04")

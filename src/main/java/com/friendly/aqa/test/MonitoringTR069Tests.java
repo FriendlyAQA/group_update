@@ -217,7 +217,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -1558,7 +1558,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", testName);
+                .assertInputHasText("tbName", getTestName());
     }
 
     @Test
@@ -1863,7 +1863,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_119() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1876,7 +1876,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1889,7 +1889,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_120() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1902,7 +1902,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", testName)
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1937,7 +1937,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_122() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1950,7 +1950,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("Like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1963,7 +1963,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_123() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -1976,7 +1976,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", testName.substring(1, 5))
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1989,7 +1989,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_124() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -2014,7 +2014,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_125() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -2039,7 +2039,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     @Test
     public void tr069_mo_126() {
         monPage
-                .presetFilter("mycust03", testName)
+                .presetFilter("mycust03", getTestName())
                 .topMenu(MONITORING)
                 .leftMenu(NEW)
                 .fillName()
@@ -2058,7 +2058,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust03")
@@ -2093,7 +2093,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .addAnotherModel()
                 .newGroupButton()
-                .fillGroupName(testName + "_1")
+                .fillGroupName(getTestName() + "_1")
                 .bottomMenu(NEXT)
                 .addFilter()
                 .selectColumnFilter("mycust04")
