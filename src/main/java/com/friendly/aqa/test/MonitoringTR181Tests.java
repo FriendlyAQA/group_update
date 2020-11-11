@@ -22,11 +22,11 @@ Preconditions:
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringTR181Tests extends BaseTestCase {
-
-    @Test
-    public void tr181_mo_000() {
-        monPage.createPreconditions();
-    }
+//
+//    @Test
+//    public void tr181_mo_000() {
+//        monPage.createPreconditions();
+//    }
 
     @Test
     public void tr181_mo_001() {
@@ -48,9 +48,8 @@ public class MonitoringTR181Tests extends BaseTestCase {
     public void tr181_mo_003() {
         monPage
                 .topMenu(MONITORING)
-                .assertMainPageIsDisplayed()
-//                .deleteAllMonitors()
-//                .deleteAllCustomViews()
+                .deleteAllMonitors()   //as precondition for next step and tests
+                .deleteAllCustomViews()   //as precondition for next step and tests
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -213,7 +212,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
+                .deleteAllGroups()   //as precondition for next step and tests
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -293,7 +292,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .addModelButton()
                 .immediately()
                 .selectSendTo("tr181_mo_016")
-                .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
+                .validateDevicesAmount();
     }
 
     @Test
@@ -326,7 +325,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .validateDevicesAmount(1);
+                .validateDevicesAmountIs(1);
     }
 
     @Test
@@ -341,7 +340,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
+                .validateDevicesAmountIs(1);
     }
 
     @Test

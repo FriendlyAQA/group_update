@@ -9,7 +9,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
-import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
@@ -1640,7 +1639,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_gu_158() {
-        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
+        DataBaseConnector.createFilterPreconditions(getSerial());
         guPage
                 .createDeviceGroup()
                 .selectColumnFilter("Created")

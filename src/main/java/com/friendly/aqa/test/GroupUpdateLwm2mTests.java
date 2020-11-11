@@ -7,8 +7,6 @@ import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static com.friendly.aqa.pageobject.BasePage.getManufacturer;
-import static com.friendly.aqa.pageobject.BasePage.getModelName;
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;

@@ -37,9 +37,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(name = "ddlUpdateStatus")
     private WebElement updStatusComboBox;
 
-    @FindBy(id = "txtText")
-    private WebElement inputTextField;
-
     @FindBy(name = "btnEditView$btn")
     private WebElement editGroupButton;
 
@@ -503,10 +500,10 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.fillPassword();
     }
 
-    public GroupUpdatePage inputTextField(String text) {
-        inputTextField.sendKeys(text);
-        return this;
-    }
+//    public GroupUpdatePage inputTextField(String text) {
+//        inputTextField.sendKeys(text);
+//        return this;
+//    }
 
     @Override
     public GroupUpdatePage inputDnsField(String text) {
@@ -1238,8 +1235,8 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage waitForStatus(String status, int timeout) {
-        return (GroupUpdatePage) super.waitForStatus(status, timeout);
+    public GroupUpdatePage waitForStatus(String status, int timeoutSec) {
+        return (GroupUpdatePage) super.waitForStatus(status, timeoutSec);
     }
 
     public GroupUpdatePage enterIntoGroup(String groupName) {

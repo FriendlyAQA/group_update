@@ -29,7 +29,7 @@ import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 public class DeviceUpdatePage extends BasePage {
-    private static final Logger logger = Logger.getLogger(DeviceUpdatePage.class);
+    private static final Logger LOGGER = Logger.getLogger(DeviceUpdatePage.class);
     private Date xmlFileTime;
     private Date csvFileTime;
 
@@ -47,9 +47,6 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "btnClose_btn")
     private WebElement closeButton;
-
-    @FindBy(id = "IsDefaultViewForUser")
-    private WebElement defaultViewCheckbox;
 
     @FindBy(id = "btnReCheck_lnk")
     private WebElement recheckStatus;
@@ -263,10 +260,10 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.deleteFilter();
     }
 
-    public DeviceUpdatePage defaultViewForCurrentUserCheckbox() {
-        defaultViewCheckbox.click();
-        return this;
-    }
+//    @Override
+//    public DeviceUpdatePage defaultViewForCurrentUserCheckbox() {
+//        return (DeviceUpdatePage) super.defaultViewForCurrentUserCheckbox();
+//    }
 
     @Override
     public DeviceUpdatePage resetView() {
@@ -361,17 +358,17 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-    public void assertDuplicateNameErrorIsDisplayed() {
-        setImplicitlyWait(0);
-        List<WebElement> list = driver.findElements(By.id("lblNameInvalid"));
-        setDefaultImplicitlyWait();
-        if (list.size() == 1) {
-            return;
-        }
-        String warn = "Error message 'This name is already in use' not found on current page!";
-        logger.warn(warn);
-        throw new AssertionError(warn);
-    }
+//    public void assertDuplicateNameErrorIsDisplayed() {
+//        setImplicitlyWait(0);
+//        List<WebElement> list = driver.findElements(By.id("lblNameInvalid"));
+//        setDefaultImplicitlyWait();
+//        if (list.size() == 1) {
+//            return;
+//        }
+//        String warn = "Error message 'This name is already in use' not found on current page!";
+//        LOGGER.warn(warn);
+//        throw new AssertionError(warn);
+//    }
 
     public void validateFiltering(String filter) {
         WebElement comboBox = filter.equals("Manufacturer") ? filterManufacturerComboBox : filterModelNameComboBox;
@@ -1129,7 +1126,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         if (!success) {
             String warn = "There are no clickable objects!";
-            logger.warn(warn);
+            LOGGER.warn(warn);
             throw new AssertionError(warn);
         }
         waitForUpdate();
@@ -1800,18 +1797,14 @@ public class DeviceUpdatePage extends BasePage {
 
     public enum BottomButtons implements IBottomButtons {
 
-        ACTIVATE("btnActivate_btn"),
         ADD("btnAdd_btn"),
         ADD_PORT("btnAdd_btn"),
         ADD_TO_PROVISION("addToProvision"),
-        ADVANCED_VIEW("btnAdvView_btn"),
         CANCEL("btnCancel_btn"),
         CLEAR_TREE("UcDeviceSettingsControls1_btnClearTree_btn"),
         CREATE_TEMPLATE("btnCreateProfile_btn"),
-        DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
         DELETE_VIEW("btnDeleteView_btn"),
-        DUPLICATE("btnDuplicate_btn"),
         EDIT("btnEdit_btn"),
         EDIT_SETTINGS("UcDeviceSettingsControls1_btnChange_btn"),
         EDIT_TREE("UcDeviceSettingsControls1_btnEditTree_btn"),
@@ -1824,7 +1817,6 @@ public class DeviceUpdatePage extends BasePage {
         GET_CURRENT_PORTS("btnGetCurrent_btn"),
         NEXT("btnNext_btn"),
         OK("btnSave1_btn"),
-        PAUSE("btnPause_btn"),
         REFRESH("btnRefresh_btn"),
         REPLACE("btnReplaceCpe_btn"),
         REPROVISION("btnCPEReprovision_btn"),
@@ -1832,19 +1824,15 @@ public class DeviceUpdatePage extends BasePage {
         PREVIOUS("btnPrev_btn"),
         REBOOT("btnReboot_btn"),
         SAVE("btnSave_btn"),
-        SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
         SAVE_PARAMETERS("UcDeviceSettingsControls1_btnSaveParameters_btn"),
         SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
         SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
         SEND_UPDATE("UcDeviceSettingsControls1_btnSendUpdate_btn"),
         SHOW_ON_MAP("btnMap_btn"),
         SHOW_TRACE("btnShowTrace_btn"),
-        SIMPLE_VIEW("btnTabView_btn"),
         START("btnSendUpdate_btn"),
         START_TRACE("btnSetTrace_btn"),
         STOP_TRACE("btnStopTrace_btn"),
-        STOP("btnStop_btn"),
-        STOP_WITH_RESET("btnStopWithReset_btn"),
         STORE_TREE("UcDeviceSettingsControls1_btnSendTree_btn"),
         TRACE("btnTrace_btn"),
         TRACE_ROUTE("btnTracert_btn"),

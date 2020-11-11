@@ -1,8 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
-import com.friendly.aqa.pageobject.DeviceUpdatePage;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -11,7 +9,6 @@ import java.io.IOException;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.DELETE;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
@@ -53,18 +50,20 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_004() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .deleteAllCustomViews()
+                .deleteAllCustomViews()   //as precondition for next step and tests
                 .newViewButton()
                 .fillName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
+                .assertInputHasText("txtName", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
                 .assertButtonsAreEnabled(false, DELETE)
-                .assertButtonsAreEnabled(true, REFRESH, TRACE, EXPORT_TO_CSV, EXPORT_TO_XML, EXPORTS, SHOW_ON_MAP);
+                .assertButtonsAreEnabled(true, REFRESH, TRACE, EXPORT_TO_CSV, EXPORT_TO_XML, EXPORTS, SHOW_ON_MAP)
+                .assertAbsenceOfOptions("ddlView", getTestName());
     }
 
     @Test
@@ -179,7 +178,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .addFilter()
                 .selectColumnFilter("Model name")
                 .selectCompare("=")
-                .selectFilterModelName(BasePage.getModelName())
+                .selectFilterModelName(getModelName())
                 .bottomMenu(NEXT)
                 .filterRecordsCheckbox()
                 .assertButtonIsEnabled(true, "btnDelFilter_btn")
@@ -206,7 +205,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertColumnHasSingleValue("Model name", BasePage.getModelName());
+                .assertColumnHasSingleValue("Model name", getModelName());
     }
 
     @Test   //depends on 11, 12
@@ -242,7 +241,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_015() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .selectFilterModelName(BasePage.getModelName())
+                .selectFilterModelName(getModelName())
                 .createPreconditionsForSorting();
     }
 
@@ -575,7 +574,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectView("mqtt_du_014")
                 .selectView("Default")
-                .assertTableColumnNumberIs(7, "tbl");
+                .assertTableColumnAmountIs(7, "tbl");
     }
 
     @Test
@@ -583,7 +582,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectView("mqtt_du_011")
-                .assertTableColumnNumberIs(2, "tbl");
+                .assertTableColumnAmountIs(2, "tbl");
     }
 
     @Test
@@ -602,7 +601,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_051() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .selectFilterModelName(BasePage.getModelName())
+                .selectFilterModelName(getModelName())
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
                 .cancelButtonPopUp()
@@ -615,9 +614,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_052() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .saveTable("tbl")
-                .bottomMenu(REFRESH)
-                .assertPageWasRefreshed();
+                .checkRefreshPage();
     }
 
     @Test
@@ -907,7 +904,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     public void mqtt_du_071() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .selectFilterModelName(BasePage.getModelName())
+                .selectFilterModelName(getModelName())
                 .createPreconditionsForSorting();
     }
 
@@ -1882,7 +1879,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .validateObjectTree(); // use .validateObjectTree1() instead if failed!
     }
 
@@ -1892,7 +1889,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.FriendlySmartHome.PowerMeter.1")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
@@ -1909,7 +1906,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.FriendlySmartHome.PowerMeter.1")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
@@ -1927,7 +1924,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
                 .clearDeviceActivity()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.FriendlySmartHome.PowerMeter.1")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
@@ -1946,7 +1943,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .selectTreeObject(true, 0)
                 .bottomMenu(STORE_TREE)
@@ -1958,7 +1955,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
                 .bottomMenu(STORE_TREE)
@@ -1970,7 +1967,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .enterToDevice()
-                .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
+                .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
     }

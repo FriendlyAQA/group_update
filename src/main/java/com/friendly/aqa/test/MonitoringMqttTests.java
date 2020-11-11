@@ -293,7 +293,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addModelButton()
                 .immediately()
                 .selectSendTo("mqtt_mo_016")
-                .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
+                .validateDevicesAmount();
     }
 
     @Test
@@ -307,7 +307,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .addModelButton()
                 .immediately()
                 .selectSendTo("All")
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
+                .validateDevicesAmount();
     }
 
     @Test
@@ -326,7 +326,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
+                .validateDevicesAmountIs(1);
     }
 
     @Test
@@ -341,7 +341,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
+                .validateDevicesAmountIs(1);
     }
 
     @Test

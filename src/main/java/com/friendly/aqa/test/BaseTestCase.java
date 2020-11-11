@@ -173,6 +173,14 @@ public abstract class BaseTestCase {
         return BasePage.getSerial();
     }
 
+    public String getModelName() {
+        return DataBaseConnector.getDevice(getSerial())[1];
+    }
+
+    public String getManufacturer() {
+        return DataBaseConnector.getDevice(getSerial())[0];
+    }
+
     protected static String now() {
         return CalendarUtil.getDbShiftedDate(0);
     }
@@ -185,7 +193,7 @@ public abstract class BaseTestCase {
         return serial.substring(0, symbols);
     }
 
-    protected int getDeviceAmount() {
+    protected int getAmountOfDevices() {
         return DataBaseConnector.getDeviceAmount(getSerial());
     }
 

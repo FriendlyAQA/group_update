@@ -290,7 +290,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addModelButton()
                 .immediately()
                 .selectSendTo("lwm2m_mo_016")
-                .assertCellStartsWith("tabsSettings_tblTabs", 1, -2, "Devices");
+                .validateDevicesAmount();
     }
 
     @Test
@@ -304,7 +304,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .addModelButton()
                 .immediately()
                 .selectSendTo("All")
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " " + getDeviceAmount());
+                .validateDevicesAmount();
     }
 
     @Test
@@ -323,7 +323,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .cancelIndividualSelection()
                 .selectButton()
                 .selectIndividualDevises(1)
-                .assertCellEndsWith("tabsSettings_tblTabs", 1, -2, " 1");
+                .validateDevicesAmountIs(1);
     }
 
     @Test
@@ -338,7 +338,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectSendTo("Import from a file")
                 .selectImportDevicesFile()
                 .pause(2000)
-                .assertCellMatches("tabsSettings_tblTabs", 1, -2, ".+\\d+$");
+                .validateDevicesAmountIs(1);
     }
 
     @Test

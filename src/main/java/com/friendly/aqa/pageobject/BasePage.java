@@ -196,6 +196,9 @@ public abstract class BasePage {
     @FindBy(id = "ddlModel")
     protected WebElement filterModelNameComboBox;
 
+    @FindBy(id = "IsDefaultViewForUser")
+    protected WebElement defaultViewCheckbox;
+
     @FindBy(id = "btnEditView_btn")
     protected WebElement editButton;
 
@@ -222,6 +225,9 @@ public abstract class BasePage {
 
     @FindBy(id = "fuSerials")
     protected WebElement importDeviceField;
+
+    @FindBy(id = "txtText")
+    protected WebElement inputTextField;
 
     @FindBy(id = "ddlPageSizes")
     protected WebElement itemsOnPageComboBox;
@@ -321,6 +327,11 @@ public abstract class BasePage {
     public BasePage inputNumOfRepetitions(String text) {
         numOfRepetitionsField.clear();
         numOfRepetitionsField.sendKeys(text);
+        return this;
+    }
+
+    public BasePage inputTextField(String text) {
+        inputTextField.sendKeys(text);
         return this;
     }
 
@@ -725,9 +736,9 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage waitForStatus(String status, String testName, int timeout) {
-        Timer timer = new Timer(timeout * 1000);
-        while (!(getMainTable()).getCellText(testName, "State").equals(status)) {
+    public BasePage waitForStatus(String status, String testName, int timeoutSec) {
+        Timer timer = new Timer(timeoutSec * 1000);
+        while (!(getMainTable()).getCellText(testName, "State").equalsIgnoreCase(status)) {
             bottomMenu(REFRESH);
             if (timer.timeout()) {
                 throw new AssertionError("Timed out while waiting for status " + status);
@@ -736,8 +747,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage waitForStatus(String status, int timeout) {
-        return waitForStatus(status, BaseTestCase.getTestName(), timeout);
+    public BasePage waitForStatus(String status, int timeoutSec) {
+        return waitForStatus(status, BaseTestCase.getTestName(), timeoutSec);
     }
 
     public void executeScript(String script) {
@@ -1022,6 +1033,13 @@ public abstract class BasePage {
         return this;
     }
 
+    public void assertWarningMessageIsDisplayed() {
+        switchToFrame(ROOT);
+        if (!findElement("spnAlert").isDisplayed()) {
+            throw new AssertionError("Warning message is expected, but not found!");
+        }
+    }
+
     public BasePage assertElementsAreEnabled(WebElement... elements) {
         for (WebElement element : elements) {
             if (!element.isDisplayed() || !element.isEnabled()) {
@@ -1031,7 +1049,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public void assertTableColumnNumberIs(int number, String tableId) {
+    public void assertTableColumnAmountIs(int number, String tableId) {
         int actual = getTable(tableId).getTableSize()[1];
         if (actual != number) {
             throw new AssertionError("Wrong number of table column! Expected: " + number + ", but found :" + actual);
@@ -1090,8 +1108,10 @@ public abstract class BasePage {
     }
 
     public void assertAbsenceOfOptions(String comboBoxId, String... options) {
+        WebElement comboBox = findElement(comboBoxId);
+        comboBox.click();
         Arrays.asList(options).forEach(opt -> {
-            List<String> actualOptList = getOptionList(findElement(comboBoxId));
+            List<String> actualOptList = getOptionList(comboBox);
             if (actualOptList.contains(opt)) {
                 throw new AssertionError("Unexpected option (" + opt + ") found inside dropdown #" + comboBoxId);
             }
@@ -1103,19 +1123,28 @@ public abstract class BasePage {
         return this;
     }
 
-    public void assertCellStartsWith(String tabId, int row, int column, String expectedText) {
-        getTable(tabId).assertStartsWith(row, column, expectedText);
-    }
+//    public void assertCellStartsWith(String tabId, int row, int column, String expectedText) {
+//        getTable(tabId).assertStartsWith(row, column, expectedText);
+//    }
 
     public void assertCellEndsWith(String tabId, int row, int column, String expectedText) {
         getTable(tabId).assertEndsWith(row, column, expectedText);
     }
 
-    public void assertCellMatches(String tabLeId, int row, int column, String regex) {
-        String s = getTable(tabLeId).getCellText(row, column);
-        if (!s.matches(regex)) {
-            throw new AssertionError("Table cell text doesn't match regex!");
-        }
+//    public void assertCellMatches(String tabLeId, int row, int column, String regex) {
+//        String s = getTable(tabLeId).getCellText(row, column);
+//        if (!s.matches(regex)) {
+//            throw new AssertionError("Table cell text doesn't match regex!");
+//        }
+//    }
+
+    public void validateDevicesAmount() {
+        validateDevicesAmountIs(DataBaseConnector.getDeviceAmount(getSerial()));
+    }
+
+    public void validateDevicesAmountIs(int amount) {
+        String tabId = BaseTestCase.getTestName().matches("^.{3,5}_ev_\\d{3}$") ? "tabsMain_tblTabs" : "tabsSettings_tblTabs";
+        assertCellEndsWith(tabId, 1, -2, String.valueOf(amount));
     }
 
     public BasePage clickOn(String id) {
@@ -1603,6 +1632,23 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage defaultViewForCurrentUserCheckbox() {
+        defaultViewCheckbox.click();
+        return this;
+    }
+
+    public void assertDuplicateNameErrorIsDisplayed() {
+        setImplicitlyWait(0);
+        List<WebElement> list = driver.findElements(By.id("lblNameInvalid"));
+        setDefaultImplicitlyWait();
+        if (list.size() == 1) {
+            return;
+        }
+        String warn = "Error message 'This name is already in use' not found on current page!";
+        LOGGER.warn(warn);
+        throw new AssertionError(warn);
+    }
+
     public void validateViewColumns() {
         waitUntilElementIsDisplayed(editButton);
         List<String> columnList = new ArrayList<>(Arrays.asList(getMainTable().getRow(0)));
@@ -1742,7 +1788,7 @@ public abstract class BasePage {
         return DataBaseConnector.getDevice(getSerial())[0];
     }
 
-    public static String getModelName() {
+    public String getModelName() {
         return DataBaseConnector.getDevice(getSerial())[1];
     }
 
@@ -2161,15 +2207,39 @@ public abstract class BasePage {
 
     @SuppressWarnings("unused")
     public void forceFail() {
-        throw new AssertionError("Test is ok, but was down manually");
+        throw new AssertionError("Test is ok, but forced down manually");
     }
 
-    public void assertPageWasRefreshed() {
-        try {
-            savedTable.clickOn(0, 0);
-            throw new AssertionError("Page has not been refreshed!");
-        } catch (StaleElementReferenceException e) {
-            System.out.println("page has been refreshed successfully");
+    public void checkRefreshPage() {
+        assertMainPageIsDisplayed();
+        String beforeSorting = null;
+        String beforeSortingArrowDirection = null;
+        WebElement mainTable;
+        Table table;
+        if (!(table = getTable(getMainTableId())).isEmpty()) {
+            mainTable = findElement(getMainTableId());
+            WebElement arrow = mainTable.findElement(By.tagName("img"));
+            beforeSorting = arrow.findElement(By.xpath("preceding-sibling::*")).getText();
+            beforeSortingArrowDirection = arrow.getAttribute("src");
+        }
+        List<String> before = new ArrayList<>(Arrays.asList(getSelectedOption(filterViewComboBox), getSelectedOption(filterManufacturerComboBox), getSelectedOption(filterModelNameComboBox)));
+        bottomMenu(REFRESH);
+        assertMainPageIsDisplayed();
+        List<String> after = new ArrayList<>(Arrays.asList(getSelectedOption(filterViewComboBox), getSelectedOption(filterManufacturerComboBox), getSelectedOption(filterModelNameComboBox)));
+        assertEquals(after, before, "Values of bottom dropdowns are changed!");
+        if (beforeSorting != null) {
+            mainTable = findElement(getMainTableId());
+            WebElement arrow = mainTable.findElement(By.tagName("img"));
+            String afterSorting = arrow.findElement(By.xpath("preceding-sibling::*")).getText();
+            String afterSortingArrowDirection = arrow.getAttribute("src");
+            assertEquals(afterSorting, beforeSorting, "Sorting arrow changed location!");
+            assertEquals(afterSortingArrowDirection, beforeSortingArrowDirection, "Sorting arrow direction changed!");
+            try {
+                table.clickOn(0, 0);
+                throw new AssertionError("Page has not been refreshed!");
+            } catch (StaleElementReferenceException e) {
+                System.out.println("page has been refreshed successfully");
+            }
         }
     }
 
@@ -2201,8 +2271,6 @@ public abstract class BasePage {
     }
 
     public Table2 getTable2(String id) {
-//        pause(3000);
-//        System.out.println("frame:" + frame);
         return new Table2(id);
     }
 

@@ -8,10 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.*;
-
-import static com.friendly.aqa.entities.BottomButtons.REFRESH;
-import static com.friendly.aqa.entities.BottomButtons.SAVE_AND_ACTIVATE;
+import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 
 public class EventsPage extends BasePage {
@@ -21,6 +18,9 @@ public class EventsPage extends BasePage {
 
     @FindBy(id = "btnSelectDevices_btn")
     private WebElement selectButton;
+
+    @FindBy(id = "btnNewView_btn")
+    protected WebElement newGroupButton;
 
     public EventsPage selectManufacturer() {
         return (EventsPage) selectManufacturer(getManufacturer());
@@ -63,29 +63,35 @@ public class EventsPage extends BasePage {
         throw new AssertionError("Event entry not found in server.log file!");
     }
 
-    public void checkRefreshPage() {
-        assertMainPageIsDisplayed();
-        String beforeSorting = null;
-        String beforeSortingArrowDirection = null;
-        WebElement mainTable;
-        if ((mainTable = findElement(getMainTableId())).isDisplayed()) {
-            WebElement arrow = mainTable.findElement(By.tagName("img"));
-            beforeSorting = arrow.findElement(By.xpath("preceding-sibling::*")).getText();
-            beforeSortingArrowDirection = arrow.getAttribute("src");
-        }
-        List<String> before = new ArrayList<>(Arrays.asList(getSelectedOption(filterViewComboBox), getSelectedOption(filterManufacturerComboBox), getSelectedOption(filterModelNameComboBox)));
-        bottomMenu(REFRESH);
-        assertMainPageIsDisplayed();
-        List<String> after = new ArrayList<>(Arrays.asList(getSelectedOption(filterViewComboBox), getSelectedOption(filterManufacturerComboBox), getSelectedOption(filterModelNameComboBox)));
-        assertEquals(after, before, "Values of bottom dropdowns are changed!");
-        if (beforeSorting != null) {
-            mainTable = findElement(getMainTableId());
-            WebElement arrow = mainTable.findElement(By.tagName("img"));
-            String afterSorting = arrow.findElement(By.xpath("preceding-sibling::*")).getText();
-            String afterSortingArrowDirection = arrow.getAttribute("src");
-            assertEquals(afterSorting, beforeSorting, "Sorting arrow changed location!");
-            assertEquals(afterSortingArrowDirection, beforeSortingArrowDirection, "Sorting arrow direction changed!");
-        }
+    public EventsPage newGroupButton() {
+        newGroupButton.click();
+        waitForUpdate();
+        return this;
+    }
+
+    @Override
+    public EventsPage selectSendTo(String value) {
+        return (EventsPage) super.selectSendTo(value);
+    }
+
+    @Override
+    public EventsPage assertButtonIsEnabled(boolean expectedActive, String id) {
+        return (EventsPage) super.assertButtonIsEnabled(expectedActive, id);
+    }
+
+    @Override
+    public EventsPage cancelButtonPopUp() {
+        switchToFrame(POPUP);
+        showPointer(cancelButtonPopUp).click();
+        waitForUpdate();
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
+    public EventsPage selectButton() {
+        selectButton.click();
+        waitForUpdate();
+        return this;
     }
 
     public EventsPage enterIntoItem(String itemName) {
@@ -100,8 +106,23 @@ public class EventsPage extends BasePage {
     }
 
     @Override
+    public MonitoringPage newViewButton() {
+        return (MonitoringPage) super.newViewButton();
+    }
+
+    @Override
     public EventsPage fillName() {
         eventNameField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    public EventsPage fillGroupName() {
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    public EventsPage fillGroupName(String name) {
+        nameField.sendKeys(name);
         return this;
     }
 
@@ -149,6 +170,33 @@ public class EventsPage extends BasePage {
             DiscManager.setRegex(getSingleEvent().getRegex());
         }
         return (EventsPage) super.bottomMenu(button);
+    }
+
+    public EventsPage assertAdvancedViewApplied() {
+        waitForUpdate();
+        if (elementIsPresent("tabsParameters_tblTabs")) {
+            throw new AssertionError("Setting tabs are still present on page!");
+        }
+        if (findElement("tblTree").findElements(By.tagName("img")).size() == 0) {
+            throw new AssertionError("Object tree does not have no one expander");
+        }
+        assertButtonsArePresent(SIMPLE_VIEW);
+        return this;
+    }
+
+    public EventsPage assertSimpleViewApplied() {
+        waitForUpdate();
+        if (elementIsAbsent("tabsParameters_tblTabs")) {
+            throw new AssertionError("Setting tabs are still present on page!");
+        }
+        WebElement tree = findElement("tblTree");
+        setImplicitlyWait(0);
+        if (tree.findElements(By.tagName("img")).size() != 0) {
+            throw new AssertionError("Object tree does not have no one expander");
+        }
+        setDefaultImplicitlyWait();
+        assertButtonsArePresent(ADVANCED_VIEW);
+        return this;
     }
 
     private Event getSingleEvent() {

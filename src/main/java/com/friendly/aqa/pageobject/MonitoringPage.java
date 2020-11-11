@@ -406,14 +406,6 @@ public class MonitoringPage extends BasePage {
         throw new AssertionError("Filtering by " + (byManufacturer ? "manufacturer" : "model name") + "failed!");
     }
 
-    public void validateDevicesAmount() {
-        validateDevicesAmount(DataBaseConnector.getDeviceAmount(getSerial()));
-    }
-
-    public void validateDevicesAmount(int amount) {
-        assertCellEndsWith("tabsSettings_tblTabs", 1, -2, String.valueOf(amount));
-    }
-
     @Override
     public MonitoringPage selectFilterManufacturer(String value) {
         return (MonitoringPage) super.selectFilterManufacturer(value);
@@ -638,8 +630,8 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage waitForStatus(String status, int timeout) {
-        return (MonitoringPage) super.waitForStatus(status, timeout);
+    public MonitoringPage waitForStatus(String status, int timeoutSec) {
+        return (MonitoringPage) super.waitForStatus(status, timeoutSec);
     }
 
     @Override

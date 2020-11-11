@@ -1429,18 +1429,18 @@ public class DeviceProfilePage extends BasePage {
         DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
         DELETE_CONDITION("btnDeleteView_btn"),
-        DUPLICATE("btnDuplicate_btn"),
-        EDIT("btnEdit_btn"),
+//        DUPLICATE("btnDuplicate_btn"),
+//        EDIT("btnEdit_btn"),
         FINISH("btnFinish_btn"),
         NEXT("btnNext_btn"),
-        PAUSE("btnPause_btn"),
-        REFRESH("btnRefresh_btn"),
-        PREVIOUS("btnPrev_btn"),
+//        PAUSE("btnPause_btn"),
+//        REFRESH("btnRefresh_btn"),
+//        PREVIOUS("btnPrev_btn"),
         SAVE("btnSave_btn"),
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
         SIMPLE_VIEW("btnTabView_btn"),
-        STOP("btnStop_btn"),
-        STOP_WITH_RESET("btnStopWithReset_btn");
+//        STOP("btnStop_btn"),
+        /*STOP_WITH_RESET("btnStopWithReset_btn")*/;
 
         BottomButtons(String id) {
             this.id = id;
@@ -1452,23 +1452,4 @@ public class DeviceProfilePage extends BasePage {
             return id;
         }
     }
-
-//    public enum Policy implements IPolicy {
-//        //      DEFAULT("Default"),
-//        OFF("0"),
-//        PASSIVE("1"),
-//        ACTIVE("2"),
-//        ACS_ONLY("AcsOnly"),
-//        ALL("All");
-//
-//        private final String option;
-//
-//        public String getOption() {
-//            return option;
-//        }
-//
-//        Policy(String option) {
-//            this.option = option;
-//        }
-//    }
 }
