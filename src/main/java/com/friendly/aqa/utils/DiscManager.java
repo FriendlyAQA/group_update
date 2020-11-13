@@ -83,6 +83,7 @@ public class DiscManager {
 
     public static void stopReading() {
         isRunning = false;
+        isEndOfFileReached = false;
     }
 
     public static void main(String[] args) {

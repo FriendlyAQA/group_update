@@ -14,7 +14,15 @@ public class EventsTR069Tests extends BaseTestCase {
 
    /*
    1. At least 1 Event item MUST exist; (004)
+   2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
    */
+
+    @Test
+    public void tr069_ev_000() {
+        evPage
+                .topMenu(EVENTS)
+                .createPreconditions();
+    }
 
     @Test
     public void tr069_ev_001() {
@@ -36,9 +44,9 @@ public class EventsTR069Tests extends BaseTestCase {
                 .topMenu(EVENTS)
                 .assertButtonsAreEnabled(false, ACTIVATE, DEACTIVATE, DELETE)
                 .assertButtonsAreEnabled(true, REFRESH)
-                .deleteAllCustomViews()   //as precondition for next step and tests
+//                .deleteAllCustomViews()   //as precondition for next step and tests
                 .newViewButton()
-                .fillName()
+                .fillViewName()
                 .assertButtonsAreEnabled(false, PREVIOUS, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
@@ -56,7 +64,7 @@ public class EventsTR069Tests extends BaseTestCase {
         evPage
                 .topMenu(EVENTS)
                 .newViewButton()
-                .fillName()
+                .fillViewName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns("Model name")
                 .bottomMenu(NEXT)
@@ -130,7 +138,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .assertTableColumnAmountIs(2, "tbl");
     }
 
-    @Test
+    @Test   //depends on 004
     public void tr069_ev_010() {
         evPage
                 .topMenu(EVENTS)
@@ -361,7 +369,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .selectSendTo()
                 .immediately()
                 .selectMainTab("Events")
-                .setEvent(new Event("2 PERIODIC", null, "1", "2:hours"))
+                .setEvent(new Event("2 PERIODIC", null, "3", "2:hours"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 1);
@@ -383,6 +391,71 @@ public class EventsTR069Tests extends BaseTestCase {
     }
 
     @Test
+    public void tr069_ev_027() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo("All")
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", null, "1", "3:hours"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_028() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("0 BOOTSTRAP", null, "5", "6:hours"))
+                .setEvent(new Event("0 BOOTSTRAP", null, "0", null))
+                .setEvent(new Event("0 BOOTSTRAP", null, "2", "5:minutes"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 0 BOOTSTRAP during testcase run
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_029() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("1 BOOT", null, "1", "3:hours"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .stopEvent();
+    }
+
+    @Test
     public void tr069_ev_030() {
         evPage
                 .topMenu(EVENTS)
@@ -399,7 +472,157 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .assertLogfileContainsEventSoap();
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_031() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("4 VALUE CHANGE", null, "1", "3:minutes"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_032() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("6 CONNECTION REQUEST", null, "1", "2:hours"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+                .triggerConnectionRequest()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_033() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("7 TRANSFER COMPLETE", null, "6", "8:hours"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_034() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("8 DIAGNOSTICS COMPLETE", null, "4", "14:minutes"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_035() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", true, null, null))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_036() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("0 BOOTSTRAP", null, "5", "6:hours"))
+                .setEvent(new Event("1 BOOT", null, "1", "3:hours"))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase run
+                .stopEvent();
+    }
+
+    @Test
+    public void tr069_ev_037() {
+        evPage
+                .topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvents(99, new Event(null, true, null, null))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase run
+                .stopEvent();
     }
 
 

@@ -4,9 +4,12 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DiscManager;
 import com.friendly.aqa.utils.Timer;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
@@ -34,6 +37,10 @@ public class EventsPage extends BasePage {
         return (EventsPage) setEvent(event, new Table("tblDataEvents"));
     }
 
+    public EventsPage setEvents(int amount, Event example) {
+        return (EventsPage) super.setEvents(amount, example, getTable("tblDataEvents"));
+    }
+
     private Table getMainTableWithText(String text) {
         return getMainTableWithText(text, "Updated");
     }
@@ -52,15 +59,18 @@ public class EventsPage extends BasePage {
         if (eventMap.size() > 1) {
             throw new AssertionError("Multiple event validation not supported");
         }
-        Timer timer = new Timer(60000);
+        Timer timer = new Timer(Integer.parseInt(props.getProperty("soap_searching_time")) * 1000);
         while (!timer.timeout()) {
             if (DiscManager.isEventFound()) {
+                System.out.println("Soap appears within " + (timer.stop() / 1000) + " s");
                 return this;
             }
             pause(100);
             Thread.yield();
         }
-        throw new AssertionError("Event entry not found in server.log file!");
+        System.out.println("SOAP not found,  going to deactivate event");
+        stopEvent();
+        throw new AssertionError("Appropriate SOAP not found in server.log file!");
     }
 
     public EventsPage newGroupButton() {
@@ -79,6 +89,35 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
+//    @Override
+//    public EventsPage clickIfPresent(IBottomButtons button) {
+//        return (EventsPage) super.clickIfPresent(button);
+//    }
+
+    public EventsPage createPreconditions() {
+        deleteAllCustomViews();
+        Table table = getMainTable();
+        if (!table.isEmpty()) {
+            setSinglePage();
+            table.clickOn(0, 0);
+            bottomMenu(DELETE);
+            okButtonPopUp();
+        }
+        leftMenu(Left.NEW)
+                .selectManufacturer()
+                .selectModelName().
+                fillName();
+        deleteAllGroups()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab("Events")
+                .setEvent(new Event("2 PERIODIC", null, "3", "1:hours"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 1);
+        return this;
+    }
+
     @Override
     public EventsPage cancelButtonPopUp() {
         switchToFrame(POPUP);
@@ -88,13 +127,57 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage deleteAllGroups() {
+        waitForUpdate();
+        List<String> optList = getOptionList(sendToComboBox);
+        String testName = BaseTestCase.getTestName();
+        for (String opt : optList) {
+            if (opt.matches(testName.substring(0, testName.length() - 3) + "\\d{3}$")) {
+                selectComboBox(sendToComboBox, opt);
+                waitForUpdate();
+                switchToFrame(ROOT);
+                while (okButtonAlertPopUp.isDisplayed()) {
+                    showPointer(okButtonAlertPopUp).click();
+                    waitForUpdate();
+                }
+                switchToFrame(DESKTOP);
+                editButton.click();
+                bottomMenu(DeviceUpdatePage.BottomButtons.DELETE_VIEW);
+                okButtonPopUp();
+                waitForUpdate();
+            }
+        }
+        return this;
+    }
+
     public EventsPage selectButton() {
         selectButton.click();
         waitForUpdate();
         return this;
     }
 
+    public void stopEvent(String eventName) {
+        topMenu(TopMenu.EVENTS);
+        selectItem(eventName);
+        bottomMenu(DEACTIVATE);
+        okButtonPopUp();
+        waitForStatus("Not active", 5);
+    }
+
+    public void stopEvent() {
+        stopEvent(BaseTestCase.getTestName());
+    }
+
+    public EventsPage triggerConnectionRequest() {
+        topMenu(TopMenu.DEVICE_UPDATE);
+        DeviceUpdatePage duPage = new DeviceUpdatePage();
+        duPage.getMainTableWithText(getSerial(), "Last connection").clickOn(getSerial());
+        duPage.recheckStatus();
+        return this;
+    }
+
     public EventsPage enterIntoItem(String itemName) {
+        waitForUpdate();
         Table table = getMainTableWithText(itemName);
         table.clickOn(itemName);
         waitForUpdate();
@@ -106,8 +189,13 @@ public class EventsPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage newViewButton() {
-        return (MonitoringPage) super.newViewButton();
+    public EventsPage newViewButton() {
+        return (EventsPage) super.newViewButton();
+    }
+
+    @Override
+    public EventsPage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
+        return (EventsPage) super.assertButtonsAreEnabled(enabled, buttons);
     }
 
     @Override
@@ -121,9 +209,17 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage fillViewName() {
+        return fillGroupName();
+    }
+
     public EventsPage fillGroupName(String name) {
         nameField.sendKeys(name);
         return this;
+    }
+
+    public EventsPage fillViewName(String name) {
+        return fillGroupName(name);
     }
 
     @Override

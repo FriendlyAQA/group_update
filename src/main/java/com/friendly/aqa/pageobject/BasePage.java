@@ -973,6 +973,20 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage clickIfPresent(IBottomButtons button) {
+        waitForUpdate();
+        waitUntilBottomMenuIsDownloaded();
+        switchToFrame(BOTTOM_MENU);
+        List<WebElement> list = findElements(button.getId());
+        if (!list.isEmpty() && list.get(0).isDisplayed()) {
+            list.get(0).click();
+            okButtonPopUp();
+        }
+        waitForUpdate();
+        switchToFrame(DESKTOP);
+        return this;
+    }
+
     public BasePage assertEqualsAlertMessage(String expectedMessage) {
         switchToFrame(ROOT);
         String out = alertWindow.getText();
@@ -1080,7 +1094,7 @@ public abstract class BasePage {
         return this;
     }
 
-    protected void verifySinglePage() {
+    protected void setSinglePage() {
         if (elementIsPresent("btnPager2")) {
             itemsOnPage("200");
         }
@@ -1189,7 +1203,7 @@ public abstract class BasePage {
         waitForUpdate();
         switchToFrame(BOTTOM_MENU);
         setDefaultImplicitlyWait();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             try {
                 new FluentWait<>(driver)
                         .withMessage("Button " + button + " was not active")
@@ -1374,8 +1388,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setEvents(int amount, Event example) {
-        Table table = new Table("tblEvents");
+    public BasePage setEvents(int amount, Event example, Table table) {
+//        Table table = new Table("tblEvents");
         String[] names = table.getColumn(0);
         if (names.length == 0) {
             String warn = "No one events was found!";
@@ -1490,12 +1504,17 @@ public abstract class BasePage {
 
     protected Table getMainTableWithText(String text, String sortedColumn) {
         Table table = getMainTable();
+        if (table.isEmpty()) {
+            clickIfPresent(REFRESH);
+            waitForUpdate();
+            table = getMainTable();
+        }
         if (!table.contains(text)) {
             table.clickOn(sortedColumn);
             waitForUpdate();
             table = getMainTable();
             if (!table.contains(text)) {
-                verifySinglePage();
+                setSinglePage();
                 table = getMainTable();
             }
         }

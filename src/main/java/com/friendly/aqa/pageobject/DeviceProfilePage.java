@@ -282,9 +282,8 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.setEvent(event, addTask);
     }
 
-    @Override
     public DeviceProfilePage setEvents(int amount, Event event) {
-        return (DeviceProfilePage) super.setEvents(amount, event);
+        return (DeviceProfilePage) super.setEvents(amount, event, getTable("tblEvents"));
     }
 
     @Override

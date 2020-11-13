@@ -687,7 +687,7 @@ public class DeviceUpdatePage extends BasePage {
     public void assertAbsenceOfValue() {
         String value = parameterSet.iterator().next();
         waitForUpdate();
-        verifySinglePage();
+        setSinglePage();
         if (getMainTable().contains(value)) {
             throw new AssertionError("Value '" + value + "' still present in the table!");
         }
@@ -916,7 +916,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void assertActivityIsPresent(String activity) {
-        verifySinglePage(); //!
+        setSinglePage(); //!
         Table table = getTable("tbl");
         if (!table.contains(activity)) {
             throw new AssertionError("Activity '" + activity + "' is absent from activity list!");
@@ -1150,7 +1150,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage validateTasks() {
-        verifySinglePage();
+        setSinglePage();
         Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
         Table table = getTable("tbl");
         out:
@@ -1486,7 +1486,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validatePortCreating() {
         Timer timer = new Timer(150000);
-        verifySinglePage();
+        setSinglePage();
         List<String[]> tasks = new ArrayList<>(2);
         String[] example = {"", parameterMap.get("Description"), parameterMap.get("Internal client"), parameterMap.get("Internal port"),
                 "", parameterMap.get("Remote host"), parameterMap.get("External port")};
@@ -1532,7 +1532,7 @@ public class DeviceUpdatePage extends BasePage {
     public void verifyItemDeletion(String keyColumn, String valueColumn) {
         String targetPort = parameterMap.keySet().iterator().next();
         String targetProtocol = parameterMap.get(targetPort);
-        verifySinglePage();
+        setSinglePage();
         Timer timer = new Timer(60000);
         while (!timer.timeout()) {
             boolean fail = false;
@@ -1759,18 +1759,9 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public DeviceUpdatePage clickIfPresent(IBottomButtons button) {
-        waitForUpdate();
-        waitUntilBottomMenuIsDownloaded();
-        switchToFrame(BOTTOM_MENU);
-        List<WebElement> list = findElements(button.getId());
-        if (!list.isEmpty() && list.get(0).isDisplayed()) {
-            list.get(0).click();
-            okButtonPopUp();
-        }
-        waitForUpdate();
-        switchToFrame(DESKTOP);
-        return this;
+        return (DeviceUpdatePage) super.clickIfPresent(button);
     }
 
     @Override
