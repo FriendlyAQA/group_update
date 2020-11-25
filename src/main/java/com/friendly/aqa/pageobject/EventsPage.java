@@ -4,7 +4,6 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.DiscManager;
 import com.friendly.aqa.utils.Timer;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +11,11 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
+import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.EDIT_SETTINGS;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.SEND_UPDATE;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_SETTINGS;
 
 public class EventsPage extends BasePage {
 
@@ -24,6 +27,20 @@ public class EventsPage extends BasePage {
 
     @FindBy(id = "btnNewView_btn")
     protected WebElement newGroupButton;
+
+    @FindBy(id = "btnSave_btn")
+    protected WebElement saveButton;
+
+    @FindBy(id = "imgSpoilerParams")
+    protected WebElement parametersMonitoringExpander;
+
+
+    public EventsPage expandParametersMonitor() {
+        if (parametersMonitoringExpander.getAttribute("src").endsWith("expand.png")) {
+            parametersMonitoringExpander.click();
+        }
+        return this;
+    }
 
     public EventsPage selectManufacturer() {
         return (EventsPage) selectManufacturer(getManufacturer());
@@ -55,20 +72,33 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.expandEvents();
     }
 
+    @Override
+    public EventsPage selectDiagnostic(String value) {
+        return (EventsPage) super.selectDiagnostic(value);
+    }
+
+    @Override
+    public EventsPage inputHost(String text) {
+        return (EventsPage) super.inputHost(text);
+    }
+
+    @Override
+    public EventsPage inputNumOfRepetitions(String text) {
+        return (EventsPage) super.inputNumOfRepetitions(text);
+    }
+
     public EventsPage assertLogfileContainsEventSoap() {
-        if (eventMap.size() > 1) {
-            throw new AssertionError("Multiple event validation not supported");
-        }
+        System.out.println("Start looking for SOAP...(" + BaseTestCase.getTestName() + ")");
         Timer timer = new Timer(Integer.parseInt(props.getProperty("soap_searching_time")) * 1000);
         while (!timer.timeout()) {
             if (DiscManager.isEventFound()) {
-                System.out.println("Soap appears within " + (timer.stop() / 1000) + " s");
+                System.out.println("Soap appeared within " + (timer.stop() / 1000) + " s");
                 return this;
             }
             pause(100);
             Thread.yield();
         }
-        System.out.println("SOAP not found,  going to deactivate event");
+        System.out.println("SOAP not found, going to deactivate event");
         stopEvent();
         throw new AssertionError("Appropriate SOAP not found in server.log file!");
     }
@@ -79,9 +109,97 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage saveButton() {
+        saveButton.click();
+        waitForUpdate();
+        return this;
+    }
+
+    public EventsPage validateAddedEventTasks(String eventName) {
+        validateAddedTasks(new Table("tblDataEvents"), eventName);
+        return this;
+    }
+
+    public EventsPage validateAddedEventTask(String eventName, String taskName) {
+        waitForUpdate();
+        validateAddedTask(new Table("tblDataEvents"), eventName, taskName);
+        cancelButtonPopUp();
+        return this;
+    }
+
+    public EventsPage validateAddedEventTask(String eventName, String parameter, String value) {
+        validateAddedTask(new Table("tblDataEvents"), eventName, parameter, value);
+        return this;
+    }
+
+    @Override
+    public EventsPage manuallyDownloadRadioButton() {
+        return (EventsPage) super.manuallyDownloadRadioButton();
+    }
+
+    @Override
+    public EventsPage selectDownloadFileType(String type) {
+        return (EventsPage) super.selectDownloadFileType(type);
+    }
+
+    @Override
+    public EventsPage selectUploadFileType(String type) {
+        return (EventsPage) super.selectUploadFileType(type);
+    }
+
+    @Override
+    public EventsPage manuallyUploadRadioButton() {
+        return (EventsPage) super.manuallyUploadRadioButton();
+    }
+
+    @Override
+    public EventsPage fillUploadUrl() {
+        return (EventsPage) super.fillUploadUrl();
+    }
+
+    @Override
+    public EventsPage fillDownloadUrl() {
+        return (EventsPage) super.fillDownloadUrl();
+    }
+
+    @Override
+    public EventsPage fillUsername() {
+        return (EventsPage) super.fillUsername();
+    }
+
+    @Override
+    public EventsPage fillUploadUserName() {
+        return (EventsPage) super.fillUploadUserName();
+    }
+
+    @Override
+    public EventsPage fillUploadPassword() {
+        return (EventsPage) super.fillUploadPassword();
+    }
+
+    @Override
+    public EventsPage fillPassword() {
+        return (EventsPage) super.fillPassword();
+    }
+
+    @Override
+    public EventsPage selectAction(String action) {
+        return (EventsPage) super.selectAction(action);
+    }
+
+    @Override
+    public EventsPage selectMethod(String value) {
+        return (EventsPage) super.selectMethod(value);
+    }
+
     @Override
     public EventsPage selectSendTo(String value) {
         return (EventsPage) super.selectSendTo(value);
+    }
+
+    @Override
+    public EventsPage addTask(String task) {
+        return (EventsPage) super.addTask(task);
     }
 
     @Override
@@ -89,19 +207,64 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
-//    @Override
-//    public EventsPage clickIfPresent(IBottomButtons button) {
-//        return (EventsPage) super.clickIfPresent(button);
-//    }
+    @Override
+    public EventsPage validateParametersMonitor() {
+        return (EventsPage) super.validateParametersMonitor();
+    }
+
+    @Override
+    public EventsPage getParameter(int row, int column) {
+        return (EventsPage) super.getParameter(row, column);
+    }
+
+
+    public EventsPage validateAddedMonitorTasks() {
+        validateAddedTasks(new Table("tblDataParams"), null);
+        return this;
+    }
+
+    public EventsPage triggerEventOnParameter() {
+        return (EventsPage) super.setParameterOverApi(parametersMonitor.getName(), parametersMonitor.getCurrentValue());
+    }
+
+    public EventsPage setParameter(String paramName, ParameterType option, String value) {
+        return (EventsPage) setParameter(new Table("tblParamsValue"), paramName, option, value);
+    }
+
+    public EventsPage setParametersMonitor(String parameter, Condition condition, String value, String triggerValue) {
+        return setParametersMonitor(parameter, condition, value, triggerValue, false);
+    }
+
+    public EventsPage setParametersMonitor(String parameter, Condition condition, String value, String triggerValue, boolean addTask) {
+        Table table = getTable("tblDataParams");
+        setParametersMonitor(table, parameter, condition, value);
+        parametersMonitor.setCurrentValue(triggerValue);
+        if (addTask) {
+            table.clickOn(parameter, 3);
+        }
+        return this;
+    }
+
+    public EventsPage setEvent(Event event, boolean addTask) {
+        return (EventsPage) setEvent(event, new Table("tblDataEvents"), addTask);
+    }
+
+    public EventsPage validateAddedEventAction(String eventName, String parameter, String value) {
+        validateAddedAction(new Table("tblDataEvents"), eventName, parameter, value);
+        cancelButtonPopUp();
+        return this;
+    }
 
     public EventsPage createPreconditions() {
         deleteAllCustomViews();
-        Table table = getMainTable();
-        if (!table.isEmpty()) {
-            setSinglePage();
+        new DeviceProfilePage().deleteAllProfiles();
+        setSinglePage();
+        Table table;
+        while (!(table = getMainTable()).isEmpty()) {
             table.clickOn(0, 0);
             bottomMenu(DELETE);
             okButtonPopUp();
+            waitForUpdate();
         }
         leftMenu(Left.NEW)
                 .selectManufacturer()
@@ -115,6 +278,15 @@ public class EventsPage extends BasePage {
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 1);
+        new DeviceUpdatePage()
+                .topMenu(DEVICE_UPDATE)
+                .enterToDevice()
+                .clearDeviceActivity()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .setParameter("PeriodicInformInterval, sec", "10")
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp();
         return this;
     }
 
@@ -242,6 +414,13 @@ public class EventsPage extends BasePage {
 
     @Override
     public EventsPage leftMenu(ILeft item) {
+        Table mainTable = getMainTable();
+        if (!mainTable.isEmpty() && mainTable.contains(BaseTestCase.getTestName())) {
+            selectItem();
+            bottomMenu(DELETE);
+            okButtonPopUp();
+            waitForUpdate();
+        }
         return (EventsPage) super.leftMenu(item);
     }
 
@@ -257,13 +436,23 @@ public class EventsPage extends BasePage {
 
     @Override
     public EventsPage bottomMenu(IBottomButtons button) {
-        if (button == SAVE_AND_ACTIVATE && eventMap != null && eventMap.size() == 1) {
-            DiscManager.startReading();
-            while (!DiscManager.isReady()) {
-                pause(100);
-                Thread.yield();
+        if (button == SAVE_AND_ACTIVATE) {
+            boolean event = eventMap != null && eventMap.size() == 1;
+            boolean param = parametersMonitor != null;
+            if (event || param) {
+                DiscManager.startReading();
+                while (!DiscManager.isReady()) {
+                    pause(100);
+                    Thread.yield();
+                }
+                if (event) {
+                    DiscManager.setRegex(getSingleEvent().getRegex());
+                } else {
+                    DiscManager.setRegex(parametersMonitor.getRegex());
+//                    System.out.println("regex:");
+//                    System.out.println(parametersMonitor.getRegex());
+                }
             }
-            DiscManager.setRegex(getSingleEvent().getRegex());
         }
         return (EventsPage) super.bottomMenu(button);
     }
@@ -295,6 +484,14 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage setTaskPolicy(int scenario) {
+        return (EventsPage) setPolicy(new Table("tblParamsValue"), scenario);
+    }
+
+    public EventsPage pause(long millis) {
+        return (EventsPage) super.pause(millis);
+    }
+
     private Event getSingleEvent() {
         return eventMap.values().iterator().next();
     }
@@ -302,6 +499,17 @@ public class EventsPage extends BasePage {
     @Override
     public EventsPage selectMainTab(String tab) {
         return (EventsPage) super.selectMainTab(tab);
+    }
+
+    @Override
+    public EventsPage selectTab(String tab) {
+        return (EventsPage) super.selectTab(tab);
+    }
+
+    public EventsPage selectParametersTab(String tab) {
+        getTable("tabsParameters_tblTabs").clickOn(tab);
+        waitForUpdate();
+        return this;
     }
 
     public enum Left implements ILeft {

@@ -9,9 +9,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class HttpConnector {
@@ -25,6 +23,34 @@ public class HttpConnector {
     public static String sendPostRequest(String url, String postParameters) throws IOException {
         Map<String, String> requestProperty = getRequestProperty();
         return sendRequest(url, "POST", requestProperty, postParameters);
+    }
+
+    public static String sendSoapRequest(String devId, String parameter, String value) throws IOException {
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:setCPEParams><cpeList><id>" + devId + "</id></cpeList><cpeParamList><CPEParam>" +
+                "<name>" + parameter + "</name><reprovision>0</reprovision><value>" + value + "</value></CPEParam></cpeParamList>" +
+                "<priority>1</priority><group>1</group><push>1</push><reset>0</reset><transactionId>10000</transactionId><user>" +
+                BasePage.getProps().getProperty("ui_user") + "</user></ftac:setCPEParams></soapenv:Body></soapenv:Envelope>";
+        URL urlObject = new URL(BasePage.getProps().getProperty("api_url"));
+        String userPassword = BasePage.getProps().getProperty("api_user") + ":" + BasePage.getProps().getProperty("api_password");
+        String encoding = Base64.getEncoder().encodeToString(userPassword.getBytes());
+        HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestProperty("User-Agent", "CPE admin autotest tool");
+        urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
+        urlConnection.setInstanceFollowRedirects(false);
+        byte[] postData = request.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        urlConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
+        urlConnection.setRequestProperty("Content-Length", String.valueOf(postDataLength));
+        urlConnection.setDoOutput(true);
+        try (DataOutputStream dos = new DataOutputStream(urlConnection.getOutputStream())) {
+            dos.write(postData);
+        } catch (IOException e) {
+            logger.warn("IOException happened during POST parameters sending: " + e.getMessage());
+        }
+        InputStream inputStream = urlConnection.getInputStream();
+        return toString(inputStream, false);
     }
 
     private static String sendRequest(String url, String requestMethod, Map<String, String> requestProperty, String postParameters) throws IOException {
@@ -115,5 +141,10 @@ public class HttpConnector {
             requestProperty.put("Cookie", c.getName() + "=" + c.getValue());
         }
         return requestProperty;
+    }
+
+    public static void main(String[] args) throws IOException {
+        String out = sendSoapRequest("121", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "20");
+        System.out.println(out);
     }
 }

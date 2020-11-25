@@ -3,7 +3,6 @@ package com.friendly.aqa.utils;
 import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.test.BaseTestCase;
 import org.apache.log4j.Logger;
-import org.testng.asserts.Assertion;
 
 import java.sql.*;
 import java.util.*;

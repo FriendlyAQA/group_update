@@ -3,10 +3,8 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.entities.Event;
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.DataBaseConnector;
+import com.friendly.aqa.utils.*;
 import com.friendly.aqa.utils.Timer;
-import com.friendly.aqa.utils.XmlWriter;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
@@ -51,8 +49,8 @@ public abstract class BasePage {
     private static String mainWindow;
     private static FrameSwitch frame;
     private static FrameSwitch previousFrame;
+    protected static ParametersMonitor parametersMonitor;
     private Table savedTable;
-    private ParametersMonitor parametersMonitor;
     protected String selectedName;
 
     static {
@@ -262,6 +260,9 @@ public abstract class BasePage {
     @FindBy(id = "UcFirmware1_tbPa_ss")
     protected WebElement passwordField;
 
+    @FindBy(id = "tbPa_ss")
+    protected WebElement uploadPasswordField;
+
     @FindBy(id = "ddlTasks")
     protected WebElement selectTask;
 
@@ -426,6 +427,14 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage addTask(String task) {
+        switchToFrame(POPUP);
+        waitUntilElementIsDisplayed(addTaskButton);
+        selectComboBox(selectTask, task);
+        clickButton(addTaskButton);
+        return this;
+    }
+
     public BasePage editButton() {
         return clickButton(editButton);
     }
@@ -442,8 +451,19 @@ public abstract class BasePage {
         return this;
     }
 
+    public BasePage fillUploadUserName() {
+        userNameUploadField.sendKeys(props.getProperty("ftp_user"));
+        return this;
+    }
+
+    public BasePage fillUploadPassword() {
+        uploadPasswordField.sendKeys(props.getProperty("ftp_password"));
+        return this;
+    }
+
     public BasePage selectMethod(String value) {
         selectComboBox(selectMethodComboBox, value);
+        getParameterMap().put("Custom RPC", value);
         return this;
     }
 
@@ -506,14 +526,6 @@ public abstract class BasePage {
             parameterMap = new HashMap<>();
         }
         return parameterMap;
-    }
-
-    public BasePage validateTasks(String tableId, int shift) {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask(tableId, entry.getKey(), entry.getValue(), shift);
-        }
-        return this;
     }
 
     public void scrollTo(WebElement element) {
@@ -694,6 +706,81 @@ public abstract class BasePage {
     public BasePage selectView(String value) {
         selectComboBox(filterViewComboBox, value);
         waitForUpdate();
+        return this;
+    }
+
+    public BasePage setPolicy(Table table, int scenario) {                      //Access=AcsOnly      - scenario #1
+        int shift = 1;                                                          //Notification=Off *2 - scenario #2
+        if (scenario == 1) {                                                    //Notification=Active;Access=AcsOnly *ALL - scenario #4
+            List<Integer> rowsList = table.getRowsWithSelectList(2);    //Notification=Off                    * \
+            if (!rowsList.isEmpty()) {                                         //Notification=Passive Access=AcsOnly ** - scenario #3
+                shift = rowsList.get(0);                                       //Notification=Active      Access=All * /
+            } else {
+                Table treeTable = new Table("tblTree");
+                String branch = driver.findElement(By.id("divPath")).getText();
+                for (int i = 1; i < treeTable.getTableSize()[0]; i++) {
+                    treeTable.clickOn(i, 0, 0);
+                    waitForUpdate();
+                    String newBranch = driver.findElement(By.id("divPath")).getText();
+                    if (newBranch.equals(branch)) {
+                        continue;
+                    }
+                    table = new Table("tblPolicy");
+                    branch = newBranch;
+                    rowsList = table.getRowsWithSelectList(2);
+                    if (!rowsList.isEmpty()) {
+                        shift = rowsList.get(0);
+                        break;
+                    }
+                }
+            }
+        }
+        int tableSize = table.getTableSize()[0];
+        int limit = scenario > 3 || scenario + 1 > tableSize ? tableSize : scenario + shift;
+        String[][] all = {{"Off", "Passive", "Active"}, {"Default", "AcsOnly", "All"}};
+        for (int i = shift; i < limit; i++) {
+            WebElement notification = table.getSelect(i, 1);
+            WebElement accessList = table.getSelect(i, 2);
+            String result = "";
+            waitForUpdate();
+            if (scenario == 1) {
+                if (accessList != null) {
+                    selectComboBox(accessList, "ACS only");
+                    result = "Access=AcsOnly";
+                }
+            } else if (scenario == 2) {
+                if (notification != null) {
+                    selectComboBox(notification, "Off");
+                    result = "Notification=Off ";
+                }
+            } else if (scenario == 3) {
+                if (notification != null) {
+                    new Select(notification).selectByIndex(i);
+                    result = "Notification=" + all[0][i - 1] + " ";
+                    waitForUpdate();
+                }
+                if (accessList != null) {
+                    new Select(accessList).selectByIndex(i - 1);
+                    result += (i == 1 ? "" : "Access=" + all[1][i - 1]);
+                }
+            } else {
+                if (notification != null) {
+                    selectComboBox(notification, "Active");
+                    result = "Notification=Active ";
+                    waitForUpdate();
+                }
+                if (accessList != null) {
+                    selectComboBox(accessList, "ACS only");
+                    result += "Access=AcsOnly";
+                }
+            }
+            if (result.isEmpty()) {
+                String warn = "Cannot complete test on current tab for this device!";
+                LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
+                throw new AssertionError(warn);
+            }
+            getParameterMap().put(table.getHint(i), result);
+        }
         return this;
     }
 
@@ -1327,10 +1414,6 @@ public abstract class BasePage {
         throw new AssertionError("Table comparsion failed!");
     }
 
-    public BasePage setEvent(Event event, boolean addTask) {
-        return setEvent(event, new Table("tblEvents"), addTask);
-    }
-
 //    public BasePage setEvent(Event event) {
 //        return setEvent(event, new Table("tblEvents"));
 //    }
@@ -1527,6 +1610,21 @@ public abstract class BasePage {
         return this;
     }
 
+    protected void validateAddedAction(Table table, String eventName, String parameter, String value) {
+        int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
+        table.clickOn(row, -1);
+        switchToFrame(POPUP);
+        validateAddedTask("tblTasks", parameter, value, 1);
+    }
+
+    protected void validateAddedTask(Table table, String name, String parameter, String value) {
+        int row = name == null ? 1 : table.getFirstRowWithText(name);
+        table.clickOn(row, -1);
+        switchToFrame(POPUP);
+        validateAddedTask(parameter, value);
+        cancelButtonPopUp();
+    }
+
     protected void pressEsc() {
         Robot robot = null;
         try {
@@ -1574,6 +1672,11 @@ public abstract class BasePage {
 
     public BasePage assertEquals(String actual, String expected) {
         Assert.assertEquals(actual, expected);
+        return this;
+    }
+
+    public BasePage assertEquals(int actual, int expected, String message) {
+        Assert.assertEquals(actual, expected, message);
         return this;
     }
 
@@ -1824,7 +1927,7 @@ public abstract class BasePage {
         parameterSet = null;
         parameterMap = null;
         eventMap = null;
-//        parametersMonitorMap = null;
+        parametersMonitor = null;
     }
 
     public BasePage pause(long millis) {
@@ -2119,31 +2222,11 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setParametersMonitor(Table table, String name, Condition condition, String value) {
-//        if (parametersMonitorMap == null) {
-//            parametersMonitorMap = new HashMap<>();
-//        }
-        ParametersMonitor monitor = new ParametersMonitor(null, condition, value);
-        String[] names = table.getColumn(0);
-        for (int i = 0; i < names.length; i++) {
-            if (names[i].equals(name) || table.getHint(i + 1).equals(name)) {
-                WebElement select = table.getCellWebElement(i + 1, 1).findElement(By.tagName("select"));
-                selectComboBox(select, condition.toString());
-                waitForUpdate();
-                if (condition != Condition.VALUE_CHANGE) {
-                    WebElement field = table.getInput(i + 1, 2);
-                    field.clear();
-                    field.sendKeys(value + " ");
-                    waitForUpdate();
-                    field.sendKeys(Keys.BACK_SPACE);
-                    waitForUpdate();
-                } else {
-                    monitor.setValue("");
-                }
-                monitor.setName(table.getHint(i + 1));
-                parametersMonitor = monitor;
-//                parametersMonitorMap.put(monitor.getName(), monitor);
-            }
+    public BasePage setParameterOverApi(String parameter, String value) {
+        try {
+            HttpConnector.sendSoapRequest(DataBaseConnector.getDeviceId(getSerial()), parameter, value);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return this;
     }
@@ -2163,8 +2246,31 @@ public abstract class BasePage {
         return this;
     }
 
+    protected void setParametersMonitor(Table table, String name, Condition condition, String value) {
+        parametersMonitor = new ParametersMonitor(null, condition, value);
+        String[] names = table.getColumn(0);
+        for (int i = 0; i < names.length; i++) {
+            if (names[i].equals(name) || table.getHint(i + 1).equals(name)) {
+                selectComboBox(table.getSelect(i + 1, 1), condition.toString());
+                waitForUpdate();
+                if (condition != Condition.VALUE_CHANGE) {
+                    WebElement field = table.getInput(i + 1, 2);
+                    field.clear();
+                    field.sendKeys(value + " ");
+                    waitForUpdate();
+                    field.sendKeys(Keys.BACK_SPACE);
+                    waitForUpdate();
+                } else {
+                    parametersMonitor.setValue("");
+                }
+                parametersMonitor.setName(table.getHint(i + 1));
+            }
+        }
+    }
+
     public BasePage validateParametersMonitor() {
-        Table table = new Table("tblParamsMonitoring");
+        String tabId = BaseTestCase.getTestName().contains("_ev_") ? "tblDataParams" : "tblParamsMonitoring";
+        Table table = new Table(tabId);
         if (parametersMonitor.getName().equals(table.getHint(1)) && parametersMonitor.getValue().equals(table.getInputText(1, 2))
                 && parametersMonitor.getCondition().toString().equals(getSelectedOption(table.getSelect(1, 1)))) {
             return this;
@@ -2173,6 +2279,44 @@ public abstract class BasePage {
                 + "ParametersMonitor{" + table.getHint(1) + " | " + getSelectedOption(table.getSelect(1, 1))
                 + " | " + table.getInputText(1, 2) + '}';
         throw new AssertionError(warn);
+    }
+
+    protected void validateAddedTask(Table table, String name, String taskName) {
+        pause(1000);
+        int row = name == null ? 1 : table.getFirstRowWithText(name);
+        table.clickOn(row, -1);
+        switchToFrame(POPUP);
+        table = new Table("tblTasks");
+        try {
+            table.assertPresenceOfTask(taskName);
+        } catch (AssertionError e) {
+            pause(1000);
+            table.assertPresenceOfParameter(taskName);
+        }
+    }
+
+    protected void validateAddedTasks(Table table, String eventName) {
+        pause(1000);
+        int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
+        table.clickOn(row, -1);
+        switchToFrame(POPUP);
+        try {
+            validateAddedTasks();
+        } catch (AssertionError e) {
+            pause(1000);
+            System.out.println("Trying to validate again...");
+            validateAddedTasks();
+        }
+        cancelButtonPopUp.click();
+    }
+
+    public BasePage validateAddedTasks() {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        assertEquals(getTable("tblTasks").getColumn(0).length, entrySet.size(), "Expected number of parameters does not match the actual one!");
+        for (Map.Entry<String, String> entry : entrySet) {
+            validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
+        }
+        return this;
     }
 
     public BasePage validateAddedTask(String parameter, String value) {
@@ -2212,14 +2356,6 @@ public abstract class BasePage {
             table.print();
             scrollTo(table.getCellWebElement(table.getTableSize()[0] - 1, 0));
             throw new AssertionError(warning);
-        }
-        return this;
-    }
-
-    public BasePage validateAddedTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
         }
         return this;
     }

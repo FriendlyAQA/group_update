@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class CalendarUtil {
@@ -19,10 +20,19 @@ public class CalendarUtil {
     private static DateFormat csvFileFormat = new SimpleDateFormat("M-d-yyyy h-mm-ss a");
     private static DateFormat csvFileFormat2 = new SimpleDateFormat("M-d-yyyy H-mm-ss");
 
-    private static Date getDay(int day) {
+    public static Date getDay(int day) {
         final Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, day);
         return cal.getTime();
+    }
+
+    public static long getMidnightMillis(){
+        Calendar date = new GregorianCalendar();
+        date.set(Calendar.HOUR_OF_DAY, 23);
+        date.set(Calendar.MINUTE, 59);
+        date.set(Calendar.SECOND, 59);
+        date.set(Calendar.MILLISECOND, 0);
+        return date.getTime().getTime();
     }
 
     public static Date getDate(String date) throws ParseException {

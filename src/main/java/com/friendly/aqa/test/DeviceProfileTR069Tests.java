@@ -1576,7 +1576,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetRPCMethods");
+                .validateAddedEventTasks("1 BOOT"/*, "Custom RPC", "GetRPCMethods"*/);
     }
 
     @Test
@@ -1601,7 +1601,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "SetParameterValues");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1626,7 +1626,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterValues");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1651,7 +1651,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterNames");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1676,7 +1676,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "SetParameterAttributes");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1701,7 +1701,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "GetParameterAttributes");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1726,7 +1726,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "AddObject");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1751,7 +1751,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "DeleteObject");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1776,7 +1776,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "Download");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1801,7 +1801,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "Reboot");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1826,7 +1826,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "FactoryReset");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -1851,7 +1851,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("1 BOOT", "Custom RPC", "Upload");
+                .validateAddedEventTasks("1 BOOT");
     }
 
     @Test
@@ -2000,7 +2000,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetRPCMethods");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2025,7 +2025,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterValues");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2050,7 +2050,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterValues");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2075,7 +2075,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterNames");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2100,7 +2100,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "SetParameterAttributes");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2125,7 +2125,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "GetParameterAttributes");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2150,7 +2150,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "AddObject");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2175,7 +2175,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "DeleteObject");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2200,7 +2200,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Download");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2225,7 +2225,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Reboot");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2250,7 +2250,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "FactoryReset");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2275,7 +2275,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Custom RPC", "Upload");
+                .validateAddedEventTasks("2 PERIODIC");
     }
 
     @Test
@@ -2424,7 +2424,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetRPCMethods");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2449,7 +2449,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterValues");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2474,7 +2474,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterValues");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2499,7 +2499,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterNames");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2524,7 +2524,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "SetParameterAttributes");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2549,7 +2549,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "GetParameterAttributes");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2574,7 +2574,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "AddObject");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2599,7 +2599,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "DeleteObject");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2624,7 +2624,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Download");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2649,7 +2649,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Reboot");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2674,7 +2674,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "FactoryReset");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2699,7 +2699,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("4 VALUE CHANGE", "Custom RPC", "Upload");
+                .validateAddedEventTasks("4 VALUE CHANGE");
     }
 
     @Test
@@ -2848,7 +2848,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetRPCMethods");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2873,7 +2873,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterValues");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2898,7 +2898,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterValues");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2923,7 +2923,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterNames");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2948,7 +2948,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "SetParameterAttributes");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2973,7 +2973,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "GetParameterAttributes");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -2998,7 +2998,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "AddObject");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3023,7 +3023,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "DeleteObject");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3048,7 +3048,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Download");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3073,7 +3073,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Reboot");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3098,7 +3098,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "FactoryReset");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -3123,7 +3123,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("6 CONNECTION REQUEST", "Custom RPC", "Upload");
+                .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
     @Test
@@ -4994,7 +4994,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Diagnostics")
-                .selectDiagnostic("Wi-Fi neighboring diagnostic")
+                .selectDiagnostic("Wi-Fi neighboring diagnostics")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -5003,7 +5003,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostic", " ");
+                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", " ");
     }
 
     @Test

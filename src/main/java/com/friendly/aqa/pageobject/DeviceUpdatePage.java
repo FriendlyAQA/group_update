@@ -1210,12 +1210,15 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage validateDownloadFileTasks() {
-        return (DeviceUpdatePage) validateTasks("tbl", 7);
-//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
-//        for (Map.Entry<String, String> entry : entrySet) {
-//            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
-//        }
-//        return this;
+        return validateTasks("tbl", 7);
+    }
+
+    public DeviceUpdatePage validateTasks(String tableId, int shift) {
+        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            validateAddedTask(tableId, entry.getKey(), entry.getValue(), shift);
+        }
+        return this;
     }
 
     public void validateUploadFileTasks() {
