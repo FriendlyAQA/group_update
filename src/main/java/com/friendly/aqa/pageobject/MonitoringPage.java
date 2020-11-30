@@ -64,12 +64,6 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "tbTimeToMinute")
     private WebElement endDateMinutes;
 
-    @FindBy(id = "tbTimeHour")
-    private WebElement scheduledHours;
-
-    @FindBy(id = "tbTimeMinute")
-    private WebElement scheduledMinutes;
-
     @FindBy(id = "fuImport")
     private WebElement importMonField;
 
@@ -359,8 +353,8 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage scheduledToRadioButton() {
-        return (MonitoringPage) super.scheduledToRadioButton();
+    public MonitoringPage scheduledTo() {
+        return (MonitoringPage) super.scheduledTo();
     }
 
     @Override

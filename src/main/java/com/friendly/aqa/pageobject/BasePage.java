@@ -290,6 +290,12 @@ public abstract class BasePage {
     @FindBy(id = "UcFirmware1_ddlFileName")
     protected WebElement fileNameComboBox;
 
+    @FindBy(id = "tbTimeHour")
+    protected WebElement scheduledHours;
+
+    @FindBy(id = "tbTimeMinute")
+    protected WebElement scheduledMinutes;
+
     public void logOut() {
         switchToFrame(ROOT);
         waitForUpdate();
@@ -589,7 +595,7 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage scheduledToRadioButton() {
+    public BasePage scheduledTo() {
         scheduledToRadioButton.click();
         return this;
     }
@@ -709,9 +715,9 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage setPolicy(Table table, int scenario) {                      //Access=AcsOnly      - scenario #1
-        int shift = 1;                                                          //Notification=Off *2 - scenario #2
-        if (scenario == 1) {                                                    //Notification=Active;Access=AcsOnly *ALL - scenario #4
+    public BasePage setPolicy(Table table, int scenario) {                     //Access=AcsOnly      - scenario #1
+        int shift = 1;                                                         //Notification=Off *2 - scenario #2
+        if (scenario == 1) {                                                   //Notification=Active;Access=AcsOnly *ALL - scenario #4
             List<Integer> rowsList = table.getRowsWithSelectList(2);    //Notification=Off                    * \
             if (!rowsList.isEmpty()) {                                         //Notification=Passive Access=AcsOnly ** - scenario #3
                 shift = rowsList.get(0);                                       //Notification=Active      Access=All * /
@@ -825,13 +831,14 @@ public abstract class BasePage {
 
     public BasePage waitForStatus(String status, String testName, int timeoutSec) {
         Timer timer = new Timer(timeoutSec * 1000);
-        while (!(getMainTable()).getCellText(testName, "State").equalsIgnoreCase(status)) {
-            bottomMenu(REFRESH);
-            if (timer.timeout()) {
-                throw new AssertionError("Timed out while waiting for status " + status);
+        while (!timer.timeout()) {
+            Table table = getMainTable();
+            if (table.contains(testName) && table.getCellText(testName, "State").equalsIgnoreCase(status)) {
+                return this;
             }
+            bottomMenu(REFRESH);
         }
-        return this;
+        throw new AssertionError("Timed out while waiting for status " + status);
     }
 
     public BasePage waitForStatus(String status, int timeoutSec) {
@@ -960,17 +967,16 @@ public abstract class BasePage {
 
     public WebElement showPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
-        new Thread(() -> {
-            try {
-                pause(200);
-                setImplicitlyWait(0);
-                ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px'", element);
-            } catch (StaleElementReferenceException | NoSuchElementException e) {
-//                System.out.println(e.getClass().getSimpleName());
-            } finally {
-                setDefaultImplicitlyWait();
-            }
-        }).start();
+//        new Thread(() -> {
+//            try {
+//                pause(200);
+//                setImplicitlyWait(0);
+//                ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px'", element);
+//            } catch (StaleElementReferenceException | NoSuchElementException e) {
+//            } finally {
+//                setDefaultImplicitlyWait();
+//            }
+//        }).start();
         return element;
     }
 
@@ -1003,16 +1009,6 @@ public abstract class BasePage {
         return this;
     }
 
-//    void leftMenuClick(String value) {
-//        for (WebElement we : leftMenuTable.findElements(By.cssSelector(getLeftMenuCssSelector()))) {
-//            WebElement item = we.findElement(By.tagName("td"));
-//            if (item.getText().equals(value)) {
-////                item.click();
-//                clickButton(item);
-//            }
-//        }
-//    }
-
     public BasePage leftMenu(ILeft item) {
         switchToFrame(ROOT);
         Timer timer = new Timer();
@@ -1023,8 +1019,8 @@ public abstract class BasePage {
                 table = getTable("tblLeftMenu");
                 list = table.getRowsWithText(item.getValue());
             } while (list.size() == 0 && !timer.timeout());
-//            table.clickOn(list.get(0), 0);
-            showPointer(table.getCellWebElement(list.get(0), 0)).click();
+            table.clickOn(list.get(0), 0);
+//            showPointer(table.getCellWebElement(list.get(0), 0)).click();
         } catch (ElementNotInteractableException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             throw new AssertionError("Left menu item '" + item + "' not found on current page!");
@@ -1914,6 +1910,26 @@ public abstract class BasePage {
         return DataBaseConnector.getDevice(getSerial())[1];
     }
 
+    public void deleteAllMonitoring() {
+        StringBuilder request;
+        Set<String> idSet = DataBaseConnector.getMonitorIdSetByModelName();
+        if (idSet.size() > 0) {
+            request = new StringBuilder("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                    "<soapenv:Header/><soapenv:Body><ftac:deleteMonitoring><ids>");
+            for (String id : idSet) {
+                request.append("<id>").append(id).append("</id>");
+            }
+            request.append("</ids></ftac:deleteMonitoring></soapenv:Body></soapenv:Envelope>");
+            String response = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body>" +
+                    "<ns2:deleteMonitoringResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
+            try {
+                assertEquals(HttpConnector.sendSoapRequest(request.toString()), response, "Unexpected response after all monitoring delete!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static String deviceToString() {
         String[] device = DataBaseConnector.getDevice(getSerial());
         return device[0] + " " + device[1];
@@ -2223,8 +2239,14 @@ public abstract class BasePage {
     }
 
     public BasePage setParameterOverApi(String parameter, String value) {
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:setCPEParams><cpeList><id>" + DataBaseConnector.getDeviceId(getSerial()) +
+                "</id></cpeList><cpeParamList><CPEParam><name>" + parameter + "</name><reprovision>0</reprovision><value>" +
+                value + "</value></CPEParam></cpeParamList><priority>1</priority><group>1</group><push>1</push><reset>0</reset>" +
+                "<transactionId>10000</transactionId><user>" + BasePage.getProps().getProperty("ui_user") +
+                "</user></ftac:setCPEParams></soapenv:Body></soapenv:Envelope>";
         try {
-            HttpConnector.sendSoapRequest(DataBaseConnector.getDeviceId(getSerial()), parameter, value);
+            HttpConnector.sendSoapRequest(DataBaseConnector.getDeviceId(request));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -2246,15 +2268,15 @@ public abstract class BasePage {
         return this;
     }
 
-    protected void setParametersMonitor(Table table, String name, Condition condition, String value) {
+    protected void setParametersMonitor(Table table, String parameter, Condition condition, String value) {
         parametersMonitor = new ParametersMonitor(null, condition, value);
-        String[] names = table.getColumn(0);
-        for (int i = 0; i < names.length; i++) {
-            if (names[i].equals(name) || table.getHint(i + 1).equals(name)) {
-                selectComboBox(table.getSelect(i + 1, 1), condition.toString());
+        String[] names = table.getWholeColumn(0);
+        for (int i = 1; i < names.length; i++) {
+            if (names[i].equals(parameter) || table.getHint(i).equals(parameter)) {
+                selectComboBox(table.getSelect(i, 1), condition.toString());
                 waitForUpdate();
                 if (condition != Condition.VALUE_CHANGE) {
-                    WebElement field = table.getInput(i + 1, 2);
+                    WebElement field = table.getInput(i, 2);
                     field.clear();
                     field.sendKeys(value + " ");
                     waitForUpdate();
@@ -2263,9 +2285,11 @@ public abstract class BasePage {
                 } else {
                     parametersMonitor.setValue("");
                 }
-                parametersMonitor.setName(table.getHint(i + 1));
+                parametersMonitor.setName(table.getHint(i));
+                return;
             }
         }
+        throw new AssertionError("Parameter name '" + parameter + "' not found!");
     }
 
     public BasePage validateParametersMonitor() {

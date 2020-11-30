@@ -2,20 +2,19 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.utils.DiscManager;
-import com.friendly.aqa.utils.Timer;
+import com.friendly.aqa.utils.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
-import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
+import static com.friendly.aqa.entities.TopMenu.EVENTS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.EDIT_SETTINGS;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.SEND_UPDATE;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_SETTINGS;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_INFO;
+import static com.friendly.aqa.pageobject.EventsPage.Left.*;
 
 public class EventsPage extends BasePage {
 
@@ -104,13 +103,16 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage newGroupButton() {
-        newGroupButton.click();
+        showPointer(newGroupButton).click();
+//        newGroupButton.click();
         waitForUpdate();
         return this;
     }
 
     public EventsPage saveButton() {
-        saveButton.click();
+        showPointer(saveButton).click();
+//        saveButton.click();
+        pause(500);
         waitForUpdate();
         return this;
     }
@@ -223,8 +225,35 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage validateAddedMonitorTask(String taskName) {
+        validateAddedTask(new Table("tblDataParams"), null, taskName);
+        cancelButtonPopUp();
+        return this;
+    }
+
+    public EventsPage validateAddedMonitorTask(String parameter, String value) {
+        validateAddedTask(new Table("tblDataParams"), null, parameter, value);
+        return this;
+    }
+
     public EventsPage triggerEventOnParameter() {
         return (EventsPage) super.setParameterOverApi(parametersMonitor.getName(), parametersMonitor.getCurrentValue());
+    }
+
+    public void setProfileOverSoap() {
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:createProfile><profileList><Profile><fullTree>0</fullTree><name>Precondition_profile</name>" +
+                "<productClassGroupId>" + DataBaseConnector.getGroupId(getSerial()) + "</productClassGroupId><profileParameterList><profileParameter>" +
+                "<name>InternetGatewayDevice.ManagementServer.PeriodicInformInterval</name><value>10</value></profileParameter></profileParameterList>" +
+                "<sendProvision>1</sendProvision><isActive>1</isActive><version>1</version><locationId>0</locationId></Profile></profileList>" +
+                "<user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
+        String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                "<soap:Body><ns2:createProfileResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
+        try {
+            assertEquals(HttpConnector.sendSoapRequest(request), expectedResponse, "Unexpected response after profile set!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public EventsPage setParameter(String paramName, ParameterType option, String value) {
@@ -233,6 +262,10 @@ public class EventsPage extends BasePage {
 
     public EventsPage setParametersMonitor(String parameter, Condition condition, String value, String triggerValue) {
         return setParametersMonitor(parameter, condition, value, triggerValue, false);
+    }
+
+    public EventsPage setParametersMonitor(String parameter, Condition condition, String value) {
+        return setParametersMonitor(parameter, condition, value, null, false);
     }
 
     public EventsPage setParametersMonitor(String parameter, Condition condition, String value, String triggerValue, boolean addTask) {
@@ -255,9 +288,36 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage createImmediatelyEventOn(String trigger) {
+        topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .immediately()
+                .selectMainTab(trigger);
+        return this;
+    }
+
+    public EventsPage createScheduledEventsOn(String trigger) {
+        topMenu(EVENTS)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModelName()
+                .fillName()
+                .selectSendTo()
+                .scheduledTo()
+                .setStartWithDelay(10)
+                .selectMainTab(trigger);
+        return this;
+    }
+
     public EventsPage createPreconditions() {
         deleteAllCustomViews();
+        deleteAllMonitoring();
         new DeviceProfilePage().deleteAllProfiles();
+        setProfileOverSoap();
         setSinglePage();
         Table table;
         while (!(table = getMainTable()).isEmpty()) {
@@ -277,16 +337,7 @@ public class EventsPage extends BasePage {
                 .setEvent(new Event("2 PERIODIC", null, "3", "1:hours"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
-                .waitForStatus("Not active", 1);
-        new DeviceUpdatePage()
-                .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
-                .clearDeviceActivity()
-                .leftMenu(DEVICE_SETTINGS)
-                .bottomMenu(EDIT_SETTINGS)
-                .setParameter("PeriodicInformInterval, sec", "10")
-                .bottomMenu(SEND_UPDATE)
-                .okButtonPopUp();
+                .waitForStatus("Not active", 5);
         return this;
     }
 
@@ -328,6 +379,15 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public void deleteEvent() {
+        String testName = BaseTestCase.getTestName();
+        topMenu(TopMenu.EVENTS);
+        selectItem(testName);
+        bottomMenu(DELETE);
+        okButtonPopUp();
+        getMainTable().assertAbsenceOfValue(testName);
+    }
+
     public void stopEvent(String eventName) {
         topMenu(TopMenu.EVENTS);
         selectItem(eventName);
@@ -344,6 +404,12 @@ public class EventsPage extends BasePage {
         topMenu(TopMenu.DEVICE_UPDATE);
         DeviceUpdatePage duPage = new DeviceUpdatePage();
         duPage.getMainTableWithText(getSerial(), "Last connection").clickOn(getSerial());
+        switchToFrame(ROOT);
+        if (!findElement("lblSentCount").getText().equals("0")) {
+            duPage.clearDeviceActivity();
+            duPage.leftMenu(DEVICE_INFO);
+        }
+        switchToFrame(DESKTOP);
         duPage.recheckStatus();
         return this;
     }
@@ -435,6 +501,16 @@ public class EventsPage extends BasePage {
     }
 
     @Override
+    public EventsPage scheduledTo() {
+        return (EventsPage) super.scheduledTo();
+    }
+
+    @Override
+    public EventsPage waitForStatus(String status, int timeoutSec) {
+        return (EventsPage) super.waitForStatus(status, timeoutSec);
+    }
+
+    @Override
     public EventsPage bottomMenu(IBottomButtons button) {
         if (button == SAVE_AND_ACTIVATE) {
             boolean event = eventMap != null && eventMap.size() == 1;
@@ -455,6 +531,18 @@ public class EventsPage extends BasePage {
             }
         }
         return (EventsPage) super.bottomMenu(button);
+    }
+
+    public EventsPage setStartWithDelay(int minutes) {
+        switchToFrame(DESKTOP);
+        String[] date = CalendarUtil.getShiftedTimeBy(minutes).split("\\s");
+        String[] time = date[1].split(":");
+        executeScript("CalendarPopup_FindCalendar('calDate').SelectDate('" + date[0] + "')");
+        scheduledHours.clear();
+        scheduledHours.sendKeys(time[0]);
+        scheduledMinutes.clear();
+        scheduledMinutes.sendKeys(time[1]);
+        return this;
     }
 
     public EventsPage assertAdvancedViewApplied() {

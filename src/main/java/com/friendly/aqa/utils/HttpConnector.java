@@ -25,12 +25,7 @@ public class HttpConnector {
         return sendRequest(url, "POST", requestProperty, postParameters);
     }
 
-    public static String sendSoapRequest(String devId, String parameter, String value) throws IOException {
-        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
-                "<soapenv:Header/><soapenv:Body><ftac:setCPEParams><cpeList><id>" + devId + "</id></cpeList><cpeParamList><CPEParam>" +
-                "<name>" + parameter + "</name><reprovision>0</reprovision><value>" + value + "</value></CPEParam></cpeParamList>" +
-                "<priority>1</priority><group>1</group><push>1</push><reset>0</reset><transactionId>10000</transactionId><user>" +
-                BasePage.getProps().getProperty("ui_user") + "</user></ftac:setCPEParams></soapenv:Body></soapenv:Envelope>";
+    public static String sendSoapRequest(String request) throws IOException {
         URL urlObject = new URL(BasePage.getProps().getProperty("api_url"));
         String userPassword = BasePage.getProps().getProperty("api_user") + ":" + BasePage.getProps().getProperty("api_password");
         String encoding = Base64.getEncoder().encodeToString(userPassword.getBytes());
@@ -143,8 +138,8 @@ public class HttpConnector {
         return requestProperty;
     }
 
-    public static void main(String[] args) throws IOException {
-        String out = sendSoapRequest("121", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "20");
-        System.out.println(out);
-    }
+//    public static void main(String[] args) throws IOException {
+//        String out = sendSoapRequest("121", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "20");
+//        System.out.println(out);
+//    }
 }

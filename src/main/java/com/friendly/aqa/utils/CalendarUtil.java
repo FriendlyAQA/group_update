@@ -9,20 +9,27 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class CalendarUtil {
-    private static DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
-    private static DateFormat importGroupDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    private static DateFormat fullDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'CET' yyyy", Locale.ENGLISH);
-    private static DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-    private static DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
-    private static DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
-    private static DateFormat hours = new SimpleDateFormat("HH");
-    private static DateFormat minutes = new SimpleDateFormat("mm");
-    private static DateFormat csvFileFormat = new SimpleDateFormat("M-d-yyyy h-mm-ss a");
-    private static DateFormat csvFileFormat2 = new SimpleDateFormat("M-d-yyyy H-mm-ss");
+    private static final DateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
+    private static final DateFormat shiftedStartFormat = new SimpleDateFormat("M/d/yyyy HH:mm");
+    private static final DateFormat importGroupDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    private static final DateFormat fullDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'CET' yyyy", Locale.ENGLISH);
+    private static final DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    private static final DateFormat fileNameFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm");
+    private static final DateFormat hourAndMinutes = new SimpleDateFormat("HH-mm");
+    private static final DateFormat hours = new SimpleDateFormat("HH");
+    private static final DateFormat minutes = new SimpleDateFormat("mm");
+    private static final DateFormat csvFileFormat = new SimpleDateFormat("M-d-yyyy h-mm-ss a");
+    private static final DateFormat csvFileFormat2 = new SimpleDateFormat("M-d-yyyy H-mm-ss");
 
     public static Date getDay(int day) {
-        final Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, day);
+        return cal.getTime();
+    }
+
+    public static Date getShiftedDateBy(int minutes){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MINUTE, minutes);
         return cal.getTime();
     }
 
@@ -30,7 +37,7 @@ public class CalendarUtil {
         Calendar date = new GregorianCalendar();
         date.set(Calendar.HOUR_OF_DAY, 23);
         date.set(Calendar.MINUTE, 59);
-        date.set(Calendar.SECOND, 59);
+        date.set(Calendar.SECOND, 58);
         date.set(Calendar.MILLISECOND, 0);
         return date.getTime().getTime();
     }
@@ -58,6 +65,10 @@ public class CalendarUtil {
         return dateFormat.format(getDay(numOfDays));
     }
 
+    public static String getShiftedTimeBy(int minutes) {
+        return shiftedStartFormat.format(getShiftedDateBy(minutes));
+    }
+
     public static String getDbShiftedDate(int numOfDays) {
         return dbDateFormat.format(getDay(numOfDays));
     }
@@ -66,9 +77,9 @@ public class CalendarUtil {
         return dateFormat.format(getDay(-30));
     }
 
-    public static String getTodayDateString() {
-        return dateFormat.format(new Date());
-    }
+//    public static String getTodayDateString() {
+//        return dateFormat.format(new Date());
+//    }
 
     public static String getHours() {
         return hours.format(new Date());
@@ -91,6 +102,6 @@ public class CalendarUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDbShiftedDate(0));
+        System.out.println(getShiftedTimeBy(10));
     }
 }

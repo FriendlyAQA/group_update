@@ -103,6 +103,12 @@ public class DataBaseConnector {
         return device;
     }
 
+    public static Set<String> getMonitorIdSetByModelName() {
+        String query = "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
+                "SELECT group_id FROM ftacs.product_class WHERE model='" + getDevice(BasePage.getSerial())[1] + "')";
+        return getValueSet(query);
+    }
+
     public static Set<String> getMonitorNameSetByManufacturer(String manufacturer) {
         String query = "SELECT name FROM ftacs.qoe_monitoring_parent WHERE id IN (" +
                 "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
@@ -305,7 +311,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println("'"+getValue("SELECT id from ftacs.profile WHERE name = 'usp_dp_031';")+"'");
+        System.out.println(getGroupId("FT001SN0000100908F2d2158"));
         disconnectDb();
     }
 

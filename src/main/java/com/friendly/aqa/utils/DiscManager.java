@@ -4,6 +4,7 @@ import com.friendly.aqa.pageobject.BasePage;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 public class DiscManager {
     private static boolean isRunning;
@@ -20,7 +21,7 @@ public class DiscManager {
         new Thread(() -> {
             long newLogfileTime = CalendarUtil.getMidnightMillis();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(FILE_PATH), StandardCharsets.UTF_8))) {
-                System.out.println("Reading log file thread '" + Thread.currentThread().getName() + "' opened");
+                System.out.println("Reading log file thread '" + Thread.currentThread().getName() + "' opened (" + new Date() + ")");
                 String line;
                 while (isRunning) {
                     line = reader.readLine();
@@ -42,8 +43,9 @@ public class DiscManager {
                         }
                     } else if (System.currentTimeMillis() > newLogfileTime) {
                         reader.close();
+                        System.out.println("Reader closed (" + new Date() + ")");
+                        pause(4000);
                         System.out.println("Trying to reopen new log file (a new day is coming)");
-                        pause(2000);
                         run();
                         break;
                     } else {

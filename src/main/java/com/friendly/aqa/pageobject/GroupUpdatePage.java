@@ -425,18 +425,14 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.selectCompare(option);
     }
 
-    public GroupUpdatePage scheduledToRadioButton() {
-        return (GroupUpdatePage) super.scheduledToRadioButton();
+    @Override
+    public GroupUpdatePage scheduledTo() {
+        return (GroupUpdatePage) super.scheduledTo();
     }
 
     @Override
     public GroupUpdatePage immediately() {
         return (GroupUpdatePage) super.immediately();
-    }
-
-    public boolean isElementDisplayed(String id) {
-        waitForUpdate();
-        return driver.findElement(By.id(id)).isDisplayed();
     }
 
     @Override
@@ -445,7 +441,6 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage showList() {
-//        pause(1000);
         return clickButton(showListButton);
     }
 
@@ -676,38 +671,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-//    public GroupUpdatePage checkSorting(String column) {
-//        waitForUpdate();
-//        Table table = getMainTable();
-//        int colNum = table.getColumnNumber(0, column);
-//        table.clickOn(0, colNum);
-//        waitForUpdate();
-//        table = getMainTable();
-//        String[] arr = table.getColumn(colNum);
-//        String[] arr2 = Arrays.copyOf(arr, arr.length);
-//        Arrays.sort(arr);
-//        if (!Arrays.deepEquals(arr, arr2)) {
-//            String warn = "Sorting check failed";
-//            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-//            resetView();
-//            throw new AssertionError(warn);
-//        }
-//        table.clickOn(0, colNum);
-//        waitForUpdate();
-//        table = getMainTable();
-//        arr = table.getColumn(colNum);
-//        arr2 = Arrays.copyOf(arr, arr.length);
-//        Arrays.sort(arr, Comparator.reverseOrder());
-//        if (!Arrays.deepEquals(arr, arr2)) {
-//            String warn = "Reverse sorting check failed";
-//            logger.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-//            resetView();
-//            throw new AssertionError(warn);
-//        }
-//        resetView();
-//        return this;
-//    }
-
     @Override
     public GroupUpdatePage selectAction(String action) {
         return (GroupUpdatePage) super.selectAction(action);
@@ -885,7 +848,7 @@ public class GroupUpdatePage extends BasePage {
                 .fillName()
                 .selectSendTo()
                 .bottomMenu(NEXT)
-                .scheduledToRadioButton()
+                .scheduledTo()
                 .setDelay(10)
                 .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
@@ -908,7 +871,7 @@ public class GroupUpdatePage extends BasePage {
                 .fillName()
                 .selectSendTo()
                 .bottomMenu(NEXT)
-                .scheduledToRadioButton()
+                .scheduledTo()
                 .setDelay(10)
                 .bottomMenu(NEXT)
                 .addNewTask("Policy")
@@ -932,7 +895,7 @@ public class GroupUpdatePage extends BasePage {
                 .fillName()
                 .selectSendTo()
                 .bottomMenu(NEXT)
-                .scheduledToRadioButton()
+                .scheduledTo()
                 .setDelay(10)
                 .bottomMenu(NEXT)
                 .addNewTask("Get parameter")
@@ -955,7 +918,7 @@ public class GroupUpdatePage extends BasePage {
                 .fillName()
                 .selectSendTo()
                 .bottomMenu(NEXT)
-                .scheduledToRadioButton()
+                .scheduledTo()
                 .setDelay(10)
                 .bottomMenu(NEXT)
                 .addNewTask("Action")
@@ -1235,6 +1198,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage waitForStatus(String status, int timeoutSec) {
         return (GroupUpdatePage) super.waitForStatus(status, timeoutSec);
     }
