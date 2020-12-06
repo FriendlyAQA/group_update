@@ -89,9 +89,9 @@ public class HttpConnector {
                 reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 if (writeOnDisc) {
                     if (new File("export").mkdir()) {
-                        System.out.println("Directory 'export' was created");
+                        System.out.println("Directory 'export' has been created");
                     }
-                    writer = new BufferedWriter(new FileWriter(new File("export/" + CalendarUtil.getFileName() + ".xml")));
+                    writer = new BufferedWriter(new FileWriter("export/" + CalendarUtil.getFileName() + ".xml"));
                 }
                 while ((inputLine = reader.readLine()) != null) {
                     stringBuilder.append(inputLine);

@@ -88,11 +88,16 @@ public class EventsPage extends BasePage {
 
     public EventsPage assertLogfileContainsEventSoap() {
         System.out.println("Start looking for SOAP...(" + BaseTestCase.getTestName() + ")");
-        Timer timer = new Timer(Integer.parseInt(props.getProperty("soap_searching_time")) * 1000);
+        Timer timer = new Timer(Long.parseLong(props.getProperty("soap_searching_time")) * 1000);
+        boolean firstTime = true;
         while (!timer.timeout()) {
             if (DiscManager.isEventFound()) {
-                System.out.println("Soap appeared within " + (timer.stop() / 1000) + " s");
+                System.out.println("SOAP appeared within " + (timer.stop() / 1000) + " s");
                 return this;
+            }
+            if (timer.halfTime() && firstTime) {
+                forceProfileApplying();
+                firstTime = false;
             }
             pause(100);
             Thread.yield();
@@ -100,6 +105,19 @@ public class EventsPage extends BasePage {
         System.out.println("SOAP not found, going to deactivate event");
         stopEvent();
         throw new AssertionError("Appropriate SOAP not found in server.log file!");
+    }
+
+    private void forceProfileApplying() {
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:reprovisionCPE><cpeList><id>" + DataBaseConnector.getDeviceId(getSerial()) +
+                "</id></cpeList><sendProfile>1</sendProfile><sendCPEProvision>0</sendCPEProvision><sendCPEProvisionAttribute>0</sendCPEProvisionAttribute>" +
+                "<user>" + props.getProperty("ui_user") + "</user></ftac:reprovisionCPE></soapenv:Body></soapenv:Envelope>";
+        try {
+            HttpConnector.sendSoapRequest(request);
+            System.out.println("Profile applying forced");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public EventsPage newGroupButton() {
@@ -219,6 +237,11 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.getParameter(row, column);
     }
 
+    @Override
+    public EventsPage selectBranch(String branch) {
+        return (EventsPage) super.selectBranch(branch);
+    }
+
 
     public EventsPage validateAddedMonitorTasks() {
         validateAddedTasks(new Table("tblDataParams"), null);
@@ -241,12 +264,16 @@ public class EventsPage extends BasePage {
     }
 
     public void setProfileOverSoap() {
+        String prefix = (getProtocolPrefix().equals("tr069") ? "InternetGateway" : "") + "Device.ManagementServer.";
         String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
                 "<soapenv:Header/><soapenv:Body><ftac:createProfile><profileList><Profile><fullTree>0</fullTree><name>Precondition_profile</name>" +
-                "<productClassGroupId>" + DataBaseConnector.getGroupId(getSerial()) + "</productClassGroupId><profileParameterList><profileParameter>" +
-                "<name>InternetGatewayDevice.ManagementServer.PeriodicInformInterval</name><value>10</value></profileParameter></profileParameterList>" +
-                "<sendProvision>1</sendProvision><isActive>1</isActive><version>1</version><locationId>0</locationId></Profile></profileList>" +
-                "<user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
+                "<productClassGroupId>" + DataBaseConnector.getGroupId(getSerial()) + "</productClassGroupId><profileParameterList>" +
+                "<profileParameter><name>" + prefix + "ConnectionRequestPassword</name><value>ftacs</value></profileParameter>" +
+                "<profileParameter><name>" + prefix + "ConnectionRequestUsername</name><value>ftacs</value></profileParameter>" +
+                "<profileParameter><name>" + prefix + "PeriodicInformEnable</name><value>1</value></profileParameter>" +
+                "<profileParameter><name>" + prefix + "PeriodicInformInterval</name><value>10</value></profileParameter>" +
+                "</profileParameterList><sendProvision>1</sendProvision><isActive>1</isActive><version>1</version><locationId>0</locationId></Profile>" +
+                "</profileList><user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
         String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                 "<soap:Body><ns2:createProfileResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
         try {
@@ -401,16 +428,24 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage triggerConnectionRequest() {
-        topMenu(TopMenu.DEVICE_UPDATE);
-        DeviceUpdatePage duPage = new DeviceUpdatePage();
-        duPage.getMainTableWithText(getSerial(), "Last connection").clickOn(getSerial());
-        switchToFrame(ROOT);
-        if (!findElement("lblSentCount").getText().equals("0")) {
-            duPage.clearDeviceActivity();
-            duPage.leftMenu(DEVICE_INFO);
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:push><cpe>" + DataBaseConnector.getDeviceId(getSerial()) +
+                "</cpe></ftac:push></soapenv:Body></soapenv:Envelope>";
+        try {
+            HttpConnector.sendSoapRequest(request);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        switchToFrame(DESKTOP);
-        duPage.recheckStatus();
+//        topMenu(TopMenu.DEVICE_UPDATE);
+//        DeviceUpdatePage duPage = new DeviceUpdatePage();
+//        duPage.getMainTableWithText(getSerial(), "Last connection").clickOn(getSerial());
+//        switchToFrame(ROOT);
+//        if (!findElement("lblSentCount").getText().equals("0")) {
+//            duPage.clearDeviceActivity();
+//            duPage.leftMenu(DEVICE_INFO);
+//        }
+//        switchToFrame(DESKTOP);
+//        duPage.recheckStatus();
         return this;
     }
 

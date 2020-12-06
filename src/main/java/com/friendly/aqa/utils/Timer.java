@@ -20,6 +20,10 @@ public class Timer {
         return System.currentTimeMillis() - start > delay;
     }
 
+    public boolean halfTime() {
+        return System.currentTimeMillis() - start > delay / 2;
+    }
+
     public int stop() {
         return (int) (System.currentTimeMillis() - start);
     }

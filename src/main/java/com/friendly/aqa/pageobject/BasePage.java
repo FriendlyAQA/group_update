@@ -2246,7 +2246,7 @@ public abstract class BasePage {
                 "<transactionId>10000</transactionId><user>" + BasePage.getProps().getProperty("ui_user") +
                 "</user></ftac:setCPEParams></soapenv:Body></soapenv:Envelope>";
         try {
-            HttpConnector.sendSoapRequest(DataBaseConnector.getDeviceId(request));
+            HttpConnector.sendSoapRequest(request);
         } catch (IOException e) {
             e.printStackTrace();
         }
