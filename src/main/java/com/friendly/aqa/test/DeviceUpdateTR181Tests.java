@@ -3321,19 +3321,19 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    @Test
-    public void tr181_du_999(){
-        duPage
-                .topMenu(DEVICE_UPDATE)
-                .leftMenu(SEARCH)
-                .searchBy("Serial Number")
-                .deselectCheckbox("rdSearchExactly")
-                .lookFor("1")
-                .searchButton()
-                .selectView("mqtt_du_070")
-                .itemsOnPage("200")
-                .getTable2("tbl")
-                .clickOn("lwm2m_gu_076");
+//    @Test
+//    public void tr181_du_999(){
+//        duPage
+//                .topMenu(DEVICE_UPDATE)
+//                .leftMenu(SEARCH)
+//                .searchBy("Serial Number")
+//                .deselectCheckbox("rdSearchExactly")
+//                .lookFor("1")
+//                .searchButton()
+//                .selectView("mqtt_du_070")
+//                .itemsOnPage("200")
+//                .getTable2("tbl")
+//                .clickOn("lwm2m_gu_076");
 //        duPage.pause(3000);
 //        duPage
 //                .waitForUpdate()
@@ -3343,5 +3343,5 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
 ////                .waitForUpdate()
 //                .getTable2("tbl")
 //                .print();
-    }
+//    }
 }

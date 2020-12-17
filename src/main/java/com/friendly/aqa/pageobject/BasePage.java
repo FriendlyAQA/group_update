@@ -2449,9 +2449,9 @@ public abstract class BasePage {
         String frameId;
     }
 
-    public Table2 getTable2(String id) {
-        return new Table2(id);
-    }
+//    public Table2 getTable2(String id) {
+//        return new Table2(id);
+//    }
 
 //    protected WebElement findElementByText(String text) {
 //        return driver.findElement(By.xpath("//*[text() = '" + text + "']"));

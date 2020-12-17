@@ -20,7 +20,9 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     public void authenticate(String username, String password) {
+        this.username.clear();
         this.username.sendKeys(username);
+        this.password.clear();
         this.password.sendKeys(password);
         loginButton.click();
     }

@@ -19,7 +19,7 @@ public class EventsTR181Tests extends BaseTestCase {
    /*
    1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch tr181_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
-   3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE'
+   3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE' (does not work for tr181!!!)
    */
 
     @Test
@@ -8920,6 +8920,8 @@ public class EventsTR181Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", null, "1", "55:minutes"), true)
                 .addTask("Diagnostics")
                 .selectDiagnostic("NSLoopback diagnostics")
+                .inputDnsField("8.8.8.8")
+                .inputHost("127.0.0.1")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)

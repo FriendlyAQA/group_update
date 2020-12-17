@@ -86,6 +86,11 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.inputNumOfRepetitions(text);
     }
 
+    @Override
+    public EventsPage inputDnsField(String text) {
+        return (EventsPage) super.inputDnsField(text);
+    }
+
     public EventsPage assertLogfileContainsEventSoap() {
         System.out.println("Start looking for SOAP...(" + BaseTestCase.getTestName() + ")");
         Timer timer = new Timer(Long.parseLong(props.getProperty("soap_searching_time")) * 1000);
@@ -353,15 +358,16 @@ public class EventsPage extends BasePage {
             okButtonPopUp();
             waitForUpdate();
         }
+        deleteAllMonitoring();
         leftMenu(Left.NEW)
                 .selectManufacturer()
-                .selectModelName().
-                fillName();
+                .selectModelName()
+                .fillName();
         deleteAllGroups()
                 .selectSendTo()
                 .immediately()
                 .selectMainTab("Events")
-                .setEvent(new Event("2 PERIODIC", null, "3", "1:hours"))
+                .setEvent(new Event("4 VALUE CHANGE", null, "3", "1:hours"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);
@@ -506,7 +512,7 @@ public class EventsPage extends BasePage {
         selectButton.click();
         waitForUpdate();
         switchToFrame(POPUP);
-        getTable("tblDevices").clickOn(getSerial());
+        getTable("tblDevices").getInput(getSerial(), 0).click();
         selectButton.click();
         waitForUpdate();
         switchToFrame(DESKTOP);
