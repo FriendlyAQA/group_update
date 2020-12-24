@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.BottomButtons.SAVE_AND_ACTIVATE;
-import static com.friendly.aqa.entities.Condition.CONTAINS;
+import static com.friendly.aqa.entities.Condition.*;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.EVENTS;
@@ -350,7 +350,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .waitForStatus("Not active", 1);
     }
 
-    @Test   //bug: changes don't apply after SAVE button pressing
+    @Test   //bug: changes for 4 VALUE CHANGE event don't apply after SAVE button pressing
     public void lwm2m_ev_026() {    //depends on 025
         evPage
                 .topMenu(EVENTS)
@@ -537,7 +537,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Reboot")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -556,7 +556,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Factory Reset")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -575,7 +575,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -594,7 +594,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -613,7 +613,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Reset errors")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -632,7 +632,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Disable")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -651,7 +651,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Registration update trigger")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -670,7 +670,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -689,7 +689,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Device reprovision")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -727,7 +727,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Reboot")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -746,7 +746,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Factory Reset")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -765,7 +765,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -784,7 +784,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -803,7 +803,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Reset errors")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -822,7 +822,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Disable")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -841,7 +841,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Registration update trigger")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -860,7 +860,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -879,7 +879,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Device reprovision")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -917,7 +917,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Reboot")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -936,7 +936,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Factory Reset")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -955,7 +955,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -974,7 +974,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -993,7 +993,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Reset errors")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1012,7 +1012,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Disable")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1031,7 +1031,8 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Registration update trigger")
+                .validateAddedEventAction()
+//                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Registration update trigger")
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1050,7 +1051,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1069,7 +1070,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Device reprovision")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1107,7 +1108,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Reboot")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1126,7 +1127,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Factory Reset")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1145,7 +1146,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1164,7 +1165,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1183,7 +1184,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Reset errors")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1202,7 +1203,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Disable")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1221,7 +1222,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Registration update trigger")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1240,7 +1241,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1259,7 +1260,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Device reprovision")
+                .validateAddedEventAction()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1279,4 +1280,694 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
+
+    @Test
+    public void lwm2m_ev_079() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", EQUAL, "+03:00", "+03:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_080() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", GREATER, "+03:00", "+04:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_081() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", GREATER_EQUAL, "+04:00", "+05:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_082() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", LESS, "+07:00", "+06:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_083() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", LESS_EQUAL, "+07:00", "+07:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_084() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", NOT_EQUAL, "+07:00", "+08:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_085() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", STARTS_WITH, "+0", "+09:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_086() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", VALUE_CHANGE, "", "+10:00")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_087() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", CONTAINS, "6", "56")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_088() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", EQUAL, "57", "57")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test   //bug: SOAP is not generated in log (data type in DB is 'INTEGER', must be 'unsignedInt'?)
+    public void lwm2m_ev_089() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", GREATER, "57", "58")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test   //bug: SOAP is not generated in log (data type in DB is 'INTEGER', must be 'unsignedInt'?)
+    public void lwm2m_ev_090() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", GREATER_EQUAL, "59", "59")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test   //bug: SOAP is not generated in log (data type in DB is 'INTEGER', must be 'unsignedInt'?)
+    public void lwm2m_ev_091() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", LESS, "61", "60")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test   //bug: SOAP is not generated in log (data type in DB is 'INTEGER', must be 'unsignedInt'?)
+    public void lwm2m_ev_092() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", LESS_EQUAL, "62", "61")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_093() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", NOT_EQUAL, "65", "62")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_094() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", STARTS_WITH, "6", "63")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_095() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", VALUE_CHANGE, "", "64")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+//    96-104 skipped due to tab "Connectivity monitoring" doesn't have editable fields;
+
+
+    @Test
+    public void lwm2m_ev_105() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", VALUE_CHANGE, "", "+01:00", true)
+                .addTask("Set parameter value")
+                .setParameter("UTC Offset", VALUE, "+02:00")
+                .saveButton()
+                .saveButton()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks()
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_106() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", VALUE_CHANGE, "", "+02:00", true)
+                .addTask("Action")
+                .selectAction("Reboot")
+                .saveButton()
+                .saveButton()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Reboot")
+                .triggerEventOnParameter()
+                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_107() {
+        evPage
+                .createImmediatelyEventOn("Events")
+                .setEvent(new Event("4 VALUE CHANGE", true, null, null))
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .deleteEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_108() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("4 VALUE CHANGE", null, "5", "6:hours"))
+                .setEvent(new Event("4 VALUE CHANGE", null, "0", null))
+                .setEvent(new Event("4 VALUE CHANGE", null, "2", "5:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_109() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("NOTIFY REQUEST", null, "1", "2:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_110() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("REGISTRATION REQUEST", null, "1", "3:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_111() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("UNREGISTRATION REQUEST", null, "1", "4:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_112() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("UPDATE REQUEST", null, "1", "5:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_113() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("4 VALUE CHANGE", true, null, null))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_114() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvent(new Event("NOTIFY REQUEST", null, "1", "6:minutes"))
+                .setEvent(new Event("REGISTRATION REQUEST", null, "1", "7:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_115() {
+        evPage
+                .createScheduledEventsOn("Events")
+                .setEvents(99, new Event(null, null, "1", "10:minutes"))
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandEvents()
+                .validateEvents();
+    }
+
+    @Test
+    public void lwm2m_ev_116() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", CONTAINS, "2:0")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_117() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", EQUAL, "+03:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_118() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", GREATER, "+03:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_119() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", GREATER_EQUAL, "+04:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_120() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", LESS, "+07:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_121() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", LESS_EQUAL, "+07:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_122() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", NOT_EQUAL, "+07:00")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_123() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", STARTS_WITH, "+9")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_124() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Device")
+                .setParametersMonitor("UTC Offset", VALUE_CHANGE, "")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_125() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", CONTAINS, "6")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_126() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", EQUAL, "57")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_127() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", GREATER, "57")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_128() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", GREATER_EQUAL, "59")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_129() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", LESS, "61")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_130() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", LESS_EQUAL, "62")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_131() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", NOT_EQUAL, "65")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_132() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", STARTS_WITH, "6")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_133() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Server")
+                .setParametersMonitor("Lifetime", VALUE_CHANGE, "")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+//    134-142 skipped due to tab "Connectivity monitoring" doesn't have editable fields;
+
+
 }

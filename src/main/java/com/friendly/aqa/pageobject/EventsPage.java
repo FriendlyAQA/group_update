@@ -213,6 +213,11 @@ public class EventsPage extends BasePage {
     }
 
     @Override
+    public EventsPage selectAction(String action, String instance) {
+        return (EventsPage) super.selectAction(action, instance);
+    }
+
+    @Override
     public EventsPage selectMethod(String value) {
         return (EventsPage) super.selectMethod(value);
     }
@@ -320,6 +325,19 @@ public class EventsPage extends BasePage {
         return this;
     }
 
+    public EventsPage validateAddedEventAction(String eventName) {//!23.12.2020
+        String parameter = getSingleParameterEntry().getKey();
+        String value = getSingleParameterEntry().getValue();
+        return validateAddedEventAction(eventName, parameter, value);
+    }
+
+    public EventsPage validateAddedEventAction() {//!23.12.2020
+        String eventName = eventMap.keySet().iterator().next();
+        String parameter = getSingleParameterEntry().getKey();
+        String value = getSingleParameterEntry().getValue();
+        return validateAddedEventAction(eventName, parameter, value);
+    }
+
     public EventsPage createImmediatelyEventOn(String trigger) {
         topMenu(EVENTS)
                 .leftMenu(NEW)
@@ -367,7 +385,7 @@ public class EventsPage extends BasePage {
                 .selectSendTo()
                 .immediately()
                 .selectMainTab("Events")
-                .setEvent(new Event("4 VALUE CHANGE", null, "3", "1:hours"))
+                .setEvents(1, new Event(null, null, "3", "1:hours"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);

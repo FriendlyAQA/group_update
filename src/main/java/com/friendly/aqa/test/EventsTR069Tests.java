@@ -8626,6 +8626,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("1 BOOT", null, "1", "2:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8638,6 +8639,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", null, "1", "3:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8650,6 +8652,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("4 VALUE CHANGE", null, "1", "4:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8662,6 +8665,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", null, "1", "5:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8674,6 +8678,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("7 TRANSFER COMPLETE", null, "1", "6:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8686,6 +8691,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("8 DIAGNOSTICS COMPLETE", null, "1", "7:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8698,6 +8704,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("2 PERIODIC", true, null, null))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8711,6 +8718,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvent(new Event("6 CONNECTION REQUEST", null, "1", "9:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8723,6 +8731,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setEvents(99, new Event(null, null, "1", "10:minutes"))
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents();
@@ -8736,6 +8745,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformTime", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8749,6 +8759,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformTime", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8762,6 +8773,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformInterval, sec", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8775,6 +8787,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformInterval, sec", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8788,6 +8801,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformInterval, sec", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8801,6 +8815,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformInterval, sec", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8814,6 +8829,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformTime", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8827,6 +8843,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformTime", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8840,6 +8857,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("PeriodicInformTime", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8853,6 +8871,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8866,6 +8885,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8879,6 +8899,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8892,6 +8913,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8905,6 +8927,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8918,6 +8941,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8931,6 +8955,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8944,6 +8969,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8957,6 +8983,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("ProvisioningCode", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8970,6 +8997,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8983,6 +9011,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -8996,6 +9025,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9009,6 +9039,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9022,6 +9053,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9035,6 +9067,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9048,6 +9081,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9061,6 +9095,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9074,6 +9109,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("NTPServer2", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9087,6 +9123,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9100,6 +9137,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9113,6 +9151,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9126,6 +9165,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9139,6 +9179,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9152,6 +9193,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9165,6 +9207,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9178,6 +9221,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9191,6 +9235,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DestinationAddress", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9204,6 +9249,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9217,6 +9263,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9230,6 +9277,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9243,6 +9291,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9256,6 +9305,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9269,6 +9319,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9282,6 +9333,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9295,6 +9347,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9308,6 +9361,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("IdleDisconnectTime, sec", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9321,6 +9375,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9334,6 +9389,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9347,6 +9403,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9360,6 +9417,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9373,6 +9431,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9386,6 +9445,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9399,6 +9459,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9412,6 +9473,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9425,6 +9487,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("DHCPLeaseTime, sec", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9438,6 +9501,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9451,6 +9515,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9464,6 +9529,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9477,6 +9543,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9490,6 +9557,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9503,6 +9571,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9516,6 +9585,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9529,6 +9599,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9542,6 +9613,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("WEPKeyIndex", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9555,6 +9627,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", CONTAINS, "34")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9568,6 +9641,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9581,6 +9655,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", GREATER, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9594,6 +9669,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", GREATER_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9607,6 +9683,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", LESS, "14")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9620,6 +9697,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", LESS_EQUAL, "10")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9633,6 +9711,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", NOT_EQUAL, "123")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9646,6 +9725,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", STARTS_WITH, "1")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();
@@ -9659,6 +9739,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .setParametersMonitor("Name", VALUE_CHANGE, "")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor();

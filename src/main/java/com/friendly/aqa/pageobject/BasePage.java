@@ -429,7 +429,9 @@ public abstract class BasePage {
                 instance = options.get(options.size() - 1);
             }
             selectComboBox(select, instance);
+            action += " - instance " + instance;//!23.12.2020
         }
+        getParameterMap().put("Action", action);//!23.12.2020
         return this;
     }
 
@@ -2341,6 +2343,10 @@ public abstract class BasePage {
             validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
         }
         return this;
+    }
+
+    public Map.Entry<String, String> getSingleParameterEntry() {
+        return new ArrayList<>(parameterMap.entrySet()).get(0);
     }
 
     public BasePage validateAddedTask(String parameter, String value) {
