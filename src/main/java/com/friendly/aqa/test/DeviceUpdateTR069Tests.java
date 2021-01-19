@@ -33,7 +33,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_002() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(LIST)
                 .assertMainPageIsDisplayed();
     }
@@ -626,7 +626,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .inputSerial()
                 .bottomMenu(START)
                 .okButtonPopUp()
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(SHOW_TRACE)
                 .assertTraceWindowIsOpened()/*
                 .bottomMenu(STOP_TRACE)
@@ -1545,7 +1545,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_130() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .recheckStatus();
     }
@@ -1554,7 +1554,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_131() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REBOOT)
                 .cancelButtonPopUp()
@@ -1569,7 +1569,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_132() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(FACTORY_RESET)
                 .cancelButtonPopUp()
@@ -1584,7 +1584,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(CREATE_TEMPLATE)
                 .cancelButtonPopUp()
@@ -1599,7 +1599,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REPROVISION)
@@ -1615,7 +1615,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_135() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clickIfPresent(STOP_TRACE)
                 .bottomMenu(START_TRACE)
                 .okButtonPopUp()
@@ -1632,7 +1632,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_137() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(PING)
                 .assertPingWindowIsOpened();
     }
@@ -1641,7 +1641,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_138() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(TRACE_ROUTE)
                 .assertTracerouteWindowIsOpened();
     }
@@ -1650,7 +1650,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_139() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(REPLACE)
                 .assertReplaceWindowIsOpened();
     }
@@ -1671,7 +1671,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_141() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .setAllUserInfo()
                 .editAccountInfoLink()
                 .clearUserInfo()
@@ -1682,7 +1682,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_142() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .listOfMethods()
                 .assertMethodIsPresent("SetParameterValues")
                 .closePopup();
@@ -1692,7 +1692,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_143() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .networkMap()
                 .assertMapIsPresent()
                 .closePopup();
@@ -1702,7 +1702,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_144() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1717,7 +1717,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_145() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1733,7 +1733,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_146() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1750,7 +1750,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_147() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1767,7 +1767,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_148() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1784,7 +1784,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_149() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .clearProvisionManager()
                 .leftMenu(DEVICE_SETTINGS)
@@ -1805,7 +1805,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_150() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .storePath()
@@ -1819,7 +1819,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_151() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1835,7 +1835,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_152() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1851,7 +1851,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_153() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1867,7 +1867,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_154() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
 //                .pause(1000)
@@ -1887,7 +1887,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_155() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1903,7 +1903,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_156() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1919,7 +1919,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_157() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1935,7 +1935,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_158() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1954,7 +1954,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_159() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1970,7 +1970,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_160() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1986,7 +1986,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_161() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2002,7 +2002,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_162() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .pause(1000)
@@ -2022,7 +2022,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_163() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2038,7 +2038,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_164() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2054,7 +2054,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_165() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2070,7 +2070,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_166() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .pause(1000)
@@ -2092,7 +2092,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_169() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2108,7 +2108,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_170() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2124,7 +2124,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_171() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -2140,7 +2140,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_172() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .pause(1000)
@@ -2160,7 +2160,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_173() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("Wireless")
@@ -2177,7 +2177,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_174() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("Wireless")
@@ -2194,7 +2194,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_175() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("Wireless")
@@ -2211,7 +2211,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_176() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("Wireless")
@@ -2231,7 +2231,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_177() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("VoIP settings")
@@ -2248,7 +2248,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_178() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("VoIP settings")
@@ -2265,7 +2265,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_179() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("VoIP settings")
@@ -2282,7 +2282,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_180() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .selectTab("VoIP settings")
@@ -2302,7 +2302,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_181() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .validateObjectTree1(); // use .validateObjectTree1() instead if failed!
     }
@@ -2311,7 +2311,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_182() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -2328,7 +2328,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_183() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -2346,7 +2346,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_184() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -2366,7 +2366,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_185() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .selectTreeObject(true, 0)
@@ -2378,7 +2378,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_186() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
@@ -2390,7 +2390,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_187() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
@@ -2400,7 +2400,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_188() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
@@ -2417,7 +2417,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_189() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
@@ -2433,7 +2433,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_190() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2450,7 +2450,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_191() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2469,7 +2469,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_193() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2487,7 +2487,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_194() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2507,7 +2507,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_195() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_UPLOAD)
                 .selectUploadFileType("Vendor Configuration File")
@@ -2522,7 +2522,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_196() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_UPLOAD)
                 .selectUploadFileType("Vendor Configuration File")
@@ -2538,7 +2538,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_197() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_UPLOAD)
                 .selectUploadFileType("Vendor Log File")
@@ -2554,7 +2554,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_198() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_UPLOAD)
                 .selectUploadFileType("Vendor Log File")
@@ -2571,7 +2571,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_199() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_UPLOAD)
                 .selectUploadFileType("Vendor Configuration File")
@@ -2587,7 +2587,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_200() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(PORT_MAPPING)
                 .storePortMappingPath()
@@ -2601,7 +2601,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_201() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
 //                .clearDeviceActivity()
                 .leftMenu(PORT_MAPPING)
                 .bottomMenu(ADD_PORT)
@@ -2615,7 +2615,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_202() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PORT_MAPPING)
                 .bottomMenu(ADD_PORT)
                 .fillAddPortFields("TCP/UDP")
@@ -2629,7 +2629,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_203() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PORT_MAPPING)
                 .bottomMenu(ADD_PORT)
                 .fillAddPortFields("TCP/UDP")
@@ -2643,7 +2643,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_204() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PORT_MAPPING)
                 .bottomMenu(ADD_PORT)
                 .fillAddPortFields("TCP")
@@ -2656,7 +2656,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_205() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PORT_MAPPING)
                 .bottomMenu(ADD_PORT)
                 .fillAddPortFields("UDP")
@@ -2669,7 +2669,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_206() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PORT_MAPPING)
                 .selectPort()
                 .bottomMenu(DELETE)
@@ -2681,7 +2681,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_207() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("Trace diagnostic")
@@ -2694,7 +2694,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_208() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("IPPing diagnostics")
@@ -2707,7 +2707,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_209() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("Download diagnostic")
@@ -2720,7 +2720,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_210() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("Upload diagnostics")
@@ -2733,7 +2733,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_211() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("NSLoopback diagnostics")
@@ -2746,7 +2746,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_212() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("Wi-Fi neighboring diagnostics")
@@ -2759,7 +2759,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_213() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("DSL diagnostics")
@@ -2772,7 +2772,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_214() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
                 .createDiagnostic("NSlookup diagnostics")
@@ -2785,7 +2785,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_215() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("AddObject")
@@ -2799,7 +2799,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_216() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("DeleteObject")
@@ -2813,7 +2813,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_217() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("Download")
@@ -2827,7 +2827,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_218() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("FactoryReset")
@@ -2841,7 +2841,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_219() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetParameterAttributes")
@@ -2855,7 +2855,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_220() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetParameterNames")
@@ -2869,7 +2869,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_221() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetParameterValues")
@@ -2883,7 +2883,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_222() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetRPCMethods")
@@ -2897,7 +2897,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_223() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("Reboot")
@@ -2911,7 +2911,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_224() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("SetParameterAttributes")
@@ -2925,7 +2925,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_225() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("SetParameterValues")
@@ -2939,7 +2939,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_226() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("Upload")
@@ -2953,7 +2953,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_227() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetParameterValues")
@@ -2968,7 +2968,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_228() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(CUSTOM_RPC)
                 .selectMethod("GetParameterValues")
@@ -2985,7 +2985,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_229() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(CUSTOM_RPC)
                 .selectRPC()
                 .bottomMenu(DELETE)
@@ -2997,7 +2997,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_230() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
                 .assertTableHasContent("tblItems")
@@ -3010,7 +3010,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_231() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .bottomMenu(SAVE)
                 .validateHistoryFile();
@@ -3020,7 +3020,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_232() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .pause(1000)
                 .bottomMenu(DELETE)
@@ -3032,7 +3032,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_233() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterValue()
                 .validateEditedProvision();
@@ -3042,7 +3042,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_234() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterPriority()
                 .validateEditedProvision();
@@ -3052,7 +3052,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_235() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Parameters")
@@ -3065,7 +3065,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_236() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editProvisionRequest()
                 .bottomMenu(START)
@@ -3076,7 +3076,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_237() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .editPriority("RPC")
@@ -3087,7 +3087,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_238() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("RPC")
@@ -3102,7 +3102,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_240() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .editPriority("Objects")
@@ -3113,7 +3113,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_241() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Objects")
@@ -3126,7 +3126,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_242() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editProvisionFileUrl()
                 .bottomMenu(START)
@@ -3137,7 +3137,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_243() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editProvisionFilePriority()
                 .bottomMenu(START)
@@ -3148,7 +3148,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     public void tr069_du_244() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Download file")

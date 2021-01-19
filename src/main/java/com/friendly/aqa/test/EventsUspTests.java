@@ -182,7 +182,7 @@ public class EventsUspTests extends BaseTestCase {
                 .assertButtonsAreEnabled(false, SAVE, SAVE_AND_ACTIVATE);
     }
 
-    @Test   //bug: button ADVANCED_VIEW is absent from bottom menu
+    @Test
     public void usp_ev_014() {
         evPage
                 .topMenu(EVENTS)
@@ -438,7 +438,7 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -538,24 +538,24 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
-    public void usp_ev_038() {
-        evPage
-                .createImmediatelyEventOn("Events")
-                .setEvent(new Event("Boot!", null, "1", "5:hours"), true)
-                .addTask("Action")
-                .selectAction("Onboard request", "0")
-                .saveButton()
-                .saveButton()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .enterIntoItem()
-                .expandEvents()
-                .validateEvents()
-                .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
-                .stopEvent();
-    }
+//    @Test   //skipped: instance 0 is absent from list for "Onboard request"
+//    public void usp_ev_038() {
+//        evPage
+//                .createImmediatelyEventOn("Events")
+//                .setEvent(new Event("Boot!", null, "1", "5:hours"), true)
+//                .addTask("Action")
+//                .selectAction("Onboard request", "0")
+//                .saveButton()
+//                .saveButton()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoItem()
+//                .expandEvents()
+//                .validateEvents()
+//                .validateAddedEventAction()
+////                .assertLogfileContainsEventSoap()
+//                .stopEvent();
+//    }
 
     @Test
     public void usp_ev_039() {
@@ -576,13 +576,13 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
+    @Test   //instance number changed from 3 to 2 (3 is absent from list)
     public void usp_ev_040() {
         evPage
                 .createImmediatelyEventOn("Events")
                 .setEvent(new Event("Boot!", null, "1", "7:hours"), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -652,24 +652,24 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
-    public void usp_ev_044() {
-        evPage
-                .createImmediatelyEventOn("Events")
-                .setEvent(new Event("DUStateChange!", null, "1", "5:hours"), true)
-                .addTask("Action")
-                .selectAction("Onboard request", "0")
-                .saveButton()
-                .saveButton()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .enterIntoItem()
-                .expandEvents()
-                .validateEvents()
-                .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
-                .stopEvent();
-    }
+//    @Test   //skipped: instance 0 is absent from list for "Onboard request"
+//    public void usp_ev_044() {
+//        evPage
+//                .createImmediatelyEventOn("Events")
+//                .setEvent(new Event("DUStateChange!", null, "1", "5:hours"), true)
+//                .addTask("Action")
+//                .selectAction("Onboard request", "0")
+//                .saveButton()
+//                .saveButton()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoItem()
+//                .expandEvents()
+//                .validateEvents()
+//                .validateAddedEventAction()
+////                .assertLogfileContainsEventSoap()
+//                .stopEvent();
+//    }
 
     @Test
     public void usp_ev_045() {
@@ -690,13 +690,13 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
+    @Test   //instance number changed from 3 to 2 (3 is absent from list)
     public void usp_ev_046() {
         evPage
                 .createImmediatelyEventOn("Events")
                 .setEvent(new Event("DUStateChange!", null, "1", "7:hours"), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -766,24 +766,24 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
-    public void usp_ev_050() {
-        evPage
-                .createImmediatelyEventOn("Events")
-                .setEvent(new Event("OnBoardRequest", null, "1", "11:hours"), true)
-                .addTask("Action")
-                .selectAction("Onboard request", "0")
-                .saveButton()
-                .saveButton()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .enterIntoItem()
-                .expandEvents()
-                .validateEvents()
-                .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
-                .stopEvent();
-    }
+//    @Test   //skipped: instance 0 is absent from list for "Onboard request"
+//    public void usp_ev_050() {
+//        evPage
+//                .createImmediatelyEventOn("Events")
+//                .setEvent(new Event("OnBoardRequest", null, "1", "11:hours"), true)
+//                .addTask("Action")
+//                .selectAction("Onboard request", "0")
+//                .saveButton()
+//                .saveButton()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoItem()
+//                .expandEvents()
+//                .validateEvents()
+//                .validateAddedEventAction()
+////                .assertLogfileContainsEventSoap()
+//                .stopEvent();
+//    }
 
     @Test
     public void usp_ev_051() {
@@ -804,13 +804,13 @@ public class EventsUspTests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
+    @Test   //instance number changed from 3 to 2 (3 is absent from list)
     public void usp_ev_052() {
         evPage
                 .createImmediatelyEventOn("Events")
                 .setEvent(new Event("OnBoardRequest", null, "1", "13:hours"), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -857,7 +857,7 @@ public class EventsUspTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -876,28 +876,28 @@ public class EventsUspTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
-    @Test
-    public void usp_ev_056() {
-        evPage
-                .createImmediatelyEventOn("Events")
-                .setEvent(new Event("Periodic!", null, "1", "17:hours"), true)
-                .addTask("Action")
-                .selectAction("Onboard request", "0")
-                .saveButton()
-                .saveButton()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .enterIntoItem()
-                .expandEvents()
-                .validateEvents()
-                .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
-                .stopEvent();
-    }
+//    @Test   //skipped: instance 0 is absent from list for "Onboard request"
+//    public void usp_ev_056() {
+//        evPage
+//                .createImmediatelyEventOn("Events")
+//                .setEvent(new Event("Periodic!", null, "1", "17:hours"), true)
+//                .addTask("Action")
+//                .selectAction("Onboard request", "0")
+//                .saveButton()
+//                .saveButton()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoItem()
+//                .expandEvents()
+//                .validateEvents()
+//                .validateAddedEventAction()
+////                .assertLogfileContainsEventSoap()
+//                .stopEvent();
+//    }
 
     @Test
     public void usp_ev_057() {
@@ -914,17 +914,17 @@ public class EventsUspTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
-    @Test
+    @Test   //instance number changed from 3 to 2 (3 is absent from list)
     public void usp_ev_058() {
         evPage
                 .createImmediatelyEventOn("Events")
                 .setEvent(new Event("Periodic!", null, "1", "19:hours"), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -933,7 +933,7 @@ public class EventsUspTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -952,7 +952,7 @@ public class EventsUspTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -967,8 +967,8 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -983,8 +983,8 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -999,7 +999,7 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
+//                .triggerEventOnParameter()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1015,7 +1015,7 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
+//                .triggerEventOnParameter()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1031,7 +1031,7 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
+//                .triggerEventOnParameter()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1047,7 +1047,7 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
+//                .triggerEventOnParameter()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1063,8 +1063,8 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -1079,8 +1079,8 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -1095,8 +1095,8 @@ public class EventsUspTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandParametersMonitor()
                 .validateParametersMonitor()
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -1116,8 +1116,8 @@ public class EventsUspTests extends BaseTestCase {
                 .expandParametersMonitor()
                 .validateParametersMonitor()
                 .validateAddedMonitorTask("Reboot")
-                .triggerEventOnParameter()
-                .assertLogfileContainsEventSoap()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 

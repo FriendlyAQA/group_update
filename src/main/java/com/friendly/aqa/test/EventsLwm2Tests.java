@@ -17,9 +17,10 @@ import static com.friendly.aqa.pageobject.EventsPage.Left.NEW;
 public class EventsLwm2Tests extends BaseTestCase {
 
    /*
-   1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch lwm2m_ev_000;
+   1. Delete all profiles for current device or launch lwm2m_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
    3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE'
+   4. Set Lifetime(sec) in Emulator settings to low value (e.g. 60 sec) for faster generation "UPDATE REQUEST"
    */
 
     @Test
@@ -518,7 +519,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -708,7 +709,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("NOTIFY REQUEST")
+                .validateAddedEventTasks()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -898,7 +899,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("REGISTRATION REQUEST")
+                .validateAddedEventTasks()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1089,7 +1090,7 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("UNREGISTRATION REQUEST")
+                .validateAddedEventTasks()
 //                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1553,8 +1554,149 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-//    96-104 skipped due to tab "Connectivity monitoring" doesn't have editable fields;
+    @Test
+    public void lwm2m_ev_096() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", CONTAINS, "6", "56")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
 
+    @Test
+    public void lwm2m_ev_097() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", EQUAL, "57", "57")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_098() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", GREATER, "57", "58")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_099() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", GREATER_EQUAL, "59", "59")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //    tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_100() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", LESS, "61", "60")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//               .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_101() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", LESS_EQUAL, "62", "61")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_102() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", NOT_EQUAL, "65", "62")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_103() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", STARTS_WITH, "6", "63")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
+
+    @Test
+    public void lwm2m_ev_104() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", VALUE_CHANGE, "", "64")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()    //tab "Connectivity monitoring" doesn't have editable fields;
+//                .assertLogfileContainsEventSoap()
+                .stopEvent();
+    }
 
     @Test
     public void lwm2m_ev_105() {
@@ -1967,7 +2109,129 @@ public class EventsLwm2Tests extends BaseTestCase {
                 .validateParametersMonitor();
     }
 
-//    134-142 skipped due to tab "Connectivity monitoring" doesn't have editable fields;
+    @Test
+    public void lwm2m_ev_134() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", CONTAINS, "6")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
 
+    @Test
+    public void lwm2m_ev_135() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", EQUAL, "57")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
 
+    @Test
+    public void lwm2m_ev_136() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", GREATER, "57")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_137() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", GREATER_EQUAL, "59")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_138() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", LESS, "61")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_139() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", LESS_EQUAL, "62")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_140() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", NOT_EQUAL, "65")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_141() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", STARTS_WITH, "6")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
+
+    @Test
+    public void lwm2m_ev_142() {
+        evPage
+                .createScheduledEventsOn("Parameters")
+                .selectParametersTab("Connectivity monitoring")
+                .setParametersMonitor("SMNC", VALUE_CHANGE, "")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor();
+    }
 }

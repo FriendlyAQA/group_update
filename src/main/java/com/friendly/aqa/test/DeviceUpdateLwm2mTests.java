@@ -33,7 +33,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_002() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(LIST)
                 .assertMainPageIsDisplayed();
     }
@@ -626,7 +626,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .inputSerial()
                 .bottomMenu(START)
                 .okButtonPopUp()
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(SHOW_TRACE)
                 .assertTraceWindowIsOpened()/*
                 .bottomMenu(STOP_TRACE, 60)
@@ -1545,7 +1545,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_130() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .recheckStatus();
     }
@@ -1554,7 +1554,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_131() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REBOOT)
                 .cancelButtonPopUp()
@@ -1569,7 +1569,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_132() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(FACTORY_RESET)
                 .cancelButtonPopUp()
@@ -1584,7 +1584,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(CREATE_TEMPLATE)
                 .cancelButtonPopUp()
@@ -1599,7 +1599,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REPROVISION)
@@ -1615,7 +1615,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_135() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clickIfPresent(STOP_TRACE)
                 .bottomMenu(START_TRACE)
                 .okButtonPopUp()
@@ -1632,7 +1632,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_137() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(PING)
                 .assertPingWindowIsOpened();
     }
@@ -1641,7 +1641,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_138() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(TRACE_ROUTE)
                 .assertTracerouteWindowIsOpened();
     }
@@ -1671,7 +1671,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_141() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .setAllUserInfo()
                 .editAccountInfoLink()
                 .clearUserInfo()
@@ -1682,7 +1682,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_142() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .listOfMethods()
                 .assertMethodIsPresent("Reboot")
                 .closePopup();
@@ -1692,7 +1692,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_143() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1707,7 +1707,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_144() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1724,7 +1724,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_145() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1741,7 +1741,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_146() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1758,7 +1758,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_147() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1776,7 +1776,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_148() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .clearProvisionManager()
                 .leftMenu(DEVICE_SETTINGS)
@@ -1798,7 +1798,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_149() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .storePath()
@@ -1812,7 +1812,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_150() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1829,7 +1829,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_151() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1846,7 +1846,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_152() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1863,7 +1863,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_153() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .clearProvisionManager()
                 .leftMenu(DEVICE_SETTINGS)
@@ -1885,7 +1885,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_154() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1902,7 +1902,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_155() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1919,7 +1919,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_156() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_SETTINGS)
                 .bottomMenu(EDIT_SETTINGS)
@@ -1936,7 +1936,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_157() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .clearProvisionManager()
                 .leftMenu(DEVICE_SETTINGS)
@@ -1958,7 +1958,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_158() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .validateObjectTree(); // use .validateObjectTree1() instead if failed!
     }
@@ -1967,7 +1967,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_159() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -1985,7 +1985,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_160() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -2004,7 +2004,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_161() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("ManagementServer")
@@ -2025,7 +2025,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_162() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .selectTreeObject(true, 0)
@@ -2037,7 +2037,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_163() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
@@ -2049,7 +2049,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_164() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
@@ -2059,7 +2059,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_165() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
@@ -2076,7 +2076,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_166() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
@@ -2092,7 +2092,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_167() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2109,7 +2109,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_168() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2128,7 +2128,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_170() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2146,7 +2146,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_171() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Vendor Configuration File")
@@ -2166,7 +2166,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_172() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M Resource Definition")
@@ -2183,7 +2183,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_173() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M Resource Definition")
@@ -2199,7 +2199,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_174() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M PSK Credentials")
@@ -2216,7 +2216,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_175() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M PSK Credentials")
@@ -2233,7 +2233,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_176() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M PSK Credentials")
@@ -2251,7 +2251,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_177() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
                 .assertTableHasContent("tblItems")
@@ -2264,7 +2264,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_178() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .bottomMenu(SAVE)
                 .validateHistoryFile();
@@ -2274,7 +2274,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_179() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .pause(1000)
                 .bottomMenu(DELETE)
@@ -2286,7 +2286,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_180() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterValue()
                 .validateEditedProvision();
@@ -2296,7 +2296,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_181() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterPriority()
                 .validateEditedProvision();
@@ -2306,7 +2306,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_182() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Parameters")
@@ -2319,7 +2319,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_183() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editProvisionFileUrl()
                 .bottomMenu(START)
@@ -2330,7 +2330,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_184() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editProvisionFilePriority()
                 .bottomMenu(START)
@@ -2341,7 +2341,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_185() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Download file")

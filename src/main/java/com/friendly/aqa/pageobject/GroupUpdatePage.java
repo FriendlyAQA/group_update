@@ -304,7 +304,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage validateDownloadFileTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             validateAddedTask("tblTasks", entry.getKey(), entry.getValue(), 0);
         }
@@ -1032,9 +1032,6 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage setParameter(Table table, String paramName, ParameterType option, String value) {
 //        int rowNum = table.getRowNumberByText(paramName);
-//        if (parameterMap == null) {
-//            parameterMap = new HashMap<>();
-//        }
 //        String hint = table.getHint(rowNum);
 //        WebElement paramCell = table.getCellWebElement(rowNum, 1);
 //        if (props.getProperty("browser").equals("edge")) {
@@ -1047,7 +1044,7 @@ public class GroupUpdatePage extends BasePage {
 //            input.clear();
 //            input.sendKeys(value);
 //        }
-//        parameterMap.put(hint, value);
+//        getParameterMap().put(hint, value);
 //        if (!BROWSER.equals("edge")) {
 //            table.clickOn(0, 0);
 //        }

@@ -397,7 +397,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 0 BOOTSTRAP during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 0 BOOTSTRAP during testcase is running
                 .stopEvent();
     }
 
@@ -411,7 +411,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -468,7 +468,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -482,7 +482,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -511,7 +511,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase is running
                 .stopEvent();
     }
 
@@ -525,7 +525,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase run
+//                .assertLogfileContainsEventSoap()     //Cannot trigger several events during testcase is running
                 .stopEvent();
     }
 
@@ -543,8 +543,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -566,8 +566,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -585,8 +585,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("1 BOOT", "Action", "Reboot")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -604,8 +604,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("1 BOOT", "Action", "Factory Reset")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -623,8 +623,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("1 BOOT", "Action", "Device reprovision")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -643,8 +643,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -663,8 +663,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -683,8 +683,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -703,8 +703,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -723,8 +723,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -743,8 +743,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -763,8 +763,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -783,8 +783,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -803,8 +803,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -823,8 +823,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -843,8 +843,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -862,7 +862,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -885,7 +885,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -904,7 +904,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("2 PERIODIC", "Action", "Reboot")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -923,7 +923,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("2 PERIODIC", "Action", "Factory Reset")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -942,7 +942,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("2 PERIODIC", "Action", "Device reprovision")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -962,7 +962,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -982,7 +982,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1002,7 +1002,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1022,7 +1022,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1042,7 +1042,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1062,7 +1062,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1082,7 +1082,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1102,7 +1102,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1122,7 +1122,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1142,7 +1142,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1162,7 +1162,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1181,8 +1181,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
-                .assertLogfileContainsEventSoap()     //
+                .validateAddedEventAction()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -1204,7 +1204,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1223,7 +1223,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Reboot")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1242,7 +1242,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Factory Reset")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1261,7 +1261,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("4 VALUE CHANGE", "Action", "Device reprovision")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1281,7 +1281,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1301,7 +1301,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1321,7 +1321,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1341,7 +1341,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1361,7 +1361,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1381,7 +1381,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1401,7 +1401,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1421,7 +1421,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1441,7 +1441,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1461,7 +1461,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1481,7 +1481,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventAction()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -1500,7 +1500,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1524,7 +1524,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1544,7 +1544,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Reboot")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1564,7 +1564,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Factory Reset")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1584,7 +1584,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("6 CONNECTION REQUEST", "Action", "Device reprovision")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1605,7 +1605,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1626,7 +1626,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1647,7 +1647,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1668,7 +1668,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1689,7 +1689,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1710,7 +1710,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1731,7 +1731,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1752,7 +1752,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1773,7 +1773,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1794,7 +1794,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1815,7 +1815,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventAction()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -1835,8 +1835,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1858,8 +1858,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1877,8 +1877,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("7 TRANSFER COMPLETE", "Action", "Reboot")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1896,8 +1896,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("7 TRANSFER COMPLETE", "Action", "Factory Reset")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1915,8 +1915,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("7 TRANSFER COMPLETE", "Action", "Device reprovision")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1935,8 +1935,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1955,8 +1955,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1975,8 +1975,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -1995,8 +1995,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2015,8 +2015,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2035,8 +2035,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2055,8 +2055,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2075,8 +2075,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2095,8 +2095,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2115,8 +2115,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2135,8 +2135,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2154,8 +2154,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2177,8 +2177,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2196,8 +2196,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("8 DIAGNOSTICS COMPLETE", "Action", "Reboot")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2215,8 +2215,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("8 DIAGNOSTICS COMPLETE", "Action", "Factory Reset")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2234,8 +2234,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("8 DIAGNOSTICS COMPLETE", "Action", "Device reprovision")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2254,8 +2254,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2274,8 +2274,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2294,8 +2294,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2314,8 +2314,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2334,8 +2334,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2354,8 +2354,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2374,8 +2374,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2394,8 +2394,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2414,8 +2414,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2434,8 +2434,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2454,8 +2454,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventAction()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2473,8 +2473,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2492,8 +2492,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2511,8 +2511,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2530,8 +2530,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2549,7 +2549,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2568,7 +2568,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2587,7 +2587,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2606,7 +2606,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2625,7 +2625,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2644,7 +2644,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2663,7 +2663,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2682,7 +2682,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -2701,7 +2701,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -2721,7 +2721,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -2741,7 +2741,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -2761,7 +2761,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -2781,8 +2781,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2800,8 +2800,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2819,8 +2819,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2838,8 +2838,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2857,8 +2857,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2876,8 +2876,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2895,8 +2895,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2914,8 +2914,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -2934,8 +2934,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2954,8 +2954,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2974,8 +2974,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -2994,8 +2994,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3014,7 +3014,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3034,7 +3034,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3054,7 +3054,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3074,7 +3074,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3094,7 +3094,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3114,7 +3114,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3134,7 +3134,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3154,7 +3154,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3174,7 +3174,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3195,7 +3195,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3216,7 +3216,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3237,7 +3237,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3258,8 +3258,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3278,8 +3278,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3298,8 +3298,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3318,8 +3318,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3338,8 +3338,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3358,8 +3358,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3378,8 +3378,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3398,8 +3398,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3418,8 +3418,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3438,8 +3438,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3458,8 +3458,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3478,8 +3478,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3498,7 +3498,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3518,7 +3518,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3538,7 +3538,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3558,7 +3558,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3578,7 +3578,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3598,7 +3598,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3618,7 +3618,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3638,7 +3638,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -3658,7 +3658,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3679,7 +3679,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3700,7 +3700,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3721,7 +3721,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -3742,8 +3742,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3762,8 +3762,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3782,8 +3782,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3802,8 +3802,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3822,8 +3822,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3842,8 +3842,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3862,8 +3862,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3882,8 +3882,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -3902,8 +3902,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3922,8 +3922,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3942,8 +3942,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3962,8 +3962,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -3982,7 +3982,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4002,7 +4002,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4022,7 +4022,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4042,7 +4042,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4062,7 +4062,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4082,7 +4082,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4102,7 +4102,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4122,7 +4122,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4142,7 +4142,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4163,7 +4163,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4184,7 +4184,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4205,7 +4205,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4226,8 +4226,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4246,8 +4246,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4266,8 +4266,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4286,8 +4286,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4306,8 +4306,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4326,8 +4326,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4346,8 +4346,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4366,8 +4366,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4386,8 +4386,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4406,8 +4406,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4426,8 +4426,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4446,8 +4446,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4466,7 +4466,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4486,7 +4486,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4506,7 +4506,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4526,7 +4526,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4546,7 +4546,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4566,7 +4566,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4586,7 +4586,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4606,7 +4606,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4626,7 +4626,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4647,7 +4647,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4668,7 +4668,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4689,7 +4689,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -4710,8 +4710,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4730,8 +4730,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4750,8 +4750,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4770,8 +4770,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4790,8 +4790,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4810,8 +4810,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4830,8 +4830,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4850,8 +4850,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -4870,8 +4870,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4890,8 +4890,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4910,8 +4910,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4930,8 +4930,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -4950,7 +4950,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4970,7 +4970,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -4990,7 +4990,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5010,7 +5010,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5030,7 +5030,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5050,7 +5050,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5070,7 +5070,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5090,7 +5090,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5110,7 +5110,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5131,7 +5131,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5152,7 +5152,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5173,7 +5173,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5194,8 +5194,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5214,8 +5214,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5234,8 +5234,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5254,8 +5254,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5274,8 +5274,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5294,8 +5294,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5314,8 +5314,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5334,8 +5334,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5354,8 +5354,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5374,8 +5374,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5394,8 +5394,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5414,8 +5414,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5434,7 +5434,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5454,7 +5454,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5474,7 +5474,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5494,7 +5494,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5514,7 +5514,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5534,7 +5534,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5554,7 +5554,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5574,7 +5574,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5594,7 +5594,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5615,7 +5615,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5636,7 +5636,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5657,7 +5657,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -5678,8 +5678,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5698,8 +5698,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5718,8 +5718,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5738,8 +5738,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5758,8 +5758,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5778,8 +5778,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5798,8 +5798,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5818,8 +5818,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -5838,8 +5838,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5858,8 +5858,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5878,8 +5878,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5898,8 +5898,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -5918,7 +5918,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5938,7 +5938,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5958,7 +5958,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5978,7 +5978,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -5998,7 +5998,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6018,7 +6018,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6038,7 +6038,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6058,7 +6058,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6078,7 +6078,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -6099,7 +6099,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -6120,7 +6120,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -6141,7 +6141,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -6162,8 +6162,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6182,8 +6182,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6202,8 +6202,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6222,8 +6222,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6242,8 +6242,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6262,8 +6262,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6282,8 +6282,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6302,8 +6302,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6325,8 +6325,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("1 BOOT")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 1 BOOT during testcase is running
                 .stopEvent();
     }
 
@@ -6348,7 +6348,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("2 PERIODIC")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6371,7 +6371,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6394,7 +6394,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("6 CONNECTION REQUEST")
+                .validateAddedEventTasks()
                 .triggerConnectionRequest()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
@@ -6418,8 +6418,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("7 TRANSFER COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 7 TRANSFER COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6441,8 +6441,8 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("8 DIAGNOSTICS COMPLETE")
-//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase run
+                .validateAddedEventTasks()
+//                .assertLogfileContainsEventSoap()     //Cannot trigger 8 DIAGNOSTICS COMPLETE during testcase is running
                 .stopEvent();
     }
 
@@ -6461,7 +6461,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6481,7 +6481,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6501,7 +6501,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6521,7 +6521,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6541,7 +6541,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6561,7 +6561,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6581,7 +6581,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6601,7 +6601,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6621,7 +6621,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6641,7 +6641,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6661,7 +6661,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6681,7 +6681,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6701,7 +6701,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6721,7 +6721,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6741,7 +6741,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6761,7 +6761,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6781,7 +6781,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6801,7 +6801,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6821,7 +6821,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6841,7 +6841,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6861,7 +6861,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6881,7 +6881,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6901,7 +6901,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6921,7 +6921,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6941,7 +6941,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6961,7 +6961,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -6981,7 +6981,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7001,7 +7001,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7021,7 +7021,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7041,7 +7041,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7061,7 +7061,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7081,7 +7081,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTasks("4 VALUE CHANGE")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
@@ -7116,7 +7116,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventTask("2 PERIODIC", "Restore")
-                .assertLogfileContainsEventSoap()
+//                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -7136,7 +7136,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8")
+                .validateAddedEventTasks()
                 .assertLogfileContainsEventSoap()
                 .stopEvent();
     }

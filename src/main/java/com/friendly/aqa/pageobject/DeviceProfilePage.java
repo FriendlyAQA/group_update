@@ -576,10 +576,10 @@ public class DeviceProfilePage extends BasePage {
             if (!access.isEmpty()) {
                 result += accessAnswer[accessList.indexOf(access)];
             }
-            assertEquals(result, parameterMap.get(name), "Unexpected policy for parameter '" + name + '\'');
-            parameterMap.remove(name);
+            assertEquals(result, getParameterMap().get(name), "Unexpected policy for parameter '" + name + '\'');
+            getParameterMap().remove(name);
         }
-        assertTrue(parameterMap.isEmpty(), "Cannot find policy for following parameters:" + parameterMap);
+        assertTrue(getParameterMap().isEmpty(), "Cannot find policy for following parameters:" + getParameterMap());
     }
 
     @Override
@@ -644,9 +644,9 @@ public class DeviceProfilePage extends BasePage {
     public void validateDownloadFile() {
         switchToFrame(SUB_FRAME);
         Table table = new Table("tblFirmwares");
-        String fileType = new ArrayList<>(parameterMap.keySet()).get(0);
+        String fileType = new ArrayList<>(getParameterMap().keySet()).get(0);
         assertEquals(table.getCellText(1, 1), fileType, "File type entry has unexpected content!");
-//        table.assertEndsWith(1, 2, parameterMap.get(fileType));   //build 156 - this cell is empty
+//        table.assertEndsWith(1, 2, getParameterMap().get(fileType));   //build 156 - this cell is empty
     }
 
     public DeviceProfilePage selectCondition(int index) {
@@ -709,9 +709,9 @@ public class DeviceProfilePage extends BasePage {
                 actual = getSelectedOption(cell.findElement(By.tagName("select")));
             }
             setDefaultImplicitlyWait();
-            String expected = parameterMap.get(paramName);
+            String expected = getParameterMap().get(paramName);
             if (expected.equals(actual)) {
-                parameterMap.remove(paramName);
+                getParameterMap().remove(paramName);
             } else {
                 String warn = "The value of the parameter '" + paramName + "' doesn't match the declared (" +
                         "expected to find '" + expected + "', but find '" + actual + "')";
@@ -1097,10 +1097,10 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage validateApplyingProfile(boolean isExpected, boolean advancedView) {
-        String path = new ArrayList<>(parameterMap.keySet()).get(0);
+        String path = new ArrayList<>(getParameterMap().keySet()).get(0);
         String[] arr = path.split("\\.");
         String param = arr[arr.length - 1];
-        String value = parameterMap.get(path);
+        String value = getParameterMap().get(path);
         return validateApplyingProfile(isExpected, param, value, advancedView);
     }
 
@@ -1112,9 +1112,9 @@ public class DeviceProfilePage extends BasePage {
         DeviceUpdatePage dUPage = new DeviceUpdatePage();
         dUPage
                 .topMenu(TopMenu.DEVICE_UPDATE)
-                .enterToDevice();
+                .openDevice();
         if (advancedView) {
-            String path = new ArrayList<>(parameterMap.keySet()).get(0);
+            String path = new ArrayList<>(getParameterMap().keySet()).get(0);
             if (BaseTestCase.getTestName().startsWith("usp")) {
                 dUPage
                         .bottomMenu(DeviceUpdatePage.BottomButtons.REPROVISION)

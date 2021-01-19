@@ -33,7 +33,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_002() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(LIST)
                 .assertMainPageIsDisplayed();
     }
@@ -626,7 +626,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .inputSerial()
                 .bottomMenu(START)
                 .okButtonPopUp()
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(SHOW_TRACE)
                 .assertTraceWindowIsOpened()/*
                 .bottomMenu(STOP_TRACE, 60)
@@ -1546,7 +1546,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_130() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .recheckStatus();
     }
@@ -1555,7 +1555,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_131() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REBOOT)
                 .cancelButtonPopUp()
@@ -1570,7 +1570,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_132() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(FACTORY_RESET)
                 .cancelButtonPopUp()
@@ -1585,7 +1585,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(CREATE_TEMPLATE)
                 .cancelButtonPopUp()
@@ -1600,7 +1600,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
                 .bottomMenu(REPROVISION)
@@ -1616,7 +1616,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_135() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clickIfPresent(STOP_TRACE)
                 .bottomMenu(START_TRACE)
                 .okButtonPopUp()
@@ -1633,7 +1633,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_137() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(PING)
                 .assertPingWindowIsOpened();
     }
@@ -1642,7 +1642,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_138() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .bottomMenu(TRACE_ROUTE)
                 .assertTracerouteWindowIsOpened();
     }
@@ -1672,7 +1672,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_141() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .setAllUserInfo()
                 .editAccountInfoLink()
                 .clearUserInfo()
@@ -1683,7 +1683,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_142() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .listOfMethods()
                 .assertMethodIsPresent("Reboot")
                 .closePopup();
@@ -1810,7 +1810,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_150() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .validateObjectTree(); // use .validateObjectTree1() instead if failed!
     }
@@ -1819,7 +1819,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_151() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.Location.1")
@@ -1836,7 +1836,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_152() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.Location.1")
@@ -1854,7 +1854,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_153() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
                 .selectBranch("Device.DeviceInfo.FirmwareImage.0")
@@ -1874,7 +1874,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_154() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .selectTreeObject(true, 0)
@@ -1886,7 +1886,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_155() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
@@ -1898,7 +1898,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_156() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
@@ -1908,7 +1908,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_157() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
                 .assertTableHasContent("tblItems")
@@ -1921,7 +1921,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_158() throws IOException {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .bottomMenu(SAVE)
                 .validateHistoryFile();
@@ -1931,7 +1931,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_159() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .pause(1000)
                 .bottomMenu(DELETE)
@@ -1943,7 +1943,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_160() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterValue()
                 .validateEditedProvision();
@@ -1953,7 +1953,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_161() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .editParameterPriority()
                 .validateEditedProvision();
@@ -1963,7 +1963,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_162() {
         duPage
                 .topMenu(DEVICE_UPDATE)
-                .enterToDevice()
+                .openDevice()
                 .leftMenu(PROVISION_MANAGER)
                 .bottomMenu(EDIT)
                 .selectProvision("Parameters")

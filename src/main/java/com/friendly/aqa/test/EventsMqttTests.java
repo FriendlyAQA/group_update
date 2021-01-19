@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.BottomButtons.SAVE_AND_ACTIVATE;
+import static com.friendly.aqa.entities.Condition.*;
+import static com.friendly.aqa.entities.Condition.VALUE_CHANGE;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.entities.TopMenu.EVENTS;
@@ -18,6 +20,7 @@ public class EventsMqttTests extends BaseTestCase {
    /*
    1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch mqtt_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
+   3. Emulator MUST be set to auto update value by any unused parameter (e.g. temperature) to trigger 'MQTT PUBLISH'
    */
 
     @Test
@@ -348,7 +351,7 @@ public class EventsMqttTests extends BaseTestCase {
                 .waitForStatus("Not active", 1);
     }
 
-    @Test   //bug: changes don't apply after SAVE button pressing
+    @Test
     public void mqtt_ev_026() {    //depends on 025
         evPage
                 .topMenu(EVENTS)
@@ -438,7 +441,7 @@ public class EventsMqttTests extends BaseTestCase {
                 .enterIntoItem()
                 .expandEvents()
                 .validateEvents()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -743,7 +746,7 @@ public class EventsMqttTests extends BaseTestCase {
 //                .expandEvents()
 //                .validateEvents()
 //                .validateAddedEventTasks("MQTT PUBLISH")
-////                .assertLogfileContainsEventSoap()
+//                .assertLogfileContainsEventSoap()
 //                .stopEvent();
 //    }
 
@@ -762,7 +765,7 @@ public class EventsMqttTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -781,7 +784,7 @@ public class EventsMqttTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
@@ -800,11 +803,199 @@ public class EventsMqttTests extends BaseTestCase {
                 .expandEvents()
                 .validateEvents()
                 .validateAddedEventAction()
-//                .assertLogfileContainsEventSoap()
+                .assertLogfileContainsEventSoap()
                 .stopEvent();
     }
 
-    //skipped: 52-71 due to the lack of editable fields
+    //skipped: 52-60 due to the lack of "Management" tab
+
+    @Test
+    public void mqtt_ev_061() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", CONTAINS, "QT", "MQTT")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_062() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", EQUAL, "MQTT", "MQTT")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_063() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", GREATER, "10", "11")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_064() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", GREATER_EQUAL, "10", "10")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_065() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", LESS, "14", "13")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_066() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", LESS_EQUAL, "10", "10")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_067() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", NOT_EQUAL, "123", "MQTT")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_068() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", STARTS_WITH, "M", "MQTT")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_069() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", VALUE_CHANGE, "", "MQTT")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_070() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", VALUE_CHANGE, "", "MQTT", true)
+                .addTask("Set parameter value")
+                .setParameter("ModelName", VALUE, "MQTT")
+                .saveButton()
+                .saveButton()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .validateAddedMonitorTasks()
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    @Test
+    public void mqtt_ev_071() {
+        evPage
+                .createImmediatelyEventOn("Parameters")
+//                .selectParametersTab("Information")
+                .setParametersMonitor("ModelName", VALUE_CHANGE, "", "MQTT", true)
+                .addTask("Action")
+                .selectAction("Reboot")
+                .saveButton()
+                .saveButton()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoItem()
+                .expandParametersMonitor()
+                .validateParametersMonitor()
+                .validateAddedMonitorTask("Reboot")
+//                .triggerEventOnParameter()
+//                .assertLogfileContainsEventSoap()   //Tab "Information" does not have suitable field to set parameter value
+                .stopEvent();
+    }
+
+    //skipped: 70-71 due to the lack of editable fields
 
     @Test
     public void mqtt_ev_072() {

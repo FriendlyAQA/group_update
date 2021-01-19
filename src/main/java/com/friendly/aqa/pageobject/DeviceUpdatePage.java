@@ -51,8 +51,8 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "btnReCheck_lnk")
     private WebElement recheckStatus;
 
-    @FindBy(id = "btnReCheck_img")
-    private WebElement recheckIcon;
+//    @FindBy(id = "btnReCheck_img")
+//    private WebElement recheckIcon;
 
     @FindBy(id = "txtSerial")
     private WebElement inputSerial;
@@ -102,8 +102,8 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "rdUrl")
     private WebElement manualUrlRButton;
 
-    @FindBy(id = "lblReplaceCpeHeader")
-    private WebElement replaceHeader;
+//    @FindBy(id = "lblReplaceCpeHeader")
+//    private WebElement replaceHeader;
 
     @FindBy(id = "btnEditUserInfo_lnk")
     private WebElement editAccountInfoLink;
@@ -113,9 +113,6 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "hlExpandAll")
     private WebElement expandLink;
-
-    @FindBy(id = "pager2_lblPagerTotal")
-    private WebElement pager;
 
     @FindBy(id = "lblNoReprovisionFound")
     private WebElement noProvision;
@@ -175,8 +172,7 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         Table table = getTable("tblItems");
         table.clickOn(1, 0, 0);
-        parameterMap = new HashMap<>();
-        parameterMap.put(tab, table.getCellText(1, "Updated"));
+        getParameterMap().put(tab, table.getCellText(1, "Updated"));
         return this;
     }
 
@@ -444,7 +440,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage presetFilter(String parameter, String value) {
         topMenu(DEVICE_UPDATE);
-        enterToDevice();
+        openDevice();
         for (int i = 0; i < 2; i++) {
             try {
                 Table table = new Table("tblUserInfo");
@@ -544,13 +540,13 @@ public class DeviceUpdatePage extends BasePage {
             if (!getSerial().equals(serial)) {
                 parameterSet = new HashSet<>();
                 parameterSet.add(serial);
-                return enterToDevice(serial, getMainTable());
+                return openDevice(serial, getMainTable());
             }
         }
         throw new AssertionError("there are no suitable devices to be selected!");
     }
 
-    public DeviceUpdatePage enterToDevice(String serial, Table table) {
+    public DeviceUpdatePage openDevice(String serial, Table table) {
         if (!table.contains(serial)) {
             itemsOnPage("200");
             table = getMainTable();
@@ -572,8 +568,8 @@ public class DeviceUpdatePage extends BasePage {
 //        return this;
     }
 
-    public DeviceUpdatePage enterToDevice() {
-        return enterToDevice(getSerial(), getMainTable());
+    public DeviceUpdatePage openDevice() {
+        return openDevice(getSerial(), getMainTable());
     }
 
     @Override
@@ -821,7 +817,7 @@ public class DeviceUpdatePage extends BasePage {
         pause(2000);
         getTable("tblPopupTitle").clickOn(0, 1);
         switchToFrame(DESKTOP);
-        enterToDevice();
+        openDevice();
         waitForUpdate();
     }
 
@@ -1141,7 +1137,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateAbsenceTaskWithValue() {
         String[] col = getTable("tbl").getColumn("Value");
-        String value = parameterMap.values().iterator().next();
+        String value = getParameterMap().values().iterator().next();
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
         }
@@ -1151,7 +1147,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage validateTasks() {
         setSinglePage();
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         Table table = getTable("tbl");
         out:
         for (Map.Entry<String, String> entry : entrySet) {
@@ -1175,7 +1171,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateProvisionTasks() {
         validateTasks("tblItems", 4);
-//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
 //        for (Map.Entry<String, String> entry : entrySet) {
 //            validateAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
 //        }
@@ -1196,7 +1192,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         tabTable.clickOn(tab);
         Table table = getTable("tblItems");
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             if (!table.contains(entry.getValue())) {
                 table.print();
@@ -1214,7 +1210,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage validateTasks(String tableId, int shift) {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             validateAddedTask(tableId, entry.getKey(), entry.getValue(), shift);
         }
@@ -1222,7 +1218,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateUploadFileTasks() {
-        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             Table table = getTable("tbl");
             List<Integer> list = table.getRowsWithText(entry.getKey());
@@ -1269,10 +1265,7 @@ public class DeviceUpdatePage extends BasePage {
 //        manuallyDownloadRadioButton();
 //        String value = props.getProperty("upload_url") + '/' + lastOpt;
 //        urlField.sendKeys(value);
-//        if (parameterMap == null) {
-//            parameterMap = new HashMap<>();
-//        }
-//        parameterMap.put("Download", value);
+//        getParameterMap().put("Download", value);
 //        return this;
         return (DeviceUpdatePage) super.fillDownloadUrl();
     }
@@ -1280,12 +1273,9 @@ public class DeviceUpdatePage extends BasePage {
     @Override
     public DeviceUpdatePage fillUploadUrl() {
         super.fillUploadUrl();
-//        if (parameterMap == null) {
-//            parameterMap = new HashMap<>();
-//        }
 //        String path = props.getProperty("file_server");
 //        path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
-//        parameterMap.put("Upload", path);
+//        getParameterMap().put("Upload", path);
         return this;
     }
 
@@ -1451,7 +1441,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateGeneratedGets() {
         validateTasks("tbl", 7);
-//        Set<Map.Entry<String, String>> entrySet = parameterMap.entrySet();
+//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
 //        for (Map.Entry<String, String> entry : entrySet) {
 //            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
 //        }
@@ -1491,20 +1481,20 @@ public class DeviceUpdatePage extends BasePage {
         Timer timer = new Timer(150000);
         setSinglePage();
         List<String[]> tasks = new ArrayList<>(2);
-        String[] example = {"", parameterMap.get("Description"), parameterMap.get("Internal client"), parameterMap.get("Internal port"),
-                "", parameterMap.get("Remote host"), parameterMap.get("External port")};
-        if (parameterMap.get("Protocol").contains("TCP")) {
+        String[] example = {"", getParameterMap().get("Description"), getParameterMap().get("Internal client"), getParameterMap().get("Internal port"),
+                "", getParameterMap().get("Remote host"), getParameterMap().get("External port")};
+        if (getParameterMap().get("Protocol").contains("TCP")) {
             example[4] = "TCP";
             tasks.add(example.clone());
         }
-        if (parameterMap.get("Protocol").contains("UDP")) {
+        if (getParameterMap().get("Protocol").contains("UDP")) {
             example[4] = "UDP";
             tasks.add(example);
         }
         while (!timer.timeout()) {
             int success = 0;
             Table table = getTable("tblParameters");
-            List<Integer> rows = table.getRowsWithText(parameterMap.get("Description"));
+            List<Integer> rows = table.getRowsWithText(getParameterMap().get("Description"));
             for (String[] task : tasks) {
                 for (int row : rows) {
                     if (Arrays.deepEquals(table.getRow(row), task)) {
@@ -1533,8 +1523,8 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void verifyItemDeletion(String keyColumn, String valueColumn) {
-        String targetPort = parameterMap.keySet().iterator().next();
-        String targetProtocol = parameterMap.get(targetPort);
+        String targetPort = getParameterMap().keySet().iterator().next();
+        String targetProtocol = getParameterMap().get(targetPort);
         setSinglePage();
         Timer timer = new Timer(60000);
         while (!timer.timeout()) {
@@ -1609,11 +1599,8 @@ public class DeviceUpdatePage extends BasePage {
         }
         waitUntilButtonIsEnabled(CANCEL);
         super.selectMethod(methodName);
-        if (parameterMap == null) {
-            parameterMap = new HashMap<>(1);
-        }
         waitForUpdate();
-        parameterMap.put("Custom RPC", getElementText("txtRequest").replaceAll("\n", ""));
+        getParameterMap().put("Custom RPC", getElementText("txtRequest").replaceAll("\n", ""));
         return this;
     }
 
@@ -1625,8 +1612,7 @@ public class DeviceUpdatePage extends BasePage {
         WebElement input = table.getInput(1, colNum);
         input.clear();
         input.sendKeys(newValue);
-        parameterMap = new HashMap<>(1);
-        parameterMap.put("Value", newValue);
+        getParameterMap().put("Value", newValue);
         bottomMenu(START);
         return this;
     }
@@ -1653,9 +1639,9 @@ public class DeviceUpdatePage extends BasePage {
     public void validateEditedProvision() {
         pause(500);
         Table table = getTable("tblItems");
-        String columnHeader = parameterMap.keySet().iterator().next();
+        String columnHeader = getParameterMap().keySet().iterator().next();
         String actual = table.getCellText(1, columnHeader);
-        String expected = parameterMap.get(columnHeader);
+        String expected = getParameterMap().get(columnHeader);
         if (!actual.equals(expected)) {
             throw new AssertionError("Unexpected item record at column '" + columnHeader + "'. Expected: " + expected + "; actual: " + actual);
         }
@@ -1663,8 +1649,8 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateProvisionDeletion() {
         waitForUpdate();
-        String tab = parameterMap.keySet().iterator().next();
-        String value = parameterMap.get(tab);
+        String tab = getParameterMap().keySet().iterator().next();
+        String value = getParameterMap().get(tab);
         if (elementIsAbsent("tabsMain_tblTabs")) {
             return;
         }
@@ -1680,7 +1666,7 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
-    public DeviceUpdatePage editProvisionRequest() {    //!
+    public DeviceUpdatePage editProvisionRequest() {
         getTable("tabsMain_tblTabs").clickOn("RPC");
         waitForUpdate();
         Table table = getTable("tblItems");
@@ -1692,14 +1678,13 @@ public class DeviceUpdatePage extends BasePage {
         WebElement textArea = requestCell.findElement(By.tagName("textarea"));
         textArea.clear();
         textArea.sendKeys(modifiedText);
-        parameterMap = new HashMap<>(1);
-        parameterMap.put("Request", modifiedText);
+        getParameterMap().put("Request", modifiedText);
         return this;
     }
 
     public void validateEditedRequest() {
         String actual = getTable("tblItems").getCellText(1, "Request");
-        String expected = parameterMap.entrySet().iterator().next().getValue();
+        String expected = getParameterMap().entrySet().iterator().next().getValue();
         if (!actual.equals(expected)) {
             throw new AssertionError("Request validation failed!\nExpected: " + expected + "\nactual  : " + actual);
         }
@@ -1728,8 +1713,7 @@ public class DeviceUpdatePage extends BasePage {
                 continue;
             }
             selectComboBox(select, option);
-            parameterMap = new HashMap<>(1);
-            parameterMap.put("Priority", option);
+            getParameterMap().put("Priority", option);
             break;
         }
     }
@@ -1745,8 +1729,7 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         inputText2(urlField, newUrl);
         bottomMenu(OK);
-        parameterMap = new HashMap<>(1);
-        parameterMap.put("URL", newUrl);
+        getParameterMap().put("URL", newUrl);
         return this;
     }
 

@@ -13,8 +13,7 @@ import java.util.List;
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.EVENTS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_INFO;
-import static com.friendly.aqa.pageobject.EventsPage.Left.*;
+import static com.friendly.aqa.pageobject.EventsPage.Left.NEW;
 
 public class EventsPage extends BasePage {
 
@@ -125,6 +124,19 @@ public class EventsPage extends BasePage {
         }
     }
 
+    private void enableNotification() {
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:setCPEParamAttribs><cpeList><id>" + DataBaseConnector.getDeviceId(getSerial()) +
+                "</id></cpeList><cpeParameterAttribList><CPEParamAttrib><name>" + props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") +
+                "</name><notification>2</notification></CPEParamAttrib></cpeParameterAttribList></ftac:setCPEParamAttribs>" +
+                "</soapenv:Body></soapenv:Envelope>";
+        try {
+            HttpConnector.sendSoapRequest(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public EventsPage newGroupButton() {
         showPointer(newGroupButton).click();
 //        newGroupButton.click();
@@ -140,10 +152,16 @@ public class EventsPage extends BasePage {
         return this;
     }
 
-    public EventsPage validateAddedEventTasks(String eventName) {
-        validateAddedTasks(new Table("tblDataEvents"), eventName);
+    public EventsPage validateAddedEventTasks() {
+        String eventName = eventMap.keySet().iterator().next();
+        validateAddedTasks(new Table("tblDataEvents"), eventName);//!!!
         return this;
     }
+
+//    public EventsPage validateAddedEventTasks(String eventName) {
+//        validateAddedTasks(new Table("tblDataEvents"), eventName);
+//        return this;
+//    }
 
     public EventsPage validateAddedEventTask(String eventName, String taskName) {
         waitForUpdate();
@@ -282,7 +300,9 @@ public class EventsPage extends BasePage {
                 "<profileParameter><name>" + prefix + "ConnectionRequestUsername</name><value>ftacs</value></profileParameter>" +
                 "<profileParameter><name>" + prefix + "PeriodicInformEnable</name><value>1</value></profileParameter>" +
                 "<profileParameter><name>" + prefix + "PeriodicInformInterval</name><value>10</value></profileParameter>" +
-                "</profileParameterList><sendProvision>1</sendProvision><isActive>1</isActive><version>1</version><locationId>0</locationId></Profile>" +
+                "</profileParameterList><profileParameterNotificationList><profileParameterNotification><name>" +
+                props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") + "</name><notification>2</notification>" +
+                "</profileParameterNotification></profileParameterNotificationList><isActive>1</isActive><version>1</version></Profile>" +
                 "</profileList><user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
         String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                 "<soap:Body><ns2:createProfileResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
@@ -325,12 +345,6 @@ public class EventsPage extends BasePage {
         return this;
     }
 
-    public EventsPage validateAddedEventAction(String eventName) {//!23.12.2020
-        String parameter = getSingleParameterEntry().getKey();
-        String value = getSingleParameterEntry().getValue();
-        return validateAddedEventAction(eventName, parameter, value);
-    }
-
     public EventsPage validateAddedEventAction() {//!23.12.2020
         String eventName = eventMap.keySet().iterator().next();
         String parameter = getSingleParameterEntry().getKey();
@@ -367,16 +381,17 @@ public class EventsPage extends BasePage {
         deleteAllCustomViews();
         deleteAllMonitoring();
         new DeviceProfilePage().deleteAllProfiles();
-        setProfileOverSoap();
+        if (getProtocolPrefix().startsWith("tr")) {
+            setProfileOverSoap();
+//            enableNotification();
+        }
         setSinglePage();
-        Table table;
-        while (!(table = getMainTable()).isEmpty()) {
-            table.clickOn(0, 0);
+        while (pager.getText().startsWith("Total:")) {
+            getMainTable().clickOn(0, 0);
             bottomMenu(DELETE);
             okButtonPopUp();
             waitForUpdate();
         }
-        deleteAllMonitoring();
         leftMenu(Left.NEW)
                 .selectManufacturer()
                 .selectModelName()
@@ -439,16 +454,12 @@ public class EventsPage extends BasePage {
         getMainTable().assertAbsenceOfValue(testName);
     }
 
-    public void stopEvent(String eventName) {
+    public void stopEvent() {
         topMenu(TopMenu.EVENTS);
-        selectItem(eventName);
+        selectItem(BaseTestCase.getTestName());
         bottomMenu(DEACTIVATE);
         okButtonPopUp();
         waitForStatus("Not active", 5);
-    }
-
-    public void stopEvent() {
-        stopEvent(BaseTestCase.getTestName());
     }
 
     public EventsPage triggerConnectionRequest() {
@@ -460,16 +471,6 @@ public class EventsPage extends BasePage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        topMenu(TopMenu.DEVICE_UPDATE);
-//        DeviceUpdatePage duPage = new DeviceUpdatePage();
-//        duPage.getMainTableWithText(getSerial(), "Last connection").clickOn(getSerial());
-//        switchToFrame(ROOT);
-//        if (!findElement("lblSentCount").getText().equals("0")) {
-//            duPage.clearDeviceActivity();
-//            duPage.leftMenu(DEVICE_INFO);
-//        }
-//        switchToFrame(DESKTOP);
-//        duPage.recheckStatus();
         return this;
     }
 
@@ -582,10 +583,10 @@ public class EventsPage extends BasePage {
                 }
                 if (event) {
                     DiscManager.setRegex(getSingleEvent().getRegex());
+//                    System.out.println("regex:\n" + getSingleEvent().getRegex());
                 } else {
                     DiscManager.setRegex(parametersMonitor.getRegex());
-//                    System.out.println("regex:");
-//                    System.out.println(parametersMonitor.getRegex());
+//                    System.out.println("regex:\n" + parametersMonitor.getRegex());
                 }
             }
         }
