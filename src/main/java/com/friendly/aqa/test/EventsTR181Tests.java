@@ -20,7 +20,8 @@ public class EventsTR181Tests extends BaseTestCase {
    1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch tr181_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
    3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE' and
-      duplicate the same parameter in config.properties file.
+      duplicate the same parameter in config.properties file;
+   4. Clean Device Activity.
    */
 
     @Test
@@ -8741,7 +8742,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test
+    @Test   //Bug: Parameter name isn't displayed into result table;
     public void tr181_ev_446() {
         evPage
                 .createImmediatelyEventOn("Events")
@@ -9207,7 +9208,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: generated 2 mixed SOAPs, but should be one
+    @Test
     public void tr181_ev_473() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -9545,7 +9546,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER condition (no-integer field)
+    @Test
     public void tr181_ev_494() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -9562,7 +9563,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (no-integer field)
+    @Test
     public void tr181_ev_495() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -9579,7 +9580,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS condition (no-integer field)
+    @Test
     public void tr181_ev_496() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -9596,7 +9597,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (no-integer field)
+    @Test
     public void tr181_ev_497() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -9647,7 +9648,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: generated 2 mixed SOAPs, but should be one
+    @Test
     public void tr181_ev_500() {
         evPage
                 .createImmediatelyEventOn("Parameters")

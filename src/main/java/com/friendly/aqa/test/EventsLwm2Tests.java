@@ -19,7 +19,7 @@ public class EventsLwm2Tests extends BaseTestCase {
    /*
    1. Delete all profiles for current device or launch lwm2m_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
-   3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE'
+   3. Emulator MUST be set to auto change value by any unused parameter (e.g. temp. sensor) to trigger '4 VALUE CHANGE'
    4. Set Lifetime(sec) in Emulator settings to low value (e.g. 60 sec) for faster generation "UPDATE REQUEST"
    */
 

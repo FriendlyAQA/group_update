@@ -17,7 +17,8 @@ public class EventsTR069Tests extends BaseTestCase {
    /*
    1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch tr069_ev_000;
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
-   3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE'
+   3. Emulator MUST be set to auto change value by any unused parameter (e.g. SSID name) to trigger '4 VALUE CHANGE';
+   4. Clean Device Activity.
    */
 
     @Test
