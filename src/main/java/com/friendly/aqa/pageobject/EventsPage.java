@@ -99,7 +99,7 @@ public class EventsPage extends BasePage {
                 System.out.println("SOAP appeared within " + (timer.stop() / 1000) + " s");
                 return this;
             }
-            if (timer.halfTime() && firstTime) {
+            if (timer.halfTime() && firstTime && getProtocolPrefix().startsWith("tr")) {
                 forceProfileApplying();
                 firstTime = false;
             }
@@ -119,19 +119,6 @@ public class EventsPage extends BasePage {
         try {
             HttpConnector.sendSoapRequest(request);
             System.out.println("Profile applying forced");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void enableNotification() {
-        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
-                "<soapenv:Header/><soapenv:Body><ftac:setCPEParamAttribs><cpeList><id>" + DataBaseConnector.getDeviceId(getSerial()) +
-                "</id></cpeList><cpeParameterAttribList><CPEParamAttrib><name>" + props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") +
-                "</name><notification>2</notification></CPEParamAttrib></cpeParameterAttribList></ftac:setCPEParamAttribs>" +
-                "</soapenv:Body></soapenv:Envelope>";
-        try {
-            HttpConnector.sendSoapRequest(request);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,11 +144,6 @@ public class EventsPage extends BasePage {
         validateAddedTasks(new Table("tblDataEvents"), eventName);//!!!
         return this;
     }
-
-//    public EventsPage validateAddedEventTasks(String eventName) {
-//        validateAddedTasks(new Table("tblDataEvents"), eventName);
-//        return this;
-//    }
 
     public EventsPage validateAddedEventTask(String eventName, String taskName) {
         waitForUpdate();
@@ -383,7 +365,6 @@ public class EventsPage extends BasePage {
         new DeviceProfilePage().deleteAllProfiles();
         if (getProtocolPrefix().startsWith("tr")) {
             setProfileOverSoap();
-//            enableNotification();
         }
         setSinglePage();
         while (pager.getText().startsWith("Total:")) {
