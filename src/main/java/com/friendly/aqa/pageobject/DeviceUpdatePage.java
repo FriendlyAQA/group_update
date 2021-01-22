@@ -812,11 +812,9 @@ public class DeviceUpdatePage extends BasePage {
         closeButton.click();
     }
 
+    @Override
     public void closeMapWindow() {
-        switchToFrame(ROOT);
-        pause(2000);
-        getTable("tblPopupTitle").clickOn(0, 1);
-        switchToFrame(DESKTOP);
+        super.closeMapWindow();
         openDevice();
         waitForUpdate();
     }

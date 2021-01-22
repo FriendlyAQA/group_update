@@ -1381,6 +1381,13 @@ public abstract class BasePage {
         return props.getProperty("ui_url") + "/Update/Export.aspx?updateId=" + DataBaseConnector.getGroupUpdateId(groupName);
     }
 
+    public void closeMapWindow() {
+        switchToFrame(ROOT);
+        pause(2000);
+        getTable("tblPopupTitle").clickOn(0, 1);
+        switchToFrame(DESKTOP);
+    }
+
     public Map<String, Event> readEvents(String tableId) {
         Table table = new Table(tableId);
         setImplicitlyWait(0);
@@ -2532,9 +2539,9 @@ public abstract class BasePage {
 //        return new Table2(id);
 //    }
 
-//    protected WebElement findElementByText(String text) {
-//        return driver.findElement(By.xpath("//*[text() = '" + text + "']"));
-//    }
+    protected List <WebElement> findElementsByText(String text) {
+        return driver.findElements(By.xpath("//*[text() = '" + text + "']"));
+    }
 //
 //    protected WebElement findElementByText(String parentElementId, String text) {
 //        List<WebElement> list = driver.findElements(By.xpath("//*[text() = '" + text + "']"));

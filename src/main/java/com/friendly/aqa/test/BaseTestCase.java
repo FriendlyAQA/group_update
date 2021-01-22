@@ -32,6 +32,7 @@ public abstract class BaseTestCase {
     protected GroupUpdatePage guPage;
     protected MonitoringPage monPage;
     protected EventsPage evPage;
+    protected ReportsPage reportsPage;
     private final long start = System.currentTimeMillis();
     protected static String testName;
     static Properties props;
@@ -71,6 +72,7 @@ public abstract class BaseTestCase {
         guPage = getGuPage();
         monPage = getMonPage();
         evPage = getEvPage();
+        reportsPage = getReportsPage();
     }
 
     @AfterMethod
@@ -243,6 +245,13 @@ public abstract class BaseTestCase {
             evPage = new EventsPage();
         }
         return evPage;
+    }
+
+    private ReportsPage getReportsPage() {
+        if (reportsPage == null) {
+            reportsPage = new ReportsPage();
+        }
+        return reportsPage;
     }
 }
 

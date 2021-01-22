@@ -9,8 +9,9 @@ public enum BottomButtons implements IBottomButtons {
     DEACTIVATE("btnStop_btn"),
     DELETE("btnDelete_btn"),
     DELETE_GROUP("btnDeleteView_btn"),
-//    DUPLICATE("btnDuplicate_btn"),
+    //    DUPLICATE("btnDuplicate_btn"),
     EDIT("btnEdit_btn"),
+//    EXPORT_TO_XLS("btnExportXLS_btn"),
     FINISH("btnFinish_btn"),
     NEXT("btnNext_btn"),
     PAUSE("btnPause_btn"),
@@ -18,6 +19,7 @@ public enum BottomButtons implements IBottomButtons {
     PREVIOUS("btnPrev_btn"),
     SAVE("btnSave_btn"),
     SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
+    SHOW_ON_MAP("btnShowOnMap_btn"),
     SIMPLE_VIEW("btnView_btn"),
     STOP("btnStop_btn"),
     /*STOP_WITH_RESET("btnStopWithReset_btn")*/;  //this button is no longer displayed (BT item #9766)
