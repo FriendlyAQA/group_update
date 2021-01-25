@@ -51,7 +51,7 @@ public abstract class BaseTestCase {
     @BeforeSuite
     public void init() {
         controller = Controller.getController();
-        logger.warn("\n****************************************STARTING TEST SUITE*****************************************");
+        logger.warn("\n*****************************STARTING TEST SUITE******************************");
         DataBaseConnector.connectDb();
         BasePage.initDriver();
         if (controller != null) {
@@ -153,7 +153,7 @@ public abstract class BaseTestCase {
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         ));
-        logger.warn("\n****************************************TEST SUITE COMPLETED****************************************\n");
+        logger.warn("\n*****************************TEST SUITE COMPLETED*****************************\n");
         BasePage.closeDriver();
         interruptTestRunning(false);
         if (controller != null) {
@@ -191,10 +191,6 @@ public abstract class BaseTestCase {
             return serial.substring(serial.length() + symbols);
         }
         return serial.substring(0, symbols);
-    }
-
-    protected int getAmountOfDevices() {
-        return DataBaseConnector.getDeviceAmount(getSerial());
     }
 
     public static void interruptTestRunning(boolean interrupt) {

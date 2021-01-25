@@ -43,6 +43,8 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
+//    reports_004 skipped: cannot check printing automatically
+
     @Test
     public void reports_005() {
         reportsPage

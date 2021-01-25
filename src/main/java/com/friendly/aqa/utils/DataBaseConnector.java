@@ -164,11 +164,16 @@ public class DataBaseConnector {
         return nameSet;
     }
 
+//    public static int getDeviceAmount(String serial) {
+//        return getValueSet("SELECT serial FROM ftacs.cpe WHERE product_class_id IN (" +
+//                "SELECT id FROM ftacs.product_class WHERE model IN (" +
+//                "SELECT model FROM ftacs.product_class WHERE id IN (" +
+//                "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')));").size();
+//    }
+
     public static int getDeviceAmount(String serial) {
-        return getValueSet("SELECT serial FROM ftacs.cpe WHERE product_class_id IN (" +
-                "SELECT id FROM ftacs.product_class WHERE model IN (" +
-                "SELECT model FROM ftacs.product_class WHERE id IN (" +
-                "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')));").size();
+        return getValueSet("SELECT c.serial FROM ftacs.cpe c JOIN ftacs.product_class p ON (c.product_class_id=p.id) WHERE p.model=" +
+                "(SELECT p.model FROM ftacs.cpe c JOIN ftacs.product_class p ON (c.product_class_id=p.id) WHERE c.serial='" + serial + "');").size();
     }
 
     public static int getDeviceProfileIdByName(String name) {
@@ -311,7 +316,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getGroupId("FT001SN0000100908F2d2158"));
+        System.out.println(getDeviceAmount("FT001SN000013196121001484"));
         disconnectDb();
     }
 

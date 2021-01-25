@@ -148,6 +148,7 @@ public class View extends JFrame {
         jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabbedPane1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
+        enableTabCheckBox0.setSelected(true);
         enableTabCheckBox0.setText("Enable tests on current tab");
         enableTabCheckBox0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +181,7 @@ public class View extends JFrame {
         });
 
         runSpecifiedField0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        runSpecifiedField0.setToolTipText("Example: 1-15,23");
         runSpecifiedField0.setEnabled(false);
         runSpecifiedField0.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -196,6 +198,7 @@ public class View extends JFrame {
         defaultLabel0.setPreferredSize(new java.awt.Dimension(126, 14));
 
         excludeSpecificField0.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        excludeSpecificField0.setToolTipText("Example: 1-15,23");
         excludeSpecificField0.setEnabled(false);
         excludeSpecificField0.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -208,8 +211,7 @@ public class View extends JFrame {
         skippedlabel0.setText("(tests that will be skipped)");
         skippedlabel0.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        tr069Box0.setText("TR-069");
-        tr069Box0.setEnabled(false);
+        tr069Box0.setText("TR-098");
         tr069Box0.setMaximumSize(new java.awt.Dimension(63, 23));
         tr069Box0.setMinimumSize(new java.awt.Dimension(63, 23));
         tr069Box0.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -220,7 +222,6 @@ public class View extends JFrame {
         });
 
         tr181Box0.setText("TR-181");
-        tr181Box0.setEnabled(false);
         tr181Box0.setMaximumSize(new java.awt.Dimension(63, 23));
         tr181Box0.setMinimumSize(new java.awt.Dimension(63, 23));
         tr181Box0.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -231,7 +232,6 @@ public class View extends JFrame {
         });
 
         lwm2mBox0.setText("LWM2M");
-        lwm2mBox0.setEnabled(false);
         lwm2mBox0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolSelectionPerformed(evt);
@@ -239,7 +239,6 @@ public class View extends JFrame {
         });
 
         mqttBox0.setText("MQTT");
-        mqttBox0.setEnabled(false);
         mqttBox0.setMaximumSize(new java.awt.Dimension(63, 23));
         mqttBox0.setMinimumSize(new java.awt.Dimension(63, 23));
         mqttBox0.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -250,7 +249,6 @@ public class View extends JFrame {
         });
 
         uspBox0.setText("USP");
-        uspBox0.setEnabled(false);
         uspBox0.setMaximumSize(new java.awt.Dimension(63, 23));
         uspBox0.setMinimumSize(new java.awt.Dimension(63, 23));
         uspBox0.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -261,7 +259,6 @@ public class View extends JFrame {
         });
 
         allProtocolBox0.setText("All");
-        allProtocolBox0.setEnabled(false);
         allProtocolBox0.setMaximumSize(new java.awt.Dimension(63, 23));
         allProtocolBox0.setMinimumSize(new java.awt.Dimension(63, 23));
         allProtocolBox0.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -403,7 +400,7 @@ public class View extends JFrame {
         skippedlabel1.setText("(tests that will be skipped)");
         skippedlabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        tr069Box1.setText("TR-069");
+        tr069Box1.setText("TR-098");
         tr069Box1.setEnabled(false);
         tr069Box1.setMaximumSize(new java.awt.Dimension(63, 23));
         tr069Box1.setMinimumSize(new java.awt.Dimension(63, 23));
@@ -538,7 +535,6 @@ public class View extends JFrame {
 
         jTabbedPane1.addTab("Device Update", jPanel1);
 
-        enableTabCheckBox2.setSelected(true);
         enableTabCheckBox2.setText("Enable tests on current tab");
         enableTabCheckBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -601,7 +597,8 @@ public class View extends JFrame {
         skippedlabel2.setText("(tests that will be skipped)");
         skippedlabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        tr069Box2.setText("TR-069");
+        tr069Box2.setText("TR-098");
+        tr069Box2.setEnabled(false);
         tr069Box2.setMaximumSize(new java.awt.Dimension(63, 23));
         tr069Box2.setMinimumSize(new java.awt.Dimension(63, 23));
         tr069Box2.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -612,6 +609,7 @@ public class View extends JFrame {
         });
 
         tr181Box2.setText("TR-181");
+        tr181Box2.setEnabled(false);
         tr181Box2.setMaximumSize(new java.awt.Dimension(63, 23));
         tr181Box2.setMinimumSize(new java.awt.Dimension(63, 23));
         tr181Box2.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -622,6 +620,7 @@ public class View extends JFrame {
         });
 
         lwm2mBox2.setText("LWM2M");
+        lwm2mBox2.setEnabled(false);
         lwm2mBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 protocolSelectionPerformed(evt);
@@ -629,6 +628,7 @@ public class View extends JFrame {
         });
 
         mqttBox2.setText("MQTT");
+        mqttBox2.setEnabled(false);
         mqttBox2.setMaximumSize(new java.awt.Dimension(63, 23));
         mqttBox2.setMinimumSize(new java.awt.Dimension(63, 23));
         mqttBox2.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -639,6 +639,7 @@ public class View extends JFrame {
         });
 
         uspBox2.setText("USP");
+        uspBox2.setEnabled(false);
         uspBox2.setMaximumSize(new java.awt.Dimension(63, 23));
         uspBox2.setMinimumSize(new java.awt.Dimension(63, 23));
         uspBox2.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -649,6 +650,7 @@ public class View extends JFrame {
         });
 
         allProtocolBox2.setText("All");
+        allProtocolBox2.setEnabled(false);
         allProtocolBox2.setMaximumSize(new java.awt.Dimension(63, 23));
         allProtocolBox2.setMinimumSize(new java.awt.Dimension(63, 23));
         allProtocolBox2.setPreferredSize(new java.awt.Dimension(63, 23));
@@ -790,7 +792,7 @@ public class View extends JFrame {
         skippedlabel3.setText("(tests that will be skipped)");
         skippedlabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        tr069Box3.setText("TR-069");
+        tr069Box3.setText("TR-098");
         tr069Box3.setEnabled(false);
         tr069Box3.setMaximumSize(new java.awt.Dimension(63, 23));
         tr069Box3.setMinimumSize(new java.awt.Dimension(63, 23));
@@ -985,7 +987,7 @@ public class View extends JFrame {
         skippedlabel4.setText("(tests that will be skipped)");
         skippedlabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
-        tr069Box4.setText("TR-069");
+        tr069Box4.setText("TR-098");
         tr069Box4.setEnabled(false);
         tr069Box4.setMaximumSize(new java.awt.Dimension(63, 23));
         tr069Box4.setMinimumSize(new java.awt.Dimension(63, 23));
@@ -1432,8 +1434,6 @@ public class View extends JFrame {
 
         jTabbedPane1.addTab("Settings", jPanel7);
 
-        jTabbedPane1.setSelectedIndex(2);
-
         runButton.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         runButton.setText("RUN");
         runButton.setEnabled(false);
@@ -1501,6 +1501,7 @@ public class View extends JFrame {
         toExecValue.setText("8888");
 
         textArea.setEditable(false);
+        textArea.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         textArea.setMaximumSize(new java.awt.Dimension(100, 80));
 
         showReportButton.setText("Show report");
