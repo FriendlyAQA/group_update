@@ -904,7 +904,7 @@ public abstract class BasePage {
     public BasePage selectShiftedDate(String id, int value) {
         switchToFrame(DESKTOP);
         executeScript("CalendarPopup_FindCalendar('" + id + "').SelectDate('" + CalendarUtil.getShiftedDate(value) + "')");
-        return this;
+        return this;//CalendarPopup_FindCalendar('calDate1').SelectDate('1/25/2021')
     }
 
     public Table getTable(String id, FrameSwitch frame) {

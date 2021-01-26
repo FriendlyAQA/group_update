@@ -77,10 +77,6 @@ public class CalendarUtil {
         return dateFormat.format(getDay(-30));
     }
 
-//    public static String getTodayDateString() {
-//        return dateFormat.format(new Date());
-//    }
-
     public static String getHours() {
         return hours.format(new Date());
     }

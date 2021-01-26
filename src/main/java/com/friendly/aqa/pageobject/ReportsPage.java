@@ -3,6 +3,7 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.BottomButtons;
 import com.friendly.aqa.entities.ILeft;
 import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,15 +44,51 @@ public class ReportsPage extends BasePage {
     @FindBy(id = "btnSendUpdate_btn")
     private WebElement go;
 
+    @FindBy(id = "lrdDateFrom")
+    private WebElement priorToRB;
+
+    @FindBy(id = "lrdPeriod")
+    private WebElement showByPeriodRB;
+
+//    @FindBy(id = "ddlManufacturer")
+//    private WebElement manufacturerCombobox;
+
     @Override
     public ReportsPage topMenu(TopMenu value) {
         return (ReportsPage) super.topMenu(value);
+    }
+
+    @Override
+    public ReportsPage selectShiftedDate(String id, int daysToShift) {
+        return (ReportsPage) super.selectShiftedDate(id, daysToShift);
     }
 
     public ReportsPage assertItemIsPresent(String itemText) {
         if (findElementsByText(itemText).isEmpty()) {
             throw new AssertionError("Item with text '" + itemText + "' not found on page!");
         }
+        return this;
+    }
+
+    public ReportsPage selectManufacturer(String protocol) {
+        return (ReportsPage) super.selectManufacturer(getDevice(protocol)[0]);
+    }
+
+    public ReportsPage selectModel(String protocol) {
+        return (ReportsPage) super.selectModel(getDevice(protocol)[1]);
+    }
+
+    private String[] getDevice(String protocol) {
+        return DataBaseConnector.getDevice(props.getProperty(protocol + "_cpe_serial"));
+    }
+
+    public ReportsPage priorToDateRB() {
+        priorToRB.click();
+        return this;
+    }
+
+    public ReportsPage showByPeriodRB() {
+        showByPeriodRB.click();
         return this;
     }
 
