@@ -3,14 +3,17 @@ package com.friendly.aqa.pageobject;
 import com.friendly.aqa.entities.BottomButtons;
 import com.friendly.aqa.entities.ILeft;
 import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 
-import static com.friendly.aqa.pageobject.ReportsPage.Left.*;
+import static com.friendly.aqa.pageobject.ReportsPage.Left.LIST_OF_REPORTS;
 
 public class ReportsPage extends BasePage {
 
@@ -50,8 +53,20 @@ public class ReportsPage extends BasePage {
     @FindBy(id = "lrdPeriod")
     private WebElement showByPeriodRB;
 
-//    @FindBy(id = "ddlManufacturer")
-//    private WebElement manufacturerCombobox;
+    @FindBy(id = "ddlPeriodType")
+    private WebElement periodCombobox;
+
+    @FindBy(id = "txtPeriod")
+    private WebElement periodInputField;
+
+    @FindBy(id = "ddlEvents")
+    private WebElement eventCombobox;
+
+    @FindBy(id = "ddlLogType")
+    private WebElement activityCombobox;
+
+    @FindBy(id = "ddlActivType")
+    private WebElement activityTypeCombobox;
 
     @Override
     public ReportsPage topMenu(TopMenu value) {
@@ -70,6 +85,11 @@ public class ReportsPage extends BasePage {
         return this;
     }
 
+    public ReportsPage inputPeriod(String days) {
+        inputText(periodInputField, days);
+        return this;
+    }
+
     public ReportsPage selectManufacturer(String protocol) {
         return (ReportsPage) super.selectManufacturer(getDevice(protocol)[0]);
     }
@@ -78,8 +98,32 @@ public class ReportsPage extends BasePage {
         return (ReportsPage) super.selectModel(getDevice(protocol)[1]);
     }
 
+    public ReportsPage selectModelName(String protocol) {
+        return (ReportsPage) super.selectFilterModelName(getDevice(protocol)[1]);
+    }
+
     private String[] getDevice(String protocol) {
         return DataBaseConnector.getDevice(props.getProperty(protocol + "_cpe_serial"));
+    }
+
+    public ReportsPage selectPeriod(String period) {
+        selectComboBox(periodCombobox, period);
+        return this;
+    }
+
+    public ReportsPage selectEvent(String event) {
+        selectComboBox(eventCombobox, event);
+        return this;
+    }
+
+    public ReportsPage selectActivity(String event) {
+        selectComboBox(activityCombobox, event);
+        return this;
+    }
+
+    public ReportsPage selectActivityType(String type) {
+        selectComboBox(activityTypeCombobox, type);
+        return this;
     }
 
     public ReportsPage priorToDateRB() {
@@ -149,6 +193,48 @@ public class ReportsPage extends BasePage {
             e.printStackTrace();
             throw new AssertionError("Export validation failed");
         }
+    }
+
+    public ReportsPage selectOfflineManufacturer() {
+        selectComboBox(manufacturerComboBox, setLatestOfflineDevice()[0]);
+        return this;
+    }
+
+    public ReportsPage selectOfflineModel() {
+        selectComboBox(filterModelNameComboBox, setLatestOfflineDevice()[1]);
+        return this;
+    }
+
+    public String[] setLatestOfflineDevice() {
+        String id = DataBaseConnector.getValue("SELECT id FROM ftacs.cpe ORDER BY updated ASC LIMIT 1");
+        try {
+            String sDate = CalendarUtil.getDbShiftedDate(-62);
+            Date markerDate = CalendarUtil.getDbDate(sDate);
+            Date latestDate = CalendarUtil.getDbDate(DataBaseConnector.getValue("SELECT updated FROM ftacs.cpe WHERE id='" + id + "'"));
+            if (latestDate.compareTo(markerDate) > 0) {
+                System.out.println("UPDATE `ftacs`.`cpe` SET `updated`='" + sDate + "' WHERE `id`=" + id + ";");
+                DataBaseConnector.getValue("UPDATE `ftacs`.`cpe` SET `updated`='" + sDate + "' WHERE `id`='" + id + "';");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new AssertionError("Cannot get data from DB!");
+        }
+        return DataBaseConnector.getDevice(DataBaseConnector.getValue("SELECT serial FROM ftacs.cpe WHERE id='" + id + "'"));
+    }
+
+    public ReportsPage selectManufacturerWithEvents() {
+        selectComboBox(manufacturerComboBox, getDeviceWithEvents()[0]);
+        return this;
+    }
+
+    public ReportsPage selectModelWithEvents() {
+        selectComboBox(filterModelNameComboBox, getDeviceWithEvents()[1]);
+        return this;
+    }
+
+    private String[] getDeviceWithEvents() {
+        String serial = DataBaseConnector.getValue("SELECT c.serial FROM ftacs.cpe c JOIN ftacs.event_monitoring_cpe e ON (c.id=e.cpe_id) ORDER BY e.updated LIMIT 1");
+        return DataBaseConnector.getDevice(serial);
     }
 
     @Override

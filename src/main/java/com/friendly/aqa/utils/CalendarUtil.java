@@ -46,6 +46,10 @@ public class CalendarUtil {
         return csvFileFormat2.parse(date);
     }
 
+    public static Date getDbDate(String date) throws ParseException {
+        return dbDateFormat.parse(date);
+    }
+
     public static String getDateByPattern(String pattern) {
         return new SimpleDateFormat(pattern).format(new Date());
     }

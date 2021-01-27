@@ -194,7 +194,7 @@ public class DataBaseConnector {
         try {
             stmtObj.execute(query);
             ResultSet resultSet = stmtObj.getResultSet();
-            if (resultSet.next()) {
+            if (resultSet != null && resultSet.next()) {
                 return resultSet.getString(1);
             }
         } catch (SQLException e) {
