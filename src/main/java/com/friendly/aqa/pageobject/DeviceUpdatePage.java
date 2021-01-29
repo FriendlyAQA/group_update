@@ -30,8 +30,6 @@ import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 public class DeviceUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(DeviceUpdatePage.class);
-    private Date xmlFileTime;
-    private Date csvFileTime;
 
     @FindBy(id = "btnSaveUsr_btn")
     private WebElement saveButton;
@@ -734,46 +732,9 @@ public class DeviceUpdatePage extends BasePage {
         throw new AssertionError("Unexpected Provision Manager behavior");
     }
 
+    @Override
     public DeviceUpdatePage saveFileName() {
-        switchToFrame(ROOT);
-        String message = findElement("spnAlert").getText();
-        Pattern datePattern = Pattern.compile("Inventory_.+_(.+)\\)\\.");
-        Pattern extPattern = Pattern.compile("\\)\\.([xmlcsv]{3})'");
-        Matcher m = datePattern.matcher(message);
-        Matcher extM = extPattern.matcher(message);
-        if (m.find()) {
-            try {
-                Date date = CalendarUtil.getDate(m.group(1));
-                if (extM.find()) {
-                    if (extM.group(1).equals("csv")) {
-                        csvFileTime = date;
-                    } else if (extM.group(1).equals("xml")) {
-                        xmlFileTime = date;
-                    } else {
-                        throw new AssertionError("File extension parsing error!");
-                    }
-                }
-            } catch (ParseException e) {
-                System.out.println("Date parsing error! \n" + message);
-            }
-        }
-        return this;
-    }
-
-    public void validateSavedExport(String... extensions) {
-        switchToFrame(POPUP);
-        Table table = getTable("tbl");
-        for (String ext : extensions) {
-            if (!ext.equalsIgnoreCase("csv") && !ext.equalsIgnoreCase("xml")) {
-                throw new AssertionError("Unsupported file type!");
-            }
-            if (ext.equalsIgnoreCase("csv")) {
-                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
-            }
-            if (ext.equalsIgnoreCase("xml")) {
-                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
-            }
-        }
+        return (DeviceUpdatePage) super.saveFileName();
     }
 
     public DeviceUpdatePage deleteExportEntry() {

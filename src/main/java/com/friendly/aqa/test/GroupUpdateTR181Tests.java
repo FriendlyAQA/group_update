@@ -1584,6 +1584,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .gotoBackup()
                 .saveAndActivate()
                 .assertPresenceOfValue("tblTasks", 0, "Backup");
+        //add deleting backup for Reports
     }
 
     @Test

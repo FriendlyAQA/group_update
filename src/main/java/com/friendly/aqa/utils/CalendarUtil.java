@@ -27,13 +27,13 @@ public class CalendarUtil {
         return cal.getTime();
     }
 
-    public static Date getShiftedDateBy(int minutes){
+    public static Date getShiftedDateBy(int minutes) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MINUTE, minutes);
         return cal.getTime();
     }
 
-    public static long getMidnightMillis(){
+    public static long getMidnightMillis() {
         Calendar date = new GregorianCalendar();
         date.set(Calendar.HOUR_OF_DAY, 23);
         date.set(Calendar.MINUTE, 59);
@@ -48,6 +48,15 @@ public class CalendarUtil {
 
     public static Date getDbDate(String date) throws ParseException {
         return dbDateFormat.parse(date);
+    }
+
+    public static String convertDate(String dbDate) {
+        try {
+            return dateFormat.format(getDbDate(dbDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new AssertionError("Cannot convert Date format!");
     }
 
     public static String getDateByPattern(String pattern) {

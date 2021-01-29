@@ -103,6 +103,26 @@ public class DataBaseConnector {
         return device;
     }
 
+    public static String[] getDeviceWithGroupUpdate() {
+        String[] device = new String[2];
+        try {
+            stmtObj.execute("SELECT m.name, p.model FROM ftacs.cpe c JOIN ftacs.ug_cpe_completed u ON (c.id=u.cpe_id) " +
+                    "JOIN ftacs.product_class p ON (p.id=c.product_class_id)  JOIN ftacs.manufacturer m ON (p.manuf_id=m.id) ORDER BY u.updated LIMIT 1");
+            ResultSet resultSet = stmtObj.getResultSet();
+            if (resultSet.next()) {
+                for (int i = 0; i < 2; i++) {
+                    device[i] = resultSet.getString(i + 1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (device[0] == null) {
+            LOGGER.error("No Group Update found!");
+        }
+        return device;
+    }
+
     public static Set<String> getMonitorIdSetByModelName() {
         String query = "SELECT parent_id FROM ftacs.qoe_monitoring WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE model='" + getDevice(BasePage.getSerial())[1] + "')";
@@ -316,7 +336,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getDeviceAmount("FT001SN000013196121001484"));
+        System.out.println(Arrays.toString(getDeviceWithGroupUpdate()));
         disconnectDb();
     }
 

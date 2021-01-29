@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.time.Duration;
 import java.util.*;
 import java.util.List;
@@ -53,6 +54,8 @@ public abstract class BasePage {
     protected static Task task;
     private Table savedTable;
     protected String selectedName;
+    Date xmlFileTime;
+    Date csvFileTime;
 
     static {
         initProperties();
@@ -435,7 +438,7 @@ public abstract class BasePage {
             action += " - instance " + instance;//!23.12.2020
         }
         if (!action.equals("Custom RPC")) {
-        getParameterMap().put("Action", action);//!23.12.2020//delete
+            getParameterMap().put("Action", action);//!23.12.2020//delete
         }
         getTask(null).setParameterName(action);
         return this;
@@ -1973,6 +1976,50 @@ public abstract class BasePage {
         task = null;
     }
 
+    public BasePage saveFileName() {
+        switchToFrame(ROOT);
+        String message = findElement("spnAlert").getText();
+        Pattern datePattern = Pattern.compile("Inventory_.+_(.+)\\)\\.");
+        Pattern extPattern = Pattern.compile("\\)\\.([xmlcsv]{3})'");
+        Matcher m = datePattern.matcher(message);
+        Matcher extM = extPattern.matcher(message);
+        if (m.find()) {
+            try {
+                Date date = CalendarUtil.getDate(m.group(1));
+                if (extM.find()) {
+                    if (extM.group(1).equals("csv")) {
+                        csvFileTime = date;
+                    } else if (extM.group(1).equals("xml")) {
+                        xmlFileTime = date;
+                    } else {
+                        throw new AssertionError("File extension parsing error!");
+                    }
+                }
+            } catch (ParseException e) {
+                System.out.println("Date parsing error! \n" + message);
+            }
+        }
+        return this;
+    }
+
+    public void validateSavedExport(String... extensions) {
+        if (!getProtocolPrefix().equals("reports")) {
+            switchToFrame(POPUP);
+        }
+        Table table = getTable("tbl");
+        for (String ext : extensions) {
+            if (!ext.equalsIgnoreCase("csv") && !ext.equalsIgnoreCase("xml")) {
+                throw new AssertionError("Unsupported file type!");
+            }
+            if (ext.equalsIgnoreCase("csv")) {
+                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
+            }
+            if (ext.equalsIgnoreCase("xml")) {
+                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
+            }
+        }
+    }
+
     public BasePage pause(long millis) {
         try {
             Thread.sleep(millis);
@@ -2367,10 +2414,10 @@ public abstract class BasePage {
         int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        assertEquals(getTable("tblTasks").getColumn(0).length,1,"Expected number of parameters is not equal to 1");
-        assertEquals(getTable("tblTasks").getCellText(1,"Task"), getTask().taskName, "Task name validation error!");
-        assertEquals(getTable("tblTasks").getCellText(1,"Parameter"), getTask().parameterName, "Parameter name validation error!");
-        assertEquals(getTable("tblTasks").getCellText(1,"Value"), getTask().value, "Value validation error!");
+        assertEquals(getTable("tblTasks").getColumn(0).length, 1, "Expected number of parameters is not equal to 1");
+        assertEquals(getTable("tblTasks").getCellText(1, "Task"), getTask().taskName, "Task name validation error!");
+        assertEquals(getTable("tblTasks").getCellText(1, "Parameter"), getTask().parameterName, "Parameter name validation error!");
+        assertEquals(getTable("tblTasks").getCellText(1, "Value"), getTask().value, "Value validation error!");
         cancelButtonPopUp.click();
     }
 
@@ -2539,7 +2586,7 @@ public abstract class BasePage {
 //        return new Table2(id);
 //    }
 
-    protected List <WebElement> findElementsByText(String text) {
+    protected List<WebElement> findElementsByText(String text) {
         return driver.findElements(By.xpath("//*[text() = '" + text + "']"));
     }
 //

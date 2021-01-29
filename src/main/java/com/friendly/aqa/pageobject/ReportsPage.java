@@ -47,6 +47,9 @@ public class ReportsPage extends BasePage {
     @FindBy(id = "btnSendUpdate_btn")
     private WebElement go;
 
+    @FindBy(id = "rdDate")
+    private WebElement dateRB;
+
     @FindBy(id = "lrdDateFrom")
     private WebElement priorToRB;
 
@@ -68,6 +71,9 @@ public class ReportsPage extends BasePage {
     @FindBy(id = "ddlActivType")
     private WebElement activityTypeCombobox;
 
+    @FindBy(id = "ddlUpdateStatus")
+    private WebElement updateStataCombobox;
+
     @Override
     public ReportsPage topMenu(TopMenu value) {
         return (ReportsPage) super.topMenu(value);
@@ -76,6 +82,30 @@ public class ReportsPage extends BasePage {
     @Override
     public ReportsPage selectShiftedDate(String id, int daysToShift) {
         return (ReportsPage) super.selectShiftedDate(id, daysToShift);
+    }
+
+    @Override
+    public ReportsPage saveFileName() {
+        return (ReportsPage) super.saveFileName();
+    }
+
+    public ReportsPage selectDate() {
+        String dbDate = DataBaseConnector.getValue("SELECT created FROM ftacs.ug_cpe_completed ORDER BY created ASC LIMIT 1");
+        String date = CalendarUtil.convertDate(dbDate);
+        executeScript("CalendarPopup_FindCalendar('calDate').SelectDate('" + date + "')");
+        return this;
+    }
+
+    public ReportsPage startScheduledUpdateGroup() {
+        String id = DataBaseConnector.getValue("SELECT id FROM ftacs.update_group ORDER BY scheduled DESC LIMIT 1");
+        try {
+            HttpConnector.sendSoapRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                    "<soapenv:Header/><soapenv:Body><ftac:startUpdateGroup><updateGroupId>" + id +
+                    "</updateGroupId></ftac:startUpdateGroup></soapenv:Body></soapenv:Envelope>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
     public ReportsPage assertItemIsPresent(String itemText) {
@@ -123,6 +153,16 @@ public class ReportsPage extends BasePage {
 
     public ReportsPage selectActivityType(String type) {
         selectComboBox(activityTypeCombobox, type);
+        return this;
+    }
+
+    public ReportsPage selectUpdateState(String type) {
+        selectComboBox(updateStataCombobox, type);
+        return this;
+    }
+
+    public ReportsPage dateRB() {
+        dateRB.click();
         return this;
     }
 
@@ -229,6 +269,28 @@ public class ReportsPage extends BasePage {
 
     public ReportsPage selectModelWithEvents() {
         selectComboBox(filterModelNameComboBox, getDeviceWithEvents()[1]);
+        return this;
+    }
+
+    public ReportsPage selectManufacturerWithGroupUpdate() {
+        selectComboBox(manufacturerComboBox, DataBaseConnector.getDeviceWithGroupUpdate()[0]);
+        return this;
+    }
+
+    public ReportsPage selectModelWithGroupUpdate() {
+        selectComboBox(filterModelNameComboBox, DataBaseConnector.getDeviceWithGroupUpdate()[1]);
+        return this;
+    }
+
+    public ReportsPage selectManufacturerWithFirmware() {
+        String serial = DataBaseConnector.getValue("SELECT serial FROM ftacs.cpe ORDER BY firmware DESC LIMIT 1");
+        selectComboBox(manufacturerComboBox, DataBaseConnector.getDevice(serial)[0]);
+        return this;
+    }
+
+    public ReportsPage selectModelWithFirmware() {
+        String serial = DataBaseConnector.getValue("SELECT serial FROM ftacs.cpe ORDER BY firmware DESC LIMIT 1");
+        selectComboBox(modelComboBox, DataBaseConnector.getDevice(serial)[1]);
         return this;
     }
 

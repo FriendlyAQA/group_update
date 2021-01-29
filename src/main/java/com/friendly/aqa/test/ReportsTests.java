@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.REPORTS;
+import static com.friendly.aqa.pageobject.ReportsPage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
 public class ReportsTests extends BaseTestCase {
@@ -1302,4 +1303,256 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
+    @Test
+    public void reports_118() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_119() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .go()
+                .bottomMenu(SHOW_ON_MAP)
+                .closeMapWindow();
+    }
+
+    @Test
+    public void reports_120() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .go()
+                .validateExport();
+    }
+
+//    reports_121 skipped: cannot check printing automatically
+
+    @Test
+    public void reports_122() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectManufacturerWithGroupUpdate()
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_123() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectModelWithGroupUpdate()
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_124() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Completed")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_125() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .dateRB()
+                .selectDate()
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_126() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Not active")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_127() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .startScheduledUpdateGroup()
+                .selectUpdateState("Scheduled")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_128() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Running")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_129() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Paused")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_130() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Reactivation")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test   //bug: cannot trigger 'Error' Update Group state
+    public void reports_131() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .selectUpdateState("Error")
+                .go()
+                .assertElementsArePresent("tblReport")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_132() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .go()
+                .assertElementsArePresent("tblReports")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_133() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .go()
+                .bottomMenu(SHOW_ON_MAP)
+                .closeMapWindow();
+    }
+
+    @Test
+    public void reports_134() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .go()
+                .validateExport();
+    }
+
+//    reports_135 skipped: cannot check printing automatically
+
+    @Test
+    public void reports_136() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .selectManufacturerWithFirmware()
+                .go()
+                .assertElementsArePresent("tblReports")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_137() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .selectModelWithFirmware()
+                .go()
+                .assertElementsArePresent("tblReports")
+                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_138() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .assertElementsArePresent("tblDeviceList")
+                .assertButtonsAreEnabled(true, REPEAT, EXPORT_TO_CSV, EXPORT_TO_XML, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+    }
+
+    @Test
+    public void reports_139() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .bottomMenu(EXPORT_TO_CSV)
+                .saveFileName()
+                .okButtonPopUp()
+                .leftMenu(LIST_OF_EXPORTS)
+                .validateSavedExport("csv");
+    }
+
+    @Test
+    public void reports_140() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .bottomMenu(EXPORT_TO_XML)
+                .saveFileName()
+                .okButtonPopUp()
+                .leftMenu(LIST_OF_EXPORTS)
+                .validateSavedExport("xml");
+    }
+
+    @Test
+    public void reports_141() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .validateExport();
+    }
+
+//    reports_142 skipped: cannot check printing automatically
+
+    @Test
+    public void reports_143() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .bottomMenu(SHOW_ON_MAP)
+                .closeMapWindow();
+    }
 }
