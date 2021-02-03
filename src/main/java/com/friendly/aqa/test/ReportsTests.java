@@ -577,7 +577,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: what is profile: "File deleted"??
+    @Test
     public void reports_056() {
         reportsPage
                 .topMenu(REPORTS)
@@ -784,7 +784,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: what is Device Update:"Delete upload"??
+    @Test
     public void reports_075() {
         reportsPage
                 .topMenu(REPORTS)
@@ -875,7 +875,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: Device Update does not contain "Change attributes" menu item
+    @Test
     public void reports_082() {
         reportsPage
                 .topMenu(REPORTS)
@@ -978,7 +978,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test
     public void reports_093() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1160,7 +1160,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_107() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1173,7 +1173,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_108() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1186,7 +1186,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_109() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1199,7 +1199,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_110() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1212,7 +1212,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_111() {
         reportsPage
                 .topMenu(REPORTS)
@@ -1225,7 +1225,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-    @Test   //bug: no data found
+    @Test   //depends on tr181_gu_364
     public void reports_112() {
         reportsPage
                 .topMenu(REPORTS)

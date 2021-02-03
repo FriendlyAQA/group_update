@@ -1078,7 +1078,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectImportGuFile()
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp();
     }
 
     @Test
@@ -4490,6 +4494,51 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
                 .validateAddedTask("Custom RPC", "FactoryReset");
+    }
+
+    @Test   //precondition actions for Reports tab tests (107-112)
+    public void tr181_gu_364() {
+        guPage
+                .goToSetPolicies("Ethernet")
+                .setPolicy(2)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .bottomMenu(NEXT)
+                .addNewTask("Download file")
+                .addTaskButton()
+                .selectDownloadFileType("Vendor Configuration File")
+                .selectFromListRadioButton()
+                .selectFileName("Vendor Configuration File")
+                .bottomMenu(NEXT)
+                .addNewTask("Action")
+                .addTaskButton()
+                .selectAction("Custom RPC")
+                .selectMethod("Reboot")
+                .bottomMenu(NEXT)
+                .addNewTask("Upload file")
+                .addTaskButton()
+                .selectUploadFileType("Vendor Configuration File")
+                .defaultUploadRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Get parameter")
+                .addTaskButton()
+                .getParameter(1, 2)
+                .bottomMenu(NEXT)
+                .addNewTask("Backup")
+                .addTaskButton()
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .bottomMenu(EDIT)
+                .bottomMenu(NEXT)
+                .bottomMenu(NEXT)
+                .selectItemToDelete()
+                .deleteButton()
+                .bottomMenu(SAVE)
+                .okButtonPopUp();
     }
 
 }

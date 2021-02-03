@@ -10,23 +10,23 @@ import com.friendly.aqa.utils.DataBaseConnector;
 import com.friendly.aqa.utils.HttpConnector;
 import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.Duration;
 import java.util.*;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_ACTIVITY;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.PROVISION_MANAGER;
 
 public class DeviceUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(DeviceUpdatePage.class);
@@ -117,6 +117,9 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "tbl")
     private WebElement mainTable;
+
+    public DeviceUpdatePage() {
+    }
 
     @Override
     public DeviceUpdatePage topMenu(TopMenu value) {
@@ -254,11 +257,6 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.deleteFilter();
     }
 
-//    @Override
-//    public DeviceUpdatePage defaultViewForCurrentUserCheckbox() {
-//        return (DeviceUpdatePage) super.defaultViewForCurrentUserCheckbox();
-//    }
-
     @Override
     public DeviceUpdatePage resetView() {
         return (DeviceUpdatePage) super.resetView();
@@ -322,11 +320,6 @@ public class DeviceUpdatePage extends BasePage {
         return (DeviceUpdatePage) super.selectFromListRadioButton();
     }
 
-//    @Override
-//    public DeviceUpdatePage manualRadioButton() {
-//        return (DeviceUpdatePage) super.manualRadioButton();
-//    }
-
     public DeviceUpdatePage searchButton() {
         waitUntilElementIsEnabled("btnSearch_btn");
         searchButton.click();
@@ -352,17 +345,14 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
-//    public void assertDuplicateNameErrorIsDisplayed() {
-//        setImplicitlyWait(0);
-//        List<WebElement> list = driver.findElements(By.id("lblNameInvalid"));
-//        setDefaultImplicitlyWait();
-//        if (list.size() == 1) {
-//            return;
-//        }
-//        String warn = "Error message 'This name is already in use' not found on current page!";
-//        LOGGER.warn(warn);
-//        throw new AssertionError(warn);
-//    }
+    public DeviceUpdatePage deleteFileEntry() {
+        waitForUpdate();
+        clickOnTable("tblFirmwares", 1, 0);
+        waitForUpdate();
+        bottomMenu(DELETE);
+        okButtonPopUp();
+        return this;
+    }
 
     public void validateFiltering(String filter) {
         WebElement comboBox = filter.equals("Manufacturer") ? filterManufacturerComboBox : filterModelNameComboBox;
@@ -553,17 +543,6 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         waitUntilButtonIsDisplayed(REPROVISION);
         return this;
-//        try {
-//            table.clickOn(serial);
-//            pause(500);
-//        } catch (AssertionError e) {
-//            selectComboBox(itemsOnPageComboBox, "200");
-//            waitForUpdate();
-//            getMainTable().clickOn(serial);
-//        }
-//        waitForUpdate();
-//        waitUntilButtonIsDisplayed(REPROVISION);
-//        return this;
     }
 
     public DeviceUpdatePage openDevice() {
@@ -649,18 +628,6 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage leftMenu(ILeft item) {
         return (DeviceUpdatePage) super.leftMenu(item);
     }
-
-//    public DeviceUpdatePage leftMenu(Left item) {
-//        switchToFrame(ROOT);
-//        try {
-//            getTable("tblLeftMenu").clickOn(item.value);
-//        } catch (ElementNotInteractableException e) {
-//            throw new AssertionError("Left menu item '" + item + "' not found on current page!");
-//        }
-//        waitForUpdate();
-//        switchToFrame(DESKTOP);
-//        return this;
-//    }
 
     public DeviceUpdatePage selectAnyDevice() { //except target device
         waitUntilBottomMenuIsDownloaded();//!
@@ -1218,23 +1185,12 @@ public class DeviceUpdatePage extends BasePage {
     @Override
     public DeviceUpdatePage fillDownloadUrl() {
         waitUntilButtonIsDisplayed(ADD_TO_PROVISION);
-//        fromListRadioButton.click();
-//        List<String> optList = getOptionList(fileNameComboBox);
-//        String lastOpt = optList.get(optList.size() - 1);
-//        manuallyDownloadRadioButton();
-//        String value = props.getProperty("upload_url") + '/' + lastOpt;
-//        urlField.sendKeys(value);
-//        getParameterMap().put("Download", value);
-//        return this;
         return (DeviceUpdatePage) super.fillDownloadUrl();
     }
 
     @Override
     public DeviceUpdatePage fillUploadUrl() {
         super.fillUploadUrl();
-//        String path = props.getProperty("file_server");
-//        path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
-//        getParameterMap().put("Upload", path);
         return this;
     }
 
@@ -1348,7 +1304,6 @@ public class DeviceUpdatePage extends BasePage {
         if (!findElement(rootExpanderId).getAttribute("src").endsWith("expand.png")) {
             throw new AssertionError("Expected top node icon is 'PLUS'!");
         }
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style.border='3px solid red'", findElement(rootExpanderId));
         findElement(rootExpanderId).click();
         waitForSpinner(11);
         waitForUpdate();
@@ -1371,6 +1326,19 @@ public class DeviceUpdatePage extends BasePage {
                 .pollingEvery(Duration.ofMillis(10))
                 .until(ExpectedConditions.visibilityOf(spinner));
         switchToPreviousFrame();
+    }
+
+    public DeviceUpdatePage changeAccessList() {
+        Table table = getTable("tblParamsTable");
+        int size = table.getTableSize()[0];
+        for (int i = 1; i < size; i++) {
+            WebElement select = table.getSelect(i, 2);
+            if (select != null && select.isDisplayed() && getSelectedOption(select).equals("All")) {
+                selectComboBox(select, "ACS only");
+                return this;
+            }
+        }
+        throw new AssertionError("There is no available option to select!");
     }
 
     public void validateCsvFile() throws IOException {

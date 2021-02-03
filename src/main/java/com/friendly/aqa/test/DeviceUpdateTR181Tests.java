@@ -17,7 +17,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
     /*
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'lwm2m_du_011', 'lwm2m_du_067' (starts with lwm2m_) etc.;
-    2. Devices (emul) must run;
+    2. Devices (emulator) must run;
     3. At least one active profile for target device must exist (tr181_du_134);
     4. Trace for target device must be stopped (tr181_du_135);
     5. All files for Download and Upload tasks must be added to server.
@@ -3321,27 +3321,23 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-//    @Test
-//    public void tr181_du_999(){
-//        duPage
-//                .topMenu(DEVICE_UPDATE)
-//                .leftMenu(SEARCH)
-//                .searchBy("Serial Number")
-//                .deselectCheckbox("rdSearchExactly")
-//                .lookFor("1")
-//                .searchButton()
-//                .selectView("mqtt_du_070")
-//                .itemsOnPage("200")
-//                .getTable2("tbl")
-//                .clickOn("lwm2m_gu_076");
-//        duPage.pause(3000);
-//        duPage
-//                .waitForUpdate()
-//                .waitForUpdate()
-//                .leftMenu(DEVICE_ACTIVITY)
-//                .itemsOnPage("200")
-////                .waitForUpdate()
-//                .getTable2("tbl")
-//                .print();
-//    }
+    @Test   //precondition actions for Reports tab tests
+    public void tr181_du_255() {
+        duPage
+                .topMenu(DEVICE_UPDATE)
+                .openDevice()
+                .leftMenu(DEVICE_SETTINGS)
+                .bottomMenu(EDIT_SETTINGS)
+                .changeAccessList()
+                .bottomMenu(SEND_UPDATE)
+                .okButtonPopUp()
+                .okButtonPopUp()
+                .leftMenu(FILE_UPLOAD)
+                .selectUploadFileType("Vendor Configuration File")
+                .defaultUploadRadioButton()
+                .bottomMenu(START)
+                .okButtonPopUp()
+                .deleteFileEntry()
+                .okButtonPopUp();
+    }
 }

@@ -237,6 +237,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.assertButtonIsEnabled(expectedActive, id);
     }
 
+    @Override
+    public GroupUpdatePage assertPresenceOfValue(String tableId, int column, String value) {
+        return (GroupUpdatePage) super.assertPresenceOfValue(tableId, column, value);
+    }
+
     public GroupUpdatePage assertInputIsDisabled(String id) {
         assertFalse(findElement(id).isEnabled(), "Unexpected state of element #'" + id + "' (must be grayed out);");
         return this;
@@ -1031,24 +1036,6 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage setParameter(Table table, String paramName, ParameterType option, String value) {
-//        int rowNum = table.getRowNumberByText(paramName);
-//        String hint = table.getHint(rowNum);
-//        WebElement paramCell = table.getCellWebElement(rowNum, 1);
-//        if (props.getProperty("browser").equals("edge")) {
-//            scrollToElement(paramCell);
-//        }
-//        new Select(paramCell.findElement(By.tagName("select"))).selectByValue(option != Parameter.CUSTOM ? option.getOption() : value);
-//        if (value != null && option == Parameter.VALUE) {
-//            waitForUpdate();
-//            WebElement input = paramCell.findElement(By.tagName("input"));
-//            input.clear();
-//            input.sendKeys(value);
-//        }
-//        getParameterMap().put(hint, value);
-//        if (!BROWSER.equals("edge")) {
-//            table.clickOn(0, 0);
-//        }
-//        return this;
         return (GroupUpdatePage) super.setParameter(table, paramName, option, value);
     }
 
@@ -1232,6 +1219,17 @@ public class GroupUpdatePage extends BasePage {
     @Override
     public GroupUpdatePage assertEqualsAlertMessage(String expectedMessage) {
         return (GroupUpdatePage) super.assertEqualsAlertMessage(expectedMessage);
+    }
+
+    public GroupUpdatePage selectItemToDelete() {
+        Table table = getTable("tblTasks");
+        int tableSize = table.getTableSize()[0];
+        for (int i = 1; i < tableSize; i++) {
+            if (!table.getCellText(i, 1).equals("Backup")) {
+                table.clickOn(i, 0);
+            }
+        }
+        return this;
     }
 
 

@@ -184,13 +184,6 @@ public class DataBaseConnector {
         return nameSet;
     }
 
-//    public static int getDeviceAmount(String serial) {
-//        return getValueSet("SELECT serial FROM ftacs.cpe WHERE product_class_id IN (" +
-//                "SELECT id FROM ftacs.product_class WHERE model IN (" +
-//                "SELECT model FROM ftacs.product_class WHERE id IN (" +
-//                "SELECT product_class_id FROM ftacs.cpe WHERE serial='" + serial + "')));").size();
-//    }
-
     public static int getDeviceAmount(String serial) {
         return getValueSet("SELECT c.serial FROM ftacs.cpe c JOIN ftacs.product_class p ON (c.product_class_id=p.id) WHERE p.model=" +
                 "(SELECT p.model FROM ftacs.cpe c JOIN ftacs.product_class p ON (c.product_class_id=p.id) WHERE c.serial='" + serial + "');").size();

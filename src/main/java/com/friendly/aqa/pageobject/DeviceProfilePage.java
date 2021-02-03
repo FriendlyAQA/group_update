@@ -117,8 +117,8 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "btnSendUpdate_btn")
     private WebElement saveButton;
 
-    @FindBy(id = "btnCancel_btn")
-    private WebElement cancelButton;
+    @FindBy(id = "btnDelFile_btn")
+    private WebElement deleteFileButton;
 
     @FindBy(id = "tblParameters")
     private WebElement paramTable;
@@ -137,6 +137,9 @@ public class DeviceProfilePage extends BasePage {
 
     @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
     private WebElement instanceCombobox;
+
+    @FindBy(id = "btnCancel_btn")
+    private WebElement cancelButton;
 
 
     public DeviceProfilePage setAnyAdvancedParameter() {
@@ -654,11 +657,6 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage selectInstance(String value) {
-        selectComboBox(instanceCombobox, value);
-        return this;
-    }
-
     public DeviceProfilePage selectUserInfoComboBox(String info) {
         selectComboBox(selectUserInfoComboBox, info);
         return this;
@@ -1015,9 +1013,18 @@ public class DeviceProfilePage extends BasePage {
         waitForUpdate();
         switchToFrame(SUB_FRAME);
         pause(1000);
-//        new Table("tblFirmwares").print();
         clickOnTable("tblFirmwares", 1, 1, 99);
         waitForUpdate();
+        return this;
+    }
+
+    public DeviceProfilePage deleteFileEntry() {
+        waitForUpdate();
+        switchToFrame(SUB_FRAME);
+        pause(1000);
+        clickOnTable("tblFirmwares", 1, 0, 99);
+        waitForUpdate();
+        deleteFileButton.click();
         return this;
     }
 
@@ -1085,12 +1092,6 @@ public class DeviceProfilePage extends BasePage {
         LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
         throw new AssertionError(warn);
     }
-
-//    public DeviceProfilePage deliveryMethod(String method) {
-//        selectComboBox(deliveryComboBox, method);
-//        System.out.println("select " + method);
-//        return this;
-//    }
 
     public DeviceProfilePage validateApplyingProfile(boolean isExpected) {
         return validateApplyingProfile(isExpected, false);
@@ -1172,22 +1173,6 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage clickOn(String id) {
         return (DeviceProfilePage) super.clickOn(id);
     }
-
-//    public DeviceProfilePage selectTreeObjectCheckbox(int objNum) {
-//        Table table = new Table("tblTree");
-//        List<Integer> rows = table.getRowsWithInput(0);
-//        table.clickOn(rows.get(objNum), 0, 0);
-//        waitForUpdate();
-//        return this;
-//    }
-//
-//    public DeviceProfilePage selectTreeObjectCheckbox() {
-//        return selectTreeObjectCheckbox(0);
-//    }
-//
-//    public DeviceProfilePage selectAnotherTreeObjectCheckbox() {
-//        return selectTreeObjectCheckbox(1);
-//    }
 
     public DeviceProfilePage assertParametersAreSelected(boolean expectedState) {
         Table table = new Table("tblParameters");

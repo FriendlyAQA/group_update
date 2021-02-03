@@ -9925,10 +9925,23 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertProfileIsPresent(true, getTestName());
     }
 
-//    @Test
-//    public void tr181_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .createPreconditions();
-//    }
+    @Test   //precondition actions for Reports tab tests
+    public void tr181_dp_468() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .setDefaultPeriodic(false)
+                .selectMainTab("Download file")
+                .downloadManually("Firmware Image")
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .deleteFileEntry()
+                .bottomMenu(SAVE)
+                .okButtonPopUp();
+    }
 }
