@@ -1540,6 +1540,10 @@ public abstract class BasePage {
         }
     }
 
+    protected String[] getDevice(String protocol) {
+        return DataBaseConnector.getDevice(props.getProperty(protocol + "_cpe_serial"));
+    }
+
     public boolean isButtonPresent(BottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         boolean out = findElements(button.getId()).size() == 1;

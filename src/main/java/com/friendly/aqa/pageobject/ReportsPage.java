@@ -132,10 +132,6 @@ public class ReportsPage extends BasePage {
         return (ReportsPage) super.selectFilterModelName(getDevice(protocol)[1]);
     }
 
-    private String[] getDevice(String protocol) {
-        return DataBaseConnector.getDevice(props.getProperty(protocol + "_cpe_serial"));
-    }
-
     public ReportsPage selectPeriod(String period) {
         selectComboBox(periodCombobox, period);
         return this;

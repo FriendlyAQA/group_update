@@ -419,14 +419,18 @@ public class GroupUpdateMqttTests extends BaseTestCase {
 
     @Test
     public void mqtt_gu_039() {
-        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
+                .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp();
     }
 
     @Test

@@ -845,14 +845,18 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
 
     @Test
     public void tr069_gu_081() {
-        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
+                .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp();
     }
 
     @Test

@@ -468,14 +468,18 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_gu_041() {
-        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
+                .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp();
     }
 
     @Test

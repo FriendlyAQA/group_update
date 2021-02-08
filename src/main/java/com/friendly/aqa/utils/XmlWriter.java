@@ -21,7 +21,7 @@ public class XmlWriter {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!DOCTYPE suite SYSTEM \"http://testng.org/testng-1.0.dtd\">\n" +
                 "<suite name=\"CPE Admin Automation UI\">\n";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("resources/testng.xml")))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/testng.xml"))) {
             writer.write(header);
             for (Controller.TabTask task : testSuite) {
                 String tabName = task.getTabName();
@@ -55,7 +55,7 @@ public class XmlWriter {
         String[] deviceArr = DataBaseConnector.getDevice(serial);
         String device = deviceArr[0] + "\" Model=\"" + deviceArr[1] + "\">" + serial;
         String footer = "</serial>\n</serials>";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(header);
             writer.write(device);
             writer.write(footer);
@@ -87,7 +87,7 @@ public class XmlWriter {
                 .append("\t\t<Finish>0001-01-01T00:00:00</Finish>\n").append("\t\t<RepeatCount>0</RepeatCount>\n")
                 .append("\t\t<FailOnly>false</FailOnly>\n").append("\t\t<RepeatEvery>0</RepeatEvery>\n").append("\t\t<Expression />\n")
                 .append("\t\t<RandomCount>0</RandomCount>\n").append("\t</Reactivation>\n").append("</Update>");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(sb.toString());
         } catch (IOException e) {
             logger.warn(e.getMessage());

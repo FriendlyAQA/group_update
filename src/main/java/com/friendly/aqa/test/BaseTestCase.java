@@ -33,6 +33,8 @@ public abstract class BaseTestCase {
     protected MonitoringPage monPage;
     protected EventsPage evPage;
     protected ReportsPage reportsPage;
+    protected FileManagementPage fmPage;
+    protected SettingsPage settingsPage;
     private final long start = System.currentTimeMillis();
     protected static String testName;
     static Properties props;
@@ -73,6 +75,8 @@ public abstract class BaseTestCase {
         monPage = getMonPage();
         evPage = getEvPage();
         reportsPage = getReportsPage();
+        fmPage = getFmPage();
+        settingsPage = getSettingsPage();
     }
 
     @AfterMethod
@@ -248,6 +252,20 @@ public abstract class BaseTestCase {
             reportsPage = new ReportsPage();
         }
         return reportsPage;
+    }
+
+    private FileManagementPage getFmPage() {
+        if (fmPage == null) {
+            fmPage = new FileManagementPage();
+        }
+        return fmPage;
+    }
+
+    private SettingsPage getSettingsPage() {
+        if (settingsPage == null) {
+            settingsPage = new SettingsPage();
+        }
+        return settingsPage;
     }
 }
 

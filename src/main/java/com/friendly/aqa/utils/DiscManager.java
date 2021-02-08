@@ -54,7 +54,7 @@ public class DiscManager {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Error happens during log file reading!");
+                System.out.println("Error happened during log file reading!");
                 isRunning = false;
             }
             System.out.println("Reading log file thread '" + Thread.currentThread().getName() + "' stopped");

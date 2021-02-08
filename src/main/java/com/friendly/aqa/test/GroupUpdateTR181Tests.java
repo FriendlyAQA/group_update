@@ -1071,11 +1071,11 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
 
     @Test
     public void tr181_gu_107() {
-        XmlWriter.createImportGroupFile();
         guPage
                 .topMenu(GROUP_UPDATE)
                 .leftMenu(IMPORT)
                 .selectImportGuFile()
+                .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
                 .assertPresenceOfValue("tblDevices", 0, getSerial())

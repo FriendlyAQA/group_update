@@ -4,6 +4,7 @@ import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.XmlWriter;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -119,11 +120,10 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectImportGuFile() {
-        switchToFrame(DESKTOP);
+        XmlWriter.createImportGroupFile();
         String inputText = new File("import/" + getProtocolPrefix() + "_import_group.xml").getAbsolutePath();
         importGuField.sendKeys(inputText);
-        ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
-        waitUntilButtonIsDisplayed(SAVE_AND_ACTIVATE);
+        executeScript("ValidateFile(this);");
         return this;
     }
 
