@@ -20,7 +20,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .createPreconditions();
     }
 
@@ -240,13 +240,13 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillName(false)
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .assertElementIsSelected("rdNoRequest")
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision")
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .assertElementIsSelected("rdNoReprovision")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision");
@@ -278,8 +278,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .dontRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotRequestRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
                 .setAnyAdvancedParameter()
@@ -296,7 +296,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .applyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
@@ -315,7 +315,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fullRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .bottomMenu(ADVANCED_VIEW)
                 .setAnyAdvancedParameter()

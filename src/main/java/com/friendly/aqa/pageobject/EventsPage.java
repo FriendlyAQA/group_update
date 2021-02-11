@@ -17,15 +17,6 @@ import static com.friendly.aqa.pageobject.EventsPage.Left.NEW;
 
 public class EventsPage extends BasePage {
 
-    @FindBy(id = "tbName")
-    private WebElement eventNameField;
-
-    @FindBy(id = "btnSelectDevices_btn")
-    private WebElement selectButton;
-
-    @FindBy(id = "btnNewView_btn")
-    protected WebElement newGroupButton;
-
     @FindBy(id = "btnSave_btn")
     protected WebElement saveButton;
 
@@ -125,10 +116,7 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage newGroupButton() {
-        showPointer(newGroupButton).click();
-//        newGroupButton.click();
-        waitForUpdate();
-        return this;
+        return newViewButton();
     }
 
     public EventsPage saveButton() {
@@ -391,7 +379,7 @@ public class EventsPage extends BasePage {
     @Override
     public EventsPage cancelButtonPopUp() {
         switchToFrame(POPUP);
-        showPointer(cancelButtonPopUp).click();
+        showPointer(cancelButton).click();
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
@@ -479,7 +467,7 @@ public class EventsPage extends BasePage {
 
     @Override
     public EventsPage fillName() {
-        eventNameField.sendKeys(BaseTestCase.getTestName());
+        nameTextField.sendKeys(BaseTestCase.getTestName());
         return this;
     }
 

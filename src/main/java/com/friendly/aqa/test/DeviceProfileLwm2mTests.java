@@ -22,7 +22,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .createPreconditions();
     }
 
@@ -243,13 +243,13 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillName(false)
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .assertElementIsSelected("rdNoRequest")
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision")
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .assertElementIsSelected("rdNoReprovision")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision");
@@ -284,8 +284,8 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .dontRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotRequestRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Device")
                 .setParameter("Timezone", "Europe/Kharkov")
@@ -302,7 +302,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .applyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Device")
@@ -321,7 +321,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fullRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Device")
                 .setParameter("Timezone", "Europe/Kharkov")

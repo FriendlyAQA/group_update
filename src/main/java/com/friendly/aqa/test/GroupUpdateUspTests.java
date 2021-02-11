@@ -1,14 +1,13 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.NOT_EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateUspTests extends BaseTestCase {
@@ -67,7 +66,7 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("txtName", getTestName());
+                .validateName();
     }
 
     @Test

@@ -10,8 +10,8 @@ public class LoginPage extends BasePage {
         return null;
     }
 
-    @FindBy(id = "txtName")
-    private WebElement username;
+//    @FindBy(id = "txtName")
+//    private WebElement username;
 
     @FindBy(id = "txtPassword")
     private WebElement password;
@@ -20,8 +20,8 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     public void authenticate(String username, String password) {
-        this.username.clear();
-        this.username.sendKeys(username);
+        this.nameField.clear();
+        this.nameField.sendKeys(username);
         this.password.clear();
         this.password.sendKeys(password);
         loginButton.click();

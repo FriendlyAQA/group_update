@@ -58,7 +58,7 @@ public class EventsTR181Tests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
                 .assertButtonsAreEnabled(false, ACTIVATE, DEACTIVATE, DELETE)

@@ -1,22 +1,13 @@
 package com.friendly.aqa.pageobject;
 
-import com.friendly.aqa.entities.IBottomButtons;
-import com.friendly.aqa.entities.ILeft;
-import com.friendly.aqa.entities.Table;
-import com.friendly.aqa.entities.TopMenu;
+import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.HttpConnector;
+import com.friendly.aqa.utils.*;
 import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.*;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -25,17 +16,13 @@ import java.util.*;
 import static com.friendly.aqa.entities.TopMenu.DEVICE_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.*;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.DEVICE_ACTIVITY;
-import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.PROVISION_MANAGER;
+import static com.friendly.aqa.pageobject.DeviceUpdatePage.Left.*;
 
 public class DeviceUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(DeviceUpdatePage.class);
 
     @FindBy(id = "btnSaveUsr_btn")
     private WebElement saveButton;
-
-    @FindBy(id = "btnCancel_btn")
-    private WebElement cancelButton;
 
     @FindBy(id = "btnDel_btn")
     private WebElement deleteButton;
@@ -48,9 +35,6 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "btnReCheck_lnk")
     private WebElement recheckStatus;
-
-//    @FindBy(id = "btnReCheck_img")
-//    private WebElement recheckIcon;
 
     @FindBy(id = "txtSerial")
     private WebElement inputSerial;
@@ -73,6 +57,9 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "Protocol")
     private WebElement protocol;
 
+    @FindBy(id = "ddlDates")
+    private WebElement dateCombobox;
+
     @FindBy(id = "ddlSearchOption")
     private WebElement searchByCombobox;
 
@@ -85,9 +72,6 @@ public class DeviceUpdatePage extends BasePage {
     @FindBy(id = "ddlDiagType")
     private WebElement diagnosticCombobox;
 
-    @FindBy(id = "btnSearch_btn")
-    private WebElement searchButton;
-
     @FindBy(id = "rdDelAll")
     private WebElement deleteAllRButton;
 
@@ -99,9 +83,6 @@ public class DeviceUpdatePage extends BasePage {
 
     @FindBy(id = "rdUrl")
     private WebElement manualUrlRButton;
-
-//    @FindBy(id = "lblReplaceCpeHeader")
-//    private WebElement replaceHeader;
 
     @FindBy(id = "btnEditUserInfo_lnk")
     private WebElement editAccountInfoLink;
@@ -198,8 +179,8 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     @Override
-    public DeviceUpdatePage assertInputHasText(String id, String text) {
-        return (DeviceUpdatePage) super.assertInputHasText(id, text);
+    public DeviceUpdatePage validateName() {
+        return (DeviceUpdatePage) super.validateName();
     }
 
     @Override
@@ -308,7 +289,8 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         setImplicitlyWait(0);
         List<WebElement> list = findElements("ddlFileType");
-        if (list.isEmpty() || !list.get(0).isDisplayed()) {
+        if (!list.isEmpty() && !list.get(0).isDisplayed()) {
+//        if (list.isEmpty() || !list.get(0).isDisplayed()) {   //!!11.02.2021
             bottomMenu(ADD);
         }
         setDefaultImplicitlyWait();
@@ -449,10 +431,9 @@ public class DeviceUpdatePage extends BasePage {
         }
         editAccountInfoLink.click();
         switchToFrame(POPUP);
-        WebElement saveButton = driver.findElement(By.id("btnSaveUsr_btn"));
         setUserInfo(parameter, value);
         pause(500);
-        if (isButtonActive("btnSaveUsr_btn")) {
+        if (buttonIsActive("btnSaveUsr_btn")) {
             saveButton.click();
             okButtonPopUp();
         } else {
@@ -487,7 +468,7 @@ public class DeviceUpdatePage extends BasePage {
             }
         }
         pause(500);
-        if (isButtonActive("btnSaveUsr_btn")) {
+        if (buttonIsActive("btnSaveUsr_btn")) {
             saveButton.click();
             okButtonPopUp();
         } else {
@@ -552,13 +533,13 @@ public class DeviceUpdatePage extends BasePage {
     @Override
     public DeviceUpdatePage deselectCheckbox(String id) {
         WebElement checkbox = findElement(id);
-        return (DeviceUpdatePage) forceCheckboxState(false, checkbox);
+        return (DeviceUpdatePage) setCheckboxState(false, checkbox);
     }
 
     @Override
     public DeviceUpdatePage selectCheckbox(String id) {
         WebElement checkbox = findElement(id);
-        return (DeviceUpdatePage) forceCheckboxState(false, checkbox);
+        return (DeviceUpdatePage) setCheckboxState(false, checkbox);
     }
 
     public void setUserInfo(String paramName, String value) {
@@ -572,7 +553,7 @@ public class DeviceUpdatePage extends BasePage {
         }
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
         if (props.getProperty("browser").equals("edge")) {
-            BasePage.scrollToElement(paramCell);
+            scrollToElement(paramCell);
         }
         WebElement input = paramCell.findElement(By.tagName("input"));
         input.clear();
@@ -646,7 +627,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void assertAbsenceOfValue() {
-        String value = parameterSet.iterator().next();
+        String value = getStoredParameter();
         waitForUpdate();
         setSinglePage();
         if (getMainTable().contains(value)) {
@@ -707,7 +688,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage deleteExportEntry() {
         switchToFrame(POPUP);
         waitUntilElementIsDisplayed(deleteButton);
-        Table table = getTable("tbl");
+        Table table = getMainTable();
         table.clickOn(1, 0);
         parameterSet = new HashSet<>(1);
         parameterSet.add(table.getCellText(1, 1));
@@ -715,11 +696,15 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    private String getStoredParameter() {
+        return parameterSet.iterator().next();
+    }
+
     public DeviceUpdatePage deleteAllExportEntries() {
         switchToFrame(POPUP);
-        Table table = getTable("tbl");
+        Table table = getMainTable();
         parameterSet = new HashSet<>(1);
-        parameterSet.add(getSelectedOption("ddlDates"));
+        parameterSet.add(getSelectedOption(dateCombobox));
         table.clickOn(0, 0);
         deleteButton.click();
         return this;
@@ -734,7 +719,7 @@ public class DeviceUpdatePage extends BasePage {
     public void assertExportEntryListIsEmpty() {
         switchToFrame(POPUP);
         if (!pager.getText().equals("No data found") &&
-                getOptionList(findElement("ddlDates")).contains(parameterSet.iterator().next())) {//TODO getStoredParameter()
+                getOptionList(dateCombobox).contains(getStoredParameter())) {
             throw new AssertionError("List of exports is not empty!");
         }
         closeButton.click();
@@ -831,7 +816,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void assertLastActivityIs(String activity) {
-        Table table = getTable("tbl");
+        Table table = getMainTable();
         if (!table.getCellText(1, 2).equalsIgnoreCase(activity)) {
             throw new AssertionError("Activity '" + activity + "' not found in the top row of activity list!");
         }
@@ -839,7 +824,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertActivityIsPresent(String activity) {
         setSinglePage(); //!
-        Table table = getTable("tbl");
+        Table table = getMainTable();
         if (!table.contains(activity)) {
             throw new AssertionError("Activity '" + activity + "' is absent from activity list!");
         }
@@ -1025,12 +1010,8 @@ public class DeviceUpdatePage extends BasePage {
         Table nodeTable = getTable("tblTree");
         int pointer = 0;
         for (int i = 0; i < nodeTable.getTableSize()[0]; i++) {
-//            System.out.println(i + ":" + nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style"));
-//            System.out.println(i + "webElement:" + nodeTable.getCellWebElement(i, 0).getTagName());
-//            System.out.println(i + ":" + nodeTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("outerHTML"));
             if (nodeTable.getCellWebElement(i, 0).getAttribute("outerHTML").contains("bold;")) {
                 pointer = i;
-//                System.out.println("pointer=" + i);
                 break;
             }
         }
@@ -1042,7 +1023,6 @@ public class DeviceUpdatePage extends BasePage {
             nodeTable.clickOn(i, 0, 0);
             nodeTable.clickOn(i, 0, -1);
             success = true;
-//            System.out.println("click on row:" + i);
             waitForUpdate();
             break;
         }
@@ -1055,14 +1035,14 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateAbsenceTaskWithValue(String value) {
-        String[] col = getTable("tbl").getColumn("Value");
+        String[] col = getMainTable().getColumn("Value");
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
         }
     }
 
     public void validateAbsenceTaskWithValue() {
-        String[] col = getTable("tbl").getColumn("Value");
+        String[] col = getMainTable().getColumn("Value");
         String value = getParameterMap().values().iterator().next();
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
@@ -1074,7 +1054,7 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage validateTasks() {
         setSinglePage();
         Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
-        Table table = getTable("tbl");
+        Table table = getMainTable();
         out:
         for (Map.Entry<String, String> entry : entrySet) {
 //            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 6);
@@ -1089,7 +1069,7 @@ public class DeviceUpdatePage extends BasePage {
                     continue out;
                 }
             }
-            scrollTo(findElement("pager2_lblPagerTotal"));
+            scrollTo(pager);
             throw new AssertionError("Pair '" + parameter + ":" + entry.getValue() + "' not found!");
         }
         return this;
@@ -1097,10 +1077,6 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateProvisionTasks() {
         validateTasks("tblItems", 4);
-//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
-//        for (Map.Entry<String, String> entry : entrySet) {
-//            validateAddedTask("tblItems", entry.getKey(), entry.getValue(), 4);
-//        }
     }
 
     public void validateProvisionDownloadTasks() {
@@ -1146,7 +1122,7 @@ public class DeviceUpdatePage extends BasePage {
     public void validateUploadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            Table table = getTable("tbl");
+            Table table = getMainTable();
             List<Integer> list = table.getRowsWithText(entry.getKey());
             for (int i : list) {
                 System.out.println("text: " + table.getCellText(i, "Parameter name"));
@@ -1273,7 +1249,7 @@ public class DeviceUpdatePage extends BasePage {
             throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
         }
         collapseLink.click();
-        waitForSpinner(11);
+        waitForSpinner();
         waitForUpdate();
         table = findElement("tblTree");
         if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
@@ -1284,7 +1260,7 @@ public class DeviceUpdatePage extends BasePage {
             throw new AssertionError("Expected top node icon is 'PLUS'!");
         }
         expandLink.click();
-        waitForSpinner(11);
+        waitForSpinner();
         waitForUpdate();
         table = findElement("tblTree");
         long allExpanded = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
@@ -1295,7 +1271,7 @@ public class DeviceUpdatePage extends BasePage {
             throw new AssertionError("Expected top node icon is 'MINUS'!");
         }
         findElement(rootExpanderId).click();
-        waitForSpinner(11);
+        waitForSpinner();
         waitForUpdate();
         table = findElement("tblTree");
         if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
@@ -1305,7 +1281,7 @@ public class DeviceUpdatePage extends BasePage {
             throw new AssertionError("Expected top node icon is 'PLUS'!");
         }
         findElement(rootExpanderId).click();
-        waitForSpinner(11);
+        waitForSpinner();
         waitForUpdate();
         table = findElement("tblTree");
         long currentRows = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
@@ -1318,11 +1294,11 @@ public class DeviceUpdatePage extends BasePage {
         System.out.println(timer.stop() + "ms");
     }
 
-    private void waitForSpinner(int timeoutSec) {
+    private void waitForSpinner() {
         switchToFrame(ROOT);
         new FluentWait<>(driver)
                 .withMessage("Spinner not found")
-                .withTimeout(Duration.ofSeconds(timeoutSec))
+                .withTimeout(Duration.ofSeconds(11))
                 .pollingEvery(Duration.ofMillis(10))
                 .until(ExpectedConditions.visibilityOf(spinner));
         switchToPreviousFrame();
@@ -1342,7 +1318,6 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateCsvFile() throws IOException {
-        pressEsc();
         if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/ExportParams.aspx?fileType=csv").contains(getModelName())) {
             throw new AssertionError("Model Name not found in downloaded csv file!");
         }
@@ -1350,7 +1325,6 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateHistoryFile() throws IOException {
         String header = "Device History from " + findElement("calTo_textBox").getAttribute("value");
-        pressEsc();
         System.out.println(HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx"));
         if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx").contains(header)) {
             throw new AssertionError("Text '" + header + "' not found in downloaded history file!");
@@ -1368,10 +1342,6 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateGeneratedGets() {
         validateTasks("tbl", 7);
-//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
-//        for (Map.Entry<String, String> entry : entrySet) {
-//            validateAddedTask("tbl", entry.getKey(), entry.getValue(), 7);
-//        }
     }
 
     public DeviceUpdatePage storePath() {
@@ -1483,13 +1453,10 @@ public class DeviceUpdatePage extends BasePage {
         }
         waitForUpdate();
         setImplicitlyWait(0);
-        List<WebElement> hostList = findElements("txtHost");
-        List<WebElement> dnsList = findElements("txtDnsServer");
-        if (hostList.size() > 0) {
-            inputText(hostList.get(0), "8.8.8.8 ");
-        }
-        if (dnsList.size() > 0) {
-            inputText(dnsList.get(0), "8.8.8.8 ");
+        List<WebElement> list = findElements("txtHost");
+        list.addAll(findElements("txtDnsServer"));
+        if (list.size() > 0) {
+            inputText(list.get(0), "8.8.8.8 ");
         }
         setDefaultImplicitlyWait();
         parameterSet = new HashSet<>(1);
@@ -1499,20 +1466,16 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateDiagnosticCreation() {
         Table table = getTable("tblParameters");
-        String diagnostic = parameterSet.iterator().next();
+        String diagnostic = getStoredParameter();
         if (!table.contains(diagnostic)) {
             throw new AssertionError(diagnostic + " not found!");
         }
     }
 
     public DeviceUpdatePage deleteAllDiagnostics() {
-        setImplicitlyWait(1);
-        List<WebElement> pageList = findElements("pager2_lblPagerTotal");
-        setDefaultImplicitlyWait();
-        if (!pageList.isEmpty()) {
-            waitUntilButtonIsDisplayed(DELETE);
-            Table table = getTable("tblParameters");
-            table.clickOn(0, 0, 0);
+        while (elementIsPresent("pager2_lblPagerTotal")) {
+            setSinglePage();
+            getTable("tblParameters").clickOn(0, 0);
             bottomMenu(DELETE);
             okButtonPopUp();
         }
@@ -1728,7 +1691,6 @@ public class DeviceUpdatePage extends BasePage {
         PREVIOUS("btnPrev_btn"),
         REBOOT("btnReboot_btn"),
         SAVE("btnSave_btn"),
-        SAVE_PARAMETERS("UcDeviceSettingsControls1_btnSaveParameters_btn"),
         SEARCH_EXPORT_TO_CSV("btnExportToCsv_btn"),
         SEARCH_EXPORT_TO_XML("btnExportToXml_btn"),
         SEND_UPDATE("UcDeviceSettingsControls1_btnSendUpdate_btn"),

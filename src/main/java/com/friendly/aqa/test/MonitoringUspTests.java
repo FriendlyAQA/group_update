@@ -16,7 +16,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 /*
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
-* Devices (emuls) MAY NOT run;
+* Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
 
@@ -201,7 +201,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
-                .assertTableHasContent("tabsSettings_tblTabs");
+                .assertTableIsNotEmpty("tabsSettings_tblTabs");
     }
 
     @Test
@@ -217,7 +217,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -564,15 +564,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .waitForStatus("Running", "usp_mo_035");
     }
 
-//    @Test
-//    public void usp_mo_038() {    //is dependent on #035
-//        monPage
-//                .topMenu(MONITORING)
-//                .selectItem("usp_mo_035")
-//                .bottomMenu(STOP_WITH_RESET)
-//                .okButtonPopUp()
-//                .waitForStatus("Not active", "usp_mo_035");
-//    }
+    //skipped 038: Button STOP_WITH_RESET was removed from UI (BT item #9766)
 
     @Test
     public void usp_mo_039() {
@@ -749,7 +741,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportMonitorFile()
-                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
+                .assertPresenceOfValue("tblModels", 0, deviceToString());
     }
 
     @Test
@@ -852,7 +844,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("usp_mo_052")
                 .resetView()
-                .assertSelectedViewIs( "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -896,7 +888,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -993,9 +985,9 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertFalse(monPage.buttonIsActive("btnDelFilter_btn"))
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertTrue(monPage.buttonIsActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())

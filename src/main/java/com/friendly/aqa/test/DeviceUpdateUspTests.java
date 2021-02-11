@@ -17,7 +17,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     /*
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'usp_du_011', 'usp_du_067' (starts with usp_) etc.;
-    2. Devices (emul) must run, (emul restart);
+    2. Devices (emulator) must run, (emulator restart);
     3. At least one active profile for target device must exist (usp_du_134);
     4. Trace for target device must be stopped (usp_du_135);
     5. All files for Download tasks must be added to server.
@@ -58,7 +58,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
@@ -85,7 +85,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -703,7 +703,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
@@ -729,7 +729,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -1647,14 +1647,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .assertTracerouteWindowIsOpened();
     }
 
-//    @Test   //skipped: due to absence of REPLACE button for mqtt protocol
-//    public void usp_du_139() {
-//        duPage
-//                .topMenu(DEVICE_UPDATE)
-//                .enterToDevice()
-//                .bottomMenu(REPLACE)
-//                .assertReplaceWindowIsOpened();
-//    }
+//    @Test   //skipped 139: due to absence of REPLACE button for mqtt protocol
 
     @Test
     public void usp_du_140() {
@@ -1900,7 +1893,6 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
     }
 
@@ -1911,9 +1903,9 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .bottomMenu(REFRESH)
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image");
     }
 
@@ -1923,7 +1915,6 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
-                .bottomMenu(SAVE)
                 .validateHistoryFile();
     }
 

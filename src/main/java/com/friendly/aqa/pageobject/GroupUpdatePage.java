@@ -24,7 +24,6 @@ import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.CONDITIONS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
-//import static com.friendly.aqa.pageobject.DeviceUpdatePage.BottomButtons.ADD;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 public class GroupUpdatePage extends BasePage {
@@ -35,8 +34,8 @@ public class GroupUpdatePage extends BasePage {
         switchToFrame(DESKTOP);
     }
 
-    @FindBy(name = "ddlUpdateStatus")
-    private WebElement updStatusComboBox;
+    @FindBy(id = "rdDefaultUpload")
+    private WebElement defaultUploadRadioButton;
 
     @FindBy(name = "btnEditView$btn")
     private WebElement editGroupButton;
@@ -92,9 +91,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(how = How.ID, using = "tblTasks")
     private List<WebElement> taskTableList;
 
-    @FindBy(id = "fuImport")
-    private WebElement importGuField;
-
     @FindBy(id = "calDate_image")
     private WebElement calendarIcon;
 
@@ -106,9 +102,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "cbqoe_task")
     private WebElement addToQoeCheckBox;
-
-    @FindBy(id = "tbName")
-    private WebElement descriptionFileUploadField;
 
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
@@ -122,7 +115,7 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage selectImportGuFile() {
         XmlWriter.createImportGroupFile();
         String inputText = new File("import/" + getProtocolPrefix() + "_import_group.xml").getAbsolutePath();
-        importGuField.sendKeys(inputText);
+        importField.sendKeys(inputText);
         executeScript("ValidateFile(this);");
         return this;
     }
@@ -164,7 +157,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(updStatusComboBox, manufacturerComboBox, modelComboBox, resetViewButton);
+        assertElementsAreEnabled(updateStatusCombobox, manufacturerComboBox, modelComboBox, resetViewButton);
         return this;
     }
 
@@ -253,7 +246,7 @@ public class GroupUpdatePage extends BasePage {
                 : "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
         try {
             assertTrue(HttpConnector.sendGetRequest(
-                    getGuExportLink("tr069_gu_016"))
+                    getExportLink("tr069_gu_016"))
                     .contains(fragment), "File export failed or file has unexpected content!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -304,10 +297,6 @@ public class GroupUpdatePage extends BasePage {
         new Select(timeMinutesSelect).selectByValue(value);
     }
 
-    public GroupUpdatePage selectFileName(String fileType) {
-        return (GroupUpdatePage) super.selectFileName(fileType);
-    }
-
     public GroupUpdatePage validateDownloadFileTasks() {
         Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
@@ -316,17 +305,15 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage selectFileName(int index) {
+    public GroupUpdatePage selectFileName(int index) {  //TODO Remove!
         new Select(fileNameComboBox).selectByIndex(index);
         return this;
     }
 
-//    public GroupUpdatePage selectFileName(String fileName) {
-//        String[] arr = fileName.split("/");
-//        String shortName = arr[arr.length - 1];
-//        selectComboBox(fileNameComboBox, shortName);
-//        return this;
-//    }
+    @Override
+    public GroupUpdatePage selectFileName(String fileType) {
+        return (GroupUpdatePage) super.selectFileName(fileType);
+    }
 
     @Override
     public GroupUpdatePage selectMethod(String value) {
@@ -335,11 +322,6 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
-        return this;
-    }
-
-    public GroupUpdatePage addToMonitoringCheckBox() {
-        addToQoeCheckBox.click();
         return this;
     }
 
@@ -471,7 +453,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage fillDescriptionUploadFile(String desc) {
-        descriptionFileUploadField.sendKeys(desc);
+        nameTextField.sendKeys(desc);
         return this;
     }
 
@@ -499,11 +481,6 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage fillPassword() {
         return (GroupUpdatePage) super.fillPassword();
     }
-
-//    public GroupUpdatePage inputTextField(String text) {
-//        inputTextField.sendKeys(text);
-//        return this;
-//    }
 
     @Override
     public GroupUpdatePage inputDnsField(String text) {
@@ -633,14 +610,14 @@ public class GroupUpdatePage extends BasePage {
                 comboBox = modelComboBox;
                 break;
             case "State":
-                comboBox = updStatusComboBox;
+                comboBox = updateStatusCombobox;
                 break;
             default:
                 throw new AssertionError("Incorrect dropdown name '" + dropdown + "'");
         }
         List<WebElement> options = comboBox.findElements(By.tagName("option"));
         for (WebElement opt : options) {
-            if (opt.getText().toLowerCase().equals(option.toLowerCase())) {
+            if (opt.getText().equalsIgnoreCase(option)) {
                 if (BROWSER.equals("edge")) {
                     scrollTo(comboBox);
                 }
@@ -726,7 +703,7 @@ public class GroupUpdatePage extends BasePage {
         Table table = getMainTable();
         boolean man = getSelectedOption(manufacturerComboBox).equals("All");
         boolean model = getSelectedOption(modelComboBox).equals("All");
-        boolean status = getSelectedOption(updStatusComboBox).equals("All");
+        boolean status = getSelectedOption(updateStatusCombobox).equals("All");
         String[] arr = table.getColumn("Created");
         String[] arr2 = arr.clone();
         Arrays.sort(arr, Comparator.reverseOrder());
@@ -737,10 +714,6 @@ public class GroupUpdatePage extends BasePage {
             throw new AssertionError(warn);
         }
         return this;
-    }
-
-    public boolean serialNumberTableIsPresent() {
-        return serialNumberTableList.size() != 0;
     }
 
     public void assertDevicesArePresent() {
@@ -754,12 +727,6 @@ public class GroupUpdatePage extends BasePage {
 
     @Override
     public GroupUpdatePage selectDownloadFileType(String type) {
-        setImplicitlyWait(0);
-        List<WebElement> list = findElements("UcFirmware1_ddlFileType");
-        if (!list.isEmpty() && !list.get(0).isDisplayed()) {
-            bottomMenu(ADD);
-        }
-        setDefaultImplicitlyWait();
         return (GroupUpdatePage) super.selectDownloadFileType(type);
     }
 
@@ -786,7 +753,7 @@ public class GroupUpdatePage extends BasePage {
         for (int i = 0; i < 2; i++) {
             try {
                 while (!getMainTable().getCellText(groupName, 1).equals(status)) {
-                    if (System.currentTimeMillis() - start > timeout * 1000) {
+                    if (System.currentTimeMillis() - start > timeout * 1000L) {
                         throw new AssertionError("Timed out while waiting for status " + status);
                     }
                 }
@@ -828,10 +795,6 @@ public class GroupUpdatePage extends BasePage {
             selectTab(tab);
         }
         return this;
-    }
-
-    public GroupUpdatePage gotoSetParameters(boolean advancedView) {
-        return gotoSetParameters(null, advancedView);
     }
 
     public GroupUpdatePage gotoSetParameters(String tab, boolean advancedView) {

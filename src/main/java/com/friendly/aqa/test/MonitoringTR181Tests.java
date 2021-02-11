@@ -16,17 +16,17 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 /*
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
-* Devices (emuls) MAY NOT run;
+* Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
 
 @Listeners(UniversalVideoListener.class)
 public class MonitoringTR181Tests extends BaseTestCase {
-//
-//    @Test
-//    public void tr181_mo_000() {
-//        monPage.createPreconditions();
-//    }
+
+    @Test
+    public void tr181_mo_000() {
+        monPage.createPreconditions();
+    }
 
     @Test
     public void tr181_mo_001() {
@@ -200,7 +200,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
-                .assertTableHasContent("tabsSettings_tblTabs");
+                .assertTableIsNotEmpty("tabsSettings_tblTabs");
     }
 
     @Test
@@ -216,7 +216,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -1013,15 +1013,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .waitForStatus("Running", "tr181_mo_065");
     }
 
-//    @Test
-//    public void tr181_mo_068() {    //is dependent on #065
-//        monPage
-//                .topMenu(MONITORING)
-//                .selectItem("tr181_mo_065")
-//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
-//                .okButtonPopUp()
-//                .waitForStatus("Not active", "tr181_mo_065");
-//    }
+    //skipped 068: Button STOP_WITH_RESET was removed from UI (BT item #9766)
 
     @Test
     public void tr181_mo_069() {
@@ -1695,7 +1687,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportMonitorFile()
-                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
+                .assertPresenceOfValue("tblModels", 0, deviceToString());
     }
 
     @Test
@@ -1798,7 +1790,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("tr181_mo_112")
                 .resetView()
-                .assertSelectedViewIs( "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -1842,7 +1834,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test

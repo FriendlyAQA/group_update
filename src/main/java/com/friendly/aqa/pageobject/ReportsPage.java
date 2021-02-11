@@ -71,9 +71,6 @@ public class ReportsPage extends BasePage {
     @FindBy(id = "ddlActivType")
     private WebElement activityTypeCombobox;
 
-    @FindBy(id = "ddlUpdateStatus")
-    private WebElement updateStataCombobox;
-
     @Override
     public ReportsPage topMenu(TopMenu value) {
         return (ReportsPage) super.topMenu(value);
@@ -153,7 +150,7 @@ public class ReportsPage extends BasePage {
     }
 
     public ReportsPage selectUpdateState(String type) {
-        selectComboBox(updateStataCombobox, type);
+        selectComboBox(updateStatusCombobox, type);
         return this;
     }
 

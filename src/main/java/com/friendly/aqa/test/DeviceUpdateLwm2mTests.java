@@ -58,7 +58,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
@@ -85,7 +85,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -702,7 +702,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
@@ -728,7 +728,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -2051,7 +2051,6 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
     }
 
@@ -2254,9 +2253,9 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .bottomMenu(REFRESH)
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image");
     }
 
@@ -2266,7 +2265,6 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
-                .bottomMenu(SAVE)
                 .validateHistoryFile();
     }
 

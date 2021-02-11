@@ -20,7 +20,7 @@ public class XmlWriter {
     public static void createTestngConfig(Set<Controller.TabTask> testSuite) {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!DOCTYPE suite SYSTEM \"http://testng.org/testng-1.0.dtd\">\n" +
-                "<suite name=\"CPE Admin Automation UI\">\n";
+                "<suite name=\"CPE Admin Automation Tests\">\n";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/testng.xml"))) {
             writer.write(header);
             for (Controller.TabTask task : testSuite) {
@@ -125,7 +125,7 @@ public class XmlWriter {
                 .append("\t\t\t<Params>\n").append("\t\t\t\t<Param>\n").append("\t\t\t\t\t<FullName>").append(parameter).append("</FullName>\n")
                 .append("\t\t\t\t\t<isTemporary>false</isTemporary>").append("\t\t\t\t</Param>\n").append("\t\t\t</Params>\n")
                 .append("\t\t</MonitorParam>\n").append("\t</ChildMonirorings>\n").append("</MonitorGroup>\n");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(pathName)))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(sb.toString());
         } catch (IOException e) {
             logger.warn(e.getMessage());

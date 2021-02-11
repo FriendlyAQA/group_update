@@ -17,7 +17,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
     /*
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'lwm2m_du_011', 'lwm2m_du_067' (starts with lwm2m_) etc.;
-    2. Devices (emul) must run;
+    2. Devices (emulator) must run;
     3. Trace for target device must be stopped (tr069_du_135);
     4. At least one active profile for target device must exist (tr069_du_134);
     5. All files for Download and Upload tasks must be added to server.
@@ -58,7 +58,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, CANCEL, NEXT)
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed()
@@ -85,7 +85,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -688,8 +688,8 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
                 .assertPresenceOfOptions("ddlView", "Default")
-                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login"
-                        , "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
+                .assertPresenceOfOptions("ddlSearchOption", "Phone number", "User ID", "User name", "User login",
+                        "User Tag", "Serial Number", "IP address", "MAC address", "Base Station ID", "E-UTRAN Node B ID", "ACS Username")
                 .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
     }
 
@@ -702,7 +702,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .bottomMenu(CANCEL)
                 .assertElementsArePresent("btnEditView_btn", "btnNewView_btn", "btnDefaultView_btn", "rdSearchExactly", "btnSearch_btn");
@@ -728,7 +728,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
-                .assertInputHasText("txtName", getTestName())
+                .validateName()
                 .bottomMenu(NEXT)
                 .setVisibleColumns(1, 1)
                 .bottomMenu(NEXT)
@@ -2392,7 +2392,6 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .bottomMenu(SAVE_PARAMETERS)
                 .validateCsvFile();
     }
 
@@ -2932,7 +2931,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .assertTableHasContent("tbl");    //extra spaces obstruct correctly request validation.
+                .assertTableIsNotEmpty("tbl");    //extra spaces obstruct correctly request validation.
     }
 
     @Test
@@ -3000,9 +2999,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image")
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .bottomMenu(REFRESH)
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .assertElementsArePresent("lblEventName", "ddlEvents", "lblShowByDate", "calTo_textBox", "calTo_image");
     }
 
@@ -3012,7 +3011,6 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_HISTORY)
-                .bottomMenu(SAVE)
                 .validateHistoryFile();
     }
 

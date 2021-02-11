@@ -267,5 +267,10 @@ public abstract class BaseTestCase {
         }
         return settingsPage;
     }
+
+    public String deviceToString() {
+        String[] device = DataBaseConnector.getDevice(getSerial());
+        return device[0] + " " + device[1];
+    }
 }
 

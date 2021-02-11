@@ -20,7 +20,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableHasContent("tblItems")
+                .assertTableIsNotEmpty("tblItems")
                 .createPreconditions();
     }
 
@@ -239,13 +239,13 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .fillName()
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .assertElementIsSelected("rdNoRequest")
                 .fullRequestRadioButton()
                 .assertElementIsSelected("rdFullRequest")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision")
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .assertElementIsSelected("rdNoReprovision")
                 .applyProvisionRadioButton()
                 .assertElementIsSelected("rdRequiresReprovision");
@@ -281,8 +281,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .dontRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotRequestRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
                 .setParameter("PeriodicInformInterval, sec", "60")
@@ -299,7 +299,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .dontRequestRadioButton()
+                .doNotRequestRadioButton()
                 .applyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
@@ -318,7 +318,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectModel()
                 .fillName()
                 .fullRequestRadioButton()
-                .dontApplyProvisionRadioButton()
+                .doNotApplyProvisionRadioButton()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
                 .setParameter("PeriodicInformInterval, sec", "60")

@@ -3,16 +3,15 @@ package com.friendly.aqa.test;
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.utils.CalendarUtil;
 import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.XmlWriter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 import static com.friendly.aqa.entities.ParameterType.VALUE;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Conditions.EQUAL;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.IMPORT;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateLwm2mTests extends BaseTestCase {
@@ -71,7 +70,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("txtName", getTestName());
+                .validateName();
     }
 
     @Test

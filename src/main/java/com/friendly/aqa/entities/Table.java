@@ -176,7 +176,9 @@ public class Table {
                 return i;
             }
         }
-        return -1;
+        print();
+        throw new AssertionError("Column with header '" + text + "' not found");//!!09.02.2021
+//        return -1;
     }
 
     public boolean isAsymmetric() {

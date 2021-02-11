@@ -21,6 +21,64 @@ import static com.friendly.aqa.utils.DataBaseConnector.*;
 public class DeviceProfilePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(DeviceProfilePage.class);
 
+    @FindBy(id = "ddlCondType")
+    private WebElement selectConditionTypeComboBox;
+
+    @FindBy(id = "ddlFilters")
+    private WebElement conditionComboBox;
+
+    @FindBy(id = "ddlCust")
+    private WebElement selectUserInfoComboBox;
+
+    @FindBy(id = "ddlInform")
+    private WebElement selectInformComboBox;
+
+    @FindBy(id = "UcFirmware1_ddlDeliveryMethod")
+    private WebElement deliveryComboBox;
+
+    @FindBy(id = "rdFullRequest")
+    private WebElement fullRequestRadioButton;
+
+    @FindBy(id = "rdNoRequest")
+    private WebElement noRequestRadioButton;
+
+    @FindBy(id = "rdRequiresReprovision")
+    private WebElement applyProvisionRadioButton;
+
+    @FindBy(id = "rdNoReprovision")
+    private WebElement doNotApplyProvisionRadioButton;
+
+    @FindBy(id = "rdCust")
+    private WebElement userInfoRadioButton;
+
+    @FindBy(id = "rdInfo")
+    private WebElement informRadioButton;
+
+    @FindBy(id = "btnSendUpdate_btn")
+    private WebElement saveButton;
+
+    @FindBy(id = "btnDelFile_btn")
+    private WebElement deleteFileButton;
+
+    @FindBy(id = "tblParameters")
+    private WebElement paramTable;
+
+    @FindBy(id = "txtValue")
+    private WebElement valueInputField;
+
+    @FindBy(id = "cbSendBackup")
+    private WebElement performDeviceCheckbox;
+
+    @FindBy(id = "cbsendBackupForExisting")
+    private WebElement applyForNewDeviceCheckbox;
+
+    @FindBy(id = "rdDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
+    private WebElement sendOnBoardRequestRadioButton;
+
+    @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
+    private WebElement instanceCombobox;
+
+
     @Override
     public String getMainTableId() {
         return "tblItems";
@@ -37,8 +95,8 @@ public class DeviceProfilePage extends BasePage {
     }
 
     @Override
-    public DeviceProfilePage assertTableHasContent(String tableId) {
-        return (DeviceProfilePage) super.assertTableHasContent(tableId);
+    public DeviceProfilePage assertTableIsNotEmpty(String tableId) {
+        return (DeviceProfilePage) super.assertTableIsNotEmpty(tableId);
     }
 
     @Override
@@ -66,88 +124,12 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    @FindBy(id = "ddlManufacturer")
-    private WebElement filterManufacturerComboBox;
-
-    @FindBy(id = "ddlModelName")
-    private WebElement filterModelNameComboBox;
-
-    @FindBy(id = "ddlUpdateStatus")
-    private WebElement filterProfileStatusComboBox;
-
-    @FindBy(id = "ddlCondType")
-    private WebElement selectConditionTypeComboBox;
-
-    @FindBy(id = "ddlFilters")
-    private WebElement conditionComboBox;
-
-    @FindBy(id = "ddlCust")
-    private WebElement selectUserInfoComboBox;
-
-    @FindBy(id = "ddlInform")
-    private WebElement selectInformComboBox;
-
-    @FindBy(id = "UcFirmware1_ddlDeliveryMethod")
-    private WebElement deliveryComboBox;
-
-    @FindBy(id = "rdFullRequest")
-    private WebElement fullRequestRadioButton;
-
-    @FindBy(id = "rdNoRequest")
-    private WebElement dontRequestRadioButton;
-
-    @FindBy(id = "rdRequiresReprovision")
-    private WebElement applyProvisionRadioButton;
-
-    @FindBy(id = "rdNoReprovision")
-    private WebElement dontApplyProvisionRadioButton;
-
-    @FindBy(id = "btnNewView_btn")
-    private WebElement newConditionButton;
-
-    @FindBy(id = "rdCust")
-    private WebElement userInfoRadioButton;
-
-    @FindBy(id = "rdInfo")
-    private WebElement informRadioButton;
-
-    @FindBy(id = "btnEditView_btn")
-    private WebElement editConditionButton;
-
-    @FindBy(id = "btnSendUpdate_btn")
-    private WebElement saveButton;
-
-    @FindBy(id = "btnDelFile_btn")
-    private WebElement deleteFileButton;
-
-    @FindBy(id = "tblParameters")
-    private WebElement paramTable;
-
-    @FindBy(id = "txtValue")
-    private WebElement valueInputField;
-
-    @FindBy(id = "cbSendBackup")
-    private WebElement performDeviceCheckbox;
-
-    @FindBy(id = "cbsendBackupForExisting")
-    private WebElement applyForNewDeviceCheckbox;
-
-    @FindBy(id = "rdDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
-    private WebElement sendOnBoardRequestRadioButton;
-
-    @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
-    private WebElement instanceCombobox;
-
-    @FindBy(id = "btnCancel_btn")
-    private WebElement cancelButton;
-
 
     public DeviceProfilePage setAnyAdvancedParameter() {
         selectAnotherBranch();
         setParameter(1);
         return this;
     }
-
 
     public DeviceProfilePage performDeviceCheckbox() {
         performDeviceCheckbox.click();
@@ -167,17 +149,22 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.assertElementIsSelected(id);
     }
 
-    public DeviceProfilePage selectMainTab(String tab) {//TODO something...
-        try {
-            new Table("tabsMain_tblTabs").clickOn(tab);
-            pause(1000);
-        } catch (AssertionError e) {
-            pause(1000);
-            new Table("tabsMain_tblTabs").clickOn(tab);
-            pause(1000);
-        }
-        waitForUpdate();
-        return this;
+//    public DeviceProfilePage selectMainTab(String tab) {//TODO something...
+//        try {
+//            getTable("tabsMain_tblTabs").clickOn(tab);
+//            pause(1000);
+//        } catch (AssertionError e) {
+//            pause(1000);
+//            getTable("tabsMain_tblTabs").clickOn(tab);
+//            pause(1000);
+//        }
+//        waitForUpdate();
+//        return this;
+//    }
+
+    @Override
+    public DeviceProfilePage selectMainTab(String tab) {
+        return (DeviceProfilePage) super.selectMainTab(tab);
     }
 
     @Override
@@ -186,7 +173,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage selectEventTab(String tab) {
-        return selectTab(tab, new Table("tabsEventSettings_tblTabs"));
+        return selectTab(tab, getTable("tabsEventSettings_tblTabs"));
     }
 
     @Override
@@ -224,7 +211,7 @@ public class DeviceProfilePage extends BasePage {
         if (!ignoreSaveButtonState) {
             waitUntilButtonIsEnabled(SAVE);
         }
-        newConditionButton.click();
+        newViewButton.click();
         return this;
     }
 
@@ -249,8 +236,8 @@ public class DeviceProfilePage extends BasePage {
         waitForUpdate();
     }
 
-    public DeviceProfilePage dontRequestRadioButton() {
-        dontRequestRadioButton.click();
+    public DeviceProfilePage doNotRequestRadioButton() {
+        noRequestRadioButton.click();
         return this;
     }
 
@@ -259,13 +246,13 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage dontApplyProvisionRadioButton() {
-        dontApplyProvisionRadioButton.click();
+    public DeviceProfilePage doNotApplyProvisionRadioButton() {
+        doNotApplyProvisionRadioButton.click();
         return this;
     }
 
     public DeviceProfilePage editConditionButton() {
-        editConditionButton.click();
+        editButton.click();
         return this;
     }
 
@@ -274,11 +261,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setEvent(Event event) {
-        return (DeviceProfilePage) setEvent(event, new Table("tblEvents"));
+        return (DeviceProfilePage) setEvent(event, getTable("tblEvents"));
     }
 
     public DeviceProfilePage setEvent(Event event, boolean addTask) {
-        return (DeviceProfilePage) setEvent(event, new Table("tblEvents"), addTask);
+        return (DeviceProfilePage) setEvent(event, getTable("tblEvents"), addTask);
     }
 
     public DeviceProfilePage setEvents(int amount, Event event) {
@@ -341,7 +328,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage editTask(String eventName) {
-        Table table = new Table("tblEvents");
+        Table table = getTable("tblEvents");
         table.clickOn(table.getFirstRowWithText(0, eventName), 4);
         return this;
     }
@@ -362,11 +349,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setDefaultPeriodic() {
-        return setParameter(new Table("tblParameters"), "Device.ManagementServer.PeriodicInformInterval", "60", true);
+        return setParameter(new Table(paramTable), "Device.ManagementServer.PeriodicInformInterval", "60", true);
     }
 
     public DeviceProfilePage setDefaultPeriodic(boolean addToCheck) {
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
         for (String name : names) {
             if (name.endsWith("PeriodicInformInterval")) {
@@ -377,12 +364,12 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setParameter(String paramName, String value) {
-        return setParameter(new Table("tblParameters"), paramName, value, true);
+        return setParameter(new Table(paramTable), paramName, value, true);
     }
 
     private DeviceProfilePage setParameter(Table table, String paramName, String value, boolean addToCheck) {
         int row = table.getFirstRowWithText(paramName);
-        forceCheckboxState(true, table.getInput(row, 0));
+        setCheckboxState(true, table.getInput(row, 0));
         String hint = table.getHint(row);
         WebElement input = null;
         WebElement select = null;
@@ -433,7 +420,7 @@ public class DeviceProfilePage extends BasePage {
             selectMainTab("Parameters");
             selectTab(tab);
         }
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
         for (int i = 0; i < Math.min(Math.abs(amount), names.length); i++) {
             String hint = table.getHint(i + 1);
@@ -494,7 +481,7 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage addSummaryParameters() {
         waitForUpdate();
         selectMainTab("Summary");
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
         setImplicitlyWait(0);
         for (int i = 0; i < names.length; i++) {
@@ -509,41 +496,41 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setParameter(String paramName, ParameterType option, String value) {
-        return (DeviceProfilePage) setParameter(new Table("tblParamsValue"), paramName, option, value);
+        return (DeviceProfilePage) setParameter(getTable("tblParamsValue"), paramName, option, value);
     }
 
     public void validateAddedMonitorTasks() {
-        validateAddedTasks(new Table("tblParamsMonitoring"), null);
+        validateAddedTasks(getTable("tblParamsMonitoring"), null);
     }
 
     public void validateAddedMonitorTask(String parameter, String value) {
-        validateAddedTask(new Table("tblParamsMonitoring"), null, parameter, value);
+        validateAddedTask(getTable("tblParamsMonitoring"), null, parameter, value);
     }
 
     public void validateAddedEventTasks(String eventName) {
-        validateAddedTasks(new Table("tblEvents"), eventName);
+        validateAddedTasks(getTable("tblEvents"), eventName);
     }
 
     public void validateAddedEventTask(String eventName, String parameter, String value) {
-        validateAddedTask(new Table("tblEvents"), eventName, parameter, value);
+        validateAddedTask(getTable("tblEvents"), eventName, parameter, value);
     }
 
     public void validateAddedEventTask(String eventName, String taskName) {
         pause(1000);
-        validateAddedTask(new Table("tblEvents"), eventName, taskName);
+        validateAddedTask(getTable("tblEvents"), eventName, taskName);
     }
 
     public void validateAddedMonitorTask(String taskName) {
         pause(1000);
-        validateAddedTask(new Table("tblParamsMonitoring"), null, taskName);
+        validateAddedTask(getTable("tblParamsMonitoring"), null, taskName);
     }
 
     public void validateAddedEventAction(String eventName, String parameter, String value) {
-        validateAddedAction(new Table("tblEvents"), eventName, parameter, value);
+        validateAddedAction(getTable("tblEvents"), eventName, parameter, value);
     }
 
     public void validateAddedMonitorAction(String eventName, String parameter, String value) {
-        validateAddedAction(new Table("tblParamsMonitoring"), eventName, parameter, value);
+        validateAddedAction(getTable("tblParamsMonitoring"), eventName, parameter, value);
     }
 
     @Override
@@ -557,7 +544,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validatePolicy() {
-        Table table = new Table("tblPolicy");
+        Table table = getTable("tblPolicy");
         String[] names = table.getColumn(0);
         List<String> notifyList = Arrays.asList("Default", "Off", "Passive", "Active");
         List<String> accessList = Arrays.asList("Default", "ACS only", "All");
@@ -592,14 +579,14 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage deleteTask(String taskName) {
         switchToFrame(POPUP);
-        selectItem(new Table("tblTasks"), taskName, 1);
+        selectItem(getTable("tblTasks"), taskName, 1);
         clickOn("btnDelete_btn");
         return this;
     }
 
     public DeviceProfilePage assertTaskIsAbsent(String taskName) {
         waitForUpdate();
-        if (elementIsAbsent("tblTasks") || !new Table("tblTasks").contains(taskName)) {
+        if (elementIsAbsent("tblTasks") || !getTable("tblTasks").contains(taskName)) {
             return this;
         }
         String warn = "Task is still present on page!";
@@ -616,8 +603,8 @@ public class DeviceProfilePage extends BasePage {
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
             selectComboBox(deliveryComboBox, "Push");
         }
-//        fillUsername();
-//        fillPassword();
+        fillUsername();
+        fillPassword();
         saveButton();
         switchToPreviousFrame();
         getParameterMap().put(fileType, getProps().getProperty("file_server"));
@@ -646,7 +633,7 @@ public class DeviceProfilePage extends BasePage {
 
     public void validateDownloadFile() {
         switchToFrame(SUB_FRAME);
-        Table table = new Table("tblFirmwares");
+        Table table = getTable("tblFirmwares");
         String fileType = new ArrayList<>(getParameterMap().keySet()).get(0);
         assertEquals(table.getCellText(1, 1), fileType, "File type entry has unexpected content!");
 //        table.assertEndsWith(1, 2, getParameterMap().get(fileType));   //build 156 - this cell is empty
@@ -672,6 +659,7 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
+    @Override
     public DeviceProfilePage assertButtonIsEnabled(boolean expectedActive, String id) {
         return (DeviceProfilePage) super.assertButtonIsEnabled(expectedActive, id);
     }
@@ -679,7 +667,7 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage validateParameter(String paramName, String value) {
         waitForUpdate();
         waitUntilButtonIsDisplayed(ADVANCED_VIEW);
-        Table paramTbl = new Table("tblParameters");
+        Table paramTbl = new Table(paramTable);
         int row = paramTbl.getRowsWithText(paramName).get(0);
         WebElement input = paramTbl.getCellWebElement(row, 1).findElement(By.tagName("input"));
         String actual = input.getAttribute("value");
@@ -694,7 +682,7 @@ public class DeviceProfilePage extends BasePage {
 
     public void validateParameters() {
         waitForUpdate();
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         String[] names = table.getColumn(0);
         for (int i = 0; i < names.length; i++) {
             String paramName = names[i];
@@ -720,10 +708,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(filterManufacturerComboBox, filterModelNameComboBox, filterProfileStatusComboBox, resetViewButton);
+        assertElementsAreEnabled(manufacturerComboBox, modelComboBox, updateStatusCombobox, resetViewButton);
         return this;
     }
 
+    @Override
     public DeviceProfilePage addDeviceWithoutTemplate() {
         return (DeviceProfilePage) super.addDeviceWithoutTemplate();
     }
@@ -777,7 +766,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage selectProfileStatus(String status) {
-        selectComboBox(filterProfileStatusComboBox, status);
+        selectComboBox(updateStatusCombobox, status);
         waitForUpdate();
         return this;
     }
@@ -829,7 +818,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validateFilteringByManufacturer() {
-        List<String> optionList = getOptionList(filterManufacturerComboBox);
+        List<String> optionList = getOptionList(manufacturerComboBox);
         optionList.remove("All");
         selectModel("All");
         selectProfileStatus("All");
@@ -837,7 +826,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validateFilteringByModelName() {
-        List<String> optionList = getOptionList(filterModelNameComboBox);
+        List<String> optionList = getOptionList(modelComboBox);
         optionList.remove("All");
         selectManufacturer("All");
         selectProfileStatus("All");
@@ -845,7 +834,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validateFilteringByStatus() {
-        List<String> optionList = getOptionList(filterProfileStatusComboBox);
+        List<String> optionList = getOptionList(updateStatusCombobox);
         optionList.remove("All");
         selectManufacturer("All");
         selectModel("All");
@@ -1040,7 +1029,7 @@ public class DeviceProfilePage extends BasePage {
             waitForUpdate();
             nameField.sendKeys(Keys.BACK_SPACE);
             waitForUpdate();
-            if (isButtonActive(targetButton)) {
+            if (buttonIsActive(targetButton)) {
                 waitForUpdate();
                 break;
             }
@@ -1071,7 +1060,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertHasRedBorder(boolean expectedRed, String paramName) {
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         int row = table.getRowsWithText(paramName).get(0);
         WebElement input = table.getCellWebElement(row, 1).findElement(By.tagName("input"));
         if (input.getAttribute("style").endsWith("rgb(255, 74, 74);") == expectedRed) {
@@ -1083,7 +1072,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertAddTaskButtonIsActive(String eventName, boolean expectedActive) {
-        Table table = new Table("tblEvents");
+        Table table = getTable("tblEvents");
         WebElement input = table.getInput(eventName, 4);
         if (input.isEnabled() == expectedActive) {
             return this;
@@ -1137,7 +1126,7 @@ public class DeviceProfilePage extends BasePage {
         Timer timer = new Timer(61000);
         while (!timer.timeout()) {
             try {
-                Table table = new Table("tblParamsTable");
+                Table table = getTable("tblParamsTable");
                 int row = table.getFirstRowWithText(0, parameter);
                 WebElement cell = table.getCellWebElement(row, 1);
                 String text = cell.findElement(By.tagName("input")).getAttribute("value");
@@ -1170,12 +1159,13 @@ public class DeviceProfilePage extends BasePage {
         return (DeviceProfilePage) super.selectTreeObject(clickOnCheckbox, objNum);
     }
 
+    @Override
     public DeviceProfilePage clickOn(String id) {
         return (DeviceProfilePage) super.clickOn(id);
     }
 
     public DeviceProfilePage assertParametersAreSelected(boolean expectedState) {
-        Table table = new Table("tblParameters");
+        Table table = new Table(paramTable);
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             if (table.getInput(i, 0).isSelected() != expectedState) {
                 String warn = "One or more parameter has unexpected state!";
@@ -1254,11 +1244,11 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage setTaskPolicy(int scenario) {
-        return (DeviceProfilePage) setPolicy(new Table("tblParamsValue"), scenario);
+        return (DeviceProfilePage) setPolicy(getTable("tblParamsValue"), scenario);
     }
 
     public DeviceProfilePage setPolicy(int scenario) {
-        return (DeviceProfilePage) setPolicy(new Table("tblPolicy"), scenario);
+        return (DeviceProfilePage) setPolicy(getTable("tblPolicy"), scenario);
     }
 
     @Override
@@ -1287,18 +1277,11 @@ public class DeviceProfilePage extends BasePage {
         DEACTIVATE("btnDeactivate_btn"),
         DELETE("btnDelete_btn"),
         DELETE_CONDITION("btnDeleteView_btn"),
-        //        DUPLICATE("btnDuplicate_btn"),
-//        EDIT("btnEdit_btn"),
         FINISH("btnFinish_btn"),
         NEXT("btnNext_btn"),
-        //        PAUSE("btnPause_btn"),
-//        REFRESH("btnRefresh_btn"),
-//        PREVIOUS("btnPrev_btn"),
         SAVE("btnSave_btn"),
         SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
-        SIMPLE_VIEW("btnTabView_btn"),
-//        STOP("btnStop_btn"),
-        /*STOP_WITH_RESET("btnStopWithReset_btn")*/;
+        SIMPLE_VIEW("btnTabView_btn");
 
         BottomButtons(String id) {
             this.id = id;

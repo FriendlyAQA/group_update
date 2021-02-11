@@ -10,7 +10,6 @@ public enum BottomButtons implements IBottomButtons {
     DELETE("btnDelete_btn"),
     DELETE_BACKUPS("btnDeleteBackup_btn"),
     DELETE_GROUP("btnDeleteView_btn"),
-    //    DUPLICATE("btnDuplicate_btn"),
     EDIT("btnEdit_btn"),
     EXPORT_TO_CSV("btnExportCSV_btn"),
     EXPORT_TO_XLS("btnExportXLS_btn"),
@@ -28,8 +27,7 @@ public enum BottomButtons implements IBottomButtons {
     SAVE_AND_ACTIVATE("btnSaveActivate_btn"),
     SHOW_ON_MAP("btnShowOnMap_btn"),
     SIMPLE_VIEW("btnView_btn"),
-    STOP("btnStop_btn"),
-    /*STOP_WITH_RESET("btnStopWithReset_btn")*/;  //this button is no longer displayed (BT item #9766)
+    STOP("btnStop_btn");
 
     BottomButtons(String id) {
         this.id = id;

@@ -2,11 +2,8 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.DataBaseConnector;
-import com.friendly.aqa.utils.XmlWriter;
+import com.friendly.aqa.utils.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,7 +19,6 @@ import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByManufa
 import static com.friendly.aqa.utils.DataBaseConnector.getMonitorNameSetByModelName;
 
 public class MonitoringPage extends BasePage {
-//    private static final Logger LOGGER = Logger.getLogger(MonitoringPage.class);
 
     @Override
     public MonitoringPage topMenu(TopMenu value) {
@@ -37,35 +33,17 @@ public class MonitoringPage extends BasePage {
     @FindBy(id = "btnAddModel_btn")
     private WebElement addModelButton;
 
-    @FindBy(id = "btnSelectDevices_btn")
-    private WebElement selectButton;
-
-    @FindBy(id = "btnCancel_btn")
-    private WebElement cancelIndividualButton;
-
     @FindBy(id = "IsDefaultViewForPublic")
     private WebElement forPublicCheckbox;
 
-    @FindBy(id = "IsDefaultViewForUser")
-    private WebElement forUserCheckbox;
-
     @FindBy(id = "cbDateTo")
     private WebElement endDateCheckbox;
-
-    @FindBy(id = "tbName")
-    private WebElement nameField;
-
-    @FindBy(id = "txtName")
-    private WebElement customViewNameField;
 
     @FindBy(id = "tbTimeToHour")
     private WebElement endDateHours;
 
     @FindBy(id = "tbTimeToMinute")
     private WebElement endDateMinutes;
-
-    @FindBy(id = "fuImport")
-    private WebElement importMonField;
 
     @Override
     public MonitoringPage newViewButton() {
@@ -78,7 +56,7 @@ public class MonitoringPage extends BasePage {
 
     @Override
     public MonitoringPage fillName() {
-        nameField.sendKeys(BaseTestCase.getTestName());
+        nameTextField.sendKeys(BaseTestCase.getTestName());
         return this;
     }
 
@@ -96,7 +74,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage forUserCheckbox() {
-        forUserCheckbox.click();
+        defaultViewCheckbox.click();
         return this;
     }
 
@@ -277,7 +255,7 @@ public class MonitoringPage extends BasePage {
             parameterSet = new HashSet<>(Arrays.asList(params));
         }
         if (advancedView) {
-            if (isButtonActive(ADVANCED_VIEW)) {
+            if (buttonIsActive(ADVANCED_VIEW)) {
                 getTabTable().clickOn(1, 1);
                 bottomMenu(ADVANCED_VIEW);
                 waitForUpdate();
@@ -510,13 +488,13 @@ public class MonitoringPage extends BasePage {
     }
 
     @Override
-    public MonitoringPage assertTableHasContent(String tableId) {
-        return (MonitoringPage) super.assertTableHasContent(tableId);
+    public MonitoringPage assertTableIsNotEmpty(String tableId) {
+        return (MonitoringPage) super.assertTableIsNotEmpty(tableId);
     }
 
     public MonitoringPage cancelIndividualSelection() {
         switchToFrame(POPUP);
-        cancelIndividualButton.click();
+        cancelButton.click();
         switchToPreviousFrame();
         return this;
     }
@@ -524,13 +502,6 @@ public class MonitoringPage extends BasePage {
     @Override
     public MonitoringPage assertButtonIsEnabled(boolean expectedActive, String id) {
         return (MonitoringPage) super.assertButtonIsEnabled(expectedActive, id);
-    }
-
-    public MonitoringPage assertButtonIsActive(String id) {
-        if (isButtonActive(id)) {
-            return this;
-        }
-        throw new AssertionError("Button id='" + id + "' is disabled");
     }
 
     @Override
@@ -652,8 +623,8 @@ public class MonitoringPage extends BasePage {
         XmlWriter.createImportMonitorFile();
         switchToFrame(DESKTOP);
         String inputText = new File("import/" + getProtocolPrefix() + "_import_monitor.xml").getAbsolutePath();
-        importMonField.sendKeys(inputText);
-        ((JavascriptExecutor) getDriver()).executeScript("__doPostBack('btnSaveConfiguration','')");
+        importField.sendKeys(inputText);
+        executeScript("__doPostBack('btnSaveConfiguration','')");
         return this;
     }
 
@@ -667,12 +638,18 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage fillCustomViewName() {
-        customViewNameField.sendKeys(BaseTestCase.getTestName());
+        nameField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    @Override
+    public MonitoringPage validateName() {
+        assertEquals(nameTextField.getAttribute("value"), BaseTestCase.getTestName());
         return this;
     }
 
     public MonitoringPage partOfMacAddress() {
-        inputText("txtText", DataBaseConnector.getMacAddress().substring(0, 8));
+        inputText(inputTextField, DataBaseConnector.getMacAddress().substring(0, 8));
         return this;
     }
 

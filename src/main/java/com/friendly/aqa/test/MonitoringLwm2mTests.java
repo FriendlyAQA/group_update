@@ -1,7 +1,6 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
-import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -15,7 +14,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 /*
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
-* Devices (emuls) MAY NOT run;
+* Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
 
@@ -198,7 +197,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
-                .assertTableHasContent("tabsSettings_tblTabs");
+                .assertTableIsNotEmpty("tabsSettings_tblTabs");
     }
 
     @Test
@@ -214,7 +213,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -651,15 +650,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .waitForStatus("Running", "lwm2m_mo_041");
     }
 
-//    @Test
-//    public void lwm2m_mo_044() {    //is dependent on #041
-//        monPage
-//                .topMenu(MONITORING)
-//                .selectItem("lwm2m_mo_041")
-//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
-//                .okButtonPopUp()
-//                .waitForStatus("Not active", "lwm2m_mo_041");
-//    }
+    //skipped 044: Button STOP_WITH_RESET was removed from UI (BT item #9766)
 
     @Test
     public void lwm2m_mo_045() {
@@ -935,7 +926,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportMonitorFile()
-                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
+                .assertPresenceOfValue("tblModels", 0, deviceToString());
     }
 
     @Test
@@ -1082,7 +1073,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -1179,9 +1170,9 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertFalse(monPage.buttonIsActive("btnDelFilter_btn"))
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertTrue(monPage.buttonIsActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())

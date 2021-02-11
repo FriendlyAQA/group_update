@@ -16,7 +16,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 /*
 Preconditions:
 * Each tested manufacturer MUST have at least 2 registered models;
-* Devices (emuls) MAY NOT run;
+* Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
 
@@ -201,7 +201,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(ADVANCED_VIEW)
                 .assertTableIsEmpty("tabsSettings_tblTabs")
                 .bottomMenu(SIMPLE_VIEW)
-                .assertTableHasContent("tabsSettings_tblTabs");
+                .assertTableIsNotEmpty("tabsSettings_tblTabs");
     }
 
     @Test
@@ -217,7 +217,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -609,15 +609,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .waitForStatus("Running", "mqtt_mo_038");
     }
 
-//    @Test
-//    public void mqtt_mo_041() {    //is dependent on #056
-//        monPage
-//                .topMenu(MONITORING)
-//                .selectItem("mqtt_mo_038")
-//                .bottomMenu(STOP_WITH_RESET)  //this button is no longer displayed (BT item #9766)
-//                .okButtonPopUp()
-//                .waitForStatus("Not active", "mqtt_mo_038");
-//    }
+    //skipped 041: Button STOP_WITH_RESET was removed from UI (BT item #9766)
 
     @Test
     public void mqtt_mo_042() {
@@ -844,7 +836,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .leftMenu(IMPORT)
                 .selectImportMonitorFile()
-                .assertPresenceOfValue("tblModels", 0, BasePage.deviceToString());
+                .assertPresenceOfValue("tblModels", 0, deviceToString());
     }
 
     @Test
@@ -947,7 +939,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("mqtt_mo_058")
                 .resetView()
-                .assertSelectedViewIs( "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test
@@ -991,7 +983,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
-                .assertInputHasText("tbName", getTestName());
+                .validateName();
     }
 
     @Test
@@ -1088,9 +1080,9 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .selectColumnFilter("Created")
                 .selectCompare("Is not null")
                 .bottomMenu(NEXT)
-                .assertFalse(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertFalse(monPage.buttonIsActive("btnDelFilter_btn"))
                 .filterRecordsCheckbox()
-                .assertTrue(monPage.isButtonActive("btnDelFilter_btn"))
+                .assertTrue(monPage.buttonIsActive("btnDelFilter_btn"))
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .assertEquals(monPage.getSelectedOption("ddlSend"), getTestName())

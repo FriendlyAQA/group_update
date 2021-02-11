@@ -56,10 +56,6 @@ public class FileManagementPage extends BasePage {
         return this;
     }
 
-    public FileManagementPage topMenu(TopMenu value) {
-        return (FileManagementPage) super.topMenu(value);
-    }
-
     public FileManagementPage selectFileType(String type) {
         selectComboBox(selectUploadFileTypeComboBox, type);
         return this;
@@ -125,7 +121,7 @@ public class FileManagementPage extends BasePage {
 
     public void validateFilePresence() {
         if (!getTable("tblParameters").contains(fileName)) {
-            throw new AssertionError("Target file name not found on paage!");
+            throw new AssertionError("Target file name not found on page!");
         }
     }
 
@@ -179,6 +175,11 @@ public class FileManagementPage extends BasePage {
     @Override
     public String getMainTableId() {
         return "tblParameters";
+    }
+
+    @Override
+    public FileManagementPage topMenu(TopMenu value) {
+        return (FileManagementPage) super.topMenu(value);
     }
 
     @Override
