@@ -140,7 +140,7 @@ public class View extends JFrame {
         showReportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Automation UI");
+        setTitle("CPE Admin Test Automation UI");
         setIconImage(new ImageIcon("resources/friendly.png").getImage());
         setPreferredSize(new java.awt.Dimension(781, 527));
         setResizable(false);
