@@ -70,6 +70,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
+                .pause(1000)
                 .validateName();
     }
 

@@ -208,6 +208,9 @@ public abstract class BasePage {
     @FindBy(id = "btnDelFilter_btn")
     private WebElement deleteFilterButton;
 
+    @FindBy(id = "UcFirmware1_ddlDeliveryProtocol")
+    protected WebElement deliveryProtocolCombobox;
+
     @FindBy(id = "ddlDiagnostics")
     private WebElement diagnosticTypeComboBox;
 
@@ -764,7 +767,7 @@ public abstract class BasePage {
         for (int i = 0; i < 2; i++) {
             try {
                 new FluentWait<>(driver)
-                        .withMessage("Button '#" + button.getAttribute("id") + "' not found/not active")
+                        .withMessage("Button '#" + button.getAttribute("id") + "' is grayed out")
                         .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(button));
@@ -1629,9 +1632,11 @@ public abstract class BasePage {
         for (int i : list) {
             if (i >= startFromRow) {
                 table.clickOn(i, 0);
-                int colNumber = table.getColumnNumber(0, "Name");
-                if (colNumber >= 0) {
-                    selectedName = table.getCellText(i, colNumber);
+                if (table.contains("Name")) {
+                    int colNumber = table.getColumnNumber(0, "Name");
+                    if (colNumber >= 0) {
+                        selectedName = table.getCellText(i, colNumber);
+                    }
                 }
                 break;
             }
@@ -2377,11 +2382,9 @@ public abstract class BasePage {
                 success = true;
                 break;
             }
-//            boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
         }
         if (!success) {
-            String warn = "Element with id='" + id + "' not found/not active";
-            throw new AssertionError(warn);
+            throw new AssertionError("Element with id='" + id + "' not found/not active");
         }
     }
 

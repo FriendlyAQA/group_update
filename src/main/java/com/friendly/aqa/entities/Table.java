@@ -443,7 +443,7 @@ public class Table {
     public boolean contains(String value) {
         for (String[] rows : textTable) {
             for (String cell : rows) {
-                if (cell.equalsIgnoreCase(value)) {
+                if (cell.trim().equalsIgnoreCase(value)) {
                     return true;
                 }
             }

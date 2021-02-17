@@ -55,7 +55,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateSorting("Model name")
                 .validateSorting("Name")
                 .validateSorting("Created")
-//                .checkSorting("Creator")
+                .validateSorting("Creator")
                 .validateSorting("Version");
     }
 
@@ -378,6 +378,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -405,7 +406,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-//                .userInfoRadioButton()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -679,7 +680,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test //bug: default object has overlying expanded objects
+    @Test //bug: default object has overlying expandable objects
     public void lwm2m_dp_045() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -806,7 +807,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateEvents();
     }
 
-    @Test   //bug: editing profile events causes an erase of all events.
+    @Test   //bug: cannot delete or modify '4 VALUE CHANGE' event
     public void lwm2m_dp_052() {//depends on 051
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -891,7 +892,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("NOTIFY REQUEST", "Action", "Factory reset");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_056() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -914,7 +915,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_057() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1121,7 +1122,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Factory reset");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_066() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1144,7 +1145,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_067() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1351,7 +1352,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Factory reset");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_076() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1374,7 +1375,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_077() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1581,7 +1582,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("UPDATE REQUEST", "Action", "Factory reset");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_086() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1604,7 +1605,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
     }
 
-    @Test//bug: Save button doesn't work with several RB on 'Action' page;
+    @Test
     public void lwm2m_dp_087() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2228,7 +2229,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateParametersMonitor();
     }
 
-    @Test   //bug: Cannot save a profile with edited Monitoring tab settings;
+    @Test   //bug: Cannot save a profile with edited Monitoring tab;
     public void lwm2m_dp_120() {//depends on 119
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2520,7 +2521,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test   //bug: Tab "Policy" is absent; depends on 134
+    @Test   //bug: Tab "Policy" is absent
     public void lwm2m_dp_135() {//depends on 134
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2585,9 +2586,56 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-//  tests 139-141 are skipped due to "Vendor Configuration File" is absent from dropdown list
+//    @Test //skipped due to option "Vendor Configuration File" is absent from 'File type' list
+//    public void lwm2m_dp_139() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .selectMainTab("Download file")
+//                .downloadFromListFile("Vendor Configuration File")
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoProfile()
+//                .selectMainTab("Download file")
+//                .validateDownloadFile();
+//    }
+//
+//    @Test
+//    public void lwm2m_dp_140() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .selectMainTab("Download file")
+//                .downloadManually("Vendor Configuration File")
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .enterIntoProfile()
+//                .selectMainTab("Download file")
+//                .validateDownloadFile();
+//    }
+//
+//    @Test   //depends on 140
+//    public void lwm2m_dp_141() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .enterIntoProfile("tr181_dp_140")
+//                .selectMainTab("Download file")
+//                .editFileEntry()
+//                .downloadFromListFile("Vendor Configuration File")
+//                .bottomMenu(SAVE)
+//                .okButtonPopUp()
+//                .enterIntoProfile("tr181_dp_140")
+//                .selectMainTab("Download file")
+//                .validateDownloadFile();
+//    }
 
-    @Test   //bug: cannot upload "Resource Definition" file on server as precondition;
+    @Test
     public void lwm2m_dp_142() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2621,7 +2669,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test      //bug: cannot upload "Resource Definition" file on server as precondition;
+    @Test
     public void lwm2m_dp_144() {//depends on 143
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2697,6 +2745,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -2723,6 +2772,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -2750,6 +2800,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^6.+$")
@@ -2777,6 +2828,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("=")
                 .fillValue("USA")
@@ -2803,6 +2855,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("Ukraine")
@@ -2829,6 +2882,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^US.$")
@@ -2847,7 +2901,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_dp_154() {
         dpPage
-                .presetFilter("User tag", "Egorych")
+                .presetFilter("User tag", "user_tag")
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
                 .selectManufacturer()
@@ -2856,9 +2910,10 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("=")
-                .fillValue("Egorych")
+                .fillValue("user_tag")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2882,9 +2937,10 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("!=")
-                .fillValue("Zheka")
+                .fillValue("user_tag_2")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2897,7 +2953,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test
+    @Test   //depends on 154
     public void lwm2m_dp_156() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -2908,9 +2964,10 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("Regexp")
-                .fillValue(".+ryc.$")
+                .fillValue(".+r_ta.$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -2935,6 +2992,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("=")
                 .fillValue("245")
@@ -2961,6 +3019,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("246")
@@ -2987,6 +3046,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("\\d{3}")
@@ -3014,6 +3074,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("=")
                 .fillValue("online")
@@ -3040,6 +3101,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("offline")
@@ -3055,7 +3117,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test
+    @Test  //depends on 160
     public void lwm2m_dp_162() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3066,6 +3128,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue(".{5}e")
@@ -3081,20 +3144,446 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-//  tests 163-165 are skipped due to "DeviceSummary" is absent from dropdown list
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    public void lwm2m_dp_163() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceSummary")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-//  tests 166-168 are skipped due to "SpecVersion" is absent from dropdown list
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    public void lwm2m_dp_164() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceSummary")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-//  tests 169-171 are skipped due to "HardwareVersion" is absent from dropdown list
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    public void lwm2m_dp_165() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceSummary")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-//  tests 172-174 are skipped due to "SoftwareVersion" is absent from dropdown list
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    public void lwm2m_dp_166() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SpecVersion")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-//  tests 175-177 are skipped due to "ProvisioningCode" is absent from dropdown list
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    public void lwm2m_dp_167() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SpecVersion")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-//  tests 178 is skipped due to Inform radiobutton and "DeviceSummary" option are absent
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    public void lwm2m_dp_168() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SpecVersion")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    public void lwm2m_dp_169() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
 
-    @Test  //bug: depends on test with 2 conditions (178)
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    public void lwm2m_dp_170() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    public void lwm2m_dp_171() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    public void lwm2m_dp_172() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    public void lwm2m_dp_173() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    public void lwm2m_dp_174() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    public void lwm2m_dp_175() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.ProvisioningCode")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    public void lwm2m_dp_176() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.ProvisioningCode")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    public void lwm2m_dp_177() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceInfo.ProvisioningCode")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true);
+    }
+
+    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    public void lwm2m_dp_178() {
+        dpPage
+                .presetFilter("Zip", "61000")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("InternetGatewayDevice.DeviceSummary")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Timezone", "Europe/Kyiv")
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "Timezone", "Europe/Kyiv");
+    }
+
+    @Test
     public void lwm2m_dp_179() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

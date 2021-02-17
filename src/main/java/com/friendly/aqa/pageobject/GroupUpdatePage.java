@@ -29,10 +29,10 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 public class GroupUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
 
-    public GroupUpdatePage() {
-        super();
-        switchToFrame(DESKTOP);
-    }
+//    public GroupUpdatePage() {
+//        super();
+//        switchToFrame(DESKTOP);
+//    }
 
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;

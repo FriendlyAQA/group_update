@@ -19,7 +19,7 @@ public class XmlWriter {
 
     public static void createTestngConfig(Set<Controller.TabTask> testSuite) {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<!DOCTYPE suite SYSTEM \"http://testng.org/testng-1.0.dtd\">\n" +
+                "<!DOCTYPE suite SYSTEM \"https://testng.org/testng-1.0.dtd\">\n" +
                 "<suite name=\"CPE Admin Automation Tests\">\n";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("resources/testng.xml"))) {
             writer.write(header);

@@ -21,7 +21,10 @@ import static com.friendly.aqa.utils.DataBaseConnector.*;
 public class DeviceProfilePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(DeviceProfilePage.class);
 
-    @FindBy(id = "ddlCondType")
+    @FindBy(id = "ddlCondTypeInform")
+    private WebElement selectConditionInformComboBox;
+
+    @FindBy(id = "ddlCondTypeCustom")
     private WebElement selectConditionTypeComboBox;
 
     @FindBy(id = "ddlFilters")
@@ -308,7 +311,7 @@ public class DeviceProfilePage extends BasePage {
                         .inputText(name, NEXT)
                         .bottomMenu(NEXT)
                         .addFilter()
-//                        .userInfoRadioButton()
+                        .userInfoRadioButton()
                         .selectUserInfoComboBox("Zip")
                         .selectConditionTypeComboBox("=")
                         .fillValue("61000")
@@ -599,7 +602,7 @@ public class DeviceProfilePage extends BasePage {
         selectDownloadFileType(fileType);
         waitForUpdate();
         manuallyDownloadRadioButton();
-        fillDownloadUrl();
+        fillDownloadUrl1();
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
             selectComboBox(deliveryComboBox, "Push");
         }
@@ -624,6 +627,9 @@ public class DeviceProfilePage extends BasePage {
         selectComboBox(fileNameComboBox, lastOpt);
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
             selectComboBox(deliveryComboBox, "Pull");
+        }
+        if (elementIsPresent("UcFirmware1_ddlDeliveryProtocol")) {
+            selectComboBox(deliveryProtocolCombobox, "HTTP");
         }
         saveButton();
         switchToPreviousFrame();
@@ -651,6 +657,11 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage selectInformComboBox(String info) {
         selectComboBox(selectInformComboBox, info);
+        return this;
+    }
+
+    public DeviceProfilePage selectConditionInformComboBox(String condition) {
+        selectComboBox(selectConditionInformComboBox, condition);
         return this;
     }
 
@@ -723,7 +734,7 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage assertProfileIsPresent(boolean isExpected, String name) {
         setDefaultImplicitlyWait();
-        Table table = getMainTable();
+        Table table = getMainTableWithText(name);
         if (table.contains(name) != isExpected) {
             String warn = "Unexpected profile presence (expected to find: " + isExpected + ")";
             LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
@@ -797,7 +808,8 @@ public class DeviceProfilePage extends BasePage {
         for (String id : idSet) {
             deleteProfileById(id);
         }
-        System.out.println(idSet.size() + " profile(s) for device '" + getDevice(getSerial())[1] + "' removed within " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println(idSet.size() + " profile(s) for device '" + DataBaseConnector.getDevice(getSerial())[1] +
+                "' removed within " + (System.currentTimeMillis() - start) + " ms");
     }
 
     public void deleteProfileByNameIfExists(String name) {
@@ -891,7 +903,7 @@ public class DeviceProfilePage extends BasePage {
     public void getExport() {
         Table table = getMainTable();
         List<Integer> activeList = table.getRowsWithText("Active");
-        List<Integer> modelList = table.getRowsWithText(getDevice(getSerial())[1]);
+        List<Integer> modelList = table.getRowsWithText(DataBaseConnector.getDevice(getSerial())[1]);
         modelList.retainAll(activeList);
         if (modelList.size() < 1) {
             String warn = "There is no active custom profile to export for current device!";
@@ -1086,19 +1098,27 @@ public class DeviceProfilePage extends BasePage {
         return validateApplyingProfile(isExpected, false);
     }
 
+    public DeviceProfilePage validateApplyingProfile(boolean isExpected, String tab) {
+        return validateApplyingProfile(isExpected, false, tab);
+    }
+
     public DeviceProfilePage validateApplyingProfile(boolean isExpected, boolean advancedView) {
+        return validateApplyingProfile(isExpected, advancedView, null);
+    }
+
+    public DeviceProfilePage validateApplyingProfile(boolean isExpected, boolean advancedView, String tab) {
         String path = new ArrayList<>(getParameterMap().keySet()).get(0);
         String[] arr = path.split("\\.");
         String param = arr[arr.length - 1];
         String value = getParameterMap().get(path);
-        return validateApplyingProfile(isExpected, param, value, advancedView);
+        return validateApplyingProfile(isExpected, param, value, advancedView, tab);
     }
 
     public DeviceProfilePage validateApplyingProfile(boolean isExpected, String parameter, String value) {
-        return validateApplyingProfile(isExpected, parameter, value, false);
+        return validateApplyingProfile(isExpected, parameter, value, false, null);
     }
 
-    public DeviceProfilePage validateApplyingProfile(boolean isExpected, String parameter, String value, boolean advancedView) {
+    private DeviceProfilePage validateApplyingProfile(boolean isExpected, String parameter, String value, boolean advancedView, String tab) {
         DeviceUpdatePage dUPage = new DeviceUpdatePage();
         dUPage
                 .topMenu(TopMenu.DEVICE_UPDATE)
@@ -1116,7 +1136,9 @@ public class DeviceProfilePage extends BasePage {
         } else {
             dUPage.leftMenu(DeviceUpdatePage.Left.DEVICE_SETTINGS);
             Table tabTable = getTabTable();
-            if (tabTable.contains("Management"))
+            if (tab != null) {
+                tabTable.clickOn(tab);
+            } else if (tabTable.contains("Management"))
                 tabTable.clickOn("Management");
             else {
                 tabTable.clickOn("Device");
@@ -1135,7 +1157,7 @@ public class DeviceProfilePage extends BasePage {
                     break;
                 }
             } catch (StaleElementReferenceException e) {
-                System.out.println("DPP:1177 - StaleElementReferenceException handled");
+                System.out.println("DPP:1150 - StaleElementReferenceException handled");
             }
         }
         if (textFound == isExpected) {
@@ -1215,6 +1237,10 @@ public class DeviceProfilePage extends BasePage {
     @Override
     public DeviceProfilePage fillDownloadUrl() {
         return (DeviceProfilePage) super.fillDownloadUrl();
+    }
+
+    public void fillDownloadUrl1() {
+        urlField.sendKeys("http://fake.address.com");
     }
 
     @Override

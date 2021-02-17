@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
@@ -59,14 +58,17 @@ public abstract class BaseTestCase {
         if (controller != null) {
             controller.testSuiteStarted();
         }
-        getLoginPage().authenticate(props.getProperty("ui_user"), props.getProperty("ui_password"));
-        guPage = getGuPage();
-        monPage = getMonPage();
-        testName = "";
+//        getLoginPage().authenticate();
+//        guPage = getGuPage();
+//        monPage = getMonPage();
+//        testName = "";
     }
 
     @BeforeMethod
     public void beforeMethod(Method method) {
+        if (isInterrupted) {
+            throw new SkipException("Test execution has been interrupted manually");
+        }
         testName = method.getName();
         loginPage = getLoginPage();
         dpPage = getDpPage();
@@ -77,6 +79,7 @@ public abstract class BaseTestCase {
         reportsPage = getReportsPage();
         fmPage = getFmPage();
         settingsPage = getSettingsPage();
+        loginPage.authenticate();
     }
 
     @AfterMethod
@@ -103,31 +106,25 @@ public abstract class BaseTestCase {
         }
         BasePage.closeNewWindow();
         BasePage.switchToFrame(ROOT);
-//        Table.flushResults();
         BasePage.flushCollections();
         List<WebElement> popupList = BasePage.getDriver().findElements(By.id("btnAlertOk_btn"));
         List<WebElement> popup2List = BasePage.getDriver().findElements(By.id("popup2"));
         List<WebElement> popup3List = BasePage.getDriver().findElements(By.id("tblPopupTitle"));
         WebElement okBtn = BasePage.findElement("btnOk_btn");
         BasePage.setImplicitlyWait(0);
-//        String warn = "Unexpected popup detected after test '" + testName + "'. The window has been closed.";
         while (okBtn.isDisplayed()) {
             okBtn.click();
-//            logger.warn(warn);
             loginPage.waitForUpdate();
         }
         while (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
             popupList.get(0).click();
-//            logger.warn(warn);
             loginPage.waitForUpdate();
         }
         if (popup2List.size() > 0 && popup2List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide2('cancel');");
-//            logger.warn(warn);
         }
         if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
             loginPage.executeScript("PopupHide('cancel');");
-//            logger.warn(warn);
         }
         BasePage.switchToFrame(DESKTOP);
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
@@ -138,7 +135,7 @@ public abstract class BaseTestCase {
         BasePage.setDefaultImplicitlyWait();
         BasePage.switchToFrame(ROOT);
         if (isInterrupted) {
-            throw new SkipException("Test execution interrupted manually");
+            throw new SkipException("Test execution has been interrupted manually");
         }
     }
 

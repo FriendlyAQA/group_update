@@ -71,6 +71,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
+                .pause(1000)
                 .validateName();
     }
 

@@ -261,7 +261,7 @@ public class EventsPage extends BasePage {
         return (EventsPage) super.setParameterOverApi(parametersMonitor.getName(), parametersMonitor.getCurrentValue());
     }
 
-    public void setProfileOverSoap() {
+    public void createProfileOverSoapApi() {
         String prefix = (getProtocolPrefix().equals("tr069") ? "InternetGateway" : "") + "Device.ManagementServer.";
         String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
                 "<soapenv:Header/><soapenv:Body><ftac:createProfile><profileList><Profile><fullTree>0</fullTree><name>Precondition_profile</name>" +
@@ -352,7 +352,7 @@ public class EventsPage extends BasePage {
         deleteAllMonitoring();
         new DeviceProfilePage().deleteAllProfiles();
         if (getProtocolPrefix().startsWith("tr")) {
-            setProfileOverSoap();
+            createProfileOverSoapApi();
         }
         setSinglePage();
         while (pager.getText().startsWith("Total:")) {

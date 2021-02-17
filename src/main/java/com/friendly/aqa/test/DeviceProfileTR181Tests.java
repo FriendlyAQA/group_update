@@ -16,6 +16,13 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 public class DeviceProfileTR181Tests extends BaseTestCase {
 
     @Test
+    public void tr181_dp_000() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .createPreconditions();
+    }
+
+    @Test
     public void tr181_dp_001() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -42,7 +49,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertPresenceOfOptions("ddlUpdateStatus", "All", "Active", "Not Active");
     }
 
-    @Test   //Bug: sorting by "Creator' failed!
+    @Test
     public void tr181_dp_004() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -974,7 +981,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test
+    @Test   //depends on 062
     public void tr181_dp_063() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1766,8 +1773,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateEvents();
     }
 
-    @Test
-    public void tr181_dp_107() {//depends on 106
+    @Test   //depends on 106
+    public void tr181_dp_107() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("tr181_dp_106")
@@ -5800,7 +5807,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "Backup");
     }
 
-    @Test
+    @Test   //depends on 268
     public void tr181_dp_269() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5841,7 +5848,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "Restore");
     }
 
-    @Test
+    @Test   //depends on 270
     public void tr181_dp_271() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5860,7 +5867,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertTaskIsAbsent("Restore");
     }
 
-    @Test//bug: there's no such diagnostic
+    @Test
     public void tr181_dp_272() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5872,7 +5879,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Diagnostics")
-                .selectDiagnostic("Trace diagnostic")
+                .selectDiagnostic("Trace diagnostics")
                 .inputHost("8.8.8.8")
                 .inputNumOfRepetitions("3")
                 .saveTaskButton()
@@ -5883,7 +5890,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Trace diagnostic", "8.8.8.8");
+                .validateAddedEventTask("2 PERIODIC", "Trace diagnostics", "8.8.8.8");
     }
 
     @Test
@@ -5934,7 +5941,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "Diagnostics");
     }
 
-    @Test//bug: there's no such diagnostic
+    @Test
     public void tr181_dp_275() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5946,7 +5953,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("2 PERIODIC", false, "3", null), true)
                 .addTask("Diagnostics")
-                .selectDiagnostic("Wi-Fi neighboring diagnostic")
+                .selectDiagnostic("Wi-Fi neighboring diagnostics")
                 .saveTaskButton()
                 .saveTaskButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -5955,7 +5962,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostic", " ");
+                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", " ");
     }
 
     @Test
@@ -5984,7 +5991,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8");
     }
 
-    @Test//bug: there's no such diagnostic
+    @Test//bug: TaskDiagnostic task with id=--- not found
     public void tr181_dp_277() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7891,7 +7898,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateParametersMonitor();
     }
 
-    @Test
+    @Test   //depends on 376
     public void tr181_dp_377() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9017,7 +9024,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test//depends on 430
+    @Test   //depends on 430
     public void tr181_dp_431() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9069,7 +9076,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test//depends on 433
+    @Test   //depends on 433
     public void tr181_dp_434() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9120,7 +9127,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test
+    @Test   //depends on 436
     public void tr181_dp_437() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9308,7 +9315,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
     @Test
     public void tr181_dp_444() {
         dpPage
-                .presetFilter("User tag", "Egorych")
+                .presetFilter("User tag", "user_tag")
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
                 .selectManufacturer()
@@ -9321,7 +9328,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("=")
-                .fillValue("Egorych")
+                .fillValue("user_tag")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9349,7 +9356,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("!=")
-                .fillValue("Zheka")
+                .fillValue("user_tag_2")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9377,7 +9384,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("Regexp")
-                .fillValue(".+ryc.$")
+                .fillValue(".+r_ta.$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9574,8 +9581,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionTypeComboBox("=")
-                .fillValue("")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9602,7 +9609,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionTypeComboBox("!=")
+                .selectConditionInformComboBox("!=")
                 .fillValue("HC220-G1 v1 00000001")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9630,7 +9637,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionTypeComboBox("Regexp")
+                .selectConditionInformComboBox("Regexp")
                 .fillValue("HC220-G1 v1 0{8}$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9658,8 +9665,8 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionTypeComboBox("=")
-                .fillValue("HC220-G1 v1 00000000")
+                .selectConditionInformComboBox("=")
+                .fillValue("HC220-G1 v1 00000000")  //hardcoded
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9686,7 +9693,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionTypeComboBox("!=")
+                .selectConditionInformComboBox("!=")
                 .fillValue("HC220-G1 v1 00000001")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9714,7 +9721,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionTypeComboBox("Regexp")
+                .selectConditionInformComboBox("Regexp")
                 .fillValue("HC220-G1 v1 0{8}$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9742,7 +9749,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionTypeComboBox("=")
+                .selectConditionInformComboBox("=")
                 .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9770,7 +9777,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionTypeComboBox("!=")
+                .selectConditionInformComboBox("!=")
                 .fillValue("incorrect")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9798,7 +9805,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionTypeComboBox("Regexp")
+                .selectConditionInformComboBox("Regexp")
                 .fillValue(".+40046n$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9832,7 +9839,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .addFilter()
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionTypeComboBox("=")
+                .selectConditionInformComboBox("=")
                 .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
@@ -9846,7 +9853,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "72");
     }
 
-    @Test  //depends on 462
+    @Test   //depends on 462
     public void tr181_dp_463() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9863,7 +9870,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .assertProfileIsPresent(true, "tr181_dp_462");
     }
 
-    @Test  //depends on 462
+    @Test   //depends on 462
     public void tr181_dp_464() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

@@ -10,21 +10,20 @@ public class LoginPage extends BasePage {
         return null;
     }
 
-//    @FindBy(id = "txtName")
-//    private WebElement username;
-
     @FindBy(id = "txtPassword")
     private WebElement password;
 
     @FindBy(className = "button_default")
     private WebElement loginButton;
 
-    public void authenticate(String username, String password) {
-        this.nameField.clear();
-        this.nameField.sendKeys(username);
-        this.password.clear();
-        this.password.sendKeys(password);
-        loginButton.click();
+    public void authenticate() {
+        if (elementIsPresent("lblLoginTitle")){
+            this.nameField.clear();
+            this.nameField.sendKeys(props.getProperty("ui_user"));
+            this.password.clear();
+            this.password.sendKeys(props.getProperty("ui_password"));
+            loginButton.click();
+        }
     }
 }
 

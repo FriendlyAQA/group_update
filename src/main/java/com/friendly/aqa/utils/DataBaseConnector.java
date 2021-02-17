@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.*;
 
-public class DataBaseConnector {
+    public class DataBaseConnector {
     private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
     private static final Properties PROPS = BasePage.getProps();
     private static Statement stmtObj;
@@ -159,7 +159,6 @@ public class DataBaseConnector {
 
     public static Set<String> getDeviceProfileNameSetByStatus(String status) {
         String query = "SELECT name FROM ftacs.profile WHERE is_active='" + (status.equals("Active") ? "1" : "0") + "'";
-        System.out.println(query);
         return getValueSet(query);
     }
 
@@ -231,7 +230,6 @@ public class DataBaseConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(devices);
     }
 
     public static Map<String, Set<String>> getCustomDeviceInfoByColumn(String column, boolean exactMatchOnly) {

@@ -2,6 +2,7 @@ package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
 import com.friendly.aqa.entities.Event;
+import com.friendly.aqa.utils.CalendarUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -337,6 +338,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -365,6 +367,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -432,8 +435,55 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .assertParametersAreSelected(true);
     }
 
-    //  tests 30-32 are skipped due to tab "Parameters" doesn't have (several) subtabs (emul's tree???)
+    @Test
+    public void usp_dp_030() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+//                .addSummaryParameters()
+                .setParameter("MTP USP", 1)
+                .setAnotherTabParameter(1, false)
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .validateParameters();
+    }
 
+    @Test
+    public void usp_dp_031() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+//                .addSummaryParameters()
+                .setParameter("MTP USP", 1)
+                .setAnotherTabParameter(1, true)
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .validateParameters();
+    }
+
+    @Test
+    public void usp_dp_032() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .setParameter("MTP USP", 1)
+                .setAnotherTabParameter(99, false)
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .validateParameters();
+    }
 
     @Test //bug: default object has overlying expanded objects
     public void usp_dp_033() {
@@ -1480,8 +1530,8 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test      //bug: Dropdown "File type doesn't have any items (bad emul's tree???)   //depends on 82
-    public void usp_dp_083() {
+    @Test      //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    public void usp_dp_083() {   //depends on 82
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .enterIntoProfile("usp_dp_082")
@@ -1495,8 +1545,54 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-//  tests 84-86 are skipped due to "Vendor Configuration File" is absent from dropdown list
+    @Test
+    public void usp_dp_084() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Download file")
+                .downloadFromListFile("Vendor Configuration File")
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .validateDownloadFile();
+    }
 
+    @Test
+    public void usp_dp_085() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .selectMainTab("Download file")
+                .downloadManually("Vendor Configuration File")
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoProfile()
+                .selectMainTab("Download file")
+                .validateDownloadFile();
+    }
+
+    @Test   //depends on 85
+    public void usp_dp_086() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .enterIntoProfile("usp_dp_085")
+                .selectMainTab("Download file")
+                .editFileEntry()
+                .downloadFromListFile("Vendor Configuration File")
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .enterIntoProfile("usp_dp_085")
+                .selectMainTab("Download file")
+                .validateDownloadFile();
+    }
 
     @Test   //duplicate with 025
     public void usp_dp_087() {
@@ -1510,6 +1606,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -1538,6 +1635,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -1566,6 +1664,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^6.+$")
@@ -1594,6 +1693,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("=")
                 .fillValue("USA")
@@ -1622,6 +1722,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("Ukraine")
@@ -1650,6 +1751,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^US.$")
@@ -1670,7 +1772,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
     @Test
     public void usp_dp_093() {
         dpPage
-                .presetFilter("User tag", "Egorych")
+                .presetFilter("User tag", "user_tag")
                 .topMenu(DEVICE_PROFILE)
                 .leftMenu(NEW)
                 .selectManufacturer()
@@ -1679,9 +1781,10 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("=")
-                .fillValue("Egorych")
+                .fillValue("user_tag")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1707,9 +1810,10 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("!=")
-                .fillValue("Zheka")
+                .fillValue("user_tag_2")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1724,7 +1828,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateApplyingProfile(true, true);
     }
 
-    @Test
+    @Test   //depends on 093
     public void usp_dp_095() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -1735,9 +1839,10 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("Regexp")
-                .fillValue(".+ryc.$")
+                .fillValue(".+r_ta.$")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -1764,6 +1869,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("=")
                 .fillValue("245")
@@ -1792,6 +1898,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("246")
@@ -1820,6 +1927,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("\\d{3}")
@@ -1849,6 +1957,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("=")
                 .fillValue("online")
@@ -1877,6 +1986,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("offline")
@@ -1905,6 +2015,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
+                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue(".{5}e")
@@ -1922,14 +2033,282 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateApplyingProfile(true, true);
     }
 
-//  tests 102-104 are skipped due to "DeviceSummary" is absent from dropdown list
+    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+    public void usp_dp_102() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
 
-//  tests 105-107 are skipped due to "HardwareVersion" is absent from dropdown list
+    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+    public void usp_dp_103() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
 
-//  tests 108-110 are skipped due to "SoftwareVersion" is absent from dropdown list
+    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+    public void usp_dp_104() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
 
-//  tests 111 is skipped due to Inform radiobutton and "DeviceSummary" option are absent
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+    public void usp_dp_105() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
 
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+    public void usp_dp_106() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
+
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+    public void usp_dp_107() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
+
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+    public void usp_dp_108() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
+
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+    public void usp_dp_109() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("!=")
+                .fillValue("????")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
+
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+    public void usp_dp_110() {  //depends on 162
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+                .selectConditionInformComboBox("Regexp")
+                .fillValue(".*")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
+
+    @Test   //bug: what kind of data does the parameter 'Device.DeviceSummary' contain?
+    public void usp_dp_111() {
+        dpPage
+                .presetFilter("Zip", "61000")
+                .topMenu(DEVICE_PROFILE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .newConditionButton(true)
+                .fillConditionName()
+                .bottomMenu(NEXT)
+                .addFilter()
+                .userInfoRadioButton()
+                .selectUserInfoComboBox("Zip")
+                .selectConditionTypeComboBox("=")
+                .fillValue("61000")
+                .bottomMenu(NEXT)
+                .addFilter()
+                .informRadioButton()
+                .selectInformComboBox("Device.DeviceSummary")
+                .selectConditionInformComboBox("=")
+                .fillValue("???")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .selectMainTab("Parameters")
+                .selectTab("Device")
+                .setParameter("Port", CalendarUtil.getTimeStamp())
+                .fillName()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .validateApplyingProfile(true, "MTP USP");
+    }
 
     @Test  //bug: depends on test with 2 conditions (111)
     public void usp_dp_112() {
