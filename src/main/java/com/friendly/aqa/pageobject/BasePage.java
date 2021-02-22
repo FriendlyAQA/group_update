@@ -528,8 +528,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage assertElementsArePresent(String... elementsId) {
-        switchToFrame(DESKTOP);
+    public BasePage assertElementsArePresent(boolean switchToDesktopFrame, String... elementsId) {
+        if (switchToDesktopFrame) {
+            switchToFrame(DESKTOP);
+        }
         setDefaultImplicitlyWait();
         for (String el : elementsId) {
             List<WebElement> list = findElements(el);
@@ -538,8 +540,14 @@ public abstract class BasePage {
                 throw new AssertionError("Element #" + el + " not found");
             }
         }
-        switchToPreviousFrame();
+        if (switchToDesktopFrame) {
+            switchToPreviousFrame();
+        }
         return this;
+    }
+
+    public BasePage assertElementsArePresent(String... elementsId) {
+        return assertElementsArePresent(true, elementsId);
     }
 
     public BasePage assertElementIsSelected(String id) {
@@ -700,6 +708,7 @@ public abstract class BasePage {
         while (cancelButton.isDisplayed()) {
             showPointer(cancelButton).click();
             waitForUpdate();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", cancelButton);
         }
         switchToFrame(DESKTOP);
         return this;
@@ -754,7 +763,8 @@ public abstract class BasePage {
                 waitForUpdate();
                 return;
             } catch (StaleElementReferenceException | NoSuchElementException e) {
-                LOGGER.info("Button " + button + " click failed. Try again...(" + (i + 1) + " attempt)");
+                LOGGER.warn("Button " + button + " click failed. Try again...(" + (i + 1) + " attempt)\n" + e.getMessage());
+                pause(1000);
             } finally {
                 switchToFrame(DESKTOP);
             }
@@ -1331,10 +1341,12 @@ public abstract class BasePage {
         while (okButtonAlertPopUp.isDisplayed()) {
             showPointer(okButtonAlertPopUp).click();
             waitForUpdate();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonAlertPopUp);
         }
         while (okButtonPopUp.isDisplayed()) {
             showPointer(okButtonPopUp).click();
             waitForUpdate();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonPopUp);
         }
         switchToFrame(DESKTOP);
         return this;
@@ -2242,6 +2254,14 @@ public abstract class BasePage {
                 }
                 boolean descending = pointer.getAttribute("src").endsWith("down.png");
                 String[] arr = table.getColumn(colNum, true);
+//                if (arr[0].trim().matches("\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}")) {
+//                    for (int j = 0; j < arr.length; j++) {
+//                        String cell = arr[j];
+//                        if (cell.matches("^\\d/.+")) {
+//                            arr[j] = "0" + cell;
+//                        }
+//                    }
+//                }
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
                 Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());

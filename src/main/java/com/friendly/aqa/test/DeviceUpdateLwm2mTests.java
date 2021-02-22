@@ -246,7 +246,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .createPreconditionsForSorting();
     }
 
-    @Test
+    @Test   //depends om lwm2m_du_014
     public void lwm2m_du_016() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -406,7 +406,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateSorting("Phone number");
     }
 
-    @Test
+    @Test   //bug: sorting failed by "Protocol type"
     public void lwm2m_du_032() {
         duPage
                 .topMenu(DEVICE_UPDATE)

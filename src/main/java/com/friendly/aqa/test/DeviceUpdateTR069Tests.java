@@ -1710,7 +1710,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(SEND_UPDATE)
                 .cancelButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateAbsenceTaskWithValue("61");
+                .validateAbsenceTaskWithValue(/*"61"*/);
     }
 
     @Test

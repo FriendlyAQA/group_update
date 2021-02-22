@@ -16,13 +16,20 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 
 @Listeners(UniversalVideoListener.class)
 public class DeviceProfileUspTests extends BaseTestCase {
+
+    @Test
+    public void usp_dp_000() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .createPreconditions();
+    }
+
     @Test
     public void usp_dp_001() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableIsNotEmpty("tblItems")
-                .createPreconditions();
+                .assertTableIsNotEmpty("tblItems");
     }
 
     @Test

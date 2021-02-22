@@ -15,7 +15,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 
 /*
 Preconditions:
-* Each tested manufacturer MUST have at least 2 registered models;
+* Each tested manufacturer MUST have at least 2 registered models with template; #103-104
 * Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */

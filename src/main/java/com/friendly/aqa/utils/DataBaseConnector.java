@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.*;
 
-    public class DataBaseConnector {
+public class DataBaseConnector {
     private static final Logger LOGGER = Logger.getLogger(DataBaseConnector.class);
     private static final Properties PROPS = BasePage.getProps();
     private static Statement stmtObj;
@@ -271,19 +271,22 @@ import java.util.*;
             return out;
         }
         if (column.equalsIgnoreCase("serial")) {
-            List<String> list = new ArrayList<>(getValueSet("SELECT serial FROM `ftacs`.`cpe`;"));
-            list.removeAll(Collections.singleton(null));
-            list.sort(Comparator.reverseOrder());
-            if (list.isEmpty() || list.get(0).isEmpty()) {
-                return null;
-            }
-            String filter = list.get(0);
-            if (exactMatchOnly) {
-                out.put(filter, new HashSet<>(Collections.singletonList(filter)));
-                return out;
-            }
-            filter = filter.substring(0, 1);
-            out.put(filter, getValueSet("SELECT serial FROM `ftacs`.`cpe` WHERE serial LIKE '" + filter + "%';"));
+//            List<String> list = new ArrayList<>(getValueSet("SELECT serial FROM `ftacs`.`cpe`;"));
+//            list.removeAll(Collections.singleton(null));
+//            list.sort(Comparator.reverseOrder());
+//            if (list.isEmpty() || list.get(0).isEmpty()) {
+//                return null;
+//            }
+//            String filter = list.get(0);
+//            if (exactMatchOnly) {
+//                out.put(filter, new HashSet<>(Collections.singletonList(filter)));
+//                return out;
+//            }
+//            filter = filter.substring(0, 1);
+//            out.put(filter, getValueSet("SELECT serial FROM `ftacs`.`cpe` WHERE serial LIKE '" + filter + "%';"));
+//            return out;
+            String serial = BasePage.getSerial();
+            out.put(serial, new HashSet<>(Collections.singletonList(serial)));
             return out;
         }
         if (exactMatchOnly) {

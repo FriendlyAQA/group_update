@@ -289,8 +289,8 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         setImplicitlyWait(0);
         List<WebElement> list = findElements("ddlFileType");
-        if (!list.isEmpty() && !list.get(0).isDisplayed()) {
-//        if (list.isEmpty() || !list.get(0).isDisplayed()) {   //!!11.02.2021
+//        if (!list.isEmpty() && !list.get(0).isDisplayed()) {    //tr069_du_196
+        if (list.isEmpty() || !list.get(0).isDisplayed()) {   //!!11.02.2021
             bottomMenu(ADD);
         }
         setDefaultImplicitlyWait();
@@ -590,6 +590,7 @@ public class DeviceUpdatePage extends BasePage {
 
     @Override
     public DeviceUpdatePage okButtonPopUp() {
+        pause(500);
         return (DeviceUpdatePage) super.okButtonPopUp();
     }
 
@@ -734,8 +735,9 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateSearchBy(String option, boolean exactMatch) {
         searchBy(option);
-        String[][] opt = {{"Phone number", "telephone"}, {"User ID", "userid"}, {"User name", "name"}, {"User login", "login_name"}, {"User Tag", "user_tag"},
-                {"Serial Number", "Serial"}, {"IP address", "IP address"}, {"MAC address", "MAC address"}, {"ACS Username", "ACS Username"}};
+        String[][] opt = {{"Phone number", "telephone"}, {"User ID", "userid"}, {"User name", "name"},
+                {"User login", "login_name"}, {"User Tag", "user_tag"}, {"Serial Number", "Serial"},
+                {"IP address", "IP address"}, {"MAC address", "MAC address"}, {"ACS Username", "ACS Username"}};
         if (exactMatch) {
             selectCheckbox("rdSearchExactly");
         } else {
@@ -747,7 +749,6 @@ public class DeviceUpdatePage extends BasePage {
                 Map<String, Set<String>> dbDeviceMap = DataBaseConnector.getCustomDeviceInfoByColumn(strings[1], exactMatch);
                 if (dbDeviceMap != null && !dbDeviceMap.isEmpty()) {
                     String key = dbDeviceMap.keySet().iterator().next();
-                    System.out.println("key:" + key);
                     lookFor(key);
                     clickOn("tbDeviceID");
                     searchButton();
@@ -850,7 +851,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public void assertReplaceWindowIsOpened() {
         switchToFrame(POPUP);
-        assertElementsArePresent("lblReplaceCpeHeader");
+        assertElementsArePresent(false, "lblReplaceCpeHeader");
         cancelButton.click();
         switchToPreviousFrame();
     }
@@ -873,7 +874,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage assertMapIsPresent() {
         switchToFrame(POPUP);
-        assertElementsArePresent("tblBig");
+        assertElementsArePresent(false, "tblBig");
         switchToPreviousFrame();
         return this;
     }
@@ -993,7 +994,6 @@ public class DeviceUpdatePage extends BasePage {
             } else if (++localAmount < names.length) {
                 continue;
             } else break;
-            System.out.println("setParameter:" + names[i] + ":" + value);
             setParameter(table, names[i], value);
 //            table.clickOn(i, -1);
             actionPerformed = true;
@@ -1034,12 +1034,12 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
     }
 
-    public void validateAbsenceTaskWithValue(String value) {
-        String[] col = getMainTable().getColumn("Value");
-        if (Arrays.asList(col).contains(value)) {
-            throw new AssertionError("Task with value '" + value + "' is present in the list!");
-        }
-    }
+//    public void validateAbsenceTaskWithValue(String value) {
+//        String[] col = getMainTable().getColumn("Value");
+//        if (Arrays.asList(col).contains(value)) {
+//            throw new AssertionError("Task with value '" + value + "' is present in the list!");
+//        }
+//    }
 
     public void validateAbsenceTaskWithValue() {
         String[] col = getMainTable().getColumn("Value");
@@ -1047,8 +1047,6 @@ public class DeviceUpdatePage extends BasePage {
         if (Arrays.asList(col).contains(value)) {
             throw new AssertionError("Task with value '" + value + "' is present in the list!");
         }
-        System.out.println(Arrays.asList(col));
-        System.out.println("find: " + value);
     }
 
     public DeviceUpdatePage validateTasks() {
@@ -1125,7 +1123,6 @@ public class DeviceUpdatePage extends BasePage {
             Table table = getMainTable();
             List<Integer> list = table.getRowsWithText(entry.getKey());
             for (int i : list) {
-                System.out.println("text: " + table.getCellText(i, "Parameter name"));
                 if (table.getCellText(i, "Parameter name").matches(entry.getValue())) {
                     return;
                 }
@@ -1220,10 +1217,7 @@ public class DeviceUpdatePage extends BasePage {
             if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
                 throw new AssertionError("Expected top node icon is 'PLUS'!");
             }
-            System.out.println("inside");
         }
-        System.out.println(table.getCellWebElement(0, 0).getAttribute("innerHTML"));
-//        ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style.border='3px solid red'", images.get(0));
         waitForUpdate();
         images.get(0).click();
         table = getTable("tblTree");
@@ -1237,7 +1231,6 @@ public class DeviceUpdatePage extends BasePage {
                 throw new AssertionError("Expected top node icon is 'MINUS'!");
             }
         }
-        System.out.println(timer.stop() + "ms");
     }
 
     public void validateObjectTree1() {
@@ -1291,7 +1284,6 @@ public class DeviceUpdatePage extends BasePage {
         if (!findElement(rootExpanderId).getAttribute("src").endsWith("collapse.png")) {
             throw new AssertionError("Expected top node icon is 'MINUS'!");
         }
-        System.out.println(timer.stop() + "ms");
     }
 
     private void waitForSpinner() {
@@ -1325,8 +1317,9 @@ public class DeviceUpdatePage extends BasePage {
 
     public void validateHistoryFile() throws IOException {
         String header = "Device History from " + findElement("calTo_textBox").getAttribute("value");
-        System.out.println(HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx"));
-        if (!HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx").contains(header)) {
+        String request = HttpConnector.sendGetRequest(props.getProperty("ui_url") + "/CPEs/HistoryExport.aspx");
+        if (!request.contains(header)) {
+            System.out.println(request);
             throw new AssertionError("Text '" + header + "' not found in downloaded history file!");
         }
     }

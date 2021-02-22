@@ -267,19 +267,21 @@ public class Table {
     }
 
     public String[] getColumn(int column, boolean normalize) { //Returns column without header (top row)
-        String[] out = new String[textTable.length - 1];
-        for (int i = 0; i < textTable.length - 1; i++) {
-            out[i] = textTable[i + 1][column];
+        int length = textTable.length - 1;
+        String[] out = new String[length];
+        normalize = normalize && length > 0 && textTable[1][column].trim().matches("\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}");
+        for (int i = 0; i < length; i++) {
+            out[i] = textTable[i + 1][column].trim();
             if (normalize) {
-                StringBuilder sb = new StringBuilder(out[i]);
                 if (out[i].matches("^\\d/.+")) {
-                    sb.insert(0, '0');
+                    out[i] = "0" + out[i];
                 }
                 if (out[i].matches("^\\d{2}/\\d/.+")) {
-                    sb.insert(3, '0');
+                    System.out.println("matches!");
+                    out[i] = out[i].substring(0, 3) + "0" + out[i].substring(3);
                 }
-                out[i] = sb.toString().replaceAll("^\\s$", "");
             }
+            System.out.println(out[i]);
         }
         return out;
     }

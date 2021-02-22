@@ -137,11 +137,13 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage addAnotherModel() {
-        List<WebElement> optList = modelComboBox.findElements(By.tagName("option"));
-        List<String> list = new ArrayList<>();
-        optList.forEach(element -> list.add(element.getText()));
+        List<String> list = getOptionList(modelComboBox);
         list.remove("Select a model");
+        list.remove(props.getProperty("device_without_template").split(":")[1]);
         list.remove(getModelName());
+        if (list.isEmpty()) {
+            throw new AssertionError("Cannot find another model name with template!");
+        }
         setImplicitlyWait(0);
         for (String item : list) {
             selectModel(item);
@@ -151,13 +153,13 @@ public class MonitoringPage extends BasePage {
             if (!okButtonAlertPopUp.isDisplayed()) {
                 switchToFrame(DESKTOP);
                 selectSendTo();
-                break;
+                setDefaultImplicitlyWait();
+                return this;
             }
             okButtonAlertPopUp.click();
             switchToFrame(DESKTOP);
         }
-        setDefaultImplicitlyWait();
-        return this;
+        throw new AssertionError("Cannot find another model name with template!");
     }
 
     public void setParametersFor2Devices(boolean theSameParameter) {

@@ -27,8 +27,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableIsNotEmpty("tblItems")
-                .createPreconditions();
+                .assertTableIsNotEmpty("tblItems");
     }
 
     @Test

@@ -18,12 +18,18 @@ import static com.friendly.aqa.pageobject.DeviceProfilePage.Left.VIEW;
 public class DeviceProfileLwm2mTests extends BaseTestCase {
 
     @Test
+    public void lwm2m_dp_000() {
+        dpPage
+                .topMenu(DEVICE_PROFILE)
+                .createPreconditions();
+    }
+
+    @Test
     public void lwm2m_dp_001() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
                 .assertMainPageIsDisplayed()
-                .assertTableIsNotEmpty("tblItems")
-                .createPreconditions();
+                .assertTableIsNotEmpty("tblItems");
     }
 
     @Test
