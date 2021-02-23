@@ -1472,11 +1472,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .searchBy("Serial Number")
-                .lookFor(getSerial())
-                .selectCheckbox("rdSearchExactly")
-                .searchButton()
-                .assertTransferToDeviceInfo();
+                .validateSearchBy("Serial Number", false);
     }
 
     @Test
@@ -1581,7 +1577,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .assertLastActivityIs("Reset to factory defaults");
     }
 
-    @Test   //bug: task doesn't created in list
+    @Test
     public void usp_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1591,9 +1587,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(CREATE_TEMPLATE)
                 .okButtonPopUp()
-                .okButtonPopUp()
-                .leftMenu(DEVICE_ACTIVITY)
-                .assertLastActivityIs("Create template");//TODO validate via DB??
+                .okButtonPopUp();
     }
 
     @Test

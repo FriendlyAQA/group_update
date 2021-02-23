@@ -281,7 +281,8 @@ public class DeviceUpdatePage extends BasePage {
             bottomMenu(ADD);
         }
         setDefaultImplicitlyWait();
-        return (DeviceUpdatePage) super.selectDownloadFileType(type);
+        super.selectDownloadFileType(type);
+        return this;
     }
 
     @Override
@@ -306,6 +307,16 @@ public class DeviceUpdatePage extends BasePage {
         waitUntilElementIsEnabled("btnSearch_btn");
         searchButton.click();
         waitForUpdate();
+        return this;
+    }
+
+    public DeviceUpdatePage selectDeliveryMethod(String method) {
+        selectComboBox(deliveryMethodComboBox, method);
+        return this;
+    }
+
+    public DeviceUpdatePage selectDeliveryProtocol(String protocol) {
+        selectComboBox(deliveryProtocolCombobox, protocol);
         return this;
     }
 
@@ -539,7 +550,7 @@ public class DeviceUpdatePage extends BasePage {
     @Override
     public DeviceUpdatePage selectCheckbox(String id) {
         WebElement checkbox = findElement(id);
-        return (DeviceUpdatePage) setCheckboxState(false, checkbox);
+        return (DeviceUpdatePage) setCheckboxState(true, checkbox);
     }
 
     public void setUserInfo(String paramName, String value) {

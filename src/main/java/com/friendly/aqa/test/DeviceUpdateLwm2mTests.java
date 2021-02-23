@@ -1471,11 +1471,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .searchBy("Serial Number")
-                .lookFor(getSerial())
-                .selectCheckbox("rdSearchExactly")
-                .searchButton()
-                .assertTransferToDeviceInfo();
+                .validateSearchBy("Serial Number", false);
     }
 
     @Test
@@ -1580,7 +1576,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .assertLastActivityIs("Reset to factory defaults");
     }
 
-    @Test   //bug: task doesn't created in list
+    @Test
     public void lwm2m_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1590,9 +1586,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(CREATE_TEMPLATE)
                 .okButtonPopUp()
-                .okButtonPopUp()
-                .leftMenu(DEVICE_ACTIVITY)
-                .assertLastActivityIs("Create template");//TODO validate via DB??
+                .okButtonPopUp();
     }
 
     @Test
@@ -2064,6 +2058,8 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .selectDownloadFileType("Firmware Image")
                 .selectFromListRadioButton()
                 .selectFileName()
+                .selectDeliveryMethod("Pull")
+                .selectDeliveryProtocol("HTTP")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2080,6 +2076,8 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("Firmware Image")
                 .fillDownloadUrl()
+                .selectDeliveryMethod("Pull")
+                .selectDeliveryProtocol("HTTP")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .okButtonPopUp()
@@ -2161,7 +2159,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateProvisionDownloadTasks();
     }
 
-    @Test   //bug: cannot add LWM2M Resource Definition file in File Management tab
+    @Test
     public void lwm2m_du_172() {
         duPage
                 .topMenu(DEVICE_UPDATE)

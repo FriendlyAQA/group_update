@@ -271,22 +271,16 @@ public class DataBaseConnector {
             return out;
         }
         if (column.equalsIgnoreCase("serial")) {
-//            List<String> list = new ArrayList<>(getValueSet("SELECT serial FROM `ftacs`.`cpe`;"));
-//            list.removeAll(Collections.singleton(null));
-//            list.sort(Comparator.reverseOrder());
-//            if (list.isEmpty() || list.get(0).isEmpty()) {
-//                return null;
-//            }
-//            String filter = list.get(0);
-//            if (exactMatchOnly) {
-//                out.put(filter, new HashSet<>(Collections.singletonList(filter)));
-//                return out;
-//            }
-//            filter = filter.substring(0, 1);
-//            out.put(filter, getValueSet("SELECT serial FROM `ftacs`.`cpe` WHERE serial LIKE '" + filter + "%';"));
-//            return out;
             String serial = BasePage.getSerial();
-            out.put(serial, new HashSet<>(Collections.singletonList(serial)));
+            String suffix = exactMatchOnly ? "='" + serial + "';" : "LIKE '%" + serial + "%';";
+            Set<String> set = getValueSet("SELECT `serial` FROM `ftacs`.`cpe` WHERE `serial` " + suffix);
+            List<String> list = new ArrayList<>(set);
+            list.removeAll(Collections.singleton(null));
+            list.sort(Comparator.reverseOrder());
+            if (list.isEmpty() || list.get(0).isEmpty()) {
+                return null;
+            }
+            out.put(serial, set);
             return out;
         }
         if (exactMatchOnly) {

@@ -244,13 +244,13 @@ public class GroupUpdatePage extends BasePage {
         String fragment = BaseTestCase.getTestName().startsWith("lwm2m")
                 ? "\"Root.Device.0.UTC Offset\" value=\"+02:00\""
                 : "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
+        String out = "";
         try {
-            assertTrue(HttpConnector.sendGetRequest(
-                    getExportLink("tr069_gu_016"))
-                    .contains(fragment), "File export failed or file has unexpected content!");
+            out = HttpConnector.sendGetRequest(getExportLink(getProtocolPrefix() + "_gu_016"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assertTrue(out.contains(fragment), "File export failed or file has unexpected content!");
     }
 
     public void checkIsCalendarClickable() {

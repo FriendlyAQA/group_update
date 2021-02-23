@@ -277,11 +277,9 @@ public class Table {
                     out[i] = "0" + out[i];
                 }
                 if (out[i].matches("^\\d{2}/\\d/.+")) {
-                    System.out.println("matches!");
                     out[i] = out[i].substring(0, 3) + "0" + out[i].substring(3);
                 }
             }
-            System.out.println(out[i]);
         }
         return out;
     }

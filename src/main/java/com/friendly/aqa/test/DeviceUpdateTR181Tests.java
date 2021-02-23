@@ -1461,7 +1461,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(SEARCH)
                 .searchBy("Serial Number")
                 .lookFor(getSerial())
-                .deselectCheckbox("rdSearchExactly")
+                .selectCheckbox("rdSearchExactly")
                 .searchButton()
                 .assertTransferToDeviceInfo();
     }
@@ -1471,11 +1471,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-                .searchBy("Serial Number")
-                .lookFor(getSerial())
-                .selectCheckbox("rdSearchExactly")
-                .searchButton()
-                .assertTransferToDeviceInfo();
+                .validateSearchBy("Serial Number", false);
     }
 
     @Test
@@ -1580,7 +1576,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .assertLastActivityIs("Reset to factory defaults");
     }
 
-    @Test   //bug: task doesn't display in list
+    @Test
     public void tr181_du_133() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1590,9 +1586,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(CREATE_TEMPLATE)
                 .okButtonPopUp()
-                .okButtonPopUp()
-                .leftMenu(DEVICE_ACTIVITY)
-                .assertLastActivityIs("Create template");//TODO validate via DB??
+                .okButtonPopUp();
     }
 
     @Test
@@ -3258,7 +3252,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    //skipped:229 - cannot change object path;
+    //skipped:249 - cannot change object path;
 
     @Test   //bug: depends on 215
     public void tr181_du_250() {

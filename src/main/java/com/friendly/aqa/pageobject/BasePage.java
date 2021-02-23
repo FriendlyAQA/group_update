@@ -208,6 +208,9 @@ public abstract class BasePage {
     @FindBy(id = "btnDelFilter_btn")
     private WebElement deleteFilterButton;
 
+    @FindBy(id = "UcFirmware1_ddlDeliveryMethod")
+    protected WebElement deliveryMethodComboBox;
+
     @FindBy(id = "UcFirmware1_ddlDeliveryProtocol")
     protected WebElement deliveryProtocolCombobox;
 
@@ -645,8 +648,7 @@ public abstract class BasePage {
         if (actual.equalsIgnoreCase(option)) {
             return this;
         }
-        throw new AssertionError("Actual selected option and expected one don't match! Expected: " + option
-                + "; actual: " + actual);
+        throw new AssertionError("Unexpected option is selected! Expected: " + option + "; actual: " + actual);
     }
 
     public BasePage assertSelectedViewIs(String expectedView) {
@@ -858,8 +860,10 @@ public abstract class BasePage {
     public BasePage deleteAll(WebElement element) {
         waitForUpdate();
         List<String> optList = getOptionList(element);
+        String prefix = BaseTestCase.getTestName().substring(0, BaseTestCase.getTestName().lastIndexOf('_'));
         for (String opt : optList) {
-            if (opt.matches(".{3,5}_\\w{2}_\\d{3}(_\\d)?")) {
+//            if (opt.matches(".{3,5}_\\w{2}_\\d{3}(_\\d)?")) {
+            if (opt.startsWith(prefix)) {
                 selectComboBox(element, opt);
                 waitForUpdate();
                 editButton.click();
@@ -1218,10 +1222,6 @@ public abstract class BasePage {
 
     public Table getTabTable() {
         return getTable("tabsSettings_tblTabs", null);
-    }
-
-    public String getTitle() {
-        return driver.getTitle();
     }
 
     public BasePage immediately() {
@@ -1728,7 +1728,7 @@ public abstract class BasePage {
                         break;
                     }
                 } catch (StaleElementReferenceException e) {
-                    System.out.println("BP:871 - StaleElementReferenceException handled (selectTab)");
+                    System.out.println("BP:1731 - StaleElementReferenceException handled (selectTab)");
                 }
             }
         }
@@ -2254,14 +2254,6 @@ public abstract class BasePage {
                 }
                 boolean descending = pointer.getAttribute("src").endsWith("down.png");
                 String[] arr = table.getColumn(colNum, true);
-//                if (arr[0].trim().matches("\\d{1,2}/\\d{1,2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}")) {
-//                    for (int j = 0; j < arr.length; j++) {
-//                        String cell = arr[j];
-//                        if (cell.matches("^\\d/.+")) {
-//                            arr[j] = "0" + cell;
-//                        }
-//                    }
-//                }
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
                 Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
@@ -2359,7 +2351,6 @@ public abstract class BasePage {
                 }
             }
         }
-        System.out.println();
         switchToPreviousFrame();
     }
 

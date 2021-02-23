@@ -17,9 +17,20 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 public class GroupUpdateTR181Tests extends BaseTestCase {
 
     @Test
-    public void tr181_gu_001() {
+    public void tr181_gu_000() {
         guPage
                 .deleteAll()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .deleteFilterGroups();
+    }
+
+    @Test
+    public void tr181_gu_001() {
+        guPage
+//                .deleteAll()
                 .topMenu(GROUP_UPDATE)
                 .assertMainPageIsDisplayed();
     }
@@ -42,7 +53,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .deleteFilterGroups()
+//                .deleteFilterGroups()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -1779,7 +1790,7 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .validateDownloadFileTasks();
     }
 
-    @Test
+    @Test    //bug:: expected: filename; actual: The newest firmware
     public void tr181_gu_184() {
         guPage
                 .gotoFileDownload()

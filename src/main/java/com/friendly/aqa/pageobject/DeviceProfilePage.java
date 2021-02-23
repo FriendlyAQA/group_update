@@ -36,9 +36,6 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "ddlInform")
     private WebElement selectInformComboBox;
 
-    @FindBy(id = "UcFirmware1_ddlDeliveryMethod")
-    private WebElement deliveryComboBox;
-
     @FindBy(id = "rdFullRequest")
     private WebElement fullRequestRadioButton;
 
@@ -604,7 +601,7 @@ public class DeviceProfilePage extends BasePage {
         manuallyDownloadRadioButton();
         fillDownloadUrl1();
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
-            selectComboBox(deliveryComboBox, "Push");
+            selectComboBox(deliveryMethodComboBox, "Push");
         }
         fillUsername();
         fillPassword();
@@ -626,7 +623,7 @@ public class DeviceProfilePage extends BasePage {
         String lastOpt = optList.get(optList.size() - 1);
         selectComboBox(fileNameComboBox, lastOpt);
         if (elementIsPresent("UcFirmware1_ddlDeliveryMethod")) {
-            selectComboBox(deliveryComboBox, "Pull");
+            selectComboBox(deliveryMethodComboBox, "Pull");
         }
         if (elementIsPresent("UcFirmware1_ddlDeliveryProtocol")) {
             selectComboBox(deliveryProtocolCombobox, "HTTP");
