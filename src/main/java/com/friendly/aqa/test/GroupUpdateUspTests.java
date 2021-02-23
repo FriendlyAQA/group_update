@@ -11,10 +11,20 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateUspTests extends BaseTestCase {
+
+    @Test
+    public void usp_gu_000() {
+        guPage
+                .deleteAll()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .deleteFilterGroups();
+    }
+
     @Test
     public void usp_gu_001() {
         guPage
-                .deleteAll()
                 .topMenu(GROUP_UPDATE)
                 .assertMainPageIsDisplayed();
     }
@@ -37,7 +47,6 @@ public class GroupUpdateUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .deleteFilterGroups()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }

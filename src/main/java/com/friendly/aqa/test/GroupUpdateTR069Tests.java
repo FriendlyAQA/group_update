@@ -14,10 +14,21 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateTR069Tests extends BaseTestCase {
+
+    @Test
+    public void tr069_gu_000() {
+        guPage
+                .deleteAll()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .deleteFilterGroups();
+    }
+
     @Test
     public void tr069_gu_001() {
         guPage
-                .deleteAll()
                 .topMenu(GROUP_UPDATE)
                 .assertMainPageIsDisplayed();
     }
@@ -40,7 +51,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .deleteFilterGroups()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }

@@ -15,7 +15,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 
 /*
 Preconditions:
-* Each tested manufacturer MUST have at least 2 registered models;
+* Each tested manufacturer MUST have at least 2 registered models with template;;
 * Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
@@ -49,8 +49,6 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .assertMainPageIsDisplayed()
-//                .deleteAllMonitors()
-//                .deleteAllCustomViews()
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -213,7 +211,6 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -771,7 +768,6 @@ public class MonitoringUspTests extends BaseTestCase {
     public void usp_mo_052() {
         monPage
                 .topMenu(MONITORING)
-//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -884,7 +880,6 @@ public class MonitoringUspTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

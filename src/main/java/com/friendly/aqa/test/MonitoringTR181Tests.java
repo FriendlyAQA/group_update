@@ -15,7 +15,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 
 /*
 Preconditions:
-* Each tested manufacturer MUST have at least 2 registered models;
+* Each tested manufacturer MUST have at least 2 registered models with template;;
 * Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
@@ -48,8 +48,6 @@ public class MonitoringTR181Tests extends BaseTestCase {
     public void tr181_mo_003() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllMonitors()   //as precondition for next step and tests
-                .deleteAllCustomViews()   //as precondition for next step and tests
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -212,7 +210,6 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()   //as precondition for next step and tests
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -1717,7 +1714,6 @@ public class MonitoringTR181Tests extends BaseTestCase {
     public void tr181_mo_112() {
         monPage
                 .topMenu(MONITORING)
-//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -1768,7 +1764,7 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .validateSorting("Name");
     }
 
-    @Test
+    @Test   //depends on 112
     public void tr181_mo_118() {    //Bug: Unclear sorting algorithm by "State" column
         monPage
                 .topMenu(MONITORING)
@@ -1830,7 +1826,6 @@ public class MonitoringTR181Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

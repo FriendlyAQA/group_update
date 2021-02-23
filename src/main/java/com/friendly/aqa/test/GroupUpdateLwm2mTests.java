@@ -15,11 +15,22 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateLwm2mTests extends BaseTestCase {
+
+    @Test
+    public void lwm2m_gu_000() {
+        guPage
+                .deleteAll()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .deleteFilterGroups();
+    }
+
     @Test
     public void lwm2m_gu_001() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .deleteAll()
                 .assertMainPageIsDisplayed();
     }
 
@@ -41,7 +52,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .deleteFilterGroups()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }

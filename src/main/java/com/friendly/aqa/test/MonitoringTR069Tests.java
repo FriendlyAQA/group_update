@@ -46,8 +46,6 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_003() {
         monPage
                 .topMenu(MONITORING)
-                .deleteAllMonitors()   //as precondition for next step and tests
-                .deleteAllCustomViews()   //as precondition for next step and tests
                 .newViewButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .assertButtonsAreEnabled(true, CANCEL)
@@ -210,7 +208,6 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-                .deleteAllGroups()  //as precondition for next step and tests
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -1430,7 +1427,6 @@ public class MonitoringTR069Tests extends BaseTestCase {
     public void tr069_mo_094() {
         monPage
                 .topMenu(MONITORING)
-//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -1543,7 +1539,6 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

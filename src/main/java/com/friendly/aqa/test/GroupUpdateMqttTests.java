@@ -11,10 +11,20 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
 
 @Listeners(UniversalVideoListener.class)
 public class GroupUpdateMqttTests extends BaseTestCase {
+
+    @Test
+    public void mqtt_gu_000() {
+        guPage
+                .deleteAll()
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .deleteFilterGroups();
+    }
+
     @Test
     public void mqtt_gu_001() {
         guPage
-                .deleteAll()
                 .topMenu(GROUP_UPDATE)
                 .assertMainPageIsDisplayed();
     }
@@ -37,7 +47,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
-                .deleteFilterGroups()
                 .bottomMenu(CANCEL)
                 .assertMainPageIsDisplayed();
     }
@@ -192,7 +201,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_020(){
         guPage
-                .gotoSetParameters(/*true*/)    //bug? Advanced View button is absent for MQTT!!!
+                .gotoSetParameters(/*true*/)    //bug? Advanced View button is absent from MQTT!!!
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
                 .nextSaveAndActivate()
                 .validateAddedTasks();

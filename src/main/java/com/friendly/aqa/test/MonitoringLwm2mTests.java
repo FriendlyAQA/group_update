@@ -13,7 +13,7 @@ import static com.friendly.aqa.entities.TopMenu.MONITORING;
 
 /*
 Preconditions:
-* Each tested manufacturer MUST have at least 2 registered models;
+* Each tested manufacturer MUST have at least 2 registered models with template;;
 * Devices (emulator) MAY NOT run;
 * At least 3 devices with different serials MUST BE registered for current model name;
 */
@@ -209,7 +209,6 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -956,7 +955,6 @@ public class MonitoringLwm2mTests extends BaseTestCase {
     public void lwm2m_mo_064() {
         monPage
                 .topMenu(MONITORING)
-//                .deleteAllCustomViews()
                 .newViewButton()
                 .fillCustomViewName()
                 .bottomMenu(NEXT)
@@ -1069,7 +1067,6 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .addModelButton()
-//                .deleteAllGroups()
                 .newGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)

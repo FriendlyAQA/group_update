@@ -23,7 +23,6 @@ public class GroupUpdateTR181Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName()
                 .deleteFilterGroups();
     }
 
