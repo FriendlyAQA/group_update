@@ -492,17 +492,17 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test //bug: default object has overlying expanded objects
-    public void usp_dp_033() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .selectMainTab("Parameters")
-                .bottomMenu(ADVANCED_VIEW)
-                .validateObjectTree();
-    }
+//    @Test //bug: default object has overlying expanded objects
+//    public void usp_dp_033() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .selectMainTab("Parameters")
+//                .bottomMenu(ADVANCED_VIEW)
+//                .validateObjectTree();
+//    }
 
     @Test
     public void usp_dp_034() {

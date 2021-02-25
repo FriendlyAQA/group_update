@@ -798,6 +798,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)

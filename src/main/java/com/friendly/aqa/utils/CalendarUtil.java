@@ -50,6 +50,14 @@ public class CalendarUtil {
         return dbDateFormat.parse(date);
     }
 
+    public static Date getDateForSorting(String date) throws ParseException {
+        return importGroupDateFormat.parse(date);
+    }
+
+    public static String getSortingDate(Date date) {
+        return importGroupDateFormat.format(date);
+    }
+
     public static String convertDate(String dbDate) {
         try {
             return dateFormat.format(getDbDate(dbDate));

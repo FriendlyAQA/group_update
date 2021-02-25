@@ -1224,6 +1224,10 @@ public abstract class BasePage {
         return getTable("tabsSettings_tblTabs", null);
     }
 
+    public void hidePointer(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", element);
+    }
+
     public BasePage immediately() {
         immediatelyRadioButton.click();
         return this;
@@ -1539,7 +1543,12 @@ public abstract class BasePage {
     }
 
     public BasePage selectColumnFilter(String option) {
-        selectComboBox(selectColumnFilter, option);
+        try {
+            selectComboBox(selectColumnFilter, option);
+        } catch (NoSuchElementException e) {
+            selectColumnFilter.click();
+            throw e;
+        }
         return this;
     }
 
@@ -2256,7 +2265,11 @@ public abstract class BasePage {
                 String[] arr = table.getColumn(colNum, true);
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
-                Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
+                if (arr[0].matches("\\d{2}/\\d{2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}")) {
+                    dateSorting(arr, descending);
+                } else {
+                    Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
+                }
                 if (!Arrays.deepEquals(arr, arr2)) {
                     System.out.println("Expected:" + Arrays.toString(arr));
                     System.out.println("Found   :" + Arrays.toString(arr2));
@@ -2275,6 +2288,21 @@ public abstract class BasePage {
             }
         }
         return this;
+    }
+
+    private void dateSorting(String[] arr, boolean descending) {
+        List<Date> list = new ArrayList<>();
+        for (String s : arr) {
+            try {
+                list.add(CalendarUtil.getDateForSorting(s));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        list.sort(descending ? Comparator.naturalOrder() : Comparator.reverseOrder());
+        List<String> outList = new ArrayList<>(list.size());
+        list.forEach(date -> outList.add(CalendarUtil.getSortingDate(date)));
+        arr = outList.toArray(new String[0]);
     }
 
     public void validateViewColumns() {

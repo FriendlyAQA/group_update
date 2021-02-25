@@ -333,7 +333,7 @@ public class ReportsTests extends BaseTestCase {
                 .topMenu(REPORTS)
                 .openOfflineDevices()
                 .selectPeriod("Months")
-                .inputPeriod("2")
+                .inputPeriod("1")
                 .go()
                 .assertElementsArePresent("canvasChart", "tblReports")
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);

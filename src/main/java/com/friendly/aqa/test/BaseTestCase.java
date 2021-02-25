@@ -150,7 +150,7 @@ public abstract class BaseTestCase {
             e.printStackTrace();
         }
         long millis = System.currentTimeMillis() - start;
-        logger.info("Total running time: " + String.format("%02d min, %02d sec",
+        logger.warn("Total running time: " + String.format("%02d min, %02d sec",
                 TimeUnit.MILLISECONDS.toMinutes(millis),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
         ));

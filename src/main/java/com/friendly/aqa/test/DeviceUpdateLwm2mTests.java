@@ -797,6 +797,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
+                .deleteAllCustomViews()
                 .newViewButton()
                 .fillName()
                 .bottomMenu(NEXT)
@@ -921,17 +922,17 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateSorting("Created");
     }
 
-    @Test
+    @Test   //Bug: default view displaying instead of the lwm2m_du_070
     public void lwm2m_du_073() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-//                .selectView("lwm2m_du_070")
+                .selectView("lwm2m_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-                .selectView("lwm2m_du_070")
-//                .searchButton()
+//                .selectView("lwm2m_du_070")
+                .searchButton()
                 .validateSorting("Firmware");
     }
 
@@ -1174,12 +1175,12 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-//                .selectView("lwm2m_du_070")
+                .selectView("lwm2m_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-                .selectView("lwm2m_du_070")
-//                .searchButton()
+//                .selectView("lwm2m_du_070")
+                .searchButton()
                 .validateSorting("User ID");
     }
 
@@ -1875,7 +1876,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateProvisionTasks();
     }
 
-    @Test   //bug:Connectivity monitoring tab has all read only fields
+    @Test   //bug:Connectivity monitoring tab has all read-only fields
     public void lwm2m_du_154() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1892,7 +1893,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateTasks();
     }
 
-    @Test   //bug:Connectivity monitoring tab has all read only fields
+    @Test   //bug:Connectivity monitoring tab has all read-only fields
     public void lwm2m_du_155() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1909,7 +1910,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateTasks();
     }
 
-    @Test   //bug:Connectivity monitoring tab has all read only fields
+    @Test   //bug:Connectivity monitoring tab has all read-only fields
     public void lwm2m_du_156() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1926,7 +1927,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateTasks();
     }
 
-    @Test   //bug:Connectivity monitoring tab has all read only fields
+    @Test   //bug:Connectivity monitoring tab has all read-only fields
     public void lwm2m_du_157() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2118,7 +2119,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .validateDownloadFileTasks();
     }
 
-    //skipped: 169 - cannot select File name dropdown;
+    //skipped: 169 - 'Vendor Configuration File' is absent from File type dropdown;
 
 
     @Test   //bug: option 'Vendor Configuration File' is absent from File type dropdown;
@@ -2218,7 +2219,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(FILE_DOWNLOAD)
                 .selectDownloadFileType("LWM2M PSK Credentials")
                 .fillDownloadUrl()
-                .bottomMenu(ADD_TO_PROVISION)   //added for dependent 183,184,185 and 171 has bug
+                .bottomMenu(ADD_TO_PROVISION)   //added for dependent 183,184,185 (and 171 that has bug)
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .okButtonPopUp()

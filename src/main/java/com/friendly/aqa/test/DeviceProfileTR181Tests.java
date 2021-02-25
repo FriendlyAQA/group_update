@@ -1639,17 +1639,17 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test //bug: root object has overlying expanded objects
-    public void tr181_dp_100() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .selectMainTab("Parameters")
-                .bottomMenu(ADVANCED_VIEW)
-                .validateObjectTree();
-    }
+//    @Test //bug: root object has overlying expanded objects
+//    public void tr181_dp_100() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .selectMainTab("Parameters")
+//                .bottomMenu(ADVANCED_VIEW)
+//                .validateObjectTree();
+//    }
 
     @Test
     public void tr181_dp_101() {

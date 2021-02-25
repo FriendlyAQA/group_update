@@ -935,7 +935,8 @@ public class DeviceUpdatePage extends BasePage {
         } else if (select != null && select.isEnabled()) {
             selectComboBox(select, value);
         }
-        table.clickOn(rowNum - 1, colNum);
+//        table.clickOn(rowNum - 1, colNum);    //usp_du_153 ↓
+        table.clickOn(0, colNum);
         table.clickOn(rowNum, colNum);
     }
 
@@ -1053,6 +1054,9 @@ public class DeviceUpdatePage extends BasePage {
 //    }
 
     public void validateAbsenceTaskWithValue() {
+        if (elementIsAbsent(getMainTableId())) {
+            return;
+        }
         String[] col = getMainTable().getColumn("Value");
         String value = getParameterMap().values().iterator().next();
         if (Arrays.asList(col).contains(value)) {
@@ -1184,117 +1188,35 @@ public class DeviceUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public void validateObjectTree() {
-        Timer timer = new Timer();
-        Table table = getTable("tblTree");
-        int defaultExpanded = table.getVisibleRowsNumber();
-        if (defaultExpanded < 2) {
-            throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
-        }
-        waitForUpdate();
-        collapseLink.click();
-        table = getTable("tblTree");
-        if (table.getVisibleRowsNumber() != 1) {
-            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
-        }
-        setImplicitlyWait(0);
-        List<WebElement> images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
-        if (!images.isEmpty()) {
-            if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
-                throw new AssertionError("Expected top node icon is 'PLUS'!");
+        Timer timer = new Timer(10000);
+        while (!timer.timeout()) {
+            try {
+                WebElement table = findElement("tblTree");
+                List<WebElement> rowList = table.findElements(By.tagName("tr"));
+                if (rowList.get(1).isDisplayed()) {
+                    showPointer(collapseLink).click();
+                } else {
+                    expandLink.click();
+                    continue;
+                }
+                assertFalse(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: collapsed, actual: expanded");
+                hidePointer(collapseLink);
+                showPointer(expandLink).click();
+                assertTrue(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: expanded, actual: collapsed");
+                WebElement node = table.findElement(By.tagName("img"));
+                boolean state = node.getAttribute("src").endsWith("collapse.png");
+                hidePointer(expandLink);
+                showPointer(node).click();
+                assertFalse(state == node.getAttribute("src").endsWith("collapse.png"), "Node did not change state after clicking!");
+                hidePointer(node);
+            } catch (StaleElementReferenceException e) {
+                continue;
             }
+            return;
         }
-        waitForUpdate();
-        expandLink.click();
-        table = getTable("tblTree");
-        int allExpanded = table.getVisibleRowsNumber();
-        if (allExpanded < defaultExpanded) {
-            throw new AssertionError("Expanded objects number is less than default expanded tree (" + allExpanded + "<" + defaultExpanded + ")");
-        }
-        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
-        if (!images.isEmpty()) {
-            if (!images.get(0).getAttribute("src").endsWith("collapse.png")) {
-                throw new AssertionError("Expected top node icon is 'MINUS'!");
-            }
-        }
-        waitForUpdate();
-        table.clickOn(0, 0, 0);
-        table = getTable("tblTree");
-        if (table.getVisibleRowsNumber() != 1) {
-            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
-        }
-        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
-        if (!images.isEmpty()) {
-            if (!images.get(0).getAttribute("src").endsWith("expand.png")) {
-                throw new AssertionError("Expected top node icon is 'PLUS'!");
-            }
-        }
-        waitForUpdate();
-        images.get(0).click();
-        table = getTable("tblTree");
-        int currentRows = table.getVisibleRowsNumber();
-        if (currentRows != allExpanded) {
-            throw new AssertionError("Expanded objects number is not equals than previous expanded tree (" + currentRows + "/" + allExpanded + ")");
-        }
-        images = table.getCellWebElement(0, 0).findElements(By.tagName("img"));
-        if (!images.isEmpty()) {
-            if (!images.get(0).getAttribute("src").endsWith("collapse.png")) {
-                throw new AssertionError("Expected top node icon is 'MINUS'!");
-            }
-        }
-    }
-
-    public void validateObjectTree1() {
-        Timer timer = new Timer();
-        WebElement table = findElement("tblTree");
-        String rootExpanderId = table.findElement(By.tagName("img")).getAttribute("id");
-        long defaultExpanded = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
-        if (defaultExpanded < 2) {
-            throw new AssertionError("Expected device tree state: expanded, but visible rows number is " + defaultExpanded);
-        }
-        collapseLink.click();
-        waitForSpinner();
-        waitForUpdate();
-        table = findElement("tblTree");
-        if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
-            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
-        }
-        setImplicitlyWait(0);
-        if (!findElement(rootExpanderId).getAttribute("src").endsWith("expand.png")) {
-            throw new AssertionError("Expected top node icon is 'PLUS'!");
-        }
-        expandLink.click();
-        waitForSpinner();
-        waitForUpdate();
-        table = findElement("tblTree");
-        long allExpanded = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
-        if (allExpanded < defaultExpanded) {
-            throw new AssertionError("Expanded objects number is less than default expanded tree (" + defaultExpanded + ")");
-        }
-        if (!findElement(rootExpanderId).getAttribute("src").endsWith("collapse.png")) {
-            throw new AssertionError("Expected top node icon is 'MINUS'!");
-        }
-        findElement(rootExpanderId).click();
-        waitForSpinner();
-        waitForUpdate();
-        table = findElement("tblTree");
-        if (table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count() != 1) {
-            throw new AssertionError("Expected device tree state: collapsed, but visible rows number is more than 1");
-        }
-        if (!findElement(rootExpanderId).getAttribute("src").endsWith("expand.png")) {
-            throw new AssertionError("Expected top node icon is 'PLUS'!");
-        }
-        findElement(rootExpanderId).click();
-        waitForSpinner();
-        waitForUpdate();
-        table = findElement("tblTree");
-        long currentRows = table.findElements(By.tagName("tr")).parallelStream().filter(WebElement::isDisplayed).count();
-        if (currentRows != allExpanded) {
-            throw new AssertionError("Expanded objects number is not equals than previous expanded tree (" + currentRows + "/" + allExpanded + ")");
-        }
-        if (!findElement(rootExpanderId).getAttribute("src").endsWith("collapse.png")) {
-            throw new AssertionError("Expected top node icon is 'MINUS'!");
-        }
+        throw new AssertionError("Time out while checking Parameter three");
     }
 
     private void waitForSpinner() {

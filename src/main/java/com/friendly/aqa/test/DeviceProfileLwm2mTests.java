@@ -686,17 +686,17 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateParameters();
     }
 
-    @Test //bug: default object has overlying expandable objects
-    public void lwm2m_dp_045() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .selectMainTab("Parameters")
-                .bottomMenu(ADVANCED_VIEW)
-                .validateObjectTree();
-    }
+//    @Test //bug: default object has overlying expandable objects
+//    public void lwm2m_dp_045() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .selectMainTab("Parameters")
+//                .bottomMenu(ADVANCED_VIEW)
+//                .validateObjectTree();
+//    }
 
     @Test
     public void lwm2m_dp_046() {

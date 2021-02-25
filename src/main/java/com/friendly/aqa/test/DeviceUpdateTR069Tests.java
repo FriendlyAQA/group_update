@@ -1143,7 +1143,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateSorting("Serial");
     }
 
-    @Test   //Bug: column "Status" is absent from search view settings list; (bug in STD?)
+    @Test   //Bug: default view displaying instead of the tr069_du_070
     public void tr069_du_090() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1153,6 +1153,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .lookFor(getSerial().substring(0, 1))
                 .deselectCheckbox("rdSearchExactly")
                 .searchButton()
+//                .selectView("tr069_du_070")
                 .validateSorting("Status");
     }
 
@@ -1174,12 +1175,12 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .leftMenu(SEARCH)
-//                .selectView("tr069_du_070")
+                .selectView("tr069_du_070")
                 .searchBy("Serial Number")
                 .deselectCheckbox("rdSearchExactly")
                 .lookFor(getSerial().substring(0, 1))
-                .selectView("tr069_du_070")
-//                .searchButton()
+                .searchButton()
+//                .selectView("tr069_du_070")
                 .validateSorting("User ID");
     }
 
@@ -2298,7 +2299,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .validateObjectTree1(); // use .validateObjectTree1() instead if failed!
+                .validateObjectTree();
     }
 
     @Test

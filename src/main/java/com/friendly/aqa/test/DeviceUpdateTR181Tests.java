@@ -416,7 +416,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //depends on tr181_du_014
     public void tr181_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2488,7 +2488,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .validateObjectTree1(); // use .validateObjectTree1() instead if failed!
+                .validateObjectTree(); // use .validateObjectTree1() instead if failed!
     }
 
     @Test

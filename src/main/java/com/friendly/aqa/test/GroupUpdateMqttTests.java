@@ -201,7 +201,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_020(){
         guPage
-                .gotoSetParameters(/*true*/)    //bug? Advanced View button is absent from MQTT!!!
+                .gotoSetParameters()    //bug? Advanced View button is absent from MQTT!!!
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -210,7 +210,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_021(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -219,7 +219,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_022(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -228,7 +228,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_023(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -237,7 +237,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_024(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -246,7 +246,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_025(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -255,7 +255,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_026(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -264,7 +264,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_027(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -273,7 +273,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_028(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -282,7 +282,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_029(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -291,7 +291,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_030(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
                 .nextSaveAndActivate()
                 .validateAddedTasks();
@@ -300,7 +300,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     @Test
     public void mqtt_gu_031(){
         guPage
-                .gotoSetParameters(/*true*/)
+                .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
                 .nextSaveAndActivate()
                 .validateAddedTasks();

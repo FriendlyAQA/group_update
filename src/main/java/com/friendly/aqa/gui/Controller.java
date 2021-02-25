@@ -334,6 +334,13 @@ public class Controller implements WindowListener, Runnable {
         }
     }
 
+    public void enableSelectedTabs(boolean enable) {
+        for (int i = 0; i < enableTabCheckboxes.length; i++) {
+            enableTabCheckboxes[i].setSelected(enableTabCheckboxes[i].isSelected());
+            tabStateChanged(i);
+        }
+    }
+
     public void tabStateChanged(int tabNum) {
         JCheckBox checkBox = enableTabCheckboxes[tabNum];
         if (!checkBox.isSelected()) {
@@ -392,6 +399,10 @@ public class Controller implements WindowListener, Runnable {
         runButton.setText("RUN");
         redefineStartButtonState();
         view.getShowReportButton().setEnabled(true);
+        reRunFailedCheckbox.setSelected(false);
+        view.getRunEntireCheckBox().setSelected(false);
+        view.getRunEntireCheckBox().setEnabled(true);
+        enableSelectedTabs(true);
     }
 
     private void redefineStartButtonState() {

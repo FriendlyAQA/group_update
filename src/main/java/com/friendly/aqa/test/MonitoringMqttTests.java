@@ -1346,7 +1346,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .waitForStatus("Running");
     }
 
-    @Test   // bug: failed due to device does not have MAC address
+    @Test   //bug: filter with option "Starts with" is unavailable
     public void mqtt_mo_085() {
         monPage
                 .topMenu(MONITORING)
@@ -1359,9 +1359,9 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .fillGroupName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .selectColumnFilter("MAC address")
+                .selectColumnFilter("Serial")
                 .selectCompare("Starts with")
-                .partOfMacAddress()
+                .partOfSerial()
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()

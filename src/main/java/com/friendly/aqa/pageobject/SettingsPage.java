@@ -57,8 +57,6 @@ public class SettingsPage extends BasePage {
             table.print();
             throw new AssertionError("User '" + username + "' not found in table!");
         }
-        System.out.println(username);
-        table.print();
     }
 
     public void validateUserAbsence(String username) {

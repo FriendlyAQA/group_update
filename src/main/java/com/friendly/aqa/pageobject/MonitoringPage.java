@@ -655,6 +655,11 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
+    public MonitoringPage partOfSerial() {
+        inputText(inputTextField, getSerial().substring(0,getSerial().length()-2));
+        return this;
+    }
+
     public MonitoringPage deleteAllMonitors() {
         if (getMainTable().isEmpty()) {
             return this;
