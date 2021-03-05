@@ -552,7 +552,7 @@ public class MonitoringUspTests extends BaseTestCase {
     }
 
     @Test
-    public void usp_mo_037() {    //is dependent on #035
+    public void usp_mo_037() {    //is dependent on #035, 036
         monPage
                 .topMenu(MONITORING)
                 .selectItem("usp_mo_035")
@@ -561,7 +561,15 @@ public class MonitoringUspTests extends BaseTestCase {
                 .waitForStatus("Running", "usp_mo_035");
     }
 
-    //skipped 038: Button STOP_WITH_RESET was removed from UI (BT item #9766)
+    @Test
+    public void usp_mo_038() {    //is dependent on #035, 037
+        monPage
+                .topMenu(MONITORING)
+                .selectItem("usp_mo_035")
+                .bottomMenu(STOP)
+                .okButtonPopUp()
+                .waitForStatus("Not active", "usp_mo_035");
+    }
 
     @Test
     public void usp_mo_039() {

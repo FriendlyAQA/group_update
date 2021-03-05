@@ -98,8 +98,8 @@ public class FileManagementPage extends BasePage {
         Table table = getMainTable();
         List<Integer> list = table.getRowsWithText("LWM2M PSK Credentials");
         list.addAll(table.getRowsWithText("LWM2M Resource Definition"));
-        for (int i: list){
-            if (table.getCellText(i, "State").equals("Exists")){
+        for (int i : list) {
+            if (table.getCellText(i, "State").equals("Exists")) {
                 throw new AssertionError("Backup file '" + table.getCellText(i, "Name") +
                         "' has 'EXIST' state after deleting!");
             }

@@ -864,7 +864,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
     }
 
     @Test
-    public void tr069_mo_058() {    //is dependent on #056
+    public void tr069_mo_058() {    //is dependent on #056, 057
         monPage
                 .topMenu(MONITORING)
                 .selectItem("tr069_mo_056")
@@ -873,7 +873,15 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .waitForStatus("Running", "tr069_mo_056");
     }
 
-    //skipped 059: Button STOP_WITH_RESET was removed from UI (BT item #9766)
+    @Test
+    public void tr069_mo_059() {    //is dependent on #056, 058
+        monPage
+                .topMenu(MONITORING)
+                .selectItem("tr069_mo_056")
+                .bottomMenu(STOP)
+                .okButtonPopUp()
+                .waitForStatus("Not active", "tr069_mo_056");
+    }
 
     @Test
     public void tr069_mo_060() {

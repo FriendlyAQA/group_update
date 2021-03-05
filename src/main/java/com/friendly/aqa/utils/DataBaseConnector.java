@@ -144,24 +144,6 @@ public class DataBaseConnector {
         return getValueSet(query);
     }
 
-    public static Set<String> getDeviceProfileNameSetByManufacturer(String manufacturer) {
-        String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
-                "SELECT group_id FROM ftacs.product_class WHERE manuf_id IN (" +
-                "SELECT id FROM ftacs.manufacturer WHERE NAME='" + manufacturer + "'))";
-        return getValueSet(query);
-    }
-
-    public static Set<String> getDeviceProfileNameSetByModelName(String modelName) {
-        String query = "SELECT name FROM ftacs.profile WHERE group_id IN (" +
-                "SELECT group_id FROM ftacs.product_class WHERE model='" + modelName + "')";
-        return getValueSet(query);
-    }
-
-    public static Set<String> getDeviceProfileNameSetByStatus(String status) {
-        String query = "SELECT name FROM ftacs.profile WHERE is_active='" + (status.equals("Active") ? "1" : "0") + "'";
-        return getValueSet(query);
-    }
-
     public static Set<String> getProfileSet() {
         String query = "SELECT id FROM ftacs.profile WHERE group_id IN (" +
                 "SELECT group_id FROM ftacs.product_class WHERE id IN (" +
@@ -169,7 +151,7 @@ public class DataBaseConnector {
         return getValueSet(query);
     }
 
-    private static Set<String> getValueSet(String query) {
+    public static Set<String> getValueSet(String query) {
         Set<String> nameSet = new HashSet<>();
         try {
             stmtObj.execute(query);

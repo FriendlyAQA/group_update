@@ -128,8 +128,8 @@ public class MonitoringPage extends BasePage {
         return enterIntoMonitoring(BaseTestCase.getTestName());
     }
 
-    public MonitoringPage deleteAllGroups() {
-        return (MonitoringPage) deleteAll(sendToComboBox);
+    private void deleteAllGroups() {
+        deleteAll(sendToComboBox);
     }
 
     public MonitoringPage addModelButton() {
@@ -656,7 +656,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage partOfSerial() {
-        inputText(inputTextField, getSerial().substring(0,getSerial().length()-2));
+        inputText(inputTextField, getSerial().substring(0, getSerial().length() - 2));
         return this;
     }
 

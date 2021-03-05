@@ -116,7 +116,7 @@ public class Table {
 //                System.out.println("Clicked1:" + timer2.stop());
             } catch (ElementNotInteractableException e) {
                 throw new AssertionError("Element <" + elementTable[row][column].getTagName() + "> is present," +
-                        " but not interactable (hidden?) on a page!");
+                        " but not interactive (hidden?) on a page!");
             }
         } else {
             List<WebElement> tagList = elementTable[row][column].findElements(By.xpath("child::img | child::span | child::input | child::select"));
@@ -127,7 +127,7 @@ public class Table {
                 BasePage.scrollToElement(tagList.get(tagNum)).click();
             } catch (ElementNotInteractableException e) {
                 throw new AssertionError("Element <" + tagList.get(tagNum) + "> is present," +
-                        " but not interactable (hidden?) on a page!");
+                        " but not interactive (hidden?) on a page!");
             }
 
         }
@@ -233,7 +233,7 @@ public class Table {
         return textTable[row].length;
     }
 
-    public Table print() {
+    public void print() {
         int maxCells = getTableSize()[1];
         int[] size = new int[maxCells];
         for (String[] rows : textTable) {
@@ -249,7 +249,6 @@ public class Table {
             }
             System.out.println();
         }
-        return this;
     }
 
     @SuppressWarnings("unused")
@@ -315,6 +314,7 @@ public class Table {
         return getCellText(row, getColumnNumber(0, columnHeader));
     }
 
+    @SuppressWarnings("unused")
     public void assertStartsWith(int row, int column, String expectedText) {
         if (column < 0) {
             column = textTable[row].length + column;
@@ -544,21 +544,6 @@ public class Table {
         out.sort(Comparator.naturalOrder());
         return out;
     }
-
-//    public List<Integer> getVisibleRowsWithInput(int column) {
-//        BasePage.setImplicitlyWait(0);
-//        List<Integer> out = new ArrayList<>();
-//        for (int i = 0; i < elementTable.length; i++) {
-//            if (elementTable[i][column].isDisplayed()) {
-//                List<WebElement> list = elementTable[i][column].findElements(By.tagName("input"));
-//                if (!list.isEmpty()) {
-//                    out.add(i);
-//                }
-//            }
-//        }
-//        BasePage.setDefaultImplicitlyWait();
-//        return out;
-//    }
 
     @Override
     public boolean equals(Object o) {

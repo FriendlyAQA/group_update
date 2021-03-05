@@ -649,7 +649,15 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .waitForStatus("Running", "lwm2m_mo_041");
     }
 
-    //skipped 044: Button STOP_WITH_RESET was removed from UI (BT item #9766)
+    @Test
+    public void lwm2m_mo_044() {    //is dependent on #041
+        monPage
+                .topMenu(MONITORING)
+                .selectItem("lwm2m_mo_041")
+                .bottomMenu(STOP)
+                .okButtonPopUp()
+                .waitForStatus("Not active", "lwm2m_mo_041");
+    }
 
     @Test
     public void lwm2m_mo_045() {
@@ -1027,7 +1035,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .topMenu(MONITORING)
                 .selectView("lwm2m_mo_064")
                 .resetView()
-                .assertSelectedViewIs( "Default");
+                .assertSelectedViewIs("Default");
     }
 
     @Test

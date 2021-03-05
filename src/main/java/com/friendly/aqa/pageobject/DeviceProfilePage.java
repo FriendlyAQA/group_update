@@ -72,12 +72,6 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "cbsendBackupForExisting")
     private WebElement applyForNewDeviceCheckbox;
 
-    @FindBy(id = "rdDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
-    private WebElement sendOnBoardRequestRadioButton;
-
-    @FindBy(id = "ddlDevice.LocalAgent.Controller.i.SendOnBoardRequest()")
-    private WebElement instanceCombobox;
-
 
     @Override
     public String getMainTableId() {
@@ -148,19 +142,6 @@ public class DeviceProfilePage extends BasePage {
     public DeviceProfilePage assertElementIsSelected(String id) {
         return (DeviceProfilePage) super.assertElementIsSelected(id);
     }
-
-//    public DeviceProfilePage selectMainTab(String tab) {//TODO something...
-//        try {
-//            getTable("tabsMain_tblTabs").clickOn(tab);
-//            pause(1000);
-//        } catch (AssertionError e) {
-//            pause(1000);
-//            getTable("tabsMain_tblTabs").clickOn(tab);
-//            pause(1000);
-//        }
-//        waitForUpdate();
-//        return this;
-//    }
 
     @Override
     public DeviceProfilePage selectMainTab(String tab) {
@@ -716,7 +697,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(manufacturerComboBox, modelComboBox, updateStatusCombobox, resetViewButton);
+        assertElementsAreEnabled(manufacturerComboBox, modelComboBox, profileStatusCombobox, resetViewButton);
         return this;
     }
 
@@ -774,7 +755,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public DeviceProfilePage selectProfileStatus(String status) {
-        selectComboBox(updateStatusCombobox, status);
+        selectComboBox(profileStatusCombobox, status);
         waitForUpdate();
         return this;
     }
@@ -826,75 +807,45 @@ public class DeviceProfilePage extends BasePage {
         return response.equals("{\"d\":true}");
     }
 
-    public void validateFilteringByManufacturer() {
-        List<String> optionList = getOptionList(manufacturerComboBox);
-        optionList.remove("All");
-        selectModel("All");
-        selectProfileStatus("All");
-        optionList.forEach(option -> validateFiltering(0, option));
-    }
-
-    public void validateFilteringByModelName() {
-        List<String> optionList = getOptionList(modelComboBox);
-        optionList.remove("All");
-        selectManufacturer("All");
-        selectProfileStatus("All");
-        optionList.forEach(option -> validateFiltering(1, option));
-    }
-
-    public void validateFilteringByStatus() {
-        List<String> optionList = getOptionList(updateStatusCombobox);
-        optionList.remove("All");
+    public void validateFiltering(String comboBoxName) {
+        setSinglePage();
+        List<String> statusOptionList = getOptionList(profileStatusCombobox);
+        statusOptionList.remove("All");
         selectManufacturer("All");
         selectModel("All");
-        optionList.forEach(option -> validateFiltering(2, option));
-    }
-
-    private void validateFiltering(int comboBox, String filter) { //0 - Manufacturer; 1 - Model Name; 2 - Profile status.
-        Set<String> dbNameSet;
-        Set<String> columnSet = new HashSet<>();
-        Table table = null;
-        if (comboBox == 0) {
-            selectManufacturer(filter);
-            dbNameSet = getDeviceProfileNameSetByManufacturer(filter);
-            if (elementIsPresent("tblItems")) {
-                table = getMainTable();
-                columnSet.addAll(Arrays.asList(table.getColumn("Manufacturer")));
-            }
-        } else if (comboBox == 1) {
-            selectModel(filter);
-            dbNameSet = getDeviceProfileNameSetByModelName(filter);
-            if (elementIsPresent("tblItems")) {
-                table = getMainTable();
-                columnSet.addAll(Arrays.asList(table.getColumn("Model name")));
-            }
+        selectProfileStatus("All");
+        if (DataBaseConnector.getValueSet("SELECT name FROM ftacs.profile").isEmpty() == elementIsPresent(getMainTableId())) {
+            throw new AssertionError("Content of DB (ftacs.profile) and web interface don't match!");
+        }
+        WebElement comboBox = comboBoxName.equalsIgnoreCase("Manufacturer") ? manufacturerComboBox : modelComboBox;
+        List<String> options;
+        if (!comboBoxName.equalsIgnoreCase("Manufacturer") && !comboBoxName.equalsIgnoreCase("Model name")) {
+            options = new ArrayList<>();
+            options.add("All");
         } else {
-            selectProfileStatus(filter);
-            dbNameSet = getDeviceProfileNameSetByStatus(filter);
-            if (elementIsPresent("tblItems")) {
-                table = getMainTable();
-                columnSet.addAll(Arrays.asList(table.getColumn("State")));
+            options = getOptionList(comboBox);
+        }
+        for (String option : options) {
+            selectComboBox(comboBox, option);
+            waitForUpdate();
+            for (String status : statusOptionList) {
+                selectProfileStatus(status);
+                if (elementIsAbsent(getMainTableId())) {
+                    continue;
+                }
+                Table table = getMainTable();
+                Set<String> statusSet = new HashSet<>(Arrays.asList(table.getColumn("State")));
+                if (statusSet.size() != 1 || !statusSet.iterator().next().equalsIgnoreCase(status)) {
+                    System.out.println("numOfValue:" + statusSet.size() + "; Values: " + statusSet);
+                    throw new AssertionError("Incorrect content in column 'State'");
+                }
+                if (!option.equals("All")) {
+                    Set<String> nameSet = new HashSet<>(Arrays.asList(table.getColumn(comboBoxName)));
+                    assertEquals(nameSet.size(), 1, "Different values are present in column '" + comboBoxName + "'!");
+                    assertEquals(nameSet.iterator().next(), option, "Unexpected content in column '" + comboBoxName + "'!");
+                }
             }
         }
-        if (columnSet.size() > 1) {
-            throw new AssertionError("Filtered column has more than one value!");
-        }
-        if (elementIsPresent("btnPager2")) {
-            itemsOnPage("200");
-            table = getMainTable();
-        }
-        String[] names = table == null ? new String[0] : table.getColumn("Name");
-        Set<String> webNameSet = new HashSet<>(Arrays.asList(names));
-        if (elementIsAbsent("btnPager2") && dbNameSet.size() == 0) {
-            return;
-        }
-        if (webNameSet.removeAll(dbNameSet) && webNameSet.size() == 0) {
-            return;
-        }
-        System.out.println("!!!:" + webNameSet);
-        String warn = "Filtering by " + (comboBox == 0 ? "manufacturer" : comboBox == 1 ? "model name" : "profile status") + " failed!";
-        LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
-        throw new AssertionError(warn);
     }
 
     public void getExport() {

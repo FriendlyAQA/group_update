@@ -353,7 +353,7 @@ public abstract class BasePage {
     private WebElement upButton;
 
     @FindBy(id = "ddlUpdateStatus")
-    protected WebElement updateStatusCombobox;
+    protected WebElement profileStatusCombobox;
 
     @FindBy(id = "tbUrl")
     private WebElement uploadUrlField;
@@ -1579,7 +1579,7 @@ public abstract class BasePage {
             getTask(null).setParameterName(value);
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
-            String warn = value + " type is not supported by current device!";
+            String warn = value + " is not supported by current device!";
             throw new AssertionError(warn);
         }
         return this;
@@ -2266,7 +2266,7 @@ public abstract class BasePage {
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
                 if (arr[0].matches("\\d{2}/\\d{2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}")) {
-                    dateSorting(arr, descending);
+                    arr = dateSorting(arr, descending);
                 } else {
                     Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
                 }
@@ -2290,7 +2290,7 @@ public abstract class BasePage {
         return this;
     }
 
-    private void dateSorting(String[] arr, boolean descending) {
+    private String[] dateSorting(String[] arr, boolean descending) {
         List<Date> list = new ArrayList<>();
         for (String s : arr) {
             try {
@@ -2299,10 +2299,10 @@ public abstract class BasePage {
                 e.printStackTrace();
             }
         }
-        list.sort(descending ? Comparator.naturalOrder() : Comparator.reverseOrder());
+        list.sort(descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
         List<String> outList = new ArrayList<>(list.size());
         list.forEach(date -> outList.add(CalendarUtil.getSortingDate(date)));
-        arr = outList.toArray(new String[0]);
+        return outList.toArray(new String[0]);
     }
 
     public void validateViewColumns() {

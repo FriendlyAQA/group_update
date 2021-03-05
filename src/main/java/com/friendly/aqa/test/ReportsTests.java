@@ -44,7 +44,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_004 skipped: cannot check printing automatically
+    @Test
+    public void reports_004() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openDevicesDistribution()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_005() {
@@ -139,7 +146,15 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_013 skipped: cannot check printing automatically
+    @Test
+    public void reports_013() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openDevicesRegistration()
+                .selectShiftedDate("calFromDate", -365)
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_014() {
@@ -217,7 +232,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_021 skipped: cannot check printing automatically
+    @Test
+    public void reports_021() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openOnlineDevices()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_022() {
@@ -293,7 +315,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_029 skipped: cannot check printing automatically
+    @Test
+    public void reports_029() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openOfflineDevices()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_030() {
@@ -392,7 +421,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_039 skipped: cannot check printing automatically
+    @Test
+    public void reports_039() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openEvents()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_040() {
@@ -473,7 +509,15 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_047 skipped: cannot check printing automatically
+    @Test
+    public void reports_047() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openUserActivity()
+                .selectActivity("Profiles")
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_048() {
@@ -611,7 +655,15 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_059 skipped: cannot check printing automatically
+    @Test
+    public void reports_059() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openUserActivity()
+                .selectActivity("Device Update")
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_060() {
@@ -888,7 +940,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT);
     }
 
-//    reports_083 skipped: option 'all hub related actions' are missing
+//    reports_083 skipped: all 'hub' related actions are missing
 
     @Test
     public void reports_084() {
@@ -911,7 +963,15 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_086 skipped: cannot check printing automatically
+    @Test
+    public void reports_086() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openUserActivity()
+                .selectActivity("Group Update")
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_087() {
@@ -1332,7 +1392,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_121 skipped: cannot check printing automatically
+    @Test
+    public void reports_121() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openGroupUpdate()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_122() {
@@ -1475,7 +1542,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_135 skipped: cannot check printing automatically
+    @Test
+    public void reports_135() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openFirmwareVersions()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_136() {
@@ -1544,7 +1618,14 @@ public class ReportsTests extends BaseTestCase {
                 .validateExport();
     }
 
-//    reports_142 skipped: cannot check printing automatically
+    @Test
+    public void reports_142() {
+        reportsPage
+                .topMenu(REPORTS)
+                .openInventory()
+                .go()
+                .assertButtonsAreEnabled(true, PRINT);
+    }
 
     @Test
     public void reports_143() {

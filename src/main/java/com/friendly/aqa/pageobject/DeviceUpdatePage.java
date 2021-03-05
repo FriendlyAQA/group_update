@@ -1046,13 +1046,6 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
     }
 
-//    public void validateAbsenceTaskWithValue(String value) {
-//        String[] col = getMainTable().getColumn("Value");
-//        if (Arrays.asList(col).contains(value)) {
-//            throw new AssertionError("Task with value '" + value + "' is present in the list!");
-//        }
-//    }
-
     public void validateAbsenceTaskWithValue() {
         if (elementIsAbsent(getMainTableId())) {
             return;
@@ -1217,16 +1210,6 @@ public class DeviceUpdatePage extends BasePage {
             return;
         }
         throw new AssertionError("Time out while checking Parameter three");
-    }
-
-    private void waitForSpinner() {
-        switchToFrame(ROOT);
-        new FluentWait<>(driver)
-                .withMessage("Spinner not found")
-                .withTimeout(Duration.ofSeconds(11))
-                .pollingEvery(Duration.ofMillis(10))
-                .until(ExpectedConditions.visibilityOf(spinner));
-        switchToPreviousFrame();
     }
 
     public DeviceUpdatePage changeAccessList() {

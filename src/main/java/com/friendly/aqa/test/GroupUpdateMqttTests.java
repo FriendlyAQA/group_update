@@ -1,6 +1,9 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.pageobject.BasePage;
+import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -182,6 +185,64 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
+    public void mqtt_gu_013() {
+        guPage
+                .gotoSetParameters()
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
+    }
+
+    @Test
+    public void mqtt_gu_014() {
+        guPage
+                .gotoSetParameters()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5);
+    }
+
+    @Test
+    public void mqtt_gu_015() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .enterIntoGroup("mqtt_gu_014")
+                .bottomMenu(EDIT)
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .clickOnTable("tblTasks", 1, 1)
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .enterIntoGroup("mqtt_gu_014")
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_016() {
+        guPage
+                .gotoSetParameters()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate();
+    }
+
+    @Test
+    public void mqtt_gu_017() {//depends on 16
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .enterIntoGroup("mqtt_gu_016")
+                .bottomMenu(EDIT)
+                .assertInputIsDisabled("ddlSend")
+                .bottomMenu(NEXT)
+                .assertInputIsDisabled("lrbImmediately")
+                .bottomMenu(NEXT)
+                .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
+    }
+
+
+    @Test
     public void mqtt_gu_018() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -199,7 +260,14 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_020(){
+    public void mqtt_gu_019() {//depends on 16
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .checkExportLink();
+    }
+
+    @Test
+    public void mqtt_gu_020() {
         guPage
                 .gotoSetParameters()    //bug? Advanced View button is absent from MQTT!!!
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
@@ -208,7 +276,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_021(){
+    public void mqtt_gu_021() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
@@ -217,7 +285,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_022(){
+    public void mqtt_gu_022() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
@@ -226,7 +294,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_023(){
+    public void mqtt_gu_023() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
@@ -235,7 +303,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_024(){
+    public void mqtt_gu_024() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
@@ -244,7 +312,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_025(){
+    public void mqtt_gu_025() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
@@ -253,7 +321,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_026(){
+    public void mqtt_gu_026() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
@@ -262,7 +330,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_027(){
+    public void mqtt_gu_027() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
@@ -271,7 +339,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_028(){
+    public void mqtt_gu_028() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
@@ -280,7 +348,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_029(){
+    public void mqtt_gu_029() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
@@ -289,7 +357,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_030(){
+    public void mqtt_gu_030() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
@@ -298,7 +366,7 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_gu_031(){
+    public void mqtt_gu_031() {
         guPage
                 .gotoSetParameters()
                 .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
@@ -427,6 +495,27 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
+    public void mqtt_gu_038() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .onlineDevicesCheckBox()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate(false)
+                .assertOnlineDevices()
+                .validateAddedTasks();
+    }
+
+    @Test
     public void mqtt_gu_039() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -500,7 +589,6 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     public void mqtt_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .validateSorting("Name")
                 .validateSorting("Created");
     }
 
@@ -544,6 +632,19 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
+    public void mqtt_gu_053() {
+        guPage
+                .gotoSetParameters()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .waitForStatusWithoutRefresh("Completed", 65)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
     public void mqtt_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -572,6 +673,298 @@ public class GroupUpdateMqttTests extends BaseTestCase {
     }
 
     @Test
+    public void mqtt_gu_058() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsArePresent("lblNoSelectedCpes");
+    }
+
+    @Test
+    public void mqtt_gu_059() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("device_created")
+                .selectCompare("Is not null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_060() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("On Day")
+                .clickOn("calFilterDate_image")
+                .selectDate(CalendarUtil.getShiftedDate(-10))
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_061() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Prior to")
+                .clickOn("calFilterDate_image")
+                .selectDate(CalendarUtil.getShiftedDate(-9))
+                .inputText("txtTimeHour", CalendarUtil.getHours())
+                .inputText("txtTimeMinute", CalendarUtil.getMinutes())
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_062() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Later than")
+                .clickOn("calFilterDate_image")
+                .selectDate(CalendarUtil.getShiftedDate(-9))
+                .inputText("txtTimeHour", CalendarUtil.getHours())
+                .inputText("txtTimeMinute", CalendarUtil.getMinutes())
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_063() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Today")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_064() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Before Today")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_065() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Yesterday")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_066() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Prev 7 days")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_067() {
+        guPage
+                .createDeviceGroup()
+                .selectColumnFilter("Created")
+                .selectCompare("Prev X days")
+                .inputText("txtInt", "9")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    //SKIPPED 68-70: option “Description” is absent from list
+
+    @Test
+    public void mqtt_gu_071() {
+        guPage
+                .presetFilter("mycust03", getTestName())
+                .createDeviceGroup()
+                .selectColumnFilter("mycust03")
+                .selectCompare("Like")
+                .inputText("txtText", getTestName().substring(1, 5))
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_072() {
+        guPage
+                .presetFilter("mycust03", getTestName())
+                .createDeviceGroup()
+                .selectColumnFilter("mycust03")
+                .selectCompare("No like")
+                .inputText("txtText", getTestName().substring(1, 5))
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_073() {
+        guPage
+                .presetFilter("mycust03", getTestName())
+                .createDeviceGroup()
+                .selectColumnFilter("mycust03")
+                .selectCompare("Is null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_074() {
+        guPage
+                .presetFilter("mycust03", getTestName())
+                .createDeviceGroup()
+                .selectColumnFilter("mycust03")
+                .selectCompare("Is not null")
+                .bottomMenu(NEXT)
+                .bottomMenu(FINISH)
+                .okButtonPopUp()
+                .assertElementsAreAbsent("lblNoSelectedCpes")
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .nextSaveAndActivate()
+                .validateAddedTasks();
+    }
+
+    @Test
     public void mqtt_gu_075() {
         guPage
                 .createDeviceGroup()
@@ -595,6 +988,1527 @@ public class GroupUpdateMqttTests extends BaseTestCase {
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
                 .assertAbsenceOfOptions("ddlSend", getTestName());
+    }
+
+    @Test
+    public void mqtt_gu_077() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_078() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_079() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_080() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_081() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .setPeriod(2)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_082() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .setPeriod(2)
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_083() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .onlineDevicesCheckBox()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_084() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_085() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_086() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_087() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_088() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_089() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .setPeriod(2)
+                .onlineDevicesCheckBox()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_090() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .setPeriod(1)
+                .setPeriod(2)
+                .onlineDevicesCheckBox()
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_091() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .setThreshold(50)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_092() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .setPeriod(1)
+                .setThreshold(50)
+                .waitUntilConnectRadioButton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_093() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .selectShiftedDate("calDate", 1)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_094() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_095() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
+                .selectShiftedDate("calReactivationStartsOnDay", 2)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_096() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_097() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "1")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_098() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 8)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_099() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
+                .runOnFailed()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_100() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("1")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_101() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("1")
+                .selectShiftedDate("calReactivationStartsOnDay", 2)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_102() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_103() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("1")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_104() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("1")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 8)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_105() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Daily")
+                .selectRepeatEveryDayDropDown("1")
+                .runOnFailed()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_106() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Weekly")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_107() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .selectRepeatsDropDown("Weekly")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_108() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .immediately()
+                .selectRepeatsDropDown("Weekly")
+                .endAOnRadiobutton()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Not active", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_109() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Weekly")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_110() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Weekly")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 32)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_111() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Weekly")
+                .runOnFailed()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_112() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("1")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_113() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("1")
+                .selectShiftedDate("calReactivationStartsOnDay", 31)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_114() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_115() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("1")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_116() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("1")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 31)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_117() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Monthly")
+                .selectRepeatEveryMonthDropDown("1")
+                .runOnFailed()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_118() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Yearly")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_119() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Yearly")
+                .selectShiftedDate("calReactivationStartsOnDay", 2)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_120() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Yearly")
+                .endAfterRadiobutton()
+                .inputText("txtReactivationEndsOccurrences", "2")
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_121() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Yearly")
+                .endAOnRadiobutton()
+                .selectShiftedDate("calReactivationEndsOnDay", 365)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_122() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .selectRepeatsDropDown("Yearly")
+                .runOnFailed()
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_123() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_124() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 2)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_125() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_126() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.GasDetector.1", 99)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_127() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 2)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_128() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_129() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Humidity.1", 99)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_130() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 2)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_131() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_132() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.PowerMeter.1", 99)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_133() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 2)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_134() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 1)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
+    }
+
+    @Test
+    public void mqtt_gu_135() {
+        guPage
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .selectManufacturer()
+                .selectModel()
+                .fillName()
+                .selectSendTo()
+                .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
+                .bottomMenu(NEXT)
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setAdvancedParameter("Device.FriendlySmartHome.Temperature.1", 99)
+                .bottomMenu(NEXT)
+                .bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateAddedTasks();
     }
 
     @Test

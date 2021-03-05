@@ -16,7 +16,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
@@ -24,15 +23,10 @@ import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.CONDITIONS;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
-import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.*;
+import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 public class GroupUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
-
-//    public GroupUpdatePage() {
-//        super();
-//        switchToFrame(DESKTOP);
-//    }
 
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
@@ -85,9 +79,6 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(how = How.ID, using = "lblDBError")
     private List<WebElement> noDataFound;
 
-    @FindBy(how = How.ID, using = "tblDevices")
-    private List<WebElement> serialNumberTableList;
-
     @FindBy(how = How.ID, using = "tblTasks")
     private List<WebElement> taskTableList;
 
@@ -99,9 +90,6 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
-
-    @FindBy(id = "cbqoe_task")
-    private WebElement addToQoeCheckBox;
 
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
@@ -157,7 +145,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage assertMainPageIsDisplayed() {
-        assertElementsAreEnabled(updateStatusCombobox, manufacturerComboBox, modelComboBox, resetViewButton);
+        assertElementsAreEnabled(profileStatusCombobox, manufacturerComboBox, modelComboBox, resetViewButton);
         return this;
     }
 
@@ -241,16 +229,25 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public void checkExportLink() {
-        String fragment = BaseTestCase.getTestName().startsWith("lwm2m")
-                ? "\"Root.Device.0.UTC Offset\" value=\"+02:00\""
-                : "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
-        String out = "";
-        try {
-            out = HttpConnector.sendGetRequest(getExportLink(getProtocolPrefix() + "_gu_016"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        String lookFor;
+        switch (getProtocolPrefix()) {
+            case "lwm2m":
+                lookFor = "\"Root.Device.0.UTC Offset\" value=\"+02:00\"";
+                break;
+            case "mqtt":
+                lookFor = "<Param fullname=\"Device.FriendlySmartHome.GasDetector.1.Id\" value=\"";
+                break;
+            case "usp":
+                lookFor = "<Param fullname=\"Device.Location.1.";
+                break;
+            default:
+                lookFor = "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
         }
-        assertTrue(out.contains(fragment), "File export failed or file has unexpected content!");
+        try {
+            assertTrue(HttpConnector.sendGetRequest(getExportLink(getProtocolPrefix() + "_gu_016")).contains(lookFor));
+        } catch (Exception e) {
+            throw new AssertionError("File export failed or file has unexpected content!");
+        }
     }
 
     public void checkIsCalendarClickable() {
@@ -303,6 +300,16 @@ public class GroupUpdatePage extends BasePage {
             validateAddedTask("tblTasks", entry.getKey(), entry.getValue(), 0);
         }
         return this;
+    }
+
+    public void validateAddedTask() {
+        Table table = getTable("tblTasks");
+        String parameter = getSingleParameterEntry().getKey();
+        String value = getSingleParameterEntry().getValue();
+        if (table.contains(parameter) && table.contains(value)) {
+            return;
+        }
+        throw new AssertionError("Pair '" + parameter + "':'" + value + "' not found!");
     }
 
     public GroupUpdatePage selectFileName(int index) {  //TODO Remove!
@@ -610,7 +617,7 @@ public class GroupUpdatePage extends BasePage {
                 comboBox = modelComboBox;
                 break;
             case "State":
-                comboBox = updateStatusCombobox;
+                comboBox = profileStatusCombobox;
                 break;
             default:
                 throw new AssertionError("Incorrect dropdown name '" + dropdown + "'");
@@ -658,6 +665,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.selectAction(action);
     }
 
+    @Override
+    public GroupUpdatePage selectAction(String action, String instance) {
+        return (GroupUpdatePage) super.selectAction(action, instance);
+    }
+
     public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Conditions condition, String value) {
         WebElement button = driver.findElement(By.id("btnAddTaskParameter-" + rowNumber + "_btn"));
         button.click();
@@ -703,7 +715,7 @@ public class GroupUpdatePage extends BasePage {
         Table table = getMainTable();
         boolean man = getSelectedOption(manufacturerComboBox).equals("All");
         boolean model = getSelectedOption(modelComboBox).equals("All");
-        boolean status = getSelectedOption(updateStatusCombobox).equals("All");
+        boolean status = getSelectedOption(profileStatusCombobox).equals("All");
         String[] arr = table.getColumn("Created");
         String[] arr2 = arr.clone();
         Arrays.sort(arr, Comparator.reverseOrder());

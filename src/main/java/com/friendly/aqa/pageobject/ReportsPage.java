@@ -139,8 +139,8 @@ public class ReportsPage extends BasePage {
         return this;
     }
 
-    public ReportsPage selectActivity(String event) {
-        selectComboBox(activityCombobox, event);
+    public ReportsPage selectActivity(String activity) {
+        selectComboBox(activityCombobox, activity);
         return this;
     }
 
@@ -149,8 +149,8 @@ public class ReportsPage extends BasePage {
         return this;
     }
 
-    public ReportsPage selectUpdateState(String type) {
-        selectComboBox(updateStatusCombobox, type);
+    public ReportsPage selectUpdateState(String state) {
+        selectComboBox(profileStatusCombobox, state);
         return this;
     }
 
@@ -216,6 +216,7 @@ public class ReportsPage extends BasePage {
 
     public ReportsPage go() {
         go.click();
+        waitForUpdate();
         return this;
     }
 

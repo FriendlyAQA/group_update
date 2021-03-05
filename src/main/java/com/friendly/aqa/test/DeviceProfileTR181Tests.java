@@ -67,21 +67,21 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
     public void tr181_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByStatus();
+                .validateFiltering("Status");
     }
 
     @Test
     public void tr181_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByModelName();
+                .validateFiltering("Model name");
     }
 
     @Test
     public void tr181_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByManufacturer();
+                .validateFiltering("Manufacturer");
     }
 
     @Test

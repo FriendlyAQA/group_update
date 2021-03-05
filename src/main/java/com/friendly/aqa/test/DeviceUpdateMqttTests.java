@@ -17,7 +17,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     /*
     Preconditions:
     1. Before run you should delete all view and custom view (Search) with name like 'mqtt_du_011', 'mqtt_du_067' (starts with mqtt_) etc.;
-    2. Devices (emul) must run, (emul restart);
+    2. Devices (emulator) must run, (emulator restart);
     3. Trace for target device must be stopped (mqtt_du_135);
     4. All files for Download tasks must be added to server.
     */

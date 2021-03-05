@@ -550,7 +550,6 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_049() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .validateSorting("Name")
                 .validateSorting("Created");
     }
 

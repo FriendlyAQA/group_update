@@ -587,7 +587,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_mo_039() {    //is dependent on #056
+    public void mqtt_mo_039() {    //is dependent on #038
         monPage
                 .topMenu(MONITORING)
                 .selectItem("mqtt_mo_038")
@@ -597,7 +597,7 @@ public class MonitoringMqttTests extends BaseTestCase {
     }
 
     @Test
-    public void mqtt_mo_040() {    //is dependent on #056
+    public void mqtt_mo_040() {    //is dependent on #038, 039
         monPage
                 .topMenu(MONITORING)
                 .selectItem("mqtt_mo_038")
@@ -606,7 +606,15 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .waitForStatus("Running", "mqtt_mo_038");
     }
 
-    //skipped 041: Button STOP_WITH_RESET was removed from UI (BT item #9766)
+    @Test
+    public void mqtt_mo_041() {    //is dependent on #038, 040
+        monPage
+                .topMenu(MONITORING)
+                .selectItem("mqtt_mo_038")
+                .bottomMenu(STOP)
+                .okButtonPopUp()
+                .waitForStatus("Not active", "mqtt_mo_038");
+    }
 
     @Test
     public void mqtt_mo_042() {

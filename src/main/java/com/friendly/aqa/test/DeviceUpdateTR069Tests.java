@@ -3089,7 +3089,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    //skipped:239 - cannot change object path;
+    //skipped:239 - cannot change object path;(deprecated functionality)
 
     @Test   //depends on 203
     public void tr069_du_240() {

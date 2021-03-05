@@ -1677,7 +1677,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .closePopup();
     }
 
-    //skipped due to Device Settings sub tabs don't contain suitable fields to edit
+    //skipped due to Device Settings subtabs don't contain suitable fields to edit
 
 //    @Test
 //    public void usp_du_143() {
@@ -1794,13 +1794,13 @@ public class DeviceUpdateUspTests extends BaseTestCase {
 //                .validateGeneratedGets();
 //    }
 
-    @Test   // Bug AQA: very slow performance for fast auto refresh page
+    @Test
     public void usp_du_150() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(ADVANCED_VIEW)
-                .validateObjectTree(); // use .validateObjectTree1() instead if failed!
+                .validateObjectTree();
     }
 
     @Test

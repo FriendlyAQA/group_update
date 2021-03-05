@@ -69,21 +69,21 @@ public class DeviceProfileUspTests extends BaseTestCase {
     public void usp_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByStatus();
+                .validateFiltering("Status");
     }
 
     @Test
     public void usp_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByModelName();
+                .validateFiltering("Model name");
     }
 
     @Test
     public void usp_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByManufacturer();
+                .validateFiltering("Manufacturer");
     }
 
     @Test
@@ -1537,7 +1537,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateDownloadFile();
     }
 
-    @Test      //bug: Dropdown "File type doesn't have any items (bad emul's tree???)
+    @Test
     public void usp_dp_083() {   //depends on 82
         dpPage
                 .topMenu(DEVICE_PROFILE)

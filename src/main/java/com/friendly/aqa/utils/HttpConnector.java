@@ -137,9 +137,4 @@ public class HttpConnector {
         }
         return requestProperty;
     }
-
-//    public static void main(String[] args) throws IOException {
-//        String out = sendSoapRequest("121", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "20");
-//        System.out.println(out);
-//    }
 }

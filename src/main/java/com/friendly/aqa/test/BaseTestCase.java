@@ -58,10 +58,6 @@ public abstract class BaseTestCase {
         if (controller != null) {
             controller.testSuiteStarted();
         }
-//        getLoginPage().authenticate();
-//        guPage = getGuPage();
-//        monPage = getMonPage();
-//        testName = "";
     }
 
     @BeforeMethod

@@ -140,7 +140,7 @@ public class View extends JFrame {
         showReportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Management Console Test Automation UI (build 1.0.0)");
+        setTitle("Management Console v6.0 Test Automation UI (build 1.0.1)");
         setIconImage(new ImageIcon("resources/friendly.png").getImage());
         setPreferredSize(new java.awt.Dimension(781, 527));
         setResizable(false);

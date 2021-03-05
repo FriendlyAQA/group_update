@@ -3252,7 +3252,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateProvisionDeletion();
     }
 
-    //skipped:249 - cannot change object path;
+    //skipped:249 - cannot change object path (deprecated functionality)
 
     @Test   //bug: depends on 215
     public void tr181_du_250() {

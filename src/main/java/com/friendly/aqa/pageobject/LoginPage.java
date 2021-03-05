@@ -17,7 +17,7 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     public void authenticate() {
-        if (elementIsPresent("lblLoginTitle")){
+        if (elementIsPresent("lblLoginTitle")) {
             this.nameField.clear();
             this.nameField.sendKeys(props.getProperty("ui_user"));
             this.password.clear();

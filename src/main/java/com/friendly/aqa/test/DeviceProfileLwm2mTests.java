@@ -69,21 +69,21 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
     public void lwm2m_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByStatus();
+                .validateFiltering("Status");
     }
 
     @Test
     public void lwm2m_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByModelName();
+                .validateFiltering("Model name");
     }
 
     @Test
     public void lwm2m_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByManufacturer();
+                .validateFiltering("Manufacturer");
     }
 
     @Test
@@ -3670,11 +3670,4 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName());
     }
-
-//    @Test
-//    public void lwm2m_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
 }

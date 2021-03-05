@@ -61,7 +61,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validateSorting("Model name")
                 .validateSorting("Name")
                 .validateSorting("Created")
-//                .checkSorting("Creator")
+                .validateSorting("Creator")
                 .validateSorting("Version");
     }
 
@@ -69,21 +69,21 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     public void tr069_dp_005() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByStatus();
+                .validateFiltering("Status");
     }
 
     @Test
     public void tr069_dp_006() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByModelName();
+                .validateFiltering("Model name");
     }
 
     @Test
     public void tr069_dp_007() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
-                .validateFilteringByManufacturer();
+                .validateFiltering("Manufacturer");
     }
 
     @Test
@@ -8393,11 +8393,4 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName());
     }
-
-//    @Test
-//    public void tr069_dp_999() {
-//        dpPage
-//                .topMenu(DEVICE_PROFILE)
-//                .deleteAllProfiles();
-//    }
 }
