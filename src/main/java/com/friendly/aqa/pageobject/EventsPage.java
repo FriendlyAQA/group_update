@@ -120,7 +120,7 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage saveButton() {
-        showPointer(saveButton).click();
+        showRedPointer(saveButton).click();
 //        saveButton.click();
         pause(500);
         waitForUpdate();
@@ -272,7 +272,7 @@ public class EventsPage extends BasePage {
                 "<profileParameter><name>" + prefix + "PeriodicInformInterval</name><value>10</value></profileParameter>" +
                 "</profileParameterList><profileParameterNotificationList><profileParameterNotification><name>" +
                 props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") + "</name><notification>2</notification>" +
-                "</profileParameterNotification></profileParameterNotificationList><isActive>1</isActive><version>1</version></Profile>" +
+                "</profileParameterNotification></profileParameterNotificationList><isActive>1</isActive><version>1.0.0</version></Profile>" +
                 "</profileList><user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
         String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
                 "<soap:Body><ns2:createProfileResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
@@ -379,7 +379,7 @@ public class EventsPage extends BasePage {
     @Override
     public EventsPage cancelButtonPopUp() {
         switchToFrame(POPUP);
-        showPointer(cancelButton).click();
+        showRedPointer(cancelButton).click();
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
@@ -395,7 +395,7 @@ public class EventsPage extends BasePage {
                 waitForUpdate();
                 switchToFrame(ROOT);
                 while (okButtonAlertPopUp.isDisplayed()) {
-                    showPointer(okButtonAlertPopUp).click();
+                    showRedPointer(okButtonAlertPopUp).click();
                     waitForUpdate();
                 }
                 switchToFrame(DESKTOP);

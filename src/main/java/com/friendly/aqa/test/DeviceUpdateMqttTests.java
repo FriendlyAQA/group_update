@@ -607,7 +607,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1487,7 +1487,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1652,7 +1652,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test

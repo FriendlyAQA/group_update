@@ -762,7 +762,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Boot!", false, "4", null), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -772,7 +772,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 3");
+                .validateAddedEventAction("Boot!", "Action", "Onboard request - instance 2");
     }
 
     @Test
@@ -925,7 +925,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("DUStateChange!", false, "4", null), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -935,7 +935,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 3");
+                .validateAddedEventAction("DUStateChange!", "Action", "Onboard request - instance 2");
     }
 
     @Test
@@ -1088,7 +1088,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Periodic!", false, "4", null), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1098,7 +1098,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 3");
+                .validateAddedEventAction("Periodic!", "Action", "Onboard request - instance 2");
     }
 
     @Test
@@ -1251,7 +1251,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("Timer!", false, "4", null), true)
                 .addTask("Action")
-                .selectAction("Onboard request", "3")
+                .selectAction("Onboard request", "2")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1261,7 +1261,7 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 3");
+                .validateAddedEventAction("Timer!", "Action", "Onboard request - instance 2");
     }
 
     @Test

@@ -708,7 +708,7 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (cancelButton.isDisplayed()) {
-            showPointer(cancelButton).click();
+            showRedPointer(cancelButton).click();
             waitForUpdate();
             ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", cancelButton);
         }
@@ -761,7 +761,7 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())));
                 pause(200);
-                showPointer(findElement(button.getId())).click();
+                showRedPointer(findElement(button.getId())).click();
                 waitForUpdate();
                 return;
             } catch (StaleElementReferenceException | NoSuchElementException e) {
@@ -783,7 +783,7 @@ public abstract class BasePage {
                         .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(button));
-                showPointer(button).click();
+                showRedPointer(button).click();
                 waitForUpdate();
                 return this;
             } catch (StaleElementReferenceException e) {
@@ -1343,12 +1343,12 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (okButtonAlertPopUp.isDisplayed()) {
-            showPointer(okButtonAlertPopUp).click();
+            showRedPointer(okButtonAlertPopUp).click();
             waitForUpdate();
             ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonAlertPopUp);
         }
         while (okButtonPopUp.isDisplayed()) {
-            showPointer(okButtonPopUp).click();
+            showRedPointer(okButtonPopUp).click();
             waitForUpdate();
             ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonPopUp);
         }
@@ -2025,7 +2025,11 @@ public abstract class BasePage {
         return this;
     }
 
-    public WebElement showPointer(WebElement element) {
+    public void showGreenPointer(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid green'", element);
+    }
+
+    public WebElement showRedPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
         return element;
     }
@@ -2109,17 +2113,21 @@ public abstract class BasePage {
             try {
                 int length = table.getRowLength(i);
                 if (table.getCellText(i, length - 2 - shift).equalsIgnoreCase(parameter)) {
+                    showGreenPointer(table.getCellWebElement(i, length - 2 - shift));
                     if (table.getCellText(i, length - 1 - shift).equalsIgnoreCase(value)) {
                         match = true;
+                        showGreenPointer(table.getCellWebElement(i, length - 1 - shift));
                         break;
                     }
                     if (value.equals("0") || value.equals("1")) {
                         String alternateValue = value.equals("0") ? "false" : "true";
                         if (table.getCellText(i, length - 1 - shift).equals(alternateValue)) {
                             match = true;
+                            showGreenPointer(table.getCellWebElement(i, length - 1 - shift));
                             break;
                         }
                     }
+                    showRedPointer(table.getCellWebElement(i, length - 1 - shift));
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("ArrayIndexOutOfBoundsException:" + e.getMessage());
@@ -2129,6 +2137,7 @@ public abstract class BasePage {
             String warning = "Pair '" + parameter + "' : '" + value + "' not found";
             table.print();
             scrollTo(table.getCellWebElement(table.getTableSize()[0] - 1, 0));
+            pause(1000);
             throw new AssertionError(warning);
         }
         return this;
@@ -2265,8 +2274,12 @@ public abstract class BasePage {
                 String[] arr = table.getColumn(colNum, true);
                 arr = toLowerCase(arr);
                 String[] arr2 = Arrays.copyOf(arr, arr.length);
-                if (arr[0].matches("\\d{2}/\\d{2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}")) {
+                String dateRegex = "\\d{2}/\\d{2}/\\d{4}\\s\\d{2}:\\d{2}:\\d{2}";
+                if (arr[0].matches(dateRegex) || arr[arr.length - 1].matches(dateRegex)) {
                     arr = dateSorting(arr, descending);
+                    List<String> list = new ArrayList<>();
+                    Arrays.stream(arr2).filter(s -> !s.equals(" ")).filter(s -> !s.isEmpty()).forEach(list::add);
+                    arr2 = list.toArray(new String[0]);
                 } else {
                     Arrays.sort(arr, descending ? Comparator.reverseOrder() : Comparator.naturalOrder());
                 }
@@ -2293,6 +2306,9 @@ public abstract class BasePage {
     private String[] dateSorting(String[] arr, boolean descending) {
         List<Date> list = new ArrayList<>();
         for (String s : arr) {
+            if (s.trim().isEmpty()) {
+                continue;
+            }
             try {
                 list.add(CalendarUtil.getDateForSorting(s));
             } catch (ParseException e) {

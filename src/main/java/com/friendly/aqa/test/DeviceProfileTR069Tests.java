@@ -7861,7 +7861,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "62");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
+    @Test//bug: parameter "DeviceSummary" is absent from mp252 device tree!
     public void tr069_dp_369() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7889,7 +7889,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "63");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
+    @Test//bug: parameter "DeviceSummary" is absent from mp252 device tree!
     public void tr069_dp_370() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -7917,7 +7917,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "64");
     }
 
-    @Test//bug: parameter "DeviceSummary" is absent in mp252 device tree!
+    @Test//bug: parameter "DeviceSummary" is absent from mp252 device tree!
     public void tr069_dp_371() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

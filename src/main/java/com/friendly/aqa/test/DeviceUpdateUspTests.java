@@ -608,7 +608,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1487,8 +1487,9 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .searchButton()
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
-                .okButtonPopUp()
-                .assertAbsenceOfValue();
+//                .okButtonPopUp()
+                .cancelButtonPopUp()
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1595,6 +1596,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
     public void usp_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
+                .createProfileOverSoapApi() //precondition for 'Reprovision'
                 .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
@@ -1653,7 +1655,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test

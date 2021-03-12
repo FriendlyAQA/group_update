@@ -440,7 +440,7 @@ public class Table {
         return getHint(getFirstRowWithText(parameter));
     }
 
-    public boolean contains(String value) {
+    public boolean contains(String value) { //not case-sensitive!!!
         for (String[] rows : textTable) {
             for (String cell : rows) {
                 if (cell.trim().equalsIgnoreCase(value)) {
@@ -449,6 +449,10 @@ public class Table {
             }
         }
         return false;
+    }
+
+    public boolean contains(String value, String column) {  //Case-sensitive!!!
+        return Arrays.asList(getColumn(column)).contains(value);
     }
 
     public int textCellMatches(String regex) {

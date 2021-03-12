@@ -608,7 +608,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1487,7 +1487,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1594,6 +1594,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
+                .createProfileOverSoapApi() //precondition for 'Reprovision'
                 .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(DEVICE_INFO)
@@ -1658,7 +1659,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test

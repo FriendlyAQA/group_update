@@ -16,7 +16,7 @@ import static com.friendly.aqa.pageobject.EventsPage.Left.NEW;
 public class EventsUspTests extends BaseTestCase {
 
    /*
-   1. Delete all profiles for current device and set PeriodicInformInterval to low value (e.g. 10 sec) or launch usp_ev_000;
+   1. Set PeriodicInformInterval to low value (e.g. 10000 millis);
    2. At least 1 device online (with serial specified in config.properties) and 1 device offline MUST be present in the group (027);
    */
 

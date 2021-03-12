@@ -608,7 +608,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1487,7 +1487,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test
@@ -1659,7 +1659,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .cancelButtonPopUp()
                 .bottomMenu(DELETE)
                 .okButtonPopUp()
-                .assertAbsenceOfValue();
+                .assertAbsenceOfSerial();
     }
 
     @Test

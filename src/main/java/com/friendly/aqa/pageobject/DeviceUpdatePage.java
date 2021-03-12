@@ -497,7 +497,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage clearUserInfo() {
         switchToFrame(POPUP);
-        showPointer(clearAllRButton).click();
+        showRedPointer(clearAllRButton).click();
         okButtonPopUp();
         return this;
     }
@@ -643,7 +643,16 @@ public class DeviceUpdatePage extends BasePage {
         waitForUpdate();
         setSinglePage();
         if (getMainTable().contains(value)) {
-            throw new AssertionError("Value '" + value + "' still present in the table!");
+            throw new AssertionError("Value '" + value + "' is still present in the table!");
+        }
+    }
+
+    public void assertAbsenceOfSerial() {
+        String serial = getStoredParameter();
+        waitForUpdate();
+        setSinglePage();
+        if (getMainTable().contains(serial, "Serial")) {
+            throw new AssertionError("Serial '" + serial + "' is still present in the table!");
         }
     }
 
@@ -704,7 +713,7 @@ public class DeviceUpdatePage extends BasePage {
         table.clickOn(1, 0);
         parameterSet = new HashSet<>(1);
         parameterSet.add(table.getCellText(1, 1));
-        showPointer(deleteButton).click();
+        showRedPointer(deleteButton).click();
         return this;
     }
 
@@ -764,6 +773,7 @@ public class DeviceUpdatePage extends BasePage {
                     clickOn("tbDeviceID");
                     searchButton();
                     Set<String> set = dbDeviceMap.get(key);
+                    setSinglePage();
                     int dbResponseSize = set.size();
                     String error = "Search by '" + option + "' failed. Expected number of items: " + dbResponseSize + ", but actual: ";
                     if (dbResponseSize == 1) {
@@ -865,6 +875,26 @@ public class DeviceUpdatePage extends BasePage {
         assertElementsArePresent(false, "lblReplaceCpeHeader");
         cancelButton.click();
         switchToPreviousFrame();
+    }
+
+    public DeviceUpdatePage createProfileOverSoapApi() {    //lwm2m and usp only
+        String parameter = props.getProperty(getProtocolPrefix() + "_profile_parameter");
+        String value = "" + (int) (100 * Math.random());
+        String request = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ftac=\"http://ftacs.com/\">" +
+                "<soapenv:Header/><soapenv:Body><ftac:createProfile><profileList><Profile><fullTree>0</fullTree><name>" +
+                getProtocolPrefix() + "_precondition_profile</name><productClassGroupId>" +
+                DataBaseConnector.getGroupId(getSerial()) + "</productClassGroupId><profileParameterList>" +
+                "<profileParameter><name>" + parameter + "</name><value>" + value + "</value></profileParameter>" +
+                "</profileParameterList><isActive>1</isActive><version>1.0.0</version></Profile>" +
+                "</profileList><user>AutoTest</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
+        String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+                "<soap:Body><ns2:createProfileResponse xmlns:ns2=\"http://ftacs.com/\"/></soap:Body></soap:Envelope>";
+        try {
+            assertEquals(HttpConnector.sendSoapRequest(request), expectedResponse, "Unexpected response after profile set!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return this;
     }
 
     private void deviceInfoFakeLink(String link) {
@@ -1189,19 +1219,19 @@ public class DeviceUpdatePage extends BasePage {
                 WebElement table = findElement("tblTree");
                 List<WebElement> rowList = table.findElements(By.tagName("tr"));
                 if (rowList.get(1).isDisplayed()) {
-                    showPointer(collapseLink).click();
+                    showRedPointer(collapseLink).click();
                 } else {
                     expandLink.click();
                     continue;
                 }
                 assertFalse(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: collapsed, actual: expanded");
                 hidePointer(collapseLink);
-                showPointer(expandLink).click();
+                showRedPointer(expandLink).click();
                 assertTrue(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: expanded, actual: collapsed");
                 WebElement node = table.findElement(By.tagName("img"));
                 boolean state = node.getAttribute("src").endsWith("collapse.png");
                 hidePointer(expandLink);
-                showPointer(node).click();
+                showRedPointer(node).click();
                 assertFalse(state == node.getAttribute("src").endsWith("collapse.png"), "Node did not change state after clicking!");
                 hidePointer(node);
             } catch (StaleElementReferenceException e) {
