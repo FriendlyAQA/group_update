@@ -48,6 +48,39 @@ public class HttpConnector {
         return toString(inputStream, false);
     }
 
+    public static String sendRegisterRequest(String request) throws IOException {
+        URL urlObject = new URL("http://95.217.85.220:8080/ftacs/ACS");
+        HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestProperty("User-Agent", "CPE admin autotest tool");
+        urlConnection.setInstanceFollowRedirects(false);
+        byte[] postData = request.getBytes(StandardCharsets.UTF_8);
+        int postDataLength = postData.length;
+        urlConnection.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
+        urlConnection.setRequestProperty("Content-Length", String.valueOf(postDataLength));
+        urlConnection.setDoOutput(true);
+        try (DataOutputStream dos = new DataOutputStream(urlConnection.getOutputStream())) {
+            dos.write(postData);
+        } catch (IOException e) {
+            logger.warn("IOException happened during POST parameters sending: " + e.getMessage());
+        }
+        InputStream inputStream = urlConnection.getInputStream();
+        System.out.println("gotoToString");
+        System.out.println(System.currentTimeMillis());
+        return toString(inputStream, false);
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(System.currentTimeMillis());
+            String s = sendRegisterRequest("<soap-env:Envelope xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:cwmp=\"urn:dslforum-org:cwmp-1-2\" xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:soap-env=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><soap-env:Header><cwmp:ID soap-env:mustUnderstand=\"1\"/></soap-env:Header><soap-env:Body><cwmp:Inform><DeviceId><Manufacturer>TP-Link</Manufacturer><OUI>50D4F7</OUI><ProductClass>HC220-G1</ProductClass><SerialNumber>fakeSerial3</SerialNumber></DeviceId><Event soap-enc:arrayType=\"EventStruct[1]\"><EventStruct><EventCode>0 BOOTSTRAP</EventCode><CommandKey/></EventStruct></Event><MaxEnvelopes>0</MaxEnvelopes><CurrentTime>2021-03-17T13:44:48</CurrentTime><RetryCount>0</RetryCount><ParameterList soap-enc:arrayType=\"ParameterValueStruct[4]\"><ParameterValueStruct><Name>Device.DeviceInfo.HardwareVersion</Name><Value xsi:type=\"xsd:string\">HC220-G1 v1 00000000</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.DeviceInfo.SoftwareVersion</Name><Value xsi:type=\"xsd:string\">1.0.2 0.9 v6048.0 Build 190717 Rel.40046n</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ConnectionRequestURL</Name><Value xsi:type=\"string\">http://95.217.85.220:9997/fakeSerial3</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ParameterKey</Name><Value xsi:type=\"xsd:string\">6611813</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.Ethernet.Interface.1.MACAddress</Name><Value xsi:type=\"xsd:string\">aa:bb:cc:11:22:33</Value></ParameterValueStruct></ParameterList></cwmp:Inform></soap-env:Body></soap-env:Envelope>");
+            System.out.println(System.currentTimeMillis());
+            System.out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static String sendRequest(String url, String requestMethod, Map<String, String> requestProperty, String postParameters) throws IOException {
         URL urlObject = new URL(url);
         boolean requestMethodIsPost = (requestMethod != null && postParameters != null && requestMethod.equals("POST"));

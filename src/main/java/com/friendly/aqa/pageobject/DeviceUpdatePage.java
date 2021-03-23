@@ -432,7 +432,7 @@ public class DeviceUpdatePage extends BasePage {
                             return this;
                         }
                     } catch (AssertionError e) {
-                        System.out.println("filter does not exist, going to create new one");
+                        System.out.println("entry '" + parameter + "' does not exist, going to create a new one");
                         break;
                     }
                 }

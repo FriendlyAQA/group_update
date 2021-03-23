@@ -1,7 +1,9 @@
 package com.friendly.aqa.test;
 
 import com.automation.remarks.testng.UniversalVideoListener;
+import com.friendly.aqa.pageobject.BasePage;
 import com.friendly.aqa.utils.CalendarUtil;
+import com.friendly.aqa.utils.DataBaseConnector;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -1190,6 +1192,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
 
     @Test
     public void lwm2m_mo_081() {
+        DataBaseConnector.createFilterPreconditions(BasePage.getSerial());
         monPage
                 .topMenu(MONITORING)
                 .leftMenu(NEW)

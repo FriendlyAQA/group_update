@@ -54,11 +54,16 @@ public class ParametersMonitor {
     public String getRegex() {
         String serial = BasePage.getSerial();
         String id = DataBaseConnector.getDeviceId(serial);
-        return "^<soapenv:Envelope.+?<ftacs:cpeParameterMonitorResult><cpeParameterMonitor><cpeId>" + id +
+        return "^<soapenv:Envelope.+?<(ftacs:)?cpeParameterMonitorResult><cpeParameterMonitor><cpeId>" + id +
                 "</cpeId><serialNumber>" + serial + "</serialNumber>.+?<parameterName>" + handleValueForRegex(name) +
                 "</parameterName><valueFromMonitor>" + handleValueForRegex(value) + "</valueFromMonitor><currentValue>" +
                 handleValueForRegex(currentValue) + "</currentValue><condition>" + condition +
-                "</condition>.+?</cpeParameterMonitor></ftacs:cpeParameterMonitorResult></soapenv:Body></soapenv:Envelope>$";
+                "</condition>.+?</cpeParameterMonitor></(ftacs:)?cpeParameterMonitorResult></soapenv:Body></soapenv:Envelope>$";
+//        return "^<soapenv:Envelope.+?<fri:cpeParameterMonitorResult><fri:cpeParameterMonitor><fri:cpeId>" + id +
+//                "</fri:cpeId><fri:serialNumber>" + serial + "</fri:serialNumber>.+?<fri:parameterName>" + handleValueForRegex(name) +
+//                "</fri:parameterName><fri:valueFromMonitor>" + handleValueForRegex(value) + "</fri:valueFromMonitor><fri:currentValue>" +
+//                handleValueForRegex(currentValue) + "</fri:currentValue><fri:condition>" + condition +
+//                "</fri:condition>.+?</fri:cpeParameterMonitor></fri:cpeParameterMonitorResult></soapenv:Body></soapenv:Envelope>$";
     }
 
     private String handleValueForRegex(String value) {

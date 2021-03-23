@@ -69,9 +69,12 @@ public class Event {
                 }
             }
         }
-        return "^<soapenv:Envelope.+?<ftacs:CPEEventMonitorResult>.+?<serialNumber>" + serial + "</serialNumber>.+?<eventCode>"
+        return "^<soapenv:Envelope.+?<(ftacs:)?CPEEventMonitorResult>.+?<serialNumber>" + serial + "</serialNumber>.+?<eventCode>"
                 + name + "</eventCode><quantityFromMonitor>" + countOfEvents + "</quantityFromMonitor>.+?<duration>"
-                + duration + "</duration>.+?</ftacs:CPEEventMonitorResult></soapenv:Body></soapenv:Envelope>$";
+                + duration + "</duration>.+?</(ftacs:)?CPEEventMonitorResult></soapenv:Body></soapenv:Envelope>$";
+//        return "^<soapenv:Envelope.+?<fri:CPEEventMonitorResult>.+?<fri:serialNumber>" + serial + "</fri:serialNumber>.+?<fri:eventCode>"
+//                + name + "</fri:eventCode><fri:quantityFromMonitor>" + countOfEvents + "</fri:quantityFromMonitor>.+?<fri:duration>"
+//                + duration + "</fri:duration>.+?</fri:CPEEventMonitorResult></soapenv:Body></soapenv:Envelope>$";
     }
 
     @Override

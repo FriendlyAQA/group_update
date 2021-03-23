@@ -7413,7 +7413,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER condition (non-integer field)
     public void tr069_ev_383() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7429,7 +7429,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (non-integer field)
     public void tr069_ev_384() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7445,7 +7445,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS condition (non-integer field)
     public void tr069_ev_385() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7461,7 +7461,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (non-integer field)
     public void tr069_ev_386() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7557,7 +7557,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER condition (non-integer field)
     public void tr069_ev_392() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7573,7 +7573,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (non-integer field)
     public void tr069_ev_393() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7589,7 +7589,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS condition (non-integer field)
     public void tr069_ev_394() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7605,7 +7605,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (non-integer field)
     public void tr069_ev_395() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7701,7 +7701,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER condition (non-integer field)
     public void tr069_ev_401() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7717,7 +7717,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (non-integer field)
     public void tr069_ev_402() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7733,7 +7733,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS condition (non-integer field)
     public void tr069_ev_403() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -7749,7 +7749,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (non-integer field)
     public void tr069_ev_404() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -8277,7 +8277,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER condition (non-integer field)
     public void tr069_ev_437() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -8293,7 +8293,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with GREATER_EQUAL condition (non-integer field)
     public void tr069_ev_438() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -8309,7 +8309,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS condition (non-integer field)
     public void tr069_ev_439() {
         evPage
                 .createImmediatelyEventOn("Parameters")
@@ -8325,7 +8325,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (no-integer field)
+    @Test   //bug: SOAP is not generated with LESS_EQUAL condition (non-integer field)
     public void tr069_ev_440() {
         evPage
                 .createImmediatelyEventOn("Parameters")

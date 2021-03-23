@@ -271,7 +271,7 @@ public class EventsPage extends BasePage {
                 "<profileParameter><name>" + prefix + "PeriodicInformEnable</name><value>1</value></profileParameter>" +
                 "<profileParameter><name>" + prefix + "PeriodicInformInterval</name><value>10</value></profileParameter>" +
                 "</profileParameterList><profileParameterNotificationList><profileParameterNotification><name>" +
-                props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") + "</name><notification>2</notification>" +
+                props.getProperty(getProtocolPrefix() + "_selfupdate_parameter") + "</name><notification>1</notification>" +
                 "</profileParameterNotification></profileParameterNotificationList><isActive>1</isActive><version>1.0.0</version></Profile>" +
                 "</profileList><user>" + props.getProperty("ui_user") + "</user></ftac:createProfile></soapenv:Body></soapenv:Envelope>";
         String expectedResponse = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +

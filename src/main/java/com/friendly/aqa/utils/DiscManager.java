@@ -10,7 +10,7 @@ public class DiscManager {
     private static boolean isRunning;
     private static boolean isEndOfFileReached;
     private static final String FILE_PATH = BasePage.getProps().getProperty("server_log_path");
-    private static final String TIME_REGEX = "^(\\d{2}[:,]){3}\\d{3}\\sINFO\\s{2}.+";
+    private static final String TIME_REGEX = "^(\\d{4}-\\d{2}-\\d{2}\\s)?(\\d{2}[:,]){3}\\d{3}.*?\\sINFO\\s{2}.+";
     private static String time;
     private static String regex;
 
