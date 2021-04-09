@@ -401,12 +401,12 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "61")
+                .setParameter("PeriodicInformInterval, sec", "15")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectProfileStatus("Active")
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "61");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "15");
     }
 
     @Test
@@ -5990,7 +5990,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8");
     }
 
-    @Test//bug: TaskDiagnostic task with id=--- not found
+    @Test   //bug: TaskDiagnostic task with id=--- not found
     public void tr181_dp_277() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9163,11 +9163,11 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "61")
+                .setParameter("PeriodicInformInterval, sec", "15")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "61");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "15");
     }
 
     @Test   //depends on 438
@@ -9566,7 +9566,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "62");
     }
 
-    @Test//bug: Parameter Device.DeviceSummary not found;
+    @Test
     public void tr181_dp_453() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9581,7 +9581,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
                 .selectConditionInformComboBox("=")
-                .fillValue("???")
+                .fillValue(true, "Device.DeviceSummary")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9594,7 +9594,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "63");
     }
 
-    @Test//bug: Parameter Device.DeviceSummary not found;
+    @Test
     public void tr181_dp_454() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9609,7 +9609,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
                 .selectConditionInformComboBox("!=")
-                .fillValue("HC220-G1 v1 00000001")
+                .fillValue("incorrect value")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9622,7 +9622,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateApplyingProfile(true, "PeriodicInformInterval, sec", "64");
     }
 
-    @Test//bug: Parameter Device.DeviceSummary not found;
+    @Test
     public void tr181_dp_455() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9637,7 +9637,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
                 .selectConditionInformComboBox("Regexp")
-                .fillValue("HC220-G1 v1 0{8}$")
+                .fillValue("^" + getParameterValue("Device.DeviceSummary").substring(0, 3) + ".+")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9749,17 +9749,17 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
                 .selectConditionInformComboBox("=")
-                .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
+                .fillValue(true, "Device.DeviceInfo.SoftwareVersion")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "69")
+                .setParameter("PeriodicInformInterval, sec", "19")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "69");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "19");
     }
 
     @Test
@@ -9783,11 +9783,11 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "70")
+                .setParameter("PeriodicInformInterval, sec", "10")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "70");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "10");
     }
 
     @Test
@@ -9805,17 +9805,17 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
                 .selectConditionInformComboBox("Regexp")
-                .fillValue(".+40046n$")
+                .fillValue("^" + getParameterValue("Device.DeviceInfo.SoftwareVersion").substring(0, 3) + ".+")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "71")
+                .setParameter("PeriodicInformInterval, sec", "11")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "71");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "11");
     }
 
     @Test
@@ -9839,17 +9839,17 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
                 .selectConditionInformComboBox("=")
-                .fillValue("1.0.2 0.9 v6048.0 Build 190717 Rel.40046n")
+                .fillValue(true, "Device.DeviceInfo.SoftwareVersion")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "72")
+                .setParameter("PeriodicInformInterval, sec", "12")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())
-                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "72");
+                .validateApplyingProfile(true, "PeriodicInformInterval, sec", "12");
     }
 
     @Test   //depends on 462

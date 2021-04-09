@@ -306,12 +306,17 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(Arrays.toString(getDeviceWithGroupUpdate()));
+        System.out.println(getValue("SELECT DISTINCT c.serial FROM ftacs.cpe c JOIN ftacs.cpe_parameter p ON (c.id=p.cpe_id) JOIN ftacs.cpe_parameter_name n ON (p.name_id=n.id) WHERE n.name LIKE '%IPAddress%';"));
         disconnectDb();
     }
 
     public static String getGroupId(String serial) {
         return getValue("SELECT group_id FROM `ftacs`.`product_class` WHERE id IN (" +
                 "SELECT product_class_id FROM `ftacs`.`cpe` WHERE SERIAL = '" + serial + "');");
+    }
+
+    public static String getParameterValue(String serial, String parameterName) {
+        return getValue("SELECT DISTINCT p.value FROM ftacs.cpe_parameter p JOIN ftacs.cpe c ON (c.id=p.cpe_id) " +
+                "JOIN ftacs.cpe_parameter_name n ON (p.name_id=n.id) WHERE c.serial='" + serial + "' AND n.name='" + parameterName + "';");
     }
 }

@@ -11,10 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
 import org.testng.SkipException;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -39,9 +36,12 @@ public abstract class BaseTestCase {
     static Properties props;
     static Logger logger;
     private static boolean isInterrupted;
-    private Controller controller;
+    private static boolean stopExecutionForced;
+    public static boolean suiteCompleted;
+    private static Controller controller;
 
     static {
+        controller = Controller.getController();
         props = BasePage.getProps();
         logger = Logger.getLogger(BaseTestCase.class);
         PropertyConfigurator.configure("resources/log4j.properties");   //for launch without Controller from Idea
@@ -51,12 +51,22 @@ public abstract class BaseTestCase {
 
     @BeforeSuite
     public void init() {
-        controller = Controller.getController();
         logger.warn("\n*****************************STARTING TEST SUITE******************************");
         DataBaseConnector.connectDb();
         BasePage.initDriver();
         if (controller != null) {
             controller.testSuiteStarted();
+        }
+    }
+
+    @BeforeTest
+    public void skipClassIfStopped() {
+        if (isInterrupted) {
+            if (!stopExecutionForced) {
+                stopExecutionForced = true;
+                new Thread(this::stopForced).start();
+            }
+            throw new SkipException("Test execution has been interrupted manually");
         }
     }
 
@@ -110,36 +120,37 @@ public abstract class BaseTestCase {
         BasePage.setImplicitlyWait(0);
         while (okBtn.isDisplayed()) {
             okBtn.click();
-            loginPage.waitForUpdate();
+            getLoginPage().waitForUpdate();
         }
         while (popupList.size() > 0 && popupList.get(0).isDisplayed()) {
             popupList.get(0).click();
-            loginPage.waitForUpdate();
+            getLoginPage().waitForUpdate();
         }
         if (popup2List.size() > 0 && popup2List.get(0).isDisplayed()) {
-            loginPage.executeScript("PopupHide2('cancel');");
+            getLoginPage().executeScript("PopupHide2('cancel');");
         }
         if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
-            loginPage.executeScript("PopupHide('cancel');");
+            getLoginPage().executeScript("PopupHide('cancel');");
         }
         BasePage.switchToFrame(DESKTOP);
         List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
         if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
             resetViewList.get(0).click();
-            loginPage.waitForUpdate();
+            getLoginPage().waitForUpdate();
         }
         BasePage.setDefaultImplicitlyWait();
         BasePage.switchToFrame(ROOT);
-        if (isInterrupted) {
-            throw new SkipException("Test execution has been interrupted manually");
-        }
+//        if (isInterrupted) {
+//            throw new SkipException("Test execution has been interrupted manually");
+//        }
     }
 
     @AfterSuite
     public void tearDownMethod() {
+        stopExecutionForced = false;
         DataBaseConnector.disconnectDb();
         DiscManager.stopReading();
-        loginPage.logOut();
+        getLoginPage().logOut();
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -152,9 +163,20 @@ public abstract class BaseTestCase {
         ));
         logger.warn("\n*****************************TEST SUITE COMPLETED*****************************\n");
         BasePage.closeDriver();
-        interruptTestRunning(false);
+        isInterrupted = false;
         if (controller != null) {
             controller.testSuiteStopped();
+        }
+    }
+
+    private void stopForced() {
+        while (!suiteCompleted) {
+            Thread.yield();
+        }
+        pause(1000);
+        if (stopExecutionForced) {
+            System.out.println("tearDownMethod forced");
+            tearDownMethod();
         }
     }
 
@@ -164,6 +186,10 @@ public abstract class BaseTestCase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    protected String getParameterValue(String parameterName) {
+        return DataBaseConnector.getParameterValue(getSerial(), parameterName);
     }
 
     protected String getSerial() {
@@ -190,8 +216,8 @@ public abstract class BaseTestCase {
         return serial.substring(0, symbols);
     }
 
-    public static void interruptTestRunning(boolean interrupt) {
-        isInterrupted = interrupt;
+    public static void interruptTestRunning() {
+        isInterrupted = true;
     }
 
     public static String getTestName() {

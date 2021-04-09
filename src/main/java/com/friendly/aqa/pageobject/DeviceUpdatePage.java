@@ -1344,7 +1344,7 @@ public class DeviceUpdatePage extends BasePage {
             }
             pause(1000);
         }
-        throw new AssertionError("One or more port mapping item not found!");
+        throw new AssertionError("One or more port mapping item not found or incomplete!");
     }
 
     public void verifyPortDeletion() {

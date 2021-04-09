@@ -997,11 +997,16 @@ public class DeviceProfilePage extends BasePage {
         return this;
     }
 
-    public DeviceProfilePage fillValue(String value) {
-//        waitForUpdate();
-        valueInputField.sendKeys(value);
-//        waitForUpdate();
+    public DeviceProfilePage fillValue(boolean readFromDb, String parameter) {
+        if (readFromDb) {
+            parameter = DataBaseConnector.getParameterValue(getSerial(), parameter);
+        }
+        valueInputField.sendKeys(parameter);
         return this;
+    }
+
+    public DeviceProfilePage fillValue(String value) {
+        return fillValue(false, value);
     }
 
     @Override

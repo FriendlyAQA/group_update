@@ -2766,7 +2766,7 @@ public class DeviceUpdateTR181Tests extends BaseTestCase {
                 .validateUploadFileTasks();
     }
 
-    @Test   //bug: tab "port mapping" not found
+    @Test
     public void tr181_du_212() {
         duPage
                 .topMenu(DEVICE_UPDATE)

@@ -14,7 +14,7 @@ import static com.friendly.aqa.pageobject.BasePage.getProtocolPrefix;
 import static com.friendly.aqa.pageobject.BasePage.getSerial;
 
 public class XmlWriter {
-    private static final Logger logger = Logger.getLogger(XmlWriter.class);
+    private static final Logger LOGGER = Logger.getLogger(XmlWriter.class);
 
     public static void createTestngConfig(Set<Controller.TabTask> testSuite) {
         String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -42,7 +42,7 @@ public class XmlWriter {
             }
             writer.write("</suite>");
         } catch (IOException e) {
-            logger.warn(e.getMessage());
+            LOGGER.warn(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -59,10 +59,28 @@ public class XmlWriter {
             writer.write(device);
             writer.write(footer);
         } catch (IOException e) {
-            logger.warn(e.getMessage());
+            LOGGER.warn(e.getMessage());
             e.printStackTrace();
         }
     }
+
+//    public static void createFakeFile() {
+//        String pathName = "import/fake_file.xml";
+//        String header = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
+//            writer.write(header);
+//            for (int i = 0; i < 390; i++) {
+//                writer.write(String.format("%s%03d%s%03d%s","<span><img width=\"3%\" src=\"passed.png\"/><a href=\"#\" class=\"method navigator-link\" panel-name=\"suite-CPE_Admin_Automation_Tests\" title=\"com.friendly.aqa.test.DeviceProfileTR069Tests\" hash-for-method=\"tr069_dp_",i, "\">tr069_dp_", i, "</a><!-- method navigator-link --></span>\n<br/>\n"));
+//            }
+//        } catch (IOException e) {
+//            logger.warn(e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//        createFakeFile();
+//    }
 
     public static void createImportGroupFile() {
         String pathName = "import/" + getProtocolPrefix() + "_import_group.xml";
@@ -89,7 +107,7 @@ public class XmlWriter {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(sb.toString());
         } catch (IOException e) {
-            logger.warn(e.getMessage());
+            LOGGER.warn(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -127,7 +145,7 @@ public class XmlWriter {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(sb.toString());
         } catch (IOException e) {
-            logger.warn(e.getMessage());
+            LOGGER.warn(e.getMessage());
             e.printStackTrace();
         }
     }

@@ -9,7 +9,10 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 
 public class HttpConnector {
@@ -49,7 +52,7 @@ public class HttpConnector {
     }
 
     public static String sendRegisterRequest(String request) throws IOException {
-        URL urlObject = new URL("http://95.217.85.220:8080/ftacs/ACS");
+        URL urlObject = new URL("http://135.181.218.188:8080/ftacs/ACS");
         HttpURLConnection urlConnection = (HttpURLConnection) urlObject.openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.setRequestProperty("User-Agent", "CPE admin autotest tool");
@@ -73,7 +76,7 @@ public class HttpConnector {
     public static void main(String[] args) {
         try {
             System.out.println(System.currentTimeMillis());
-            String s = sendRegisterRequest("<soap-env:Envelope xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:cwmp=\"urn:dslforum-org:cwmp-1-2\" xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:soap-env=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><soap-env:Header><cwmp:ID soap-env:mustUnderstand=\"1\"/></soap-env:Header><soap-env:Body><cwmp:Inform><DeviceId><Manufacturer>TP-Link</Manufacturer><OUI>50D4F7</OUI><ProductClass>HC220-G1</ProductClass><SerialNumber>fakeSerial3</SerialNumber></DeviceId><Event soap-enc:arrayType=\"EventStruct[1]\"><EventStruct><EventCode>0 BOOTSTRAP</EventCode><CommandKey/></EventStruct></Event><MaxEnvelopes>0</MaxEnvelopes><CurrentTime>2021-03-17T13:44:48</CurrentTime><RetryCount>0</RetryCount><ParameterList soap-enc:arrayType=\"ParameterValueStruct[4]\"><ParameterValueStruct><Name>Device.DeviceInfo.HardwareVersion</Name><Value xsi:type=\"xsd:string\">HC220-G1 v1 00000000</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.DeviceInfo.SoftwareVersion</Name><Value xsi:type=\"xsd:string\">1.0.2 0.9 v6048.0 Build 190717 Rel.40046n</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ConnectionRequestURL</Name><Value xsi:type=\"string\">http://95.217.85.220:9997/fakeSerial3</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ParameterKey</Name><Value xsi:type=\"xsd:string\">6611813</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.Ethernet.Interface.1.MACAddress</Name><Value xsi:type=\"xsd:string\">aa:bb:cc:11:22:33</Value></ParameterValueStruct></ParameterList></cwmp:Inform></soap-env:Body></soap-env:Envelope>");
+            String s = sendRegisterRequest("<soap-env:Envelope xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:cwmp=\"urn:dslforum-org:cwmp-1-2\" xmlns:soap-enc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:soap-env=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><soap-env:Header><cwmp:ID soap-env:mustUnderstand=\"1\"/></soap-env:Header><soap-env:Body><cwmp:Inform><DeviceId><Manufacturer>UniDevice_181</Manufacturer><OUI>90D4F7</OUI><ProductClass>model_181_2</ProductClass><SerialNumber>fakeSerial22</SerialNumber></DeviceId><Event soap-enc:arrayType=\"EventStruct[1]\"><EventStruct><EventCode>0 BOOTSTRAP</EventCode><CommandKey/></EventStruct></Event><MaxEnvelopes>0</MaxEnvelopes><CurrentTime>2021-03-17T13:44:48</CurrentTime><RetryCount>0</RetryCount><ParameterList soap-enc:arrayType=\"ParameterValueStruct[4]\"><ParameterValueStruct><Name>Device.DeviceInfo.HardwareVersion</Name><Value xsi:type=\"xsd:string\">HC220-G1 v1 00000000</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.DeviceInfo.SoftwareVersion</Name><Value xsi:type=\"xsd:string\">1.0.2 0.9 v6048.0 Build 190717 Rel.40046n</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ConnectionRequestURL</Name><Value xsi:type=\"string\">http://95.217.85.220:9997/fakeSerial3</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.ManagementServer.ParameterKey</Name><Value xsi:type=\"xsd:string\">6611813</Value></ParameterValueStruct><ParameterValueStruct><Name>Device.Ethernet.Interface.1.MACAddress</Name><Value xsi:type=\"xsd:string\">aa:bb:cc:11:22:33</Value></ParameterValueStruct></ParameterList></cwmp:Inform></soap-env:Body></soap-env:Envelope>");
             System.out.println(System.currentTimeMillis());
             System.out.println(s);
         } catch (IOException e) {

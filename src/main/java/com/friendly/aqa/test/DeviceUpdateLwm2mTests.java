@@ -1800,7 +1800,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(GET_CURRENT_SETTINGS)
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateGeneratedGets();
+                .validateGeneratedGets();   // TODO only getParameterValues validate
     }
 
     @Test

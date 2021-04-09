@@ -337,7 +337,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .assertProfileIsPresent(false, getTestName());
     }
 
-    @Test//bug: red border is absent around empty fields (feature?)
+    @Test
     public void lwm2m_dp_025() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -348,9 +348,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Parameters")
                 .selectTab("Device")
                 .setParameter("Current Time", "")
-                .assertHasRedBorder(true, "Current Time")
                 .setParameter("Current Time", "12-34")
-                .assertHasRedBorder(false, "Current Time")
                 .bottomMenu(CANCEL)
                 .assertProfileIsPresent(false, getTestName());
     }

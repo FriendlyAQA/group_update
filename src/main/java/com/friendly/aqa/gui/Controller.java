@@ -140,7 +140,7 @@ public class Controller implements WindowListener, Runnable {
             view.clearAll();
             new Thread(this).start();
         } else {
-            BaseTestCase.interruptTestRunning(true);
+            BaseTestCase.interruptTestRunning();
         }
     }
 
@@ -540,6 +540,9 @@ public class Controller implements WindowListener, Runnable {
             if (b == 10) {
                 if (!buffer.toString().startsWith("JavaScript")) {
                     textArea.append(buffer.toString());
+                }
+                if (!buffer.toString().startsWith("Total tests run: ")) {
+                    BaseTestCase.suiteCompleted = true;
                 }
                 buffer = new StringBuilder();
             }
