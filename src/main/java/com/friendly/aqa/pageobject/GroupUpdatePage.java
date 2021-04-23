@@ -21,8 +21,7 @@ import java.util.*;
 
 import static com.friendly.aqa.entities.BottomButtons.*;
 import static com.friendly.aqa.entities.TopMenu.GROUP_UPDATE;
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.CONDITIONS;
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
+import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.*;
 import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 public class GroupUpdatePage extends BasePage {
@@ -70,6 +69,9 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "cbOnlineOnly")
     private WebElement onlineDevicesCheckBox;
 
+    @FindBy(id = "lblReactivationSummaryText")
+    private WebElement summary;
+
     @FindBy(id = "tmScheduled_ddlHour")
     private WebElement timeHoursSelect;
 
@@ -90,6 +92,10 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(id = "btnDelete_btn")
     private WebElement deleteButton;
+
+    @FindBy(id = "btnSave_btn")
+    private WebElement saveButton;
+
 
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
@@ -174,6 +180,11 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.clickOnTable(id, text);
     }
 
+    public GroupUpdatePage clickOnTask(String task) {
+        switchToFrame(TASKS);
+        return (GroupUpdatePage) super.clickOnTable("tblTasks", task);
+    }
+
     public Table getParamTable() {
         return getTable("tblParamsValue");
     }
@@ -223,8 +234,17 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.assertPresenceOfValue(tableId, column, value);
     }
 
+    public GroupUpdatePage addModelButton() {
+        return clickButton(addModelButton);
+    }
+
     public GroupUpdatePage assertInputIsDisabled(String id) {
-        assertFalse(findElement(id).isEnabled(), "Unexpected state of element #'" + id + "' (must be grayed out);");
+        WebElement el = findElement(id);
+        if (el.isEnabled()) {
+            showRedPointer(el);
+            throw new AssertionError("Unexpected state of element #'" + id + "' (must be grayed out);");
+        }
+        showBluePointer(el);
         return this;
     }
 
@@ -357,6 +377,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage addNewTask(String value) {
+        switchToFrame(TASKS);
         selectComboBox(selectTask, value);
         return this;
     }
@@ -394,6 +415,7 @@ public class GroupUpdatePage extends BasePage {
 
     @Override
     public GroupUpdatePage validateAddedTasks() {
+        switchToFrame(TASKS);
         return (GroupUpdatePage) super.validateAddedTasks();
     }
 
@@ -447,11 +469,23 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage fillName(String name) {
-        return (GroupUpdatePage) super.fillName(name);
+//        return (GroupUpdatePage) super.fillName(name);
+        nameTextField.sendKeys(name);
+        return this;
     }
 
     public GroupUpdatePage fillName() {
+//        return (GroupUpdatePage) super.fillName();
+        nameTextField.sendKeys(BaseTestCase.getTestName());
+        return this;
+    }
+
+    public GroupUpdatePage fillGroupName() {
         return (GroupUpdatePage) super.fillName();
+    }
+
+    public GroupUpdatePage fillGroupName(String name) {
+        return (GroupUpdatePage) super.fillName(name);
     }
 
     @Override
@@ -678,11 +712,15 @@ public class GroupUpdatePage extends BasePage {
         treeTable.clickOn(branch);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
         setCondition(paramTable, conditionName, condition, value);
-        WebElement saveButton = driver.findElement(By.id("btnSave_btn"));
         new FluentWait<>(driver).withMessage("Element was not found")
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofMillis(100))
                 .until(ExpectedConditions.attributeToBe(saveButton, "class", "button_default"));
+        saveButton();
+        return this;
+    }
+
+    public GroupUpdatePage saveButton() {
         saveButton.click();
         return this;
     }
@@ -729,7 +767,14 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public void assertDevicesArePresent() {
-        assertElementsArePresent("tblDevices");
+        switchToFrame(POPUP);
+        assertElementsArePresent(false, "tblDevices");
+    }
+
+    public void assertDeviceIsPresent() {
+        switchToFrame(POPUP);
+        assertPresenceOfValue("tblDevices", 0, getSerial());
+//        assertElementsArePresent(false, "tblDevices");
     }
 
     public GroupUpdatePage selectFileType(int index) {
@@ -783,8 +828,9 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
-                .fillName()
+                .fillGroupName()
                 .pause(1000)
                 .bottomMenu(NEXT)
                 .addFilter();
@@ -964,10 +1010,8 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName(BaseTestCase.getTestName())
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask(taskName)
                 .addTaskButton();
         return this;
@@ -1194,6 +1238,11 @@ public class GroupUpdatePage extends BasePage {
     @Override
     public GroupUpdatePage assertEqualsAlertMessage(String expectedMessage) {
         return (GroupUpdatePage) super.assertEqualsAlertMessage(expectedMessage);
+    }
+
+    public GroupUpdatePage assertSummaryTextEquals(String text) {
+        assertEquals(summary.getText(), text);
+        return this;
     }
 
     public GroupUpdatePage selectItemToDelete() {

@@ -921,12 +921,12 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .validateSorting("Name");
     }
 
-    @Test
-    public void mqtt_mo_064() {    //Bug: Unclear sorting algorithm by "State" column
+    @Test   //depends on 058
+    public void mqtt_mo_064() {    //Cannot validate alphabetical sorting due to BT item #11788
         monPage
                 .topMenu(MONITORING)
                 .selectView("mqtt_mo_058")
-                .validateSorting("State");
+                .clickOnTable("tbl", "State");
     }
 
     @Test

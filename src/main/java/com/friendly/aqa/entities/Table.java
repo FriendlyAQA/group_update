@@ -502,6 +502,10 @@ public class Table {
         }
     }
 
+    public Table assertPresenceOfValue(String column, String value) {
+        return assertPresenceOfValue(getColumnNumber(0, column), value);
+    }
+
     public Table assertPresenceOfValue(int column, String value) {
         for (String[] row : textTable) {
             int cellNum = column < 0 ? row.length + column : column;
@@ -547,6 +551,10 @@ public class Table {
         BasePage.setDefaultImplicitlyWait();
         out.sort(Comparator.naturalOrder());
         return out;
+    }
+
+    public boolean hasInput(int row, int column) {
+        return elementTable[row][column].findElements(By.tagName("input")).size() > 0;
     }
 
     @Override

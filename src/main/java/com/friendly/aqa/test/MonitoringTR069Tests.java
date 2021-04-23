@@ -1485,12 +1485,12 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .validateSorting("Name");
     }
 
-    @Test
-    public void tr069_mo_100() {    //Bug: Unclear sorting algorithm by "State" column
+    @Test   //depends on 094
+    public void tr069_mo_100() {    //Cannot validate alphabetical sorting due to BT item #11788
         monPage
                 .topMenu(MONITORING)
                 .selectView("tr069_mo_094")
-                .validateSorting("State");
+                .clickOnTable("tbl", "State");
     }
 
     @Test

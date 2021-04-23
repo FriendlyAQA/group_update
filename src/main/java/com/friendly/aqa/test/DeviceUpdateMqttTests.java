@@ -251,267 +251,294 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Created");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_017() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Firmware");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_018() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Latitude");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_019() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Longitude");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_020() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Manufacturer");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_021() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Model name");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_022() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust03");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_023() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust04");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_024() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust05");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_025() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust06");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_026() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust07");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_027() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust08");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_028() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust09");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_029() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("mycust10");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_030() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("OUI");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_031() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Phone number");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_032() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Protocol type");
     }
 
-    @Test   //bug: Serials with underlines cause incorrect sorting
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Serial");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_034() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Status");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_035() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Last connection");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_036() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User ID");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_037() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User location");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_038() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User login");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_039() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User name");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_040() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User name")
                 .validateSorting("User status");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_041() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("User tag");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_042() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("mqtt_du_014")
                 .validateSorting("Zip");
     }
@@ -523,7 +550,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertChangingView();
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_044() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -533,7 +560,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertSelectedViewIs("mqtt_du_014");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_045() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -568,7 +595,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateFiltering("Manufacturer");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_048() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -577,7 +604,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertTableColumnAmountIs(7, "tbl");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_011
     public void mqtt_du_049() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -585,7 +612,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertTableColumnAmountIs(2, "tbl");
     }
 
-    @Test
+    @Test   //depends on mqtt_du_014
     public void mqtt_du_050() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -819,7 +846,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .lookFor(getSerial())
                 .selectCheckbox("rdSearchExactly")
                 .searchButton()
-                .assertElementsArePresent("tblDeviceInfo");
+                .assertElementsArePresent("tbl");
     }
 
     @Test

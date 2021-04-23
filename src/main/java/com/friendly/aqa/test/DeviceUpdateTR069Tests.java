@@ -252,6 +252,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Created");
     }
@@ -262,6 +263,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Firmware");
     }
@@ -272,6 +274,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Latitude");
     }
@@ -282,6 +285,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Longitude");
     }
@@ -292,6 +296,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Manufacturer");
     }
@@ -302,6 +307,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Model name");
     }
@@ -312,6 +318,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust03");
     }
@@ -322,6 +329,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust04");
     }
@@ -332,6 +340,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust05");
     }
@@ -342,6 +351,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust06");
     }
@@ -352,6 +362,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust07");
     }
@@ -362,6 +373,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust08");
     }
@@ -372,6 +384,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust09");
     }
@@ -382,6 +395,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("mycust10");
     }
@@ -392,6 +406,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("OUI");
     }
@@ -402,6 +417,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Phone number");
     }
@@ -412,6 +428,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Protocol type");
     }
@@ -422,6 +439,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Serial");
     }
@@ -432,6 +450,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Status");
     }
@@ -442,6 +461,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Last connection");
     }
@@ -452,6 +472,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User ID");
     }
@@ -462,6 +483,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User location");
     }
@@ -472,6 +494,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User login");
     }
@@ -482,6 +505,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User name");
     }
@@ -492,6 +516,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User name")
                 .validateSorting("User status");
@@ -503,6 +528,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("User tag");
     }
@@ -513,6 +539,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("tr069_du_014")
                 .validateSorting("Zip");
     }
@@ -816,9 +843,9 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .searchBy("Serial Number")
-                .lookFor(getSerial())
+                .lookFor(getPartialSerial())
                 .searchButton()
-                .assertElementsArePresent("tblDeviceInfo");
+                .assertElementsArePresent("tbl");
     }
 
     @Test
@@ -2671,14 +2698,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .verifyPortDeletion();
     }
 
-    @Test   //bug: 	MP252 doesn't support Trace diagnostic
+    @Test
     public void tr069_du_207() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("Trace diagnostic")
+                .createDiagnostic("Trace diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
@@ -2697,20 +2724,20 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support download Diagnostic
+    @Test
     public void tr069_du_209() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("Download diagnostic")
+                .createDiagnostic("Download diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support Upload diagnostics
+    @Test
     public void tr069_du_210() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2723,7 +2750,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support NSLoopback diagnostics
+    @Test
     public void tr069_du_211() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2736,7 +2763,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support Wi-Fi neighboring diagnostics
+    @Test
     public void tr069_du_212() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2749,7 +2776,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support DSL diagnostics
+    @Test
     public void tr069_du_213() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2762,14 +2789,14 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .validateDiagnosticCreation();
     }
 
-    @Test   //bug: 	MP252 doesn't support NSlookup diagnostics
+    @Test
     public void tr069_du_214() {
         duPage
                 .topMenu(DEVICE_UPDATE)
                 .openDevice()
                 .leftMenu(DEVICE_DIAGNOSTIC)
                 .deleteAllDiagnostics()
-                .createDiagnostic("NSlookup diagnostics")
+                .createDiagnostic("NSLoopback diagnostics")
                 .bottomMenu(START)
                 .okButtonPopUp()
                 .validateDiagnosticCreation();

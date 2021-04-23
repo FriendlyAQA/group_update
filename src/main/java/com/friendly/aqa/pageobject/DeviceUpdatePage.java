@@ -470,11 +470,12 @@ public class DeviceUpdatePage extends BasePage {
     public DeviceUpdatePage setAllUserInfo() {
         editAccountInfoLink.click();
         switchToFrame(POPUP);
-        Table userInfoTable = getTable("tblMain", 18, true);
+        Table userInfoTable = getSymmetricTable("tblMain");
         String[] items = userInfoTable.getWholeColumn(0);
         for (int i = 0; i < items.length; i++) {
             String item = items[i];
-            if (userInfoTable.getInputText(i, 1).isEmpty()) {
+            WebElement cell = userInfoTable.getCellWebElement(i, 1);
+            if (userInfoTable.hasInput(i, 1) && userInfoTable.getInputText(i, 1).isEmpty()) {
                 setUserInfo(userInfoTable, item, getRandomStringValue(10));
             }
         }
@@ -497,7 +498,7 @@ public class DeviceUpdatePage extends BasePage {
 
     public DeviceUpdatePage clearUserInfo() {
         switchToFrame(POPUP);
-        showRedPointer(clearAllRButton).click();
+        showGreenPointer(clearAllRButton).click();
         okButtonPopUp();
         return this;
     }
@@ -507,6 +508,9 @@ public class DeviceUpdatePage extends BasePage {
         while (!timer.timeout()) {
             Table table = getTable("tblUserInfo");
             if (table.getTableSize()[0] == 0) {
+                return;
+            }
+            if (table.getTableSize()[0] == 1 && table.getCellText(0, 0).equalsIgnoreCase("domain")) {
                 return;
             }
         }
@@ -712,8 +716,8 @@ public class DeviceUpdatePage extends BasePage {
         Table table = getMainTable();
         table.clickOn(1, 0);
         parameterSet = new HashSet<>(1);
-        parameterSet.add(table.getCellText(1, 1));
-        showRedPointer(deleteButton).click();
+        parameterSet.add(table.getCellText(1, "Name"));
+        showGreenPointer(deleteButton).click();
         return this;
     }
 
@@ -1219,19 +1223,19 @@ public class DeviceUpdatePage extends BasePage {
                 WebElement table = findElement("tblTree");
                 List<WebElement> rowList = table.findElements(By.tagName("tr"));
                 if (rowList.get(1).isDisplayed()) {
-                    showRedPointer(collapseLink).click();
+                    showGreenPointer(collapseLink).click();
                 } else {
                     expandLink.click();
                     continue;
                 }
                 assertFalse(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: collapsed, actual: expanded");
                 hidePointer(collapseLink);
-                showRedPointer(expandLink).click();
+                showGreenPointer(expandLink).click();
                 assertTrue(rowList.get(1).isDisplayed(), "Three has unexpected state; Expected: expanded, actual: collapsed");
                 WebElement node = table.findElement(By.tagName("img"));
                 boolean state = node.getAttribute("src").endsWith("collapse.png");
                 hidePointer(expandLink);
-                showRedPointer(node).click();
+                showGreenPointer(node).click();
                 assertFalse(state == node.getAttribute("src").endsWith("collapse.png"), "Node did not change state after clicking!");
                 hidePointer(node);
             } catch (StaleElementReferenceException e) {

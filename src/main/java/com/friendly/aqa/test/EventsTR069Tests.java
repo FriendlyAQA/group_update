@@ -7218,13 +7218,15 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: MP252 does not contain such diagnostic
+    @Test
     public void tr069_ev_371() {
         evPage
                 .createImmediatelyEventOn("Events")
                 .setEvent(new Event("2 PERIODIC", null, "1", "41:minutes"), true)
                 .addTask("Diagnostics")
                 .selectDiagnostic("NSLoopback diagnostics")
+                .inputDnsField("8.8.8.8")
+                .inputHost("127.0.0.1")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)

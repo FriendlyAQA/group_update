@@ -5990,7 +5990,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validateAddedEventTask("2 PERIODIC", "IPPing diagnostics", "8.8.8.8");
     }
 
-    @Test   //bug: TaskDiagnostic task with id=--- not found
+    @Test
     public void tr181_dp_277() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9637,7 +9637,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceSummary")
                 .selectConditionInformComboBox("Regexp")
-                .fillValue("^" + getParameterValue("Device.DeviceSummary").substring(0, 3) + ".+")
+                .fillValue(getRegexpFor("Device.DeviceSummary"))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9721,7 +9721,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
                 .selectConditionInformComboBox("Regexp")
-                .fillValue("HC220-G1 v1 0{8}$")
+                .fillValue(getRegexpFor("Device.DeviceInfo.HardwareVersion"))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9805,7 +9805,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
                 .selectConditionInformComboBox("Regexp")
-                .fillValue("^" + getParameterValue("Device.DeviceInfo.SoftwareVersion").substring(0, 3) + ".+")
+                .fillValue(getRegexpFor("Device.DeviceInfo.SoftwareVersion"))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()

@@ -188,12 +188,34 @@ public abstract class BaseTestCase {
         }
     }
 
-    protected String getParameterValue(String parameterName) {
-        return DataBaseConnector.getParameterValue(getSerial(), parameterName);
+    protected String getRegexpFor(String parameterName) {
+        String value = DataBaseConnector.getParameterValue(getSerial(), parameterName);
+        int length = Math.min(value.length(), 3);
+        return "^" + (value).substring(0, length) + ".*";
     }
 
     protected String getSerial() {
         return BasePage.getSerial();
+    }
+
+    protected String getPartialSerial() {
+        String serial = BasePage.getSerial();
+        int length = Math.min(3, serial.length());
+        if (serial.contains("_")) {
+            length = serial.indexOf('_');
+        }
+        if (serial.startsWith("FT001SN0000")) {
+            length = 11;
+        }
+        return serial.substring(0, length);
+    }
+
+    protected String getPartialSerial(int symbols) {    //negative arg returns last symbols
+        String serial = BasePage.getSerial();
+        if (symbols < 0) {
+            return serial.substring(serial.length() + symbols);
+        }
+        return serial.substring(0, symbols);
     }
 
     public String getModelName() {
@@ -206,14 +228,6 @@ public abstract class BaseTestCase {
 
     protected static String now() {
         return CalendarUtil.getDbShiftedDate(0);
-    }
-
-    protected String getPartialSerial(int symbols) {    //negative arg returns last symbols
-        String serial = BasePage.getSerial();
-        if (symbols < 0) {
-            return serial.substring(serial.length() + symbols);
-        }
-        return serial.substring(0, symbols);
     }
 
     public static void interruptTestRunning() {

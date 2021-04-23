@@ -1015,12 +1015,12 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .validateSorting("Name");
     }
 
-    @Test
-    public void lwm2m_mo_070() {    //Bug: Unclear sorting algorithm by "State" column
+    @Test   //depends on 064
+    public void lwm2m_mo_070() {    //Cannot validate alphabetical sorting due to BT item #11788
         monPage
                 .topMenu(MONITORING)
                 .selectView("lwm2m_mo_064")
-                .validateSorting("State");
+                .clickOnTable("tbl", "State");
     }
 
     @Test

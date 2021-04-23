@@ -23,6 +23,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .deleteFilterGroups();
     }
 
@@ -63,6 +64,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .showList()
                 .assertDevicesArePresent();
@@ -76,6 +78,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -87,7 +90,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_006() {
         guPage
                 .createDeviceGroup()
-                .selectColumnFilter("device_created")
+                .selectColumnFilter("Created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
                 .assertButtonIsEnabled(false, "btnDelFilter_btn")
@@ -109,7 +112,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .validateSelectedGroup()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertElementsArePresent("imgChildAlert")
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, SAVE, SAVE_AND_ACTIVATE);
     }
 
     @Test
@@ -120,8 +124,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
-                .fillName("tr069_gu_006")
+                .fillGroupName("tr069_gu_006")
                 .bottomMenu(NEXT)
                 .assertElementsArePresent("lblNameInvalid");
     }
@@ -134,6 +139,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo("tr069_gu_006")
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
@@ -141,7 +147,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertAbsenceOfOptions("ddlSend", "tr069_gu_006");
     }
 
-    @Test
+    @Test   //skipped - redesign needed
     public void tr069_gu_010() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -149,6 +155,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo("Individual")
                 .clickOnTable("tblDevices", 1, 0)
                 .assertButtonsAreEnabled(true, NEXT)
@@ -165,10 +172,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertDeviceIsPresent();
     }
 
     @Test
@@ -182,7 +190,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(getTestName())
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertDeviceIsPresent();
     }
 
     @Test
@@ -193,22 +201,30 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .assertElementsArePresent("tblParamsValue")
+                .assertElementsArePresent(false, "tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
     public void tr069_gu_014() {
         guPage
-                .gotoSetParameters()
+                .topMenu(GROUP_UPDATE)
+                .leftMenu(NEW)
+                .fillName()
+                .selectManufacturer()
+                .selectModel()
+                .addModelButton()
+                .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);
@@ -220,15 +236,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .topMenu(GROUP_UPDATE)
                 .enterIntoGroup("tr069_gu_014")
                 .bottomMenu(EDIT)
+                .clickOnTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval")
+                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
-                .bottomMenu(NEXT)
-                .clickOnTable("tblTasks", "InternetGatewayDevice.ManagementServer.PeriodicInformInterval")
-                .setParameter("PeriodicInformInterval, sec", VALUE, "61")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .enterIntoGroup("tr069_gu_014")
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -237,7 +253,10 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate();
     }
 
     @Test
@@ -249,7 +268,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertInputIsDisabled("ddlSend")
                 .bottomMenu(NEXT)
                 .assertInputIsDisabled("lrbImmediately")
-                .bottomMenu(NEXT)
+//                .bottomMenu(NEXT)
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -261,16 +280,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .timeHoursSelect("0")
-                .bottomMenu(NEXT)
-                .assertEqualsAlertMessage("Update can't be scheduled to the past")
+                .assertSummaryTextEquals("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
-    @Test
+    @Test   //false positive - there's no link on webpage (build 017)
     public void tr069_gu_019() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -283,7 +306,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs")
                 .setParameter("Password", VALUE, "ftacs")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -292,7 +319,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters()
                 .setParameter("Username", VALUE, "ftacs")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -301,7 +332,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Time")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -310,7 +345,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Time")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -835,6 +874,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -1322,6 +1362,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -1998,6 +2039,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2022,6 +2064,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2047,6 +2090,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2072,6 +2116,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2098,6 +2143,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2124,6 +2170,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2151,6 +2198,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2176,6 +2224,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2202,6 +2251,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2228,6 +2278,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2255,6 +2306,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -2281,6 +2333,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -2307,6 +2360,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -2334,6 +2388,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2360,6 +2415,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2387,6 +2443,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2411,6 +2468,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2437,6 +2495,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2464,6 +2523,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2490,6 +2550,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2518,6 +2579,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2546,6 +2608,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2573,6 +2636,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2599,6 +2663,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2626,6 +2691,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2652,6 +2718,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2680,6 +2747,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2708,6 +2776,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2735,6 +2804,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2760,6 +2830,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -2784,6 +2855,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .immediately()
@@ -2809,6 +2881,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2836,6 +2909,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2863,6 +2937,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2889,6 +2964,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2915,6 +2991,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2942,6 +3019,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2968,6 +3046,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -2996,6 +3075,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3024,6 +3104,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3051,6 +3132,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3076,6 +3158,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3102,6 +3185,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3129,6 +3213,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3156,6 +3241,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3182,6 +3268,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3268,6 +3355,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3332,6 +3420,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3477,6 +3566,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3499,6 +3589,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3521,6 +3612,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3547,6 +3639,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3575,6 +3668,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3603,6 +3697,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3629,6 +3724,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3655,6 +3751,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3681,6 +3778,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3707,6 +3805,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3732,6 +3831,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3756,6 +3856,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3780,6 +3881,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3805,6 +3907,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3830,6 +3933,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()
@@ -3855,6 +3959,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .bottomMenu(NEXT)
                 .scheduledTo()

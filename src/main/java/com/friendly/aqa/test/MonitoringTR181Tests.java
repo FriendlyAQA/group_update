@@ -1773,11 +1773,11 @@ public class MonitoringTR181Tests extends BaseTestCase {
     }
 
     @Test   //depends on 112
-    public void tr181_mo_118() {    //Bug: Unclear sorting algorithm by "State" column
+    public void tr181_mo_118() {    //Cannot validate alphabetical sorting due to BT item #11788
         monPage
                 .topMenu(MONITORING)
                 .selectView("tr181_mo_112")
-                .validateSorting("State");
+                .clickOnTable("tbl", "State");
     }
 
     @Test

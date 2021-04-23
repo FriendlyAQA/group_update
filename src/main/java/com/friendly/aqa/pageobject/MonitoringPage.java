@@ -30,9 +30,6 @@ public class MonitoringPage extends BasePage {
         return this;
     }
 
-    @FindBy(id = "btnAddModel_btn")
-    private WebElement addModelButton;
-
     @FindBy(id = "IsDefaultViewForPublic")
     private WebElement forPublicCheckbox;
 

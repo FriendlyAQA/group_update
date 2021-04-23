@@ -120,7 +120,7 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage saveButton() {
-        showRedPointer(saveButton).click();
+        showGreenPointer(saveButton).click();
 //        saveButton.click();
         pause(500);
         waitForUpdate();
@@ -379,7 +379,7 @@ public class EventsPage extends BasePage {
     @Override
     public EventsPage cancelButtonPopUp() {
         switchToFrame(POPUP);
-        showRedPointer(cancelButton).click();
+        showGreenPointer(cancelButton).click();
         waitForUpdate();
         switchToFrame(DESKTOP);
         return this;
@@ -395,7 +395,7 @@ public class EventsPage extends BasePage {
                 waitForUpdate();
                 switchToFrame(ROOT);
                 while (okButtonAlertPopUp.isDisplayed()) {
-                    showRedPointer(okButtonAlertPopUp).click();
+                    showGreenPointer(okButtonAlertPopUp).click();
                     waitForUpdate();
                 }
                 switchToFrame(DESKTOP);

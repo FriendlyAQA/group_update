@@ -36,7 +36,7 @@ public abstract class BasePage {
     private Date csvFileTime;
     static WebDriver driver;
     protected static Map<String, Event> eventMap;
-    private static FrameSwitch frame;
+    protected static FrameSwitch frame;
     public static final long IMPLICITLY_WAIT;
     private static final Logger LOGGER;
     private static String mainWindow;
@@ -158,7 +158,7 @@ public abstract class BasePage {
         if (frame == ROOT) {
             return;
         }
-        if (frame == SUB_FRAME) {
+        if (frame == SUB_FRAME || frame == TASKS) {
             driver.switchTo().frame(driver.findElement(By.id(DESKTOP.frameId)));
         }
         WebElement frameEl = driver.findElement(By.id(frame.frameId));
@@ -183,6 +183,9 @@ public abstract class BasePage {
 
     @FindBy(id = "btnAddFilter_btn")
     private WebElement addFilterButton;
+
+    @FindBy(id = "btnAddModel_btn")
+    protected WebElement addModelButton;
 
     @FindBy(id = "btnAddSubFilter_btn")
     private WebElement addSubFilterButton;
@@ -416,9 +419,11 @@ public abstract class BasePage {
         for (IBottomButtons button : buttons) {
             WebElement btn = findElement(button.getId());
             if (btn.getAttribute("class").equals("button_disabled") == enabled) {
+                showRedPointer(btn);
                 switchToPreviousFrame();
                 throw new AssertionError("Button " + button + " has unexpected state (" + (enabled ? "disabled)" : "enabled)"));
             }
+            showBluePointer(btn);
         }
         switchToPreviousFrame();
         return this;
@@ -429,10 +434,11 @@ public abstract class BasePage {
         setDefaultImplicitlyWait();
         for (IBottomButtons button : buttons) {
             List<WebElement> list = findElements(button.getId());
-            if (list.size() != 1 || !list.get(0).isDisplayed()) {
+            if (list.isEmpty() || !list.get(0).isDisplayed()) {
                 switchToPreviousFrame();
                 throw new AssertionError("Button " + button + " not found");
             }
+            showBluePointer(list.get(0));
         }
         switchToPreviousFrame();
         return this;
@@ -440,6 +446,7 @@ public abstract class BasePage {
 
     public BasePage assertButtonIsEnabled(boolean expectedActive, String id) {
         if (buttonIsActive(id) == expectedActive) {
+            showBluePointer(findElement(id));
             return this;
         }
         throw new AssertionError("Button id='" + id + "' has unexpected state (" +
@@ -708,9 +715,9 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (cancelButton.isDisplayed()) {
-            showRedPointer(cancelButton).click();
+            showGreenPointer(cancelButton).click();
             waitForUpdate();
-            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", cancelButton);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid green'", cancelButton);
         }
         switchToFrame(DESKTOP);
         return this;
@@ -761,7 +768,7 @@ public abstract class BasePage {
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(findElement(button.getId())));
                 pause(200);
-                showRedPointer(findElement(button.getId())).click();
+                showGreenPointer(findElement(button.getId())).click();
                 waitForUpdate();
                 return;
             } catch (StaleElementReferenceException | NoSuchElementException e) {
@@ -783,7 +790,7 @@ public abstract class BasePage {
                         .withTimeout(Duration.ofSeconds(IMPLICITLY_WAIT))
                         .pollingEvery(Duration.ofMillis(100))
                         .until(ExpectedConditions.elementToBeClickable(button));
-                showRedPointer(button).click();
+                showGreenPointer(button).click();
                 waitForUpdate();
                 return this;
             } catch (StaleElementReferenceException e) {
@@ -1207,17 +1214,17 @@ public abstract class BasePage {
         return getTable(id, null);
     }
 
-    public Table getTable(String id, int expectedRowsNumber, boolean checkAsymmetry) {
+    public Table getSymmetricTable(String id) {
         Table table = getTable(id);
         Timer timer = new Timer();
         while (!timer.timeout()) {
-            if (table.getTableSize()[0] == expectedRowsNumber && (!checkAsymmetry || !table.isAsymmetric())) {
+            if (!table.isAsymmetric()) {
                 return table;
             }
             waitForUpdate();
             table = getTable(id);
         }
-        throw new AssertionError("Table rows number != " + expectedRowsNumber);
+        throw new AssertionError("Table has asymmetric structure!");
     }
 
     public Table getTabTable() {
@@ -1343,14 +1350,14 @@ public abstract class BasePage {
         switchToFrame(ROOT);
         waitForUpdate();
         while (okButtonAlertPopUp.isDisplayed()) {
-            showRedPointer(okButtonAlertPopUp).click();
+            showGreenPointer(okButtonAlertPopUp).click();
             waitForUpdate();
-            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonAlertPopUp);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid green'", okButtonAlertPopUp);
         }
         while (okButtonPopUp.isDisplayed()) {
-            showRedPointer(okButtonPopUp).click();
+            showGreenPointer(okButtonPopUp).click();
             waitForUpdate();
-            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid red'", okButtonPopUp);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px solid green'", okButtonPopUp);
         }
         switchToFrame(DESKTOP);
         return this;
@@ -2025,8 +2032,14 @@ public abstract class BasePage {
         return this;
     }
 
-    public void showGreenPointer(WebElement element) {
+    public WebElement showBluePointer(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid blue'", element);
+        return element;
+    }
+
+    public WebElement showGreenPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid green'", element);
+        return element;
     }
 
     public WebElement showRedPointer(WebElement element) {
@@ -2101,7 +2114,7 @@ public abstract class BasePage {
         return validateAddedTask("tblTasks", parameter, value, 0);
     }
 
-    public BasePage validateAddedTask(String tableId, String parameter, String value, int shift) {
+    public BasePage validateAddedTask(String tableId, String parameterName, String value, int shift) {
         waitForUpdate();
         Table table = getTable(tableId);
         Timer timer = new Timer();
@@ -2112,29 +2125,38 @@ public abstract class BasePage {
         for (int i = 0; i < table.getTableSize()[0]; i++) {
             try {
                 int length = table.getRowLength(i);
-                if (table.getCellText(i, length - 2 - shift).equalsIgnoreCase(parameter)) {
-                    showGreenPointer(table.getCellWebElement(i, length - 2 - shift));
-                    if (table.getCellText(i, length - 1 - shift).equalsIgnoreCase(value)) {
+                int paramCol = length - 2 - shift;
+                int valueCol = paramCol + 1;
+                String tableParameter = table.getCellText(i, paramCol).toLowerCase();
+                String tableValue = table.getCellText(i, valueCol);
+                if (tableParameter.equalsIgnoreCase(parameterName)) {
+                    showGreenPointer(table.getCellWebElement(i, paramCol));
+                    if (tableValue.equalsIgnoreCase(value)) {
                         match = true;
-                        showGreenPointer(table.getCellWebElement(i, length - 1 - shift));
+                        showGreenPointer(table.getCellWebElement(i, valueCol));
                         break;
                     }
                     if (value.equals("0") || value.equals("1")) {
                         String alternateValue = value.equals("0") ? "false" : "true";
-                        if (table.getCellText(i, length - 1 - shift).equals(alternateValue)) {
+                        if (tableValue.equals(alternateValue)) {
                             match = true;
-                            showGreenPointer(table.getCellWebElement(i, length - 1 - shift));
+                            showGreenPointer(table.getCellWebElement(i, valueCol));
                             break;
                         }
                     }
-                    showRedPointer(table.getCellWebElement(i, length - 1 - shift));
+                    if ((tableParameter.contains("password") || tableParameter.contains("passphrase")) && tableValue.equals("*****")) {
+                        match = true;
+                        showGreenPointer(table.getCellWebElement(i, valueCol));
+                        break;
+                    }
+                    showRedPointer(table.getCellWebElement(i, valueCol));
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
                 System.out.println("ArrayIndexOutOfBoundsException:" + e.getMessage());
             }
         }
         if (!match) {
-            String warning = "Pair '" + parameter + "' : '" + value + "' not found";
+            String warning = "Pair '" + parameterName + "' : '" + value + "' not found";
             table.print();
             scrollTo(table.getCellWebElement(table.getTableSize()[0] - 1, 0));
             pause(1000);
@@ -2177,7 +2199,7 @@ public abstract class BasePage {
     }
 
     public BasePage validateName() {
-        assertEquals(nameField.getAttribute("value"), BaseTestCase.getTestName());
+        assertEquals(nameTextField.getAttribute("value"), BaseTestCase.getTestName());
         return this;
     }
 
@@ -2227,10 +2249,10 @@ public abstract class BasePage {
                 throw new AssertionError("Unsupported file type!");
             }
             if (ext.equalsIgnoreCase("csv")) {
-                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
+                table.assertPresenceOfValue("Name", "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(csvFileTime) + ").csv");
             }
             if (ext.equalsIgnoreCase("xml")) {
-                table.assertPresenceOfValue(1, "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
+                table.assertPresenceOfValue("Name", "Report(Inventory_Default_" + CalendarUtil.getCsvFileFormat(xmlFileTime) + ").xml");
             }
         }
     }
@@ -2445,7 +2467,7 @@ public abstract class BasePage {
 
     public enum FrameSwitch {
         ROOT(null), DESKTOP("frmDesktop"), BOTTOM_MENU("frmButtons"),
-        CONDITIONS("frmPopup2"), POPUP("frmPopup"), SUB_FRAME("frmSubFrame");
+        CONDITIONS("frmPopup2"), POPUP("frmPopup"), SUB_FRAME("frmSubFrame"), TASKS("frmTasks");
 
         FrameSwitch(String frameId) {
             this.frameId = frameId;

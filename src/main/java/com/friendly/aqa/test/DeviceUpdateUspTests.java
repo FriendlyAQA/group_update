@@ -252,6 +252,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Created");
     }
@@ -262,6 +263,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Firmware");
     }
@@ -272,6 +274,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Latitude");
     }
@@ -282,6 +285,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Longitude");
     }
@@ -292,6 +296,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Manufacturer");
     }
@@ -302,6 +307,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Model name");
     }
@@ -312,6 +318,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust03");
     }
@@ -322,6 +329,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust04");
     }
@@ -332,6 +340,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust05");
     }
@@ -342,6 +351,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust06");
     }
@@ -352,6 +362,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust07");
     }
@@ -362,6 +373,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust08");
     }
@@ -372,6 +384,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust09");
     }
@@ -382,6 +395,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("mycust10");
     }
@@ -392,6 +406,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("OUI");
     }
@@ -402,6 +417,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Phone number");
     }
@@ -412,6 +428,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Protocol type");
     }
@@ -422,6 +439,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Serial");
     }
@@ -432,6 +450,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Status");
     }
@@ -442,6 +461,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Last connection");
     }
@@ -452,6 +472,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User ID");
     }
@@ -462,6 +483,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User location");
     }
@@ -472,6 +494,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User login");
     }
@@ -482,6 +505,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User name");
     }
@@ -492,6 +516,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User name")
                 .validateSorting("User status");
@@ -503,6 +528,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("User tag");
     }
@@ -513,6 +539,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .topMenu(DEVICE_UPDATE)
                 .selectFilterManufacturer("All")
                 .selectFilterModelName("All")
+                .itemsOnPage("200")
                 .selectView("usp_du_014")
                 .validateSorting("Zip");
     }
@@ -820,7 +847,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .lookFor(getSerial())
                 .selectCheckbox("rdSearchExactly")
                 .searchButton()
-                .assertElementsArePresent("tblDeviceInfo");
+                .assertElementsArePresent("tbl");
     }
 
     @Test

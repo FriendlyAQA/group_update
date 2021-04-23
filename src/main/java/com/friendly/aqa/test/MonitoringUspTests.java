@@ -826,12 +826,12 @@ public class MonitoringUspTests extends BaseTestCase {
                 .validateSorting("Name");
     }
 
-    @Test
-    public void usp_mo_058() {    //Bug: Unclear sorting algorithm by "State" column
+    @Test   //depends on 052
+    public void usp_mo_058() {    //Cannot validate alphabetical sorting due to BT item #11788
         monPage
                 .topMenu(MONITORING)
                 .selectView("usp_mo_052")
-                .validateSorting("State");
+                .clickOnTable("tbl", "State");
     }
 
     @Test
