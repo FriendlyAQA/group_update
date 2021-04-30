@@ -293,7 +293,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkIsCalendarClickable();
     }
 
-    @Test   //false positive - there's no link on webpage (build 017)
+    @Test
     public void tr069_gu_019() {//depends on 16
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -358,7 +358,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Time")
                 .setParameter(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -367,7 +371,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("WAN")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -376,7 +384,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("WAN")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -385,7 +397,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("WAN")
                 .setParameter(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -394,7 +410,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("LAN")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -403,7 +423,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("LAN")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -412,7 +436,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("LAN")
                 .setParameter(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -421,7 +449,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Wireless")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -430,7 +462,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Wireless")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -439,7 +475,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Wireless")
                 .setParameter(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -448,7 +488,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("DSL settings")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -457,7 +501,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("DSL settings")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -466,7 +514,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("DSL settings")
                 .setParameter(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -475,7 +527,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("VoIP settings")
                 .setAllParameters()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -484,7 +540,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("VoIP settings")
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -493,7 +553,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("VoIP settings")
                 .setParameter(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -502,7 +566,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Management")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -511,7 +579,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Management")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -520,7 +592,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Management")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -529,7 +605,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Management")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -538,7 +618,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Time")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -547,7 +631,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Time")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -556,7 +644,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Time")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -565,7 +657,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Time")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -574,7 +670,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("WAN")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -583,7 +683,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -592,7 +696,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -601,7 +709,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("WAN")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -610,7 +722,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("LAN")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -619,7 +735,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -628,7 +748,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -637,7 +761,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("LAN")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -646,7 +774,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Wireless")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -655,7 +787,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -664,7 +800,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -673,7 +813,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("Wireless")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -682,7 +826,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("DSL settings")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -691,7 +839,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -700,7 +852,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -709,7 +865,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("DSL settings")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -718,7 +878,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("VoIP settings")
                 .setAllPolicies()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -727,7 +891,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -736,7 +904,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -745,7 +917,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .goToSetPolicies("VoIP settings")
                 .setPolicy(3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -754,8 +930,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Device reprovision")
-                .nextSaveAndActivate()
-                .validateAddedTask("Device reprovision", "CPEReprovision");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateAddedTask("Device reprovision", " ");
     }
 
     @Test
@@ -764,7 +944,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("GetRPCMethods")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "GetRPCMethods");
     }
 
@@ -774,7 +958,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("GetParameterNames")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "GetParameterNames");
     }
 
@@ -784,7 +972,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("GetParameterAttributes")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "GetParameterAttributes");
     }
 
@@ -794,7 +986,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("GetParameterValues")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "GetParameterValues");
     }
 
@@ -804,7 +1000,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("SetParameterValues")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "SetParameterValues");
     }
 
@@ -814,7 +1014,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("SetParameterAttributes")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "SetParameterAttributes");
     }
 
@@ -824,7 +1028,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("AddObject")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "AddObject");
     }
 
@@ -834,7 +1042,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("DeleteObject")
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTask("Custom RPC", "DeleteObject");
     }
 
@@ -844,7 +1056,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoSetParameters("time", true)
                 .setAllParameters()
                 .setAnyAdvancedParameter()
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -853,7 +1069,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("time", true)
                 .setParameter(1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -862,7 +1082,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("time", true)
                 .setParameter(2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -876,20 +1100,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("Time", 1)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
+                .onlineDevicesCheckBox()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Running", 5)
                 .readTasksFromDb()
                 .enterIntoGroup()
                 .assertOnlineDevices()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -902,7 +1126,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .assertDeviceIsPresent()
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -918,14 +1142,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .assertElementsArePresent("tblParameters");
     }
 
-    @Test
+    @Test   //irrelevant ("Manufacturer" is absent)
     public void tr069_gu_083() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .checkFiltering("Manufacturer", getManufacturer());
     }
 
-    @Test
+    @Test   //irrelevant ("Model" is absent)
     public void tr069_gu_084() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -942,14 +1166,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .checkFiltering("State", "All");
     }
 
-    @Test
+    @Test   //irrelevant ("Manufacturer" is absent)
     public void tr069_gu_086() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .validateSorting("Manufacturer");
     }
 
-    @Test
+    @Test   //irrelevant ("Model" is absent)
     public void tr069_gu_087() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -967,7 +1191,6 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_089() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .validateSorting("Name")
                 .validateSorting("Created");
     }
 
@@ -997,6 +1220,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .selectManufacturer()
+                .selectModel()
+                .selectStatus("Completed")
                 .checkResetView();
     }
 
@@ -1004,10 +1229,10 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_094() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup("Manufacturer")
+                .clickOnHeader("Name")
                 .checkResetView()
-                .leftMenu(VIEW)
-                .itemsOnPage("10");
+                /*.leftMenu(VIEW)
+                .itemsOnPage("10")*/;
     }
 
     @Test
@@ -1015,7 +1240,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Management")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1024,7 +1253,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1033,7 +1266,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1042,7 +1279,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1051,7 +1292,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1060,7 +1305,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 1)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1069,7 +1318,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Management")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1078,7 +1331,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1087,7 +1344,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1096,7 +1357,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1105,7 +1370,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1114,7 +1383,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 2)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1123,7 +1396,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Management")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1132,7 +1409,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1141,7 +1422,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1150,7 +1435,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1159,7 +1448,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1168,7 +1461,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 3)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1177,7 +1474,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Management")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1186,7 +1487,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Information")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1195,7 +1500,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Time")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1204,7 +1513,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("WAN")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1213,7 +1526,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("LAN")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1222,7 +1539,11 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoGetParameter("Wireless")
                 .getParameter(1, 0)
-                .nextSaveAndActivate()
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
                 .validateAddedTasks();
     }
 
@@ -1230,18 +1551,24 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_119() {
         guPage
                 .gotoBackup()
+                .bottomMenu(NEXT)
+                .immediately()
                 .saveAndActivate()
-                .assertPresenceOfValue("tblTasks", 0, "Backup");
+                .bottomMenu(EDIT)
+                .validateAddedTask("Backup");
     }
 
     @Test
     public void tr069_gu_120() {
         guPage
                 .gotoBackup()
-                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
+                .addCondition(1, "Time", "NTPServer1", EQUAL, "www.nist.gov")
+                .bottomMenu(NEXT)
+                .immediately()
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 0, "Backup")
-                .assertPresenceOfValue("tblTasks", 1, "Present");
+                .bottomMenu(EDIT)
+                .validateAddedTask("Backup")
+                .assertConditionIsPresent();
     }
 
     @Test
@@ -1257,21 +1584,24 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
     public void tr069_gu_122() {
         guPage
                 .gotoRestore()
+                .bottomMenu(NEXT)
+                .immediately()
                 .saveAndActivate()
-                .assertPresenceOfValue("tblTasks", 0, "Restore");
+                .bottomMenu(EDIT)
+                .validateAddedTask("Restore");
     }
 
     @Test
     public void tr069_gu_123() {
         guPage
                 .gotoRestore()
-                .addCondition(1, "ManagementServer", "PeriodicInformInterval, sec", EQUAL, "60")
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .readTasksFromDb()  //No waiting for "Completed" status
-                .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", 0, "Restore")
-                .assertPresenceOfValue("tblTasks", 1, "Present");
+                .addCondition(1, "Time", "NTPServer1", EQUAL, "www.nist.gov")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate(false)
+                .bottomMenu(EDIT)
+                .validateTask()
+                .assertConditionIsPresent();
     }
 
     @Test
@@ -1289,64 +1619,92 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoDiagnostic()
                 .selectDiagnostic("IPPing diagnostics")
                 .inputHost("8.8.8.8")
-                .nextSaveAndActivate()
-                .validateAddedTask("IPPing diagnostics", "8.8.8.8");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //bug: Trace diagnostics is absent from Diagnostic list
+    @Test //bug: Trace diagnostics is absent from Diagnostic list of Group Update
     public void tr069_gu_126() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Trace Diagnostics")
                 .inputHost("8.8.8.8")
                 .inputNumOfRepetitions("3")
-                .nextSaveAndActivate()
-                .validateAddedTask("Trace Diagnostics", "8.8.8.8");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //Not supported by AudioCodes
+    @Test
     public void tr069_gu_127() {
         guPage
                 .gotoDiagnostic()
                 .selectDiagnostic("Download diagnostics")
-                .nextSaveAndActivate()
-                .validateAddedTask("Download diagnostics", "http://127.0.0.1/webdav/Test.cfg");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //Not supported by AudioCodes
+    @Test
     public void tr069_gu_128() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Upload Diagnostics")
-                .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Upload Diagnostics");
+                .selectDiagnostic("Upload diagnostics")
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //bug: Wi-Fi Neighboring diagnostics is absent from Diagnostic list
+    @Test //bug: Wi-Fi Neighboring diagnostics is absent from Diagnostic list of Group Update
     public void tr069_gu_129() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("Wi-Fi Neighboring Diagnostic")
-                .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "Wi-Fi Neighboring Diagnostic");
+                .selectDiagnostic("Wi-Fi neighboring diagnostics")
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //Not supported by AudioCodes
+    @Test //bug: DSL diagnostics is absent from Diagnostic list of Group Update
     public void tr069_gu_130() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("DSL Diagnostic")
-                .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "DSL Diagnostic");
+                .selectDiagnostic("DSL diagnostics")
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
-    @Test //Not supported by AudioCodes
+    @Test //bug: NSLoopback diagnostics is absent from Diagnostic list of Group Update
     public void tr069_gu_131() {
         guPage
                 .gotoDiagnostic()
-                .selectDiagnostic("NSlookup")
-                .nextSaveAndActivate()
-                .assertPresenceOfValue("tblTasks", -2, "NSlookup");
+                .selectDiagnostic("NSLoopback diagnostics")
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1364,15 +1722,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
@@ -1381,7 +1738,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1389,12 +1747,15 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Time")
                 .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1406,8 +1767,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillDownloadUrl()
                 .fillUsername()
                 .fillPassword()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1417,8 +1782,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectDownloadFileType("Firmware Image")
                 .manuallyDownloadRadioButton()
                 .fillDownloadUrl()
-                .nextSaveAndActivate()
-                .validateDownloadFileTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1428,8 +1797,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectDownloadFileType("Vendor Configuration File")
                 .selectFromListRadioButton()
                 .selectFileName("Vendor Configuration File")
-                .nextSaveAndActivate()
-                .validateDownloadFileTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1439,8 +1812,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectDownloadFileType("Firmware Image")
                 .selectFromListRadioButton()
                 .selectFileName("Firmware Image")
-                .nextSaveAndActivate()
-                .validateDownloadFileTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1451,8 +1828,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manuallyUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
                 .fillUploadUrl()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1463,8 +1844,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .manuallyUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
                 .fillUploadUrl()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1474,52 +1859,44 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .nextSaveAndActivate()
-                .validateAddedTasks(/*"Vendor Configuration File", props.getProperty("file_server")*/);
-    }
-
-    @Test
-    public void tr069_gu_142() {
-        guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Upload file")
-                .addTaskButton()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
+    }
+
+    @Test//Probably step 'waitUntilConnect' skipped in STD
+    public void tr069_gu_142() {
+        guPage
+                .gotoFileUpload()
                 .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test config file upload")
-                .nextSaveAndActivate()
-                .validateAddedTasks(/*"Vendor Configuration File", props.getProperty("file_server")*/);
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .waitUntilConnectRadioButton()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void tr069_gu_143() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName(BaseTestCase.getTestName())
-                .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Upload file")
-                .addTaskButton()
+                .gotoFileUpload()
                 .selectUploadFileType("Vendor Log File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .nextSaveAndActivate()
-                .validateAddedTasks(/*"Vendor Log File", props.getProperty("file_server")*/);
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .waitUntilConnectRadioButton()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1529,8 +1906,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType("Vendor Log File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test log file upload")
-                .nextSaveAndActivate()
-                .validateAddedTasks(/*"Vendor Log File", props.getProperty("file_server")*/);
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1540,8 +1921,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectUploadFileType("Vendor Configuration File")
                 .defaultUploadRadioButton()
                 .fillDescriptionUploadFile("test configuration file upload")
-                .bottomMenu(NEXT)
-                .validateAddedTasks(/*"Vendor Configuration File", props.getProperty("file_server")*/)
+                .saveButton()
+                .validateTask()
                 .clickOnTable("tblTasks", 1, 0)
                 .deleteButton()
                 .assertResultTableIsAbsent();
@@ -1552,8 +1933,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Reboot")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reboot");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1561,8 +1946,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Factory reset")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory reset");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1571,8 +1960,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("Reboot")
-                .nextSaveAndActivate()
-                .validateAddedTask("Custom RPC", "Reboot");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1581,8 +1974,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("Download")
-                .nextSaveAndActivate()
-                .validateAddedTask("Custom RPC", "Download");
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1591,7 +1988,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .gotoAction()
                 .selectAction("Custom RPC")
                 .selectMethod("Upload")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .selectItem()
@@ -1599,7 +1998,8 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Paused", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Custom RPC", "Upload");
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1609,23 +2009,24 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(NEW)
                 .selectManufacturer()
                 .selectModel()
-                .fillName(BaseTestCase.getTestName())
+                .fillName()
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
-                .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
                 .selectAction("Custom RPC")
                 .selectMethod("FactoryReset")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
+                .selectRepeatsDropDown("Hourly")
+                .selectRepeatEveryHourDropDown("1")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatus("Reactivation", 30)
                 .enterIntoGroup()
-                .validateAddedTask("Custom RPC", "FactoryReset");
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1665,7 +2066,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertElementsArePresent("imgChildAlert");
     }
 
     @Test
@@ -1677,15 +2078,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
 
@@ -1701,15 +2103,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1725,15 +2128,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1749,15 +2153,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1769,15 +2174,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1789,15 +2195,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1809,15 +2216,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1829,15 +2237,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1850,15 +2259,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1872,15 +2282,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1894,15 +2305,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1916,7 +2328,7 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertElementsArePresent("imgChildAlert");
     }
 
     @Test
@@ -1930,15 +2342,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1952,15 +2365,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1973,15 +2387,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -1994,15 +2409,16 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .assertElementsAreAbsent("imgChildAlert")
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2023,8 +2439,9 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
-                .fillName()
+                .fillGroupName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
@@ -2041,19 +2458,19 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .setDelay(10)
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2066,20 +2483,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2092,20 +2509,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2118,21 +2535,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2145,21 +2562,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setPeriod(2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2172,22 +2589,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setPeriod(2)
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2200,20 +2617,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2226,21 +2643,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2253,21 +2670,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2280,22 +2697,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2308,21 +2725,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2335,21 +2752,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2362,22 +2779,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2390,21 +2807,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setThreshold(50)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2417,22 +2834,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setThreshold(50)
                 .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2445,19 +2862,19 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .selectShiftedDate("calDate", 1)
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .selectShiftedDate("calDate", 1)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2470,21 +2887,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2497,22 +2914,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2525,21 +2942,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2552,6 +2969,10 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
@@ -2559,16 +2980,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectRepeatEveryHourDropDown("1")
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2581,23 +2998,23 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
-                .endAOnRadiobutton()
+                .reactivationEndsOn()
                 .selectShiftedDate("calReactivationEndsOnDay", 8)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2610,23 +3027,24 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Hourly")
                 .selectRepeatEveryHourDropDown("1")
                 .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
+
 
     @Test
     public void tr069_gu_197() {
@@ -2638,21 +3056,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2665,22 +3083,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2693,21 +3111,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2720,6 +3138,10 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
@@ -2727,18 +3149,14 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectRepeatEveryDayDropDown("1")
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
-
+//start
     @Test
     public void tr069_gu_201() {
         guPage
@@ -2749,23 +3167,23 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("1")
-                .endAOnRadiobutton()
+                .reactivationEndsOn()
                 .selectShiftedDate("calReactivationEndsOnDay", 8)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2778,22 +3196,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Daily")
                 .selectRepeatEveryDayDropDown("1")
                 .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2806,20 +3224,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Weekly")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2832,19 +3250,19 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .selectRepeatsDropDown("Weekly")
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
+                .selectRepeatsDropDown("Weekly")
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2857,20 +3275,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .immediately()
-                .selectRepeatsDropDown("Weekly")
-                .endAOnRadiobutton()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
+                .selectRepeatsDropDown("Weekly")
+                .reactivationEndsOn()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2883,22 +3301,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Weekly")
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2911,22 +3329,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Weekly")
-                .endAOnRadiobutton()
+                .reactivationEndsOn()
                 .selectShiftedDate("calReactivationEndsOnDay", 32)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test   //bug: Test fails if run in Friday :)))
@@ -2939,21 +3357,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Weekly")
                 .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2966,21 +3384,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -2993,22 +3411,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("1")
                 .selectShiftedDate("calReactivationStartsOnDay", 31)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3021,21 +3439,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3048,6 +3466,10 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
@@ -3055,16 +3477,12 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .selectRepeatEveryMonthDropDown("1")
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3077,23 +3495,23 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("1")
-                .endAOnRadiobutton()
+                .reactivationEndsOn()
                 .selectShiftedDate("calReactivationEndsOnDay", 31)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3106,22 +3524,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Monthly")
                 .selectRepeatEveryMonthDropDown("1")
                 .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3134,20 +3552,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3160,21 +3578,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
                 .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3187,22 +3605,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
                 .endAfterRadiobutton()
                 .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3215,22 +3633,22 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
-                .endAOnRadiobutton()
+                .reactivationEndsOn()
                 .selectShiftedDate("calReactivationEndsOnDay", 365)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3243,21 +3661,21 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
+                .addNewTask("Set parameter value")
+                .addTaskButton()
+                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .selectRepeatsDropDown("Yearly")
                 .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("PeriodicInformInterval, sec", VALUE, "60")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -3270,19 +3688,20 @@ public class GroupUpdateTR069Tests extends BaseTestCase {
                 .fillName()
                 .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .setDelay(10)
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .setParameter("PeriodicInformInterval, sec", VALUE, "60")
                 .setParameter("Username", VALUE, "ftacs")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
+                .bottomMenu(EDIT)
+//                .validateTask();
                 .validateAddedTask("InternetGatewayDevice.ManagementServer.PeriodicInformInterval", "60")
                 .validateAddedTask("InternetGatewayDevice.ManagementServer.Username", "ftacs");
     }

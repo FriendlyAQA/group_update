@@ -91,18 +91,18 @@ public class XmlWriter {
         }
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n").append("<Update>\n").append("\t<Name>imported_group</Name>\n")
-                .append("\t<ProductGroupValue>\n").append("\t\t<ProductGroup>\n").append("\t\t\t<Manufacturer>")
-                .append(deviceArr[0]).append("</Manufacturer>\n\t\t\t<ModelName>").append(deviceArr[1])
-                .append("</ModelName>\n\t\t\t<ProtocolType>").append(protocol).append("</ProtocolType>\n")
-                .append("\t\t</ProductGroup>\n").append("\t</ProductGroupValue>\n").append("\t<Tasks>\n").append("\t\t<TaskAction>\n")
-                .append("\t\t\t<Action>").append("\t\t\t\t<Name>CPEReprovision</Name>\n").append("\t\t\t</Action>")
-                .append("\t\t</TaskAction>\n").append("\t</Tasks>\n").append("\t<ScheduledDate>01/01/1</ScheduledDate>\n\t<ActivateDate>")
+                .append("\t<Childs>\n").append("\t\t<ProductGroupValue>\n").append("\t\t\t<ProductGroup>\n").append("\t\t\t\t<Manufacturer>")
+                .append(deviceArr[0]).append("</Manufacturer>\n\t\t\t\t<ModelName>").append(deviceArr[1])
+                .append("</ModelName>\n\t\t\t\t<ProtocolType>").append(protocol).append("</ProtocolType>\n")
+                .append("\t\t\t</ProductGroup>\n").append("\t\t</ProductGroupValue>\n").append("\t\t<Tasks>\n").append("\t\t\t<TaskAction>\n")
+                .append("\t\t\t\t<Action>\n").append("\t\t\t\t\t<Name>CPEReprovision</Name>\n").append("\t\t\t\t</Action>\n")
+                .append("\t\t\t</TaskAction>\n").append("\t\t</Tasks>\n").append("\t</Childs>").append("\t<ScheduledDate />\n\t<ActivateDate>")
                 .append(CalendarUtil.getImportGroupDate()).append("</ActivateDate>\n\t<Period1> - /0/0</Period1>\n")
                 .append("\t<Period2> - /0/0</Period2>\n").append("\t<Online>false</Online>\n").append("\t<AskToConnect>true</AskToConnect>\n")
                 .append("\t<Location>0</Location>\n").append("\t<Threshold>0</Threshold>\n").append("\t<StopFail>false</StopFail>\n")
-                .append("\t<Reactivation>\n").append("\t\t<Start>0001-01-01T00:00:00</Start>\n").append("\t\t<Time />\n")
-                .append("\t\t<Finish>0001-01-01T00:00:00</Finish>\n").append("\t\t<RepeatCount>0</RepeatCount>\n")
-                .append("\t\t<FailOnly>false</FailOnly>\n").append("\t\t<RepeatEvery>0</RepeatEvery>\n").append("\t\t<Expression />\n")
+                .append("\t<Reactivation>\n").append("\t\t<Start />\n").append("\t\t<Time />\n").append("\t\t<Finish />\n")
+                .append("\t\t<RepeatCount>0</RepeatCount>\n").append("\t\t<FailOnly>false</FailOnly>\n")
+                .append("\t\t<RepeatEvery>0</RepeatEvery>\n").append("\t\t<Expression />\n")
                 .append("\t\t<RandomCount>0</RandomCount>\n").append("\t</Reactivation>\n").append("</Update>");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathName))) {
             writer.write(sb.toString());

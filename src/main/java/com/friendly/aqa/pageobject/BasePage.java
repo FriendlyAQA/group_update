@@ -48,6 +48,7 @@ public abstract class BasePage {
     private Table savedTable;
     protected String selectedName;
     protected static Task task;
+    protected static List<Task> taskList;
     private Date xmlFileTime;
 
     static {
@@ -84,6 +85,7 @@ public abstract class BasePage {
         eventMap = null;
         parametersMonitor = null;
         task = null;
+        taskList = null;
     }
 
     public static WebDriver getDriver() {
@@ -382,6 +384,12 @@ public abstract class BasePage {
         return clickButton(addFilterButton);
     }
 
+    public BasePage addNewTask(String taskType) {
+        selectComboBox(selectTask, taskType);
+        getLastTask(taskType);
+        return this;
+    }
+
     public BasePage addSubFilter() {
         return clickButton(addSubFilterButton);
     }
@@ -390,7 +398,7 @@ public abstract class BasePage {
         switchToFrame(POPUP);
         waitUntilElementIsDisplayed(addTaskButton);
         selectComboBox(selectTask, task);
-        getTask(task);
+        getLastTask(task);
         clickButton(addTaskButton);
         return this;
     }
@@ -966,8 +974,8 @@ public abstract class BasePage {
         manuallyDownloadRadioButton();
         String value = props.getProperty("file_server") + lastOpt;
         getParameterMap().put(fileType, value);//delete
-        getTask().setParameterName(fileType);
-        getTask().setValue(value);
+        getLastTask().setParameterName(fileType);
+        getLastTask().setValue(value);
         urlField.sendKeys(value);
         return this;
     }
@@ -1001,7 +1009,8 @@ public abstract class BasePage {
         String fileType = BaseTestCase.getTestName().contains("_du") ? "Upload" : getSelectedOption(selectUploadFileTypeComboBox);
         path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
         getParameterMap().put(fileType, path);//delete
-        getTask().setParameterName(fileType);
+        getLastTask().setParameterName(fileType);
+        getLastTask().setValue(path);
         return this;
     }
 
@@ -1150,8 +1159,8 @@ public abstract class BasePage {
             table.clickOn(row, column, 0);
         }
         getParameterMap().put(hint, values);//delete
-        getTask().setParameterName(hint);
-        getTask().setValue(hint);
+        getLastTask().setParameterName(hint);
+        getLastTask().setValue(hint);
         return this;
     }
 
@@ -1189,6 +1198,19 @@ public abstract class BasePage {
         return new ArrayList<>(getParameterMap().entrySet()).get(0);
     }
 
+    public Table getSymmetricTable(String id) {
+        Table table = getTable(id);
+        Timer timer = new Timer();
+        while (!timer.timeout()) {
+            if (!table.isAsymmetric()) {
+                return table;
+            }
+            waitForUpdate();
+            table = getTable(id);
+        }
+        throw new AssertionError("Table has asymmetric structure!");
+    }
+
     public Table getTable(String id, FrameSwitch frame) {
         waitForUpdate();
         if (frame != null) {
@@ -1214,19 +1236,6 @@ public abstract class BasePage {
         return getTable(id, null);
     }
 
-    public Table getSymmetricTable(String id) {
-        Table table = getTable(id);
-        Timer timer = new Timer();
-        while (!timer.timeout()) {
-            if (!table.isAsymmetric()) {
-                return table;
-            }
-            waitForUpdate();
-            table = getTable(id);
-        }
-        throw new AssertionError("Table has asymmetric structure!");
-    }
-
     public Table getTabTable() {
         return getTable("tabsSettings_tblTabs", null);
     }
@@ -1246,10 +1255,10 @@ public abstract class BasePage {
         return this;
     }
 
-    public BasePage inputHost(String text) {
+    public BasePage inputHost(String host) {
         inputHostField.clear();
-        inputHostField.sendKeys(text);
-        getTask(null).setValue(text);
+        inputHostField.sendKeys(host);
+        getLastTask().setValue(host);
         return this;
     }
 
@@ -1312,9 +1321,10 @@ public abstract class BasePage {
                 table = getTable("tblLeftMenu");
                 list = table.getRowsWithText(item.getValue());
             } while (list.size() == 0 && !timer.timeout());
+//            new Table2("tblLeftMenu").print();
             table.clickOn(list.get(0), 0);
-//            showPointer(table.getCellWebElement(list.get(0), 0)).click();
         } catch (ElementNotInteractableException | IndexOutOfBoundsException e) {
+            System.out.println(e.getClass().getSimpleName());
             System.out.println(e.getMessage());
             throw new AssertionError("Left menu item '" + item + "' not found on current page!");
         }
@@ -1494,7 +1504,7 @@ public abstract class BasePage {
         if (!action.equals("Custom RPC")) {
             getParameterMap().put("Action", action);//!23.12.2020//delete
         }
-        getTask(null).setParameterName(action);
+        getLastTask().setParameterName(action);
         return this;
     }
 
@@ -1583,16 +1593,23 @@ public abstract class BasePage {
 
     public BasePage selectDiagnostic(String value) {
         try {
-            getTask(null).setParameterName(value);
+            getLastTask().setParameterName(value);
+            if (value.startsWith("Download")) {
+                getLastTask().value = "http://127.0.0.1/webdav/Test.cfg";
+            }
+            if (value.startsWith("Upload")) {
+                getLastTask().value = "http://127.0.0.1/webdav/";
+            }
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
-            String warn = value + " is not supported by current device!";
-            throw new AssertionError(warn);
+            diagnosticTypeComboBox.click();
+            throw new AssertionError(value + " is not supported by current device!");
         }
         return this;
     }
 
     public BasePage selectDownloadFileType(String type) {
+//        getTask().parameterName = type;
         return selectFileType(type, selectDownloadFileTypeComboBox);
     }
 
@@ -1602,8 +1619,9 @@ public abstract class BasePage {
         String lastOpt = optList.get(optList.size() - 1);
         selectComboBox(fileNameComboBox, lastOpt);
         getParameterMap().put(parameter, props.getProperty("file_server") + lastOpt);//delete
-        getTask().setParameterName(parameter);
-        getTask().setValue(props.getProperty("file_server") + lastOpt);
+        getLastTask().setParameterName(parameter);
+//        getTask().setValue(props.getProperty("file_server") + lastOpt);
+        getLastTask().setValue("http://127.0.0.1/webdav/" + lastOpt);//tr069_gu_137 commented line above (27.04.2021)
         return this;
     }
 
@@ -1687,7 +1705,7 @@ public abstract class BasePage {
     public BasePage selectMethod(String value) {
         selectComboBox(selectMethodComboBox, value);
         getParameterMap().put("Custom RPC", value);
-        getTask(null).setValue(value);
+        getLastTask().setValue(value);
         return this;
     }
 
@@ -1866,8 +1884,8 @@ public abstract class BasePage {
             input.sendKeys(value);
         }
         getParameterMap().put(hint, value);//delete
-        getTask(null).setParameterName(hint);
-        getTask(null).setValue(value);
+        getLastTask().setParameterName(hint);
+        getLastTask().setValue(value);
         if (!BROWSER.equals("edge")) {
             table.clickOn(0, 0);
         }
@@ -1999,8 +2017,8 @@ public abstract class BasePage {
                 throw new AssertionError(warn);
             }
             getParameterMap().put(table.getHint(i), result);//delete
-            getTask().setParameterName(table.getHint(i));
-            getTask().setValue(result);
+            getLastTask().setParameterName(table.getHint(i));
+            getLastTask().setValue(result);
         }
         return this;
     }
@@ -2045,6 +2063,14 @@ public abstract class BasePage {
     public WebElement showRedPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
         return element;
+    }
+
+    protected void showPointer(boolean success, WebElement element) {
+        if (success) {
+            showGreenPointer(element);
+        } else {
+            showRedPointer(element);
+        }
     }
 
     public void switchToNewWindow() {
@@ -2163,6 +2189,38 @@ public abstract class BasePage {
             throw new AssertionError(warning);
         }
         return this;
+    }
+
+    public BasePage validateTask() {
+        for (Task task : taskList) {
+            validateTask(task);
+        }
+        return this;
+    }
+
+    private void validateTask(Task task) {
+        waitForUpdate();
+        Table2 table = new Table2("tblTasks");
+        Timer timer = new Timer();
+        while ((table.getTableSize()[0] == 1 || table.getRowLength(1) < 2) && !timer.timeout()) {
+            table = new Table2("tblTasks");
+        }
+        for (int i = 1; i < table.getTableSize()[0]; i++) {
+            boolean taskName = table.getCellText(i, "Task").trim().equals(task.taskName);
+            showPointer(taskName, table.getCellWebElement(i, "Task"));
+            boolean parameter = table.getCellText(i, "Parameter").trim().equals(task.parameterName);
+            showPointer(parameter, table.getCellWebElement(i, "Parameter"));
+            boolean value = table.getCellText(i, "Value").trim().equals(task.value);
+            showPointer(value, table.getCellWebElement(i, "Value"));
+            if (taskName && parameter && value) {
+                return;
+            }
+        }
+        table.print();
+//        System.out.println();
+//        new Table2("tblTasks").print();
+        pause(500);
+        throw new AssertionError(task + " not found in table!");
     }
 
     protected void validateAddedTasks(Table table, String eventName) {
@@ -2486,23 +2544,45 @@ public abstract class BasePage {
         }
 
         public void setParameterName(String parameterName) {
-            this.parameterName = parameterName;
+            if (this.parameterName.isEmpty()) {
+                this.parameterName = parameterName;
+            } else {
+                Task anotherTask = new Task(taskName);
+                anotherTask.parameterName = parameterName;
+                taskList.add(anotherTask);
+            }
         }
 
         public void setValue(String value) {
-            this.value = value;
+            if (this.value.isEmpty()) {
+                this.value = value;
+            } else {
+                Task anotherTask = new Task(taskName);
+                anotherTask.value = value;
+                taskList.add(anotherTask);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "Task{" +
+                    "taskName='" + taskName + '\'' +
+                    ", parameterName='" + parameterName + '\'' +
+                    ", value='" + value + '\'' +
+                    '}';
         }
     }
 
-    private Task getTask() {
-        return getTask(null);
+    public Task getLastTask() {
+        return getLastTask("");
     }
 
-    private Task getTask(String taskName) {
-        if (task == null) {
-            task = new Task(taskName);
+    public Task getLastTask(String taskName) {
+        if (taskList == null) {
+            taskList = new ArrayList<>();
+            taskList.add(new Task(taskName));
         }
-        return task;
+        return taskList.get(taskList.size() - 1);
     }
 }
 

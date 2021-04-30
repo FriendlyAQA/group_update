@@ -177,7 +177,7 @@ public class Table {
             }
         }
         print();
-        throw new AssertionError("Column with header '" + text + "' not found");//!!09.02.2021
+        throw new AssertionError("Column with text '" + text + "' (row " + row + ") not found");//!!09.02.2021
 //        return -1;
     }
 
@@ -336,6 +336,10 @@ public class Table {
 
     public WebElement getCellWebElement(int row, int column) {
         return elementTable[row][column];
+    }
+
+    public WebElement getCellWebElement(int row, String columnHeader) {
+        return elementTable[row] [getColumnNumber(0, columnHeader)];
     }
 
     public WebElement getInput(int row, int column) {
@@ -568,8 +572,8 @@ public class Table {
     @Override
     public int hashCode() {
         int result = Objects.hash(rowsList, table, retryInit);
-        result = 31 * result + Arrays.hashCode(textTable);
-        result = 31 * result + Arrays.hashCode(elementTable);
+        result = 31 * result + Arrays.deepHashCode(textTable);
+        result = 31 * result + Arrays.deepHashCode(elementTable);
         return result;
     }
 }

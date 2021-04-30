@@ -110,7 +110,7 @@ public class GroupUpdatePage extends BasePage {
         XmlWriter.createImportGroupFile();
         String inputText = new File("import/" + getProtocolPrefix() + "_import_group.xml").getAbsolutePath();
         importField.sendKeys(inputText);
-        executeScript("ValidateFile(this);");
+        executeScript("onFileChanged(this);");
         return this;
     }
 
@@ -376,10 +376,9 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage addNewTask(String value) {
+    public GroupUpdatePage addNewTask(String taskType) {
         switchToFrame(TASKS);
-        selectComboBox(selectTask, value);
-        return this;
+        return (GroupUpdatePage) super.addNewTask(taskType);
     }
 
     @Override
@@ -403,6 +402,8 @@ public class GroupUpdatePage extends BasePage {
         String path = props.getProperty("file_server");
         path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
         getParameterMap().put(fileType, path);
+        task.setParameterName(fileType);
+        task.setValue(path);
         waitForUpdate();
         defaultUploadRadioButton.click();
         return this;
@@ -564,7 +565,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage endAOnRadiobutton() {
+    public GroupUpdatePage reactivationEndsOn() {
         reactivationEndsOn.click();
         return this;
     }
@@ -584,6 +585,11 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage selectModel() {
         return (GroupUpdatePage) super.selectModel();
+    }
+
+    public GroupUpdatePage selectStatus(String status) {
+        selectComboBox(profileStatusCombobox, status);
+        return this;
     }
 
     @Override
@@ -709,7 +715,8 @@ public class GroupUpdatePage extends BasePage {
         button.click();
         pause(1000);
         Table treeTable = getTable("tblTree", CONDITIONS);
-        treeTable.clickOn(branch);
+        int row = treeTable.getFirstRowWithText(branch);
+        treeTable.clickOn(row, 0, 0);
         Table paramTable = getTable("tblParamsValue", CONDITIONS);
         setCondition(paramTable, conditionName, condition, value);
         new FluentWait<>(driver).withMessage("Element was not found")
@@ -754,11 +761,9 @@ public class GroupUpdatePage extends BasePage {
         boolean man = getSelectedOption(manufacturerComboBox).equals("All");
         boolean model = getSelectedOption(modelComboBox).equals("All");
         boolean status = getSelectedOption(profileStatusCombobox).equals("All");
-        String[] arr = table.getColumn("Created");
-        String[] arr2 = arr.clone();
-        Arrays.sort(arr, Comparator.reverseOrder());
-        boolean sortedByCreated = Arrays.deepEquals(arr, arr2);
-        if (!(man && model && status && sortedByCreated)) {
+        List<WebElement> pointerList = table.getCellWebElement(0, table.getColumnNumber(0, "Created")).findElements(By.tagName("img"));
+        boolean descendingByCreated = pointerList.size() == 1 && pointerList.get(0).getAttribute("src").endsWith("down.png");
+        if (!(man && model && status && descendingByCreated)) {
             String warn = "\"Reset View\" check failed";
             LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);
@@ -771,10 +776,11 @@ public class GroupUpdatePage extends BasePage {
         assertElementsArePresent(false, "tblDevices");
     }
 
-    public void assertDeviceIsPresent() {
+    public GroupUpdatePage assertDeviceIsPresent() {
         switchToFrame(POPUP);
         assertPresenceOfValue("tblDevices", 0, getSerial());
-//        assertElementsArePresent(false, "tblDevices");
+        closePopup();
+        return this;
     }
 
     public GroupUpdatePage selectFileType(int index) {
@@ -861,7 +867,8 @@ public class GroupUpdatePage extends BasePage {
             selectTab(tab);
         }
         if (advancedView) {
-            bottomMenu(ADVANCED_VIEW);
+            clickOn("btnAdvancedView_btn");
+//            bottomMenu(ADVANCED_VIEW);
         }
         return this;
     }
@@ -872,20 +879,21 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .setDelay(10)
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
                 .selectTab(tab)
                 .setParameter(2)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
-                .enterIntoGroup();
+                .enterIntoGroup()
+                .bottomMenu(EDIT);
         validateAddedTasks();
     }
 
@@ -1013,7 +1021,8 @@ public class GroupUpdatePage extends BasePage {
                 .addModelButton()
                 .selectSendTo()
                 .addNewTask(taskName)
-                .addTaskButton();
+                .addTaskButton()
+                .getLastTask(taskName);
         return this;
     }
 
@@ -1187,7 +1196,19 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage validateAddedTask(String parameter, String value) {
+        switchToFrame(TASKS);
         return (GroupUpdatePage) super.validateAddedTask(parameter, value);
+    }
+
+    public GroupUpdatePage validateTask() {
+        switchToFrame(TASKS);
+        return (GroupUpdatePage) super.validateTask();
+    }
+
+    public GroupUpdatePage validateAddedTask(String task) {
+        switchToFrame(TASKS);
+        assertEquals(getTable("tblTasks").getCellText(1, "Task"), task, "Task comparing failed");
+        return this;
     }
 
     public GroupUpdatePage readTasksFromDb() {
@@ -1213,6 +1234,10 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage enterIntoGroup() {
         return enterIntoGroup(BaseTestCase.getTestName());
+    }
+
+    public GroupUpdatePage clickOnHeader(String header) {
+        return enterIntoGroup(header);
     }
 
     @Override
@@ -1256,6 +1281,16 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public void assertConditionIsPresent() {
+        Table table = getTable("tblTasks");
+        int column = table.getColumnNumber(0, "Conditions");
+        WebElement cell = table.getCellWebElement(1, column);
+        List<WebElement> buttonList = cell.findElements(By.tagName("input"));
+        showPointer(!buttonList.isEmpty(), cell);
+        if (buttonList.isEmpty()) {
+            throw new AssertionError("Condition not found!");
+        }
+    }
 
     public enum Left implements ILeft {
         VIEW("View"), IMPORT("Import"), NEW("New");
