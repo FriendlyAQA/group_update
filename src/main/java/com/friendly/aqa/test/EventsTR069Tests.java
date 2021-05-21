@@ -7142,7 +7142,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: MP252 does not contain such diagnostic
+    @Test
     public void tr069_ev_367() {
         evPage
                 .createImmediatelyEventOn("Events")
@@ -7161,7 +7161,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: MP252 does not contain such diagnostic
+    @Test
     public void tr069_ev_368() {
         evPage
                 .createImmediatelyEventOn("Events")
@@ -7180,7 +7180,7 @@ public class EventsTR069Tests extends BaseTestCase {
                 .stopEvent();
     }
 
-    @Test   //bug: MP252 does not contain such diagnostic
+    @Test
     public void tr069_ev_369() {
         evPage
                 .createImmediatelyEventOn("Events")

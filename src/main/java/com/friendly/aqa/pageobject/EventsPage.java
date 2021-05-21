@@ -468,6 +468,7 @@ public class EventsPage extends BasePage {
     @Override
     public EventsPage fillName() {
         nameTextField.sendKeys(BaseTestCase.getTestName());
+        waitForUpdate();
         return this;
     }
 

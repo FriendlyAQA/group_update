@@ -524,13 +524,14 @@ public class DeviceUpdatePage extends BasePage {
             if (!getSerial().equals(serial)) {
                 parameterSet = new HashSet<>();
                 parameterSet.add(serial);
-                return openDevice(serial, getMainTable());
+                return openDevice(serial);
             }
         }
         throw new AssertionError("there are no suitable devices to be selected!");
     }
 
-    public DeviceUpdatePage openDevice(String serial, Table table) {
+    public DeviceUpdatePage openDevice(String serial) {
+        Table table = getMainTable();
         if (!table.contains(serial)) {
             itemsOnPage("200");
             table = getMainTable();
@@ -542,7 +543,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage openDevice() {
-        return openDevice(getSerial(), getMainTable());
+        return openDevice(getSerial());
     }
 
     @Override
@@ -979,7 +980,12 @@ public class DeviceUpdatePage extends BasePage {
             waitForUpdate();
             selectTab(tab);
         }
-        Table table = new Table("tblParamsTable");
+        Table table = getTable("tblParamsTable");
+        Timer timer = new Timer(10000);
+        while (table.isEmpty() && !timer.timeout()) {
+            selectNextNode();
+            table = getTable("tblParamsTable");
+        }
         String[] names = table.getColumn("Parameter name");
         int valueColNum = table.getColumnNumber(0, "Parameter value");
         int localAmount = amount;
@@ -1110,6 +1116,7 @@ public class DeviceUpdatePage extends BasePage {
                 }
             }
             scrollTo(pager);
+            table.print();
             throw new AssertionError("Pair '" + parameter + ":" + entry.getValue() + "' not found!");
         }
         return this;
@@ -1166,9 +1173,12 @@ public class DeviceUpdatePage extends BasePage {
             List<Integer> list = table.getRowsWithText(entry.getKey());
             for (int i : list) {
                 if (table.getCellText(i, "Parameter name").matches(entry.getValue())) {
+                    showGreenPointer(table.getCellWebElement(i, "Parameter name"));
                     return;
                 }
+                showRedPointer(table.getCellWebElement(i, "Parameter name"));
             }
+            table.print();
             throw new AssertionError("Cannot find entry that matches the regex '" + entry.getValue() + "'");
         }
     }
@@ -1188,9 +1198,10 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage defaultUploadRadioButton() {
+        waitForUpdate();
         defaultUploadRButton.click();
         waitForUpdate();
-        String url = "^" + props.getProperty("file_server") + DataBaseConnector.getGroupId(getSerial())
+        String url = "^" + props.getProperty("file_server") + "/?" + DataBaseConnector.getGroupId(getSerial())
                 + '_' + getSerial() + '_' + CalendarUtil.getDateByPattern("yyyy.MM.dd") + '_' + ".+\\."
                 + (getSelectedOption(selectUploadFileTypeComboBox).startsWith("Vendor Conf") ? "cfg$" : "log$");
         getParameterMap().put("Upload", url);
@@ -1210,6 +1221,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage manualUrlRButton() {
+        waitForUpdate();
         manualUrlRButton.click();
         waitForUpdate();
         return this;
@@ -1281,6 +1293,16 @@ public class DeviceUpdatePage extends BasePage {
         getParameterMap().put("Get parameter names", path);
         return this;
         //InternetGatewayDevice.WANDevice.1.WANConnectionDevice.1.WANPPPConnection.1.
+    }
+
+    public void assertTreeIsClear() {
+        WebElement table = findElement("tblTree");
+        List<WebElement> checkBoxes = table.findElements(By.tagName("input"));
+        for (WebElement box : checkBoxes) {
+            if (box.isSelected()) {
+                throw new AssertionError("Tree has selected nodes!");
+            }
+        }
     }
 
     public void validateGeneratedGets() {
@@ -1433,7 +1455,7 @@ public class DeviceUpdatePage extends BasePage {
         waitUntilButtonIsEnabled(CANCEL);
         super.selectMethod(methodName);
         waitForUpdate();
-        getParameterMap().put("Custom RPC", getElementText("txtRequest").replaceAll("\n", ""));
+        getParameterMap().put("Custom RPC", getElementText("txtRequest").replaceAll("\n", "").replaceAll("\\s+<", "<"));
         return this;
     }
 

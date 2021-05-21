@@ -1617,7 +1617,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp();
     }
 
-    @Test
+    @Test   //bug: cannot add or edit something to PROVISION_MANAGER
     public void mqtt_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1650,7 +1650,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
     //skipped: 136 (functional implemented in 135)
 
 
-    @Test
+    @Test   //bug: Button PING is absent
     public void mqtt_du_137() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1659,7 +1659,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertPingWindowIsOpened();
     }
 
-    @Test
+    @Test   //bug: Button TRACE_ROUTE is absent
     public void mqtt_du_138() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1973,8 +1973,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
-                .bottomMenu(STORE_TREE)
-                .okButtonPopUp();   //is validation needed??? How???
+                .assertTreeIsClear();
     }
 
     @Test
@@ -2020,7 +2019,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .assertTableIsEmpty("tblItems");
     }
 
-    @Test   //cannot add or edit something to PROVISION_MANAGER
+    @Test   //bug: cannot add or edit something to PROVISION_MANAGER
     public void mqtt_du_164() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2030,7 +2029,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //cannot add or edit something to PROVISION_MANAGER
+    @Test   //bug: cannot add or edit something to PROVISION_MANAGER
     public void mqtt_du_165() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -2040,7 +2039,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateEditedProvision();
     }
 
-    @Test   //cannot add or edit something to PROVISION_MANAGER
+    @Test   //bug: cannot add or edit something to PROVISION_MANAGER
     public void mqtt_du_166() {
         duPage
                 .topMenu(DEVICE_UPDATE)

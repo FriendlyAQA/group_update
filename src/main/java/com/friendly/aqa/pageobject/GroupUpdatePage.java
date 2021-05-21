@@ -26,6 +26,7 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 public class GroupUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
+    private Map<String, String> optionMap/* = new HashMap<>()*/;
 
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
@@ -35,6 +36,9 @@ public class GroupUpdatePage extends BasePage {
 
     @FindBy(name = "btnNewView$btn")
     private WebElement createGroupButton;
+
+    @FindBy(id = "calDate_textBox")
+    private WebElement calendarInput;
 
     @FindBy(id = "ddlRepeatType")
     private WebElement reactivationRepeatsDropDown;
@@ -96,6 +100,8 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnSave_btn")
     private WebElement saveButton;
 
+    @FindBy(id = "btnAdvancedView_btn")
+    private WebElement advancedViewButton;
 
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
@@ -206,7 +212,10 @@ public class GroupUpdatePage extends BasePage {
 
     @Override
     public GroupUpdatePage selectShiftedDate(String id, int value) {
-        return (GroupUpdatePage) super.selectShiftedDate(id, value);
+        super.selectShiftedDate(id, value);
+        String time = "Scheduled to " + calendarInput.getAttribute("value") + " " + getSelectedOption(timeHoursSelect) + ":" + getSelectedOption(timeMinutesSelect) + ":00";
+        optionMap.put("Update state", time);
+        return this;
     }
 
     @Override
@@ -349,19 +358,22 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage onlineDevicesCheckBox() {
         onlineDevicesCheckBox.click();
+        optionMap.put("Online devices", "True");
         return this;
     }
 
     public GroupUpdatePage setPeriod(int num) {
         driver.findElement(By.id("cbPeriod" + num)).click();
-        String[] timeStart = CalendarUtil.getDelay(num * 10);
-        String[] timeFinish = CalendarUtil.getDelay(num * 10 + 10);
+        int shift = num * 10 + num - 1;
+        String[] timeStart = CalendarUtil.getDelay(shift);
+        String[] timeFinish = CalendarUtil.getDelay(shift + 10);
         new Select(driver.findElement(By.id("tmPeriod" + num + "Start_ddlHour"))).selectByValue(timeStart[0].replaceAll("^0", ""));
         new Select(driver.findElement(By.id("tmPeriod" + num + "Start_ddlMinute"))).selectByValue(timeStart[1].replaceAll("^0", ""));
         new Select(driver.findElement(By.id("tmPeriod" + num + "Finish_ddlHour"))).selectByValue(timeFinish[0].replaceAll("^0", ""));
         new Select(driver.findElement(By.id("tmPeriod" + num + "Finish_ddlMinute"))).selectByValue(timeFinish[1].replaceAll("^0", ""));
         driver.findElement(By.id("txtPeriod" + num + "GroupSize")).sendKeys("3");
         driver.findElement(By.id("txtPeriod" + num + "Timeout")).sendKeys("5");
+        optionMap.put("Period " + num, timeStart[0] + ":" + timeStart[1] + "-" + timeFinish[0] + ":" + timeFinish[1] + ", Amount 3, Per interval of 5 Minutes");
         return this;
     }
 
@@ -402,8 +414,8 @@ public class GroupUpdatePage extends BasePage {
         String path = props.getProperty("file_server");
         path = path.endsWith("/") ? path.substring(0, path.length() - 1) : path;
         getParameterMap().put(fileType, path);
-        task.setParameterName(fileType);
-        task.setValue(path);
+        getLastTask().setParameterName(fileType);
+        getLastTask().setValue(path);
         waitForUpdate();
         defaultUploadRadioButton.click();
         return this;
@@ -547,16 +559,19 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage selectRepeatEveryHourDropDown(String value) {
         waitForUpdate();
         selectComboBox(reactivationRepeatEveryHourDropDown, value);
+        optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
     public GroupUpdatePage selectRepeatEveryDayDropDown(String value) {
         selectComboBox(reactivationRepeatEveryDayDropDown, value);
+        optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
     public GroupUpdatePage selectRepeatEveryMonthDropDown(String value) {
         selectComboBox(reactivationRepeatEveryMonthDropDown, value);
+        optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
@@ -612,6 +627,9 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage leftMenu(Left item) {
+        optionMap = new HashMap<>();
+        optionMap.put("Update state", "Completed");
+        optionMap.put("Online devices", "False");
         return (GroupUpdatePage) super.leftMenu(item);
     }
 
@@ -732,6 +750,11 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    public GroupUpdatePage advancedViewButton() {
+        advancedViewButton.click();
+        return this;
+    }
+
     public void setCondition(Table table, String conditionName, Conditions condition, String value) {
         int rowNum = table.getFirstRowWithText(0, conditionName);
         if (rowNum < 0) {
@@ -807,6 +830,8 @@ public class GroupUpdatePage extends BasePage {
         String[] time = CalendarUtil.getDelay(minutes);
         timeHoursSelect(time[0].replaceAll("^0", ""));
         timeMinutesSelect(time[1].replaceAll("^0", ""));
+        String result = "Scheduled to " + calendarInput.getAttribute("value") + " " + getSelectedOption(timeHoursSelect) + ":" + getSelectedOption(timeMinutesSelect) + ":00";
+        optionMap.put("Update state", result);
         return this;
     }
 
@@ -845,6 +870,13 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage setThreshold(int value) {
         thresholdField.sendKeys(String.valueOf(value));
+        optionMap.put("Threshold", value + " %");
+        return this;
+    }
+
+    public GroupUpdatePage endsAfter(String times) {
+        inputText("txtReactivationEndsOccurrences", times);
+        optionMap.put("Reactivation", optionMap.get("Reactivation") + "; " + times + " times");
         return this;
     }
 
@@ -867,7 +899,7 @@ public class GroupUpdatePage extends BasePage {
             selectTab(tab);
         }
         if (advancedView) {
-            clickOn("btnAdvancedView_btn");
+            advancedViewButton.click();
 //            bottomMenu(ADVANCED_VIEW);
         }
         return this;
@@ -893,8 +925,8 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .bottomMenu(EDIT);
-        validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     public void setScheduledPolicy(String tab) {
@@ -903,22 +935,22 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
+                .addNewTask("Policy")
+                .addTaskButton()
+                .selectTab(tab)
+                .setPolicy(3)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Policy")
-                .addTaskButton()
-                .waitForUpdate()
-                .selectTab(tab)
-                .setPolicy(3)
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     public void getScheduledParameter(String tab, int column) {
@@ -927,21 +959,22 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .setDelay(10)
-                .bottomMenu(NEXT)
                 .addNewTask("Get parameter")
                 .addTaskButton()
                 .selectTab(tab)
                 .getParameter(1, column)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     public void scheduledCallCustomRPC(String method) {
@@ -950,21 +983,22 @@ public class GroupUpdatePage extends BasePage {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
-                .bottomMenu(NEXT)
-                .scheduledTo()
-                .setDelay(10)
-                .bottomMenu(NEXT)
                 .addNewTask("Action")
                 .addTaskButton()
                 .selectAction("Custom RPC")
                 .selectMethod(method)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .scheduledTo()
+                .setDelay(10)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
-                .validateAddedTask("Custom RPC", method);
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     public GroupUpdatePage gotoSetParameters(String tab) {
@@ -1022,7 +1056,7 @@ public class GroupUpdatePage extends BasePage {
                 .selectSendTo()
                 .addNewTask(taskName)
                 .addTaskButton()
-                .getLastTask(taskName);
+        /*.getLastTask(taskName)*/;
         return this;
     }
 
@@ -1036,6 +1070,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage deleteAll() {
         topMenu(GROUP_UPDATE);
+        itemsOnPage("200");
         while (noDataFound.size() == 0) {
             switchToFrame(DESKTOP);
             getMainTable().clickOn(0, 0);
@@ -1052,6 +1087,11 @@ public class GroupUpdatePage extends BasePage {
     @Override
     public GroupUpdatePage getParameter(int row, int column) {
         return (GroupUpdatePage) super.getParameter(row, column);
+    }
+
+    public GroupUpdatePage validateName() {
+        assertEquals(nameTextField.getAttribute("value"), BaseTestCase.getTestName());
+        return this;
     }
 
     public GroupUpdatePage setParameter(String tab, String paramName, ParameterType option, String value) {
@@ -1140,8 +1180,10 @@ public class GroupUpdatePage extends BasePage {
         String[] names = table.getColumn(0);
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             setPolicy(table, names[i - 1], Policy.ACTIVE, Policy.ALL);
-            String hint = table.getHint(i);
-            getParameterMap().put(hint, "Notification=Active Access=All");
+//            String hint = table.getHint(i);
+            getLastTask().setParameterName(table.getHint(i));
+            getLastTask().setValue("Notification=Active Access=All");
+//            getParameterMap().put(hint, "Notification=Active Access=All");
         }
         return this;
     }
@@ -1156,23 +1198,29 @@ public class GroupUpdatePage extends BasePage {
         }
         if (scenario == 1) {
             setPolicy(table, names[0], null, Policy.ACS_ONLY);
-            String hint = table.getHint(1);
-            getParameterMap().put(hint, "Access=AcsOnly");
+//            String hint = table.getHint(1);
+            getLastTask().setParameterName(table.getHint(1));
+            getLastTask().setValue("Access=AcsOnly");
+//            getParameterMap().put(hint, "Access=AcsOnly");
         } else if (scenario == 2) {
             for (int i = 1; i < counter; i++) {
                 setPolicy(table, names[i - 1], Policy.OFF, null);
-                String hint = table.getHint(i);
-                getParameterMap().put(hint, "Notification=Off ");
+//                String hint = table.getHint(i);
+                getLastTask().setParameterName(table.getHint(i));
+                getLastTask().setValue("Notification=Off");
+//                getParameterMap().put(hint, "Notification=Off ");
             }
         } else {
             Policy[] notify = {null, Policy.OFF, Policy.PASSIVE, Policy.ACTIVE};
             Policy[] access = {null, Policy.ACS_ONLY, Policy.ALL, null};
-            String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active "};
+            String[] results = {null, "Notification=Off Access=AcsOnly", "Notification=Passive Access=All", "Notification=Active"};
             for (int i = 1; i < counter; i++) {
-                String hint = table.getHint(i);
+//                String hint = table.getHint(i);
                 String name = names[i - 1];
                 setPolicy(table, name, notify[i], access[i]);
-                getParameterMap().put(hint, results[i]);
+                getLastTask().setParameterName(table.getHint(i));
+                getLastTask().setValue(results[i]);
+//                getParameterMap().put(hint, results[i]);
             }
         }
         return this;
@@ -1200,6 +1248,13 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.validateAddedTask(parameter, value);
     }
 
+    public GroupUpdatePage validateOptions() {
+        for (Map.Entry<String, String> entrySet : optionMap.entrySet()) {
+            validateAddedTask("tblPeriod", entrySet.getKey(), entrySet.getValue(), 0);
+        }
+        return this;
+    }
+
     public GroupUpdatePage validateTask() {
         switchToFrame(TASKS);
         return (GroupUpdatePage) super.validateTask();
@@ -1224,6 +1279,9 @@ public class GroupUpdatePage extends BasePage {
 
     @Override
     public GroupUpdatePage waitForStatus(String status, int timeoutSec) {
+        if (optionMap.get("Update state").length() < 10) {
+            optionMap.put("Update state", status);
+        }
         return (GroupUpdatePage) super.waitForStatus(status, timeoutSec);
     }
 

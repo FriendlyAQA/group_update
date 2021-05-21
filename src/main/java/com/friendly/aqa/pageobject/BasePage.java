@@ -812,10 +812,17 @@ public abstract class BasePage {
         waitForUpdate();
         waitUntilBottomMenuIsDownloaded();
         switchToFrame(BOTTOM_MENU);
-        List<WebElement> list = findElements(button.getId());
-        if (!list.isEmpty() && list.get(0).isDisplayed()) {
-            list.get(0).click();
-            okButtonPopUp();
+        for (int i = 0; i < 2; i++) {
+            try {
+                List<WebElement> list = findElements(button.getId());
+                if (!list.isEmpty() && list.get(0).isDisplayed()) {
+                    list.get(0).click();
+                    okButtonPopUp();
+                    break;
+                }
+            } catch (StaleElementReferenceException e) {
+                System.out.println("StaleElementReferenceException handled");
+            }
         }
         waitForUpdate();
         switchToFrame(DESKTOP);
@@ -1160,7 +1167,7 @@ public abstract class BasePage {
         }
         getParameterMap().put(hint, values);//delete
         getLastTask().setParameterName(hint);
-        getLastTask().setValue(hint);
+        getLastTask().setValue(/*hint*/values);
         return this;
     }
 
@@ -1294,13 +1301,14 @@ public abstract class BasePage {
     public boolean buttonIsActive(IBottomButtons button) {
         switchToFrame(BOTTOM_MENU);
         List<WebElement> list = findElements(button.getId());
-        boolean out = list.size() == 1 && list.get(0).getAttribute("class").equals("button_default");
+        boolean out = list.size() == 1 && list.get(0).isDisplayed() && list.get(0).getAttribute("class").equals("button_default");
         switchToPreviousFrame();
         return out;
     }
 
     public boolean buttonIsActive(String id) {
-        return !findElement(id).getAttribute("class").equals("button_disabled");
+        WebElement btn = findElement(id);
+        return btn.isDisplayed() && !btn.getAttribute("class").equals("button_disabled");
     }
 
     public BasePage itemsOnPage(String number) {
@@ -1499,6 +1507,7 @@ public abstract class BasePage {
                 instance = options.get(options.size() - 1);
             }
             selectComboBox(select, instance);
+            action = action.replaceAll("\\s\\S+\\sinstance", "");
             action += " - instance " + instance;//!23.12.2020
         }
         if (!action.equals("Custom RPC")) {
@@ -1508,9 +1517,23 @@ public abstract class BasePage {
         return this;
     }
 
+    public void selectAnotherBranch1() {
+        Table branchTable = getTable("tblTree");
+        for (int i = 0; i < branchTable.getTableSize()[0]; i++) {
+            String style = branchTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style");
+            if (style.replaceAll("\\s", "").contains("font-weight:bold")) {
+                branchTable.clickOn(i + 1, 0, -1);
+                List<WebElement> tagList = branchTable.getCellWebElement(i + 1, 0).findElements(By.tagName("img"));
+                if (!tagList.isEmpty() && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
+                    tagList.get(0).click();
+                }
+            }
+        }
+    }
+
     public void selectAnotherBranch() {
         String branch = getElementText("divPath");
-        Table branchTable = new Table("tblTree");
+        Table branchTable = getTable("tblTree");
         for (int i = 0; i < branchTable.getTableSize()[0]; i++) {
             if (branchTable.getCellWebElement(i, 0).isDisplayed()) {
                 branchTable.clickOn(i, 0, -1);
@@ -1539,16 +1562,17 @@ public abstract class BasePage {
             }
             nodeList.add(m.group(1));
         }
-        Table branchTable = new Table("tblTree");
+        Table branchTable = getTable("tblTree");
         for (String node : nodeList) {
             int rowNum = branchTable.getFirstRowWithText(node);
             WebElement cell = branchTable.getCellWebElement(rowNum, 0);
             List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
             if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
-//                System.out.println("click on node:" + node);
+                System.out.println("expanding node:" + node);
                 tagList.get(0).click();
             }
             tagList.get(tagList.size() - 1).click();    //edited 03.09.2020 due to tr181_du_194 failed
+            branchTable = getTable("tblTree");
         }
         waitForUpdate();
         return this;
@@ -1595,10 +1619,10 @@ public abstract class BasePage {
         try {
             getLastTask().setParameterName(value);
             if (value.startsWith("Download")) {
-                getLastTask().value = "http://127.0.0.1/webdav/Test.cfg";
+                getLastTask().setValue("http://127.0.0.1/webdav/Test.cfg");
             }
             if (value.startsWith("Upload")) {
-                getLastTask().value = "http://127.0.0.1/webdav/";
+                getLastTask().setValue("http://127.0.0.1/webdav/");
             }
             selectComboBox(diagnosticTypeComboBox, value);
         } catch (NoSuchElementException e) {
@@ -1618,7 +1642,7 @@ public abstract class BasePage {
         List<String> optList = getOptionList(fileNameComboBox);
         String lastOpt = optList.get(optList.size() - 1);
         selectComboBox(fileNameComboBox, lastOpt);
-        getParameterMap().put(parameter, props.getProperty("file_server") + lastOpt);//delete
+        getParameterMap().put(parameter, "http://127.0.0.1/webdav/" + lastOpt);//delete
         getLastTask().setParameterName(parameter);
 //        getTask().setValue(props.getProperty("file_server") + lastOpt);
         getLastTask().setValue("http://127.0.0.1/webdav/" + lastOpt);//tr069_gu_137 commented line above (27.04.2021)
@@ -1645,6 +1669,7 @@ public abstract class BasePage {
     }
 
     public BasePage selectFromListRadioButton() {
+        waitForUpdate();
         fromListRadioButton.click();
         return this;
     }
@@ -1870,6 +1895,7 @@ public abstract class BasePage {
 
     public BasePage setParameter(Table table, String paramName, ParameterType option, String value) {
 //        Table table = new Table("tblParamsValue");
+        table.print();
         int rowNum = table.getFirstRowWithText(paramName);
         String hint = table.getHint(paramName);
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
@@ -1884,6 +1910,9 @@ public abstract class BasePage {
             input.sendKeys(value);
         }
         getParameterMap().put(hint, value);//delete
+        if (getLastTask().taskName.isEmpty()) {
+            getLastTask().taskName = "Set parameter value";
+        }
         getLastTask().setParameterName(hint);
         getLastTask().setValue(value);
         if (!BROWSER.equals("edge")) {
@@ -1912,7 +1941,11 @@ public abstract class BasePage {
     }
 
     public BasePage setParametersMonitor(Condition condition, boolean addTask) {
-        Table table = new Table("tblParamsMonitoring");
+        Table table = getTable("tblParamsMonitoring");
+        if (table.getTableSize()[0] == 1) {
+            selectAnotherBranch();
+            table = getTable("tblParamsMonitoring");
+        }
         String name = table.getColumn(0)[0];
         String value = generateValue(table.getHint(1), "1");
         setParametersMonitor(table, name, condition, value);
@@ -1988,7 +2021,8 @@ public abstract class BasePage {
             } else if (scenario == 2) {
                 if (notification != null) {
                     selectComboBox(notification, "Off");
-                    result = "Notification=Off ";
+//                    result = "Notification=Off ";
+                    result = "Notification=Off";//changed 18.05.2021 due to tr069_dp_166
                 }
             } else if (scenario == 3) {
                 if (notification != null) {
@@ -2016,9 +2050,9 @@ public abstract class BasePage {
                 LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
                 throw new AssertionError(warn);
             }
-            getParameterMap().put(table.getHint(i), result);//delete
+            getParameterMap().put(table.getHint(i), result.trim());//delete
             getLastTask().setParameterName(table.getHint(i));
-            getLastTask().setValue(result);
+            getLastTask().setValue(result.trim());
         }
         return this;
     }
@@ -2069,6 +2103,10 @@ public abstract class BasePage {
         if (success) {
             showGreenPointer(element);
         } else {
+            String style = element.getAttribute("style");
+            if (style != null && style.equals("border: 3px solid green;")) {
+                return;
+            }
             showRedPointer(element);
         }
     }
@@ -2192,18 +2230,21 @@ public abstract class BasePage {
     }
 
     public BasePage validateTask() {
+        waitForUpdate();
+        Table table = getTable("tblTasks");
+        assertEquals(table.getTableSize()[0] - 1, taskList.size(), "Unexpected number of tasks!");
         for (Task task : taskList) {
-            validateTask(task);
+            validateTask(table, task);
         }
         return this;
     }
 
-    private void validateTask(Task task) {
+    private void validateTask(Table table, Task task) {
         waitForUpdate();
-        Table2 table = new Table2("tblTasks");
+//        Table table = getTable("tblTasks");
         Timer timer = new Timer();
         while ((table.getTableSize()[0] == 1 || table.getRowLength(1) < 2) && !timer.timeout()) {
-            table = new Table2("tblTasks");
+            table = getTable("tblTasks");
         }
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             boolean taskName = table.getCellText(i, "Task").trim().equals(task.taskName);
@@ -2257,7 +2298,7 @@ public abstract class BasePage {
     }
 
     public BasePage validateName() {
-        assertEquals(nameTextField.getAttribute("value"), BaseTestCase.getTestName());
+        assertEquals(nameField.getAttribute("value"), BaseTestCase.getTestName());
         return this;
     }
 
@@ -2482,7 +2523,7 @@ public abstract class BasePage {
         switchToFrame(BOTTOM_MENU);
         try {
             waitUntilElementIsDisplayed(findElement(button.getId()));
-        } catch (StaleElementReferenceException e) {
+        } catch (StaleElementReferenceException | NoSuchWindowException e) {
             waitForUpdate();
             waitUntilElementIsDisplayed(findElement(button.getId()));
         }

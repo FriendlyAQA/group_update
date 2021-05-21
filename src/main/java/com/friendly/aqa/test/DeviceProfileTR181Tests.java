@@ -5961,7 +5961,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", " ");
+                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", "");
     }
 
     @Test
@@ -8263,7 +8263,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test
+    @Test   //bug: policy for 'InternetGatewayDevice.DeviceSummary' (Information tab) is doubled
     public void tr181_dp_393() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -9665,7 +9665,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
                 .selectConditionInformComboBox("=")
-                .fillValue("HC220-G1 v1 00000000")  //hardcoded
+                .fillValue(true, "Device.DeviceInfo.HardwareVersion")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
@@ -9693,7 +9693,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .informRadioButton()
                 .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
                 .selectConditionInformComboBox("!=")
-                .fillValue("HC220-G1 v1 00000001")
+                .fillValue("123456")
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()

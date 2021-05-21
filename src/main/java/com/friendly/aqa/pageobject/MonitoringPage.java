@@ -254,10 +254,12 @@ public class MonitoringPage extends BasePage {
             parameterSet = new HashSet<>(Arrays.asList(params));
         }
         if (advancedView) {
+            getTabTable().clickOn(1, 2);
             if (buttonIsActive(ADVANCED_VIEW)) {
-                getTabTable().clickOn(1, 1);
                 bottomMenu(ADVANCED_VIEW);
                 waitForUpdate();
+            } else {
+                throw new AssertionError("Button 'Advanced view' not found or grayed out");
             }
             selectBranch(tab);
         } else if (tab != null) {
@@ -284,7 +286,7 @@ public class MonitoringPage extends BasePage {
     }
 
     public MonitoringPage setSingleParameter() {
-        getTabTable().clickOn(1, 1);
+        getTabTable().clickOn(1, 2);
         waitForUpdate();
         getParamTable().clickOn(1, 1, 0);
         return this;

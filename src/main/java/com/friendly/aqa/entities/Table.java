@@ -13,13 +13,21 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    private final static Pattern cellTextPattern = Pattern.compile("<(div|span|a|xmp|label).*?>(.*?)</(\\1)>");
+    private final static Pattern CELL_TEXT_PATTERN = Pattern.compile("<(div|span|a|xmp|label).*?>(.*?)</(\\1)>");
+    private static final Pattern ROWSPAN_PATTERN = Pattern.compile("rowspan=\"(\\d+)\"");
+    private final static Pattern ROW_PATTERN = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
+    private final static Pattern CELL_PATTERN = Pattern.compile("<(t[dh])(.*?)>(.*?)</(\\1)>");
+    private final static Pattern OPTION = Pattern.compile("<option.*?>(.*?)</option>");
+    private final static Pattern SELECTED_OPTION = Pattern.compile("<option\\s+?selected=\"selected\".*?>(.*?)</option>");
     private List<WebElement> rowsList;
     private String[][] textTable;
     private WebElement[][] elementTable;
     private final WebElement table;
     private boolean retryInit;
+    private boolean irregular;
     private final String tableId;
+    private final Map<Integer, List<Integer>> rowSpanCoordinates = new HashMap<>();
+    private String body;
     Timer timer2;
 
 
@@ -28,9 +36,14 @@ public class Table {
         this.table = table;
         tableId = table.getAttribute("id");
         rowsList = table.findElements(By.tagName("tr"));
+        rowsList.removeIf(element -> !element.isDisplayed());
         textTable = new String[rowsList.size()][];
         elementTable = new WebElement[rowsList.size()][];
-        parseTable();
+        body = table.getAttribute("outerHTML");
+        irregular = body.contains("rowspan");
+        if (!rowsList.isEmpty()) {
+            parseTable();
+        }
 //        System.out.println("Parsing completed in " + (System.currentTimeMillis() - start) + " ms");
     }
 
@@ -49,60 +62,73 @@ public class Table {
                     }
                     elementTable[i] = tdList.toArray(new WebElement[0]);
                 });
-        Pattern row = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
-        Pattern cell = Pattern.compile("<(t[dh]).*?>(.*?)</(\\1)>");
-        String tableHtml = table.getAttribute("outerHTML")
+        String normalized = body
                 .replaceAll("\t", "")
                 .replaceAll("\n", "")
                 .replaceAll("&nbsp;", " ")
                 .replaceAll("&amp;", "&")
                 .replaceAll("&lt;", "<")
                 .replaceAll("&gt;", ">");
-        Matcher mRow = row.matcher(tableHtml);
+        Matcher rowMatcher = ROW_PATTERN.matcher(normalized);
         int i = 0;
-        while (mRow.find()) {
+        while (rowMatcher.find()) {
+            if (rowMatcher.group().matches("^<t[rh][^>]+display:\\s?none;.+")) {
+                continue;
+            }
             List<String> cellList = new ArrayList<>();
-            Matcher mCell = cell.matcher(mRow.group(2));
-            while (mCell.find()) {
-                cellList.add(getCellContent(mCell.group(2)));
-            }
-            try {
-                textTable[i] = cellList.toArray(new String[0]);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println(tableHtml);
-                System.out.println("textTable.length:" + textTable.length);
-                System.out.println("i:" + i);
-                if (retryInit) {
-                    throw new ArrayIndexOutOfBoundsException(e.getMessage());
-                } else {
-                    retryInit = true;
-                    pause(1500);
-                    rowsList = table.findElements(By.tagName("tr"));
-                    textTable = new String[rowsList.size()][];
-                    elementTable = new WebElement[rowsList.size()][];
-                    parseTable();
+            Matcher cellMatcher = CELL_PATTERN.matcher(rowMatcher.group(2));
+            int j = 0;
+            while (cellMatcher.find()) {
+                cellList.add(parseCell(cellMatcher.group(3)));
+                if (irregular) {
+                    Matcher rowspan = ROWSPAN_PATTERN.matcher(cellMatcher.group(2));
+                    int rowsAmount;
+                    if (rowspan.find() && (rowsAmount = Integer.parseInt(rowspan.group(1))) > 1) {
+                        for (int r = 1; r < rowsAmount; ++r) {
+                            int rowNum = i + r;
+                            rowSpanCoordinates.computeIfAbsent(rowNum, (k) -> new ArrayList<>());
+                            rowSpanCoordinates.get(rowNum).add(j);
+                        }
+                    }
                 }
+                j++;
             }
+            textTable[i] = cellList.toArray(new String[0]);
             i++;
         }
-//        System.out.println("element table parsed: " + timer2.stop());
+        if (irregular) {
+            Set<Integer> rowsToEditSet = new TreeSet<>(rowSpanCoordinates.keySet());
+            for (Integer row : rowsToEditSet) {
+                ArrayList<String> textCellList = new ArrayList<>(Arrays.asList(textTable[row]));
+                ArrayList<WebElement> elementCellList = new ArrayList<>(Arrays.asList(elementTable[row]));
+                List<Integer> cellNumbers = rowSpanCoordinates.get(row);
+                cellNumbers.sort(Comparator.naturalOrder());
+                for (int cell : cellNumbers) {
+                    textCellList.add(cell, textTable[row - 1][cell]);
+                    elementCellList.add(cell, elementTable[row - 1][cell]);
+                }
+                textTable[row] = textCellList.toArray(new String[0]);
+                elementTable[row] = elementCellList.toArray(new WebElement[0]);
+            }
+        }
         BasePage.setDefaultImplicitlyWait();
     }
 
-    private static String getCellContent(String input) {
-        String out = input;
-        Matcher m = cellTextPattern.matcher(input);
-        while (m.find()) {
-            out = getCellContent(m.group(2));
-            if (!out.replaceAll(" ", "").isEmpty() && !out.startsWith("<")) {   // experimental!!!
-                break;                                                                           // remove if
-            }                                                                                    // parsing fails!!!
+    private String parseCell(String input) {
+        String out = input.replaceAll("</?(div|span|a|xmp|label|img|input|select).*?>", "");
+        Matcher mOption = OPTION.matcher(out);
+        while (mOption.find()) {
+            Matcher mSelectedOption = SELECTED_OPTION.matcher(mOption.group());
+            if (mSelectedOption.find()) {
+                out = out.replaceFirst("<option\\s+?selected=\"selected\".*?>(.*?)</option>", " " + mSelectedOption.group(1) + " ");
+                out = out.replaceAll("<option.*?>.*?</option>", "");
+                break;
+            } else {
+                out = out.replaceFirst("<option.*?>.*?</option>",  " " + mOption.group(1) + " ");
+                out = out.replaceAll("<option.*?>.*?</option>", "");
+            }
         }
-        if (out.startsWith("<input") || out.startsWith("<select")) {
-            return "";
-        } else {
-            return out;
-        }
+        return out.trim();
     }
 
     public Table clickOn(int row, int column, int tagNum) {
@@ -339,7 +365,7 @@ public class Table {
     }
 
     public WebElement getCellWebElement(int row, String columnHeader) {
-        return elementTable[row] [getColumnNumber(0, columnHeader)];
+        return elementTable[row][getColumnNumber(0, columnHeader)];
     }
 
     public WebElement getInput(int row, int column) {

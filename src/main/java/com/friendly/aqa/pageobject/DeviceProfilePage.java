@@ -69,7 +69,7 @@ public class DeviceProfilePage extends BasePage {
     @FindBy(id = "cbSendBackup")
     private WebElement performDeviceCheckbox;
 
-    @FindBy(id = "cbsendBackupForExisting")
+    @FindBy(id = "cbSendBackupForNewDevicesOnly")
     private WebElement applyForNewDeviceCheckbox;
 
 
@@ -288,9 +288,11 @@ public class DeviceProfilePage extends BasePage {
                 newConditionButton(name, true)
                         .inputText(name, NEXT)
                         .bottomMenu(NEXT)
-                        .addFilter()
-                        .userInfoRadioButton()
-                        .selectUserInfoComboBox("Zip")
+                        .addFilter();
+                if (!getProtocolPrefix().equals("usp")) {
+                    userInfoRadioButton();
+                }
+                selectUserInfoComboBox("Zip")
                         .selectConditionTypeComboBox("=")
                         .fillValue("61000")
                         .bottomMenu(NEXT)
@@ -450,10 +452,21 @@ public class DeviceProfilePage extends BasePage {
 
     public DeviceProfilePage setAnotherTabParameter(int amount, boolean setValue) {
         Table tabTable = getTabTable();
-        if (tabTable.getTableSize()[1] < 5) {
-            tabTable.clickOn(1, 1);
+        int tabNum = -1;
+        String[] row = tabTable.getRow(0);
+        for (int i = 0; i < row.length; i++) {
+            String cell = row[i];
+            if (!cell.isEmpty()) {
+                tabNum = i;
+            }
+        }
+        if (!tabTable.getCellText(1, tabNum + 1).isEmpty()) {
+            tabTable.clickOn(1, tabNum + 1);
+        } else if (!tabTable.getCellText(1, tabNum - 1).isEmpty()) {
+            tabTable.clickOn(1, tabNum - 1);
         } else {
-            tabTable.clickOn(1, 2);
+            tabTable.print();
+            throw new AssertionError("Cannot find another suitable tab to select!");
         }
         waitForUpdate();
         return setParameter(null, amount, setValue);
@@ -463,6 +476,9 @@ public class DeviceProfilePage extends BasePage {
         waitForUpdate();
         selectMainTab("Summary");
         Table table = new Table(paramTable);
+        if (table.isEmpty()) {
+            return this;
+        }
         String[] names = table.getColumn(0);
         setImplicitlyWait(0);
         for (int i = 0; i < names.length; i++) {
@@ -547,7 +563,7 @@ public class DeviceProfilePage extends BasePage {
             if (!access.isEmpty()) {
                 result += accessAnswer[accessList.indexOf(access)];
             }
-            assertEquals(result, getParameterMap().get(name), "Unexpected policy for parameter '" + name + '\'');
+            assertEquals(result.trim(), getParameterMap().get(name), "Unexpected policy for parameter '" + name + '\'');
             getParameterMap().remove(name);
         }
         assertTrue(getParameterMap().isEmpty(), "Cannot find policy for following parameters:" + getParameterMap());
@@ -1078,11 +1094,11 @@ public class DeviceProfilePage extends BasePage {
                 .openDevice();
         if (advancedView) {
             String path = new ArrayList<>(getParameterMap().keySet()).get(0);
-            if (BaseTestCase.getTestName().startsWith("usp")) {
-                dUPage
-                        .bottomMenu(DeviceUpdatePage.BottomButtons.REPROVISION)
-                        .okButtonPopUp();
-            }
+//            if (BaseTestCase.getTestName().startsWith("usp")) {
+//                dUPage
+//                        .bottomMenu(DeviceUpdatePage.BottomButtons.REPROVISION)
+//                        .okButtonPopUp();
+//            }
             dUPage
                     .leftMenu(DeviceUpdatePage.Left.ADVANCED_VIEW)
                     .selectBranch(path.substring(0, path.indexOf(parameter)));

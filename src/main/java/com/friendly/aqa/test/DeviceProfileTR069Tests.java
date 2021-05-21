@@ -1318,7 +1318,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
     }
 
     @Test
-//bug:set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes instead
+//bug:(BT item #11449)set count of Events to any int, set count of Events to zero, set count of Events to any int, set duration to hours => saved minutes instead
     public void tr069_dp_081() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -4756,7 +4756,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validateAddedEventTasks("6 CONNECTION REQUEST");
     }
 
-    @Test
+    @Test   //Bug: Parameter name isn't displayed into result table;
     public void tr069_dp_220() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -5008,7 +5008,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", " ");
+                .validateAddedEventTask("2 PERIODIC", "Wi-Fi neighboring diagnostics", "");
     }
 
     @Test
@@ -6777,7 +6777,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test
+    @Test   //bug: policy for 'InternetGatewayDevice.DeviceSummary' (Information tab) is doubled in 'Summary' tab (need to expand table)
     public void tr069_dp_320() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -6797,7 +6797,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test
+    @Test   //bug: policy for 'InternetGatewayDevice.DeviceSummary' is doubled in 'Summary' tab (need to expand table)
     public void tr069_dp_321() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -6817,7 +6817,7 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .validatePolicy();
     }
 
-    @Test
+    @Test   //bug: policy for 'InternetGatewayDevice.DeviceSummary' is doubled in 'Summary' tab (need to expand table)
     public void tr069_dp_322() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

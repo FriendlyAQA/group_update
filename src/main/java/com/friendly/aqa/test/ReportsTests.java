@@ -392,7 +392,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_036() {
         reportsPage
                 .topMenu(REPORTS)
@@ -402,7 +402,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_037() {
         reportsPage
                 .topMenu(REPORTS)
@@ -430,7 +430,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, PRINT);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_040() {
         reportsPage
                 .topMenu(REPORTS)
@@ -441,7 +441,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_041() {
         reportsPage
                 .topMenu(REPORTS)
@@ -452,7 +452,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_042() {
         reportsPage
                 .topMenu(REPORTS)
@@ -464,7 +464,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_043() {
         reportsPage
                 .topMenu(REPORTS)
@@ -477,7 +477,7 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test
+    @Test   //bug: Button SHOW_ON_MAP is absent
     public void reports_044() {
         reportsPage
                 .topMenu(REPORTS)

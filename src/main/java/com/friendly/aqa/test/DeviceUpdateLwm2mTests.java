@@ -1589,7 +1589,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .assertLastActivityIs("Reboot");
     }
 
-    @Test
+    @Test   //bug: Task is absent in Activity list
     public void lwm2m_du_132() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1992,7 +1992,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
-                .selectBranch("ManagementServer")
+                .selectBranch("Root.Connectivity Statistics.0")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(SEND_UPDATE)
@@ -2010,7 +2010,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
-                .selectBranch("ManagementServer")
+                .selectBranch("Root.Connectivity Statistics.0")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(WAIT_UNTIL_CONNECT)
@@ -2029,7 +2029,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .openDevice()
                 .clearDeviceActivity()
                 .leftMenu(ADVANCED_VIEW)
-                .selectBranch("ManagementServer")
+                .selectBranch("Root.Connectivity Statistics.0")
                 .bottomMenu(EDIT_SETTINGS)
                 .setParameter(null, 1)
                 .bottomMenu(ADD_TO_PROVISION)
@@ -2063,8 +2063,7 @@ public class DeviceUpdateLwm2mTests extends BaseTestCase {
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
-                .bottomMenu(STORE_TREE)
-                .okButtonPopUp();   //is validation needed??? How???
+                .assertTreeIsClear();
     }
 
     @Test

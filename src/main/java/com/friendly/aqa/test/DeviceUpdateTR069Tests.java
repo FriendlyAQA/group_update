@@ -2404,8 +2404,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
-                .bottomMenu(STORE_TREE)
-                .okButtonPopUp();   //is validation needed??? How???
+                .assertTreeIsClear();
     }
 
     @Test

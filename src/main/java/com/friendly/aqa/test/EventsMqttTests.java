@@ -960,7 +960,7 @@ public class EventsMqttTests extends BaseTestCase {
 //                .selectParametersTab("Information")
                 .setParametersMonitor("ModelName", VALUE_CHANGE, "", "MQTT", true)
                 .addTask("Set parameter value")
-                .setParameter("ModelName", VALUE, "MQTT")
+                .setParameter("Id", VALUE, "1")
                 .saveButton()
                 .saveButton()
                 .bottomMenu(SAVE_AND_ACTIVATE)

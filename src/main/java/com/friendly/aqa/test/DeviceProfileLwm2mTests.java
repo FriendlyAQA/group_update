@@ -382,7 +382,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -410,7 +410,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -906,7 +906,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "5", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -929,7 +929,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "6", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1021,7 +1021,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("NOTIFY REQUEST", false, "10", null), true)
                 .addTask("Action")
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1031,7 +1031,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .validateAddedEventAction("NOTIFY REQUEST", "Action", "Root.Connectivity Statistics.i.Start - instance 0");
     }
 
     @Test
@@ -1136,7 +1136,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "15", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1159,7 +1159,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "16", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1251,7 +1251,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("REGISTRATION REQUEST", false, "20", null), true)
                 .addTask("Action")
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1261,7 +1261,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .validateAddedEventAction("REGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.Start - instance 0");
     }
 
     @Test
@@ -1366,7 +1366,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "25", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1389,7 +1389,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "26", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1481,7 +1481,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UNREGISTRATION REQUEST", false, "30", null), true)
                 .addTask("Action")
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1491,7 +1491,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .validateAddedEventAction("UNREGISTRATION REQUEST", "Action", "Root.Connectivity Statistics.i.Start - instance 0");
     }
 
     @Test
@@ -1596,7 +1596,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "35", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1619,7 +1619,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "36", null), true)
                 .addTask("Action")
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1711,7 +1711,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Events")
                 .setEvent(new Event("UPDATE REQUEST", false, "40", null), true)
                 .addTask("Action")
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
                 .saveTaskButton()
                 .saveTaskButton()
                 .fillName()
@@ -1721,7 +1721,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .selectMainTab("Summary")
                 .expandEvents()
                 .validateEvents()
-                .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .validateAddedEventAction("UPDATE REQUEST", "Action", "Root.Connectivity Statistics.i.Start - instance 0");
     }
 
     @Test
@@ -2749,7 +2749,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -2776,7 +2776,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("61000")
@@ -2804,7 +2804,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^6.+$")
@@ -2832,7 +2832,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("=")
                 .fillValue("USA")
@@ -2859,7 +2859,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("Ukraine")
@@ -2886,7 +2886,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("location")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("^US.$")
@@ -2914,7 +2914,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("=")
                 .fillValue("user_tag")
@@ -2941,7 +2941,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("user_tag_2")
@@ -2968,7 +2968,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("user_tag")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue(".+r_ta.$")
@@ -2996,7 +2996,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("=")
                 .fillValue("245")
@@ -3023,7 +3023,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("246")
@@ -3050,7 +3050,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userid")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue("\\d{3}")
@@ -3078,7 +3078,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("=")
                 .fillValue("online")
@@ -3105,7 +3105,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("!=")
                 .fillValue("offline")
@@ -3132,7 +3132,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("userstatus")
                 .selectConditionTypeComboBox("Regexp")
                 .fillValue(".{5}e")
@@ -3148,7 +3148,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_163() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3175,7 +3175,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_164() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3202,7 +3202,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_165() {  //depends on 162
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3229,7 +3229,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_166() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3256,7 +3256,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_167() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3283,7 +3283,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SpecVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_168() {  //depends on 162
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3310,7 +3310,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_169() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3337,7 +3337,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_170() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3364,7 +3364,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.HardwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_171() {  //depends on 162
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3391,7 +3391,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_172() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3418,7 +3418,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_173() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3445,7 +3445,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.SoftwareVersion' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_174() {  //depends on 162
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3472,7 +3472,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_175() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3499,7 +3499,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_176() {
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3526,7 +3526,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceInfo.ProvisioningCode' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_177() {  //depends on 162
         dpPage
                 .topMenu(DEVICE_PROFILE)
@@ -3553,7 +3553,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true);
     }
 
-    @Test   //bug: what kind of data does the parameter 'InternetGatewayDevice.DeviceSummary' contain?
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_178() {
         dpPage
                 .presetFilter("Zip", "61000")
@@ -3565,7 +3565,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .fillConditionName()
                 .bottomMenu(NEXT)
                 .addFilter()
-                .userInfoRadioButton()
+//                .userInfoRadioButton()
                 .selectUserInfoComboBox("Zip")
                 .selectConditionTypeComboBox("=")
                 .fillValue("61000")
@@ -3587,7 +3587,7 @@ public class DeviceProfileLwm2mTests extends BaseTestCase {
                 .validateApplyingProfile(true, "Timezone", "Europe/Kyiv");
     }
 
-    @Test
+    @Test   //bug: Inform radiobutton is absent from Filter menu
     public void lwm2m_dp_179() {
         dpPage
                 .topMenu(DEVICE_PROFILE)

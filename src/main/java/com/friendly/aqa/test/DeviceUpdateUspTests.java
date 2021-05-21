@@ -246,7 +246,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .createPreconditionsForSorting();
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_016() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -257,7 +257,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Created");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_017() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -268,7 +268,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Firmware");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_018() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -279,7 +279,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Latitude");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_019() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -290,7 +290,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Longitude");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_020() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -301,7 +301,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Manufacturer");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_021() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -312,7 +312,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Model name");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_022() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -323,7 +323,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust03");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_023() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -334,7 +334,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust04");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_024() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -345,7 +345,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust05");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_025() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -356,7 +356,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust06");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_026() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -367,7 +367,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust07");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_027() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -378,7 +378,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust08");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_028() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -389,7 +389,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust09");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_029() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -400,7 +400,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("mycust10");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_030() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -411,7 +411,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("OUI");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_031() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -422,7 +422,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Phone number");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_032() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -433,7 +433,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Protocol type");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_033() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -444,7 +444,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Serial");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_034() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -455,7 +455,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Status");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_035() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -466,7 +466,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("Last connection");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_036() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -477,7 +477,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User ID");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_037() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -488,7 +488,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User location");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_038() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -499,7 +499,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User login");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_039() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -510,7 +510,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User name");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_040() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -522,7 +522,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User status");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_041() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -533,7 +533,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .validateSorting("User tag");
     }
 
-    @Test
+    @Test   //depends on 014
     public void usp_du_042() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -847,7 +847,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .lookFor(getSerial())
                 .selectCheckbox("rdSearchExactly")
                 .searchButton()
-                .assertElementsArePresent("tbl");
+                .assertElementsArePresent("tblDeviceInfo");
     }
 
     @Test
@@ -1514,8 +1514,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .searchButton()
                 .selectAnyDevice()
                 .bottomMenu(DELETE)
-//                .okButtonPopUp()
-                .cancelButtonPopUp()
+                .okButtonPopUp()
                 .assertAbsenceOfSerial();
     }
 
@@ -1603,7 +1602,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .assertLastActivityIs("Reset to factory defaults");
+                .assertActivityIsPresent("Reset to factory defaults");
     }
 
     @Test
@@ -1907,8 +1906,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .leftMenu(ADVANCED_VIEW)
                 .bottomMenu(EDIT_TREE)
                 .bottomMenu(CLEAR_TREE)
-                .bottomMenu(STORE_TREE)
-                .okButtonPopUp();   //is validation needed??? How???
+                .assertTreeIsClear();
     }
 
     @Test
