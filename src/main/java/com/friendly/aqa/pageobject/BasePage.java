@@ -47,7 +47,7 @@ public abstract class BasePage {
     static Properties props;
     private Table savedTable;
     protected String selectedName;
-    protected static Task task;
+    //    protected static Task task;
     protected static List<Task> taskList;
     private Date xmlFileTime;
 
@@ -84,7 +84,7 @@ public abstract class BasePage {
         parameterMap = null;
         eventMap = null;
         parametersMonitor = null;
-        task = null;
+//        task = null;
         taskList = null;
     }
 
@@ -386,7 +386,8 @@ public abstract class BasePage {
 
     public BasePage addNewTask(String taskType) {
         selectComboBox(selectTask, taskType);
-        getLastTask(taskType);
+//        getLastTask(taskType);
+        addTaskToList(taskType);
         return this;
     }
 
@@ -398,7 +399,8 @@ public abstract class BasePage {
         switchToFrame(POPUP);
         waitUntilElementIsDisplayed(addTaskButton);
         selectComboBox(selectTask, task);
-        getLastTask(task);
+//        getLastTask(task);
+        addTaskToList(task);
         clickButton(addTaskButton);
         return this;
     }
@@ -419,6 +421,11 @@ public abstract class BasePage {
         });
     }
 
+    public BasePage assertNoDeviceAlertIsPresent() {
+        assertFalse(findElement("tblModels").findElements(By.tagName("img")).isEmpty(), "Alert message 'No tasks or devices set' not found!");
+        return this;
+    }
+
     public BasePage assertButtonsAreEnabled(boolean enabled, IBottomButtons... buttons) {
         waitForUpdate();
         assertButtonsArePresent(buttons);
@@ -426,10 +433,10 @@ public abstract class BasePage {
         setDefaultImplicitlyWait();
         for (IBottomButtons button : buttons) {
             WebElement btn = findElement(button.getId());
-            if (btn.getAttribute("class").equals("button_disabled") == enabled) {
+            if (!btn.isDisplayed() || btn.getAttribute("class").equals("button_disabled") == enabled) {
                 showRedPointer(btn);
                 switchToPreviousFrame();
-                throw new AssertionError("Button " + button + " has unexpected state (" + (enabled ? "disabled)" : "enabled)"));
+                throw new AssertionError("Button " + button + " is hidden or has unexpected state (" + (enabled ? "disabled)" : "enabled)"));
             }
             showBluePointer(btn);
         }
@@ -478,6 +485,11 @@ public abstract class BasePage {
             assertTrue(table.getInput(row, column).isSelected() == expectedState,
                     "The checkbox in table cell " + row + ":" + column + " has unexpected state!");
         }
+        return this;
+    }
+
+    public BasePage assertCheckboxIsSelected(String id, boolean expectedState) {
+        assertEquals(findElement(id).isSelected(), expectedState, "Checkbox with id='" + id + "' has unexpected state!");
         return this;
     }
 
@@ -642,15 +654,12 @@ public abstract class BasePage {
         comboBox.click();
         List<String> actualOptionList = getOptionList(comboBox);
         Set<String> expectedOptionSet = new HashSet<>(Arrays.asList(options));
-        expectedOptionSet.removeAll(actualOptionList);
+//        expectedOptionSet.removeAll(actualOptionList);
+        actualOptionList.forEach(expectedOptionSet::remove);
         if (!expectedOptionSet.isEmpty()) {
             throw new AssertionError("Options :" + expectedOptionSet + " not found inside dropdown #" + comboBoxId + "'");
         }
         return this;
-    }
-
-    public void assertPresenceOfParameter(String value) {
-        getTable("tblTasks")/*.print()*/.assertPresenceOfParameter(value);
     }
 
     public BasePage assertPresenceOfValue(String tableId, int column, String value) {
@@ -857,9 +866,10 @@ public abstract class BasePage {
         switchToFrame(DESKTOP);
     }
 
-    public void closePopup() {
+    public BasePage closePopup() {
         switchToFrame(ROOT);
         executeScript("PopupHide('cancel');");
+        return this;
     }
 
     public void compareTable(String tableId) {
@@ -1062,6 +1072,7 @@ public abstract class BasePage {
                 break;
             case "int":
             case "integer":
+            case "float":
             case "unsignedint":
                 value = "" + generatedValue;
                 break;
@@ -1452,6 +1463,20 @@ public abstract class BasePage {
         return this;
     }
 
+    public static void resetViewIfPossible() {
+        try {
+            switchToFrame(DESKTOP);
+            setImplicitlyWait(0);
+            List<WebElement> resetViewList = getDriver().findElements(By.id("btnDefaultView_btn"));
+            if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
+                resetViewList.get(0).click();
+            }
+            setDefaultImplicitlyWait();
+        } catch (NoSuchElementException e) {
+            System.out.println("Desktop frame not found. Perhaps logout performed");
+        }
+    }
+
     public BasePage saveFileName() {
         switchToFrame(ROOT);
         String message = alertWindow.getText();
@@ -1517,20 +1542,6 @@ public abstract class BasePage {
         return this;
     }
 
-    public void selectAnotherBranch1() {
-        Table branchTable = getTable("tblTree");
-        for (int i = 0; i < branchTable.getTableSize()[0]; i++) {
-            String style = branchTable.getCellWebElement(i, 0).findElement(By.tagName("span")).getAttribute("style");
-            if (style.replaceAll("\\s", "").contains("font-weight:bold")) {
-                branchTable.clickOn(i + 1, 0, -1);
-                List<WebElement> tagList = branchTable.getCellWebElement(i + 1, 0).findElements(By.tagName("img"));
-                if (!tagList.isEmpty() && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
-                    tagList.get(0).click();
-                }
-            }
-        }
-    }
-
     public void selectAnotherBranch() {
         String branch = getElementText("divPath");
         Table branchTable = getTable("tblTree");
@@ -1551,7 +1562,6 @@ public abstract class BasePage {
     }
 
     public BasePage selectBranch(String branch) {
-//        System.out.println(branch);
         waitForUpdate();
         List<String> nodeList = new ArrayList<>();
         Pattern p = Pattern.compile("(.+?(\\.\\d+)?)(\\.|$)");
@@ -1562,18 +1572,24 @@ public abstract class BasePage {
             }
             nodeList.add(m.group(1));
         }
-        Table branchTable = getTable("tblTree");
+//        Table branchTable = getTable("tblTree"); //1
         for (String node : nodeList) {
+            Table branchTable = getTable("tblTree");    //added 22.06.2021  for performance increasing tr181_gu_169 //1
             int rowNum = branchTable.getFirstRowWithText(node);
             WebElement cell = branchTable.getCellWebElement(rowNum, 0);
             List<WebElement> tagList = cell.findElements(By.xpath("child::img | child::span | child::input"));
             if (tagList.get(0).getTagName().equals("img") && tagList.get(0).getAttribute("src").endsWith("expand.png")) {
-                System.out.println("expanding node:" + node);
                 tagList.get(0).click();
             }
             tagList.get(tagList.size() - 1).click();    //edited 03.09.2020 due to tr181_du_194 failed
-            branchTable = getTable("tblTree");
+//            branchTable = getTable("tblTree"); //1
         }
+        waitForUpdate();
+        return this;
+    }
+
+    public BasePage selectButton() {
+        selectButton.click();
         waitForUpdate();
         return this;
     }
@@ -1602,7 +1618,15 @@ public abstract class BasePage {
                 return;
             }
         }
-        new Select(comboBox).selectByValue(value);
+        try {
+            new Select(comboBox).selectByValue(value);
+        } catch (NoSuchElementException e) {
+            System.out.println("available options are: " + getOptionList(comboBox));
+            showRedPointer(comboBox);
+            comboBox.click();
+            pause(1000);
+            throw e;
+        }
     }
 
     public BasePage selectCompare(String option) {
@@ -1894,8 +1918,6 @@ public abstract class BasePage {
     }
 
     public BasePage setParameter(Table table, String paramName, ParameterType option, String value) {
-//        Table table = new Table("tblParamsValue");
-        table.print();
         int rowNum = table.getFirstRowWithText(paramName);
         String hint = table.getHint(paramName);
         WebElement paramCell = table.getCellWebElement(rowNum, 1);
@@ -2084,9 +2106,8 @@ public abstract class BasePage {
         return this;
     }
 
-    public WebElement showBluePointer(WebElement element) {
+    public void showBluePointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid blue'", element);
-        return element;
     }
 
     public WebElement showGreenPointer(WebElement element) {
@@ -2094,9 +2115,8 @@ public abstract class BasePage {
         return element;
     }
 
-    public WebElement showRedPointer(WebElement element) {
+    public void showRedPointer(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
-        return element;
     }
 
     protected void showPointer(boolean success, WebElement element) {
@@ -2174,11 +2194,11 @@ public abstract class BasePage {
         }
     }
 
-    public BasePage validateAddedTask(String parameter, String value) {
-        return validateAddedTask("tblTasks", parameter, value, 0);
+    public void validateAddedTask(String parameter, String value) {
+        validateAddedTask("tblTasks", parameter, value, 0);
     }
 
-    public BasePage validateAddedTask(String tableId, String parameterName, String value, int shift) {
+    public void validateAddedTask(String tableId, String parameterName, String value, int shift) {
         waitForUpdate();
         Table table = getTable(tableId);
         Timer timer = new Timer();
@@ -2226,7 +2246,6 @@ public abstract class BasePage {
             pause(1000);
             throw new AssertionError(warning);
         }
-        return this;
     }
 
     public BasePage validateTask() {
@@ -2241,11 +2260,6 @@ public abstract class BasePage {
 
     private void validateTask(Table table, Task task) {
         waitForUpdate();
-//        Table table = getTable("tblTasks");
-        Timer timer = new Timer();
-        while ((table.getTableSize()[0] == 1 || table.getRowLength(1) < 2) && !timer.timeout()) {
-            table = getTable("tblTasks");
-        }
         for (int i = 1; i < table.getTableSize()[0]; i++) {
             boolean taskName = table.getCellText(i, "Task").trim().equals(task.taskName);
             showPointer(taskName, table.getCellWebElement(i, "Task"));
@@ -2258,8 +2272,6 @@ public abstract class BasePage {
             }
         }
         table.print();
-//        System.out.println();
-//        new Table2("tblTasks").print();
         pause(500);
         throw new AssertionError(task + " not found in table!");
     }
@@ -2450,10 +2462,11 @@ public abstract class BasePage {
             return;
         }
         if (!parameterSet.isEmpty()) {
-            parameterSet.removeAll(columnList);
+//            parameterSet.removeAll(columnList);
+            columnList.forEach(parameterSet::remove);
             StringBuilder sb = new StringBuilder("Below columns have not been applied to the view: ");
             parameterSet.forEach(param -> sb.append("'").append(param).append("'; "));
-            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + sb.toString());
+            LOGGER.warn('(' + BaseTestCase.getTestName() + ") " + sb);
         }
         throw new AssertionError("Checking column headers failed!");
     }
@@ -2469,8 +2482,13 @@ public abstract class BasePage {
         Timer timer = new Timer(timeoutSec * 1000L);
         while (!timer.timeout()) {
             Table table = getMainTable();
-            if (table.contains(testName) && table.getCellText(testName, "State").equalsIgnoreCase(status)) {
-                return this;
+            if (table.contains(testName)) {
+                if (table.getCellText(testName, "State").equalsIgnoreCase(status)) {
+                    showGreenPointer(table.getCellWebElement(testName, "State"));
+                    return this;
+                } else {
+                    showRedPointer(table.getCellWebElement(testName, "State"));
+                }
             }
             bottomMenu(REFRESH);
         }
@@ -2481,7 +2499,7 @@ public abstract class BasePage {
         return waitForStatus(status, BaseTestCase.getTestName(), timeoutSec);
     }
 
-    public BasePage waitForUpdate() {   //TODO rework with ExpectedCondition
+    public BasePage waitForUpdate() {
         Timer timer = new Timer(30000);
         switchToFrame(ROOT);
         String style;
@@ -2624,6 +2642,13 @@ public abstract class BasePage {
             taskList.add(new Task(taskName));
         }
         return taskList.get(taskList.size() - 1);
+    }
+
+    public void addTaskToList(String taskName) {
+        if (taskList == null) {
+            taskList = new ArrayList<>();
+        }
+        taskList.add(new Task(taskName));
     }
 }
 

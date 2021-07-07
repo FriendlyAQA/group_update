@@ -1020,7 +1020,10 @@ public class MonitoringLwm2mTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("lwm2m_mo_064")
-                .clickOnTable("tbl", "State");
+                .clickOnTable("tbl", "State")
+                .pause(1000)
+                .clickOnTable("tbl", "State")
+                .assertTableIsNotEmpty("tbl");
     }
 
     @Test

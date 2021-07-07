@@ -9671,7 +9671,7 @@ public class DeviceProfileTR181Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectMainTab("Parameters")
                 .selectTab("Management")
-                .setParameter("PeriodicInformInterval, sec", "66")
+                .setParameter("PeriodicInformInterval, sec", "56")
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .assertProfileIsPresent(true, getTestName())

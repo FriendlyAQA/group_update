@@ -1502,16 +1502,16 @@ public class ReportsTests extends BaseTestCase {
                 .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
     }
 
-    @Test   //bug: cannot trigger 'Error' Update Group state
-    public void reports_131() {
-        reportsPage
-                .topMenu(REPORTS)
-                .openGroupUpdate()
-                .selectUpdateState("Error")
-                .go()
-                .assertElementsArePresent("tblReport")
-                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
-    }
+//    @Test   //bug: cannot trigger 'Error' Update Group state
+//    public void reports_131() {
+//        reportsPage
+//                .topMenu(REPORTS)
+//                .openGroupUpdate()
+//                .selectUpdateState("Error")
+//                .go()
+//                .assertElementsArePresent("tblReport")
+//                .assertButtonsAreEnabled(true, EXPORT_TO_XLS, PRINT, SHOW_ON_MAP);
+//    }
 
     @Test
     public void reports_132() {

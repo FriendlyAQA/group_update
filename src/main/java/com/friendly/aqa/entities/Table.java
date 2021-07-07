@@ -5,6 +5,7 @@ import com.friendly.aqa.utils.Timer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.util.*;
@@ -124,7 +125,7 @@ public class Table {
                 out = out.replaceAll("<option.*?>.*?</option>", "");
                 break;
             } else {
-                out = out.replaceFirst("<option.*?>.*?</option>",  " " + mOption.group(1) + " ");
+                out = out.replaceFirst("<option.*?>.*?</option>", " " + mOption.group(1) + " ");
                 out = out.replaceAll("<option.*?>.*?</option>", "");
             }
         }
@@ -329,6 +330,10 @@ public class Table {
         return textTable[getFirstRowWithText(fromRowWithText)][getColumnNumber(0, columnHeader)];
     }
 
+    public WebElement getCellWebElement(String fromRowWithText, String columnHeader) {
+        return elementTable[getFirstRowWithText(fromRowWithText)][getColumnNumber(0, columnHeader)];
+    }
+
     public String getCellText(int row, int column) {
         if (column < 0) {
             column += textTable[row].length;
@@ -471,9 +476,12 @@ public class Table {
     }
 
     public boolean contains(String value) { //not case-sensitive!!!
-        for (String[] rows : textTable) {
-            for (String cell : rows) {
+        for (int i = 0; i < textTable.length; i++) {
+            String[] rows = textTable[i];
+            for (int j = 0; j < rows.length; j++) {
+                String cell = rows[j];
                 if (cell.trim().equalsIgnoreCase(value)) {
+                    ((JavascriptExecutor) BasePage.getDriver()).executeScript("arguments[0].style.border='3px solid green'", elementTable[i][j]);
                     return true;
                 }
             }

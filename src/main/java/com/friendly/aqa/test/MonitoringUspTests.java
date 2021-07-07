@@ -831,7 +831,10 @@ public class MonitoringUspTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("usp_mo_052")
-                .clickOnTable("tbl", "State");
+                .clickOnTable("tbl", "State")
+                .pause(1000)
+                .clickOnTable("tbl", "State")
+                .assertTableIsNotEmpty("tbl");
     }
 
     @Test

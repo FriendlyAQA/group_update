@@ -8390,6 +8390,8 @@ public class DeviceProfileTR069Tests extends BaseTestCase {
                 .applyForNewDeviceCheckbox()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
-                .assertProfileIsPresent(true, getTestName());
+                .enterIntoProfile()
+                .assertCheckboxIsSelected("cbSendBackup", true)
+                .assertCheckboxIsSelected("cbSendBackupForNewDevicesOnly", true);
     }
 }

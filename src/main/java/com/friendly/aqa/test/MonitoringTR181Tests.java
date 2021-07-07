@@ -1777,7 +1777,10 @@ public class MonitoringTR181Tests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("tr181_mo_112")
-                .clickOnTable("tbl", "State");
+                .clickOnTable("tbl", "State")
+                .pause(1000)
+                .clickOnTable("tbl", "State")
+                .assertTableIsNotEmpty("tbl");
     }
 
     @Test

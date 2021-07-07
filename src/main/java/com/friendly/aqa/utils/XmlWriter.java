@@ -96,7 +96,7 @@ public class XmlWriter {
                 .append("</ModelName>\n\t\t\t\t<ProtocolType>").append(protocol).append("</ProtocolType>\n")
                 .append("\t\t\t</ProductGroup>\n").append("\t\t</ProductGroupValue>\n").append("\t\t<Tasks>\n").append("\t\t\t<TaskAction>\n")
                 .append("\t\t\t\t<Action>\n").append("\t\t\t\t\t<Name>CPEReprovision</Name>\n").append("\t\t\t\t</Action>\n")
-                .append("\t\t\t</TaskAction>\n").append("\t\t</Tasks>\n").append("\t</Childs>").append("\t<ScheduledDate />\n\t<ActivateDate>")
+                .append("\t\t\t</TaskAction>\n").append("\t\t</Tasks>\n").append("\t</Childs>").append("\n\t<ScheduledDate />\n\t<ActivateDate>")
                 .append(CalendarUtil.getImportGroupDate()).append("</ActivateDate>\n\t<Period1> - /0/0</Period1>\n")
                 .append("\t<Period2> - /0/0</Period2>\n").append("\t<Online>false</Online>\n").append("\t<AskToConnect>true</AskToConnect>\n")
                 .append("\t<Location>0</Location>\n").append("\t<Threshold>0</Threshold>\n").append("\t<StopFail>false</StopFail>\n")

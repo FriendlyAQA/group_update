@@ -926,7 +926,10 @@ public class MonitoringMqttTests extends BaseTestCase {
         monPage
                 .topMenu(MONITORING)
                 .selectView("mqtt_mo_058")
-                .clickOnTable("tbl", "State");
+                .clickOnTable("tbl", "State")
+                .pause(1000)
+                .clickOnTable("tbl", "State")
+                .assertTableIsNotEmpty("tbl");
     }
 
     @Test

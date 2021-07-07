@@ -869,7 +869,7 @@ public class DeviceProfilePage extends BasePage {
         List<Integer> activeList = table.getRowsWithText("Active");
         List<Integer> modelList = table.getRowsWithText(DataBaseConnector.getDevice(getSerial())[1]);
         modelList.retainAll(activeList);
-        if (modelList.size() < 1) {
+        if (modelList.isEmpty()) {
             String warn = "There is no active custom profile to export for current device!";
             LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             throw new AssertionError(warn);

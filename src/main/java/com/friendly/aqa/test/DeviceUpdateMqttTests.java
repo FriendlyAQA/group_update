@@ -1617,7 +1617,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp();
     }
 
-    @Test   //bug: cannot add or edit something to PROVISION_MANAGER
+    @Test   //bug: cannot add or edit something to PROVISION_MANAGER and profiles don't exist for MQTT
     public void mqtt_du_134() {
         duPage
                 .topMenu(DEVICE_UPDATE)
@@ -1915,23 +1915,23 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .validateTasks();
     }
 
-    @Test   //bug: Button WAIT_UNTIL_CONNECT is no more available from bottom menu
-    public void mqtt_du_156() {
-        duPage
-                .topMenu(DEVICE_UPDATE)
-                .openDevice()
-                .clearDeviceActivity()
-                .leftMenu(ADVANCED_VIEW)
-                .selectBranch("Device.FriendlySmartHome.PowerMeter.1")
-                .bottomMenu(EDIT_SETTINGS)
-                .setParameter(null, 1)
-                .bottomMenu(WAIT_UNTIL_CONNECT)
-                .bottomMenu(SEND_UPDATE)
-                .okButtonPopUp()
-                .okButtonPopUp()
-                .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
-    }
+//    @Test   //bug: Button WAIT_UNTIL_CONNECT is no more available from bottom menu
+//    public void mqtt_du_156() {
+//        duPage
+//                .topMenu(DEVICE_UPDATE)
+//                .openDevice()
+//                .clearDeviceActivity()
+//                .leftMenu(ADVANCED_VIEW)
+//                .selectBranch("Device.FriendlySmartHome.PowerMeter.1")
+//                .bottomMenu(EDIT_SETTINGS)
+//                .setParameter(null, 1)
+//                .bottomMenu(WAIT_UNTIL_CONNECT)
+//                .bottomMenu(SEND_UPDATE)
+//                .okButtonPopUp()
+//                .okButtonPopUp()
+//                .leftMenu(DEVICE_ACTIVITY)
+//                .validateTasks();
+//    }
 
     @Test   //bug: checkbox 'add to provision' is absent from mqtt bottom menu
     public void mqtt_du_157() {

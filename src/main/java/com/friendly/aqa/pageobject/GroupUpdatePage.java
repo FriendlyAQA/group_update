@@ -2,9 +2,7 @@ package com.friendly.aqa.pageobject;
 
 import com.friendly.aqa.entities.*;
 import com.friendly.aqa.test.BaseTestCase;
-import com.friendly.aqa.utils.CalendarUtil;
-import com.friendly.aqa.utils.HttpConnector;
-import com.friendly.aqa.utils.XmlWriter;
+import com.friendly.aqa.utils.*;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
@@ -26,7 +24,10 @@ import static com.friendly.aqa.pageobject.GroupUpdatePage.Left.NEW;
 
 public class GroupUpdatePage extends BasePage {
     private static final Logger LOGGER = Logger.getLogger(GroupUpdatePage.class);
-    private Map<String, String> optionMap/* = new HashMap<>()*/;
+    private Map<String, String> optionMap;
+
+    @FindBy(id = "btnAddTaskParameter-1_btn")
+    private WebElement addConditionButton;
 
     @FindBy(id = "rdDefaultUpload")
     private WebElement defaultUploadRadioButton;
@@ -61,8 +62,17 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "chbxFailedCPEOnly")
     private WebElement reactivationReRunFailedCheckbox;
 
+    @FindBy(id = "tmReactivation_ddlHour")
+    private WebElement startsOnHours;
+
+    @FindBy(id = "tmReactivation_ddlMinute")
+    private WebElement startsOnMinutes;
+
     @FindBy(name = "btnShowDevices$btn")
     private WebElement showListButton;
+
+    @FindBy(id = "spnConfirm")
+    private WebElement confirmMessage;
 
     @FindBy(id = "txtFailedMax")
     private WebElement thresholdField;
@@ -103,6 +113,10 @@ public class GroupUpdatePage extends BasePage {
     @FindBy(id = "btnAdvancedView_btn")
     private WebElement advancedViewButton;
 
+    @FindBy(id = "btnShowDevices_btn")
+    private WebElement showDevicesButton;
+
+    @Override
     public GroupUpdatePage topMenu(TopMenu value) {
         return (GroupUpdatePage) super.topMenu(value);
     }
@@ -188,7 +202,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage clickOnTask(String task) {
         switchToFrame(TASKS);
-        return (GroupUpdatePage) super.clickOnTable("tblTasks", task);
+        return clickOnTable("tblTasks", task);
     }
 
     public Table getParamTable() {
@@ -211,10 +225,13 @@ public class GroupUpdatePage extends BasePage {
     }
 
     @Override
-    public GroupUpdatePage selectShiftedDate(String id, int value) {
-        super.selectShiftedDate(id, value);
+    public GroupUpdatePage selectShiftedDate(String id, int days) {
+        super.selectShiftedDate(id, days);
         String time = "Scheduled to " + calendarInput.getAttribute("value") + " " + getSelectedOption(timeHoursSelect) + ":" + getSelectedOption(timeMinutesSelect) + ":00";
         optionMap.put("Update state", time);
+        if (!summary.getText().equals("Not in use")) {
+            optionMap.put("Reactivation", summary.getText());
+        }
         return this;
     }
 
@@ -244,6 +261,7 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage addModelButton() {
+        waitForUpdate();
         return clickButton(addModelButton);
     }
 
@@ -264,15 +282,16 @@ public class GroupUpdatePage extends BasePage {
                 lookFor = "\"Root.Device.0.UTC Offset\" value=\"+02:00\"";
                 break;
             case "mqtt":
-                lookFor = "<Param fullname=\"Device.FriendlySmartHome.GasDetector.1.Id\" value=\"";
+                lookFor = "<Param fullname=\"Device.FriendlySmartHome.PowerMeter.1.CurrentPower\" value=\"";
                 break;
             case "usp":
                 lookFor = "<Param fullname=\"Device.Location.1.";
                 break;
             default:
-                lookFor = "Device.ManagementServer.PeriodicInformInterval\" value=\"60\"";
+                lookFor = "Device.ManagementServer.PeriodicInformInterval\" value=\"10\"";
         }
         try {
+            System.out.println(HttpConnector.sendGetRequest(getExportLink(getProtocolPrefix() + "_gu_016")));
             assertTrue(HttpConnector.sendGetRequest(getExportLink(getProtocolPrefix() + "_gu_016")).contains(lookFor));
         } catch (Exception e) {
             throw new AssertionError("File export failed or file has unexpected content!");
@@ -331,19 +350,21 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public void validateAddedTask() {
-        Table table = getTable("tblTasks");
-        String parameter = getSingleParameterEntry().getKey();
-        String value = getSingleParameterEntry().getValue();
-        if (table.contains(parameter) && table.contains(value)) {
-            return;
+    public GroupUpdatePage validateDetails() {
+        Table table = getTable("tblChilds");
+        boolean manufacturer = table.getCellText(1, "Manufacturer").equals(getManufacturer());
+        showPointer(manufacturer, table.getCellWebElement(1, "Manufacturer"));
+        boolean modelName = table.getCellText(1, "Model name").equals(getModelName());
+        showPointer(modelName, table.getCellWebElement(1, "Model name"));
+        String amountStr = table.getCellText(1, "Amount");
+        String sendTo = table.getCellText(1, "Send to");
+        int amountInt = sendTo.equals("Individual") ? parameterSet.size() : DataBaseConnector.getDeviceAmount(getSerial());
+        boolean amount = amountStr.equals(String.valueOf(amountInt)) || sendTo.startsWith("View:");//startsWith("Group:")
+        showPointer(amount, table.getCellWebElement(1, "Amount"));
+        if (manufacturer && modelName && amount) {
+            return this;
         }
-        throw new AssertionError("Pair '" + parameter + "':'" + value + "' not found!");
-    }
-
-    public GroupUpdatePage selectFileName(int index) {  //TODO Remove!
-        new Select(fileNameComboBox).selectByIndex(index);
-        return this;
+        throw new AssertionError("Detail Validation failed!");
     }
 
     @Override
@@ -377,7 +398,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage waitUntilConnectRadioButton() {
+    public GroupUpdatePage waitUntilConnect() {
         waitUntilConnectRadioButton.click();
         return this;
     }
@@ -388,6 +409,7 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage addNewTask(String taskType) {
         switchToFrame(TASKS);
         return (GroupUpdatePage) super.addNewTask(taskType);
@@ -424,12 +446,6 @@ public class GroupUpdatePage extends BasePage {
     @Override
     public GroupUpdatePage selectFromListRadioButton() {
         return (GroupUpdatePage) super.selectFromListRadioButton();
-    }
-
-    @Override
-    public GroupUpdatePage validateAddedTasks() {
-        switchToFrame(TASKS);
-        return (GroupUpdatePage) super.validateAddedTasks();
     }
 
     public GroupUpdatePage fromListRadioButton() {
@@ -473,22 +489,22 @@ public class GroupUpdatePage extends BasePage {
         return clickButton(showListButton);
     }
 
+    @Override
     public GroupUpdatePage selectSendTo() {
         return (GroupUpdatePage) super.selectSendTo();
     }
 
+    @Override
     public GroupUpdatePage selectSendTo(String sendTo) {
         return (GroupUpdatePage) super.selectSendTo(sendTo);
     }
 
     public GroupUpdatePage fillName(String name) {
-//        return (GroupUpdatePage) super.fillName(name);
         nameTextField.sendKeys(name);
         return this;
     }
 
     public GroupUpdatePage fillName() {
-//        return (GroupUpdatePage) super.fillName();
         nameTextField.sendKeys(BaseTestCase.getTestName());
         return this;
     }
@@ -551,45 +567,56 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.inputNumOfRepetitions(text);
     }
 
-    public GroupUpdatePage selectRepeatsDropDown(String value) {
+    public GroupUpdatePage repeats(String value) {
         selectComboBox(reactivationRepeatsDropDown, value);
+        optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
-    public GroupUpdatePage selectRepeatEveryHourDropDown(String value) {
+    public GroupUpdatePage repeatEveryHours(String hours) {
         waitForUpdate();
-        selectComboBox(reactivationRepeatEveryHourDropDown, value);
+        selectComboBox(reactivationRepeatEveryHourDropDown, hours);
         optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
-    public GroupUpdatePage selectRepeatEveryDayDropDown(String value) {
-        selectComboBox(reactivationRepeatEveryDayDropDown, value);
+    public GroupUpdatePage repeatEveryDays(String days) {
+        selectComboBox(reactivationRepeatEveryDayDropDown, days);
         optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
-    public GroupUpdatePage selectRepeatEveryMonthDropDown(String value) {
+    public GroupUpdatePage numberOfReactivations(String number) {
+        inputText("txtReactivationEndsOccurrences", number);
+        waitForUpdate();
+        optionMap.put("Reactivation", summary.getText());
+        return this;
+    }
+
+    public GroupUpdatePage repeatEveryMonth(String value) {
         selectComboBox(reactivationRepeatEveryMonthDropDown, value);
         optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
-    public GroupUpdatePage endAfterRadiobutton() {
+    public GroupUpdatePage endsAfter() {
         reactivationEndsAfterRadiobutton.click();
         return this;
     }
 
     public GroupUpdatePage reactivationEndsOn() {
         reactivationEndsOn.click();
+        waitForUpdate();
+        optionMap.put("Reactivation", summary.getText());
         return this;
     }
 
-    public GroupUpdatePage runOnFailed() {
+    public GroupUpdatePage reRunOnFailed() {
         reactivationReRunFailedCheckbox.click();
         return this;
     }
 
+    @Override
     public GroupUpdatePage selectDiagnostic(String value) {
         return (GroupUpdatePage) super.selectDiagnostic(value);
     }
@@ -598,13 +625,9 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) selectManufacturer(getManufacturer());
     }
 
+    @Override
     public GroupUpdatePage selectModel() {
         return (GroupUpdatePage) super.selectModel();
-    }
-
-    public GroupUpdatePage selectStatus(String status) {
-        selectComboBox(profileStatusCombobox, status);
-        return this;
     }
 
     @Override
@@ -612,8 +635,8 @@ public class GroupUpdatePage extends BasePage {
         return (GroupUpdatePage) super.selectColumnFilter(option);
     }
 
-    public GroupUpdatePage deleteFilterGroups() {
-        return (GroupUpdatePage) deleteAll(sendToComboBox);
+    public void deleteFilterGroups() {
+        deleteAll(sendToComboBox);
     }
 
     public GroupUpdatePage bottomMenu(BottomButtons button) {
@@ -640,15 +663,6 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
-    public GroupUpdatePage nextSaveAndActivate() {
-        return nextSaveAndActivate(true);
-    }
-
-    public GroupUpdatePage nextSaveAndActivate(boolean waitForCompleted) {
-        bottomMenu(NEXT);
-        return saveAndActivate(waitForCompleted);
-    }
-
     public GroupUpdatePage saveAndActivate() {
         return saveAndActivate(true);
     }
@@ -661,55 +675,64 @@ public class GroupUpdatePage extends BasePage {
         }
         readTasksFromDb();
         enterIntoGroup();
+        validateDetails();
         return this;
     }
 
-    public GroupUpdatePage checkFiltering(String dropdown, String option) {
-        switchToFrame(DESKTOP);
-        WebElement comboBox;
-        switch (dropdown) {
-            case "Manufacturer":
-                comboBox = manufacturerComboBox;
-                break;
-            case "Model":
-                comboBox = modelComboBox;
-                break;
-            case "State":
-                comboBox = profileStatusCombobox;
-                break;
-            default:
-                throw new AssertionError("Incorrect dropdown name '" + dropdown + "'");
+    public void checkFiltering(String by) {
+        Set<String> dbNameSet;
+        if (by.equalsIgnoreCase("Manufacturer")) {
+            selectComboBox(manufacturerComboBox, getManufacturer());
+            dbNameSet = DataBaseConnector.getGroupUpdateByManufacturer();
+        } else {
+            selectComboBox(modelComboBox, getModelName());
+            dbNameSet = DataBaseConnector.getGroupUpdateByModel();
         }
-        List<WebElement> options = comboBox.findElements(By.tagName("option"));
+        itemsOnPage("200");
+        Table table = getMainTable();
+        Set<String> webNameSet = new HashSet<>(Arrays.asList(table.getColumn("Name")));
+        if (webNameSet.size() > dbNameSet.size()) {
+            webNameSet.removeAll(dbNameSet);
+            throw new AssertionError("Webpage contains unexpected Update Group items:" + webNameSet);
+        }
+        dbNameSet.removeAll(webNameSet);
+        if (!dbNameSet.isEmpty()) {
+            throw new AssertionError("Webpage does not contain expected Update Group items:" + dbNameSet);
+        }
+    }
+
+    public GroupUpdatePage checkFilteringByState(String option) {
+        switchToFrame(DESKTOP);
+        List<WebElement> options = profileStatusCombobox.findElements(By.tagName("option"));
         for (WebElement opt : options) {
             if (opt.getText().equalsIgnoreCase(option)) {
                 if (BROWSER.equals("edge")) {
-                    scrollTo(comboBox);
+                    scrollTo(profileStatusCombobox);
                 }
-                new Select(comboBox).selectByValue(opt.getAttribute("value"));
+                new Select(profileStatusCombobox).selectByValue(opt.getAttribute("value"));
                 waitForUpdate();
                 break;
             }
         }
-        if (dropdown.equals("State") && option.equals("Error") && noDataFound.size() == 1) {
+        if (option.equals("Error") && noDataFound.size() == 1) {
             return this;
         }
         Table table;
+        itemsOnPage("200");
         try {
             table = getMainTable();
-            itemsOnPage("200");
         } catch (NoSuchElementException e) {
             LOGGER.info("List '" + option + "' is empty. Nothing to filter");
             return this;
         }
-        String[] arr = table.getColumn(dropdown);
+        String[] arr = table.getColumn("State");
         Set<String> set = new HashSet<>(Arrays.asList(arr));
-        if (dropdown.equals("State") && option.equals("All") && set.size() > 1) {
+        if (option.equals("All") && set.size() > 1) {
             itemsOnPage("10");
             return this;
         }
         if (set.size() != 1 && !set.contains(option)) {
-            String warn = "Filtering failed on dropdown '" + dropdown + "'";
+            String warn = "Filtering failed on dropdown 'State'";
             LOGGER.warn('(' + BaseTestCase.getTestName() + ')' + warn);
             itemsOnPage("10");
             throw new AssertionError(warn);
@@ -726,6 +749,17 @@ public class GroupUpdatePage extends BasePage {
     @Override
     public GroupUpdatePage selectAction(String action, String instance) {
         return (GroupUpdatePage) super.selectAction(action, instance);
+    }
+
+    public GroupUpdatePage addCondition(String branch, String conditionName, Conditions condition, String value) {
+        addConditionButton.click();
+        switchToFrame(CONDITIONS);
+        selectBranch(branch);
+        Table paramTable = getTable("tblParamsValue");
+        setCondition(paramTable, conditionName, condition, value);
+        waitForUpdate();
+        saveButton();
+        return this;
     }
 
     public GroupUpdatePage addCondition(int rowNumber, String branch, String conditionName, Conditions condition, String value) {
@@ -746,13 +780,65 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage saveButton() {
+        return saveButton(false);
+    }
+
+    public GroupUpdatePage saveButton(boolean switchToDesktopFrame) {
         saveButton.click();
+        if (switchToDesktopFrame) {
+            switchToFrame(DESKTOP); //11.06.21 tr069_gu_010
+        }
         return this;
     }
 
     public GroupUpdatePage advancedViewButton() {
         advancedViewButton.click();
         return this;
+    }
+
+    public GroupUpdatePage showListButton() {
+        showDevicesButton.click();
+        return this;
+    }
+
+    public void validateDevicesAmount() {
+        switchToFrame(POPUP);
+        Table table = getTable("tblDevices");
+        WebElement counter = findElement("pager2_lblCount");
+        assertEquals(table.getTableSize()[0] - 1, parameterSet.size(), "Unexpected number of serials!");
+        assertEquals(counter.getText(), String.valueOf(parameterSet.size()), "Unexpected number of devices!");
+        for (String serial : parameterSet) {
+            assertTrue(table.contains(serial), "Serial '" + serial + "' not found!");
+        }
+        pause(1000);
+        closePopup();
+    }
+
+    public GroupUpdatePage validateDevicesAmountMessage() {
+        switchToFrame(ROOT);
+        assertEquals(confirmMessage.getText(), "Are you sure you want to activate?\nTotal devices targeted " + parameterSet.size() + ".", "");
+        return this;
+    }
+
+    @Override
+    public GroupUpdatePage selectButton() {
+        return (GroupUpdatePage) super.selectButton();
+    }
+
+    public GroupUpdatePage selectDevice(int amount) {
+        switchToFrame(POPUP);
+        Table table = getTable("tblDevices");
+        parameterSet = new HashSet<>(amount);
+        for (int i = 0; i < amount; i++) {
+            table.clickOn(i + 1, 0);
+            parameterSet.add(table.getCellText(i + 1, 1));
+        }
+        return this;
+    }
+
+    @Override
+    public GroupUpdatePage closePopup() {
+        return (GroupUpdatePage) super.closePopup();
     }
 
     public void setCondition(Table table, String conditionName, Conditions condition, String value) {
@@ -801,7 +887,8 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage assertDeviceIsPresent() {
         switchToFrame(POPUP);
-        assertPresenceOfValue("tblDevices", 0, getSerial());
+        assertTrue(getTable("tblDevices").contains(getSerial()), "Target device is absent from list!");
+//        assertPresenceOfValue("tblDevices", 0, getSerial());
         closePopup();
         return this;
     }
@@ -833,6 +920,26 @@ public class GroupUpdatePage extends BasePage {
         String result = "Scheduled to " + calendarInput.getAttribute("value") + " " + getSelectedOption(timeHoursSelect) + ":" + getSelectedOption(timeMinutesSelect) + ":00";
         optionMap.put("Update state", result);
         return this;
+    }
+
+    public GroupUpdatePage startOnTimeDelay(int minutes) {
+        String[] time = CalendarUtil.getDelay(minutes);
+        selectComboBox(startsOnHours, time[0].replaceAll("^0", ""));
+        selectComboBox(startsOnMinutes, time[1].replaceAll("^0", ""));
+        optionMap.put("Reactivation", summary.getText());
+        return this;
+    }
+
+    public GroupUpdatePage startsOnDayDelay(int days) {
+        return selectShiftedDate("calReactivationStartsOnDay", days);
+    }
+
+    public GroupUpdatePage endsOnDayDelay(int days) {
+        return selectShiftedDate("calReactivationEndsOnDay", days);
+    }
+
+    public GroupUpdatePage scheduleInDays(int days) {
+        return selectShiftedDate("calDate", days);
     }
 
     public GroupUpdatePage waitForStatusWithoutRefresh(String status, int timeout) {
@@ -900,7 +1007,6 @@ public class GroupUpdatePage extends BasePage {
         }
         if (advancedView) {
             advancedViewButton.click();
-//            bottomMenu(ADVANCED_VIEW);
         }
         return this;
     }
@@ -925,6 +1031,8 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
+                .validateDetails()
+                .validateOptions()
                 .bottomMenu(EDIT)
                 .validateTask();
     }
@@ -949,6 +1057,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
+                .validateDetails()
                 .bottomMenu(EDIT)
                 .validateTask();
     }
@@ -973,6 +1082,7 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
+                .validateDetails()
                 .bottomMenu(EDIT)
                 .validateTask();
     }
@@ -997,6 +1107,27 @@ public class GroupUpdatePage extends BasePage {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", 5)
                 .enterIntoGroup()
+                .validateDetails()
+                .bottomMenu(EDIT)
+                .validateTask();
+    }
+
+    public void immediatelyActivateAndValidate() {
+        bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
+    }
+
+    public GroupUpdatePage saveAndValidateScheduledTasks() {
+        return bottomMenu(SAVE)
+                .okButtonPopUp()
+                .waitForStatus("Scheduled", 5)
+                .enterIntoGroup()
+                .validateDetails()
+                .validateOptions()
                 .bottomMenu(EDIT)
                 .validateTask();
     }
@@ -1071,12 +1202,16 @@ public class GroupUpdatePage extends BasePage {
     public GroupUpdatePage deleteAll() {
         topMenu(GROUP_UPDATE);
         itemsOnPage("200");
+        setImplicitlyWait(0);
         while (noDataFound.size() == 0) {
             switchToFrame(DESKTOP);
-            getMainTable().clickOn(0, 0);
-            bottomMenu(DELETE)
-                    .okButtonPopUp();
+            WebElement masterCheckbox = findElement(getMainTableId()).findElement(By.tagName("input"));
+            setCheckboxState(true, masterCheckbox);
+//            getMainTable().clickOn(0, 0);
+            bottomMenu(DELETE);
+            okButtonPopUp();
         }
+        setDefaultImplicitlyWait();
         return this;
     }
 
@@ -1103,6 +1238,7 @@ public class GroupUpdatePage extends BasePage {
         return setParameter(getParamTable(), paramName, option, value);
     }
 
+    @Override
     public GroupUpdatePage setParameter(Table table, String paramName, ParameterType option, String value) {
         return (GroupUpdatePage) super.setParameter(table, paramName, option, value);
     }
@@ -1157,6 +1293,11 @@ public class GroupUpdatePage extends BasePage {
         }
         setParameter(amount);
         return this;
+    }
+
+    @Override
+    public GroupUpdatePage selectBranch(String branch) {
+        return (GroupUpdatePage) super.selectBranch(branch);
     }
 
     public GroupUpdatePage setAnyAdvancedParameter() {
@@ -1243,11 +1384,6 @@ public class GroupUpdatePage extends BasePage {
         waitForUpdate();
     }
 
-    public GroupUpdatePage validateAddedTask(String parameter, String value) {
-        switchToFrame(TASKS);
-        return (GroupUpdatePage) super.validateAddedTask(parameter, value);
-    }
-
     public GroupUpdatePage validateOptions() {
         for (Map.Entry<String, String> entrySet : optionMap.entrySet()) {
             validateAddedTask("tblPeriod", entrySet.getKey(), entrySet.getValue(), 0);
@@ -1255,17 +1391,13 @@ public class GroupUpdatePage extends BasePage {
         return this;
     }
 
+    @Override
     public GroupUpdatePage validateTask() {
         switchToFrame(TASKS);
         return (GroupUpdatePage) super.validateTask();
     }
 
-    public GroupUpdatePage validateAddedTask(String task) {
-        switchToFrame(TASKS);
-        assertEquals(getTable("tblTasks").getCellText(1, "Task"), task, "Task comparing failed");
-        return this;
-    }
-
+    @Override
     public GroupUpdatePage readTasksFromDb() {
         return (GroupUpdatePage) super.readTasksFromDb();
     }
@@ -1279,7 +1411,7 @@ public class GroupUpdatePage extends BasePage {
 
     @Override
     public GroupUpdatePage waitForStatus(String status, int timeoutSec) {
-        if (optionMap.get("Update state").length() < 10) {
+        if (optionMap.get("Update state").length() < 11) {
             optionMap.put("Update state", status);
         }
         return (GroupUpdatePage) super.waitForStatus(status, timeoutSec);
@@ -1329,11 +1461,11 @@ public class GroupUpdatePage extends BasePage {
     }
 
     public GroupUpdatePage selectItemToDelete() {
-        Table table = getTable("tblTasks");
+        Table table = getTable("tblTasks", TASKS);
         int tableSize = table.getTableSize()[0];
         for (int i = 1; i < tableSize; i++) {
             if (!table.getCellText(i, 1).equals("Backup")) {
-                table.clickOn(i, 0);
+                setCheckboxState(true, table.getInput(i, 0));
             }
         }
         return this;

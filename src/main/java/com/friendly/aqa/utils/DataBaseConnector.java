@@ -306,7 +306,7 @@ public class DataBaseConnector {
 
     public static void main(String[] args) {
         connectDb();
-        System.out.println(getValue("SELECT DISTINCT c.serial FROM ftacs.cpe c JOIN ftacs.cpe_parameter p ON (c.id=p.cpe_id) JOIN ftacs.cpe_parameter_name n ON (p.name_id=n.id) WHERE n.name LIKE '%IPAddress%';"));
+        System.out.println(getValueSet("SELECT distinct u.name FROM ftacs.update_group u JOIN ftacs.ug_cpe_completed ucc ON (u.id=ucc.ug_id) JOIN ftacs.cpe c ON (ucc.cpe_id=c.id) JOIN ftacs.product_class p ON (c.product_class_id=p.id) JOIN ftacs.manufacturer m ON (p.manuf_id=m.id) WHERE m.name='UniDevice_098';"));
         disconnectDb();
     }
 
@@ -318,5 +318,18 @@ public class DataBaseConnector {
     public static String getParameterValue(String serial, String parameterName) {
         return getValue("SELECT DISTINCT p.value FROM ftacs.cpe_parameter p JOIN ftacs.cpe c ON (c.id=p.cpe_id) " +
                 "JOIN ftacs.cpe_parameter_name n ON (p.name_id=n.id) WHERE c.serial='" + serial + "' AND n.name='" + parameterName + "';");
+    }
+
+    public static Set<String> getGroupUpdateByManufacturer() {
+        return getValueSet("SELECT distinct u.name FROM ftacs.update_group u " +
+                "JOIN ftacs.update_group_child ugc ON (u.id=ugc.parent_id) " +
+                "JOIN ftacs.product_class p ON (ugc.group_id=p.group_id) " +
+                "JOIN ftacs.manufacturer m ON (p.manuf_id=m.id) WHERE m.name='" + getDevice(BasePage.getSerial())[0] + "';");
+    }
+
+    public static Set<String> getGroupUpdateByModel() {
+        return getValueSet("SELECT distinct u.name FROM ftacs.update_group u " +
+                "JOIN ftacs.update_group_child ugc ON (u.id=ugc.parent_id) " +
+                "JOIN ftacs.product_class p ON (ugc.group_id=p.group_id) WHERE p.model='" + getDevice(BasePage.getSerial())[1] + "';");
     }
 }

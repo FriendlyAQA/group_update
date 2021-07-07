@@ -2040,282 +2040,282 @@ public class DeviceProfileUspTests extends BaseTestCase {
                 .validateApplyingProfile(true, true);
     }
 
-    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
-    public void usp_dp_102() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionInformComboBox("=")
-                .fillValue("???")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
+//    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+//    public void usp_dp_102() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceSummary")
+//                .selectConditionInformComboBox("=")
+//                .fillValue("???")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+//    public void usp_dp_103() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceSummary")
+//                .selectConditionInformComboBox("!=")
+//                .fillValue("????")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
+//    public void usp_dp_104() {  //depends on 162
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceSummary")
+//                .selectConditionInformComboBox("Regexp")
+//                .fillValue(".*")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
 
-    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
-    public void usp_dp_103() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionInformComboBox("!=")
-                .fillValue("????")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+//    public void usp_dp_105() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+//                .selectConditionInformComboBox("=")
+//                .fillValue("???")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+//    public void usp_dp_106() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+//                .selectConditionInformComboBox("!=")
+//                .fillValue("????")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
+//    public void usp_dp_107() {  //depends on 162
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
+//                .selectConditionInformComboBox("Regexp")
+//                .fillValue(".*")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+//    public void usp_dp_108() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+//                .selectConditionInformComboBox("=")
+//                .fillValue("???")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+//    public void usp_dp_109() {
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+//                .selectConditionInformComboBox("!=")
+//                .fillValue("????")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
+//
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
+//    public void usp_dp_110() {  //depends on 162
+//        dpPage
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
+//                .selectConditionInformComboBox("Regexp")
+//                .fillValue(".*")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
 
-    @Test   //bug: Error message: "parameter with name 'Device.DeviceSummary' not found"
-    public void usp_dp_104() {  //depends on 162
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionInformComboBox("Regexp")
-                .fillValue(".*")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
-    public void usp_dp_105() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionInformComboBox("=")
-                .fillValue("???")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
-    public void usp_dp_106() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionInformComboBox("!=")
-                .fillValue("????")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.HardwareVersion' contain?
-    public void usp_dp_107() {  //depends on 162
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.HardwareVersion")
-                .selectConditionInformComboBox("Regexp")
-                .fillValue(".*")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
-    public void usp_dp_108() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionInformComboBox("=")
-                .fillValue("???")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
-    public void usp_dp_109() {
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionInformComboBox("!=")
-                .fillValue("????")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceInfo.SoftwareVersion' contain?
-    public void usp_dp_110() {  //depends on 162
-        dpPage
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceInfo.SoftwareVersion")
-                .selectConditionInformComboBox("Regexp")
-                .fillValue(".*")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
-
-    @Test   //bug: what kind of data does the parameter 'Device.DeviceSummary' contain?
-    public void usp_dp_111() {
-        dpPage
-                .presetFilter("Zip", "61000")
-                .topMenu(DEVICE_PROFILE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .newConditionButton(true)
-                .fillConditionName()
-                .bottomMenu(NEXT)
-                .addFilter()
-//                .userInfoRadioButton()
-                .selectUserInfoComboBox("Zip")
-                .selectConditionTypeComboBox("=")
-                .fillValue("61000")
-                .bottomMenu(NEXT)
-                .addFilter()
-                .informRadioButton()
-                .selectInformComboBox("Device.DeviceSummary")
-                .selectConditionInformComboBox("=")
-                .fillValue("???")
-                .bottomMenu(NEXT)
-                .bottomMenu(FINISH)
-                .okButtonPopUp()
-                .selectMainTab("Parameters")
-                .selectTab("Device")
-                .setParameter("Port", CalendarUtil.getTimeStamp())
-                .fillName()
-                .bottomMenu(SAVE_AND_ACTIVATE)
-                .okButtonPopUp()
-                .validateApplyingProfile(true, "MTP USP");
-    }
+//    @Test   //bug: what kind of data does the parameter 'Device.DeviceSummary' contain?
+//    public void usp_dp_111() {
+//        dpPage
+//                .presetFilter("Zip", "61000")
+//                .topMenu(DEVICE_PROFILE)
+//                .leftMenu(NEW)
+//                .selectManufacturer()
+//                .selectModel()
+//                .newConditionButton(true)
+//                .fillConditionName()
+//                .bottomMenu(NEXT)
+//                .addFilter()
+////                .userInfoRadioButton()
+//                .selectUserInfoComboBox("Zip")
+//                .selectConditionTypeComboBox("=")
+//                .fillValue("61000")
+//                .bottomMenu(NEXT)
+//                .addFilter()
+//                .informRadioButton()
+//                .selectInformComboBox("Device.DeviceSummary")
+//                .selectConditionInformComboBox("=")
+//                .fillValue("???")
+//                .bottomMenu(NEXT)
+//                .bottomMenu(FINISH)
+//                .okButtonPopUp()
+//                .selectMainTab("Parameters")
+//                .selectTab("Device")
+//                .setParameter("Port", CalendarUtil.getTimeStamp())
+//                .fillName()
+//                .bottomMenu(SAVE_AND_ACTIVATE)
+//                .okButtonPopUp()
+//                .validateApplyingProfile(true, "MTP USP");
+//    }
 
     @Test  //bug: depends on test with 2 conditions (111)
     public void usp_dp_112() {

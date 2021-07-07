@@ -24,6 +24,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .deleteFilterGroups();
     }
 
@@ -64,6 +65,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo()
                 .showList()
                 .assertDevicesArePresent();
@@ -77,6 +79,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
                 .assertButtonsAreEnabled(false, PREVIOUS, NEXT, FINISH)
                 .bottomMenu(CANCEL)
@@ -88,7 +91,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_006() {
         guPage
                 .createDeviceGroup()
-                .selectColumnFilter("device_created")
+                .selectColumnFilter("Created")
                 .selectCompare("IsNull")
                 .bottomMenu(NEXT)
                 .assertButtonIsEnabled(false, "btnDelFilter_btn")
@@ -110,7 +113,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
                 .validateSelectedGroup()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertNoDeviceAlertIsPresent()
+                .assertButtonsAreEnabled(false, PREVIOUS, NEXT, SAVE, SAVE_AND_ACTIVATE);
     }
 
     @Test
@@ -121,8 +125,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
-                .fillName("lwm2m_gu_006")
+                .fillGroupName("lwm2m_gu_006")
                 .bottomMenu(NEXT)
                 .assertElementsArePresent("lblNameInvalid");
     }
@@ -135,6 +140,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo("lwm2m_gu_006")
                 .editGroupButton()
                 .bottomMenu(DELETE_GROUP)
@@ -150,15 +156,28 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
+                .addNewTask("Action")
+                .addTaskButton()
+                .selectAction("Device reprovision")
+                .saveButton(true)
                 .selectSendTo("Individual")
-                .clickOnTable("tblDevices", 1, 0)
-                .assertButtonsAreEnabled(true, NEXT)
-                .clickOnTable("tblDevices", 1, 0)
-                .assertButtonsAreEnabled(false, NEXT);
+                .selectButton()
+                .selectDevice(2)
+                .closePopup()
+                .bottomMenu(NEXT)
+                .immediately()
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .validateDevicesAmountMessage()
+                .okButtonPopUp()
+                .enterIntoGroup()
+                .validateDetails()
+                .bottomMenu(EDIT)
+                .showListButton()
+                .validateDevicesAmount();
     }
 
     @Test
-    //Doesn't work with Edge
     public void lwm2m_gu_011() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -166,10 +185,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .selectSendTo("Import")
                 .selectImportDevicesFile()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertDeviceIsPresent();
     }
 
     @Test
@@ -183,14 +203,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .selectSendTo(getTestName())
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial());
+                .assertDeviceIsPresent();
     }
 
     @Test
     public void lwm2m_gu_013() {
         guPage
-                .gotoSetParameters(null)
-                .assertElementsArePresent("tblParamsValue")
+                .gotoSetParameters()
+                .assertElementsArePresent(false, "tblParamsValue")
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
@@ -199,28 +219,30 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters()
                 .setParameter("UTC Offset", VALUE, "+02:00")
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5);
     }
 
-    @Test
+    @Test//depends on 14
     public void lwm2m_gu_015() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .enterIntoGroup("lwm2m_gu_014")
                 .bottomMenu(EDIT)
+                .clickOnTask("Root.Device.0.UTC Offset")
+                .setParameter("UTC Offset", VALUE, "+01:00")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
-                .bottomMenu(NEXT)
-                .clickOnTable("tblTasks", "Root.Device.0.UTC Offset")
-                .setParameter("UTC Offset", VALUE, "+01:00")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .enterIntoGroup("lwm2m_gu_014")
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -228,7 +250,10 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters()
                 .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate();
+                .saveButton()
+                .bottomMenu(NEXT)
+                .immediately()
+                .saveAndActivate();
     }
 
     @Test
@@ -240,24 +265,19 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .assertInputIsDisabled("ddlSend")
                 .bottomMenu(NEXT)
                 .assertInputIsDisabled("lrbImmediately")
-                .bottomMenu(NEXT)
                 .assertButtonsAreEnabled(false, SAVE_AND_ACTIVATE);
     }
 
     @Test
     public void lwm2m_gu_018() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .timeHoursSelect("0")
-                .bottomMenu(NEXT)
-                .assertEqualsAlertMessage("Update can't be scheduled to the past")
+                .assertSummaryTextEquals("Update can't be scheduled to the past")
                 .checkIsCalendarClickable();
     }
 
@@ -271,28 +291,28 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_020() {
         guPage
-                .gotoSetParameters(null)
+                .gotoSetParameters()
                 .setParameter(2)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_021() {
         guPage
-                .gotoSetParameters(null)
+                .gotoSetParameters()
                 .setParameter(1)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_022() {
         guPage
-                .gotoSetParameters(null)
+                .gotoSetParameters()
                 .setAllParameters()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -300,8 +320,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Server")
                 .setAllParameters()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -309,8 +329,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Server")
                 .setParameter(1)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -318,8 +338,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoSetParameters("Server")
                 .setParameter(2)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -327,8 +347,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Reboot")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reboot");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -336,10 +356,14 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Reboot")
+                .saveButton()
+                .addCondition("ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .bottomMenu(NEXT)
-                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
+                .immediately()
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "Reboot");
+                .bottomMenu(EDIT)
+                .validateTask()
+                .assertConditionIsPresent();
     }
 
     @Test
@@ -347,8 +371,8 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Factory reset")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Factory reset");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -356,124 +380,124 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
         guPage
                 .gotoAction()
                 .selectAction("Factory reset")
+                .saveButton()
+                .addCondition("ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .bottomMenu(NEXT)
-                .addCondition(1, "ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
+                .immediately()
                 .saveAndActivate(false)
-                .assertPresenceOfValue("tblTasks", 2, "Factory reset");
+                .bottomMenu(EDIT)
+                .validateTask()
+                .assertConditionIsPresent();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Completed'
+    @Test
     public void lwm2m_gu_030() {
         guPage
                 .gotoAction()
-                .selectAction("Root.IPSO_Temperature.i.Reset Min and Max Measured Values")
-//                .resetMinMaxValues()
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Root.IPSO_Temperature.i.Reset Min and Max Measured Values - instance 0");
+                .selectAction("Root.IPSO_Temperature.i.Reset Min and Max Measured Values 0 instance")
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Completed'
+    @Test
     public void lwm2m_gu_031() {
         guPage
                 .gotoAction()
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0");
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Completed'
+    @Test
     public void lwm2m_gu_032() {
         guPage
                 .gotoAction()
                 .selectAction("Reset errors")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Reset errors");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Completed'
+    @Test
     public void lwm2m_gu_033() {
         guPage
                 .gotoAction()
                 .selectAction("Disable")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Disable");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Completed'
+    @Test
     public void lwm2m_gu_034() {
         guPage
                 .gotoAction()
                 .selectAction("Registration update trigger")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Registration update trigger");
-    }
-
-    @Test // bug: group state is 'Not active' instead of 'Completed'
-    public void lwm2m_gu_035() {
-        guPage
-                .gotoAction()
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
-                .nextSaveAndActivate()
-                .assertPresenceOfParameter("Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
+    public void lwm2m_gu_035() {
+        guPage
+                .gotoAction()
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
+                .saveButton()
+                .immediatelyActivateAndValidate();
+    }
+
+    @Test // bug: Device reprovision is absent from Action list
     public void lwm2m_gu_036() {
         guPage
                 .gotoAction()
                 .selectAction("Device reprovision")
-                .nextSaveAndActivate()
-                .validateAddedTask("Device reprovision", "CPEReprovision");
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_037() {
         guPage
-                .gotoSetParameters(null, true)
+                .gotoSetParameters("Device", true)
                 .setAllParameters()
-                .setAnyAdvancedParameter()
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .selectBranch("Root.LWM2M Server.0")
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_038() {
         guPage
-                .gotoSetParameters(null, true)
+                .gotoSetParameters("Device", true)
                 .setParameter(1)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_039() {
         guPage
-                .gotoSetParameters(null, true)
+                .gotoSetParameters("Device", true)
                 .setParameter(2)
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
     public void lwm2m_gu_040() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter("Device", 1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .clickOnTable("tabsSettings_tblTabs", "Device")
-                .setParameter(1)
-                .nextSaveAndActivate(false)
+                .bottomMenu(SAVE_AND_ACTIVATE)
+                .okButtonPopUp()
+                .enterIntoGroup()
+                .validateDetails()
                 .assertOnlineDevices()
-                .validateAddedTasks();
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
@@ -485,7 +509,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(SAVE_IMPORT)
                 .selectSendTo()
                 .showList()
-                .assertPresenceOfValue("tblDevices", 0, getSerial())
+                .assertDeviceIsPresent()
                 .bottomMenu(NEXT)
                 .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
@@ -505,34 +529,34 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_043() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("Manufacturer", getManufacturer());
+                .checkFiltering("Manufacturer");
     }
 
     @Test
     public void lwm2m_gu_044() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("Model", getModelName());
+                .checkFiltering("Model");
     }
 
     @Test
     public void lwm2m_gu_045() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Completed")
-                .checkFiltering("State", "Not active")
-                .checkFiltering("State", "Error")
-                .checkFiltering("State", "All");
+                .checkFilteringByState("Completed")
+                .checkFilteringByState("Not active")
+                .checkFilteringByState("Error")
+                .checkFilteringByState("All");
     }
 
-    @Test
+    @Test   //irrelevant ("Manufacturer" column is absent)
     public void lwm2m_gu_046() {
         guPage
                 .topMenu(GROUP_UPDATE)
                 .validateSorting("Manufacturer");
     }
 
-    @Test
+    @Test   //irrelevant ("Model" column is absent)
     public void lwm2m_gu_047() {
         guPage
                 .topMenu(GROUP_UPDATE)
@@ -586,49 +610,54 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     public void lwm2m_gu_054() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .enterIntoGroup("Manufacturer")
+                .clickOnHeader("Name")
                 .checkResetView();
     }
 
     @Test
     public void lwm2m_gu_055() {
         guPage
-                .gotoSetParameters(null)
+                .gotoSetParameters()
                 .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
+                .immediately()
                 .bottomMenu(SAVE_AND_ACTIVATE)
                 .okButtonPopUp()
                 .waitForStatusWithoutRefresh("Completed", 65)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateDetails()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void lwm2m_gu_056() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Scheduled");
+                .checkFilteringByState("Scheduled");
     }
 
     @Test
     public void lwm2m_gu_057() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Running");
+                .checkFilteringByState("Running");
     }
 
     @Test
     public void lwm2m_gu_058() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Paused");
+                .checkFilteringByState("Paused");
     }
 
     @Test
     public void lwm2m_gu_059() {
         guPage
                 .topMenu(GROUP_UPDATE)
-                .checkFiltering("State", "Reactivation");
+                .checkFilteringByState("Reactivation");
     }
 
     @Test
@@ -640,7 +669,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertNoDeviceAlertIsPresent();
     }
 
     @Test
@@ -652,15 +681,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -675,15 +700,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -699,15 +720,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -723,15 +740,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -743,15 +756,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -763,15 +772,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -783,15 +788,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -803,15 +804,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -824,15 +821,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -846,15 +839,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -864,19 +853,15 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("!=")
-                .inputText("txtText", "123")
+                .inputText("txtText", getTestName())
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -890,7 +875,7 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsArePresent("lblNoSelectedCpes");
+                .assertNoDeviceAlertIsPresent();
     }
 
     @Test
@@ -904,15 +889,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -922,19 +903,15 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .createDeviceGroup()
                 .selectColumnFilter("mycust03")
                 .selectCompare("No like")
-                .inputText("txtText", "abc")
+                .inputText("txtText", getTestName().substring(1, 5))
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -947,15 +924,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -968,15 +941,11 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .bottomMenu(NEXT)
                 .bottomMenu(FINISH)
                 .okButtonPopUp()
-                .assertElementsAreAbsent("lblNoSelectedCpes")
-                .bottomMenu(NEXT)
-                .immediately()
-                .bottomMenu(NEXT)
                 .addNewTask("Set parameter value")
                 .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .nextSaveAndActivate()
-                .validateAddedTasks();
+                .setParameter(1)
+                .saveButton()
+                .immediatelyActivateAndValidate();
     }
 
     @Test
@@ -997,8 +966,9 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
                 .selectManufacturer()
                 .selectModel()
                 .fillName()
+                .addModelButton()
                 .createGroupButton()
-                .fillName()
+                .fillGroupName()
                 .bottomMenu(NEXT)
                 .bottomMenu(PREVIOUS)
                 .bottomMenu(CANCEL)
@@ -1008,1722 +978,971 @@ public class GroupUpdateLwm2mTests extends BaseTestCase {
     @Test
     public void lwm2m_gu_079() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_080() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_081() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_082() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_083() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setPeriod(2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_084() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setPeriod(2)
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_085() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_086() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_087() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_088() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_089() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateDetails()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void lwm2m_gu_090() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
+                .waitUntilConnect()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateDetails()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void lwm2m_gu_091() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateDetails()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void lwm2m_gu_092() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .immediately()
                 .setPeriod(1)
                 .setPeriod(2)
                 .onlineDevicesCheckBox()
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
+                .waitUntilConnect()
                 .bottomMenu(SAVE)
                 .okButtonPopUp()
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateDetails()
+                .validateOptions()
+                .bottomMenu(EDIT)
+                .validateTask();
     }
 
     @Test
     public void lwm2m_gu_093() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setThreshold(50)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_094() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
                 .setPeriod(1)
                 .setThreshold(50)
-                .waitUntilConnectRadioButton()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .waitUntilConnect()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_095() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
-                .selectShiftedDate("calDate", 1)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .scheduleInDays(1)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_096() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Hourly")
+                .repeatEveryHours("1")
+                .startsOnDayDelay(0)
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_097() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
-                .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Hourly")
+                .repeatEveryHours("1")
+                .startsOnDayDelay(1)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_098() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Hourly")
+                .repeatEveryHours("2")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_099() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
-                .endAfterRadiobutton()
-                .inputText("txtReactivationEndsOccurrences", "1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Hourly")
+                .repeatEveryHours("1")
+                .startOnTimeDelay(20)
+                .endsAfter()
+                .numberOfReactivations("2")
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_100() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
+                .repeats("Hourly")
+                .repeatEveryHours("1")
+                .startOnTimeDelay(20)
                 .reactivationEndsOn()
-                .selectShiftedDate("calReactivationEndsOnDay", 8)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .endsOnDayDelay(7)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_101() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Hourly")
-                .selectRepeatEveryHourDropDown("1")
-                .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Hourly")
+                .repeatEveryHours("1")
+                .startOnTimeDelay(20)
+                .reRunOnFailed()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_102() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Daily")
+                .repeatEveryDays("1")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_103() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("1")
-                .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Daily")
+                .repeatEveryDays("1")
+                .startsOnDayDelay(2)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_104() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Daily")
+                .repeatEveryDays("2")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_105() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("1")
-                .endAfterRadiobutton()
-                .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Daily")
+                .repeatEveryDays("1")
+                .endsAfter()
+                .endsAfter("2")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_106() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("1")
+                .repeats("Daily")
+                .repeatEveryDays("1")
                 .reactivationEndsOn()
-                .selectShiftedDate("calReactivationEndsOnDay", 8)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .startOnTimeDelay(20)
+                .endsOnDayDelay(7)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_107() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Daily")
-                .selectRepeatEveryDayDropDown("1")
-                .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Daily")
+                .repeatEveryDays("1")
+                .startOnTimeDelay(20)
+                .reRunOnFailed()
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test   //bug: Test fails if run in Friday :)))
     public void lwm2m_gu_108() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Weekly")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Weekly")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test
     public void lwm2m_gu_109() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
-                .immediately()
-                .selectRepeatsDropDown("Weekly")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Not active", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .scheduledTo()
+                .setDelay(10)
+                .repeats("Weekly")
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test
     public void lwm2m_gu_110() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
-                .immediately()
-                .selectRepeatsDropDown("Weekly")
+                .scheduledTo()
+                .setDelay(10)
+                .repeats("Weekly")
                 .reactivationEndsOn()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Not active", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test
     public void lwm2m_gu_111() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Weekly")
-                .endAfterRadiobutton()
-                .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Weekly")
+                .startOnTimeDelay(20)
+                .endsAfter()
+                .numberOfReactivations("2")
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test
     public void lwm2m_gu_112() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Weekly")
+                .repeats("Weekly")
+                .startOnTimeDelay(20)
                 .reactivationEndsOn()
-                .selectShiftedDate("calReactivationEndsOnDay", 32)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .endsOnDayDelay(32)
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test   //bug: Test fails if run in Friday :)
+    @Test
     public void lwm2m_gu_113() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Weekly")
-                .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Weekly")
+                .startOnTimeDelay(20)
+                .reRunOnFailed()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_114() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("1")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Monthly")
+                .repeatEveryMonth("1")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test
+    @Test   //bug: wednesday, 30.06.2021 An unexpected occurrence happened. Log file updated.
     public void lwm2m_gu_115() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("1")
-                .selectShiftedDate("calReactivationStartsOnDay", 31)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Monthly")
+                .repeatEveryMonth("1")
+                .startsOnDayDelay(31)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_116() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Monthly")
+                .repeatEveryMonth("2")
+                .startsOnDayDelay(0)
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_117() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("1")
-                .endAfterRadiobutton()
-                .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Monthly")
+                .repeatEveryMonth("1")
+                .startOnTimeDelay(20)
+                .endsAfter()
+                .numberOfReactivations("2")
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_118() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("1")
+                .repeats("Monthly")
+                .repeatEveryMonth("1")
+                .startOnTimeDelay(20)
                 .reactivationEndsOn()
-                .selectShiftedDate("calReactivationEndsOnDay", 31)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .endsOnDayDelay(31)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_119() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Monthly")
-                .selectRepeatEveryMonthDropDown("1")
-                .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Monthly")
+                .repeatEveryMonth("1")
+                .startOnTimeDelay(20)
+                .reRunOnFailed()
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_120() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Yearly")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Yearly")
+                .startOnTimeDelay(20)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_121() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Yearly")
-                .selectShiftedDate("calReactivationStartsOnDay", 2)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Yearly")
+                .startsOnDayDelay(2)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_122() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Yearly")
-                .endAfterRadiobutton()
-                .inputText("txtReactivationEndsOccurrences", "2")
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Yearly")
+                .startOnTimeDelay(20)
+                .endsAfter()
+                .numberOfReactivations("2")
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_123() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Yearly")
+                .repeats("Yearly")
+                .startOnTimeDelay(20)
                 .reactivationEndsOn()
-                .selectShiftedDate("calReactivationEndsOnDay", 365)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .endsOnDayDelay(365)
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_124() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .selectRepeatsDropDown("Yearly")
-                .runOnFailed()
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .repeats("Yearly")
+                .startOnTimeDelay(20)
+                .reRunOnFailed()
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test
+    @Test   //79==125==127
     public void lwm2m_gu_125() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_126() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Device")
+                .setParameter(2)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .setParameter("Timezone", VALUE, "Europe/Kharkov1")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_127() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Device")
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("UTC Offset", VALUE, "+02:00")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_128() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Device")
+                .setAllParameters()
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter(99)
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_129() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Server")
+                .setAllParameters()
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter(99)
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_130() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Server")
+                .setParameter(1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("Server", "Default Maximum Period", VALUE, "10")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_131() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters("Server")
+                .setParameter(2)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .setParameter("Server", 2)
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_132() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Reboot")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Reboot")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Reboot");
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_133() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Reboot")
+                .saveButton()
+                .addCondition("ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Reboot")
-                .bottomMenu(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfValue("tblTasks", 2, "Reboot");
+                .saveAndValidateScheduledTasks()
+                .assertConditionIsPresent();
     }
 
     @Test
     public void lwm2m_gu_134() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Factory reset")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Factory reset")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Factory reset");
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_135() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Factory reset")
+                .saveButton()
+                .addCondition("ManagementServer", "Content format", EQUAL, "TLV/PLAIN")
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Factory reset")
-                .bottomMenu(NEXT)
-                .addCondition(1, "ManagementServer", "Binding mode", EQUAL, "60")
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Factory reset");
+                .saveAndValidateScheduledTasks()
+                .assertConditionIsPresent();
     }
 
     @Test
     public void lwm2m_gu_136() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Root.IPSO_Temperature.i.Reset Min and Max Measured Values 0 instance")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Min and Max Measured Values - instance 0");
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_137() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy 0 instance")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Root.IPSO_Power Measurement.i.Reset Cumulative energy")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Root.IPSO_Power Measurement.i.Reset Cumulative energy - instance 0");
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_138() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Reset errors")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Reset errors")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Reset errors");
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_139() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Disable")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Disable")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Disable");
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_140() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Registration update trigger")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Registration update trigger")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Registration update trigger");
+                .saveAndValidateScheduledTasks();
     }
 
-    @Test // bug: group state is 'Not active' instead of 'Scheduled'
+    @Test
     public void lwm2m_gu_141() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Root.Connectivity Statistics.i.Start 0 instance")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Root.Connectivity Statistics.i.StartOrReset")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .assertPresenceOfParameter("Root.Connectivity Statistics.i.StartOrReset - instance 0");
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_142() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoAction()
+                .selectAction("Device reprovision")
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Action")
-                .addTaskButton()
-                .selectAction("Device reprovision")
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTask("Device reprovision", "CPEReprovision");
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_143() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .advancedViewButton()
+                .setAdvancedParameter("Root.IPSO_Power Measurement.0", 99)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .bottomMenu(ADVANCED_VIEW)
-                .setAllParameters()
-                .setAnyAdvancedParameter()
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_144() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .advancedViewButton()
+                .setAdvancedParameter("Root.IPSO_Power Measurement.0", 1)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .bottomMenu(ADVANCED_VIEW)
-                .setParameter(1)
-                .setAnyAdvancedParameter()
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 
     @Test
     public void lwm2m_gu_145() {
         guPage
-                .topMenu(GROUP_UPDATE)
-                .leftMenu(NEW)
-                .selectManufacturer()
-                .selectModel()
-                .fillName()
-                .selectSendTo()
+                .gotoSetParameters()
+                .advancedViewButton()
+                .setAdvancedParameter("Root.IPSO_Power Measurement.0", 2)
+                .saveButton()
                 .bottomMenu(NEXT)
                 .scheduledTo()
                 .setDelay(10)
-                .bottomMenu(NEXT)
-                .addNewTask("Set parameter value")
-                .addTaskButton()
-                .bottomMenu(ADVANCED_VIEW)
-                .setParameter(2)
-                .setAnyAdvancedParameter()
-                .bottomMenu(NEXT)
-                .bottomMenu(SAVE)
-                .okButtonPopUp()
-                .waitForStatus("Scheduled", 5)
-                .enterIntoGroup()
-                .validateAddedTasks();
+                .saveAndValidateScheduledTasks();
     }
 }

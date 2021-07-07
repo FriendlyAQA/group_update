@@ -409,9 +409,7 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage selectButton() {
-        selectButton.click();
-        waitForUpdate();
-        return this;
+        return (EventsPage) super.selectButton();
     }
 
     public void deleteEvent() {

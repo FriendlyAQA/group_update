@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.DESKTOP;
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
 
 public abstract class BaseTestCase {
@@ -132,17 +131,8 @@ public abstract class BaseTestCase {
         if (popup3List.size() > 0 && popup3List.get(0).isDisplayed()) {
             getLoginPage().executeScript("PopupHide('cancel');");
         }
-        BasePage.switchToFrame(DESKTOP);
-        List<WebElement> resetViewList = BasePage.getDriver().findElements(By.id("btnDefaultView_btn"));
-        if (resetViewList.size() > 0 && resetViewList.get(0).isDisplayed()) {
-            resetViewList.get(0).click();
-            getLoginPage().waitForUpdate();
-        }
-        BasePage.setDefaultImplicitlyWait();
+        BasePage.resetViewIfPossible();
         BasePage.switchToFrame(ROOT);
-//        if (isInterrupted) {
-//            throw new SkipException("Test execution has been interrupted manually");
-//        }
     }
 
     @AfterSuite
