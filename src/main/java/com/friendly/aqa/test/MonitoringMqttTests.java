@@ -386,7 +386,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -400,7 +400,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", "mqtt_mo_025")
                 .enterIntoMonitoring("mqtt_mo_025")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -419,7 +419,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -432,7 +432,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_027")
                 .enterIntoMonitoring("mqtt_mo_027")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -456,7 +456,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -469,7 +469,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_030")
                 .enterIntoMonitoring("mqtt_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -482,7 +482,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_030")
                 .enterIntoMonitoring("mqtt_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -501,7 +501,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -514,7 +514,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_033")
                 .enterIntoMonitoring("mqtt_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -527,7 +527,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_033")
                 .enterIntoMonitoring("mqtt_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -546,7 +546,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -559,7 +559,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "mqtt_mo_036")
                 .enterIntoMonitoring("mqtt_mo_036")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -583,7 +583,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -661,7 +661,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .waitForStatus("Running")
                 .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -680,7 +680,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -701,7 +701,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -715,7 +715,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "mqtt_mo_045")
                 .enterIntoMonitoring("mqtt_mo_045")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -729,7 +729,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "mqtt_mo_045")
                 .enterIntoMonitoring("mqtt_mo_045")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -750,7 +750,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -764,7 +764,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "mqtt_mo_048")
                 .enterIntoMonitoring("mqtt_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -778,7 +778,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "mqtt_mo_048")
                 .enterIntoMonitoring("mqtt_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -804,7 +804,7 @@ public class MonitoringMqttTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test

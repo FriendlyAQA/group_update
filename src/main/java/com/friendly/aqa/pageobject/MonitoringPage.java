@@ -303,8 +303,7 @@ public class MonitoringPage extends BasePage {
         return (MonitoringPage) super.setVisibleColumns(startParam, endParam);
     }
 
-    @Override
-    public MonitoringPage validateAddedTasks() {
+    public MonitoringPage validateAddedParameters() {
         selectTab("Summary");
         waitForUpdate();
         String[] params = getParamTable().getColumn(0);

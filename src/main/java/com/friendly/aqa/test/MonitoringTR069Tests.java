@@ -383,7 +383,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -397,7 +397,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", "tr069_mo_025")
                 .enterIntoMonitoring("tr069_mo_025")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -416,7 +416,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -429,7 +429,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_027")
                 .enterIntoMonitoring("tr069_mo_027")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -453,7 +453,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -466,7 +466,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_030")
                 .enterIntoMonitoring("tr069_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -479,7 +479,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_030")
                 .enterIntoMonitoring("tr069_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -498,7 +498,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -511,7 +511,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_033")
                 .enterIntoMonitoring("tr069_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -524,7 +524,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_033")
                 .enterIntoMonitoring("tr069_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -543,7 +543,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -556,7 +556,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_036")
                 .enterIntoMonitoring("tr069_mo_036")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -569,7 +569,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_036")
                 .enterIntoMonitoring("tr069_mo_036")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -588,7 +588,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -601,7 +601,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_039")
                 .enterIntoMonitoring("tr069_mo_039")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -614,7 +614,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_039")
                 .enterIntoMonitoring("tr069_mo_039")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -633,7 +633,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -646,7 +646,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_042")
                 .enterIntoMonitoring("tr069_mo_042")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -659,7 +659,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_042")
                 .enterIntoMonitoring("tr069_mo_042")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -678,7 +678,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -691,7 +691,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_045")
                 .enterIntoMonitoring("tr069_mo_045")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -704,7 +704,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_045")
                 .enterIntoMonitoring("tr069_mo_045")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -723,7 +723,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -736,7 +736,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_048")
                 .enterIntoMonitoring("tr069_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -749,7 +749,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_048")
                 .enterIntoMonitoring("tr069_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -768,7 +768,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -781,7 +781,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_051")
                 .enterIntoMonitoring("tr069_mo_051")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -794,7 +794,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_051")
                 .enterIntoMonitoring("tr069_mo_051")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -813,7 +813,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -826,7 +826,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "tr069_mo_054")
                 .enterIntoMonitoring("tr069_mo_054")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -850,7 +850,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -932,7 +932,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .waitForStatus("Running")
                 .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -951,7 +951,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -972,7 +972,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -986,7 +986,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_063")
                 .enterIntoMonitoring("tr069_mo_063")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1000,7 +1000,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_063")
                 .enterIntoMonitoring("tr069_mo_063")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1021,7 +1021,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1035,7 +1035,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_066")
                 .enterIntoMonitoring("tr069_mo_066")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1049,7 +1049,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_066")
                 .enterIntoMonitoring("tr069_mo_066")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1070,7 +1070,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1084,7 +1084,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_069")
                 .enterIntoMonitoring("tr069_mo_069")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1098,7 +1098,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_069")
                 .enterIntoMonitoring("tr069_mo_069")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1119,7 +1119,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1133,7 +1133,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_072")
                 .enterIntoMonitoring("tr069_mo_072")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1147,7 +1147,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_072")
                 .enterIntoMonitoring("tr069_mo_072")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1168,7 +1168,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1182,7 +1182,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_075")
                 .enterIntoMonitoring("tr069_mo_075")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1196,7 +1196,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_075")
                 .enterIntoMonitoring("tr069_mo_075")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1217,7 +1217,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1231,7 +1231,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_078")
                 .enterIntoMonitoring("tr069_mo_078")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1245,7 +1245,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_078")
                 .enterIntoMonitoring("tr069_mo_078")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1266,7 +1266,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1280,7 +1280,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_081")
                 .enterIntoMonitoring("tr069_mo_081")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1294,7 +1294,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_081")
                 .enterIntoMonitoring("tr069_mo_081")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1315,7 +1315,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1329,7 +1329,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_084")
                 .enterIntoMonitoring("tr069_mo_084")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1343,7 +1343,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "tr069_mo_084")
                 .enterIntoMonitoring("tr069_mo_084")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -1369,7 +1369,7 @@ public class MonitoringTR069Tests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test

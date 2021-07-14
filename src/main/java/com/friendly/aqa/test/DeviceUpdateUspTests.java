@@ -1845,7 +1845,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1863,7 +1863,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1881,7 +1881,7 @@ public class DeviceUpdateUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }

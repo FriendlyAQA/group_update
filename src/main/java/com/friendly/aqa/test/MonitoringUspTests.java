@@ -386,7 +386,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -400,7 +400,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", "usp_mo_025")
                 .enterIntoMonitoring("usp_mo_025")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -419,7 +419,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -432,7 +432,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "usp_mo_027")
                 .enterIntoMonitoring("usp_mo_027")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -456,7 +456,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -469,7 +469,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "usp_mo_030")
                 .enterIntoMonitoring("usp_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -482,7 +482,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "usp_mo_030")
                 .enterIntoMonitoring("usp_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -501,7 +501,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -514,7 +514,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "usp_mo_033")
                 .enterIntoMonitoring("usp_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -538,7 +538,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -615,7 +615,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .waitForStatus("Running")
                 .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -634,7 +634,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -655,7 +655,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -669,7 +669,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "usp_mo_042")
                 .enterIntoMonitoring("usp_mo_042")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -683,7 +683,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "usp_mo_042")
                 .enterIntoMonitoring("usp_mo_042")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -709,7 +709,7 @@ public class MonitoringUspTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test

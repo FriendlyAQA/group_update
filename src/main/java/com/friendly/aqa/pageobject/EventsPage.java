@@ -135,13 +135,13 @@ public class EventsPage extends BasePage {
 
     public EventsPage validateAddedEventTask(String eventName, String taskName) {
         waitForUpdate();
-        validateAddedTask(new Table("tblDataEvents"), eventName, taskName);
+        validateAddedPairs(new Table("tblDataEvents"), eventName, taskName);
         cancelButtonPopUp();
         return this;
     }
 
     public EventsPage validateAddedEventTask(String eventName, String parameter, String value) {
-        validateAddedTask(new Table("tblDataEvents"), eventName, parameter, value);
+        validateAddedPairs(new Table("tblDataEvents"), eventName, parameter, value);
         return this;
     }
 
@@ -247,13 +247,13 @@ public class EventsPage extends BasePage {
     }
 
     public EventsPage validateAddedMonitorTask(String taskName) {
-        validateAddedTask(new Table("tblDataParams"), null, taskName);
+        validateAddedPairs(new Table("tblDataParams"), null, taskName);
         cancelButtonPopUp();
         return this;
     }
 
     public EventsPage validateAddedMonitorTask(String parameter, String value) {
-        validateAddedTask(new Table("tblDataParams"), null, parameter, value);
+        validateAddedPairs(new Table("tblDataParams"), null, parameter, value);
         return this;
     }
 

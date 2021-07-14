@@ -1748,7 +1748,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1765,7 +1765,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1782,7 +1782,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1799,7 +1799,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1818,7 +1818,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -1850,7 +1850,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1866,7 +1866,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1882,7 +1882,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1900,7 +1900,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -1918,7 +1918,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1934,7 +1934,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1950,7 +1950,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -1967,7 +1967,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -1985,7 +1985,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2001,7 +2001,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2017,7 +2017,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2035,7 +2035,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -2053,7 +2053,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2069,7 +2069,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2085,7 +2085,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2103,7 +2103,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -2123,7 +2123,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2139,7 +2139,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2155,7 +2155,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2173,7 +2173,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -2192,7 +2192,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2209,7 +2209,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2226,7 +2226,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2244,7 +2244,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -2263,7 +2263,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2280,7 +2280,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2297,7 +2297,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2315,7 +2315,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }
@@ -2343,7 +2343,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2361,7 +2361,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
     @Test
@@ -2379,7 +2379,7 @@ public class DeviceUpdateTR069Tests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }

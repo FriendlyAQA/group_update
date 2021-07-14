@@ -1912,7 +1912,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks();
+                .validateActivityTasks();
     }
 
 //    @Test   //bug: Button WAIT_UNTIL_CONNECT is no more available from bottom menu
@@ -1948,7 +1948,7 @@ public class DeviceUpdateMqttTests extends BaseTestCase {
                 .okButtonPopUp()
                 .okButtonPopUp()
                 .leftMenu(DEVICE_ACTIVITY)
-                .validateTasks()
+                .validateActivityTasks()
                 .leftMenu(PROVISION_MANAGER)
                 .validateProvisionTasks();
     }

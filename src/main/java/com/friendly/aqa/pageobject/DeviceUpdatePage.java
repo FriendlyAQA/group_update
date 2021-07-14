@@ -1097,7 +1097,7 @@ public class DeviceUpdatePage extends BasePage {
         }
     }
 
-    public DeviceUpdatePage validateTasks() {
+    public DeviceUpdatePage validateActivityTasks() {
         setSinglePage();
         Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         Table table = getMainTable();
@@ -1123,7 +1123,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateProvisionTasks() {
-        validateTasks("tblItems", 4);
+        validateActivityTasks("tblItems", 4);
     }
 
     public void validateProvisionDownloadTasks() {
@@ -1155,13 +1155,13 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public DeviceUpdatePage validateDownloadFileTasks() {
-        return validateTasks("tbl", 7);
+        return validateActivityTasks("tbl", 7);
     }
 
-    public DeviceUpdatePage validateTasks(String tableId, int shift) {
+    private DeviceUpdatePage validateActivityTasks(String tableId, int shift) {
         Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask(tableId, entry.getKey(), entry.getValue(), shift);
+            validateAddedPairs(tableId, entry.getKey(), entry.getValue(), shift);
         }
         return this;
     }
@@ -1306,7 +1306,7 @@ public class DeviceUpdatePage extends BasePage {
     }
 
     public void validateGeneratedGets() {
-        validateTasks("tbl", 7);
+        validateActivityTasks("tbl", 7);
     }
 
     public DeviceUpdatePage storePath() {

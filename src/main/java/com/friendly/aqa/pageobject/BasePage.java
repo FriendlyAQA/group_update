@@ -386,7 +386,6 @@ public abstract class BasePage {
 
     public BasePage addNewTask(String taskType) {
         selectComboBox(selectTask, taskType);
-//        getLastTask(taskType);
         addTaskToList(taskType);
         return this;
     }
@@ -399,7 +398,6 @@ public abstract class BasePage {
         switchToFrame(POPUP);
         waitUntilElementIsDisplayed(addTaskButton);
         selectComboBox(selectTask, task);
-//        getLastTask(task);
         addTaskToList(task);
         clickButton(addTaskButton);
         return this;
@@ -2169,18 +2167,18 @@ public abstract class BasePage {
         int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        validateAddedTask("tblTasks", parameter, value, 1);
+        validateAddedPairs("tblTasks", parameter, value, 1);
     }
 
-    protected void validateAddedTask(Table table, String name, String parameter, String value) {
+    protected void validateAddedPairs(Table table, String name, String parameter, String value) {
         int row = name == null ? 1 : table.getFirstRowWithText(name);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        validateAddedTask(parameter, value);
+        validateAddedPairs(parameter, value);
         cancelButtonPopUp();
     }
 
-    protected void validateAddedTask(Table table, String eventName, String taskName) {
+    protected void validateAddedPairs(Table table, String eventName, String taskName) {
         pause(1000);
         int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
@@ -2194,11 +2192,11 @@ public abstract class BasePage {
         }
     }
 
-    public void validateAddedTask(String parameter, String value) {
-        validateAddedTask("tblTasks", parameter, value, 0);
+    public void validateAddedPairs(String parameter, String value) {
+        validateAddedPairs("tblTasks", parameter, value, 0);
     }
 
-    public void validateAddedTask(String tableId, String parameterName, String value, int shift) {
+    public void validateAddedPairs(String tableId, String parameterName, String value, int shift) {
         waitForUpdate();
         Table table = getTable(tableId);
         Timer timer = new Timer();
@@ -2281,24 +2279,23 @@ public abstract class BasePage {
         int row = eventName == null ? 1 : table.getFirstRowWithText(eventName);
         table.clickOn(row, -1);
         switchToFrame(POPUP);
-        try {
-            validateAddedTasks();
-        } catch (AssertionError e) {
-            pause(1000);
-            System.out.println("Validation failed. Trying to validate again...");
-            validateAddedTasks();
-        }
+//        try {
+            validateTask();
+//        } catch (AssertionError e) {
+//            pause(1000);
+//            System.out.println("Validation failed. Trying to validate again...");
+//            validateTask();
+//        }
         cancelButton.click();
     }
 
-    public BasePage validateAddedTasks() {
-        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
-        assertEquals(getTable("tblTasks").getColumn(0).length, entrySet.size(), "Expected number of parameters does not match the actual one!");
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
-        }
-        return this;
-    }
+//    private void validateAddedTasks() {
+//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
+//        assertEquals(getTable("tblTasks").getColumn(0).length, entrySet.size(), "Expected number of parameters does not match the actual one!");
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            validateAddedTask(entry.getKey(), entry.getValue());   // don't use trim()
+//        }
+//    }
 
     public void validateDevicesAmount() {
         validateDevicesAmountIs(DataBaseConnector.getDeviceAmount(getSerial()));
@@ -2633,13 +2630,9 @@ public abstract class BasePage {
     }
 
     public Task getLastTask() {
-        return getLastTask("");
-    }
-
-    public Task getLastTask(String taskName) {
         if (taskList == null) {
             taskList = new ArrayList<>();
-            taskList.add(new Task(taskName));
+            taskList.add(new Task(""));
         }
         return taskList.get(taskList.size() - 1);
     }

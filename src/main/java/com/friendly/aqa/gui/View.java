@@ -1446,7 +1446,7 @@ public class View extends JFrame {
         runEntireCheckBox.setText("Run entire test suite");
         runEntireCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runEntireActionPerformed(evt);
+                controller.enableAllTestSuite(runEntireCheckBox.isSelected());
             }
         });
 
@@ -1630,9 +1630,9 @@ public class View extends JFrame {
         controller.textChanged(textField);
     }
 
-    private void runEntireActionPerformed(ActionEvent evt) {
-        controller.enableAllTabs(runEntireCheckBox.isSelected());
-    }
+//    private void runEntireActionPerformed(ActionEvent evt) {
+//        controller.enableAllTestSuite(runEntireCheckBox.isSelected());
+//    }
 
     private void enableTabCheckBoxPerformed(ActionEvent evt) {
         JCheckBox checkBox = (JCheckBox) evt.getSource();

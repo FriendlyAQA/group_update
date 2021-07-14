@@ -14,8 +14,7 @@ import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.friendly.aqa.pageobject.BasePage.FrameSwitch.ROOT;
@@ -141,11 +140,7 @@ public abstract class BaseTestCase {
         DataBaseConnector.disconnectDb();
         DiscManager.stopReading();
         getLoginPage().logOut();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        pause(500);
         long millis = System.currentTimeMillis() - start;
         logger.warn("Total running time: " + String.format("%02d min, %02d sec",
                 TimeUnit.MILLISECONDS.toMinutes(millis),
@@ -155,8 +150,32 @@ public abstract class BaseTestCase {
         BasePage.closeDriver();
         isInterrupted = false;
         if (controller != null) {
+            printFailedTests();
             controller.testSuiteStopped();
         }
+    }
+
+    private void printFailedTests() {
+        Map<String, Set<String>> failedMap = new HashMap<>();
+        controller.getFailedTestSet().parallelStream().forEach(test -> {
+            String groupName = test.substring(0, test.lastIndexOf('_'));
+            failedMap.computeIfAbsent(groupName, (l) -> new TreeSet<>());
+            failedMap.get(groupName).add(test.substring(test.lastIndexOf('_') + 1));
+        });
+        if (failedMap.isEmpty()) {
+            return;
+        }
+        final String[] out = {"failed tests list:\n"};
+        for (String tab : new String[]{"dp", "du", "gu", "mo", "ev", "rep", "fil", "set"}) {
+            failedMap.keySet().forEach(name -> {
+                if (name.contains(tab)) {
+                    out[0] += name + ": ";
+                    failedMap.get(name).forEach(number -> out[0] += number + ", ");
+                }
+            });
+            out[0] = out[0].replaceAll(",\\s$", "\n");
+        }
+        logger.warn(out[0]);
     }
 
     private void stopForced() {

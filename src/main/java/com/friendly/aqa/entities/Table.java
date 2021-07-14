@@ -14,21 +14,21 @@ import java.util.regex.Pattern;
 
 public class Table {
     private final static Logger LOGGER = Logger.getLogger(Table.class);
-    private final static Pattern CELL_TEXT_PATTERN = Pattern.compile("<(div|span|a|xmp|label).*?>(.*?)</(\\1)>");
+    //    private final static Pattern CELL_TEXT_PATTERN = Pattern.compile("<(div|span|a|xmp|label).*?>(.*?)</(\\1)>");
     private static final Pattern ROWSPAN_PATTERN = Pattern.compile("rowspan=\"(\\d+)\"");
     private final static Pattern ROW_PATTERN = Pattern.compile("<(tr).*?>(.*?)</(\\1)>");
     private final static Pattern CELL_PATTERN = Pattern.compile("<(t[dh])(.*?)>(.*?)</(\\1)>");
     private final static Pattern OPTION = Pattern.compile("<option.*?>(.*?)</option>");
     private final static Pattern SELECTED_OPTION = Pattern.compile("<option\\s+?selected=\"selected\".*?>(.*?)</option>");
-    private List<WebElement> rowsList;
-    private String[][] textTable;
-    private WebElement[][] elementTable;
+    private final List<WebElement> rowsList;
+    private final String[][] textTable;
+    private final WebElement[][] elementTable;
     private final WebElement table;
-    private boolean retryInit;
-    private boolean irregular;
+    //    private boolean retryInit;
+    private final boolean irregular;
     private final String tableId;
     private final Map<Integer, List<Integer>> rowSpanCoordinates = new HashMap<>();
-    private String body;
+    private final String body;
     Timer timer2;
 
 
@@ -36,6 +36,7 @@ public class Table {
         timer2 = new Timer();
         this.table = table;
         tableId = table.getAttribute("id");
+        BasePage.setImplicitlyWait(0);// 13.07.2021 to increase init empty tables
         rowsList = table.findElements(By.tagName("tr"));
         rowsList.removeIf(element -> !element.isDisplayed());
         textTable = new String[rowsList.size()][];
@@ -53,7 +54,7 @@ public class Table {
     }
 
     private void parseTable() {
-        BasePage.setImplicitlyWait(0);
+//        BasePage.setImplicitlyWait(0); 13.07.2021
         rowsList.parallelStream()
                 .forEach(webElement -> {
                     int i = rowsList.indexOf(webElement);
@@ -605,7 +606,7 @@ public class Table {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(rowsList, table, retryInit);
+        int result = Objects.hash(rowsList, table);
         result = 31 * result + Arrays.deepHashCode(textTable);
         result = 31 * result + Arrays.deepHashCode(elementTable);
         return result;

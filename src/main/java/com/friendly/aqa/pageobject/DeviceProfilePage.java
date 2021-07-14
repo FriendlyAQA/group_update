@@ -501,7 +501,7 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validateAddedMonitorTask(String parameter, String value) {
-        validateAddedTask(getTable("tblParamsMonitoring"), null, parameter, value);
+        validateAddedPairs(getTable("tblParamsMonitoring"), null, parameter, value);
     }
 
     public void validateAddedEventTasks(String eventName) {
@@ -509,17 +509,17 @@ public class DeviceProfilePage extends BasePage {
     }
 
     public void validateAddedEventTask(String eventName, String parameter, String value) {
-        validateAddedTask(getTable("tblEvents"), eventName, parameter, value);
+        validateAddedPairs(getTable("tblEvents"), eventName, parameter, value);
     }
 
     public void validateAddedEventTask(String eventName, String taskName) {
         pause(1000);
-        validateAddedTask(getTable("tblEvents"), eventName, taskName);
+        validateAddedPairs(getTable("tblEvents"), eventName, taskName);
     }
 
     public void validateAddedMonitorTask(String taskName) {
         pause(1000);
-        validateAddedTask(getTable("tblParamsMonitoring"), null, taskName);
+        validateAddedPairs(getTable("tblParamsMonitoring"), null, taskName);
     }
 
     public void validateAddedEventAction(String eventName, String parameter, String value) {

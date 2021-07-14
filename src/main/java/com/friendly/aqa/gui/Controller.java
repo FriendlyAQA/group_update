@@ -209,7 +209,7 @@ public class Controller implements WindowListener, Runnable {
             return 0;
         }
         JCheckBox[] protocolCheckBox = protocolCheckBoxes[tabNum];
-        for (int i = 0; i < protocolCheckBox.length; i++) {
+        for (int i = 0; i < 5; i++) {
             if (protocolCheckBox[i].isSelected()) {
                 activeProtocol = i;
                 break;
@@ -251,6 +251,11 @@ public class Controller implements WindowListener, Runnable {
         }
         return testSet;
     }
+
+    public Set<String> getFailedTestSet() {
+        return failedTestSet;
+    }
+
 
     public void textChanged(JTextField field) {
         char[] chars = field.getText().toCharArray();
@@ -327,9 +332,13 @@ public class Controller implements WindowListener, Runnable {
         return -1;
     }
 
-    public void enableAllTabs(boolean enable) {
+    public void enableAllTestSuite(boolean enable) {
         for (int i = 0; i < enableTabCheckboxes.length; i++) {
             enableTabCheckboxes[i].setSelected(enable);
+            if (i < 5) {
+                protocolCheckBoxes[i][5].setSelected(enable);
+                protocolChanged(protocolCheckBoxes[i][5]);
+            }
             tabStateChanged(i);
         }
     }
@@ -376,6 +385,24 @@ public class Controller implements WindowListener, Runnable {
                         excludeSpecificFields[i].setText("");
                     }
                     tabStateChanged(i);
+                    if (source.isSelected()) {
+                        for (int k = 0; k < 8; k++) {
+                            if (!enableTabCheckboxes[k].isSelected()) {
+                                return;
+                            }
+                        }
+                        for (int k = 0; k < 5; k++) {
+                            for (int l = 0; l < 5; l++) {
+                                if (!protocolCheckBoxes[k][l].isSelected()) {
+                                    return;
+                                }
+                            }
+                        }
+                        view.getRunEntireCheckBox().setSelected(true);
+                    } else {
+                        view.getRunEntireCheckBox().setSelected(false);
+                    }
+                    return;
                 }
             }
         }

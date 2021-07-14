@@ -386,7 +386,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -400,7 +400,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active", "lwm2m_mo_025")
                 .enterIntoMonitoring("lwm2m_mo_025")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -419,7 +419,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -432,7 +432,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_027")
                 .enterIntoMonitoring("lwm2m_mo_027")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -456,7 +456,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -469,7 +469,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_030")
                 .enterIntoMonitoring("lwm2m_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -482,7 +482,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_030")
                 .enterIntoMonitoring("lwm2m_mo_030")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -501,7 +501,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -514,7 +514,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_033")
                 .enterIntoMonitoring("lwm2m_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -527,7 +527,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_033")
                 .enterIntoMonitoring("lwm2m_mo_033")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -546,7 +546,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -559,7 +559,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_036")
                 .enterIntoMonitoring("lwm2m_mo_036")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -572,7 +572,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_036")
                 .enterIntoMonitoring("lwm2m_mo_036")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -591,7 +591,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -604,7 +604,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running", "lwm2m_mo_039")
                 .enterIntoMonitoring("lwm2m_mo_039")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -628,7 +628,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Running")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -706,7 +706,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .waitForStatus("Running")
                 .waitForStatus("Completed", 150)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -725,7 +725,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Not active")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -746,7 +746,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -760,7 +760,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_048")
                 .enterIntoMonitoring("lwm2m_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -774,7 +774,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_048")
                 .enterIntoMonitoring("lwm2m_mo_048")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -795,7 +795,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -809,7 +809,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_051")
                 .enterIntoMonitoring("lwm2m_mo_051")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -823,7 +823,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_051")
                 .enterIntoMonitoring("lwm2m_mo_051")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -844,7 +844,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled")
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -858,7 +858,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_054")
                 .enterIntoMonitoring("lwm2m_mo_054")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -872,7 +872,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .okButtonPopUp()
                 .waitForStatus("Scheduled", "lwm2m_mo_054")
                 .enterIntoMonitoring("lwm2m_mo_054")
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test
@@ -898,7 +898,7 @@ public class MonitoringLwm2mTests extends BaseTestCase {
                 .bottomMenu(REFRESH)
                 .waitForStatus("Not active", 5)
                 .enterIntoGroup()
-                .validateAddedTasks();
+                .validateAddedParameters();
     }
 
     @Test

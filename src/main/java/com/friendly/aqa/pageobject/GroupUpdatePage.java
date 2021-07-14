@@ -342,13 +342,13 @@ public class GroupUpdatePage extends BasePage {
         new Select(timeMinutesSelect).selectByValue(value);
     }
 
-    public GroupUpdatePage validateDownloadFileTasks() {
-        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
-        for (Map.Entry<String, String> entry : entrySet) {
-            validateAddedTask("tblTasks", entry.getKey(), entry.getValue(), 0);
-        }
-        return this;
-    }
+//    public GroupUpdatePage validateDownloadFileTasks() {
+//        Set<Map.Entry<String, String>> entrySet = getParameterMap().entrySet();
+//        for (Map.Entry<String, String> entry : entrySet) {
+//            validateAddedTask("tblTasks", entry.getKey(), entry.getValue(), 0);
+//        }
+//        return this;
+//    }
 
     public GroupUpdatePage validateDetails() {
         Table table = getTable("tblChilds");
@@ -1386,7 +1386,7 @@ public class GroupUpdatePage extends BasePage {
 
     public GroupUpdatePage validateOptions() {
         for (Map.Entry<String, String> entrySet : optionMap.entrySet()) {
-            validateAddedTask("tblPeriod", entrySet.getKey(), entrySet.getValue(), 0);
+            validateAddedPairs("tblPeriod", entrySet.getKey(), entrySet.getValue(), 0);
         }
         return this;
     }
